@@ -5,14 +5,16 @@ namespace Afterlife.Controller
     public class Controller : MonoBehaviour
     {
         [SerializeField] Camera mainCamera;
-        [SerializeField] TerrainGenerator terrainGenerator;
-        [SerializeField] Data.Map[] mapDataList;
+        [SerializeField] StageGenerator stageGenerator;
+        [SerializeField] Data.Stage stageData;
 
         void Start()
         {
-            var terrain = terrainGenerator.Generate(mapDataList[0]);
+            stageGenerator.Generate(stageData);
 
-            mainCamera.transform.position = new Vector3(terrain.Size.x / 2f, terrain.Size.y / 2f, -10f);
+            var mapSize = stageData.MapData.Size;
+
+            mainCamera.transform.position = new Vector3(mapSize.x / 2f, mapSize.y / 2f, -10f);
         }
     }
 }

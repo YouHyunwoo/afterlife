@@ -1,10 +1,11 @@
 using UnityEngine;
 
-namespace Afterlife.Model {
+namespace Afterlife.Model
+{
     public class Terrain {
+        public Data.Terrain Data;
         public Vector2Int Size;
-        public int[,] grid;
-
-        public Transform[,] tileTransforms;
+        public int[,] Grid;
+        public Transform[,] TileTransforms;
     }
 }

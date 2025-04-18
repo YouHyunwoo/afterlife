@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65146e39ac7a065459360d198c2e5fd5, type: 3}
-  m_Name: Small
+  m_Script: {fileID: 11500000, guid: 64278599b192daf419b6431abda9c1a7, type: 3}
+  m_Name: Dirt
   m_EditorClassIdentifier: 
-  EnvironmentType: dirt
-  Size: {x: 7, y: 7}
+  EnvironmentType: Dirt
   TilePrefabs:
   - {fileID: 1345322872074191395, guid: 6358743ec2cc48941adb472d28f8cfb4, type: 3}
   - {fileID: 1345322872074191395, guid: 3971702e779963b40895e884367938aa, type: 3}
