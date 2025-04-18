@@ -5,6 +5,8 @@ namespace Afterlife.Controller
 {
     public class TerrainGenerator : MonoBehaviour
     {
+        [SerializeField] Transform terrainTransform;
+
         public Model.Terrain Generate(Map data)
         {
             var terrain = new Model.Terrain
@@ -14,14 +16,17 @@ namespace Afterlife.Controller
                 tileTransforms = new Transform[data.Size.x, data.Size.y]
             };
 
-            for (int x = 0; x < data.Size.x; x++)
+            for (int y = 0; y < data.Size.y; y++)
             {
-                for (int y = 0; y < data.Size.y; y++)
+                for (int x = 0; x < data.Size.x; x++)
                 {
                     var tileIndex = 1;
-                    var tilePrefab = data.TilePrefabs[tileIndex];
                     terrain.grid[x, y] = tileIndex;
-                    terrain.tileTransforms[x, y] = Instantiate(tilePrefab, new Vector3(x, y), Quaternion.identity).transform;
+
+                    var tilePrefab = data.TilePrefabs[tileIndex];
+                    var terrainTileTransform = Instantiate(tilePrefab, new Vector3(x, y), Quaternion.identity, terrainTransform).transform;
+                    terrainTileTransform.name = $"{tilePrefab.name} ({x}, {y})";
+                    terrain.tileTransforms[x, y] = terrainTileTransform;
                 }
             }
 
