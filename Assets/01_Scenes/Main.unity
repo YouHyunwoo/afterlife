@@ -378,7 +378,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 00000000
+  m_ApplyToSortingLayers: 000000006f16b27dd38eabfb
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -704,6 +704,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1360623019}
   - component: {fileID: 1360623020}
+  - component: {fileID: 1360623021}
   m_Layer: 0
   m_Name: Stage
   m_TagString: Untagged
@@ -739,6 +740,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terrainTransform: {fileID: 1256633606}
+--- !u!114 &1360623021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360623018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d36a4b5b78101043b6576c8132e712b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainGenerator: {fileID: 1360623020}
+  fieldTransform: {fileID: 661714298}
 --- !u!4 &1449939117 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5381066641439683181, guid: d5e80e03846e93d42ac76d19b34cd0e7, type: 3}
@@ -893,9 +908,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 519420031}
-  terrainGenerator: {fileID: 1360623020}
-  mapDataList:
-  - {fileID: 11400000, guid: d4a8a520a7d438143aa1e2ad4768a085, type: 2}
+  stageGenerator: {fileID: 1360623021}
+  stageData: {fileID: 11400000, guid: 15a2ce408ff48f94ea91dadd48faaf51, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

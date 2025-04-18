@@ -12,8 +12,8 @@ namespace Afterlife.Controller
             var terrain = new Model.Terrain
             {
                 Size = data.Size,
-                grid = new int[data.Size.x, data.Size.y],
-                tileTransforms = new Transform[data.Size.x, data.Size.y]
+                Grid = new int[data.Size.x, data.Size.y],
+                TileTransforms = new Transform[data.Size.x, data.Size.y]
             };
 
             for (int y = 0; y < data.Size.y; y++)
@@ -21,12 +21,12 @@ namespace Afterlife.Controller
                 for (int x = 0; x < data.Size.x; x++)
                 {
                     var tileIndex = 1;
-                    terrain.grid[x, y] = tileIndex;
+                    terrain.Grid[x, y] = tileIndex;
 
-                    var tilePrefab = data.TilePrefabs[tileIndex];
+                    var tilePrefab = data.TerrainData.TilePrefabs[tileIndex];
                     var terrainTileTransform = Instantiate(tilePrefab, new Vector3(x, y), Quaternion.identity, terrainTransform).transform;
                     terrainTileTransform.name = $"{tilePrefab.name} ({x}, {y})";
-                    terrain.tileTransforms[x, y] = terrainTileTransform;
+                    terrain.TileTransforms[x, y] = terrainTileTransform;
                 }
             }
 
