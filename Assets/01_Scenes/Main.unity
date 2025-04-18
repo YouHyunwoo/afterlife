@@ -663,6 +663,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e378b33cb5a3c4ab3c1ccdb7462cba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  terrainTransform: {fileID: 1256633606}
 --- !u!1 &1635950551
 GameObject:
   m_ObjectHideFlags: 0
@@ -811,6 +812,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2dcbc8a0787a464fa9a3b44bb4f06f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 519420031}
   terrainGenerator: {fileID: 1360623020}
   mapDataList:
   - {fileID: 11400000, guid: d4a8a520a7d438143aa1e2ad4768a085, type: 2}
