@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Easy
   m_EditorClassIdentifier: 
   VillageCount: 1
-  VillagePrefab: {fileID: 5426959284589278923, guid: 2aaa44aad4b39bc4c9735f10f1189b48, type: 3}
+  VillagePrefab: {fileID: 4135642791990732722, guid: cf4fb9c8c53563e418df36b2c898f252, type: 3}
   ResourceObjectGroups:
   - Name: Tree
     Count: 10
-    Prefab: {fileID: 5426959284589278923, guid: 789b98e997a1035499dbb630e1bbf403, type: 3}
+    Prefab: {fileID: 494077254962708403, guid: 30451db0384e3ea4fb6e8778113775d4, type: 3}
   - Name: Stone
     Count: 5
-    Prefab: {fileID: 5426959284589278923, guid: 7d8fe5b2c2e586844a682d9f2750fe11, type: 3}
+    Prefab: {fileID: 4140890904930700780, guid: eb1f3c03538454a48874b7fded84a8b7, type: 3}
