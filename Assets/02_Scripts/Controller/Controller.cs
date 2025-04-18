@@ -10,10 +10,9 @@ namespace Afterlife.Controller
 
         void Start()
         {
-            stageGenerator.Generate(stageData);
+            var stage = stageGenerator.Generate(stageData);
 
             var mapSize = stageData.MapData.Size;
-
             mainCamera.transform.position = new Vector3(mapSize.x / 2f, mapSize.y / 2f, -10f);
         }
     }

@@ -704,6 +704,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1360623019}
   - component: {fileID: 1360623020}
+  - component: {fileID: 1360623022}
+  - component: {fileID: 1360623023}
   - component: {fileID: 1360623021}
   m_Layer: 0
   m_Name: Stage
@@ -753,7 +755,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terrainGenerator: {fileID: 1360623020}
+  mapGenerator: {fileID: 1360623023}
+--- !u!114 &1360623022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360623018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81dd1adafbfb25848adea209ac604870, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectPrefabs:
+  - {fileID: 5426959284589278923, guid: 789b98e997a1035499dbb630e1bbf403, type: 3}
   fieldTransform: {fileID: 661714298}
+--- !u!114 &1360623023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360623018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0307b00e295b9d840869c118734faf0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainGenerator: {fileID: 1360623020}
+  fieldGenerator: {fileID: 1360623022}
 --- !u!4 &1449939117 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5381066641439683181, guid: d5e80e03846e93d42ac76d19b34cd0e7, type: 3}
@@ -909,6 +940,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 519420031}
   stageGenerator: {fileID: 1360623021}
+  fieldGenerator: {fileID: 1360623022}
   stageData: {fileID: 11400000, guid: 15a2ce408ff48f94ea91dadd48faaf51, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
