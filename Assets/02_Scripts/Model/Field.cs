@@ -12,6 +12,9 @@ namespace Afterlife.Model
         public Transform[,] Grid;
         public int Count;
 
+        public bool InBounds(Vector2Int location) => InBounds(location.x, location.y);
+        public bool InBounds(int x, int y) => x >= 0 && x < Grid.GetLength(0) && y >= 0 && y < Grid.GetLength(1);
+
         public bool Has(Vector2Int location) => Has(location.x, location.y);
         public bool Has(int x, int y) => Grid[x, y] != null;
 
@@ -22,6 +25,9 @@ namespace Afterlife.Model
             Grid[x, y] = @object;
             Count++;
         }
+
+        public Transform Get(Vector2Int location) => Get(location.x, location.y);
+        public Transform Get(int x, int y) => Grid[x, y];
 
         public int GetEmptyCount() => Grid.GetLength(0) * Grid.GetLength(1) - Count;
     }
