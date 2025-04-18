@@ -7,6 +7,7 @@ namespace Afterlife.Controller
         [SerializeField] Camera mainCamera;
         [SerializeField] StageGenerator stageGenerator;
         [SerializeField] Data.Stage stageData;
+        [SerializeField] TileInteractionController tileInteractionController;
 
         void Start()
         {
@@ -14,6 +15,8 @@ namespace Afterlife.Controller
 
             var mapSize = stageData.MapData.Size;
             mainCamera.transform.position = new Vector3(mapSize.x / 2f, mapSize.y / 2f, -10f);
+
+            tileInteractionController.Initialize(stage);
         }
     }
 }

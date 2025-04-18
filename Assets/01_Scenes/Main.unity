@@ -1040,6 +1040,7 @@ GameObject:
   - component: {fileID: 1360623022}
   - component: {fileID: 1360623023}
   - component: {fileID: 1360623021}
+  - component: {fileID: 1360623024}
   m_Layer: 0
   m_Name: Stage
   m_TagString: Untagged
@@ -1118,11 +1119,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terrainGenerator: {fileID: 1360623020}
   fieldGenerator: {fileID: 1360623022}
+--- !u!114 &1360623024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360623018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34f4c2777ad3afb409af021fca3ab857, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainTileIndicator: {fileID: 1449939118}
 --- !u!4 &1449939117 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5381066641439683181, guid: d5e80e03846e93d42ac76d19b34cd0e7, type: 3}
   m_PrefabInstance: {fileID: 946771596}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1449939118 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8808332198277870700, guid: d5e80e03846e93d42ac76d19b34cd0e7, type: 3}
+  m_PrefabInstance: {fileID: 946771596}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed899f11ca7b0e24a90b3b73fb8b5681, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1635950551
 GameObject:
   m_ObjectHideFlags: 0
@@ -1547,6 +1572,7 @@ MonoBehaviour:
   mainCamera: {fileID: 519420031}
   stageGenerator: {fileID: 1360623021}
   stageData: {fileID: 11400000, guid: 15a2ce408ff48f94ea91dadd48faaf51, type: 2}
+  tileInteractionController: {fileID: 1360623024}
 --- !u!1 &1967713803
 GameObject:
   m_ObjectHideFlags: 0
