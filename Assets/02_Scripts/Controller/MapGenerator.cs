@@ -17,7 +17,7 @@ namespace Afterlife.Controller
             var terrain = terrainGenerator.Generate(terrainData, size);
             var field = fieldGenerator.Generate(fieldData, size);
 
-            GenerateEnvironments(field, mapData);
+            GenerateEnvironments(fieldData, size, field);
 
             return new Model.Map
             {
@@ -28,17 +28,20 @@ namespace Afterlife.Controller
             };
         }
 
-        void GenerateEnvironments(Model.Field field, Data.Map mapData)
+        void GenerateEnvironments(Data.Field fieldData, Vector2Int mapSize, Model.Field field)
         {
             var environmentObjects = new List<Transform>();
 
-            for (int i = 0; i < 10; i++)
+            foreach (var resourceObjectGroup in fieldData.ResourceObjectGroups)
             {
-                var location = new Vector2Int(Random.Range(0, mapData.Size.x), Random.Range(0, mapData.Size.y));
-                if (field.Has(location)) { continue; }
-                var @object = fieldGenerator.GenerateObject("Tree", location);
-                field.Set(location, @object.transform);
-                environmentObjects.Add(@object.transform);
+                for (int i = 0; i < resourceObjectGroup.Count; i++)
+                {
+                    var location = new Vector2Int(Random.Range(0, mapSize.x), Random.Range(0, mapSize.y));
+                    if (field.Has(location)) { continue; }
+                    var @object = fieldGenerator.GenerateObject(resourceObjectGroup.Prefab, location);
+                    field.Set(location, @object.transform);
+                    environmentObjects.Add(@object.transform);
+                }
             }
 
             field.ObjectTransforms.AddRange(environmentObjects);

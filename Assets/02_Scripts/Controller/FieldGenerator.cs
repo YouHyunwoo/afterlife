@@ -47,6 +47,16 @@ namespace Afterlife.Controller
             return villageObjects;
         }
 
+        public GameObject GenerateObject(GameObject prefab, Vector2Int location)
+        {
+            if (prefab == null) { throw new System.Exception("Prefab cannot be null."); }
+
+            var position = new Vector3(location.x, location.y);
+            var instance = Instantiate(prefab, position, Quaternion.identity, fieldTransform);
+
+            return instance;
+        }
+
         public GameObject GenerateObject(string name, Vector2Int location)
         {
             var prefab = FindPrefabByName(name);
