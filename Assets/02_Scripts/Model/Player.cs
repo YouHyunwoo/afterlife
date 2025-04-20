@@ -12,6 +12,8 @@ namespace Afterlife.Model
         public float CriticalRate;
         public float CriticalDamageMultiplier;
 
+        public float RecoveryPower = 1f;
+
         public Dictionary<string, int> Inventory = new();
     }
 }

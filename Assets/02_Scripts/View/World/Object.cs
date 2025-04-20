@@ -19,7 +19,7 @@ namespace Afterlife.View
             UpdateValue();
         }
 
-        void UpdateValue()
+        protected void UpdateValue()
         {
             if (text == null) { return; }
             text.text = $"{Health:0}";

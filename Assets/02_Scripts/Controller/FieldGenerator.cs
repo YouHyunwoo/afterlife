@@ -40,6 +40,14 @@ namespace Afterlife.Controller
                 if (field.Has(location)) { i--; continue; }
                 var position = new Vector3(location.x, location.y);
                 var villageObject = Instantiate(prefab, position, Quaternion.identity, fieldTransform);
+                if (!villageObject.transform.TryGetComponent(out View.Object village))
+                {
+                    Debug.LogError($"Village prefab {prefab.name} does not have a Village component.");
+                    continue;
+                }
+
+                village.Health = 10;
+
                 field.Set(location, villageObject.transform);
                 villageObjects.Add(villageObject.transform);
             }
