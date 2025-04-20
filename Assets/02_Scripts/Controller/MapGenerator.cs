@@ -39,6 +39,14 @@ namespace Afterlife.Controller
                     var location = new Vector2Int(Random.Range(0, mapSize.x), Random.Range(0, mapSize.y));
                     if (field.Has(location)) { continue; }
                     var @object = fieldGenerator.GenerateObject(resourceObjectGroup.Prefab, location);
+                    if (!@object.transform.TryGetComponent(out View.Resource resource))
+                    {
+                        Debug.LogError($"Object {resourceObjectGroup.Prefab.name} does not have a Resource component.");
+                        continue;
+                    }
+                    resource.Health = Random.Range(resourceObjectGroup.MinHealth, resourceObjectGroup.MaxHealth + 1);
+                    resource.Type = resourceObjectGroup.Name;
+                    resource.Amount = Random.Range(resourceObjectGroup.MinAmount, resourceObjectGroup.MaxAmount + 1);
                     field.Set(location, @object.transform);
                     environmentObjects.Add(@object.transform);
                 }

@@ -7,6 +7,10 @@ namespace Afterlife.Data
     {
         public string Name;
         public int Count;
+        public int MinHealth;
+        public int MaxHealth;
+        public int MinAmount;
+        public int MaxAmount;
         public GameObject Prefab;
     }
 

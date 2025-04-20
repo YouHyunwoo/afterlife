@@ -6,6 +6,7 @@ namespace Afterlife.Controller
     {
         [SerializeField] View.TerrainTileIndicator terrainTileIndicator;
 
+        Model.Player player;
         Model.Stage stage;
 
         void OnEnable()
@@ -24,11 +25,15 @@ namespace Afterlife.Controller
             var tileTransform = stage.Map.Field.Get(location);
             if (tileTransform == null) { return; }
 
-            Debug.Log($"Tile at {location} is {tileTransform.name}");
+            if (tileTransform.TryGetComponent(out View.Object @object))
+            {
+                @object.Interact(player);
+            }
         }
 
-        public void Initialize(Model.Stage stage)
+        public void Initialize(Model.Player player, Model.Stage stage)
         {
+            this.player = player;
             this.stage = stage;
         }
     }
