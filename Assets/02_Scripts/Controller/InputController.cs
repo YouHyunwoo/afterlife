@@ -25,7 +25,7 @@ namespace Afterlife.Controller
 
         void Awake()
         {
-            interactAction = playerInput.actions["Interact"];
+            interactAction = playerInput.actions["Pointer Button"];
             pointerMoveAction = playerInput.actions["Pointer Move"];
         }
 
