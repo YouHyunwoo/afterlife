@@ -29,3 +29,7 @@ MonoBehaviour:
     MinAmount: 5
     MaxAmount: 10
     Prefab: {fileID: 6365514331638055027, guid: eb1f3c03538454a48874b7fded84a8b7, type: 3}
+  MonsterObjectGroups:
+  - Name: Goblin
+    Count: 1
+    Prefab: {fileID: 2098846693792243547, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}

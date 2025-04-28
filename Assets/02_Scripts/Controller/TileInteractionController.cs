@@ -32,6 +32,7 @@ namespace Afterlife.Controller
             {
                 StopCoroutine(interactRoutine);
             }
+            if (stage == null) { return; }
             interactRoutine = StartCoroutine(InteractRoutine(location));
         }
 
@@ -65,7 +66,7 @@ namespace Afterlife.Controller
 
         void InteractByLocation(Vector2Int location)
         {
-            if (!stage.Map.Field.InBounds(location)) { return; }
+            if (!stage.Map.Field.IsInBounds(location)) { return; }
             var tileTransform = stage.Map.Field.Get(location);
             if (tileTransform == null) { return; }
 

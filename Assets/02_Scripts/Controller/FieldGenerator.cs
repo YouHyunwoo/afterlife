@@ -13,10 +13,12 @@ namespace Afterlife.Controller
             var field = new Model.Field
             {
                 Data = fieldData,
+                Size = mapSize,
                 VillageCount = fieldData.VillageCount,
                 VillagePrefab = fieldData.VillagePrefab,
                 ObjectTransforms = null,
-                Grid = new Transform[mapSize.x, mapSize.y]
+                TransformGrid = new Transform[mapSize.x, mapSize.y],
+                PathFindingGrid = new Algorithm.PathFinding.Grid(mapSize.x, mapSize.y),
             };
 
             var villageObjects = GenerateVillages(fieldData.VillageCount, fieldData.VillagePrefab, mapSize, field);

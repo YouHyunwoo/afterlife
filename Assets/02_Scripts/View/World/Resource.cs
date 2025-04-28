@@ -9,17 +9,16 @@ namespace Afterlife.View
 
         public override void Interact(Model.Player player)
         {
-            base.Interact(player);
-        }
-
-        public override void Died(Model.Player player)
-        {
-            var inventory = player.Inventory;
-            if (!inventory.ContainsKey(Type)) { inventory.Add(Type, 0); }
-            player.Inventory[Type] += Amount;
-            Debug.Log($"Collected {Amount} of {Type}. Total: {player.Inventory[Type]}");
-
-            base.Died(player);
+            void OnDiedEvent()
+            {
+                var inventory = player.Inventory;
+                if (!inventory.ContainsKey(Type)) { inventory[Type] = 0; }
+                player.Inventory[Type] += Amount;
+                Debug.Log($"Collected {Amount} of {Type}. Total: {player.Inventory[Type]}");
+            }
+            OnDied += OnDiedEvent;
+            base.TakeDamage(player.AttackPower, null);
+            OnDied -= OnDiedEvent;
         }
     }
 }

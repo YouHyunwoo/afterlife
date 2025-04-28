@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -9,12 +10,14 @@ namespace Afterlife.View
 
         TextMeshPro text;
 
-        void Awake()
+        public event Action OnDied;
+
+        protected virtual void Awake()
         {
             text = GetComponentInChildren<TextMeshPro>();
         }
 
-        void Start()
+        protected virtual void Start()
         {
             UpdateValue();
         }
@@ -27,10 +30,16 @@ namespace Afterlife.View
 
         public virtual void Interact(Model.Player player)
         {
-            Health -= player.AttackPower;
+            TakeDamage(player.AttackPower, null);
+        }
+
+        public virtual void TakeDamage(float damage, Object @object)
+        {
+            Health -= damage;
             if (Health <= 0f)
             {
-                Died(player);
+                Died();
+                OnDied?.Invoke();
             }
             else
             {
@@ -38,8 +47,9 @@ namespace Afterlife.View
             }
         }
 
-        public virtual void Died(Model.Player player)
+        public virtual void Died()
         {
+            gameObject.SetActive(false);
             Destroy(gameObject);
         }
     }

@@ -19,13 +19,20 @@ namespace Afterlife.Controller
 
             GenerateEnvironments(fieldData, size, field);
 
-            return new Model.Map
+            var pathFinder = new Algorithm.PathFinding.AStar.PathFinder();
+
+            var map = new Model.Map
             {
                 Data = mapData,
                 Size = size,
                 Terrain = terrain,
-                Field = field
+                Field = field,
+                PathFinder = pathFinder,
             };
+
+            GenerateMonsters(fieldData, size, field, map);
+
+            return map;
         }
 
         void GenerateEnvironments(Data.Field fieldData, Vector2Int mapSize, Model.Field field)
@@ -53,6 +60,31 @@ namespace Afterlife.Controller
             }
 
             field.ObjectTransforms.AddRange(environmentObjects);
+        }
+
+        void GenerateMonsters(Data.Field fieldData, Vector2Int mapSize, Model.Field field, Model.Map map)
+        {
+            var monsterObjects = new List<Transform>();
+
+            foreach (var monsterObjectGroup in fieldData.MonsterObjectGroups)
+            {
+                for (int i = 0; i < monsterObjectGroup.Count; i++)
+                {
+                    var location = new Vector2Int(Random.Range(0, mapSize.x), Random.Range(0, mapSize.y));
+                    if (field.Has(location)) { continue; }
+                    var @object = fieldGenerator.GenerateObject(monsterObjectGroup.Prefab, location);
+                    if (!@object.transform.TryGetComponent(out View.Monster monster))
+                    {
+                        Debug.LogError($"Object {monsterObjectGroup.Prefab.name} does not have a Monster component.");
+                        continue;
+                    }
+                    monster.Map = map;
+                    field.Set(location, @object.transform);
+                    monsterObjects.Add(@object.transform);
+                }
+            }
+
+            field.ObjectTransforms.AddRange(monsterObjects);
         }
     }
 }

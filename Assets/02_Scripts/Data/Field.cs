@@ -14,6 +14,14 @@ namespace Afterlife.Data
         public GameObject Prefab;
     }
 
+    [System.Serializable]
+    public class MonsterObjectGroup
+    {
+        public string Name;
+        public int Count;
+        public GameObject Prefab;
+    }
+
     [CreateAssetMenu(fileName = "FieldData", menuName = "Afterlife/Data/Field")]
     public class Field : ScriptableObject
     {
@@ -23,5 +31,8 @@ namespace Afterlife.Data
 
         [Header("Resources")]
         public ResourceObjectGroup[] ResourceObjectGroups;
+
+        [Header("Monsters")]
+        public MonsterObjectGroup[] MonsterObjectGroups;
     }
 }
