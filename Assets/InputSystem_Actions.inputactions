@@ -996,7 +996,7 @@
             "id": "9ed8a41a-c729-4e60-8973-c6f34c3ab526",
             "actions": [
                 {
-                    "name": "Interact",
+                    "name": "Pointer Button",
                     "type": "Button",
                     "id": "dfab7145-d8c3-40db-9dbb-4890a2d090ed",
                     "expectedControlType": "",
@@ -1022,7 +1022,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Interact",
+                    "action": "Pointer Button",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

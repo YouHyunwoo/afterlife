@@ -7,6 +7,18 @@ namespace Afterlife.Data
     {
         public string Name;
         public int Count;
+        public int MinHealth;
+        public int MaxHealth;
+        public int MinAmount;
+        public int MaxAmount;
+        public GameObject Prefab;
+    }
+
+    [System.Serializable]
+    public class MonsterObjectGroup
+    {
+        public string Name;
+        public int Count;
         public GameObject Prefab;
     }
 
@@ -19,5 +31,8 @@ namespace Afterlife.Data
 
         [Header("Resources")]
         public ResourceObjectGroup[] ResourceObjectGroups;
+
+        [Header("Monsters")]
+        public MonsterObjectGroup[] MonsterObjectGroups;
     }
 }

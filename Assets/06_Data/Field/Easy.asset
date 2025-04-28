@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c934c1e21ca6c5a41be234822673a946, type: 3}
+  m_Name: Easy
+  m_EditorClassIdentifier: 
+  VillageCount: 1
+  VillagePrefab: {fileID: 4135642791990732722, guid: cf4fb9c8c53563e418df36b2c898f252, type: 3}
+  ResourceObjectGroups:
+  - Name: Tree
+    Count: 10
+    MinHealth: 5
+    MaxHealth: 10
+    MinAmount: 5
+    MaxAmount: 10
+    Prefab: {fileID: 6119026036536104667, guid: 63a52fd7cd96e674c818ff1c7431cb47, type: 3}
+  - Name: Stone
+    Count: 5
+    MinHealth: 20
+    MaxHealth: 40
+    MinAmount: 5
+    MaxAmount: 10
+    Prefab: {fileID: 6365514331638055027, guid: eb1f3c03538454a48874b7fded84a8b7, type: 3}
+  MonsterObjectGroups:
+  - Name: Goblin
+    Count: 1
+    Prefab: {fileID: 2098846693792243547, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
