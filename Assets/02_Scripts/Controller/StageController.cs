@@ -14,19 +14,13 @@ namespace Afterlife.Controller
 
         public Transform terrainTransform;
         public Transform fieldTransform;
+
         Model.Player player;
         List<Transform> playerTransforms = new();
 
-        public void StartStage() {
-            player = new Model.Player
-            {
-                AttackPower = 1f,
-                AttackSpeed = 1f,
-                AttackRange = 1f,
-                AttackCount = 1f,
-                CriticalRate = 0.0f,
-                CriticalDamageMultiplier = 1.2f
-            };
+        public void StartStage(Model.Player player)
+        {
+            this.player = player;
 
             var stage = stageGenerator.Generate(stageData);
 
@@ -51,7 +45,8 @@ namespace Afterlife.Controller
             tileInteractionController.Initialize(player, stage);
         }
 
-        void OnMonsterDied() {
+        void OnMonsterDied()
+        {
             var monsters = fieldTransform.GetComponentsInChildren<View.Monster>();
             if (monsters.Length == 0)
             {
@@ -60,7 +55,8 @@ namespace Afterlife.Controller
             }
         }
 
-        void FinishStage() {
+        void FinishStage()
+        {
             player = null;
             playerTransforms.Clear();
             foreach (Transform child in terrainTransform) { Destroy(child.gameObject); }
