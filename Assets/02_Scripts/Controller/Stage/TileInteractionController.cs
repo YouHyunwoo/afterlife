@@ -80,6 +80,7 @@ namespace Afterlife.Controller
         {
             this.player = player;
             this.stage = stage;
+            enabled = true;
         }
     }
 }

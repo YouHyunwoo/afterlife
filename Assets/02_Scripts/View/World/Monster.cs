@@ -6,9 +6,7 @@ namespace Afterlife.View
 {
     public class Monster : Object
     {
-        public Animator Animator;
-        public SpriteRenderer SpriteRenderer;
-
+        [Header("Property")]
         public float DetectingRange = 1f;
         public float AttackPower = 1f;
         public float AttackSpeed = 1f;
@@ -19,6 +17,9 @@ namespace Afterlife.View
         public float MovementSpeed = 1f;
         public LayerMask TargetLayerMask;
 
+        [Header("Viewer")]
+        public Animator Animator;
+        public SpriteRenderer SpriteRenderer;
         public float SqrDetectingRange;
         public float SqrAttackRange;
         public string StateName;
@@ -26,7 +27,6 @@ namespace Afterlife.View
         public List<Transform> TargetCandidateTransforms;
         public Transform targetTransform;
         public Vector2Int targetLocation;
-        public Model.Map Map;
 
         void OnDrawGizmos()
         {
@@ -54,6 +54,19 @@ namespace Afterlife.View
             SpriteRenderer.flipX = Direction == -1;
         }
 
+        protected override void Start()
+        {
+            base.Start();
+
+            // TODO: 타겟 후보 탐색 최적화
+            var objects = GameObject.FindGameObjectsWithTag("Player");
+            TargetCandidateTransforms = new List<Transform>();
+            for (int i = 0; i < objects.Length; i++)
+            {
+                TargetCandidateTransforms.Add(objects[i].transform);
+            }
+        }
+
         public void StartPatrol()
         {
             Animator.SetBool("Patrol", true);
@@ -72,7 +85,7 @@ namespace Afterlife.View
         {
             var currentLocation = Vector2Int.FloorToInt((Vector2)transform.position);
 
-            Map.FindPath(currentLocation, destination, out var path);
+            Map.PathFinder.FindPath(currentLocation, destination, out var path);
 
             if (path.Length <= 1) { return false; }
 

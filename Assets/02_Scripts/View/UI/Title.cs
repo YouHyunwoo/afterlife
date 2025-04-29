@@ -1,13 +1,19 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Afterlife.View
 {
     public class Title : UIView
     {
-        [SerializeField] GameObject mainViewObject;
+        [Header("View")]
+        [SerializeField] Main mainView;
         [SerializeField] Button newGameButton;
         [SerializeField] Button exitButton;
+
+        [Header("Event")]
+        [SerializeField] UnityEvent onNewGameButtonClickedEvent;
+        [SerializeField] UnityEvent onExitButtonClickedEvent;
 
         void Awake()
         {
@@ -15,19 +21,7 @@ namespace Afterlife.View
             exitButton.onClick.AddListener(OnExitButtonClicked);
         }
 
-        void OnNewGameButtonClicked()
-        {
-            mainViewObject.SetActive(true);
-            Hide();
-        }
-
-        void OnExitButtonClicked()
-        {
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
-        }
+        void OnNewGameButtonClicked() => onNewGameButtonClickedEvent?.Invoke();
+        void OnExitButtonClicked() => onExitButtonClickedEvent?.Invoke();
     }
 }

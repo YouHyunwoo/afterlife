@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 26e83e81f12d1d94bbb849404ea2db84
+guid: b85c111ba84f7c44bb0125d305227b18
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6616133199226636194
-    second: heart-icon_0
+      213: 5037622894704442280
+    second: empty-heart-icon_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: heart-icon_0
+      name: empty-heart-icon_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 18
-        height: 15
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2a78296471a31db50800000000000000
-      internalID: 6616133199226636194
+      spriteID: 8abbb3f055b39e540800000000000000
+      internalID: 5037622894704442280
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      heart-icon_0: 6616133199226636194
+      empty-heart-icon_0: 5037622894704442280
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

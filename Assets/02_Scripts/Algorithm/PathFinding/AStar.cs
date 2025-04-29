@@ -20,20 +20,22 @@ namespace Algorithm.PathFinding.AStar
 
     public class PathFinder
     {
+        readonly Func<Vector2Int, int> costGetter;
         readonly Func<Vector2Int, Vector2Int, float> heuristicCalculator;
 
-        public PathFinder(Func<Vector2Int, Vector2Int, float> heuristicCalculator = null)
+        public PathFinder(Func<Vector2Int, int> costGetter, Func<Vector2Int, Vector2Int, float> heuristicCalculator = null)
         {
+            this.costGetter = costGetter;
             this.heuristicCalculator = heuristicCalculator ?? HeuristicCalculator.ManhattanDistance;
         }
 
-        public bool FindPath(Vector2Int start, Vector2Int goal, IGrid grid, out Vector2Int[] path)
+        public bool FindPath(Vector2Int start, Vector2Int goal, out Vector2Int[] path)
         {
-            path = FindPath(start, goal, grid);
+            path = FindPath(start, goal);
             return path[^1] == goal;
         }
 
-        public Vector2Int[] FindPath(Vector2Int start, Vector2Int goal, IGrid grid)
+        public Vector2Int[] FindPath(Vector2Int start, Vector2Int goal)
         {
             Dictionary<Vector2Int, float> open = new();
             HashSet<Vector2Int> closed = new();
@@ -69,10 +71,11 @@ namespace Algorithm.PathFinding.AStar
                 Vector2Int[] neighbors = GetNeighbors(node.Location);
                 foreach (var neighbor in neighbors)
                 {
-                    if (!grid.IsPassable(neighbor)) { continue; }
+                    var cost = costGetter(neighbor);
+                    if (cost < 0) { continue; }
                     if (closed.Contains(neighbor)) { continue; }
 
-                    float neighborG = node.G + 1;
+                    float neighborG = node.G + 1 + cost;
                     float neighborH = heuristicCalculator.Invoke(neighbor, goal);
                     float neighborF = neighborG + neighborH;
 

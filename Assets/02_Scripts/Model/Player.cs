@@ -2,7 +2,6 @@ using System.Collections.Generic;
 
 namespace Afterlife.Model
 {
-
     public class Player
     {
         public float AttackPower;

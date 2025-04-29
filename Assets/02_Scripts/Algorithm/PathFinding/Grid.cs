@@ -9,6 +9,7 @@ namespace Algorithm.PathFinding
     {
         bool IsPassable(Vector2Int location);
         bool IsInBounds(Vector2Int location);
+        int Get(Vector2Int location);
     }
 
     public class Grid : IGrid
@@ -39,7 +40,7 @@ namespace Algorithm.PathFinding
 
         public bool IsPassable(Vector2Int location)
         {
-            return IsInBounds(location) && cells[location.x, location.y] == 0;
+            return IsInBounds(location) && cells[location.x, location.y] >= 0;
         }
 
         public bool IsInBounds(Vector2Int location)
@@ -53,8 +54,8 @@ namespace Algorithm.PathFinding
         public void Set(Vector2Int location, int value)
         {
             if (cells[location.x, location.y] == value) { return; }
-            if (cells[location.x, location.y] == 0 && value != 0) { Availables.Remove(location); }
-            else if (cells[location.x, location.y] != 0 && value == 0) { Availables.Add(location); }
+            if (cells[location.x, location.y] >= 0 && value < 0) { Availables.Remove(location); }
+            else if (cells[location.x, location.y] < 0 && value >= 0) { Availables.Add(location); }
             cells[location.x, location.y] = value;
         }
 

@@ -5,7 +5,6 @@ namespace Afterlife.Controller
     public class StageGenerator : MonoBehaviour
     {
         [Header("Controller")]
-        [SerializeField] TerrainGenerator terrainGenerator;
         [SerializeField] MapGenerator mapGenerator;
 
         public Model.Stage Generate(Data.Stage stageData)
@@ -20,6 +19,11 @@ namespace Afterlife.Controller
             };
 
             return stage;
+        }
+
+        public void Clear()
+        {
+            mapGenerator.Clear();
         }
     }
 }
