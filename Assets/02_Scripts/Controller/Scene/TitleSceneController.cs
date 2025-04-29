@@ -4,6 +4,9 @@ namespace Afterlife.Controller
 {
     public class TitleSceneController : MonoBehaviour
     {
+        [Header("Data")]
+        public Data.Game GameData;
+
         [Header("Controller")]
         public MainSceneController MainSceneController;
 
@@ -20,7 +23,8 @@ namespace Afterlife.Controller
 
             Game = new Model.Game
             {
-                Lifes = 3,
+                Data = GameData,
+                Lifes = GameData.Lifes,
                 Player = new Model.Player
                 {
                     AttackPower = 1f,
@@ -31,7 +35,7 @@ namespace Afterlife.Controller
                     CriticalDamageMultiplier = 1.2f
                 },
                 CurrentStageIndex = 0,
-                TotalStageCount = 4,
+                TotalStageCount = GameData.TotalStageCount,
             };
 
             MainSceneController.Initialize(Game);

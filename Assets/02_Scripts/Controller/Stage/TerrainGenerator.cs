@@ -30,5 +30,13 @@ namespace Afterlife.Controller
 
             return terrain;
         }
+
+        public void Clear()
+        {
+            foreach (Transform child in terrainTransform)
+            {
+                Destroy(child.gameObject);
+            }
+        }
     }
 }

@@ -13,5 +13,10 @@ MonoBehaviour:
   m_Name: Easy
   m_EditorClassIdentifier: 
   MapData: {fileID: 11400000, guid: d4a8a520a7d438143aa1e2ad4768a085, type: 2}
-  VillageCount: 1
-  VillagePrefab: {fileID: 5426959284589278923, guid: 2aaa44aad4b39bc4c9735f10f1189b48, type: 3}
+  DayDuration: 3
+  NightDuration: 5
+  spawnIntervalPerDay:
+  - 10
+  - 9
+  - 6
+  - 4

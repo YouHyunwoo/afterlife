@@ -5,13 +5,12 @@ namespace Afterlife.Controller
     public class MainSceneController : MonoBehaviour
     {
         [Header("Controller")]
-        public StageController StageController;
+        public StageSceneController StageSceneController;
 
         [Header("View")]
         public View.Title TitleView;
         public View.Main MainView;
         public View.Stage StageView;
-        public View.TerrainTileIndicator TerrainTileIndicator;
 
         public Model.Game Game;
 
@@ -26,8 +25,7 @@ namespace Afterlife.Controller
         {
             MainView.Hide();
             StageView.Show();
-            StageController.StartStage(Game.Player);
-            TerrainTileIndicator.gameObject.SetActive(true);
+            StageSceneController.StartStage(Game);
         }
 
         public void QuitGame()

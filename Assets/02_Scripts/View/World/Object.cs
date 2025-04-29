@@ -7,6 +7,7 @@ namespace Afterlife.View
     public class Object : MonoBehaviour
     {
         public float Health;
+        public Model.Map Map;
 
         TextMeshPro text;
 
@@ -49,6 +50,8 @@ namespace Afterlife.View
 
         public virtual void Died()
         {
+            var location = Vector2Int.FloorToInt(transform.position);
+            Map.Field.Set(location, null);
             gameObject.SetActive(false);
             Destroy(gameObject);
         }

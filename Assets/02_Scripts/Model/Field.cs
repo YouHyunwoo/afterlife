@@ -7,11 +7,7 @@ namespace Afterlife.Model
     {
         public Data.Field Data;
         public Vector2Int Size;
-        public int VillageCount;
-        public GameObject VillagePrefab;
-        public List<Transform> ObjectTransforms;
         public Transform[,] TransformGrid;
-        public Algorithm.PathFinding.Grid PathFindingGrid;
         public int Count;
 
         public bool IsInBounds(Vector2Int location) => IsInBounds(location.x, location.y);
@@ -25,7 +21,6 @@ namespace Afterlife.Model
         {
             if (TransformGrid[x, y] != null) { Count--; }
             TransformGrid[x, y] = @object;
-            PathFindingGrid.Set(new Vector2Int(x, y), @object != null ? 1 : 0);
             Count++;
         }
 
