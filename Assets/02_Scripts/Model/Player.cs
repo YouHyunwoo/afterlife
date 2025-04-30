@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ namespace Afterlife.Model
     public class Player
     {
         public int Level;
+        public float Energy;
         public float Experience;
         public float MaxExperience;
         public float AttackPower;
@@ -20,6 +22,9 @@ namespace Afterlife.Model
         public Dictionary<string, int> Inventory = new();
         public Light Light;
 
+        public event Action<float> OnEnergyChanged;
+        public event Action<float> OnExperienceChanged;
+
         public void TakeExperience(float experience)
         {
             Experience += experience;
@@ -28,6 +33,10 @@ namespace Afterlife.Model
                 Experience -= MaxExperience;
                 LevelUp();
             }
+            OnExperienceChanged?.Invoke(Experience / MaxExperience);
+
+            Energy += experience;
+            OnEnergyChanged?.Invoke(Energy);
         }
 
         void LevelUp()

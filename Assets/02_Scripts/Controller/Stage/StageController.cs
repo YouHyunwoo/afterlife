@@ -38,6 +38,8 @@ namespace Afterlife.Controller
         public void StartStage(Data.Stage stageData, Model.Player player)
         {
             this.player = player;
+            this.player.OnEnergyChanged += OnEnergyChanged;
+            this.player.OnExperienceChanged += OnExperienceChanged;
 
             stage = stageGenerator.Generate(stageData);
 
@@ -59,6 +61,16 @@ namespace Afterlife.Controller
             GenerateMonsters(fieldData, mapSize, field, map);
 
             mainCamera.transform.position = new Vector3(mapSize.x / 2f, mapSize.y / 2f, -10f);
+        }
+
+        void OnEnergyChanged(float energy)
+        {
+            stageView.SetEnergy(energy);
+        }
+
+        void OnExperienceChanged(float ratio)
+        {
+            stageView.SetExperienceRatio(ratio);
         }
 
         void VerifyFieldData(Data.Field fieldData, Vector2Int mapSize)
@@ -172,7 +184,6 @@ namespace Afterlife.Controller
         void OnInteractEvent()
         {
             player.TakeExperience(player.AttackPower * player.AttackCount);
-            stageView.SetExperienceRatio(player.Experience / player.MaxExperience);
         }
 
         void OnMonsterSpawned(View.Monster monster)
@@ -182,8 +193,8 @@ namespace Afterlife.Controller
 
         void OnMonsterDied()
         {
+            // TODO: 몬스터가 가진 경험치 획득
             var monsters = fieldTransform.GetComponentsInChildren<View.Monster>();
-            Debug.Log(monsters.Length);
             if (monsters.Length == 0 && isTargetDayReached)
             {
                 Debug.Log("All monsters are dead. Stage cleared!");
@@ -206,6 +217,9 @@ namespace Afterlife.Controller
         void FinishStage()
         {
             isTargetDayReached = false;
+            player.OnEnergyChanged -= OnEnergyChanged;
+            player.OnExperienceChanged -= OnExperienceChanged;
+            player.Light.IsActive = false;
             player = null;
             stage = null;
             terrainTileIndicator.gameObject.SetActive(false);
