@@ -27,12 +27,16 @@ namespace Afterlife.Controller
                 Lifes = GameData.Lifes,
                 Player = new Model.Player
                 {
+                    Level = 1,
+                    Experience = 0,
+                    MaxExperience = 10,
                     AttackPower = 1f,
                     AttackSpeed = 1f,
                     AttackRange = 1f,
                     AttackCount = 1f,
                     CriticalRate = 0.0f,
-                    CriticalDamageMultiplier = 1.2f
+                    CriticalDamageMultiplier = 1.2f,
+                    RecoveryPower = 1f,
                 },
                 CurrentStageIndex = 0,
                 TotalStageCount = GameData.TotalStageCount,

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ namespace Afterlife.Controller
     public class TileInteractionController : MonoBehaviour
     {
         [SerializeField] InputController inputController;
+
+        public event Action OnInteractEvent;
 
         Model.Player player;
         Model.Stage stage;
@@ -73,6 +76,7 @@ namespace Afterlife.Controller
             if (tileTransform.TryGetComponent(out View.Object @object))
             {
                 @object.Interact(player);
+                OnInteractEvent?.Invoke();
             }
         }
 

@@ -16,6 +16,7 @@ namespace Afterlife.Controller
         [Header("View")]
         [SerializeField] Camera mainCamera;
         [SerializeField] View.TerrainTileIndicator terrainTileIndicator;
+        [SerializeField] View.Stage stageView;
 
         [Header("Event")]
         [SerializeField] UnityEvent onStageClearedEvent;
@@ -39,6 +40,7 @@ namespace Afterlife.Controller
             monsterSpawnController.OnMonsterSpawned += OnMonsterSpawned;
             timeController.Initialize(stageData.DayDuration, stageData.NightDuration);
             tileInteractionController.Initialize(player, stage);
+            tileInteractionController.OnInteractEvent += OnInteractEvent;
 
             var fieldData = stageData.MapData.FieldData;
             var mapSize = stageData.MapData.Size;
@@ -151,6 +153,11 @@ namespace Afterlife.Controller
             }
         }
 
+        void OnInteractEvent() {
+            player.TakeExperience(player.AttackPower * player.AttackCount);
+            stageView.SetExperienceRatio(player.Experience / player.MaxExperience);
+        }
+
         void OnMonsterSpawned(View.Monster monster)
         {
             monster.OnDied += OnMonsterDied;
@@ -185,8 +192,10 @@ namespace Afterlife.Controller
             stage = null;
             terrainTileIndicator.gameObject.SetActive(false);
             monsterSpawnController.enabled = false;
+            monsterSpawnController.OnMonsterSpawned -= OnMonsterSpawned;
             timeController.enabled = false;
             tileInteractionController.enabled = false;
+            tileInteractionController.OnInteractEvent -= OnInteractEvent;
             stageGenerator.Clear();
         }
 
