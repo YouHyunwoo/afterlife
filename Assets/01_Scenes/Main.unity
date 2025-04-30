@@ -2452,7 +2452,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 000000006f16b27dd38eabfb49c86081
+  m_ApplyToSortingLayers: 000000006f16b27dd38eabfb49c8608143af6015
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -3372,6 +3372,7 @@ Transform:
   - {fileID: 519420032}
   - {fileID: 619394802}
   - {fileID: 1256633606}
+  - {fileID: 957022465}
   - {fileID: 1449939117}
   - {fileID: 661714298}
   m_Father: {fileID: 0}
@@ -3387,10 +3388,6 @@ PrefabInstance:
     - target: {fileID: 3107873958921066640, guid: d5e80e03846e93d42ac76d19b34cd0e7, type: 3}
       propertyPath: m_Name
       value: Tile Indicator
-      objectReference: {fileID: 0}
-    - target: {fileID: 3107873958921066640, guid: d5e80e03846e93d42ac76d19b34cd0e7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5381066641439683181, guid: d5e80e03846e93d42ac76d19b34cd0e7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3437,6 +3434,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5e80e03846e93d42ac76d19b34cd0e7, type: 3}
+--- !u!1 &957022464
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 957022465}
+  m_Layer: 0
+  m_Name: Fog
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &957022465
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 957022464}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 925834213}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &970735737
 GameObject:
   m_ObjectHideFlags: 0
@@ -4982,6 +5010,7 @@ GameObject:
   - component: {fileID: 1360623019}
   - component: {fileID: 1360623020}
   - component: {fileID: 1360623022}
+  - component: {fileID: 1360623030}
   - component: {fileID: 1360623023}
   - component: {fileID: 1360623021}
   - component: {fileID: 1360623025}
@@ -5064,6 +5093,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terrainGenerator: {fileID: 1360623020}
   fieldGenerator: {fileID: 1360623022}
+  fogGenerator: {fileID: 1360623030}
 --- !u!114 &1360623024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5206,6 +5236,20 @@ MonoBehaviour:
   currentDay: 0
   elapsedTime: 0
   SpawnIntervalPerDay: []
+--- !u!114 &1360623030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360623018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 135e547af1f2c3c459a671940be401c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fogTransform: {fileID: 957022465}
+  fogPrefab: {fileID: 8482595740769873763, guid: 51953b80539729942a0b9b995d1d1955, type: 3}
 --- !u!1 &1403437104
 GameObject:
   m_ObjectHideFlags: 0
@@ -6632,9 +6676,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1449939118}
-        m_TargetAssemblyTypeName: Afterlife.View.TerrainTileIndicator, Assembly-CSharp
-        m_MethodName: SetLocation
+      - m_Target: {fileID: 1360623025}
+        m_TargetAssemblyTypeName: Afterlife.Controller.StageController, Assembly-CSharp
+        m_MethodName: OnTileIndicatorMoved
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

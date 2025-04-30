@@ -37,6 +37,13 @@ namespace Afterlife.Controller
                     CriticalRate = 0.0f,
                     CriticalDamageMultiplier = 1.2f,
                     RecoveryPower = 1f,
+                    Light = new Model.Light
+                    {
+                        Location = new Vector2Int(),
+                        Intensity = 3f,
+                        Range = 5f,
+                        IsActive = false,
+                    },
                 },
                 CurrentStageIndex = 0,
                 TotalStageCount = GameData.TotalStageCount,

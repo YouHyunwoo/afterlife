@@ -6,6 +6,7 @@ namespace Afterlife.Controller
     {
         [SerializeField] TerrainGenerator terrainGenerator;
         [SerializeField] FieldGenerator fieldGenerator;
+        [SerializeField] FogGenerator fogGenerator;
 
         public Model.Map Generate(Data.Map mapData)
         {
@@ -16,6 +17,9 @@ namespace Afterlife.Controller
 
             var fieldData = mapData.FieldData;
             var field = fieldGenerator.Generate(fieldData, mapSize);
+
+            var fog = fogGenerator.Generate(mapSize);
+            fog.OnFogUpdated += field.OnFogUpdated;
 
             var pathFinder = new Algorithm.PathFinding.AStar.PathFinder(location =>
             {
@@ -30,6 +34,7 @@ namespace Afterlife.Controller
                 Size = mapSize,
                 Terrain = terrain,
                 Field = field,
+                Fog = fog,
                 PathFinder = pathFinder,
             };
 
@@ -40,6 +45,7 @@ namespace Afterlife.Controller
         {
             terrainGenerator.Clear();
             fieldGenerator.Clear();
+            fogGenerator.Clear();
         }
     }
 }

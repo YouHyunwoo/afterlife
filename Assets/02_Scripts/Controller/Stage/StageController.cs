@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -29,11 +28,20 @@ namespace Afterlife.Controller
         Model.Stage stage;
         bool isTargetDayReached = false;
 
+        void LateUpdate()
+        {
+            if (stage == null) { return; }
+            if (!stage.Map.Fog.IsDirty) { return; }
+            stage.Map.Fog.Update();
+        }
+
         public void StartStage(Data.Stage stageData, Model.Player player)
         {
             this.player = player;
 
             stage = stageGenerator.Generate(stageData);
+
+            stage.Map.Fog.Lights.Add(player.Light);
 
             objectGenerator.Initialize(stage);
             monsterSpawnController.Initialize(stage);
@@ -51,7 +59,6 @@ namespace Afterlife.Controller
             GenerateMonsters(fieldData, mapSize, field, map);
 
             mainCamera.transform.position = new Vector3(mapSize.x / 2f, mapSize.y / 2f, -10f);
-            terrainTileIndicator.gameObject.SetActive(true);
         }
 
         void VerifyFieldData(Data.Field fieldData, Vector2Int mapSize)
@@ -100,6 +107,15 @@ namespace Afterlife.Controller
 
                 village.Health = 10;
                 village.OnDied += OnVillageDied;
+
+                var villageLight = new Model.Light
+                {
+                    Location = location,
+                    Intensity = 1f,
+                    Range = 5f,
+                };
+
+                stage.Map.Fog.AddLight(villageLight);
 
                 field.Set(location, fieldObject.transform);
             }
@@ -153,7 +169,8 @@ namespace Afterlife.Controller
             }
         }
 
-        void OnInteractEvent() {
+        void OnInteractEvent()
+        {
             player.TakeExperience(player.AttackPower * player.AttackCount);
             stageView.SetExperienceRatio(player.Experience / player.MaxExperience);
         }
@@ -212,6 +229,15 @@ namespace Afterlife.Controller
                     onStageClearedEvent?.Invoke();
                 }
             }
+        }
+
+        public void OnTileIndicatorMoved(Vector2Int location)
+        {
+            if (stage == null) { return; }
+            terrainTileIndicator.gameObject.SetActive(true);
+            player.Light.IsActive = true;
+            player.Light.Location = location;
+            stage.Map.Fog.Invalidate();
         }
     }
 }

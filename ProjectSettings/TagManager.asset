@@ -44,6 +44,12 @@ TagManager:
   - name: Terrain
     uniqueID: 2108823151
     locked: 0
+  - name: Fog
+    uniqueID: 2170603593
+    locked: 0
+  - name: Tile Indicator
+    uniqueID: 358657859
+    locked: 0
   - name: Field
     uniqueID: 4222324435
     locked: 0

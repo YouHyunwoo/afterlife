@@ -18,6 +18,7 @@ namespace Afterlife.Model
         public float RecoveryPower = 1f;
 
         public Dictionary<string, int> Inventory = new();
+        public Light Light;
 
         public void TakeExperience(float experience)
         {

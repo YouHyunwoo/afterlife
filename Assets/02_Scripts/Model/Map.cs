@@ -8,6 +8,7 @@ namespace Afterlife.Model
         public Vector2Int Size;
         public Terrain Terrain;
         public Field Field;
+        public Fog Fog;
         public Algorithm.PathFinding.AStar.PathFinder PathFinder;
 
         public void MoveFieldObject(Vector2Int from, Vector2Int to)
@@ -15,6 +16,7 @@ namespace Afterlife.Model
             var @object = Field.Get(from);
             Field.Set(from, null);
             Field.Set(to, @object);
+            Fog.Invalidate();
         }
     }
 }

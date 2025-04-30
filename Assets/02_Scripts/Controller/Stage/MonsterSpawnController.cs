@@ -45,8 +45,6 @@ namespace Afterlife.Controller
 
             var monsterObject = objectGenerator.Generate(monsterPrefab.gameObject, location);
             var monster = monsterObject.GetComponent<View.Monster>();
-            monster.Map = Stage.Map;
-            Stage.Map.Field.Set(location, monsterObject.transform);
 
             onMonsterSpawnedEvent?.Invoke(monster);
             OnMonsterSpawned?.Invoke(monster);

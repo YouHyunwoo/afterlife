@@ -13,6 +13,7 @@ namespace Afterlife.Controller
                 Data = fieldData,
                 Size = mapSize,
                 TransformGrid = new Transform[mapSize.x, mapSize.y],
+                SpriteRendererGrid = new SpriteRenderer[mapSize.x, mapSize.y],
             };
 
             return field;
