@@ -37,6 +37,7 @@ namespace Afterlife.Controller
                     CriticalRate = 0.0f,
                     CriticalDamageMultiplier = 1.2f,
                     RecoveryPower = 1f,
+                    RewardSelectionCount = 3,
                     Light = new Model.Light
                     {
                         Location = new Vector2Int(),

@@ -40,6 +40,7 @@ namespace Afterlife.Controller
             this.player = player;
             this.player.OnEnergyChanged += OnEnergyChanged;
             this.player.OnExperienceChanged += OnExperienceChanged;
+            this.player.OnLevelChanged += OnLevelChanged;
 
             stage = stageGenerator.Generate(stageData);
 
@@ -71,6 +72,44 @@ namespace Afterlife.Controller
         void OnExperienceChanged(float ratio)
         {
             stageView.SetExperienceRatio(ratio);
+        }
+
+        void OnLevelChanged(int level)
+        {
+            if (stage.Data.Rewards.Length <= 0) { return; }
+            if (player.RewardSelectionCount <= 0) { return; }
+            stageView.rewardView.OnRewardSelected += OnRewardSelected;
+            stageView.SetRewardSelections(stage.Data.Rewards, player.RewardSelectionCount);
+            stageView.rewardView.Show();
+        }
+
+        void OnRewardSelected(int rewardIndex)
+        {
+            var reward = stage.Data.Rewards[rewardIndex];
+            if (reward.Id == "AttackPower")
+            {
+                player.AttackPower += 1;
+            }
+            else if (reward.Id == "AttackSpeed")
+            {
+                player.AttackSpeed += 0.1f;
+            }
+            else if (reward.Id == "AttackRange")
+            {
+                player.AttackRange += 1;
+            }
+            else if (reward.Id == "CriticalRate")
+            {
+                player.CriticalRate += 0.02f;
+            }
+            else if (reward.Id == "CriticalDamageMultiplier")
+            {
+                player.CriticalDamageMultiplier += 0.1f;
+            }
+
+            stageView.rewardView.OnRewardSelected -= OnRewardSelected;
+            stageView.rewardView.Hide();
+            stageView.rewardView.Clear();
         }
 
         void VerifyFieldData(Data.Field fieldData, Vector2Int mapSize)
@@ -219,6 +258,7 @@ namespace Afterlife.Controller
             isTargetDayReached = false;
             player.OnEnergyChanged -= OnEnergyChanged;
             player.OnExperienceChanged -= OnExperienceChanged;
+            player.OnLevelChanged -= OnLevelChanged;
             player.Light.IsActive = false;
             player = null;
             stage = null;
@@ -233,7 +273,7 @@ namespace Afterlife.Controller
 
         public void OnDayChanged(int day)
         {
-            if (day >= stage.Data.spawnIntervalPerDay.Length)
+            if (day >= stage.Data.SpawnIntervalPerDay.Length)
             {
                 isTargetDayReached = true;
                 var monsters = fieldTransform.GetComponentsInChildren<View.Monster>();

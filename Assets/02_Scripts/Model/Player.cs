@@ -16,6 +16,7 @@ namespace Afterlife.Model
         public float AttackCount;
         public float CriticalRate;
         public float CriticalDamageMultiplier;
+        public int RewardSelectionCount;
 
         public float RecoveryPower = 1f;
 
@@ -24,6 +25,7 @@ namespace Afterlife.Model
 
         public event Action<float> OnEnergyChanged;
         public event Action<float> OnExperienceChanged;
+        public event Action<int> OnLevelChanged;
 
         public void TakeExperience(float experience)
         {
@@ -42,7 +44,8 @@ namespace Afterlife.Model
         void LevelUp()
         {
             Level++;
-            MaxExperience = Mathf.FloorToInt(MaxExperience * 1.2f);
+            MaxExperience = Mathf.FloorToInt(MaxExperience * 3.5f);
+            OnLevelChanged?.Invoke(Level);
         }
     }
 }

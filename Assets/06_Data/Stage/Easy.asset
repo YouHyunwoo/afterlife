@@ -15,8 +15,13 @@ MonoBehaviour:
   MapData: {fileID: 11400000, guid: d4a8a520a7d438143aa1e2ad4768a085, type: 2}
   DayDuration: 3
   NightDuration: 5
-  spawnIntervalPerDay:
+  SpawnIntervalPerDay:
   - 10
-  - 9
-  - 6
-  - 4
+  - 8
+  - 5
+  - 3
+  Rewards:
+  - {fileID: 11400000, guid: 6fdc5d0bdc43c0f48a0cdc3054feee08, type: 2}
+  - {fileID: 11400000, guid: f793db9189a3a6540a6f95cf8ec89b98, type: 2}
+  - {fileID: 11400000, guid: 6339d7df3bc6ebd45b6831cce2ef8ee0, type: 2}
+  - {fileID: 11400000, guid: bb5d9f68dde5fbc4bbcacd3c8dbec681, type: 2}

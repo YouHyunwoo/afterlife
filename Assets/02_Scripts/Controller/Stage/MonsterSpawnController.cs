@@ -53,7 +53,7 @@ namespace Afterlife.Controller
         public void Initialize(Model.Stage stage)
         {
             Stage = stage;
-            SpawnIntervalPerDay = stage.Data.spawnIntervalPerDay;
+            SpawnIntervalPerDay = stage.Data.SpawnIntervalPerDay;
             currentDay = 0;
             elapsedTime = 0f;
             enabled = true;
