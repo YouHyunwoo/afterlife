@@ -26,7 +26,7 @@ namespace Afterlife.Controller
 
         Model.Player player;
         Model.Stage stage;
-        bool isTargetDayReached = false;
+        bool isTargetDayReached;
 
         void LateUpdate()
         {
@@ -205,6 +205,7 @@ namespace Afterlife.Controller
 
         void FinishStage()
         {
+            isTargetDayReached = false;
             player = null;
             stage = null;
             terrainTileIndicator.gameObject.SetActive(false);
