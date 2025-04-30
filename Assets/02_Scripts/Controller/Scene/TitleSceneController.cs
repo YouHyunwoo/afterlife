@@ -18,6 +18,12 @@ namespace Afterlife.Controller
 
         public void StartGame()
         {
+            if (GameData.StageDataArray.Length == 0)
+            {
+                Debug.LogError("No stage data found. Please add stage data to the GameData asset.");
+                return;
+            }
+
             TitleView.Hide();
             MainView.Show();
 
@@ -27,15 +33,27 @@ namespace Afterlife.Controller
                 Lifes = GameData.Lifes,
                 Player = new Model.Player
                 {
+                    Level = 1,
+                    Experience = 0,
+                    MaxExperience = 10,
                     AttackPower = 1f,
                     AttackSpeed = 1f,
                     AttackRange = 1f,
                     AttackCount = 1f,
                     CriticalRate = 0.0f,
-                    CriticalDamageMultiplier = 1.2f
+                    CriticalDamageMultiplier = 1.2f,
+                    RecoveryPower = 1f,
+                    RewardSelectionCount = 3,
+                    Light = new Model.Light
+                    {
+                        Location = new Vector2Int(),
+                        Intensity = 3f,
+                        Range = 5f,
+                        IsActive = false,
+                    },
                 },
                 CurrentStageIndex = 0,
-                TotalStageCount = GameData.TotalStageCount,
+                TotalStageCount = GameData.StageDataArray.Length,
             };
 
             MainSceneController.Initialize(Game);

@@ -23,6 +23,8 @@ namespace Afterlife.Controller
             if (instance.TryGetComponent(out View.Object @object))
             {
                 @object.Map = Stage.Map;
+                Stage.Map.Field.Set(location, instance.transform);
+                Stage.Map.Fog.Invalidate();
             }
 
             return instance;

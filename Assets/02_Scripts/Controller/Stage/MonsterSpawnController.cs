@@ -45,8 +45,6 @@ namespace Afterlife.Controller
 
             var monsterObject = objectGenerator.Generate(monsterPrefab.gameObject, location);
             var monster = monsterObject.GetComponent<View.Monster>();
-            monster.Map = Stage.Map;
-            Stage.Map.Field.Set(location, monsterObject.transform);
 
             onMonsterSpawnedEvent?.Invoke(monster);
             OnMonsterSpawned?.Invoke(monster);
@@ -55,7 +53,7 @@ namespace Afterlife.Controller
         public void Initialize(Model.Stage stage)
         {
             Stage = stage;
-            SpawnIntervalPerDay = stage.Data.spawnIntervalPerDay;
+            SpawnIntervalPerDay = stage.Data.SpawnIntervalPerDay;
             currentDay = 0;
             elapsedTime = 0f;
             enabled = true;

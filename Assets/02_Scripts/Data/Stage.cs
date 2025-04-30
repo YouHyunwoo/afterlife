@@ -8,6 +8,7 @@ namespace Afterlife.Data
         public Map MapData;
         public float DayDuration;
         public float NightDuration;
-        public float[] spawnIntervalPerDay;
+        public float[] SpawnIntervalPerDay;
+        public Reward[] Rewards;
     }
 }

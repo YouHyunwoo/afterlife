@@ -10,24 +10,34 @@ namespace Afterlife.Controller
         [Header("View")]
         public View.Main MainView;
         public View.Stage StageView;
+        public View.Demo DemoView;
+        public View.GameOver GameOverView;
 
         public Model.Game Game;
 
         public void StartStage(Model.Game game)
         {
             Game = game;
-            StageController.StartStage(game.Data.stageData, Game.Player);
+            StageController.StartStage(game.Data.StageDataArray[game.CurrentStageIndex], Game.Player);
+            StageView.SetExperienceRatio(game.Player.Experience / game.Player.MaxExperience);
         }
 
         public void FinishStage(bool isClear)
         {
             StageView.Hide();
-            MainView.Show();
 
             if (isClear)
             {
                 Game.CurrentStageIndex++;
-                MainView.SetStageProgress(Game.CurrentStageIndex, Game.TotalStageCount);
+                if (Game.CurrentStageIndex >= Game.TotalStageCount)
+                {
+                    DemoView.Show();
+                }
+                else
+                {
+                    MainView.SetStageProgress(Game.CurrentStageIndex, Game.TotalStageCount);
+                    MainView.Show();
+                }
             }
             else
             {
@@ -35,9 +45,13 @@ namespace Afterlife.Controller
                 if (Game.Lifes <= 0)
                 {
                     Game.Lifes = 0;
-                    // TODO: Game Over 로직 추가
+                    GameOverView.Show();
                 }
-                MainView.SetLifes(Game.Lifes);
+                else
+                {
+                    MainView.SetLifes(Game.Lifes);
+                    MainView.Show();
+                }
             }
 
             Game = null;

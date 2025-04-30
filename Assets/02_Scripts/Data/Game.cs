@@ -6,7 +6,6 @@ namespace Afterlife.Data
     public class Game : ScriptableObject
     {
         public int Lifes;
-        public int TotalStageCount;
-        public Stage stageData;
+        public Stage[] StageDataArray;
     }
 }

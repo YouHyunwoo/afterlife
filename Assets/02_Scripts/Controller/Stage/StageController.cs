@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -16,6 +15,7 @@ namespace Afterlife.Controller
         [Header("View")]
         [SerializeField] Camera mainCamera;
         [SerializeField] View.TerrainTileIndicator terrainTileIndicator;
+        [SerializeField] View.Stage stageView;
 
         [Header("Event")]
         [SerializeField] UnityEvent onStageClearedEvent;
@@ -26,19 +26,32 @@ namespace Afterlife.Controller
 
         Model.Player player;
         Model.Stage stage;
-        bool isTargetDayReached = false;
+        bool isTargetDayReached;
+
+        void LateUpdate()
+        {
+            if (stage == null) { return; }
+            if (!stage.Map.Fog.IsDirty) { return; }
+            stage.Map.Fog.Update();
+        }
 
         public void StartStage(Data.Stage stageData, Model.Player player)
         {
             this.player = player;
+            this.player.OnEnergyChanged += OnEnergyChanged;
+            this.player.OnExperienceChanged += OnExperienceChanged;
+            this.player.OnLevelChanged += OnLevelChanged;
 
             stage = stageGenerator.Generate(stageData);
+
+            stage.Map.Fog.Lights.Add(player.Light);
 
             objectGenerator.Initialize(stage);
             monsterSpawnController.Initialize(stage);
             monsterSpawnController.OnMonsterSpawned += OnMonsterSpawned;
             timeController.Initialize(stageData.DayDuration, stageData.NightDuration);
             tileInteractionController.Initialize(player, stage);
+            tileInteractionController.OnInteractEvent += OnInteractEvent;
 
             var fieldData = stageData.MapData.FieldData;
             var mapSize = stageData.MapData.Size;
@@ -49,7 +62,54 @@ namespace Afterlife.Controller
             GenerateMonsters(fieldData, mapSize, field, map);
 
             mainCamera.transform.position = new Vector3(mapSize.x / 2f, mapSize.y / 2f, -10f);
-            terrainTileIndicator.gameObject.SetActive(true);
+        }
+
+        void OnEnergyChanged(float energy)
+        {
+            stageView.SetEnergy(energy);
+        }
+
+        void OnExperienceChanged(float ratio)
+        {
+            stageView.SetExperienceRatio(ratio);
+        }
+
+        void OnLevelChanged(int level)
+        {
+            if (stage.Data.Rewards.Length <= 0) { return; }
+            if (player.RewardSelectionCount <= 0) { return; }
+            stageView.rewardView.OnRewardSelected += OnRewardSelected;
+            stageView.SetRewardSelections(stage.Data.Rewards, player.RewardSelectionCount);
+            stageView.rewardView.Show();
+        }
+
+        void OnRewardSelected(int rewardIndex)
+        {
+            var reward = stage.Data.Rewards[rewardIndex];
+            if (reward.Id == "AttackPower")
+            {
+                player.AttackPower += 1;
+            }
+            else if (reward.Id == "AttackSpeed")
+            {
+                player.AttackSpeed += 0.1f;
+            }
+            else if (reward.Id == "AttackRange")
+            {
+                player.AttackRange += 1;
+            }
+            else if (reward.Id == "CriticalRate")
+            {
+                player.CriticalRate += 0.02f;
+            }
+            else if (reward.Id == "CriticalDamageMultiplier")
+            {
+                player.CriticalDamageMultiplier += 0.1f;
+            }
+
+            stageView.rewardView.OnRewardSelected -= OnRewardSelected;
+            stageView.rewardView.Hide();
+            stageView.rewardView.Clear();
         }
 
         void VerifyFieldData(Data.Field fieldData, Vector2Int mapSize)
@@ -98,6 +158,15 @@ namespace Afterlife.Controller
 
                 village.Health = 10;
                 village.OnDied += OnVillageDied;
+
+                var villageLight = new Model.Light
+                {
+                    Location = location,
+                    Intensity = 1f,
+                    Range = 5f,
+                };
+
+                stage.Map.Fog.AddLight(villageLight);
 
                 field.Set(location, fieldObject.transform);
             }
@@ -151,6 +220,11 @@ namespace Afterlife.Controller
             }
         }
 
+        void OnInteractEvent()
+        {
+            player.TakeExperience(player.AttackPower * player.AttackCount);
+        }
+
         void OnMonsterSpawned(View.Monster monster)
         {
             monster.OnDied += OnMonsterDied;
@@ -158,8 +232,8 @@ namespace Afterlife.Controller
 
         void OnMonsterDied()
         {
+            // TODO: 몬스터가 가진 경험치 획득
             var monsters = fieldTransform.GetComponentsInChildren<View.Monster>();
-            Debug.Log(monsters.Length);
             if (monsters.Length == 0 && isTargetDayReached)
             {
                 Debug.Log("All monsters are dead. Stage cleared!");
@@ -181,18 +255,25 @@ namespace Afterlife.Controller
 
         void FinishStage()
         {
+            isTargetDayReached = false;
+            player.OnEnergyChanged -= OnEnergyChanged;
+            player.OnExperienceChanged -= OnExperienceChanged;
+            player.OnLevelChanged -= OnLevelChanged;
+            player.Light.IsActive = false;
             player = null;
             stage = null;
             terrainTileIndicator.gameObject.SetActive(false);
             monsterSpawnController.enabled = false;
+            monsterSpawnController.OnMonsterSpawned -= OnMonsterSpawned;
             timeController.enabled = false;
             tileInteractionController.enabled = false;
+            tileInteractionController.OnInteractEvent -= OnInteractEvent;
             stageGenerator.Clear();
         }
 
         public void OnDayChanged(int day)
         {
-            if (day >= stage.Data.spawnIntervalPerDay.Length)
+            if (day >= stage.Data.SpawnIntervalPerDay.Length)
             {
                 isTargetDayReached = true;
                 var monsters = fieldTransform.GetComponentsInChildren<View.Monster>();
@@ -203,6 +284,15 @@ namespace Afterlife.Controller
                     onStageClearedEvent?.Invoke();
                 }
             }
+        }
+
+        public void OnTileIndicatorMoved(Vector2Int location)
+        {
+            if (stage == null) { return; }
+            terrainTileIndicator.gameObject.SetActive(true);
+            player.Light.IsActive = true;
+            player.Light.Location = location;
+            stage.Map.Fog.Invalidate();
         }
     }
 }
