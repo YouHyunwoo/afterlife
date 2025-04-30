@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Easy
   m_EditorClassIdentifier: 
   Lifes: 3
-  TotalStageCount: 4
-  stageData: {fileID: 11400000, guid: 15a2ce408ff48f94ea91dadd48faaf51, type: 2}
+  StageDataArray:
+  - {fileID: 11400000, guid: 15a2ce408ff48f94ea91dadd48faaf51, type: 2}
+  - {fileID: 11400000, guid: aec128acd5c51544f82981fc1b77546c, type: 2}

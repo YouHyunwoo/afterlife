@@ -18,6 +18,12 @@ namespace Afterlife.Controller
 
         public void StartGame()
         {
+            if (GameData.StageDataArray.Length == 0)
+            {
+                Debug.LogError("No stage data found. Please add stage data to the GameData asset.");
+                return;
+            }
+
             TitleView.Hide();
             MainView.Show();
 
@@ -47,7 +53,7 @@ namespace Afterlife.Controller
                     },
                 },
                 CurrentStageIndex = 0,
-                TotalStageCount = GameData.TotalStageCount,
+                TotalStageCount = GameData.StageDataArray.Length,
             };
 
             MainSceneController.Initialize(Game);
