@@ -1,12 +1,12 @@
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Afterlife.View
 {
     public class Experience : UIView
     {
-        [SerializeField] Image experienceBarImage;
+        [SerializeField] TextMeshProUGUI amountText;
 
-        public void SetExperienceRatio(float ratio) => experienceBarImage.fillAmount = ratio;
+        public void SetExperience(float amount) => amountText.text = $"{amount:0}";
     }
 }

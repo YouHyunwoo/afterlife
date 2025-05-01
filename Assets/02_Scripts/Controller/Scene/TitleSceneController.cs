@@ -33,9 +33,7 @@ namespace Afterlife.Controller
                 Lifes = GameData.Lifes,
                 Player = new Model.Player
                 {
-                    Level = 1,
                     Experience = 0,
-                    MaxExperience = 10,
                     AttackPower = 1f,
                     AttackSpeed = 1f,
                     AttackRange = 1f,

@@ -19,7 +19,7 @@ namespace Afterlife.Controller
         {
             Game = game;
             StageController.StartStage(game.Data.StageDataArray[game.CurrentStageIndex], Game.Player);
-            StageView.SetExperienceRatio(game.Player.Experience / game.Player.MaxExperience);
+            StageView.SetExperience(game.Player.Experience);
         }
 
         public void FinishStage(bool isClear)

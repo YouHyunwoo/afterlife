@@ -38,9 +38,7 @@ namespace Afterlife.Controller
         public void StartStage(Data.Stage stageData, Model.Player player)
         {
             this.player = player;
-            this.player.OnEnergyChanged += OnEnergyChanged;
             this.player.OnExperienceChanged += OnExperienceChanged;
-            this.player.OnLevelChanged += OnLevelChanged;
 
             stage = stageGenerator.Generate(stageData);
 
@@ -64,52 +62,14 @@ namespace Afterlife.Controller
             mainCamera.transform.position = new Vector3(mapSize.x / 2f, mapSize.y / 2f, -10f);
         }
 
-        void OnEnergyChanged(float energy)
+        void OnExperienceChanged(float experience)
         {
-            stageView.SetEnergy(energy);
+            stageView.SetExperience(experience);
         }
 
-        void OnExperienceChanged(float ratio)
+        void OnInteractEvent()
         {
-            stageView.SetExperienceRatio(ratio);
-        }
-
-        void OnLevelChanged(int level)
-        {
-            if (stage.Data.Rewards.Length <= 0) { return; }
-            if (player.RewardSelectionCount <= 0) { return; }
-            stageView.rewardView.OnRewardSelected += OnRewardSelected;
-            stageView.SetRewardSelections(stage.Data.Rewards, player.RewardSelectionCount);
-            stageView.rewardView.Show();
-        }
-
-        void OnRewardSelected(int rewardIndex)
-        {
-            var reward = stage.Data.Rewards[rewardIndex];
-            if (reward.Id == "AttackPower")
-            {
-                player.AttackPower += 1;
-            }
-            else if (reward.Id == "AttackSpeed")
-            {
-                player.AttackSpeed += 0.1f;
-            }
-            else if (reward.Id == "AttackRange")
-            {
-                player.AttackRange += 1;
-            }
-            else if (reward.Id == "CriticalRate")
-            {
-                player.CriticalRate += 0.02f;
-            }
-            else if (reward.Id == "CriticalDamageMultiplier")
-            {
-                player.CriticalDamageMultiplier += 0.1f;
-            }
-
-            stageView.rewardView.OnRewardSelected -= OnRewardSelected;
-            stageView.rewardView.Hide();
-            stageView.rewardView.Clear();
+            player.TakeExperience(player.AttackPower * player.AttackCount / 10f);
         }
 
         void VerifyFieldData(Data.Field fieldData, Vector2Int mapSize)
@@ -220,11 +180,6 @@ namespace Afterlife.Controller
             }
         }
 
-        void OnInteractEvent()
-        {
-            player.TakeExperience(player.AttackPower * player.AttackCount);
-        }
-
         void OnMonsterSpawned(View.Monster monster)
         {
             monster.OnDied += OnMonsterDied;
@@ -256,9 +211,7 @@ namespace Afterlife.Controller
         void FinishStage()
         {
             isTargetDayReached = false;
-            player.OnEnergyChanged -= OnEnergyChanged;
             player.OnExperienceChanged -= OnExperienceChanged;
-            player.OnLevelChanged -= OnLevelChanged;
             player.Light.IsActive = false;
             player = null;
             stage = null;
