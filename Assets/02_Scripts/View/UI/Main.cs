@@ -13,6 +13,7 @@ namespace Afterlife.View
         [SerializeField] Button startMissionButton;
         [SerializeField] Life lifeView;
         [SerializeField] StageProgress stageProgressView;
+        public Power PowerView;
 
         [Header("Event")]
         [SerializeField] UnityEvent onMenuButtonClicked;

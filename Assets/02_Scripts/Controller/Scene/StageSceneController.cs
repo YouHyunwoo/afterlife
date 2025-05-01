@@ -36,6 +36,7 @@ namespace Afterlife.Controller
                 else
                 {
                     MainView.SetStageProgress(Game.CurrentStageIndex, Game.TotalStageCount);
+                    MainView.PowerView.ExperienceView.SetExperience(Game.Player.Experience);
                     MainView.Show();
                 }
             }
@@ -50,6 +51,7 @@ namespace Afterlife.Controller
                 else
                 {
                     MainView.SetLifes(Game.Lifes);
+                    MainView.PowerView.ExperienceView.SetExperience(Game.Player.Experience);
                     MainView.Show();
                 }
             }
