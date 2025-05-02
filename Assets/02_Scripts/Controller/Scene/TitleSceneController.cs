@@ -4,33 +4,29 @@ namespace Afterlife.Controller
 {
     public class TitleSceneController : MonoBehaviour
     {
-        [Header("Data")]
-        public Data.Game GameData;
-
-        [Header("Controller")]
-        public MainSceneController MainSceneController;
-
-        [Header("View")]
-        public View.Title TitleView;
-        public View.Main MainView;
-
-        public Model.Game Game;
-
-        public void StartGame()
+        void Awake()
         {
-            if (GameData.StageDataArray.Length == 0)
-            {
-                Debug.LogError("No stage data found. Please add stage data to the GameData asset.");
-                return;
-            }
+            Controller.Instance.TitleView.OnNewGameButtonClickedEvent += OnNewGameButtonClicked;
+            Controller.Instance.TitleView.OnExitButtonClickedEvent += OnExitButtonClicked;
+        }
 
-            TitleView.Hide();
-            MainView.Show();
+        void OnNewGameButtonClicked()
+        {
+            var gameData = Controller.Instance.GameData; // TODO: 게임 데이터 가져오기
+            var game = CreateGame(gameData);
+            var isGameVerified = VerifyGame(game);
+            if (!isGameVerified) { return; }
+            StartGame(game);
+            SetUpMainScene();
+            TransitToMainScene();
+        }
 
-            Game = new Model.Game
+        Model.Game CreateGame(Data.Game gameData)
+        {
+            return new Model.Game
             {
-                Data = GameData,
-                Lifes = GameData.Lifes,
+                Data = gameData,
+                Lifes = gameData.Lifes,
                 Player = new Model.Player
                 {
                     Experience = 0,
@@ -44,20 +40,81 @@ namespace Afterlife.Controller
                     RewardSelectionCount = 3,
                     Light = new Model.Light
                     {
-                        Location = new Vector2Int(),
+                        Location = Vector2Int.zero,
                         Intensity = 3f,
                         Range = 5f,
                         IsActive = false,
                     },
                 },
                 CurrentStageIndex = 0,
-                TotalStageCount = GameData.StageDataArray.Length,
+                TotalStageCount = gameData.StageDataArray.Length,
             };
-
-            MainSceneController.Initialize(Game);
         }
 
-        public void ExitGame()
+        bool VerifyGame(Model.Game game)
+        {
+            if (game == null)
+            {
+                Debug.LogError("Game object is null.");
+                return false;
+            }
+
+            if (game.Data == null)
+            {
+                Debug.LogError("Game data is null.");
+                return false;
+            }
+
+            if (game.Player == null)
+            {
+                Debug.LogError("Player object is null.");
+                return false;
+            }
+
+            if (game.CurrentStageIndex < 0 || game.CurrentStageIndex >= game.TotalStageCount)
+            {
+                Debug.LogError("Current stage index is out of bounds.");
+                return false;
+            }
+
+            if (game.Data.StageDataArray == null || game.Data.StageDataArray.Length == 0)
+            {
+                Debug.LogError("Stage data array is null or empty.");
+                return false;
+            }
+
+            return true;
+        }
+
+        void StartGame(Model.Game game)
+        {
+            Controller.Instance.Game = game;
+        }
+
+        void SetUpMainScene()
+        {
+            Controller.Instance.MainSceneController.SetUp();
+            Controller.Instance.MainSceneController.RefreshView();
+        }
+
+        void TransitToMainScene()
+        {
+            Controller.Instance.MainView.Show();
+            Controller.Instance.TitleView.Hide();
+        }
+
+        void OnExitButtonClicked()
+        {
+            ReleaseGame();
+            ExitGame();
+        }
+
+        void ReleaseGame()
+        {
+            Controller.Instance.Game = null;
+        }
+
+        void ExitGame()
         {
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;

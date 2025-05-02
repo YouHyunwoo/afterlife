@@ -1,5 +1,6 @@
 namespace Afterlife.Model
 {
+    [System.Serializable]
     public class Game
     {
         public Data.Game Data;

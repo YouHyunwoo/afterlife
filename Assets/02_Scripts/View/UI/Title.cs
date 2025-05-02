@@ -1,19 +1,15 @@
-using UnityEngine;
-using UnityEngine.Events;
+using System;
 using UnityEngine.UI;
 
 namespace Afterlife.View
 {
     public class Title : UIView
     {
-        [Header("View")]
-        [SerializeField] Main mainView;
-        [SerializeField] Button newGameButton;
-        [SerializeField] Button exitButton;
+        public Button newGameButton;
+        public Button exitButton;
 
-        [Header("Event")]
-        [SerializeField] UnityEvent onNewGameButtonClickedEvent;
-        [SerializeField] UnityEvent onExitButtonClickedEvent;
+        public event Action OnNewGameButtonClickedEvent;
+        public event Action OnExitButtonClickedEvent;
 
         void Awake()
         {
@@ -21,7 +17,7 @@ namespace Afterlife.View
             exitButton.onClick.AddListener(OnExitButtonClicked);
         }
 
-        void OnNewGameButtonClicked() => onNewGameButtonClickedEvent?.Invoke();
-        void OnExitButtonClicked() => onExitButtonClickedEvent?.Invoke();
+        void OnNewGameButtonClicked() => OnNewGameButtonClickedEvent?.Invoke();
+        void OnExitButtonClicked() => OnExitButtonClickedEvent?.Invoke();
     }
 }

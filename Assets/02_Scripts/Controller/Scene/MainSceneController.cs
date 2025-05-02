@@ -4,79 +4,74 @@ namespace Afterlife.Controller
 {
     public class MainSceneController : MonoBehaviour
     {
-        [Header("Controller")]
-        public StageSceneController StageSceneController;
+        public UpgradeHandler UpgradeHandler;
 
-        [Header("View")]
-        public View.Title TitleView;
-        public View.Main MainView;
-        public View.Stage StageView;
-
-        public Model.Game Game;
-
-        void Awake()
+        public void SetUp()
         {
-            MainView.PowerView.OnButtonClickedEvent += OnPowerButtonClicked;
+            Controller.Instance.MainView.OnMenuButtonClickedEvent += OnMenuButtonClicked;
+            Controller.Instance.MainView.MenuView.OnContinueButtonClickedEvent += OnContinueButtonClicked;
+            Controller.Instance.MainView.MenuView.OnSaveAndQuitButtonClickedEvent += OnSaveAndQuitButtonClicked;
+            Controller.Instance.MainView.OnStartMissionButtonClickedEvent += OnStartMissionButtonClicked;
         }
 
-        void OnDestroy()
+        public void TearDown()
         {
-            MainView.PowerView.OnButtonClickedEvent -= OnPowerButtonClicked;
+            Controller.Instance.MainView.OnMenuButtonClickedEvent -= OnMenuButtonClicked;
+            Controller.Instance.MainView.MenuView.OnContinueButtonClickedEvent -= OnContinueButtonClicked;
+            Controller.Instance.MainView.MenuView.OnSaveAndQuitButtonClickedEvent -= OnSaveAndQuitButtonClicked;
+            Controller.Instance.MainView.OnStartMissionButtonClickedEvent -= OnStartMissionButtonClicked;
+
+            Controller.Instance.MainView.MenuView.Hide();
         }
 
-        void OnPowerButtonClicked(string category, int index)
+        void OnMenuButtonClicked()
         {
-            if (category == "player-statistics")
-            {
-                switch (index)
-                {
-                    case 0:
-                        Debug.Log("Player Attack Power Increased");
-                        if (Game.Player.Experience < 2) {
-                            Debug.LogError("Not enough experience to increase attack power.");
-                            return;
-                        }
-                        else {
-                            Game.Player.Experience -= 2;
-                            Game.Player.AttackPower += 1;
-                            Debug.Log($"Player Experience: {Game.Player.Experience}");
-                            Debug.Log($"Player Attack Power: {Game.Player.AttackPower}");
-                            MainView.PowerView.ExperienceView.SetExperience(Game.Player.Experience);
-                        }
-                        break;
-                    case 1:
-                        Debug.Log("Player Attack Speed Increased");
-                        Game.Player.AttackSpeed += 0.02f;
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                    default:
-                        Debug.LogError($"Invalid index: {index}");
-                        break;
-                }
-            }
+            Controller.Instance.MainView.MenuView.Show();
         }
 
-        public void Initialize(Model.Game game)
+        void OnContinueButtonClicked()
         {
-            Game = game;
-            MainView.SetLifes(game.Lifes);
-            MainView.SetStageProgress(game.CurrentStageIndex, game.TotalStageCount);
+            Controller.Instance.MainView.MenuView.Hide();
         }
 
-        public void StartMission()
+        void OnSaveAndQuitButtonClicked()
         {
-            MainView.Hide();
-            StageView.Show();
-            StageSceneController.StartStage(Game);
+            SaveGame();
+            TearDown();
+            TransitToTitleScene();
         }
 
-        public void QuitGame()
+        void SaveGame() {}
+
+        void TransitToTitleScene()
         {
-            TitleView.Show();
-            MainView.Hide();
+            Controller.Instance.TitleView.Show();
+            Controller.Instance.MainView.Hide();
+        }
+
+        void OnStartMissionButtonClicked()
+        {
+            StartMission();
+            TransitToStageScene();
+        }
+
+        void StartMission()
+        {
+            Controller.Instance.StageSceneController.SetUp();
+        }
+
+        void TransitToStageScene()
+        {
+            Controller.Instance.StageView.Show();
+            Controller.Instance.MainView.Hide();
+        }
+
+        public void RefreshView()
+        {
+            var game = Controller.Instance.Game;
+
+            Controller.Instance.MainView.SetLifes(game.Lifes);
+            Controller.Instance.MainView.SetStageProgress(game.CurrentStageIndex, game.TotalStageCount);
         }
     }
 }

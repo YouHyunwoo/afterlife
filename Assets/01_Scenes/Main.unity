@@ -1141,8 +1141,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 217102274}
+  - component: {fileID: 217102275}
   m_Layer: 5
-  m_Name: Main Menu
+  m_Name: Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1169,6 +1170,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &217102275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217102273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40d683447eb2bd94dbc595716413a98e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  continueButton: {fileID: 1235498746}
+  saveAndQuitButton: {fileID: 1646094694}
 --- !u!1 &225893712
 GameObject:
   m_ObjectHideFlags: 0
@@ -1671,39 +1686,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0234944188b7f84387b83442b9a3d97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainView: {fileID: 853286108}
   newGameButton: {fileID: 2001044846}
   exitButton: {fileID: 513607443}
-  onNewGameButtonClickedEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1658671471}
-        m_TargetAssemblyTypeName: Afterlife.Controller.TitleSceneController, Assembly-CSharp
-        m_MethodName: StartGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onExitButtonClickedEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1658671471}
-        m_TargetAssemblyTypeName: Afterlife.Controller.TitleSceneController, Assembly-CSharp
-        m_MethodName: ExitGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &332878449
 GameObject:
   m_ObjectHideFlags: 0
@@ -4402,6 +4386,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 853286107}
+  - component: {fileID: 853286109}
   - component: {fileID: 853286108}
   m_Layer: 5
   m_Name: Main
@@ -4444,47 +4429,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 622f8404fb9c11346b789cd42df2da68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navigationBarButtons:
-  - {fileID: 802089161}
-  - {fileID: 1845846681}
-  navigationBarViews:
-  - {fileID: 1130055157}
-  - {fileID: 1125424720}
   menuButton: {fileID: 1103157395}
-  startMissionButton: {fileID: 568679458}
   lifeView: {fileID: 225893714}
   stageProgressView: {fileID: 1676742780}
+  startMissionButton: {fileID: 568679458}
   PowerView: {fileID: 1125424723}
-  onMenuButtonClicked:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 217102273}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-  onStartMissionButtonClicked:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1658671472}
-        m_TargetAssemblyTypeName: Afterlife.Controller.MainSceneController, Assembly-CSharp
-        m_MethodName: StartMission
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  MenuView: {fileID: 217102275}
+--- !u!114 &853286109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853286106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba77fb641fb604649a507a1dfd8243e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttons:
+  - {fileID: 802089161}
+  - {fileID: 1845846681}
+  views:
+  - {fileID: 1130055157}
+  - {fileID: 1125424720}
   CurrentViewIndex: 0
 --- !u!1 &900083332
 GameObject:
@@ -5712,19 +5680,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1235498747}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 217102273}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1235498747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8181,19 +8137,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1646094695}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 217102273}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1646094695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8390,10 +8334,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f5b491e544693646892d68683639278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameData: {fileID: 11400000, guid: 85de6b21dfa8ef04899db9ee3879e110, type: 2}
-  MainSceneController: {fileID: 1658671472}
-  TitleView: {fileID: 265364451}
-  MainView: {fileID: 853286108}
 --- !u!114 &1658671472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8406,10 +8346,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f24931786b9cadd4b99dd69f30954951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StageSceneController: {fileID: 1658671473}
-  TitleView: {fileID: 265364451}
-  MainView: {fileID: 853286108}
-  StageView: {fileID: 463088777}
 --- !u!114 &1658671473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8427,6 +8363,11 @@ MonoBehaviour:
   StageView: {fileID: 463088777}
   DemoView: {fileID: 1403437106}
   GameOverView: {fileID: 86649223}
+  Game:
+    Data: {fileID: 0}
+    Lifes: 0
+    CurrentStageIndex: 0
+    TotalStageCount: 0
 --- !u!1 &1658707516
 GameObject:
   m_ObjectHideFlags: 0
@@ -10002,6 +9943,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2dcbc8a0787a464fa9a3b44bb4f06f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameData: {fileID: 11400000, guid: 85de6b21dfa8ef04899db9ee3879e110, type: 2}
+  TitleSceneController: {fileID: 1658671471}
+  MainSceneController: {fileID: 1658671472}
+  StageSceneController: {fileID: 1658671473}
+  TitleView: {fileID: 265364451}
+  MainView: {fileID: 853286108}
+  StageView: {fileID: 463088777}
+  DemoView: {fileID: 1403437106}
+  GameOverView: {fileID: 86649223}
+  Game:
+    Data: {fileID: 0}
+    Lifes: 0
+    CurrentStageIndex: 0
+    TotalStageCount: 0
 --- !u!1 &1913030079
 GameObject:
   m_ObjectHideFlags: 0

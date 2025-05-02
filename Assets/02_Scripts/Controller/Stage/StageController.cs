@@ -1,5 +1,5 @@
+using System;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Afterlife.Controller
 {
@@ -17,9 +17,8 @@ namespace Afterlife.Controller
         [SerializeField] View.TerrainTileIndicator terrainTileIndicator;
         [SerializeField] View.Stage stageView;
 
-        [Header("Event")]
-        [SerializeField] UnityEvent onStageClearedEvent;
-        [SerializeField] UnityEvent onStageFailedEvent;
+        public event Action OnGameClearedEvent;
+        public event Action OnGameOverEvent;
 
         public Transform terrainTransform;
         public Transform fieldTransform;
@@ -35,11 +34,14 @@ namespace Afterlife.Controller
             stage.Map.Fog.Update();
         }
 
-        public void StartStage(Data.Stage stageData, Model.Player player)
+        public void SetUp()
         {
-            this.player = player;
-            this.player.OnExperienceChanged += OnExperienceChanged;
+            var game = Controller.Instance.Game;
 
+            player = game.Player;
+            player.OnExperienceChanged += OnExperienceChanged;
+
+            var stageData = game.Data.StageDataArray[game.CurrentStageIndex];
             stage = stageGenerator.Generate(stageData);
 
             stage.Map.Fog.Lights.Add(player.Light);
@@ -106,7 +108,7 @@ namespace Afterlife.Controller
 
             for (int i = 0; i < villageCount; i++)
             {
-                var location = new Vector2Int(Random.Range(0, mapSize.x), Random.Range(0, mapSize.y));
+                var location = new Vector2Int(UnityEngine.Random.Range(0, mapSize.x), UnityEngine.Random.Range(0, mapSize.y));
                 if (field.Has(location)) { i--; continue; }
 
                 var fieldObject = objectGenerator.Generate(villagePrefab, location);
@@ -138,7 +140,7 @@ namespace Afterlife.Controller
             {
                 for (int i = 0; i < resourceObjectGroup.Count; i++)
                 {
-                    var location = new Vector2Int(Random.Range(0, mapSize.x), Random.Range(0, mapSize.y));
+                    var location = new Vector2Int(UnityEngine.Random.Range(0, mapSize.x), UnityEngine.Random.Range(0, mapSize.y));
                     if (field.Has(location)) { continue; }
 
                     var fieldObject = objectGenerator.Generate(resourceObjectGroup.Prefab, location);
@@ -148,9 +150,9 @@ namespace Afterlife.Controller
                         continue;
                     }
 
-                    resource.Health = Random.Range(resourceObjectGroup.MinHealth, resourceObjectGroup.MaxHealth + 1);
+                    resource.Health = UnityEngine.Random.Range(resourceObjectGroup.MinHealth, resourceObjectGroup.MaxHealth + 1);
                     resource.Type = resourceObjectGroup.Name;
-                    resource.Amount = Random.Range(resourceObjectGroup.MinAmount, resourceObjectGroup.MaxAmount + 1);
+                    resource.Amount = UnityEngine.Random.Range(resourceObjectGroup.MinAmount, resourceObjectGroup.MaxAmount + 1);
 
                     field.Set(location, fieldObject.transform);
                 }
@@ -163,7 +165,7 @@ namespace Afterlife.Controller
             {
                 for (int i = 0; i < monsterObjectGroup.Count; i++)
                 {
-                    var location = new Vector2Int(Random.Range(0, mapSize.x), Random.Range(0, mapSize.y));
+                    var location = new Vector2Int(UnityEngine.Random.Range(0, mapSize.x), UnityEngine.Random.Range(0, mapSize.y));
                     if (field.Has(location)) { continue; }
 
                     var fieldObject = objectGenerator.Generate(monsterObjectGroup.Prefab, location);
@@ -188,27 +190,79 @@ namespace Afterlife.Controller
         void OnMonsterDied()
         {
             // TODO: 몬스터가 가진 경험치 획득
+            VerifyMissionSuccess();
+        }
+
+        void VerifyMissionSuccess()
+        {
+            // 시간 지나고 몬스터 없으면 미션 성공
+            if (!isTargetDayReached) { return; }
+
             var monsters = fieldTransform.GetComponentsInChildren<View.Monster>();
-            if (monsters.Length == 0 && isTargetDayReached)
-            {
-                Debug.Log("All monsters are dead. Stage cleared!");
-                FinishStage();
-                onStageClearedEvent?.Invoke();
-            }
+            if (monsters.Length > 0) { return; }
+
+            Debug.Log("All monsters are dead. Stage cleared!");
+            SuccessMission();
         }
 
         void OnVillageDied()
         {
+            VerifyMissionFailure();
+        }
+
+        void VerifyMissionFailure()
+        {
+            // 마을이 다 죽으면 미션 실패
             var villages = fieldTransform.GetComponentsInChildren<View.Village>();
-            if (villages.Length == 0)
+            if (villages.Length > 0) { return; }
+
+            Debug.Log("All villages are dead. Stage failed!");
+            FailMission();
+        }
+
+        void SuccessMission()
+        {
+            TearDown();
+            Controller.Instance.StageView.Hide();
+
+            var game = Controller.Instance.Game;
+
+            game.CurrentStageIndex++;
+            if (game.CurrentStageIndex >= game.TotalStageCount)
             {
-                Debug.Log("All villages are dead. Stage failed!");
-                FinishStage();
-                onStageFailedEvent?.Invoke();
+                OnGameClearedEvent?.Invoke();
+                Controller.Instance.DemoView.Show();
+            }
+            else
+            {
+                Controller.Instance.MainView.SetStageProgress(game.CurrentStageIndex, game.TotalStageCount);
+                Controller.Instance.MainView.PowerView.ExperienceView.SetExperience(game.Player.Experience);
+                Controller.Instance.MainView.Show();
             }
         }
 
-        void FinishStage()
+        void FailMission()
+        {
+            TearDown();
+            Controller.Instance.StageView.Hide();
+
+            var game = Controller.Instance.Game;
+
+            game.Lifes--;
+            if (game.Lifes <= 0)
+            {
+                game.Lifes = 0;
+                Controller.Instance.GameOverView.Show();
+            }
+            else
+            {
+                Controller.Instance.MainView.SetLifes(game.Lifes);
+                Controller.Instance.MainView.PowerView.ExperienceView.SetExperience(game.Player.Experience);
+                Controller.Instance.MainView.Show();
+            }
+        }
+
+        public void TearDown()
         {
             isTargetDayReached = false;
             player.OnExperienceChanged -= OnExperienceChanged;
@@ -229,13 +283,7 @@ namespace Afterlife.Controller
             if (day >= stage.Data.SpawnIntervalPerDay.Length)
             {
                 isTargetDayReached = true;
-                var monsters = fieldTransform.GetComponentsInChildren<View.Monster>();
-                if (monsters.Length == 0)
-                {
-                    Debug.Log("Stage cleared!");
-                    FinishStage();
-                    onStageClearedEvent?.Invoke();
-                }
+                VerifyMissionSuccess();
             }
         }
 

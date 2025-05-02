@@ -4,59 +4,44 @@ namespace Afterlife.Controller
 {
     public class StageSceneController : MonoBehaviour
     {
-        [Header("Controller")]
         public StageController StageController;
 
-        [Header("View")]
-        public View.Main MainView;
-        public View.Stage StageView;
-        public View.Demo DemoView;
-        public View.GameOver GameOverView;
-
-        public Model.Game Game;
-
-        public void StartStage(Model.Game game)
+        public void SetUp()
         {
-            Game = game;
-            StageController.StartStage(game.Data.StageDataArray[game.CurrentStageIndex], Game.Player);
-            StageView.SetExperience(game.Player.Experience);
+            StageController.SetUp();
+            StageController.OnGameClearedEvent += OnGameCleared;
+            StageController.OnGameOverEvent += OnGameOver;
+
+            Controller.Instance.StageView.SetExperience(Controller.Instance.Game.Player.Experience);
         }
 
-        public void FinishStage(bool isClear)
+        void OnGameCleared()
         {
-            StageView.Hide();
+            TearDown();
+            TransitToDemoScene();
+        }
 
-            if (isClear)
-            {
-                Game.CurrentStageIndex++;
-                if (Game.CurrentStageIndex >= Game.TotalStageCount)
-                {
-                    DemoView.Show();
-                }
-                else
-                {
-                    MainView.SetStageProgress(Game.CurrentStageIndex, Game.TotalStageCount);
-                    MainView.PowerView.ExperienceView.SetExperience(Game.Player.Experience);
-                    MainView.Show();
-                }
-            }
-            else
-            {
-                Game.Lifes--;
-                if (Game.Lifes <= 0)
-                {
-                    Game.Lifes = 0;
-                    GameOverView.Show();
-                }
-                else
-                {
-                    MainView.SetLifes(Game.Lifes);
-                    MainView.PowerView.ExperienceView.SetExperience(Game.Player.Experience);
-                    MainView.Show();
-                }
-            }
+        void TransitToDemoScene()
+        {
+            Controller.Instance.DemoView.Show();
+            Controller.Instance.StageView.Hide();
+        }
 
-            Game = null;
+        void OnGameOver()
+        {
+            TearDown();
+            TransitToGameOverScene();
+        }
+
+        void TransitToGameOverScene()
+        {
+            Controller.Instance.GameOverView.Show();
+            Controller.Instance.StageView.Hide();
+        }
+
+        public void TearDown()
+        {
+            StageController.TearDown();
         }
     }
 }
