@@ -9,7 +9,7 @@ namespace Afterlife.View
 
         public override void Interact(Model.Player player)
         {
-            void OnDiedEvent()
+            void OnDiedEvent(Object @object)
             {
                 var inventory = player.Inventory;
                 if (!inventory.ContainsKey(Type)) { inventory[Type] = 0; }

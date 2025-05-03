@@ -11,7 +11,7 @@ namespace Afterlife.View
 
         TextMeshPro text;
 
-        public event Action OnDied;
+        public event Action<Object> OnDied;
 
         protected virtual void Awake()
         {
@@ -40,7 +40,7 @@ namespace Afterlife.View
             if (Health <= 0f)
             {
                 Died();
-                OnDied?.Invoke();
+                OnDied?.Invoke(this);
             }
             else
             {

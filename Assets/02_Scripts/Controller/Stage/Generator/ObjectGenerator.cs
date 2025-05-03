@@ -6,13 +6,6 @@ namespace Afterlife.Controller
     {
         [SerializeField] Transform fieldTransform;
 
-        public Model.Stage Stage;
-
-        public void Initialize(Model.Stage stage)
-        {
-            Stage = stage;
-        }
-
         public GameObject Generate(GameObject prefab, Vector2Int location)
         {
             if (prefab == null) { throw new System.Exception("Prefab cannot be null."); }
@@ -22,9 +15,11 @@ namespace Afterlife.Controller
 
             if (instance.TryGetComponent(out View.Object @object))
             {
-                @object.Map = Stage.Map;
-                Stage.Map.Field.Set(location, instance.transform);
-                Stage.Map.Fog.Invalidate();
+                var map = Controller.Instance.Game.Stage.Map;
+
+                @object.Map = map;
+                map.Field.Set(location, instance.transform);
+                map.Fog.Invalidate();
             }
 
             return instance;

@@ -6700,9 +6700,8 @@ GameObject:
   - component: {fileID: 1360623023}
   - component: {fileID: 1360623021}
   - component: {fileID: 1360623025}
-  - component: {fileID: 1360623027}
   - component: {fileID: 1360623024}
-  - component: {fileID: 1360623026}
+  - component: {fileID: 1360623027}
   - component: {fileID: 1360623028}
   m_Layer: 0
   m_Name: Stage
@@ -6787,12 +6786,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1360623018}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 34f4c2777ad3afb409af021fca3ab857, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   inputController: {fileID: 1811633277}
+  terrainTileIndicator: {fileID: 1449939118}
 --- !u!114 &1360623025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6800,95 +6800,23 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1360623018}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41e2b44019029c34fbf743160e952810, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   stageGenerator: {fileID: 1360623021}
   objectGenerator: {fileID: 1360623027}
-  monsterSpawnController: {fileID: 1360623028}
-  timeController: {fileID: 1360623026}
+  monsterSpawner: {fileID: 1360623028}
+  timeController: {fileID: 0}
   tileInteractionController: {fileID: 1360623024}
   mainCamera: {fileID: 519420031}
-  terrainTileIndicator: {fileID: 1449939118}
   stageView: {fileID: 463088777}
-  onStageClearedEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1658671473}
-        m_TargetAssemblyTypeName: Afterlife.Controller.StageSceneController, Assembly-CSharp
-        m_MethodName: FinishStage
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-  onStageFailedEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1658671473}
-        m_TargetAssemblyTypeName: Afterlife.Controller.StageSceneController, Assembly-CSharp
-        m_MethodName: FinishStage
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   terrainTransform: {fileID: 1256633606}
   fieldTransform: {fileID: 661714298}
---- !u!114 &1360623026
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1360623018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65e7b740249f377409fe212a5213a12a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ElapsedTime: 0
-  Days: 0
-  IsDayTime: 0
-  DayDuration: 0
-  NightDuration: 0
-  onDayChangedEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1360623025}
-        m_TargetAssemblyTypeName: Afterlife.Controller.StageController, Assembly-CSharp
-        m_MethodName: OnDayChanged
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1360623028}
-        m_TargetAssemblyTypeName: Afterlife.Controller.MonsterSpawnController, Assembly-CSharp
-        m_MethodName: OnDayChanged
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  TimeHandler:
+    DayDuration: 0
+    NightDuration: 0
 --- !u!114 &1360623027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6909,19 +6837,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1360623018}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2c87f339828137641b4cc4496c1292f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   objectGenerator: {fileID: 1360623027}
   monsterPrefab: {fileID: 5694836025865611516, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
-  onMonsterSpawnedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  currentDay: 0
-  elapsedTime: 0
   SpawnIntervalPerDay: []
+  ElapsedTime: 0
+  Days: 0
 --- !u!114 &1360623030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8359,15 +8284,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StageController: {fileID: 1360623025}
-  MainView: {fileID: 853286108}
-  StageView: {fileID: 463088777}
-  DemoView: {fileID: 1403437106}
-  GameOverView: {fileID: 86649223}
-  Game:
-    Data: {fileID: 0}
-    Lifes: 0
-    CurrentStageIndex: 0
-    TotalStageCount: 0
 --- !u!1 &1658707516
 GameObject:
   m_ObjectHideFlags: 0
@@ -9299,18 +9215,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1360623025}
-        m_TargetAssemblyTypeName: Afterlife.Controller.StageController, Assembly-CSharp
-        m_MethodName: OnTileIndicatorMoved
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   ScreenPointer: {x: 0, y: 0}
   WorldPointer: {x: 0, y: 0}
   TileIndex: {x: 0, y: 0}
@@ -9955,6 +9859,11 @@ MonoBehaviour:
   Game:
     Data: {fileID: 0}
     Lifes: 0
+    Stage:
+      Data: {fileID: 0}
+      ElapsedTime: 0
+      Days: 0
+      IsDayTime: 0
     CurrentStageIndex: 0
     TotalStageCount: 0
 --- !u!1 &1913030079

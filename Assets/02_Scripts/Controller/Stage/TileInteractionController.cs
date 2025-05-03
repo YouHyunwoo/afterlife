@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -7,35 +6,48 @@ namespace Afterlife.Controller
     public class TileInteractionController : MonoBehaviour
     {
         [SerializeField] InputController inputController;
-
-        public event Action OnInteractEvent;
+        [SerializeField] View.TerrainTileIndicator terrainTileIndicator;
 
         Model.Player player;
-        Model.Stage stage;
+        Model.Map map;
 
         Coroutine interactRoutine;
         bool isPointerDown;
+
+        public void SetUp()
+        {
+            player = Controller.Instance.Game.Player;
+            map = Controller.Instance.Game.Stage.Map;
+            enabled = true;
+        }
+
+        public void TearDown()
+        {
+            terrainTileIndicator.gameObject.SetActive(false);
+            player = null;
+            map = null;
+            enabled = false;
+        }
 
         void OnEnable()
         {
             inputController.OnPointerDownEvent += OnPointerDown;
             inputController.OnPointerUpEvent += OnPointerUp;
+            inputController.OnPointerMoveEvent += OnPointerMove;
         }
 
         void OnDisable()
         {
             inputController.OnPointerDownEvent -= OnPointerDown;
             inputController.OnPointerUpEvent -= OnPointerUp;
+            inputController.OnPointerMoveEvent -= OnPointerMove;
         }
 
         void OnPointerDown(Vector2Int location)
         {
             isPointerDown = true;
-            if (interactRoutine != null)
-            {
-                StopCoroutine(interactRoutine);
-            }
-            if (stage == null) { return; }
+            if (interactRoutine != null) { StopCoroutine(interactRoutine); }
+            if (!enabled) { return; }
             interactRoutine = StartCoroutine(InteractRoutine(location));
         }
 
@@ -57,6 +69,20 @@ namespace Afterlife.Controller
             }
         }
 
+        void InteractByLocation(Vector2Int location)
+        {
+            if (!map.Field.IsInBounds(location)) { return; }
+
+            var tileObjectTransform = map.Field.Get(location);
+            if (tileObjectTransform == null) { return; }
+
+            if (tileObjectTransform.TryGetComponent(out View.Object @object))
+            {
+                @object.Interact(player);
+                player.TakeExperience(player.AttackPower * player.AttackCount / 10f);
+            }
+        }
+
         void OnPointerUp(Vector2Int location)
         {
             isPointerDown = false;
@@ -67,24 +93,12 @@ namespace Afterlife.Controller
             interactRoutine = null;
         }
 
-        void InteractByLocation(Vector2Int location)
+        public void OnPointerMove(Vector2Int location)
         {
-            if (!stage.Map.Field.IsInBounds(location)) { return; }
-            var tileTransform = stage.Map.Field.Get(location);
-            if (tileTransform == null) { return; }
-
-            if (tileTransform.TryGetComponent(out View.Object @object))
-            {
-                @object.Interact(player);
-                OnInteractEvent?.Invoke();
-            }
-        }
-
-        public void Initialize(Model.Player player, Model.Stage stage)
-        {
-            this.player = player;
-            this.stage = stage;
-            enabled = true;
+            terrainTileIndicator.gameObject.SetActive(true);
+            player.Light.IsActive = true;
+            player.Light.Location = location;
+            map.Fog.Invalidate();
         }
     }
 }

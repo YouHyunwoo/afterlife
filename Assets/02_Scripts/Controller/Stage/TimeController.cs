@@ -18,6 +18,18 @@ namespace Afterlife.Controller
 
         public event Action<int> OnDayChanged;
 
+        Model.Stage stage;
+
+        public void SetUp() {
+            stage = Controller.Instance.Game.Stage;
+            DayDuration = stage.Data.DayDuration;
+            NightDuration = stage.Data.NightDuration;
+            ElapsedTime = 0f;
+            Days = 0;
+            IsDayTime = true;
+            enabled = true;
+        }
+
         void Start()
         {
             enabled = false;
@@ -31,18 +43,10 @@ namespace Afterlife.Controller
             {
                 ElapsedTime = 0f;
                 Days++;
+                stage.ElapsedTime = ElapsedTime;
                 OnDayChanged?.Invoke(Days);
                 onDayChangedEvent?.Invoke(Days);
             }
-        }
-
-        public void Initialize(float dayDuration, float nightDuration)
-        {
-            DayDuration = dayDuration;
-            NightDuration = nightDuration;
-            ElapsedTime = 0f;
-            Days = 0;
-            enabled = true;
         }
     }
 }

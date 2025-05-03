@@ -8,24 +8,25 @@ namespace Afterlife.Controller
         [Header("Controller")]
         [SerializeField] StageGenerator stageGenerator;
         [SerializeField] ObjectGenerator objectGenerator;
-        [SerializeField] MonsterSpawnController monsterSpawnController;
-        [SerializeField] TimeController timeController;
+        [SerializeField] MonsterSpawner monsterSpawner;
         [SerializeField] TileInteractionController tileInteractionController;
 
         [Header("View")]
         [SerializeField] Camera mainCamera;
-        [SerializeField] View.TerrainTileIndicator terrainTileIndicator;
         [SerializeField] View.Stage stageView;
-
-        public event Action OnGameClearedEvent;
-        public event Action OnGameOverEvent;
-
         public Transform terrainTransform;
         public Transform fieldTransform;
 
+        public TimeHandler TimeHandler;
+        public MissionHandler MissionHandler;
+
         Model.Player player;
         Model.Stage stage;
-        bool isTargetDayReached;
+
+        public event Action OnStageClearedEvent;
+        public event Action OnStageFailedEvent;
+        public event Action OnGameClearedEvent;
+        public event Action OnGameOverEvent;
 
         void LateUpdate()
         {
@@ -36,32 +37,41 @@ namespace Afterlife.Controller
 
         public void SetUp()
         {
+            GenerateStage();
+            SetUpPlayer();
+            GenerateObjects();
+
+            TimeHandler = new(Controller.Instance);
+            MissionHandler = new(Controller.Instance);
+            MissionHandler.OnMissionSuccessEvent += OnMissionSuccessed;
+            MissionHandler.OnMissionFailedEvent += OnMissionFailed;
+            monsterSpawner.OnMonsterSpawned += MissionHandler.OnMonsterSpawned;
+            TimeHandler.SetUp();
+            MissionHandler.SetUp();
+            monsterSpawner.SetUp();
+            tileInteractionController.SetUp();
+
+            enabled = true;
+        }
+
+        void GenerateStage()
+        {
+            var game = Controller.Instance.Game;
+
+            var stageData = game.Data.StageDataArray[game.CurrentStageIndex];
+            stage = game.Stage = stageGenerator.Generate(stageData);
+        }
+
+        void SetUpPlayer()
+        {
             var game = Controller.Instance.Game;
 
             player = game.Player;
             player.OnExperienceChanged += OnExperienceChanged;
-
-            var stageData = game.Data.StageDataArray[game.CurrentStageIndex];
-            stage = stageGenerator.Generate(stageData);
-
             stage.Map.Fog.Lights.Add(player.Light);
 
-            objectGenerator.Initialize(stage);
-            monsterSpawnController.Initialize(stage);
-            monsterSpawnController.OnMonsterSpawned += OnMonsterSpawned;
-            timeController.Initialize(stageData.DayDuration, stageData.NightDuration);
-            tileInteractionController.Initialize(player, stage);
-            tileInteractionController.OnInteractEvent += OnInteractEvent;
-
-            var fieldData = stageData.MapData.FieldData;
-            var mapSize = stageData.MapData.Size;
             var map = stage.Map;
-            var field = map.Field;
-            GenerateVillages(fieldData, mapSize, field, map);
-            GenerateEnvironments(fieldData, mapSize, field, map);
-            GenerateMonsters(fieldData, mapSize, field, map);
-
-            mainCamera.transform.position = new Vector3(mapSize.x / 2f, mapSize.y / 2f, -10f);
+            mainCamera.transform.position = new Vector3(map.Size.x / 2f, map.Size.y / 2f, -10f);
         }
 
         void OnExperienceChanged(float experience)
@@ -69,9 +79,15 @@ namespace Afterlife.Controller
             stageView.SetExperience(experience);
         }
 
-        void OnInteractEvent()
+        void GenerateObjects()
         {
-            player.TakeExperience(player.AttackPower * player.AttackCount / 10f);
+            var fieldData = stage.Data.MapData.FieldData;
+            var mapSize = stage.Data.MapData.Size;
+            var map = stage.Map;
+            var field = map.Field;
+            GenerateVillages(fieldData, mapSize, field, map);
+            GenerateEnvironments(fieldData, mapSize, field, map);
+            GenerateMonsters(fieldData, mapSize, field, map);
         }
 
         void VerifyFieldData(Data.Field fieldData, Vector2Int mapSize)
@@ -118,8 +134,7 @@ namespace Afterlife.Controller
                     continue;
                 }
 
-                village.Health = 10;
-                village.OnDied += OnVillageDied;
+                village.Health = 1;
 
                 var villageLight = new Model.Light
                 {
@@ -175,125 +190,66 @@ namespace Afterlife.Controller
                         continue;
                     }
 
-                    monster.OnDied += OnMonsterDied;
-
                     field.Set(location, fieldObject.transform);
                 }
             }
         }
 
-        void OnMonsterSpawned(View.Monster monster)
+        void OnMissionSuccessed()
         {
-            monster.OnDied += OnMonsterDied;
-        }
-
-        void OnMonsterDied()
-        {
-            // TODO: 몬스터가 가진 경험치 획득
-            VerifyMissionSuccess();
-        }
-
-        void VerifyMissionSuccess()
-        {
-            // 시간 지나고 몬스터 없으면 미션 성공
-            if (!isTargetDayReached) { return; }
-
-            var monsters = fieldTransform.GetComponentsInChildren<View.Monster>();
-            if (monsters.Length > 0) { return; }
-
-            Debug.Log("All monsters are dead. Stage cleared!");
-            SuccessMission();
-        }
-
-        void OnVillageDied()
-        {
-            VerifyMissionFailure();
-        }
-
-        void VerifyMissionFailure()
-        {
-            // 마을이 다 죽으면 미션 실패
-            var villages = fieldTransform.GetComponentsInChildren<View.Village>();
-            if (villages.Length > 0) { return; }
-
-            Debug.Log("All villages are dead. Stage failed!");
-            FailMission();
-        }
-
-        void SuccessMission()
-        {
-            TearDown();
-            Controller.Instance.StageView.Hide();
-
             var game = Controller.Instance.Game;
 
             game.CurrentStageIndex++;
             if (game.CurrentStageIndex >= game.TotalStageCount)
             {
                 OnGameClearedEvent?.Invoke();
-                Controller.Instance.DemoView.Show();
             }
             else
             {
-                Controller.Instance.MainView.SetStageProgress(game.CurrentStageIndex, game.TotalStageCount);
-                Controller.Instance.MainView.PowerView.ExperienceView.SetExperience(game.Player.Experience);
-                Controller.Instance.MainView.Show();
+                OnStageClearedEvent?.Invoke();
             }
         }
 
-        void FailMission()
+        void OnMissionFailed()
         {
-            TearDown();
-            Controller.Instance.StageView.Hide();
-
             var game = Controller.Instance.Game;
 
             game.Lifes--;
             if (game.Lifes <= 0)
             {
                 game.Lifes = 0;
-                Controller.Instance.GameOverView.Show();
+                OnGameOverEvent?.Invoke();
             }
             else
             {
-                Controller.Instance.MainView.SetLifes(game.Lifes);
-                Controller.Instance.MainView.PowerView.ExperienceView.SetExperience(game.Player.Experience);
-                Controller.Instance.MainView.Show();
+                OnStageFailedEvent?.Invoke();
             }
         }
 
         public void TearDown()
         {
-            isTargetDayReached = false;
+            enabled = false;
+
+            tileInteractionController.TearDown();
+            monsterSpawner.OnMonsterSpawned -= MissionHandler.OnMonsterSpawned;
+            monsterSpawner.TearDown();
+            MissionHandler.TearDown();
+            MissionHandler = null;
+            TimeHandler.TearDown();
+            TimeHandler = null;
+
             player.OnExperienceChanged -= OnExperienceChanged;
             player.Light.IsActive = false;
             player = null;
             stage = null;
-            terrainTileIndicator.gameObject.SetActive(false);
-            monsterSpawnController.enabled = false;
-            monsterSpawnController.OnMonsterSpawned -= OnMonsterSpawned;
-            timeController.enabled = false;
-            tileInteractionController.enabled = false;
-            tileInteractionController.OnInteractEvent -= OnInteractEvent;
             stageGenerator.Clear();
         }
 
-        public void OnDayChanged(int day)
+        void Update()
         {
-            if (day >= stage.Data.SpawnIntervalPerDay.Length)
-            {
-                isTargetDayReached = true;
-                VerifyMissionSuccess();
-            }
-        }
+            var deltaTime = Time.deltaTime;
 
-        public void OnTileIndicatorMoved(Vector2Int location)
-        {
-            if (stage == null) { return; }
-            terrainTileIndicator.gameObject.SetActive(true);
-            player.Light.IsActive = true;
-            player.Light.Location = location;
-            stage.Map.Fog.Invalidate();
+            TimeHandler.Update(deltaTime);
         }
     }
 }

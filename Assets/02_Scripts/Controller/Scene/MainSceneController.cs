@@ -4,8 +4,6 @@ namespace Afterlife.Controller
 {
     public class MainSceneController : MonoBehaviour
     {
-        public UpgradeHandler UpgradeHandler;
-
         public void SetUp()
         {
             Controller.Instance.MainView.OnMenuButtonClickedEvent += OnMenuButtonClicked;
