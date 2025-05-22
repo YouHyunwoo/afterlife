@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Afterlife.Controller
@@ -8,6 +9,9 @@ namespace Afterlife.Controller
 
         [Header("Data")]
         public Data.Game GameData;
+        public Data.Skill[] SkillDataArray;
+        public Data.Store[] StoreDataArray;
+        public Dictionary<string, Data.Skill> SkillDataDictionary;
 
         [Header("Controller")]
         public TitleSceneController TitleSceneController;
@@ -24,6 +28,20 @@ namespace Afterlife.Controller
         [Header("Model")]
         public Model.Game Game;
 
-        void Awake() { Instance = this; }
+        void Awake()
+        {
+            Instance = this;
+
+            InitializeSkillDataDictionary();
+        }
+
+        void InitializeSkillDataDictionary()
+        {
+            SkillDataDictionary = new();
+            foreach (var skill in SkillDataArray)
+            {
+                SkillDataDictionary.Add(skill.Id, skill);
+            }
+        }
     }
 }

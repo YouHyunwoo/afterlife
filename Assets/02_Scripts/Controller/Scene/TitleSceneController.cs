@@ -45,6 +45,10 @@ namespace Afterlife.Controller
                         Range = 5f,
                         IsActive = false,
                     },
+                    Skills = new()
+                    {
+                        new Model.RichResources(Controller.Instance.SkillDataDictionary["rich-resources"]),
+                    }
                 },
                 CurrentStageIndex = 0,
                 TotalStageCount = gameData.StageDataArray.Length,

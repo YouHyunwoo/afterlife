@@ -9,5 +9,8 @@ namespace Afterlife.Model
         public float ElapsedTime;
         public int Days;
         public bool IsDayTime;
+
+        public int MaxEnvironmentObjectCount;
+        public float EnvironmentObjectGenerationProbability;
     }
 }

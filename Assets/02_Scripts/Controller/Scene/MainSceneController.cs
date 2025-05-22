@@ -10,6 +10,8 @@ namespace Afterlife.Controller
             Controller.Instance.MainView.MenuView.OnContinueButtonClickedEvent += OnContinueButtonClicked;
             Controller.Instance.MainView.MenuView.OnSaveAndQuitButtonClickedEvent += OnSaveAndQuitButtonClicked;
             Controller.Instance.MainView.OnStartMissionButtonClickedEvent += OnStartMissionButtonClicked;
+
+            SetUpViews();
         }
 
         public void TearDown()
@@ -39,7 +41,7 @@ namespace Afterlife.Controller
             TransitToTitleScene();
         }
 
-        void SaveGame() {}
+        void SaveGame() { }
 
         void TransitToTitleScene()
         {
@@ -70,6 +72,21 @@ namespace Afterlife.Controller
 
             Controller.Instance.MainView.SetLifes(game.Lifes);
             Controller.Instance.MainView.SetStageProgress(game.CurrentStageIndex, game.TotalStageCount);
+        }
+
+        void SetUpViews()
+        {
+            // 상점 뷰 셋업
+            Controller.Instance.MainView.PowerView.HeroStoreContentView.SetStoreContent(Controller.Instance.StoreDataArray[0]);
+            Controller.Instance.MainView.PowerView.AbilityStoreContentView.SetStoreContent(Controller.Instance.StoreDataArray[1]);
+
+            Controller.Instance.MainView.PowerView.HeroStoreContentView.OnStoreItemClickedEvent += OnStoreItemClicked;
+            Controller.Instance.MainView.PowerView.AbilityStoreContentView.OnStoreItemClickedEvent += OnStoreItemClicked;
+        }
+
+        void OnStoreItemClicked(string itemId)
+        {
+            Debug.Log($"Store Item Clicked: {itemId}");
         }
     }
 }

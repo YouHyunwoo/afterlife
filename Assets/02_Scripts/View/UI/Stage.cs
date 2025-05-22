@@ -2,8 +2,9 @@ namespace Afterlife.View
 {
     public class Stage : UIView
     {
-        public Experience experienceView;
+        public Experience ExperienceView;
+        public SkillSlotList SkillSlotListView;
 
-        public void SetExperience(float experience) => experienceView.SetExperience(experience);
+        public void SetExperience(float experience) => ExperienceView.SetExperience(experience);
     }
 }

@@ -8,6 +8,9 @@ namespace Afterlife.View
     {
         public Experience ExperienceView;
         [SerializeField] Button[] playerStatisticsButtons;
+        public StoreContent HeroStoreContentView;
+        public StoreContent AbilityStoreContentView;
+        public StoreContent CraftingStoreContentView;
 
         public event Action<string, int> OnButtonClickedEvent;
 
