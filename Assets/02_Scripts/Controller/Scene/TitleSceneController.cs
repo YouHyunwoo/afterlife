@@ -48,6 +48,7 @@ namespace Afterlife.Controller
                     Skills = new()
                     {
                         new Model.RichResources(Controller.Instance.SkillDataDictionary["rich-resources"]),
+                        new Model.OpenEyes(Controller.Instance.SkillDataDictionary["open-eyes"]),
                     }
                 },
                 CurrentStageIndex = 0,

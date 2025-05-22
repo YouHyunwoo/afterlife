@@ -10961,6 +10961,7 @@ MonoBehaviour:
   GameData: {fileID: 11400000, guid: 85de6b21dfa8ef04899db9ee3879e110, type: 2}
   SkillDataArray:
   - {fileID: 11400000, guid: ba7634eb1e352d047980a36511165521, type: 2}
+  - {fileID: 11400000, guid: 24c744010d0d42147ab6d79eee790d31, type: 2}
   StoreDataArray:
   - {fileID: 11400000, guid: dc92088ddb41af343a22e655c46e1429, type: 2}
   - {fileID: 11400000, guid: e331bc70fe47fcf4e99da5e7489ef1c3, type: 2}
@@ -10984,8 +10985,6 @@ MonoBehaviour:
       EnvironmentObjectGenerationProbability: 0
     CurrentStageIndex: 0
     TotalStageCount: 0
-    AttackPowerUpgradeLevel: 0
-    AttackSpeedUpgradeLevel: 0
 --- !u!1 &1913030079
 GameObject:
   m_ObjectHideFlags: 0

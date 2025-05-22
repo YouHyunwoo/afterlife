@@ -4,6 +4,7 @@ namespace Afterlife.Model
 {
     public class OpenEyes : Skill
     {
+        float originalSightRange;
         public float SightRangeMultiplier;
 
         public OpenEyes(Data.Skill skillData) : base(skillData)
@@ -20,12 +21,15 @@ namespace Afterlife.Model
         protected override void OnActivated()
         {
             Debug.Log($"OpenEyes activated: {SightRangeMultiplier}");
+            originalSightRange = controller.Game.Player.Light.Range;
+            controller.Game.Player.Light.Range *= SightRangeMultiplier;
             base.OnActivated();
         }
 
         protected override void OnDeactivated()
         {
             // 원래대로 돌려놓기
+            controller.Game.Player.Light.Range = originalSightRange;
             Debug.Log($"OpenEyes deactivated: {SightRangeMultiplier}");
         }
     }
