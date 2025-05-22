@@ -1,0 +1,26 @@
+name: "Ability"
+categories:
+  - name: "Hero"
+    items:
+      - id: "psychokinesis-power"
+        steps:
+          - name: "Psychokinesis Power 1"
+            description: "Increase the power of psychokinesis."
+            cost: 2
+          - name: "Psychokinesis Power 2"
+            description: "Increase the power of psychokinesis."
+            cost: 4
+          - name: "Psychokinesis Power 3"
+            description: "Increase the power of psychokinesis."
+            cost: 6
+      - id: "psychokinesis-speed"
+        steps:
+          - name: "Psychokinesis Speed 1"
+            description: "Increase the speed of psychokinesis."
+            cost: 2
+          - name: "Psychokinesis Speed 2"
+            description: "Increase the speed of psychokinesis."
+            cost: 4
+          - name: "Psychokinesis Speed 3"
+            description: "Increase the speed of psychokinesis."
+            cost: 6

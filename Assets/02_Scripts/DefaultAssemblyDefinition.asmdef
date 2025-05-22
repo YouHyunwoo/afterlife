@@ -1,0 +1,19 @@
+{
+    "name": "DefaultAssemblyDefinition",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b3f49edfedc855a48aa1a9e5d3cba438",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:60688e4075994744aaaacfd5c318ce71"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
