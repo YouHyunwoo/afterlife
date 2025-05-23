@@ -17,6 +17,10 @@ MonoBehaviour:
   NightDuration: 30
   SpawnIntervalPerDay:
   - 10
+  - 9
+  - 7
+  - 5
+  - 3
   Rewards:
   - {fileID: 11400000, guid: 6fdc5d0bdc43c0f48a0cdc3054feee08, type: 2}
   - {fileID: 11400000, guid: f793db9189a3a6540a6f95cf8ec89b98, type: 2}

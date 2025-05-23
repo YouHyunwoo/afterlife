@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Afterlife.Controller
 {
-    public class MonsterSpawner : MonoBehaviour
+    public class MonsterSpawner : MonoBehaviour // TODO: Handler로 변경하기
     {
         [SerializeField] ObjectGenerator objectGenerator;
         [SerializeField] View.Monster monsterPrefab;
@@ -40,7 +40,6 @@ namespace Afterlife.Controller
 
         void Update()
         {
-            ElapsedTime += Time.deltaTime;
             Days = stage.Days;
 
             if (Days >= SpawnIntervalPerDay.Length)
@@ -48,6 +47,10 @@ namespace Afterlife.Controller
                 enabled = false;
                 return;
             }
+
+            if (stage.IsDayTime) { return; }
+
+            ElapsedTime += Time.deltaTime;
 
             if (ElapsedTime >= SpawnIntervalPerDay[Days])
             {

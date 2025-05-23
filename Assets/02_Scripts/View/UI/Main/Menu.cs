@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Afterlife.View
 {
-    public class Menu : UIView
+    public class MainMenu : UIView
     {
         public Button continueButton;
         public Button saveAndQuitButton;

@@ -1,5 +1,4 @@
 using System;
-using Afterlife.Data;
 using UnityEngine;
 
 namespace Afterlife.Controller
@@ -19,8 +18,15 @@ namespace Afterlife.Controller
         public Transform fieldTransform;
 
         public TimeHandler TimeHandler;
+        public MenuHandler MenuHandler;
         public MissionHandler MissionHandler;
         public SkillHandler SkillHandler;
+        // WorldHandler
+        // ExperienceHandler
+        // InGameMenuHandler
+        // MissionHandler
+        // CraftingHandler
+        // InventoryHandler
 
         Model.Player player;
         Model.Stage stage;
@@ -44,12 +50,14 @@ namespace Afterlife.Controller
             GenerateObjects();
 
             TimeHandler = new(Controller.Instance);
+            MenuHandler = new(Controller.Instance);
             MissionHandler = new(Controller.Instance);
             SkillHandler = new(Controller.Instance);
             MissionHandler.OnMissionSuccessEvent += OnMissionSuccessed;
             MissionHandler.OnMissionFailedEvent += OnMissionFailed;
             monsterSpawner.OnMonsterSpawned += MissionHandler.OnMonsterSpawned;
             TimeHandler.SetUp();
+            MenuHandler.SetUp();
             MissionHandler.SetUp();
             SkillHandler.SetUp();
             monsterSpawner.SetUp();
@@ -241,6 +249,8 @@ namespace Afterlife.Controller
             SkillHandler = null;
             MissionHandler.TearDown();
             MissionHandler = null;
+            MenuHandler.TearDown();
+            MenuHandler = null;
             TimeHandler.TearDown();
             TimeHandler = null;
 

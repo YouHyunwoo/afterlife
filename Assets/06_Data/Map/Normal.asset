@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b44a926c87698e4ba9548e973ea89ac, type: 3}
-  m_Name: Easy
+  m_Script: {fileID: 11500000, guid: 65146e39ac7a065459360d198c2e5fd5, type: 3}
+  m_Name: Normal
   m_EditorClassIdentifier: 
-  Lifes: 3
-  StageDataArray:
-  - {fileID: 11400000, guid: b0021d1066b0de848b5838940a16d695, type: 2}
-  - {fileID: 11400000, guid: aec128acd5c51544f82981fc1b77546c, type: 2}
+  Size: {x: 15, y: 12}
+  TerrainData: {fileID: 11400000, guid: 51dd41db750b9b64b909701332a9d19c, type: 2}
+  FieldData: {fileID: 11400000, guid: 942d27005b7b0674c8699d90a8c5191e, type: 2}

@@ -63,7 +63,12 @@ namespace Afterlife.View
             TargetCandidateTransforms = new List<Transform>();
             for (int i = 0; i < objects.Length; i++)
             {
-                TargetCandidateTransforms.Add(objects[i].transform);
+                var targetCandidateTransform = objects[i].transform;
+                if (targetCandidateTransform.TryGetComponent<Object>(out var targetCandidateObject))
+                {
+                    targetCandidateObject.OnDied += OnTargetDied;
+                }
+                TargetCandidateTransforms.Add(targetCandidateTransform);
             }
         }
 
@@ -122,6 +127,7 @@ namespace Afterlife.View
             for (int i = 0; i < TargetCandidateTransforms.Count; i++)
             {
                 var targetCandidateTransform = TargetCandidateTransforms[i];
+                if (targetCandidateTransform == null) { continue; }
 
                 var sqrDistance = Vector2.SqrMagnitude(targetCandidateTransform.position - transform.position);
                 if (sqrDistance < SqrDetectingRange && sqrDistance < minSqrDistance)
@@ -132,6 +138,20 @@ namespace Afterlife.View
             }
 
             return targetTransform != null;
+        }
+
+        public void SetTarget(Transform target)
+        {
+            targetTransform = target;
+        }
+
+        void OnTargetDied(Object target)
+        {
+            TargetCandidateTransforms.Remove(target.transform);
+            if (targetTransform != target.transform) { return; }
+            targetTransform = null;
+            StopChase();
+            StopAttack();
         }
 
         public void StartChase() => Animator.SetBool("Chase", true);

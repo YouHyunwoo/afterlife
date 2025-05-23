@@ -22,7 +22,7 @@ public class MonsterPatrol : StateMachineBehaviour
         var isFound = monster.FindNearestTarget(out var targetTransform);
         if (isFound)
         {
-            monster.targetTransform = targetTransform;
+            monster.SetTarget(targetTransform);
             monster.StartChase();
             return;
         }

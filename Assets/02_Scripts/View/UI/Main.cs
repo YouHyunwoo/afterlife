@@ -18,7 +18,7 @@ namespace Afterlife.View
         public Power PowerView;
 
         [Header("Popup")]
-        public Menu MenuView;
+        public MainMenu MenuView;
 
         public event Action OnMenuButtonClickedEvent;
         public event Action OnStartMissionButtonClickedEvent;
