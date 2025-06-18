@@ -74,16 +74,16 @@ namespace Afterlife.GameSystem.Stage
         IEnumerator InteractRoutine(Vector2Int location)
         {
             InteractByLocation(location);
-            if (!enabled) { yield break; }
+            if (!enabled || !player.Upgrades.Contains("auto-attack")) { yield break; }
 
-            var waitTime = new WaitForSeconds(player.AttackSpeed / 1f);
+            var waitTime = new WaitForSeconds(1f / player.AttackSpeed);
             var playerAttackSpeed = player.AttackSpeed;
             while (enabled && isPointerDown)
             {
                 if (playerAttackSpeed != player.AttackSpeed)
                 {
                     playerAttackSpeed = player.AttackSpeed;
-                    waitTime = new WaitForSeconds(player.AttackSpeed / 1f);
+                    waitTime = new WaitForSeconds(1f / player.AttackSpeed);
                 }
                 yield return waitTime;
                 InteractByLocation(Location);
@@ -92,15 +92,23 @@ namespace Afterlife.GameSystem.Stage
 
         void InteractByLocation(Vector2Int location)
         {
-            if (!map.Field.IsInBounds(location)) { return; }
-
-            var tileObjectTransform = map.Field.Get(location);
-            if (tileObjectTransform == null) { return; }
-
-            if (tileObjectTransform.TryGetComponent(out View.Object @object))
+            var attackRange = (int)player.AttackRange - 1;
+            for (int x = -attackRange; x <= attackRange; x++)
             {
-                player.TakeExperience(player.AttackPower * player.AttackCount / 10f);
-                @object.Interact(player);
+                for (int y = -attackRange; y <= attackRange; y++)
+                {
+                    var targetLocation = new Vector2Int(location.x + x, location.y + y);
+                    if (!map.Field.IsInBounds(targetLocation)) { continue; }
+
+                    var tileObjectTransform = map.Field.Get(targetLocation);
+                    if (tileObjectTransform == null) { continue; }
+
+                    if (tileObjectTransform.TryGetComponent(out View.Object @object))
+                    {
+                        player.TakeExperience(player.AttackPower * player.AttackCount / 10f);
+                        @object.Interact(player);
+                    }
+                }
             }
         }
 

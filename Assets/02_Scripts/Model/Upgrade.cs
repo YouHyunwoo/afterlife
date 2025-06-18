@@ -34,8 +34,29 @@ namespace Afterlife.Model
                 case "auto-attack":
                     Debug.Log("Applied auto attack upgrade.");
                     break;
+                case "attack-speed-1":
+                    game.Player.AttackSpeed += 0.1f;
+                    Debug.Log("Applied attack speed upgrade.");
+                    break;
+                case "attack-speed-2":
+                    game.Player.AttackSpeed += 0.2f;
+                    Debug.Log("Applied attack speed upgrade level 2.");
+                    break;
+                case "attack-speed-3":
+                    game.Player.AttackSpeed += 0.3f;
+                    Debug.Log("Applied attack speed upgrade level 3.");
+                    break;
                 case "attack-range-1":
+                    game.Player.AttackRange += 1f;
                     Debug.Log("Applied attack range upgrade.");
+                    break;
+                case "attack-range-2":
+                    game.Player.AttackRange += 2f;
+                    Debug.Log("Applied attack range upgrade Level 2.");
+                    break;
+                case "attack-range-3":
+                    game.Player.AttackRange += 3f;
+                    Debug.Log("Applied attack range upgrade Level 3.");
                     break;
                 case "campfire":
                     {

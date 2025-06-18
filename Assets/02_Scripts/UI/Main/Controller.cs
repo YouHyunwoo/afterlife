@@ -18,9 +18,20 @@ namespace Afterlife.UI.Main
             var upgradeNodes = mainScreen.GetComponentsInChildren<UpgradeNode>(true);
             foreach (var upgradeNode in upgradeNodes)
             {
+                upgradeNode.OnPurchased += OnUpgradeItemPurchased;
                 upgradeNode.OnInformationShowed += OnUpgradeNodeInformationShowed;
                 upgradeNode.OnInformationHidden += OnUpgradeNodeInformationHidden;
             }
+        }
+
+        void OnUpgradeItemPurchased(UpgradeNode upgradeNode)
+        {
+            var uiManager = ServiceLocator.Get<UIManager>();
+            var mainScreen = uiManager.MainScreen as Main.Screen;
+            var gameManager = ServiceLocator.Get<GameManager>();
+            var game = gameManager.Game;
+
+            mainScreen.UpgradeView.ExperienceView.SetExperience(game.Player.Experience);
         }
 
         void OnUpgradeNodeInformationShowed(UpgradeNode upgradeNode)
@@ -54,6 +65,7 @@ namespace Afterlife.UI.Main
             var upgradeNodes = mainScreen.GetComponentsInChildren<UpgradeNode>(true);
             foreach (var upgradeNode in upgradeNodes)
             {
+                upgradeNode.OnPurchased -= OnUpgradeItemPurchased;
                 upgradeNode.OnInformationShowed -= OnUpgradeNodeInformationShowed;
                 upgradeNode.OnInformationHidden -= OnUpgradeNodeInformationHidden;
             }

@@ -21,6 +21,7 @@ namespace Afterlife.UI.Main
         public UpgradeNode[] NextNodes;
         public UpgradeState State;
 
+        public event Action<UpgradeNode> OnPurchased;
         public event Action<UpgradeNode> OnInformationShowed;
         public event Action<UpgradeNode> OnInformationHidden;
 
@@ -48,6 +49,7 @@ namespace Afterlife.UI.Main
                 player.Upgrades.Add(Id); // Add the upgrade ID to the player's upgrades
                 game.Upgrade.ApplyUpgrade(Id);
                 SetPurchased();
+                OnPurchased?.Invoke(this);
             }
         }
 

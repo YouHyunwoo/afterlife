@@ -326,6 +326,10 @@ PrefabInstance:
       value: Attack Range 2
       objectReference: {fileID: 0}
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
+      propertyPath: Description
+      value: Increase attack range by 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: NextNodes.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -1640,6 +1644,10 @@ PrefabInstance:
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: Name
       value: Attack Range 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
+      propertyPath: Description
+      value: Increase attack range by 1
       objectReference: {fileID: 0}
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: NextNodes.Array.size
@@ -6338,7 +6346,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: Id
-      value: shadow-attack-2
+      value: attack-speed-2
       objectReference: {fileID: 0}
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: Cost
@@ -6346,7 +6354,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: Name
-      value: Shadow Attack 2
+      value: Attack Speed 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
+      propertyPath: Description
+      value: Increase attack speed by 20%
       objectReference: {fileID: 0}
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: NextNodes.Array.size
@@ -6836,6 +6848,10 @@ PrefabInstance:
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: Name
       value: Auto Attack
+      objectReference: {fileID: 0}
+    - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
+      propertyPath: Description
+      value: Enable automatic attack in holding a tile
       objectReference: {fileID: 0}
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: NextNodes.Array.size
@@ -7389,7 +7405,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: Id
-      value: shadow-attack-1
+      value: attack-speed-1
       objectReference: {fileID: 0}
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: Cost
@@ -7397,7 +7413,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: Name
-      value: Shadow Attack 1
+      value: Attack Speed 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
+      propertyPath: Description
+      value: Increase attack speed by 10%
       objectReference: {fileID: 0}
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: NextNodes.Array.size
@@ -8988,7 +9008,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: Id
-      value: shadow-attack-3
+      value: attack-speed-3
       objectReference: {fileID: 0}
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: Cost
@@ -8996,7 +9016,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: Name
-      value: Shadow Attack 3
+      value: Attack Speed 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
+      propertyPath: Description
+      value: Increase attack speed by 30%
       objectReference: {fileID: 0}
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: Prerequisites.Array.size
@@ -14430,6 +14454,10 @@ PrefabInstance:
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: Name
       value: Attack Range 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
+      propertyPath: Description
+      value: Increase attack range by 3
       objectReference: {fileID: 0}
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: Prerequisites.Array.size
