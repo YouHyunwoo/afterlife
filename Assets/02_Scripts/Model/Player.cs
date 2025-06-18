@@ -16,6 +16,7 @@ namespace Afterlife.Model
 
         public float RecoveryPower = 1f;
 
+        public List<string> Upgrades = new();
         public List<Skill> Skills = new();
         public Dictionary<string, int> Inventory = new();
         public Light Light;

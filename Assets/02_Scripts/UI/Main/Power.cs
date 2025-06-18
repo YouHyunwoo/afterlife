@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,5 +25,22 @@ namespace Afterlife.UI.Main
         }
 
         void OnButtonClicked(string category, int index) => OnButtonClickedEvent?.Invoke(category, index);
+
+        public void InitializeUpgradeTree(List<string> upgradeIds)
+        {
+            var upgradeNodes = GetComponentsInChildren<UpgradeNode>(true);
+            foreach (var upgradeNode in upgradeNodes)
+            {
+                upgradeNode.Clear(); // Clear the state of all nodes
+            }
+
+            foreach (var upgradeNode in upgradeNodes)
+            {
+                if (upgradeIds.Contains(upgradeNode.Id))
+                {
+                    upgradeNode.SetPurchased();
+                }
+            }
+        }
     }
 }

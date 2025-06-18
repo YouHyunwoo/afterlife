@@ -101,6 +101,7 @@ namespace Afterlife.UI.Main
             mainScreen.MissionView.LifeView.SetLifes(game.Lifes);
             mainScreen.MissionView.StageProgressView.SetStageProgress(game.CurrentStageIndex, game.TotalStageCount);
             mainScreen.UpgradeView.ExperienceView.SetExperience(game.Player.Experience);
+            mainScreen.UpgradeView.InitializeUpgradeTree(game.Player.Upgrades);
         }
     }
 }

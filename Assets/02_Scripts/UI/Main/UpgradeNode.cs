@@ -6,12 +6,12 @@ using UnityEngine.UI;
 
 namespace Afterlife.UI.Main
 {
-    public class UpgradeNode : View
+    public class UpgradeNode : View, IPointerEnterHandler, IPointerExitHandler
     {
         public enum UpgradeState { Locked, Unlocked, Purchased }
 
-        [SerializeField] EventTrigger eventTrigger;
         [SerializeField] Button button;
+        [SerializeField] Image borderImage;
         [SerializeField] Image lockedOverlayImage;
         public string Id;
         public string Name;
@@ -26,18 +26,8 @@ namespace Afterlife.UI.Main
 
         void Awake()
         {
-            var entryEnter = new EventTrigger.Entry { eventID = EventTriggerType.PointerEnter };
-            entryEnter.callback.AddListener((data) => { OnPointerEnter((PointerEventData)data); });
-            eventTrigger.triggers.Add(entryEnter);
-            var entryExit = new EventTrigger.Entry { eventID = EventTriggerType.PointerExit };
-            entryExit.callback.AddListener((data) => { OnPointerExit((PointerEventData)data); });
-            eventTrigger.triggers.Add(entryExit);
-
             button.onClick.AddListener(OnButtonClick);
         }
-
-        void OnPointerEnter(PointerEventData eventData) => OnInformationShowed?.Invoke(this);
-        void OnPointerExit(PointerEventData eventData) => OnInformationHidden?.Invoke(this);
 
         void OnButtonClick()
         {
@@ -55,22 +45,20 @@ namespace Afterlife.UI.Main
             if (player.Experience >= Cost)
             {
                 player.Experience -= Cost; // Example of deducting cost from player's experience
-                Debug.Log($"Experience after purchase: {player.Experience}");
-                State = UpgradeState.Purchased;
+                player.Upgrades.Add(Id); // Add the upgrade ID to the player's upgrades
                 game.Upgrade.ApplyUpgrade(Id);
-                OnUpgradePurchased();
-                UnlockNextUpgrades();
+                SetPurchased();
             }
         }
 
-        void UnlockNextUpgrades()
+        public void UnlockNextUpgrades()
         {
-            foreach (var upgrade in NextNodes)
+            foreach (var nextNode in NextNodes)
             {
-                if (upgrade.State == UpgradeState.Locked)
+                if (nextNode.State == UpgradeState.Locked)
                 {
                     bool allPrerequisitesMet = true;
-                    foreach (var prerequisite in upgrade.Prerequisites)
+                    foreach (var prerequisite in nextNode.Prerequisites)
                     {
                         if (prerequisite.State != UpgradeState.Purchased)
                         {
@@ -80,22 +68,9 @@ namespace Afterlife.UI.Main
                     }
                     if (allPrerequisitesMet)
                     {
-                        upgrade.Unlock();
+                        nextNode.Unlock();
                     }
                 }
-            }
-        }
-
-        void Start()
-        {
-            if (Prerequisites.Length == 0)
-            {
-                State = UpgradeState.Unlocked; // No prerequisites means it's available from the start
-                lockedOverlayImage.gameObject.SetActive(false); // Hide the locked cover image
-            }
-            else
-            {
-                State = UpgradeState.Locked; // Default state is locked if prerequisites exist
             }
         }
 
@@ -108,9 +83,31 @@ namespace Afterlife.UI.Main
             }
         }
 
-        protected virtual void OnUpgradePurchased()
+        public void Clear()
         {
-            Debug.Log($"Upgrade {Name} has been purchased.");
+            if (Prerequisites.Length == 0)
+            {
+                State = UpgradeState.Unlocked; // No prerequisites means it's available from the start
+                lockedOverlayImage.gameObject.SetActive(false); // Hide the locked cover image
+            }
+            else
+            {
+                State = UpgradeState.Locked; // Default state is locked if prerequisites exist
+                lockedOverlayImage.gameObject.SetActive(true); // Show the locked cover image
+            }
+
+            borderImage.color = new Color(0.3f, 0.3f, 0.3f);
         }
+
+        public void SetPurchased()
+        {
+            State = UpgradeState.Purchased;
+            borderImage.color = Color.white; // Change border color to indicate purchase
+            lockedOverlayImage.gameObject.SetActive(false); // Hide the locked cover image
+            UnlockNextUpgrades();
+        }
+
+        void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) => OnInformationShowed?.Invoke(this);
+        void IPointerExitHandler.OnPointerExit(PointerEventData eventData) => OnInformationHidden?.Invoke(this);
     }
 }

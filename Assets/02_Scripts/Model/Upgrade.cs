@@ -37,6 +37,22 @@ namespace Afterlife.Model
                 case "attack-range-1":
                     Debug.Log("Applied attack range upgrade.");
                     break;
+                case "campfire":
+                    {
+                        break;
+                    }
+                case "rich-resources":
+                    {
+                        var skillData = ServiceLocator.Get<DataManager>().SkillDataDictionary[upgradeId];
+                        game.Player.Skills.Add(new RichResources(skillData));
+                        break;
+                    }
+                case "open-eyes":
+                    {
+                        var skillData = ServiceLocator.Get<DataManager>().SkillDataDictionary[upgradeId];
+                        game.Player.Skills.Add(new OpenEyes(skillData));
+                        break;
+                    }
                 default:
                     throw new System.ArgumentException($"Unknown upgrade ID: {upgradeId}");
             }

@@ -72,7 +72,7 @@ namespace Afterlife.Core
                 Lifes = gameData.Lifes,
                 Player = new Model.Player
                 {
-                    Experience = 0,
+                    Experience = 99,
                     AttackPower = 1f,
                     AttackSpeed = 1f,
                     AttackRange = 1f,
@@ -88,11 +88,7 @@ namespace Afterlife.Core
                         Range = 5f,
                         IsActive = false,
                     },
-                    Skills = new()
-                    {
-                        new Model.RichResources(ServiceLocator.Get<DataManager>().SkillDataDictionary["rich-resources"]),
-                        new Model.OpenEyes(ServiceLocator.Get<DataManager>().SkillDataDictionary["open-eyes"]),
-                    }
+                    Skills = new(),
                 },
                 CurrentStageIndex = 0,
                 TotalStageCount = gameData.StageDataArray.Length,
