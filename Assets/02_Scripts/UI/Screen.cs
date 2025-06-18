@@ -1,4 +1,4 @@
 namespace Afterlife.UI
 {
-    public class Screen : View { }
+    public abstract class Screen : View { }
 }
