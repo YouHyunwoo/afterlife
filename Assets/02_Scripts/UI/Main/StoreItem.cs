@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Afterlife.UI.Main
 {
-    public class StoreItem : UI.View
+    public class StoreItem : View
     {
         public TextMeshProUGUI NameText;
         public TextMeshProUGUI DescriptionText;

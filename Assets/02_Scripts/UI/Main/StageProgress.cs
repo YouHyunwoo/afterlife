@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Afterlife.UI.Main
 {
-    public class StageProgress : UI.View
+    public class StageProgress : View
     {
         [SerializeField] Transform stageProgressContainerTransform;
         [SerializeField] Image stageNodeImagePrefab;

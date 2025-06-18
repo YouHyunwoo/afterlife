@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Afterlife.UI.Main
 {
-    public class StoreCategory : UI.View
+    public class StoreCategory : View
     {
         public VerticalLayoutGroup VerticalLayoutGroup;
         public StoreItem StoreItemPrefab;

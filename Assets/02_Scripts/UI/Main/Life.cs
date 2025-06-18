@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Afterlife.UI.Main
 {
-    public class Life : UI.View
+    public class Life : View
     {
         [SerializeField] Transform lifeContainerTransform;
         [SerializeField] GameObject lifePrefab;

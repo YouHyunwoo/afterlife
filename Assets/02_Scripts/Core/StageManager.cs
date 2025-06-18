@@ -66,7 +66,9 @@ namespace Afterlife.Core
             Stage.Map.Fog.Update();
         }
 
-        void OnMissionSuccessed()
+        void OnMissionSuccessed() => SuccessStage();
+
+        public void SuccessStage()
         {
             EndStage();
 
@@ -84,7 +86,9 @@ namespace Afterlife.Core
             }
         }
 
-        void OnMissionFailed()
+        void OnMissionFailed() => FailStage();
+
+        public void FailStage()
         {
             EndStage();
 

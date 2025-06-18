@@ -8,7 +8,6 @@ namespace Afterlife.UI.Stage
     {
         [Header("Menu")]
         [SerializeField] Button MenuButton;
-        public Menu MenuView;
 
         [Header("Experience")]
         public Main.Experience ExperienceView;
@@ -21,6 +20,9 @@ namespace Afterlife.UI.Stage
 
         [Header("Night Overlay")]
         public GameObject NightOverlayView;
+
+        [Header("Popup")]
+        public Menu MenuView;
 
         public event Action OnMenuButtonClickedEvent;
 

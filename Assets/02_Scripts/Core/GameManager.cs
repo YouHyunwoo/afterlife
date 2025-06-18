@@ -48,6 +48,7 @@ namespace Afterlife.Core
                     break;
                 case GameState.InGame:
                     // 인게임(스테이지) 초기화
+                    ServiceLocator.Get<UIManager>().StageController.Refresh();
                     break;
                 case GameState.Clear:
                     // 클리어 화면 초기화

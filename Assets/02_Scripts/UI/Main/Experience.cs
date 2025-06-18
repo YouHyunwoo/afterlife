@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Afterlife.UI.Main
 {
-    public class Experience : UI.View
+    public class Experience : View
     {
         [SerializeField] TextMeshProUGUI amountText;
 

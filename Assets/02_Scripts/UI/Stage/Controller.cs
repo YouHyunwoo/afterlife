@@ -1,5 +1,4 @@
 using Afterlife.Core;
-using UnityEngine;
 
 namespace Afterlife.UI.Stage
 {
@@ -11,6 +10,8 @@ namespace Afterlife.UI.Stage
             var stageScreen = uiManager.InGameScreen as Stage.Screen;
 
             stageScreen.OnMenuButtonClickedEvent += OnMenuButtonClicked;
+            stageScreen.MenuView.OnContinueButtonClickedEvent += OnContinueButtonClicked;
+            stageScreen.MenuView.OnGiveUpButtonClickedEvent += OnGiveUpButtonClicked;
         }
 
         void OnMenuButtonClicked()
@@ -18,6 +19,24 @@ namespace Afterlife.UI.Stage
             var uiManager = ServiceLocator.Get<UIManager>();
             var stageScreen = uiManager.InGameScreen as Stage.Screen;
             stageScreen.MenuView.Show();
+        }
+
+        void OnContinueButtonClicked()
+        {
+            var uiManager = ServiceLocator.Get<UIManager>();
+            var stageScreen = uiManager.InGameScreen as Stage.Screen;
+
+            stageScreen.MenuView.Hide();
+        }
+
+        void OnGiveUpButtonClicked()
+        {
+            var uiManager = ServiceLocator.Get<UIManager>();
+            var stageScreen = uiManager.InGameScreen as Stage.Screen;
+
+            stageScreen.MenuView.Hide();
+
+            ServiceLocator.Get<StageManager>().FailStage();
         }
 
         public override void Refresh()
@@ -28,6 +47,7 @@ namespace Afterlife.UI.Stage
             var game = gameManager.Game;
 
             stageScreen.SetExperience(game.Player.Experience);
+            stageScreen.MenuView.StageProgressView.SetStageProgress(game.CurrentStageIndex, game.TotalStageCount);
         }
     }
 }
