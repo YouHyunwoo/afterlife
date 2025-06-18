@@ -20,7 +20,7 @@ namespace Afterlife.GameSystem.Stage
         {
             stage = ServiceLocator.Get<StageManager>().Stage;
             var stageScreen = ServiceLocator.Get<UIManager>().InGameScreen as UI.Stage.Screen;
-            stageDaysView = stageScreen.StageDayView;
+            stageDaysView = stageScreen.DaysView;
 
             DayDuration = stage.Data.DayDuration;
             NightDuration = stage.Data.NightDuration;
@@ -28,7 +28,7 @@ namespace Afterlife.GameSystem.Stage
             stage.ElapsedTime = 0f;
             stage.Days = 0;
             stage.IsDayTime = true;
-            stageDaysView.InitializeProgress(stage.Data.SpawnIntervalPerDay.Length);
+            stageDaysView.SetTotalDays(stage.Data.SpawnIntervalPerDay.Length);
             stageDaysView.SetDays(stage.Days + 1);
 
             enabled = true;

@@ -19,7 +19,7 @@ namespace Afterlife.Controller
             ElapsedTime = 0f;
             CurrentDay = 0;
 
-            DaysView.InitializeProgress(TotalDays);
+            DaysView.SetTotalDays(TotalDays);
             DaysView.SetDays(CurrentDay + 1);
         }
 

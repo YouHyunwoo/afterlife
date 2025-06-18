@@ -6,7 +6,7 @@ namespace Afterlife.Controller
     {
         public Data.Skill[] SkillDataArray;
         public UI.Stage.SkillSlot[] SkillSlotArray;
-        public UI.Stage.SkillSlotList SkillSlotList;
+        public UI.Stage.Skill SkillSlotList;
 
         Model.Skill[] SkillArray;
 

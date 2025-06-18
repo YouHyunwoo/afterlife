@@ -1963,6 +1963,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 229655686}
+  - component: {fileID: 229655687}
   m_Layer: 5
   m_Name: Skill
   m_TagString: Untagged
@@ -1990,6 +1991,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &229655687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229655685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 249f8f6dc7aefaa4a9d6fed6d15f160c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  containerTransform: {fileID: 284217065}
+  skillSlotPrefab: {fileID: 7913957374934011697, guid: e1f3868b1d7dc774bb8e445670960057, type: 3}
 --- !u!1 &248323219
 GameObject:
   m_ObjectHideFlags: 0
@@ -2210,9 +2225,8 @@ GameObject:
   m_Component:
   - component: {fileID: 284217065}
   - component: {fileID: 284217066}
-  - component: {fileID: 284217067}
   m_Layer: 5
-  m_Name: Skill Slot List
+  m_Name: Slot List
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2263,19 +2277,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &284217067
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 284217064}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 249f8f6dc7aefaa4a9d6fed6d15f160c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SkillSlotPrefab: {fileID: 7913957374934011697, guid: e1f3868b1d7dc774bb8e445670960057, type: 3}
 --- !u!1 &332878449
 GameObject:
   m_ObjectHideFlags: 0
@@ -3196,8 +3197,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MenuButton: {fileID: 1466400491}
   ExperienceView: {fileID: 1616506172}
-  StageDayView: {fileID: 1350813738}
-  SkillSlotListView: {fileID: 284217067}
+  DaysView: {fileID: 1350813738}
+  SkillView: {fileID: 229655687}
   NightOverlayView: {fileID: 1895318187}
   MenuView: {fileID: 1601332972}
 --- !u!114 &463088778
@@ -7689,7 +7690,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StartMissionButton: {fileID: 568679458}
   LifeView: {fileID: 225893714}
-  StageProgressView: {fileID: 1676742780}
+  MissionProgressView: {fileID: 1676742780}
 --- !u!1 &1185618503
 GameObject:
   m_ObjectHideFlags: 0
@@ -10018,7 +10019,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   continueButton: {fileID: 177195973}
   giveUpButton: {fileID: 710005774}
-  StageProgressView: {fileID: 1999722988}
+  MissionProgressView: {fileID: 1999722988}
 --- !u!1 &1615719493
 GameObject:
   m_ObjectHideFlags: 0
@@ -13311,12 +13312,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f05f45babd7140409872277bb9c07f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  containerTransform: {fileID: 0}
-  nodeImagePrefab: {fileID: 0}
-  edgeImagePrefab: {fileID: 0}
-  nodeFillSprite: {fileID: 0}
-  nodeSelectSprite: {fileID: 0}
-  nodeEmptySprite: {fileID: 0}
+  containerTransform: {fileID: 664417448}
+  nodeImagePrefab: {fileID: 6527398928592877062, guid: 6292ed7fc7908a0469d16d3637228ce6, type: 3}
+  edgeImagePrefab: {fileID: 2183863863213832905, guid: 4632e9f23471cbf429c992df93c33f56, type: 3}
+  nodeFillSprite: {fileID: 21300000, guid: a4fc949ffdbdc1047805879591e902bf, type: 3}
+  nodeSelectSprite: {fileID: 21300000, guid: db374021fb1aa4e4191836c5c0329e8b, type: 3}
+  nodeEmptySprite: {fileID: 21300000, guid: 1cd2fc36bdbab51499c965565c4221cc, type: 3}
 --- !u!1 &2001044842
 GameObject:
   m_ObjectHideFlags: 0

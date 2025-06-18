@@ -9,7 +9,7 @@ namespace Afterlife.GameSystem.Stage
             var skills = ServiceLocator.Get<GameManager>().Game.Player.Skills;
 
             var stageScreen = ServiceLocator.Get<UIManager>().InGameScreen as UI.Stage.Screen;
-            var skillSlotListView = stageScreen.SkillSlotListView;
+            var skillSlotListView = stageScreen.SkillView;
             // skillSlotListView.ClearSkillSlots(); // 여기서 Clear하면 에러남
 
             for (int i = 0; i < skills.Count; i++)
@@ -34,7 +34,7 @@ namespace Afterlife.GameSystem.Stage
 
             var skills = ServiceLocator.Get<GameManager>().Game.Player.Skills;
             var stageScreen = ServiceLocator.Get<UIManager>().InGameScreen as UI.Stage.Screen;
-            var skillSlotListView = stageScreen.SkillSlotListView;
+            var skillSlotListView = stageScreen.SkillView;
 
             for (int i = 0; i < skills.Count; i++)
             {

@@ -46,8 +46,8 @@ namespace Afterlife.UI.Stage
             var gameManager = ServiceLocator.Get<GameManager>();
             var game = gameManager.Game;
 
-            stageScreen.SetExperience(game.Player.Experience);
-            stageScreen.MenuView.StageProgressView.SetProgress(game.CurrentStageIndex, game.TotalStageCount);
+            stageScreen.ExperienceView.SetAmount(game.Player.Experience);
+            stageScreen.MenuView.MissionProgressView.SetProgress(game.CurrentStageIndex, game.TotalStageCount);
         }
     }
 }

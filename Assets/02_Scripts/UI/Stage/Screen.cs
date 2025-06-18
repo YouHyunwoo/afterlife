@@ -12,11 +12,11 @@ namespace Afterlife.UI.Stage
         [Header("Experience")]
         public Amount ExperienceView;
 
-        [Header("Day")]
-        public Days StageDayView;
+        [Header("Days")]
+        public Days DaysView;
 
         [Header("Skill")]
-        public SkillSlotList SkillSlotListView;
+        public Skill SkillView;
 
         [Header("Night Overlay")]
         public GameObject NightOverlayView;
@@ -32,7 +32,5 @@ namespace Afterlife.UI.Stage
         }
 
         void OnMenuButtonClicked() => OnMenuButtonClickedEvent?.Invoke();
-
-        public void SetExperience(float experience) => ExperienceView.SetAmount(experience);
     }
 }

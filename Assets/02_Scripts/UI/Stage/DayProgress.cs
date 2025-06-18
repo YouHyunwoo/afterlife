@@ -6,12 +6,12 @@ namespace Afterlife.UI.Stage
     public class DayProgress : View
     {
         [SerializeField] Transform containerTransform;
-        [SerializeField] Image NodeImagePrefab;
-        [SerializeField] Image EdgeImagePrefab;
-        [SerializeField] Image DayImage;
-        [SerializeField] Sprite DaySprite;
-        [SerializeField] Sprite NightSprite;
-        [SerializeField] RectTransform CurrentIndicator;
+        [SerializeField] Image nodeImagePrefab;
+        [SerializeField] Image edgeImagePrefab;
+        [SerializeField] Image dayNightImage;
+        [SerializeField] Sprite daySprite;
+        [SerializeField] Sprite nightSprite;
+        [SerializeField] RectTransform currentIndicator;
 
         public RectTransform RectTransform;
 
@@ -40,11 +40,11 @@ namespace Afterlife.UI.Stage
             {
                 if (i > 0)
                 {
-                    var edgeImage = Instantiate(EdgeImagePrefab, containerTransform);
+                    var edgeImage = Instantiate(edgeImagePrefab, containerTransform);
                     edgeImage.name = $"Edge {i + 1}";
                     totalWidth += edgeImage.rectTransform.sizeDelta.x;
                 }
-                var nodeImage = Instantiate(NodeImagePrefab, containerTransform);
+                var nodeImage = Instantiate(nodeImagePrefab, containerTransform);
                 nodeImage.name = $"Node {i + 1}";
                 totalWidth += nodeImage.rectTransform.sizeDelta.x;
             }
@@ -54,18 +54,18 @@ namespace Afterlife.UI.Stage
 
         void LocateDayImage(float ratio)
         {
-            var nodeWidth = NodeImagePrefab.rectTransform.sizeDelta.x;
+            var nodeWidth = nodeImagePrefab.rectTransform.sizeDelta.x;
             var totalWidth = RectTransform.sizeDelta.x;
 
             var startX = nodeWidth / 2;
             var endX = totalWidth - nodeWidth / 2;
             var currentX = Mathf.Lerp(startX, endX, ratio);
-            CurrentIndicator.anchoredPosition = new Vector2(currentX, CurrentIndicator.anchoredPosition.y);
+            currentIndicator.anchoredPosition = new Vector2(currentX, currentIndicator.anchoredPosition.y);
         }
 
         public void SetRatio(float ratio) => LocateDayImage(ratio);
 
-        public void SetDay() => DayImage.sprite = DaySprite;
-        public void SetNight() => DayImage.sprite = NightSprite;
+        public void SetDay() => dayNightImage.sprite = daySprite;
+        public void SetNight() => dayNightImage.sprite = nightSprite;
     }
 }

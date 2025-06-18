@@ -3,15 +3,16 @@ using UnityEngine;
 
 namespace Afterlife.UI.Stage
 {
-    public class SkillSlotList : UI.View
+    public class Skill : View
     {
-        public SkillSlot SkillSlotPrefab;
+        [SerializeField] Transform containerTransform;
+        [SerializeField] SkillSlot skillSlotPrefab;
 
         public event Action<int, SkillSlot> OnSkillSlotClickedEvent;
 
         public void ClearSkillSlots()
         {
-            foreach (Transform child in transform)
+            foreach (Transform child in containerTransform)
             {
                 Destroy(child.gameObject);
             }
@@ -19,9 +20,9 @@ namespace Afterlife.UI.Stage
 
         public SkillSlot GenerateSkillSlot()
         {
-            var index = transform.childCount;
+            var index = containerTransform.childCount;
 
-            var skillSlot = Instantiate(SkillSlotPrefab, transform);
+            var skillSlot = Instantiate(skillSlotPrefab, containerTransform);
             skillSlot.OnSkillSlotClickedEvent += () => OnSkillSlotClickedEvent?.Invoke(index, skillSlot);
 
             return skillSlot;

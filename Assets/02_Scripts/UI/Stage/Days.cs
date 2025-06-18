@@ -5,11 +5,11 @@ namespace Afterlife.UI.Stage
 {
     public class Days : View
     {
-        public DayProgress DayProgressView;
-
         [SerializeField] TextMeshProUGUI DaysText;
 
-        public void InitializeProgress(int totalDays)
+        public DayProgress DayProgressView;
+
+        public void SetTotalDays(int totalDays)
         {
             DayProgressView.Initialize(totalDays);
 

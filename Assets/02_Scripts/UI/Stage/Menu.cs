@@ -1,5 +1,4 @@
 using System;
-using Afterlife.UI.Main;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +9,7 @@ namespace Afterlife.UI.Stage
         [SerializeField] Button continueButton;
         [SerializeField] Button giveUpButton;
 
-        public Progress StageProgressView;
+        public Progress MissionProgressView;
 
         public event Action OnContinueButtonClickedEvent;
         public event Action OnGiveUpButtonClickedEvent;

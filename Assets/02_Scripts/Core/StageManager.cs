@@ -265,7 +265,7 @@ namespace Afterlife.Core
         void OnExperienceChanged(float experience)
         {
             var stageScreen = ServiceLocator.Get<UIManager>().InGameScreen as UI.Stage.Screen;
-            stageScreen.SetExperience(experience);
+            stageScreen.ExperienceView.SetAmount(experience);
         }
 
         public void EndStage()

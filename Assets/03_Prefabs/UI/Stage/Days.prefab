@@ -125,8 +125,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a2187ad74c364b4ca740d90d92cbab2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DayProgressView: {fileID: 2196134115499427479}
   DaysText: {fileID: 7984024869117496534}
+  DayProgressView: {fileID: 2196134115499427479}
 --- !u!1 &1682852683244543451
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,12 +495,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   containerTransform: {fileID: 2648415126814139639}
-  NodeImagePrefab: {fileID: 4282674497932676841, guid: f3013d4f1e2c9684281af0018aa6d308, type: 3}
-  EdgeImagePrefab: {fileID: 7486270672118758494, guid: d12edcf951035134fa0bbedd294e370d, type: 3}
-  DayImage: {fileID: 1352853433773306576}
-  DaySprite: {fileID: 21300000, guid: b81230041a588d048b52126cb0a9d323, type: 3}
-  NightSprite: {fileID: 21300000, guid: a5785238b6657814eabc7ee34db4d857, type: 3}
-  CurrentIndicator: {fileID: 1831296735168409549}
+  nodeImagePrefab: {fileID: 4282674497932676841, guid: f3013d4f1e2c9684281af0018aa6d308, type: 3}
+  edgeImagePrefab: {fileID: 7486270672118758494, guid: d12edcf951035134fa0bbedd294e370d, type: 3}
+  dayNightImage: {fileID: 1352853433773306576}
+  daySprite: {fileID: 21300000, guid: b81230041a588d048b52126cb0a9d323, type: 3}
+  nightSprite: {fileID: 21300000, guid: a5785238b6657814eabc7ee34db4d857, type: 3}
+  currentIndicator: {fileID: 1831296735168409549}
   RectTransform: {fileID: 1139730891883174565}
 --- !u!1001 &1942597969850461156
 PrefabInstance:

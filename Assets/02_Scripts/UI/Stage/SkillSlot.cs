@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Afterlife.UI.Stage
 {
-    public class SkillSlot : UI.View
+    public class SkillSlot : View
     {
         [Header("Icon")]
         public Image IconImage;
