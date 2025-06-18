@@ -10,17 +10,20 @@ namespace Afterlife.UI.Main
             var uiManager = ServiceLocator.Get<UIManager>();
             var mainScreen = uiManager.MainScreen as Main.Screen;
 
+            mainScreen.GetComponent<Tab>().SetView(0);
+
             mainScreen.OnMenuButtonClickedEvent += OnMenuButtonClicked;
             mainScreen.MenuView.OnContinueButtonClickedEvent += OnContinueButtonClicked;
             mainScreen.MenuView.OnSaveAndQuitButtonClickedEvent += OnSaveAndQuitButtonClicked;
             mainScreen.OnStartMissionButtonClickedEvent += OnStartMissionButtonClicked;
 
-            var upgradeNodes = mainScreen.GetComponentsInChildren<UpgradeNode>(true);
+            var upgradeNodes = mainScreen.UpgradeView.UpgradeTreeView.upgradeNodes;
             foreach (var upgradeNode in upgradeNodes)
             {
                 upgradeNode.OnPurchased += OnUpgradeItemPurchased;
                 upgradeNode.OnInformationShowed += OnUpgradeNodeInformationShowed;
                 upgradeNode.OnInformationHidden += OnUpgradeNodeInformationHidden;
+                upgradeNode.Clear();
             }
         }
 
@@ -31,7 +34,7 @@ namespace Afterlife.UI.Main
             var gameManager = ServiceLocator.Get<GameManager>();
             var game = gameManager.Game;
 
-            mainScreen.UpgradeView.ExperienceView.SetExperience(game.Player.Experience);
+            mainScreen.UpgradeView.ExperienceView.SetAmount(game.Player.Experience);
         }
 
         void OnUpgradeNodeInformationShowed(UpgradeNode upgradeNode)
@@ -111,9 +114,8 @@ namespace Afterlife.UI.Main
             var game = ServiceLocator.Get<GameManager>().Game;
 
             mainScreen.MissionView.LifeView.SetLifes(game.Lifes);
-            mainScreen.MissionView.StageProgressView.SetStageProgress(game.CurrentStageIndex, game.TotalStageCount);
-            mainScreen.UpgradeView.ExperienceView.SetExperience(game.Player.Experience);
-            mainScreen.UpgradeView.InitializeUpgradeTree(game.Player.Upgrades);
+            mainScreen.MissionView.MissionProgressView.SetProgress(game.CurrentStageIndex, game.TotalStageCount);
+            mainScreen.UpgradeView.ExperienceView.SetAmount(game.Player.Experience);
         }
     }
 }

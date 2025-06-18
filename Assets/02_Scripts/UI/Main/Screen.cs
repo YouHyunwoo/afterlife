@@ -1,20 +1,18 @@
 using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Afterlife.UI.Main
 {
     public class Screen : UI.Screen
     {
         [Header("Navigation Bar")]
-        [SerializeField] Button MenuButton;
+        public NavigationBar NavigationBarView;
 
         [Header("Mission")]
         public Mission MissionView;
-        [SerializeField] Button StartMissionButton;
 
         [Header("Upgrade")]
-        public Power UpgradeView;
+        public Upgrade UpgradeView;
 
         [Header("Popup")]
         public Menu MenuView;
@@ -25,11 +23,8 @@ namespace Afterlife.UI.Main
 
         void Awake()
         {
-            MenuButton.onClick.AddListener(OnMenuButtonClicked);
-            StartMissionButton.onClick.AddListener(OnStartMissionButtonClicked);
+            NavigationBarView.OnMenuButtonClickedEvent += OnMenuButtonClickedEvent;
+            MissionView.OnStartMissionButtonClickedEvent += OnStartMissionButtonClickedEvent;
         }
-
-        void OnMenuButtonClicked() => OnMenuButtonClickedEvent?.Invoke();
-        void OnStartMissionButtonClicked() => OnStartMissionButtonClickedEvent?.Invoke();
     }
 }

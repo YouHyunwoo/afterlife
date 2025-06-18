@@ -7,15 +7,15 @@ namespace Afterlife.UI.Main
     public class UpgradeInformation : View
     {
         [SerializeField] TextMeshProUGUI nameText;
-        [SerializeField] TextMeshProUGUI descriptionText;
         [SerializeField] TextMeshProUGUI costText;
-        [SerializeField] GameObject lockedOverlay;
+        [SerializeField] Image separatorImage;
+        [SerializeField] TextMeshProUGUI descriptionText;
 
         public void Show(string name, string description, int cost, UpgradeNode.UpgradeState state)
         {
             nameText.text = name;
-            descriptionText.text = description;
             costText.text = $"{cost}";
+            descriptionText.text = description;
 
             var isActive = gameObject.activeSelf;
             if (!isActive) { gameObject.SetActive(true); }
@@ -25,14 +25,16 @@ namespace Afterlife.UI.Main
             if (state == UpgradeNode.UpgradeState.Locked)
             {
                 nameText.color = Color.gray;
-                descriptionText.color = Color.gray;
                 costText.color = Color.gray;
+                separatorImage.color = Color.gray;
+                descriptionText.color = Color.gray;
             }
             else
             {
                 nameText.color = Color.white;
-                descriptionText.color = Color.white;
                 costText.color = Color.white;
+                separatorImage.color = Color.white;
+                descriptionText.color = Color.white;
             }
 
             Show();

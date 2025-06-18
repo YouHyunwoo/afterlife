@@ -7,9 +7,10 @@ namespace Afterlife.UI.Stage
 {
     public class Menu : View
     {
-        public StageProgress StageProgressView;
         [SerializeField] Button continueButton;
         [SerializeField] Button giveUpButton;
+
+        public Progress StageProgressView;
 
         public event Action OnContinueButtonClickedEvent;
         public event Action OnGiveUpButtonClickedEvent;

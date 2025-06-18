@@ -13,12 +13,14 @@ namespace Afterlife.UI.Main
         [SerializeField] Button button;
         [SerializeField] Image borderImage;
         [SerializeField] Image lockedOverlayImage;
+
         public string Id;
         public string Name;
         public string Description;
         public int Cost;
         public UpgradeNode[] Prerequisites;
         public UpgradeNode[] NextNodes;
+
         public UpgradeState State;
 
         public event Action<UpgradeNode> OnPurchased;

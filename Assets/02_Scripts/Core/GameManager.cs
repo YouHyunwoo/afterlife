@@ -24,8 +24,6 @@ namespace Afterlife.Core
         {
             // 초기화하고 바뀌지 않는 Controller 설정
             ServiceLocator.Get<UIManager>().TitleController.SetUp();
-            ServiceLocator.Get<UIManager>().MainController.SetUp();
-            ServiceLocator.Get<UIManager>().StageController.SetUp();
 
             ChangeState(GameState.Title);
         }
@@ -95,6 +93,9 @@ namespace Afterlife.Core
                 TotalStageCount = gameData.StageDataArray.Length,
             };
 
+            ServiceLocator.Get<UIManager>().MainController.SetUp();
+            ServiceLocator.Get<UIManager>().StageController.SetUp();
+
             Debug.Log("게임이 생성되었습니다.");
         }
 
@@ -102,15 +103,17 @@ namespace Afterlife.Core
         {
             // 게임 종료 로직
             // 예: 플레이어 상태 초기화, 스테이지 리셋 등
+            ServiceLocator.Get<UIManager>().MainController.TearDown();
+            ServiceLocator.Get<UIManager>().StageController.TearDown();
+
             Game = null;
+
             Debug.Log("게임이 종료되었습니다.");
         }
 
         public void Quit()
         {
             ServiceLocator.Get<UIManager>().TitleController.TearDown();
-            ServiceLocator.Get<UIManager>().MainController.TearDown();
-            ServiceLocator.Get<UIManager>().StageController.TearDown();
 
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;

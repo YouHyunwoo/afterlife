@@ -47,7 +47,7 @@ namespace Afterlife.UI.Stage
             var game = gameManager.Game;
 
             stageScreen.SetExperience(game.Player.Experience);
-            stageScreen.MenuView.StageProgressView.SetStageProgress(game.CurrentStageIndex, game.TotalStageCount);
+            stageScreen.MenuView.StageProgressView.SetProgress(game.CurrentStageIndex, game.TotalStageCount);
         }
     }
 }

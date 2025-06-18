@@ -1,12 +1,13 @@
 using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Afterlife.UI.Main
 {
     public class Menu : View
     {
-        public Button continueButton;
-        public Button saveAndQuitButton;
+        [SerializeField] Button continueButton;
+        [SerializeField] Button saveAndQuitButton;
 
         public event Action OnContinueButtonClickedEvent;
         public event Action OnSaveAndQuitButtonClickedEvent;

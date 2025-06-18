@@ -10,7 +10,7 @@ namespace Afterlife.UI.Stage
         [SerializeField] Button MenuButton;
 
         [Header("Experience")]
-        public Main.Experience ExperienceView;
+        public Amount ExperienceView;
 
         [Header("Day")]
         public Days StageDayView;
@@ -33,6 +33,6 @@ namespace Afterlife.UI.Stage
 
         void OnMenuButtonClicked() => OnMenuButtonClickedEvent?.Invoke();
 
-        public void SetExperience(float experience) => ExperienceView.SetExperience(experience);
+        public void SetExperience(float experience) => ExperienceView.SetAmount(experience);
     }
 }
