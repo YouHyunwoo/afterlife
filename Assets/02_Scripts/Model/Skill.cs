@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Afterlife.Model
 {
-    public class Skill
+    public abstract class Skill
     {
         public enum SkillState { Idle, Casting, PreDelay, Active, PostDelay, CoolDown }
 
