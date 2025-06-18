@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 namespace Afterlife.Core
@@ -72,7 +73,7 @@ namespace Afterlife.Core
                 Lifes = gameData.Lifes,
                 Player = new Model.Player
                 {
-                    Experience = 99,
+                    Experience = 0,
                     AttackPower = 1f,
                     AttackSpeed = 1f,
                     AttackRange = 1f,
@@ -131,6 +132,11 @@ namespace Afterlife.Core
             // 게임 저장 로직
             // 예: 플레이어 상태, 스테이지 진행 상황 등을 저장
             Debug.Log("게임이 저장되었습니다.");
+        }
+
+        void OnDestroy()
+        {
+            DOTween.KillAll();
         }
     }
 }

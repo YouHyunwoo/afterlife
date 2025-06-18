@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 namespace Afterlife.View
@@ -21,6 +22,12 @@ namespace Afterlife.View
             TakeDamage(player.AttackPower, null);
             base.Interact(player);
             OnDied -= OnDiedEvent;
+
+            if (Health > 0f)
+            {
+                var bodyTransform = transform.Find("Body");
+                bodyTransform.DOShakePosition(0.2f, 0.1f, 30, 90, false, true);
+            }
         }
     }
 }
