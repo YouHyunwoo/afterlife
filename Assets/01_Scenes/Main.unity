@@ -15049,7 +15049,7 @@ MonoBehaviour:
   fieldTransform: {fileID: 661714298}
   fieldObjectSpawner: {fileID: 212219396}
   monsterSpawnSystem: {fileID: 1944477075}
-  environmentSpawnSystem: {fileID: 0}
+  environmentSpawnSystem: {fileID: 1001290271}
   timeSystem: {fileID: 359114066}
   tileInteractionSystem: {fileID: 370500480}
   missionSystem: {fileID: 1281474505}
