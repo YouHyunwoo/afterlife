@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Afterlife.Core;
 using UnityEngine;
 
 namespace Afterlife.Model
@@ -18,8 +19,6 @@ namespace Afterlife.Model
         public event Action OnCooldownEndedEvent;
         public event Action OnCanceledEvent;
 
-        protected Controller.Controller controller;
-
         Coroutine activateRoutine;
         Coroutine cooldownRoutine;
 
@@ -28,7 +27,7 @@ namespace Afterlife.Model
             SkillData = skillData;
         }
 
-        public virtual void SetUp(Controller.Controller controller) { this.controller = controller; }
+        public virtual void SetUp() { }
         public virtual void TearDown() => TearDownInternal();
 
         void TearDownInternal()
@@ -38,7 +37,7 @@ namespace Afterlife.Model
                 case SkillState.Active:
                     if (activateRoutine != null)
                     {
-                        controller.StopCoroutine(activateRoutine);
+                        CoroutineRunner.StopRoutine(activateRoutine);
                         activateRoutine = null;
                     }
                     OnDeactivated();
@@ -47,7 +46,7 @@ namespace Afterlife.Model
                 case SkillState.CoolDown:
                     if (cooldownRoutine != null)
                     {
-                        controller.StopCoroutine(cooldownRoutine);
+                        CoroutineRunner.StopRoutine(cooldownRoutine);
                         cooldownRoutine = null;
                     }
                     OnCooldownEndedEvent?.Invoke();
@@ -113,7 +112,7 @@ namespace Afterlife.Model
         protected void Activate(float duration)
         {
             if (duration <= 0) { Next(); return; }
-            activateRoutine = controller.StartCoroutine(ActivateRoutine(duration));
+            activateRoutine = CoroutineRunner.StartRoutine(ActivateRoutine(duration));
         }
 
         IEnumerator ActivateRoutine(float duration)
@@ -127,7 +126,7 @@ namespace Afterlife.Model
         {
             Debug.Log($"Cooldown: {duration}");
             if (duration <= 0) { Next(); return; }
-            cooldownRoutine = controller.StartCoroutine(CooldownRoutine(duration));
+            cooldownRoutine = CoroutineRunner.StartRoutine(CooldownRoutine(duration));
         }
 
         IEnumerator CooldownRoutine(float duration)
@@ -150,7 +149,7 @@ namespace Afterlife.Model
 
         protected void Delay(float duration, Action callback)
         {
-            controller.StartCoroutine(DelayRoutine(duration, callback));
+            CoroutineRunner.StartRoutine(DelayRoutine(duration, callback));
         }
 
         IEnumerator DelayRoutine(float duration, Action callback)

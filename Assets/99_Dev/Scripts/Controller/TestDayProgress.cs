@@ -4,7 +4,7 @@ namespace Afterlife.Controller
 {
     public class TestDayProgress : MonoBehaviour
     {
-        public View.Days DaysView;
+        public UI.Stage.Days DaysView;
         public int TotalDays;
         public float DayDuration;
         public float NightDuration;

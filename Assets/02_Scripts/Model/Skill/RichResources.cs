@@ -1,3 +1,4 @@
+using Afterlife.Core;
 using UnityEngine;
 
 namespace Afterlife.Model
@@ -22,23 +23,22 @@ namespace Afterlife.Model
             }
         }
 
-        public override void SetUp(Controller.Controller controller)
+        public override void SetUp()
         {
-            base.SetUp(controller);
             Use();
         }
 
         protected override void OnActivated()
         {
-            controller.Game.Stage.MaxEnvironmentObjectCount = Mathf.FloorToInt(controller.Game.Stage.MaxEnvironmentObjectCount * SpawningAmountMultiplier);
-            controller.Game.Stage.EnvironmentObjectGenerationProbability *= SpawningProbabilityMultiplier;
+            ServiceLocator.Get<GameManager>().Game.Stage.MaxEnvironmentObjectCount = Mathf.FloorToInt(ServiceLocator.Get<GameManager>().Game.Stage.MaxEnvironmentObjectCount * SpawningAmountMultiplier);
+            ServiceLocator.Get<GameManager>().Game.Stage.EnvironmentObjectGenerationProbability *= SpawningProbabilityMultiplier;
             Debug.Log($"RichResources activated: {SpawningAmountMultiplier} {SpawningProbabilityMultiplier}");
         }
 
         protected override void OnDeactivated()
         {
-            controller.Game.Stage.MaxEnvironmentObjectCount = Mathf.FloorToInt(controller.Game.Stage.MaxEnvironmentObjectCount / SpawningAmountMultiplier); ;
-            controller.Game.Stage.EnvironmentObjectGenerationProbability /= SpawningProbabilityMultiplier;
+            ServiceLocator.Get<GameManager>().Game.Stage.MaxEnvironmentObjectCount = Mathf.FloorToInt(ServiceLocator.Get<GameManager>().Game.Stage.MaxEnvironmentObjectCount / SpawningAmountMultiplier);
+            ServiceLocator.Get<GameManager>().Game.Stage.EnvironmentObjectGenerationProbability /= SpawningProbabilityMultiplier;
         }
     }
 }

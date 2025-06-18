@@ -6,6 +6,7 @@ namespace Afterlife.View
         {
             Health += player.RecoveryPower;
             UpdateValue();
+            base.Interact(player);
         }
     }
 }

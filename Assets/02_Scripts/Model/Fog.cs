@@ -20,8 +20,8 @@ namespace Afterlife.Model
         public SpriteRenderer[,] SpriteRendererGrid;
         public List<Light> Lights = new();
         public bool IsDirty;
-        public event Action<float[,]> OnFogUpdated;
         public LinkedList<SpriteRenderer> PreviousActiveSpriteRenderers = new();
+        public event Action<float[,]> OnFogUpdated;
 
         public void AddLight(Light light)
         {
@@ -34,7 +34,8 @@ namespace Afterlife.Model
         }
 
         public void Invalidate() => IsDirty = true;
-        public void Update() {
+        public void Update()
+        {
             if (!IsDirty) { return; }
 
             for (int x = 0; x < Size.x; x++)
@@ -111,6 +112,36 @@ namespace Afterlife.Model
                     FogGrid[x, y] = 0;
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            var mapWidth = FogGrid.GetLength(0);
+            var mapHeight = FogGrid.GetLength(1);
+
+            for (int x = 0; x < mapWidth; x++)
+            {
+                for (int y = 0; y < mapHeight; y++)
+                {
+                    if (TransformGrid[x, y] != null)
+                    {
+                        UnityEngine.Object.Destroy(TransformGrid[x, y].gameObject);
+                    }
+                    TransformGrid[x, y] = null;
+                    FogGrid[x, y] = 0;
+                    SpriteRendererGrid[x, y] = null;
+                }
+            }
+
+            OnFogUpdated = null;
+            PreviousActiveSpriteRenderers.Clear();
+            IsDirty = false;
+            Lights.Clear();
+            Lights = null;
+            FogGrid = null;
+            TransformGrid = null;
+            SpriteRendererGrid = null;
+            Size = Vector2Int.zero;
         }
     }
 }

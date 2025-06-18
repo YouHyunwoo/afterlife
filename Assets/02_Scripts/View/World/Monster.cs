@@ -72,6 +72,12 @@ namespace Afterlife.View
             }
         }
 
+        public override void Interact(Model.Player player)
+        {
+            TakeDamage(player.AttackPower, null);
+            base.Interact(player);
+        }
+
         public void StartPatrol()
         {
             Animator.SetBool("Patrol", true);
@@ -145,7 +151,7 @@ namespace Afterlife.View
             targetTransform = target;
         }
 
-        void OnTargetDied(Object target)
+        void OnTargetDied(Object attacker, Object target)
         {
             TargetCandidateTransforms.Remove(target.transform);
             if (targetTransform != target.transform) { return; }

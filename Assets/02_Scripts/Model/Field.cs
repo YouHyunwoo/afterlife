@@ -28,12 +28,24 @@ namespace Afterlife.Model
                 {
                     SpriteRendererGrid[x, y] = spriteRenderer;
                 }
+                Count++;
             }
             else
             {
                 SpriteRendererGrid[x, y] = null;
             }
-            Count++;
+        }
+
+        public bool TryGet(Vector2Int location, out Transform @object) => TryGet(location.x, location.y, out @object);
+        public bool TryGet(int x, int y, out Transform @object)
+        {
+            if (IsInBounds(x, y) && Has(x, y))
+            {
+                @object = TransformGrid[x, y];
+                return true;
+            }
+            @object = null;
+            return false;
         }
 
         public Transform Get(Vector2Int location) => Get(location.x, location.y);
@@ -53,6 +65,31 @@ namespace Afterlife.Model
                     SpriteRendererGrid[x, y].color = new Color(1f, 1f, 1f, 1 - fogValue);
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            var mapWidth = TransformGrid.GetLength(0);
+            var mapHeight = TransformGrid.GetLength(1);
+
+            for (int x = 0; x < mapWidth; x++)
+            {
+                for (int y = 0; y < mapHeight; y++)
+                {
+                    if (TransformGrid[x, y] != null)
+                    {
+                        UnityEngine.Object.Destroy(TransformGrid[x, y].gameObject);
+                    }
+                    TransformGrid[x, y] = null;
+                    SpriteRendererGrid[x, y] = null;
+                }
+            }
+
+            Count = 0;
+            TransformGrid = null;
+            SpriteRendererGrid = null;
+            Data = null;
+            Size = Vector2Int.zero;
         }
     }
 }

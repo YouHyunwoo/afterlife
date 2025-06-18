@@ -11,7 +11,9 @@ namespace Afterlife.View
 
         TextMeshPro text;
 
-        public event Action<Object> OnDied;
+        public event Action<Object> OnInteracted;
+        public event Action<Object, Object> OnHit;
+        public event Action<Object, Object> OnDied;
 
         protected virtual void Awake()
         {
@@ -31,16 +33,18 @@ namespace Afterlife.View
 
         public virtual void Interact(Model.Player player)
         {
-            TakeDamage(player.AttackPower, null);
+            OnInteracted?.Invoke(this);
         }
 
-        public virtual void TakeDamage(float damage, Object @object)
+        public virtual void TakeDamage(float damage, Object attacker)
         {
             Health -= damage;
+            OnHit?.Invoke(attacker, this);
+
             if (Health <= 0f)
             {
                 Died();
-                OnDied?.Invoke(this);
+                OnDied?.Invoke(attacker, this);
             }
             else
             {

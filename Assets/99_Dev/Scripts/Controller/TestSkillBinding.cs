@@ -5,14 +5,14 @@ namespace Afterlife.Controller
     public class TestSkillBinding : MonoBehaviour
     {
         public Data.Skill[] SkillDataArray;
-        public View.SkillSlot[] SkillSlotArray;
-        public View.SkillSlotList SkillSlotList;
+        public UI.Stage.SkillSlot[] SkillSlotArray;
+        public UI.Stage.SkillSlotList SkillSlotList;
 
         Model.Skill[] SkillArray;
 
         void Start()
         {
-            var controller = GetComponent<Controller>();
+            // var controller = GetComponent<Controller>();
 
             SkillArray = new Model.Skill[SkillDataArray.Length];
             for (int i = 0; i < SkillDataArray.Length; i++)
@@ -23,7 +23,7 @@ namespace Afterlife.Controller
 
                 SkillArray[i] = skill;
                 BindSkill(SkillArray[i], SkillSlotArray[i]);
-                SkillArray[i].SetUp(controller);
+                // SkillArray[i].SetUp(controller);
             }
         }
 
@@ -41,7 +41,7 @@ namespace Afterlife.Controller
             }
         }
 
-        void BindSkill(Model.Skill skill, View.SkillSlot skillSlot)
+        void BindSkill(Model.Skill skill, UI.Stage.SkillSlot skillSlot)
         {
             skill.OnActivatedEvent += skillSlot.StartFlow;
             skill.OnDeactivatedEvent += skillSlot.StopFlow;

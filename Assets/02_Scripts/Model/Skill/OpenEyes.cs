@@ -1,3 +1,4 @@
+using Afterlife.Core;
 using UnityEngine;
 
 namespace Afterlife.Model
@@ -21,15 +22,15 @@ namespace Afterlife.Model
         protected override void OnActivated()
         {
             Debug.Log($"OpenEyes activated: {SightRangeMultiplier}");
-            originalSightRange = controller.Game.Player.Light.Range;
-            controller.Game.Player.Light.Range *= SightRangeMultiplier;
+            originalSightRange = ServiceLocator.Get<GameManager>().Game.Player.Light.Range;
+            ServiceLocator.Get<GameManager>().Game.Player.Light.Range *= SightRangeMultiplier;
             base.OnActivated();
         }
 
         protected override void OnDeactivated()
         {
             // 원래대로 돌려놓기
-            controller.Game.Player.Light.Range = originalSightRange;
+            ServiceLocator.Get<GameManager>().Game.Player.Light.Range = originalSightRange;
             Debug.Log($"OpenEyes deactivated: {SightRangeMultiplier}");
         }
     }

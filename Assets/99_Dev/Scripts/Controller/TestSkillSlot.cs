@@ -6,7 +6,7 @@ namespace Afterlife.Controller
     public class TestSkillUI : MonoBehaviour
     {
         public Sprite IconSprite;
-        public View.SkillSlot SkillSlot;
+        public UI.Stage.SkillSlot SkillSlot;
         public float CooldownDuration = 5f;
 
         void Start()
