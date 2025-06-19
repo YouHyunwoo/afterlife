@@ -23,6 +23,7 @@ namespace Afterlife.UI.Stage
 
         [Header("Popup")]
         public Menu MenuView;
+        public SkillInformation SkillInformationView;
 
         public event Action OnMenuButtonClickedEvent;
 

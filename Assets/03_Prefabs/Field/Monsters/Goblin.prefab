@@ -16,9 +16,29 @@ PrefabInstance:
       propertyPath: Health
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 998242014833558022, guid: 1057a49d659c0604ea14e3244cd267cd, type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 998242014833558022, guid: 1057a49d659c0604ea14e3244cd267cd, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 998242014833558022, guid: 1057a49d659c0604ea14e3244cd267cd, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 2572365745140355499, guid: ea1c4eca6dc7a5b4592fd30188996e07, type: 3}
+    - target: {fileID: 998242014833558022, guid: 1057a49d659c0604ea14e3244cd267cd, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1298966199429778032, guid: 1057a49d659c0604ea14e3244cd267cd, type: 3}
       propertyPath: m_Name
       value: Goblin
+      objectReference: {fileID: 0}
+    - target: {fileID: 3041271154173805433, guid: 1057a49d659c0604ea14e3244cd267cd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.85
       objectReference: {fileID: 0}
     - target: {fileID: 9050849888429061515, guid: 1057a49d659c0604ea14e3244cd267cd, type: 3}
       propertyPath: m_LocalPosition.x

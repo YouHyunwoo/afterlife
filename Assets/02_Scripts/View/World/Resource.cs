@@ -8,6 +8,15 @@ namespace Afterlife.View
         public string Type;
         public int Amount;
 
+        public SpriteRenderer SpriteRenderer;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        }
+
         public override void Interact(Model.Player player)
         {
             void OnDiedEvent(Object attacker, Object @object)
@@ -28,6 +37,14 @@ namespace Afterlife.View
                 var bodyTransform = transform.Find("Body");
                 bodyTransform.DOShakePosition(0.2f, 0.1f, 30, 90, false, true);
             }
+        }
+
+        public override void Died()
+        {
+            SpriteRenderer.DOFade(0f, 1f).OnComplete(() =>
+            {
+                base.Died();
+            });
         }
     }
 }

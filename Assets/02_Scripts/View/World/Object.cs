@@ -7,12 +7,13 @@ namespace Afterlife.View
     public class Object : MonoBehaviour
     {
         public float Health;
+        public bool IsAlive;
         public Model.Map Map;
 
         TextMeshPro text;
 
         public event Action<Object> OnInteracted;
-        public event Action<Object, Object> OnHit;
+        public event Action<Object, Object> OnHitEvent;
         public event Action<Object, Object> OnDied;
 
         protected virtual void Awake()
@@ -22,13 +23,14 @@ namespace Afterlife.View
 
         protected virtual void Start()
         {
+            IsAlive = true;
             UpdateValue();
         }
 
         protected void UpdateValue()
         {
             if (text == null) { return; }
-            text.text = $"{Health:0}";
+            text.text = $"{Mathf.Max(Health, 0):0}";
         }
 
         public virtual void Interact(Model.Player player)
@@ -38,26 +40,27 @@ namespace Afterlife.View
 
         public virtual void TakeDamage(float damage, Object attacker)
         {
+            if (!IsAlive) { return; }
+
             Health -= damage;
-            OnHit?.Invoke(attacker, this);
+            OnHitEvent?.Invoke(attacker, this);
+
+            UpdateValue();
 
             if (Health <= 0f)
             {
                 Died();
                 OnDied?.Invoke(attacker, this);
             }
-            else
-            {
-                UpdateValue();
-            }
         }
 
         public virtual void Died()
         {
+            IsAlive = false;
             var location = Vector2Int.FloorToInt(transform.position);
             Map.Field.Set(location, null);
             gameObject.SetActive(false);
-            Destroy(gameObject);
+            Destroy(gameObject, 0);
         }
     }
 }

@@ -1,11 +1,14 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Afterlife.UI.Stage
 {
-    public class SkillSlot : View
+    public class SkillSlot : View,
+        IPointerEnterHandler,
+        IPointerExitHandler
     {
         [Header("Icon")]
         public Image IconImage;
@@ -24,7 +27,11 @@ namespace Afterlife.UI.Stage
         [Header("Cover")]
         public Button CoverButton;
 
+        public Data.Skill SkillData;
+
         public event Action OnSkillSlotClickedEvent;
+        public event Action<SkillSlot> OnInformationShowed;
+        public event Action<SkillSlot> OnInformationHidden;
 
         Tweener flowTween;
         Sequence flowSequence;
@@ -38,6 +45,9 @@ namespace Afterlife.UI.Stage
         {
             OnSkillSlotClickedEvent?.Invoke();
         }
+
+        void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) => OnInformationShowed?.Invoke(this);
+        void IPointerExitHandler.OnPointerExit(PointerEventData eventData) => OnInformationHidden?.Invoke(this);
 
         public void SetEnabled(bool enabled)
         {

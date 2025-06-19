@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEditor;
 using UnityEngine;
 
@@ -52,6 +53,13 @@ namespace Afterlife.View
 
             Direction = Random.Range(0, 2) == 0 ? -1 : 1;
             SpriteRenderer.flipX = Direction == -1;
+
+            OnHitEvent += OnHit;
+        }
+
+        void OnHit(Object attacker, Object target)
+        {
+            Animator.SetTrigger("Hit");
         }
 
         protected override void Start()
@@ -153,6 +161,8 @@ namespace Afterlife.View
 
         void OnTargetDied(Object attacker, Object target)
         {
+            if (!IsAlive) { return; }
+
             TargetCandidateTransforms.Remove(target.transform);
             if (targetTransform != target.transform) { return; }
             targetTransform = null;
@@ -200,7 +210,7 @@ namespace Afterlife.View
 
         public void StartAttack() => Animator.SetBool("Attack", true);
         public void StopAttack() => Animator.SetBool("Attack", false);
-        public void AttackStep()
+        public virtual void AttackStep()
         {
             if (targetTransform == null) { return; }
             if (!targetTransform.TryGetComponent<Object>(out var target)) { return; }
@@ -212,6 +222,15 @@ namespace Afterlife.View
             }
 
             target.TakeDamage(damage, this);
+        }
+
+        public override void Died()
+        {
+            Animator.SetBool("Dead", true);
+            SpriteRenderer.DOFade(0f, 1f).OnComplete(() =>
+            {
+                base.Died();
+            });
         }
     }
 }

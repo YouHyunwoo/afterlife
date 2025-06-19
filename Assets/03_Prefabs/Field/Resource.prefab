@@ -78,5 +78,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 0
+  IsAlive: 0
   Type: 
   Amount: 0

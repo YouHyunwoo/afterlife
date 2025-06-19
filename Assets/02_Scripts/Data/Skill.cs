@@ -14,6 +14,8 @@ namespace Afterlife.Data
     public class Skill : ScriptableObject
     {
         public string Id;
+        public string Name;
+        public string Description;
         public Sprite IconSprite;
         public float ActiveDuration;
         public float CooldownDuration;

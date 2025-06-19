@@ -14,6 +14,13 @@ public class MonsterAttack : StateMachineBehaviour
 
         monster.StateName = "Attack";
 
+        var direction = monster.targetLocation.x - monster.transform.position.x;
+        if (direction != 0 && (direction < 0) != monster.SpriteRenderer.flipX)
+        {
+            monster.Direction = direction > 0 ? 1 : -1;
+            monster.SpriteRenderer.flipX = direction < 0;
+        }
+
         progress = 0f;
     }
 
@@ -35,7 +42,6 @@ public class MonsterAttack : StateMachineBehaviour
         if (progress >= 1f)
         {
             progress = 0f;
-            monster.AttackStep();
         }
     }
 }

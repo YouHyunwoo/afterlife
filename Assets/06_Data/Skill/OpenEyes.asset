@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: OpenEyes
   m_EditorClassIdentifier: 
   Id: open-eyes
+  Name: Open Eyes
+  Description: Increase view range of player in 5 seconds
   IconSprite: {fileID: 21300000, guid: 1cd2fc36bdbab51499c965565c4221cc, type: 3}
   ActiveDuration: 3
   CooldownDuration: 5

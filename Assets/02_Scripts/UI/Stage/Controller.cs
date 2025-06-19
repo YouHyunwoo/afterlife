@@ -39,6 +39,16 @@ namespace Afterlife.UI.Stage
             ServiceLocator.Get<StageManager>().FailStage();
         }
 
+        public override void TearDown()
+        {
+            var uiManager = ServiceLocator.Get<UIManager>();
+            var stageScreen = uiManager.InGameScreen as Stage.Screen;
+
+            stageScreen.OnMenuButtonClickedEvent -= OnMenuButtonClicked;
+            stageScreen.MenuView.OnContinueButtonClickedEvent -= OnContinueButtonClicked;
+            stageScreen.MenuView.OnGiveUpButtonClickedEvent -= OnGiveUpButtonClicked;
+        }
+
         public override void Refresh()
         {
             var uiManager = ServiceLocator.Get<UIManager>();

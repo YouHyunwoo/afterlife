@@ -1,4 +1,5 @@
 using Afterlife.Core;
+using UnityEngine;
 
 namespace Afterlife.GameSystem.Stage
 {
@@ -20,12 +21,34 @@ namespace Afterlife.GameSystem.Stage
             for (int i = 0; i < skills.Count; i++)
             {
                 var skill = skills[i];
-                var skillSlot = skillSlotListView.transform.GetChild(i).GetComponent<UI.Stage.SkillSlot>();
+                var skillSlot = skillSlotListView.SkillSlots[i];
+                skillSlot.SkillData = skill.SkillData;
+                skillSlot.OnInformationShowed += OnSkillInformationShowed;
+                skillSlot.OnInformationHidden += OnSkillInformationHidden;
                 Bind(skill, skillSlot);
                 skill.SetUp();
             }
 
             enabled = true;
+        }
+
+        void OnSkillInformationShowed(UI.Stage.SkillSlot skillSlot)
+        {
+            var uiManager = ServiceLocator.Get<UIManager>();
+            var stageScreen = uiManager.InGameScreen as UI.Stage.Screen;
+
+            var nodeRectTransform = skillSlot.GetComponent<RectTransform>();
+            stageScreen.SkillInformationView.GetComponent<RectTransform>().position = nodeRectTransform.position + new Vector3(-25, stageScreen.SkillInformationView.GetComponent<RectTransform>().sizeDelta.y - 50, 0);
+            var skillData = skillSlot.SkillData;
+            stageScreen.SkillInformationView.Show(skillData.Name, skillData.Description, 0);
+        }
+
+        void OnSkillInformationHidden(UI.Stage.SkillSlot skillSlot)
+        {
+            var uiManager = ServiceLocator.Get<UIManager>();
+            var stageScreen = uiManager.InGameScreen as UI.Stage.Screen;
+
+            stageScreen.SkillInformationView.Hide();
         }
 
         public override void TearDown()
@@ -39,9 +62,12 @@ namespace Afterlife.GameSystem.Stage
             for (int i = 0; i < skills.Count; i++)
             {
                 var skill = skills[i];
-                var skillSlot = skillSlotListView.transform.GetChild(i).GetComponent<UI.Stage.SkillSlot>();
+                var skillSlot = skillSlotListView.SkillSlots[i];
                 skill.TearDown();
                 Unbind(skill, skillSlot);
+                skillSlot.OnInformationShowed -= OnSkillInformationShowed;
+                skillSlot.OnInformationHidden -= OnSkillInformationHidden;
+                skillSlot.SkillData = null;
             }
 
             skillSlotListView.ClearSkillSlots();
