@@ -1,4 +1,7 @@
+using System;
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Afterlife.Core
 {
@@ -18,6 +21,10 @@ namespace Afterlife.Core
         public UI.Title.Controller TitleController;
         public UI.Main.Controller MainController;
         public UI.Stage.Controller StageController;
+
+        [Header("Transition")]
+        [SerializeField] float transitionDuration = 0.5f;
+        [SerializeField] Image transitionImage;
 
         public void Show(GameState state)
         {
@@ -49,6 +56,33 @@ namespace Afterlife.Core
             InGameScreen.Hide();
             ClearScreen.Hide();
             GameOverScreen.Hide();
+        }
+
+        public void FadeOut(Action onComplete = null)
+        {
+            transitionImage.gameObject.SetActive(true);
+            transitionImage.color = Color.clear;
+            transitionImage.DOFade(1f, transitionDuration).OnComplete(() =>
+            {
+                transitionImage.gameObject.SetActive(false);
+                onComplete?.Invoke();
+            });
+        }
+
+        public void FadeIn(Action onComplete = null)
+        {
+            transitionImage.gameObject.SetActive(true);
+            transitionImage.color = Color.black;
+            transitionImage.DOFade(0f, transitionDuration).OnComplete(() =>
+            {
+                transitionImage.gameObject.SetActive(false);
+                onComplete?.Invoke();
+            });
+        }
+
+        public void FadeTransition(Action onAction = null)
+        {
+            FadeOut(() => { onAction?.Invoke(); FadeIn(); });
         }
     }
 }

@@ -102,15 +102,21 @@ namespace Afterlife.UI.Main
 
             mainScreen.MenuView.Hide();
 
-            ServiceLocator.Get<GameManager>().SaveGame();
-            ServiceLocator.Get<GameManager>().DeleteGame();
-            ServiceLocator.Get<GameManager>().ChangeState(GameState.Title);
+            ServiceLocator.Get<UIManager>().FadeTransition(() =>
+            {
+                ServiceLocator.Get<GameManager>().SaveGame();
+                ServiceLocator.Get<GameManager>().DeleteGame();
+                ServiceLocator.Get<GameManager>().ChangeState(GameState.Title);
+            });
         }
 
         void OnStartMissionButtonClicked()
         {
-            ServiceLocator.Get<GameManager>().CreateStage();
-            ServiceLocator.Get<GameManager>().ChangeState(GameState.InGame);
+            ServiceLocator.Get<UIManager>().FadeTransition(() =>
+            {
+                ServiceLocator.Get<GameManager>().CreateStage();
+                ServiceLocator.Get<GameManager>().ChangeState(GameState.InGame);
+            });
         }
 
         public override void Refresh()

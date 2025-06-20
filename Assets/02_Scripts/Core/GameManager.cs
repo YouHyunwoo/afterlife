@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -5,6 +6,7 @@ namespace Afterlife.Core
 {
     public enum GameState
     {
+        None,
         Title,
         Main,
         InGame,
@@ -33,33 +35,48 @@ namespace Afterlife.Core
 
         public void ChangeState(GameState newState)
         {
-            // 상태 전환 전 처리
-            // ...existing code...
-
+            OnStateExited();
             CurrentState = newState;
-            ServiceLocator.Get<UIManager>().Show(CurrentState);
+            ServiceLocator.Get<UIManager>().Show(newState);
+            OnStateEntered();
+        }
 
+        void OnStateExited()
+        {
+            // 상태 전환 전 처리
             switch (CurrentState)
             {
                 case GameState.Title:
-                    // 타이틀 화면 초기화
                     break;
                 case GameState.Main:
-                    // 메인 화면 초기화
+                    break;
+                case GameState.InGame:
+                    break;
+                case GameState.Clear:
+                    break;
+                case GameState.GameOver:
+                    break;
+            }
+        }
+
+        void OnStateEntered()
+        {
+            // 상태 전환 후 처리
+            switch (CurrentState)
+            {
+                case GameState.Title:
+                    break;
+                case GameState.Main:
                     ServiceLocator.Get<UIManager>().MainController.Refresh();
                     break;
                 case GameState.InGame:
-                    // 인게임(스테이지) 초기화
                     ServiceLocator.Get<UIManager>().StageController.Refresh();
                     break;
                 case GameState.Clear:
-                    // 클리어 화면 초기화
                     break;
                 case GameState.GameOver:
-                    // 게임 오버 화면 초기화
                     break;
             }
-            // 상태 전환 후 처리
         }
 
         public void CreateGame()

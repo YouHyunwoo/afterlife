@@ -34,8 +34,12 @@ namespace Afterlife.UI.Title
 
         void OnNewGameButtonClicked()
         {
-            ServiceLocator.Get<GameManager>().CreateGame();
-            ServiceLocator.Get<GameManager>().ChangeState(GameState.Main);
+            ServiceLocator.Get<UIManager>().FadeOut(() =>
+            {
+                ServiceLocator.Get<GameManager>().CreateGame();
+                ServiceLocator.Get<GameManager>().ChangeState(GameState.Main);
+                ServiceLocator.Get<UIManager>().FadeIn(() => { });
+            });
         }
 
         void OnSettingsButtonClicked()
