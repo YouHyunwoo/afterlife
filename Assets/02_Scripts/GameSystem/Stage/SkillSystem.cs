@@ -40,7 +40,7 @@ namespace Afterlife.GameSystem.Stage
             var nodeRectTransform = skillSlot.GetComponent<RectTransform>();
             stageScreen.SkillInformationView.GetComponent<RectTransform>().position = nodeRectTransform.position + new Vector3(-25, stageScreen.SkillInformationView.GetComponent<RectTransform>().sizeDelta.y - 50, 0);
             var skillData = skillSlot.SkillData;
-            stageScreen.SkillInformationView.Show(skillData.Name, skillData.Description, 0);
+            stageScreen.SkillInformationView.Show(skillData.Id, 0);
         }
 
         void OnSkillInformationHidden(UI.Stage.SkillSlot skillSlot)
@@ -71,6 +71,7 @@ namespace Afterlife.GameSystem.Stage
             }
 
             skillSlotListView.ClearSkillSlots();
+            stageScreen.SkillInformationView.Hide();
         }
 
         void Bind(Model.Skill skill, UI.Stage.SkillSlot skillSlot)

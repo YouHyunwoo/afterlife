@@ -1,3 +1,4 @@
+using Afterlife.Core;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,11 +12,11 @@ namespace Afterlife.UI.Main
         [SerializeField] Image separatorImage;
         [SerializeField] TextMeshProUGUI descriptionText;
 
-        public void Show(string name, string description, int cost, UpgradeNode.UpgradeState state)
+        public void Show(string id, int cost, UpgradeNode.UpgradeState state)
         {
-            nameText.text = name;
+            nameText.text = Localization.Get($"upgrade.{id}.name");
             costText.text = $"{cost}";
-            descriptionText.text = description;
+            descriptionText.text = Localization.Get($"upgrade.{id}.description");
 
             var isActive = gameObject.activeSelf;
             if (!isActive) { gameObject.SetActive(true); }

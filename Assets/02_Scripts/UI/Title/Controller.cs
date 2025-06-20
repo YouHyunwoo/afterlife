@@ -1,5 +1,5 @@
+using System;
 using Afterlife.Core;
-using UnityEngine;
 
 namespace Afterlife.UI.Title
 {
@@ -10,8 +10,14 @@ namespace Afterlife.UI.Title
             var uiManager = ServiceLocator.Get<UIManager>();
             var titleView = uiManager.TitleScreen as Title.Screen;
 
+            Localization.OnLanguageChangedEvent += titleView.Localize;
+            titleView.Localize();
+
             titleView.OnNewGameButtonClickedEvent += OnNewGameButtonClicked;
+            titleView.OnSettingsButtonClickedEvent += OnSettingsButtonClicked;
             titleView.OnExitButtonClickedEvent += OnExitButtonClicked;
+
+            titleView.SettingsView.OnLanguageButtonClickedEvent += OnLanguageButtonClicked;
         }
 
         public override void TearDown()
@@ -19,7 +25,10 @@ namespace Afterlife.UI.Title
             var uiManager = ServiceLocator.Get<UIManager>();
             var titleView = uiManager.TitleScreen as Title.Screen;
 
+            Localization.OnLanguageChangedEvent -= titleView.Localize;
+
             titleView.OnNewGameButtonClickedEvent -= OnNewGameButtonClicked;
+            titleView.OnSettingsButtonClickedEvent -= OnSettingsButtonClicked;
             titleView.OnExitButtonClickedEvent -= OnExitButtonClicked;
         }
 
@@ -29,10 +38,23 @@ namespace Afterlife.UI.Title
             ServiceLocator.Get<GameManager>().ChangeState(GameState.Main);
         }
 
+        void OnSettingsButtonClicked()
+        {
+            var uiManager = ServiceLocator.Get<UIManager>();
+            var titleView = uiManager.TitleScreen as Title.Screen;
+
+            titleView.SettingsView.Show();
+        }
+
         void OnExitButtonClicked()
         {
-            ServiceLocator.Get<GameManager>().DeleteGame();
             ServiceLocator.Get<GameManager>().Quit();
+        }
+
+        void OnLanguageButtonClicked()
+        {
+            var rotatedLanguage = (int)(Localization.CurrentLanguage + 1) % Enum.GetValues(typeof(Language)).Length;
+            Localization.SetLanguage((Language)rotatedLanguage);
         }
     }
 }

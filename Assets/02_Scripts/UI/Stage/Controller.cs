@@ -9,6 +9,9 @@ namespace Afterlife.UI.Stage
             var uiManager = ServiceLocator.Get<UIManager>();
             var stageScreen = uiManager.InGameScreen as Stage.Screen;
 
+            Localization.OnLanguageChangedEvent += stageScreen.Localize;
+            stageScreen.Localize();
+
             stageScreen.OnMenuButtonClickedEvent += OnMenuButtonClicked;
             stageScreen.MenuView.OnContinueButtonClickedEvent += OnContinueButtonClicked;
             stageScreen.MenuView.OnGiveUpButtonClickedEvent += OnGiveUpButtonClicked;
@@ -43,6 +46,8 @@ namespace Afterlife.UI.Stage
         {
             var uiManager = ServiceLocator.Get<UIManager>();
             var stageScreen = uiManager.InGameScreen as Stage.Screen;
+
+            Localization.OnLanguageChangedEvent -= stageScreen.Localize;
 
             stageScreen.OnMenuButtonClickedEvent -= OnMenuButtonClicked;
             stageScreen.MenuView.OnContinueButtonClickedEvent -= OnContinueButtonClicked;

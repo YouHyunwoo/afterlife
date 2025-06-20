@@ -22,6 +22,9 @@ namespace Afterlife.Core
 
         void Start()
         {
+            // 언어 설정
+            Localization.Load();
+
             // 초기화하고 바뀌지 않는 Controller 설정
             ServiceLocator.Get<UIManager>().TitleController.SetUp();
 
@@ -71,7 +74,7 @@ namespace Afterlife.Core
                 Lifes = gameData.Lifes,
                 Player = new Model.Player
                 {
-                    Experience = 0,
+                    Experience = 999,
                     AttackPower = 1f,
                     AttackSpeed = 1f,
                     AttackRange = 1f,

@@ -1,4 +1,6 @@
 using System;
+using Afterlife.Core;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,6 +27,10 @@ namespace Afterlife.UI.Stage
         public Menu MenuView;
         public SkillInformation SkillInformationView;
 
+        [Header("Localization")]
+        [SerializeField] TextMeshProUGUI menuContinueButtonText;
+        [SerializeField] TextMeshProUGUI menuGiveUpButtonText;
+
         public event Action OnMenuButtonClickedEvent;
 
         void Awake()
@@ -33,5 +39,11 @@ namespace Afterlife.UI.Stage
         }
 
         void OnMenuButtonClicked() => OnMenuButtonClickedEvent?.Invoke();
+
+        protected override void OnLocalizationChanged()
+        {
+            menuContinueButtonText.text = Localization.Get("stage.menu.continue-button");
+            menuGiveUpButtonText.text = Localization.Get("stage.menu.giveup-button");
+        }
     }
 }

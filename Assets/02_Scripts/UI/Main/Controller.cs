@@ -10,6 +10,9 @@ namespace Afterlife.UI.Main
             var uiManager = ServiceLocator.Get<UIManager>();
             var mainScreen = uiManager.MainScreen as Main.Screen;
 
+            Localization.OnLanguageChangedEvent += mainScreen.Localize;
+            mainScreen.Localize();
+
             mainScreen.GetComponent<Tab>().SetView(0);
 
             mainScreen.OnMenuButtonClickedEvent += OnMenuButtonClicked;
@@ -44,7 +47,7 @@ namespace Afterlife.UI.Main
 
             var nodeRectTransform = upgradeNode.GetComponent<RectTransform>();
             mainScreen.UpgradeInformationView.GetComponent<RectTransform>().position = nodeRectTransform.position + new Vector3(20, 20, 0);
-            mainScreen.UpgradeInformationView.Show(upgradeNode.Name, upgradeNode.Description, upgradeNode.Cost, upgradeNode.State);
+            mainScreen.UpgradeInformationView.Show(upgradeNode.Id, upgradeNode.Cost, upgradeNode.State);
         }
 
         void OnUpgradeNodeInformationHidden(UpgradeNode upgradeNode)
@@ -59,6 +62,8 @@ namespace Afterlife.UI.Main
         {
             var uiManager = ServiceLocator.Get<UIManager>();
             var mainScreen = uiManager.MainScreen as Main.Screen;
+
+            Localization.OnLanguageChangedEvent -= mainScreen.Localize;
 
             mainScreen.OnMenuButtonClickedEvent -= OnMenuButtonClicked;
             mainScreen.MenuView.OnContinueButtonClickedEvent -= OnContinueButtonClicked;
@@ -98,6 +103,7 @@ namespace Afterlife.UI.Main
             mainScreen.MenuView.Hide();
 
             ServiceLocator.Get<GameManager>().SaveGame();
+            ServiceLocator.Get<GameManager>().DeleteGame();
             ServiceLocator.Get<GameManager>().ChangeState(GameState.Title);
         }
 
