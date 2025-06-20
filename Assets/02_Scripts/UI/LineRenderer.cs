@@ -220,6 +220,7 @@ public class LineDrawer : Image
         SetVerticesDirty();
     }
 
+#if UNITY_EDITOR
     //__________________________________________________________________________ Editor
     protected override void OnValidate() // 인스펙터 창에서 프로퍼티를 변경할 때 실행되는 함수
     {
@@ -237,6 +238,7 @@ public class LineDrawer : Image
         if (tintColor != color)
             color = tintColor;
     }
+#endif
 }
 
 #if UNITY_EDITOR

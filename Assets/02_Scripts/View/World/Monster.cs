@@ -29,6 +29,7 @@ namespace Afterlife.View
         public Transform targetTransform;
         public Vector2Int targetLocation;
 
+#if UNITY_EDITOR
         void OnDrawGizmos()
         {
             Gizmos.color = Color.yellow;
@@ -40,6 +41,7 @@ namespace Afterlife.View
             Handles.color = Color.white;
             Handles.Label(transform.position + Vector3.down * 0.1f, StateName, EditorStyles.boldLabel);
         }
+#endif
 
         protected override void Awake()
         {
