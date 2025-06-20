@@ -10,6 +10,7 @@ namespace Afterlife.GameSystem.Stage
             {
                 Data = terrainData,
                 TerrainGrid = new int[mapSize.x, mapSize.y],
+                PassableGrid = new bool[mapSize.x, mapSize.y],
                 TransformGrid = new Transform[mapSize.x, mapSize.y]
             };
 
@@ -19,7 +20,18 @@ namespace Afterlife.GameSystem.Stage
                 {
                     var tileIndex = 1;
                     terrain.TerrainGrid[x, y] = tileIndex;
+                    terrain.PassableGrid[x, y] = true;
                 }
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                var x = Random.Range(0, mapSize.x);
+                var y = Random.Range(0, mapSize.y);
+
+                var tileIndex = 3;
+                terrain.TerrainGrid[x, y] = tileIndex;
+                terrain.PassableGrid[x, y] = terrainData.Passables[tileIndex];
             }
 
             return terrain;

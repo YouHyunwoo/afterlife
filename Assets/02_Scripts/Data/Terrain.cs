@@ -8,5 +8,7 @@ namespace Afterlife.Data
         public string EnvironmentType;
 
         public GameObject[] TilePrefabs;
+
+        public bool[] Passables;
     }
 }

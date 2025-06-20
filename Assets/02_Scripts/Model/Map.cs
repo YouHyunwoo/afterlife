@@ -11,6 +11,14 @@ namespace Afterlife.Model
         public Fog Fog;
         public Algorithm.PathFinding.AStar.PathFinder PathFinder;
 
+        public bool IsAvailable(Vector2Int location)
+        {
+            if (!Field.IsInBounds(location)) { return false; }
+            if (!Terrain.IsPassable(location.x, location.y)) { return false; }
+            if (Field.Has(location.x, location.y)) { return false; }
+            return true;
+        }
+
         public void MoveFieldObject(Vector2Int from, Vector2Int to)
         {
             var @object = Field.Get(from);

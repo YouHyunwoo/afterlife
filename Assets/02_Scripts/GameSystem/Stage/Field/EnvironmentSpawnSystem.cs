@@ -1,5 +1,6 @@
 using System;
 using Afterlife.Core;
+using Afterlife.Data;
 using UnityEngine;
 
 namespace Afterlife.GameSystem.Stage.Field
@@ -8,6 +9,7 @@ namespace Afterlife.GameSystem.Stage.Field
     {
         [SerializeField] FieldObjectSpawner fieldObjectSpawner;
 
+        Model.Map map;
         Model.Field field;
         float spawnTimer;
         int currentResourceObjectCount;
@@ -16,7 +18,8 @@ namespace Afterlife.GameSystem.Stage.Field
 
         public override void SetUp()
         {
-            field = ServiceLocator.Get<StageManager>().Stage.Map.Field;
+            map = ServiceLocator.Get<StageManager>().Stage.Map;
+            field = map.Field;
 
             spawnTimer = 0f;
             currentResourceObjectCount = GetCurrentResourceObjectCount();
@@ -61,7 +64,7 @@ namespace Afterlife.GameSystem.Stage.Field
                 UnityEngine.Random.Range(0, field.Size.x),
                 UnityEngine.Random.Range(0, field.Size.y)
             );
-            if (field.Has(location)) { return; }
+            if (!map.IsAvailable(location)) { return; }
 
             var index = UnityEngine.Random.Range(0, field.Data.ResourceObjectGroups.Length);
             var group = field.Data.ResourceObjectGroups[index];

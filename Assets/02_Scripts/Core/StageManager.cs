@@ -184,7 +184,7 @@ namespace Afterlife.Core
                 var x = Random.Range(padding, mapSize.x - padding);
                 var y = Random.Range(padding, mapSize.y - padding);
                 var location = new Vector2Int(x, y);
-                if (field.Has(location)) { i--; continue; }
+                if (!map.IsAvailable(location)) { i--; continue; }
 
                 var fieldObject = fieldObjectSpawner.Spawn(villagePrefab, location);
                 if (!fieldObject.TryGetComponent(out View.Object village))
@@ -217,7 +217,7 @@ namespace Afterlife.Core
                     var x = Random.Range(0, mapSize.x);
                     var y = Random.Range(0, mapSize.y);
                     var location = new Vector2Int(x, y);
-                    if (field.Has(location)) { continue; }
+                    if (!map.IsAvailable(location)) { continue; }
 
                     var fieldObject = fieldObjectSpawner.Spawn(resourceObjectGroup.Prefab, location);
                     if (!fieldObject.TryGetComponent(out View.Resource resource))

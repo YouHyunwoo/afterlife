@@ -68,7 +68,7 @@ namespace Afterlife.GameSystem.Stage.Field
                 UnityEngine.Random.Range(0, stage.Map.Size.x),
                 UnityEngine.Random.Range(0, stage.Map.Size.y)
             );
-            if (stage.Map.Field.Has(location)) { return; }
+            if (!stage.Map.IsAvailable(location)) { return; }
 
             var monsterObject = fieldObjectSpawner.Spawn(monsterPrefab.gameObject, location);
             var monster = monsterObject.GetComponent<View.Monster>();
