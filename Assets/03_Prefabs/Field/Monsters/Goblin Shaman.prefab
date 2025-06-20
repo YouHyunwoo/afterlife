@@ -112,5 +112,5 @@ MonoBehaviour:
   TargetCandidateTransforms: []
   targetTransform: {fileID: 0}
   targetLocation: {x: 0, y: 0}
-  ProjectileSpeed: 2
-  ProjectilePrefab: {fileID: 5952424065379982902, guid: ba1f5d66ed057cf429a3323e075672a1, type: 3}
+  ProjectileSpeed: 1.4
+  ProjectilePrefab: {fileID: 4054185930266275010, guid: bd11ffe8e5929e94a9460e36317ea41f, type: 3}
