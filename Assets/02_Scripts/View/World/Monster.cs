@@ -226,10 +226,15 @@ namespace Afterlife.View
 
         public override void Died()
         {
+            IsAlive = false;
+            var location = Vector2Int.FloorToInt(transform.position);
+            Map.Field.Set(location, null);
             Animator.SetBool("Dead", true);
+
             SpriteRenderer.DOFade(0f, 1f).OnComplete(() =>
             {
-                base.Died();
+                gameObject.SetActive(false);
+                Destroy(gameObject, 0);
             });
         }
     }
