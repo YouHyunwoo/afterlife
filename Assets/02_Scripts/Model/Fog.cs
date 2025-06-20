@@ -67,7 +67,7 @@ namespace Afterlife.Model
                     {
                         if (x < 0 || Size.x <= x || y < 0 || Size.y <= y) { continue; }
 
-                        var distance = Mathf.Abs(location.x - x) + Mathf.Abs(location.y - y);
+                        var distance = EuclideanDistance(location, new Vector2Int(x, y));
                         if (distance > range) { continue; }
 
                         float brightness;
@@ -90,6 +90,21 @@ namespace Afterlife.Model
 
             IsDirty = false;
             OnFogUpdated?.Invoke(FogGrid);
+        }
+
+        float ManhattanDistance(Vector2Int a, Vector2Int b)
+        {
+            return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
+        }
+
+        float EuclideanDistance(Vector2Int a, Vector2Int b)
+        {
+            return Mathf.Sqrt(Mathf.Pow(a.x - b.x, 2) + Mathf.Pow(a.y - b.y, 2));
+        }
+
+        float ChebyshevDistance(Vector2Int a, Vector2Int b)
+        {
+            return Mathf.Max(Mathf.Abs(a.x - b.x), Mathf.Abs(a.y - b.y));
         }
 
         public void FillFog()
