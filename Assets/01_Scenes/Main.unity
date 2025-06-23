@@ -3233,9 +3233,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b608884852eb934fb90cb694869cd92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DayDuration: 0
-  NightDuration: 0
-  ElapsedTimeInDay: 0
+  DayDataArray: []
+  CurrentDayData: {fileID: 0}
+  ElapsedTimeEachDay: 0
+  DurationEachDay: 0
 --- !u!1 &368179298
 GameObject:
   m_ObjectHideFlags: 0
@@ -14950,9 +14951,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fieldObjectSpawner: {fileID: 212219396}
   monsterPrefab: {fileID: -5892539937799551652, guid: 8f4713f8beee42f47ab2b03fd568bfb6, type: 3}
-  SpawnIntervalPerDay: []
+  DayDataArray: []
   ElapsedTime: 0
-  Days: 0
+  DayIndex: 0
 --- !u!1 &1967713803
 GameObject:
   m_ObjectHideFlags: 0

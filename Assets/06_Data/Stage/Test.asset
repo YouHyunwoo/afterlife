@@ -13,13 +13,11 @@ MonoBehaviour:
   m_Name: Test
   m_EditorClassIdentifier: 
   MapData: {fileID: 11400000, guid: d4a8a520a7d438143aa1e2ad4768a085, type: 2}
+  DayDataArray:
+  - {fileID: 11400000, guid: 308203a584c483b4ea73bdb2e1f92f0e, type: 2}
+  - {fileID: 11400000, guid: 183001fd04edd5044bf9e59f6ca22be9, type: 2}
   DayDuration: 1
   NightDuration: 3
   SpawnIntervalPerDay:
   - 2
   - 1
-  Rewards:
-  - {fileID: 11400000, guid: 6fdc5d0bdc43c0f48a0cdc3054feee08, type: 2}
-  - {fileID: 11400000, guid: f793db9189a3a6540a6f95cf8ec89b98, type: 2}
-  - {fileID: 11400000, guid: 6339d7df3bc6ebd45b6831cce2ef8ee0, type: 2}
-  - {fileID: 11400000, guid: bb5d9f68dde5fbc4bbcacd3c8dbec681, type: 2}

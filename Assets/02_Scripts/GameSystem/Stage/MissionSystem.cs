@@ -7,8 +7,6 @@ namespace Afterlife.GameSystem.Stage
 {
     public class MissionSystem : SystemBase
     {
-        TimeSystem timeSystem;
-
         HashSet<View.Monster> monsterSet;
         HashSet<View.Village> villageSet;
         bool isTargetDayReached;
@@ -18,9 +16,6 @@ namespace Afterlife.GameSystem.Stage
 
         public override void SetUp()
         {
-            timeSystem = ServiceLocator.Get<TimeSystem>();
-            timeSystem.OnDayChangedEvent += OnDayChanged;
-
             monsterSet = new();
             villageSet = new();
 
@@ -43,11 +38,11 @@ namespace Afterlife.GameSystem.Stage
             enabled = true;
         }
 
-        void OnDayChanged(int day)
+        public void OnDayChanged(int day)
         {
             if (isTargetDayReached) { return; }
             var stageManager = ServiceLocator.Get<StageManager>();
-            if (day >= stageManager.Stage.Data.SpawnIntervalPerDay.Length)
+            if (day >= stageManager.Stage.Data.DayDataArray.Length)
             {
                 isTargetDayReached = true;
                 VerifyMissionSuccess();
@@ -101,7 +96,15 @@ namespace Afterlife.GameSystem.Stage
             OnMissionFailedEvent?.Invoke();
         }
 
-        public void OnMonsterSpawned(View.Monster monster)
+        public void OnObjectSpawned(View.Object @object)
+        {
+            if (@object is View.Monster monster)
+            {
+                OnMonsterSpawned(monster);
+            }
+        }
+
+        void OnMonsterSpawned(View.Monster monster)
         {
             monsterSet.Add(monster);
             monster.OnDied += OnObjectDied;
@@ -117,9 +120,6 @@ namespace Afterlife.GameSystem.Stage
             monsterSet = null;
             villageSet.Clear();
             villageSet = null;
-
-            timeSystem.OnDayChangedEvent -= OnDayChanged;
-            timeSystem = null;
         }
     }
 }

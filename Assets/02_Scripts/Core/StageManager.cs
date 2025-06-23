@@ -17,7 +17,7 @@ namespace Afterlife.Core
         [Header("Field")]
         [SerializeField] Transform fieldTransform;
         [SerializeField] FieldObjectSpawner fieldObjectSpawner;
-        [SerializeField] MonsterSpawnSystem monsterSpawnSystem;
+        [SerializeField] ObjectSpawnSystem monsterSpawnSystem;
         [SerializeField] EnvironmentSpawnSystem environmentSpawnSystem;
 
         [Header("Time")]
@@ -43,9 +43,11 @@ namespace Afterlife.Core
             CreateObjectsForStage();
             SetUpPlayer();
 
+            timeSystem.OnDayChangedEvent += missionSystem.OnDayChanged;
+            timeSystem.OnDayChangedEvent += monsterSpawnSystem.OnDayChanged;
             missionSystem.OnMissionSuccessEvent += OnMissionSuccessed;
             missionSystem.OnMissionFailedEvent += OnMissionFailed;
-            monsterSpawnSystem.OnMonsterSpawned += missionSystem.OnMonsterSpawned;
+            monsterSpawnSystem.OnObjectSpawned += missionSystem.OnObjectSpawned;
 
             ServiceLocator.Register(timeSystem);
             ServiceLocator.Register(tileInteractionSystem);
@@ -280,15 +282,17 @@ namespace Afterlife.Core
 
             ServiceLocator.Unregister<EnvironmentSpawnSystem>();
             ServiceLocator.Unregister<SkillSystem>();
-            ServiceLocator.Unregister<MonsterSpawnSystem>();
+            ServiceLocator.Unregister<ObjectSpawnSystem>();
             ServiceLocator.Unregister<MissionSystem>();
             ServiceLocator.Unregister<FogSystem>();
             ServiceLocator.Unregister<TileInteractionSystem>();
             ServiceLocator.Unregister<TimeSystem>();
 
+            timeSystem.OnDayChangedEvent -= missionSystem.OnDayChanged;
+            timeSystem.OnDayChangedEvent -= monsterSpawnSystem.OnDayChanged;
             missionSystem.OnMissionSuccessEvent -= OnMissionSuccessed;
             missionSystem.OnMissionFailedEvent -= OnMissionFailed;
-            monsterSpawnSystem.OnMonsterSpawned -= missionSystem.OnMonsterSpawned;
+            monsterSpawnSystem.OnObjectSpawned -= missionSystem.OnObjectSpawned;
 
             TearDownPlayer();
             DeleteObjectsForStage();
