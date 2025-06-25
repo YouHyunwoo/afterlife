@@ -20,9 +20,6 @@ namespace Afterlife.UI.Stage
             }
         }
 
-        void OnItemSlotClicked(InventoryItemSlot slot)
-        {
-            OnItemSlotClickedEvent?.Invoke(slot);
-        }
+        void OnItemSlotClicked(InventoryItemSlot slot) => OnItemSlotClickedEvent?.Invoke(slot);
     }
 }

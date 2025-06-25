@@ -10,6 +10,9 @@ namespace Afterlife.Core
     {
         public Data.Game GameData;
         public Data.Skill[] SkillDataArray;
+        public Data.Item[] ItemDataArray;
+        public string[] CraftableItemIds;
+        public Data.Reward[] RewardDataArray;
 
         // [Header("Config Data (ScriptableObject)")]
         // public MapConfig mapConfig;
@@ -18,10 +21,14 @@ namespace Afterlife.Core
         // 필요에 따라 추가
 
         public Dictionary<string, Data.Skill> SkillDataDictionary;
+        public Dictionary<string, Data.Item> ItemDataDictionary;
+        public Dictionary<string, Data.Reward> RewardDataDictionary;
 
         void Awake()
         {
             InitializeSkillDataDictionary();
+            InitializeItemDataDictionary();
+            InitializeRewardDataDictionary();
         }
 
         void InitializeSkillDataDictionary()
@@ -30,6 +37,24 @@ namespace Afterlife.Core
             foreach (var skill in SkillDataArray)
             {
                 SkillDataDictionary.Add(skill.Id, skill);
+            }
+        }
+
+        void InitializeItemDataDictionary()
+        {
+            ItemDataDictionary = new();
+            foreach (var item in ItemDataArray)
+            {
+                ItemDataDictionary.Add(item.Id, item);
+            }
+        }
+
+        void InitializeRewardDataDictionary()
+        {
+            RewardDataDictionary = new();
+            foreach (var reward in RewardDataArray)
+            {
+                RewardDataDictionary.Add(reward.Id, reward);
             }
         }
 

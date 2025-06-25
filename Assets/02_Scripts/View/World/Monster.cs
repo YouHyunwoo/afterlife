@@ -1,4 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
+using Afterlife.Core;
+using Afterlife.GameSystem.Stage;
 using DG.Tweening;
 using UnityEditor;
 using UnityEngine;
@@ -17,6 +20,7 @@ namespace Afterlife.View
         public float CriticalDamageMultiplier = 1.2f;
         public float MovementSpeed = 1f;
         public LayerMask TargetLayerMask;
+        public ItemDropGroup[] ItemDropGroups;
 
         [Header("Viewer")]
         public Animator Animator;
@@ -233,11 +237,31 @@ namespace Afterlife.View
             Map.Field.Set(location, null);
             Animator.SetBool("Dead", true);
 
+            StartCoroutine(CollectByKillRoutine());
+
             SpriteRenderer.DOFade(0f, 1f).OnComplete(() =>
             {
                 gameObject.SetActive(false);
                 Destroy(gameObject, 0);
             });
+        }
+
+        IEnumerator CollectByKillRoutine()
+        {
+            var itemCollectSystem = ServiceLocator.Get<ItemCollectSystem>();
+
+            foreach (var itemDropGroup in ItemDropGroups)
+            {
+                yield return new WaitForSeconds(0.3f);
+
+                var itemId = itemDropGroup.Id;
+                var itemAmount = Mathf.FloorToInt(itemDropGroup.Amount * MaxHealth / 10f);
+                var itemDropRate = itemDropGroup.DropRate;
+                var itemActualAmount = itemCollectSystem.SampleItems(itemAmount, itemDropRate);
+                if (itemActualAmount <= 0) { continue; }
+                itemCollectSystem.CollectWithRate(itemId, itemActualAmount);
+                itemCollectSystem.ShowPopup(transform.position + new Vector3(.5f, .5f), itemId, itemActualAmount);
+            }
         }
     }
 }

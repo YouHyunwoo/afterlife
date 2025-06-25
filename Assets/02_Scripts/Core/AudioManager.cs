@@ -52,7 +52,17 @@ namespace Afterlife.Core
             if (bgmSource != null && clip != null)
             {
                 bgmSource.clip = clip;
+                bgmSource.Stop();
+                bgmSource.loop = true;
                 bgmSource.Play();
+            }
+        }
+
+        public void StopBGM()
+        {
+            if (bgmSource != null)
+            {
+                bgmSource.Stop();
             }
         }
 

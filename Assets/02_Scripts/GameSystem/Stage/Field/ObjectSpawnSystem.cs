@@ -7,7 +7,6 @@ namespace Afterlife.GameSystem.Stage.Field
     public class ObjectSpawnSystem : SystemBase
     {
         [SerializeField] FieldObjectSpawner fieldObjectSpawner;
-        [SerializeField] View.Monster monsterPrefab;
 
         Model.Stage stage;
 

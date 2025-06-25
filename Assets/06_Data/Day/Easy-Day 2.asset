@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59b61982472194c4faab81350966a4b4, type: 3}
   m_Name: Easy-Day 2
   m_EditorClassIdentifier: 
-  DayDuration: 10
+  DayDuration: 2
   DayObjectSpawn:
     SpawnInterval: 3
     PrefabWeightGroups:
     - Prefab: {fileID: 2098846693792243547, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
       Weight: 1
-  NightDuration: 10
+  NightDuration: 2
   NightObjectSpawn:
     SpawnInterval: 3
     PrefabWeightGroups:

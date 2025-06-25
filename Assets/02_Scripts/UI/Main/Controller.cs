@@ -125,7 +125,7 @@ namespace Afterlife.UI.Main
             var mainScreen = uiManager.MainScreen as Main.Screen;
             var game = ServiceLocator.Get<GameManager>().Game;
 
-            mainScreen.MissionView.LifeView.SetLifes(game.Lifes);
+            mainScreen.MissionView.LifeView.SetLifes(game.Lives);
             mainScreen.MissionView.MissionProgressView.SetProgress(game.CurrentStageIndex, game.TotalStageCount);
             mainScreen.UpgradeView.ExperienceView.SetAmount(game.Player.Experience);
         }

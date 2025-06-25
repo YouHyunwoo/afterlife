@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4540409748813293738, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
       propertyPath: m_Name
-      value: Tree 1
+      value: Tree
       objectReference: {fileID: 0}
     - target: {fileID: 5809371360850237265, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
       propertyPath: m_LocalPosition.x
@@ -63,6 +63,22 @@ PrefabInstance:
     - target: {fileID: 5809371360850237265, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430109269739179928, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
+      propertyPath: ItemDropGroups.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430109269739179928, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
+      propertyPath: ItemDropGroups.Array.data[0].Id
+      value: wood
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430109269739179928, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
+      propertyPath: ItemDropGroups.Array.data[0].Amount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430109269739179928, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
+      propertyPath: ItemDropGroups.Array.data[0].DropRate
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

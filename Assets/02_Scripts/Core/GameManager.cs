@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -29,6 +28,7 @@ namespace Afterlife.Core
 
             // 초기화하고 바뀌지 않는 Controller 설정
             ServiceLocator.Get<UIManager>().TitleController.SetUp();
+            ServiceLocator.Get<UIManager>().GameOverController.SetUp();
 
             ChangeState(GameState.Title);
         }
@@ -65,16 +65,20 @@ namespace Afterlife.Core
             switch (CurrentState)
             {
                 case GameState.Title:
+                    ServiceLocator.Get<AudioManager>().PlayBGM(GameState.Title);
                     break;
                 case GameState.Main:
+                    ServiceLocator.Get<AudioManager>().PlayBGM(GameState.Main);
                     ServiceLocator.Get<UIManager>().MainController.Refresh();
                     break;
                 case GameState.InGame:
+                    ServiceLocator.Get<AudioManager>().PlayBGM(GameState.InGame);
                     ServiceLocator.Get<UIManager>().StageController.Refresh();
                     break;
                 case GameState.Clear:
                     break;
                 case GameState.GameOver:
+                    ServiceLocator.Get<AudioManager>().PlayBGM(GameState.GameOver);
                     break;
             }
         }
@@ -88,7 +92,8 @@ namespace Afterlife.Core
             {
                 Data = gameData,
                 Upgrade = new Model.Upgrade(),
-                Lifes = gameData.Lifes,
+                Reward = new Model.Reward(),
+                Lives = gameData.Lifes,
                 Player = new Model.Player
                 {
                     Experience = 999,
@@ -134,6 +139,7 @@ namespace Afterlife.Core
         public void Quit()
         {
             ServiceLocator.Get<UIManager>().TitleController.TearDown();
+            ServiceLocator.Get<UIManager>().GameOverController.TearDown();
 
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;

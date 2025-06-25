@@ -7,6 +7,7 @@ namespace Afterlife.View
     public class Object : MonoBehaviour
     {
         public float Health;
+        public float MaxHealth;
         public bool IsAlive;
         public Model.Map Map;
 

@@ -44,6 +44,18 @@
         { "key": "upgrade.rich-resources.name", "value": "풍부한 자원" },
         { "key": "upgrade.rich-resources.description", "value": "필드에서 생성되는 자원이 증가합니다." },
         { "key": "upgrade.open-eyes.name", "value": "개안" },
-        { "key": "upgrade.open-eyes.description", "value": "5초 동안 플레이어의 시야 범위를 증가시킵니다." }
+        { "key": "upgrade.open-eyes.description", "value": "5초 동안 플레이어의 시야 범위를 증가시킵니다." },
+        { "key": "item.wood.name", "value": "나무" },
+        { "key": "item.wood.description", "value": "나무입니다. 건축에 사용됩니다." },
+        { "key": "item.stone.name", "value": "돌" },
+        { "key": "item.stone.description", "value": "돌입니다. 건축에 사용됩니다." },
+        { "key": "item.iron.name", "value": "철" },
+        { "key": "item.iron.description", "value": "철입니다. 건축에 사용됩니다." },
+        { "key": "item.gold.name", "value": "금" },
+        { "key": "item.gold.description", "value": "금입니다. 건축에 사용됩니다." },
+        { "key": "reward.attack-power.name", "value": "공격력" },
+        { "key": "reward.attack-power.description", "value": "공격력을 1 증가시킵니다." },
+        { "key": "reward.extra-life.name", "value": "추가 생명" },
+        { "key": "reward.extra-life.description", "value": "플레이어의 생명을 1 증가시킵니다." }
     ]
 }

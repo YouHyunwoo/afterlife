@@ -22,6 +22,7 @@ namespace Afterlife.Core
 
         [Header("Time")]
         [SerializeField] TimeSystem timeSystem;
+        [SerializeField] RewardSystem rewardSystem;
 
         [Header("Tile Interaction")]
         [SerializeField] TileInteractionSystem tileInteractionSystem;
@@ -31,6 +32,11 @@ namespace Afterlife.Core
 
         [Header("Skill")]
         [SerializeField] SkillSystem skillSystem;
+
+        [Header("Item")]
+        [SerializeField] ItemCollectSystem itemCollectSystem;
+        [SerializeField] InventorySystem inventorySystem;
+        [SerializeField] CraftSystem craftSystem;
 
         [Header("Camera")]
         [SerializeField] Camera mainCamera;
@@ -45,6 +51,7 @@ namespace Afterlife.Core
 
             timeSystem.OnDayChangedEvent += missionSystem.OnDayChanged;
             timeSystem.OnDayChangedEvent += monsterSpawnSystem.OnDayChanged;
+            timeSystem.OnDayChangedEvent += rewardSystem.OnDayChanged;
             missionSystem.OnMissionSuccessEvent += OnMissionSuccessed;
             missionSystem.OnMissionFailedEvent += OnMissionFailed;
             monsterSpawnSystem.OnObjectSpawned += missionSystem.OnObjectSpawned;
@@ -56,6 +63,10 @@ namespace Afterlife.Core
             ServiceLocator.Register(monsterSpawnSystem);
             ServiceLocator.Register(skillSystem);
             ServiceLocator.Register(environmentSpawnSystem);
+            ServiceLocator.Register(itemCollectSystem);
+            ServiceLocator.Register(inventorySystem);
+            ServiceLocator.Register(craftSystem);
+            ServiceLocator.Register(rewardSystem);
 
             timeSystem.SetUp();
             tileInteractionSystem.SetUp();
@@ -64,6 +75,10 @@ namespace Afterlife.Core
             monsterSpawnSystem.SetUp();
             skillSystem.SetUp();
             environmentSpawnSystem.SetUp();
+            itemCollectSystem.SetUp();
+            inventorySystem.SetUp();
+            craftSystem.SetUp();
+            rewardSystem.SetUp();
 
             Stage.Map.Fog.Update();
         }
@@ -79,12 +94,18 @@ namespace Afterlife.Core
             game.CurrentStageIndex++;
             if (game.CurrentStageIndex >= game.TotalStageCount)
             {
-                ServiceLocator.Get<GameManager>().ChangeState(GameState.Clear);
+                ServiceLocator.Get<UIManager>().FadeTransition(() =>
+                {
+                    ServiceLocator.Get<GameManager>().DeleteGame();
+                    ServiceLocator.Get<GameManager>().ChangeState(GameState.Clear);
+                });
             }
             else
             {
-
-                ServiceLocator.Get<GameManager>().ChangeState(GameState.Main);
+                ServiceLocator.Get<UIManager>().FadeTransition(() =>
+                {
+                    ServiceLocator.Get<GameManager>().ChangeState(GameState.Main);
+                });
             }
         }
 
@@ -96,15 +117,23 @@ namespace Afterlife.Core
 
             var game = ServiceLocator.Get<GameManager>().Game;
 
-            game.Lifes--;
-            if (game.Lifes <= 0)
+            game.Lives--;
+            if (game.Lives <= 0)
             {
-                game.Lifes = 0;
-                ServiceLocator.Get<GameManager>().ChangeState(GameState.GameOver);
+                game.Lives = 0;
+                ServiceLocator.Get<UIManager>().FadeTransition(() =>
+                {
+                    Debug.Log("dd");
+                    ServiceLocator.Get<GameManager>().DeleteGame();
+                    ServiceLocator.Get<GameManager>().ChangeState(GameState.GameOver);
+                });
             }
             else
             {
-                ServiceLocator.Get<GameManager>().ChangeState(GameState.Main);
+                ServiceLocator.Get<UIManager>().FadeTransition(() =>
+                {
+                    ServiceLocator.Get<GameManager>().ChangeState(GameState.Main);
+                });
             }
         }
 
@@ -168,7 +197,6 @@ namespace Afterlife.Core
             var field = map.Field;
             GenerateVillages(fieldData, mapSize, field, map);
             GenerateEnvironments(fieldData, mapSize, field, map);
-            // GenerateMonsters(fieldData, mapSize, field, map);
         }
 
         void GenerateVillages(Data.Field fieldData, Vector2Int mapSize, Model.Field field, Model.Map map)
@@ -229,6 +257,7 @@ namespace Afterlife.Core
                     }
 
                     resource.Health = Random.Range(resourceObjectGroup.MinHealth, resourceObjectGroup.MaxHealth + 1);
+                    resource.MaxHealth = resource.Health;
                     resource.Type = resourceObjectGroup.Name;
                     resource.Amount = Random.Range(resourceObjectGroup.MinAmount, resourceObjectGroup.MaxAmount + 1);
 
@@ -272,6 +301,13 @@ namespace Afterlife.Core
 
         public void EndStage()
         {
+            var stageScreen = ServiceLocator.Get<UIManager>().InGameScreen as UI.Stage.Screen;
+            stageScreen.MenuView.Hide();
+
+            rewardSystem.TearDown();
+            craftSystem.TearDown();
+            inventorySystem.TearDown();
+            itemCollectSystem.TearDown();
             environmentSpawnSystem.TearDown();
             skillSystem.TearDown();
             monsterSpawnSystem.TearDown();
@@ -280,6 +316,10 @@ namespace Afterlife.Core
             tileInteractionSystem.TearDown();
             timeSystem.TearDown();
 
+            ServiceLocator.Unregister<RewardSystem>();
+            ServiceLocator.Unregister<CraftSystem>();
+            ServiceLocator.Unregister<InventorySystem>();
+            ServiceLocator.Unregister<ItemCollectSystem>();
             ServiceLocator.Unregister<EnvironmentSpawnSystem>();
             ServiceLocator.Unregister<SkillSystem>();
             ServiceLocator.Unregister<ObjectSpawnSystem>();
@@ -290,6 +330,7 @@ namespace Afterlife.Core
 
             timeSystem.OnDayChangedEvent -= missionSystem.OnDayChanged;
             timeSystem.OnDayChangedEvent -= monsterSpawnSystem.OnDayChanged;
+            timeSystem.OnDayChangedEvent -= rewardSystem.OnDayChanged;
             missionSystem.OnMissionSuccessEvent -= OnMissionSuccessed;
             missionSystem.OnMissionFailedEvent -= OnMissionFailed;
             monsterSpawnSystem.OnObjectSpawned -= missionSystem.OnObjectSpawned;

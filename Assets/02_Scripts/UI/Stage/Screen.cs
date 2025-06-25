@@ -26,6 +26,8 @@ namespace Afterlife.UI.Stage
         [Header("Popup")]
         public Menu MenuView;
         public SkillInformation SkillInformationView;
+        public Craft CraftView;
+        public Reward RewardView;
 
         [Header("Localization")]
         [SerializeField] TextMeshProUGUI menuContinueButtonText;

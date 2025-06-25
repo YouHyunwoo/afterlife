@@ -21,6 +21,7 @@ namespace Afterlife.Core
         public UI.Title.Controller TitleController;
         public UI.Main.Controller MainController;
         public UI.Stage.Controller StageController;
+        public UI.GameOver.Controller GameOverController;
 
         [Header("Transition")]
         [SerializeField] float transitionDuration = 0.5f;

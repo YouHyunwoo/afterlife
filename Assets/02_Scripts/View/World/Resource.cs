@@ -1,12 +1,25 @@
+using System;
+using System.Collections;
+using Afterlife.Core;
+using Afterlife.GameSystem.Stage;
 using DG.Tweening;
 using UnityEngine;
 
 namespace Afterlife.View
 {
+    [Serializable]
+    public class ItemDropGroup
+    {
+        public string Id;
+        public float DropRate;
+        public int Amount;
+    }
+
     public class Resource : Object
     {
         public string Type;
         public int Amount;
+        public ItemDropGroup[] ItemDropGroups;
 
         public SpriteRenderer SpriteRenderer;
 
@@ -21,14 +34,12 @@ namespace Afterlife.View
         {
             void OnDiedEvent(Object attacker, Object @object)
             {
-                var inventory = player.Inventory;
-                if (!inventory.ContainsKey(Type)) { inventory[Type] = 0; }
-                player.Inventory[Type] += Amount;
-                Debug.Log($"Collected {Amount} of {Type}. Total: {player.Inventory[Type]}");
+                
             }
 
             OnDied += OnDiedEvent;
             TakeDamage(player.AttackPower, null);
+            CollectByInteraction(player);
             base.Interact(player);
             OnDied -= OnDiedEvent;
 
@@ -39,11 +50,47 @@ namespace Afterlife.View
             }
         }
 
+        IEnumerator CollectByKillRoutine()
+        {
+            var itemCollectSystem = ServiceLocator.Get<ItemCollectSystem>();
+
+            foreach (var itemDropGroup in ItemDropGroups)
+            {
+                yield return new WaitForSeconds(0.3f);
+
+                var itemId = itemDropGroup.Id;
+                var itemAmount = Mathf.FloorToInt(itemDropGroup.Amount * MaxHealth / 10f);
+                var itemDropRate = itemDropGroup.DropRate;
+                var itemActualAmount = itemCollectSystem.SampleItems(itemAmount, itemDropRate);
+                if (itemActualAmount <= 0) { continue; }
+                itemCollectSystem.CollectWithRate(itemId, itemActualAmount);
+                itemCollectSystem.ShowPopup(transform.position + new Vector3(.5f, .5f), itemId, itemActualAmount);
+            }
+        }
+
+        void CollectByInteraction(Model.Player player)
+        {
+            var itemCollectSystem = ServiceLocator.Get<ItemCollectSystem>();
+
+            foreach (var itemDropGroup in ItemDropGroups)
+            {
+                var itemId = itemDropGroup.Id;
+                var itemAmount = Mathf.FloorToInt(player.AttackPower);
+                var itemDropRate = itemDropGroup.DropRate;
+                var itemActualAmount = itemCollectSystem.SampleItems(itemAmount, itemDropRate);
+                if (itemActualAmount <= 0) { continue; }
+                itemCollectSystem.CollectWithRate(itemId, itemActualAmount);
+                itemCollectSystem.ShowPopup(transform.position + new Vector3(.5f, .5f), itemId, itemActualAmount);
+            }
+        }
+
         public override void Died()
         {
             IsAlive = false;
             var location = Vector2Int.FloorToInt(transform.position);
             Map.Field.Set(location, null);
+
+            StartCoroutine(CollectByKillRoutine());
 
             SpriteRenderer.DOFade(0f, 1f).OnComplete(() =>
             {

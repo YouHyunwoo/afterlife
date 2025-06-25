@@ -44,6 +44,18 @@
         { "key": "upgrade.rich-resources.name", "value": "Rich Resources" },
         { "key": "upgrade.rich-resources.description", "value": "Increase more resource objects to be generated in field" },
         { "key": "upgrade.open-eyes.name", "value": "Open Eyes" },
-        { "key": "upgrade.open-eyes.description", "value": "Increase view range of player in 5 seconds" }
+        { "key": "upgrade.open-eyes.description", "value": "Increase view range of player in 5 seconds" },
+        { "key": "item.wood.name", "value": "Wood" },
+        { "key": "item.wood.description", "value": "Wood is used for building." },
+        { "key": "item.stone.name", "value": "Stone" },
+        { "key": "item.stone.description", "value": "Stone is used for building." },
+        { "key": "item.iron.name", "value": "Iron" },
+        { "key": "item.iron.description", "value": "Iron is used for building." },
+        { "key": "item.gold.name", "value": "Gold" },
+        { "key": "item.gold.description", "value": "Gold is used for building." },
+        { "key": "reward.attack-power.name", "value": "Attack Power" },
+        { "key": "reward.attack-power.description", "value": "Increase attack power by 1" },
+        { "key": "reward.extra-life.name", "value": "Extra Life" },
+        { "key": "reward.extra-life.description", "value": "Increase player lives by 1" }
     ]
 }
