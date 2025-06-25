@@ -9,8 +9,9 @@ namespace Afterlife.Core
         Title,
         Main,
         InGame,
-        Clear,
+        GameClear,
         GameOver,
+        Demo,
     }
 
     /// <summary>
@@ -29,6 +30,7 @@ namespace Afterlife.Core
             // 초기화하고 바뀌지 않는 Controller 설정
             ServiceLocator.Get<UIManager>().TitleController.SetUp();
             ServiceLocator.Get<UIManager>().GameOverController.SetUp();
+            ServiceLocator.Get<UIManager>().DemoController.SetUp();
 
             ChangeState(GameState.Title);
         }
@@ -52,7 +54,7 @@ namespace Afterlife.Core
                     break;
                 case GameState.InGame:
                     break;
-                case GameState.Clear:
+                case GameState.GameClear:
                     break;
                 case GameState.GameOver:
                     break;
@@ -75,10 +77,13 @@ namespace Afterlife.Core
                     ServiceLocator.Get<AudioManager>().PlayBGM(GameState.InGame);
                     ServiceLocator.Get<UIManager>().StageController.Refresh();
                     break;
-                case GameState.Clear:
+                case GameState.GameClear:
                     break;
                 case GameState.GameOver:
                     ServiceLocator.Get<AudioManager>().PlayBGM(GameState.GameOver);
+                    break;
+                case GameState.Demo:
+                    ServiceLocator.Get<AudioManager>().PlayBGM(GameState.Demo);
                     break;
             }
         }
@@ -140,6 +145,7 @@ namespace Afterlife.Core
         {
             ServiceLocator.Get<UIManager>().TitleController.TearDown();
             ServiceLocator.Get<UIManager>().GameOverController.TearDown();
+            ServiceLocator.Get<UIManager>().DemoController.TearDown();
 
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;

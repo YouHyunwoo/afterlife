@@ -14,14 +14,15 @@ namespace Afterlife.Core
         public UI.Screen TitleScreen;
         public UI.Screen MainScreen;
         public UI.Screen InGameScreen;
-        public UI.Screen ClearScreen; // 클리어 화면
-        public UI.Screen GameOverScreen; // 게임 오버 화면
+        public UI.Screen GameOverScreen;
+        public UI.Screen DemoScreen;
 
         [Header("Controllers")]
         public UI.Title.Controller TitleController;
         public UI.Main.Controller MainController;
         public UI.Stage.Controller StageController;
         public UI.GameOver.Controller GameOverController;
+        public UI.Demo.Controller DemoController;
 
         [Header("Transition")]
         [SerializeField] float transitionDuration = 0.5f;
@@ -41,11 +42,11 @@ namespace Afterlife.Core
                 case GameState.InGame:
                     InGameScreen.Show();
                     break;
-                case GameState.Clear:
-                    ClearScreen.Show();
-                    break;
                 case GameState.GameOver:
                     GameOverScreen.Show();
+                    break;
+                case GameState.Demo:
+                    DemoScreen.Show();
                     break;
             }
         }
@@ -55,8 +56,8 @@ namespace Afterlife.Core
             TitleScreen.Hide();
             MainScreen.Hide();
             InGameScreen.Hide();
-            ClearScreen.Hide();
             GameOverScreen.Hide();
+            DemoScreen.Hide();
         }
 
         public void FadeOut(Action onComplete = null)

@@ -97,7 +97,7 @@ namespace Afterlife.Core
                 ServiceLocator.Get<UIManager>().FadeTransition(() =>
                 {
                     ServiceLocator.Get<GameManager>().DeleteGame();
-                    ServiceLocator.Get<GameManager>().ChangeState(GameState.Clear);
+                    ServiceLocator.Get<GameManager>().ChangeState(GameState.Demo);
                 });
             }
             else
@@ -123,7 +123,6 @@ namespace Afterlife.Core
                 game.Lives = 0;
                 ServiceLocator.Get<UIManager>().FadeTransition(() =>
                 {
-                    Debug.Log("dd");
                     ServiceLocator.Get<GameManager>().DeleteGame();
                     ServiceLocator.Get<GameManager>().ChangeState(GameState.GameOver);
                 });
