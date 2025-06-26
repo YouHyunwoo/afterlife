@@ -55,7 +55,7 @@ PrefabInstance:
     - target: {fileID: 6092459375316025021, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 675c3ab931c6a37478049e9279928dd3, type: 3}
+      objectReference: {fileID: 21300000, guid: b1feff19a9b04cd45922bd3ffceb1daf, type: 3}
     - target: {fileID: 6092459375316025021, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
@@ -86,7 +86,7 @@ Animator:
   m_GameObject: {fileID: 6363469665511161716}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d8f98aa3209fb3d4484b5a101a738dd8, type: 2}
+  m_Controller: {fileID: 22100000, guid: d7f0ed962dc562740805545e2af6d568, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -116,5 +116,7 @@ MonoBehaviour:
   ObjectSpawn:
     SpawnInterval: 5
     PrefabWeightGroups:
+    - Prefab: {fileID: 0}
+      Weight: 1
     - Prefab: {fileID: 2098846693792243547, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
       Weight: 1

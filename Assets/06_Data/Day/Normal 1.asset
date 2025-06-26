@@ -24,7 +24,7 @@ MonoBehaviour:
       Weight: 1
   NightDuration: 30
   NightObjectSpawn:
-    SpawnInterval: 3
+    SpawnInterval: 2
     PrefabWeightGroups:
     - Prefab: {fileID: 0}
       Weight: 1
@@ -33,4 +33,6 @@ MonoBehaviour:
     - Prefab: {fileID: 2768388427046855092, guid: cb33ae0a581754742b8d37223e1cf47f, type: 3}
       Weight: 4
     - Prefab: {fileID: 3853592589718587406, guid: 8f4713f8beee42f47ab2b03fd568bfb6, type: 3}
+      Weight: 1
+    - Prefab: {fileID: 6363469665511161716, guid: 0b8cc90afe292144c81885b6e27d79e1, type: 3}
       Weight: 1
