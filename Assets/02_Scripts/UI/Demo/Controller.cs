@@ -4,10 +4,16 @@ namespace Afterlife.UI.Demo
 {
     public class Controller : UI.Controller
     {
+        Screen demoScreen;
+
+        public override void OnSceneEntered(SceneState previousSceneState, UI.Controller previousScreen)
+        {
+            ServiceLocator.Get<AudioManager>().PlayBGM(SceneState.Demo);
+        }
+
         public override void SetUp()
         {
-            var uiManager = ServiceLocator.Get<UIManager>();
-            var demoScreen = uiManager.DemoScreen as Demo.Screen;
+            demoScreen = Screen as Demo.Screen;
 
             Localization.OnLanguageChangedEvent += demoScreen.Localize;
             demoScreen.Localize();
@@ -15,22 +21,21 @@ namespace Afterlife.UI.Demo
             demoScreen.OnToTitleButtonClickedEvent += OnToTitleButtonClicked;
         }
 
+        public override void TearDown()
+        {
+            Localization.OnLanguageChangedEvent -= demoScreen.Localize;
+
+            demoScreen.OnToTitleButtonClickedEvent -= OnToTitleButtonClicked;
+
+            demoScreen = null;
+        }
+
         void OnToTitleButtonClicked()
         {
             ServiceLocator.Get<UIManager>().FadeTransition(() =>
             {
-                ServiceLocator.Get<GameManager>().ChangeState(GameState.Title);
+                ServiceLocator.Get<SceneManager>().ChangeState(SceneState.Title);
             });
-        }
-
-        public override void TearDown()
-        {
-            var uiManager = ServiceLocator.Get<UIManager>();
-            var gameOverScreen = uiManager.GameOverScreen as GameOver.Screen;
-
-            Localization.OnLanguageChangedEvent -= gameOverScreen.Localize;
-
-            gameOverScreen.OnToTitleButtonClickedEvent -= OnToTitleButtonClicked;
         }
     }
 }

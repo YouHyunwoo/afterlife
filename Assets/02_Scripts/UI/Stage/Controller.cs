@@ -4,10 +4,24 @@ namespace Afterlife.UI.Stage
 {
     public class Controller : UI.Controller
     {
+        Screen stageScreen;
+
+        public override void OnSceneEntered(SceneState previousSceneState, UI.Controller previousScreen)
+        {
+            ServiceLocator.Get<AudioManager>().PlayBGM(SceneState.InGame);
+            ServiceLocator.Get<UIManager>().StageController.RefreshView();
+        }
+
+        public override void OnSceneExited(SceneState nextSceneState, UI.Controller nextScreen)
+        {
+            stageScreen.MenuView.Hide();
+            stageScreen.SkillInformationView.Hide();
+            stageScreen.CraftView.Hide();
+        }
+
         public override void SetUp()
         {
-            var uiManager = ServiceLocator.Get<UIManager>();
-            var stageScreen = uiManager.InGameScreen as Stage.Screen;
+            stageScreen = Screen as Stage.Screen;
 
             Localization.OnLanguageChangedEvent += stageScreen.Localize;
             stageScreen.Localize();
@@ -17,42 +31,23 @@ namespace Afterlife.UI.Stage
             stageScreen.MenuView.OnGiveUpButtonClickedEvent += OnGiveUpButtonClicked;
         }
 
-        void OnMenuButtonClicked()
-        {
-            var uiManager = ServiceLocator.Get<UIManager>();
-            var stageScreen = uiManager.InGameScreen as Stage.Screen;
-            stageScreen.MenuView.Show();
-        }
-
-        void OnContinueButtonClicked()
-        {
-            var uiManager = ServiceLocator.Get<UIManager>();
-            var stageScreen = uiManager.InGameScreen as Stage.Screen;
-
-            stageScreen.MenuView.Hide();
-        }
-
-        void OnGiveUpButtonClicked()
-        {
-            ServiceLocator.Get<StageManager>().FailStage();
-        }
-
         public override void TearDown()
         {
-            var uiManager = ServiceLocator.Get<UIManager>();
-            var stageScreen = uiManager.InGameScreen as Stage.Screen;
-
-            Localization.OnLanguageChangedEvent -= stageScreen.Localize;
-
             stageScreen.OnMenuButtonClickedEvent -= OnMenuButtonClicked;
             stageScreen.MenuView.OnContinueButtonClickedEvent -= OnContinueButtonClicked;
             stageScreen.MenuView.OnGiveUpButtonClickedEvent -= OnGiveUpButtonClicked;
+
+            Localization.OnLanguageChangedEvent -= stageScreen.Localize;
+
+            stageScreen = null;
         }
 
-        public override void Refresh()
+        void OnMenuButtonClicked() => stageScreen.MenuView.Show();
+        void OnContinueButtonClicked() => stageScreen.MenuView.Hide();
+        void OnGiveUpButtonClicked() => ServiceLocator.Get<StageManager>().FailStage();
+
+        public override void RefreshView()
         {
-            var uiManager = ServiceLocator.Get<UIManager>();
-            var stageScreen = uiManager.InGameScreen as Stage.Screen;
             var gameManager = ServiceLocator.Get<GameManager>();
             var game = gameManager.Game;
 

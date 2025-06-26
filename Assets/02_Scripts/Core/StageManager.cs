@@ -86,59 +86,6 @@ namespace Afterlife.Core
             Stage.Map.Fog.Update();
         }
 
-        void OnMissionSuccessed() => SuccessStage();
-
-        public void SuccessStage()
-        {
-            EndStage();
-
-            var game = ServiceLocator.Get<GameManager>().Game;
-
-            game.CurrentStageIndex++;
-            if (game.CurrentStageIndex >= game.TotalStageCount)
-            {
-                ServiceLocator.Get<UIManager>().FadeTransition(() =>
-                {
-                    ServiceLocator.Get<GameManager>().DeleteGame();
-                    ServiceLocator.Get<GameManager>().ChangeState(GameState.Demo);
-                });
-            }
-            else
-            {
-                ServiceLocator.Get<UIManager>().FadeTransition(() =>
-                {
-                    ServiceLocator.Get<GameManager>().ChangeState(GameState.Main);
-                });
-            }
-        }
-
-        void OnMissionFailed() => FailStage();
-
-        public void FailStage()
-        {
-            EndStage();
-
-            var game = ServiceLocator.Get<GameManager>().Game;
-
-            game.Lives--;
-            if (game.Lives <= 0)
-            {
-                game.Lives = 0;
-                ServiceLocator.Get<UIManager>().FadeTransition(() =>
-                {
-                    ServiceLocator.Get<GameManager>().DeleteGame();
-                    ServiceLocator.Get<GameManager>().ChangeState(GameState.GameOver);
-                });
-            }
-            else
-            {
-                ServiceLocator.Get<UIManager>().FadeTransition(() =>
-                {
-                    ServiceLocator.Get<GameManager>().ChangeState(GameState.Main);
-                });
-            }
-        }
-
         void CreateStage()
         {
             var game = ServiceLocator.Get<GameManager>().Game;
@@ -282,6 +229,51 @@ namespace Afterlife.Core
                 z = mainCamera.transform.position.z
             };
             mainCamera.transform.position = targetPosition;
+        }
+
+        void OnMissionSuccessed() => SuccessStage();
+
+        public void SuccessStage()
+        {
+            EndStage();
+
+            var game = ServiceLocator.Get<GameManager>().Game;
+
+            game.CurrentStageIndex++;
+            if (game.CurrentStageIndex >= game.TotalStageCount)
+            {
+                ServiceLocator.Get<GameManager>().SucceedGame();
+            }
+            else
+            {
+                ServiceLocator.Get<UIManager>().FadeTransition(() =>
+                {
+                    ServiceLocator.Get<SceneManager>().ChangeState(SceneState.Main);
+                });
+            }
+        }
+
+        void OnMissionFailed() => FailStage();
+
+        public void FailStage()
+        {
+            EndStage();
+
+            var game = ServiceLocator.Get<GameManager>().Game;
+
+            game.Lives--;
+            if (game.Lives <= 0)
+            {
+                game.Lives = 0;
+                ServiceLocator.Get<GameManager>().FailGame();
+            }
+            else
+            {
+                ServiceLocator.Get<UIManager>().FadeTransition(() =>
+                {
+                    ServiceLocator.Get<SceneManager>().ChangeState(SceneState.Main);
+                });
+            }
         }
 
         void TearDownPlayer()

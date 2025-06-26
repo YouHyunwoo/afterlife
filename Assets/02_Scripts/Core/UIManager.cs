@@ -28,30 +28,7 @@ namespace Afterlife.Core
         [SerializeField] float transitionDuration = 0.5f;
         [SerializeField] Image transitionImage;
 
-        public void Show(GameState state)
-        {
-            HideAll();
-            switch (state)
-            {
-                case GameState.Title:
-                    TitleScreen.Show();
-                    break;
-                case GameState.Main:
-                    MainScreen.Show();
-                    break;
-                case GameState.InGame:
-                    InGameScreen.Show();
-                    break;
-                case GameState.GameOver:
-                    GameOverScreen.Show();
-                    break;
-                case GameState.Demo:
-                    DemoScreen.Show();
-                    break;
-            }
-        }
-
-        private void HideAll()
+        public void HideAll()
         {
             TitleScreen.Hide();
             MainScreen.Hide();

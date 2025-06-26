@@ -5,55 +5,41 @@ namespace Afterlife.UI.Title
 {
     public class Controller : UI.Controller
     {
+        Screen titleScreen;
+
+        public override void OnSceneEntered(SceneState previousSceneState, UI.Controller previousScreen)
+        {
+            ServiceLocator.Get<AudioManager>().PlayBGM(SceneState.Title);
+        }
+
         public override void SetUp()
         {
-            var uiManager = ServiceLocator.Get<UIManager>();
-            var titleView = uiManager.TitleScreen as Title.Screen;
+            titleScreen = Screen as Title.Screen;
 
-            Localization.OnLanguageChangedEvent += titleView.Localize;
-            titleView.Localize();
+            Localization.OnLanguageChangedEvent += titleScreen.Localize;
+            titleScreen.Localize();
 
-            titleView.OnNewGameButtonClickedEvent += OnNewGameButtonClicked;
-            titleView.OnSettingsButtonClickedEvent += OnSettingsButtonClicked;
-            titleView.OnExitButtonClickedEvent += OnExitButtonClicked;
+            titleScreen.OnNewGameButtonClickedEvent += OnNewGameButtonClicked;
+            titleScreen.OnSettingsButtonClickedEvent += OnSettingsButtonClicked;
+            titleScreen.OnExitButtonClickedEvent += OnExitButtonClicked;
 
-            titleView.SettingsView.OnLanguageButtonClickedEvent += OnLanguageButtonClicked;
+            titleScreen.SettingsView.OnLanguageButtonClickedEvent += OnLanguageButtonClicked;
         }
 
         public override void TearDown()
         {
-            var uiManager = ServiceLocator.Get<UIManager>();
-            var titleView = uiManager.TitleScreen as Title.Screen;
+            titleScreen.OnNewGameButtonClickedEvent -= OnNewGameButtonClicked;
+            titleScreen.OnSettingsButtonClickedEvent -= OnSettingsButtonClicked;
+            titleScreen.OnExitButtonClickedEvent -= OnExitButtonClicked;
 
-            Localization.OnLanguageChangedEvent -= titleView.Localize;
+            Localization.OnLanguageChangedEvent -= titleScreen.Localize;
 
-            titleView.OnNewGameButtonClickedEvent -= OnNewGameButtonClicked;
-            titleView.OnSettingsButtonClickedEvent -= OnSettingsButtonClicked;
-            titleView.OnExitButtonClickedEvent -= OnExitButtonClicked;
+            titleScreen = null;
         }
 
-        void OnNewGameButtonClicked()
-        {
-            ServiceLocator.Get<UIManager>().FadeOut(() =>
-            {
-                ServiceLocator.Get<GameManager>().CreateGame();
-                ServiceLocator.Get<GameManager>().ChangeState(GameState.Main);
-                ServiceLocator.Get<UIManager>().FadeIn(() => { });
-            });
-        }
-
-        void OnSettingsButtonClicked()
-        {
-            var uiManager = ServiceLocator.Get<UIManager>();
-            var titleView = uiManager.TitleScreen as Title.Screen;
-
-            titleView.SettingsView.Show();
-        }
-
-        void OnExitButtonClicked()
-        {
-            ServiceLocator.Get<GameManager>().Quit();
-        }
+        void OnNewGameButtonClicked() => ServiceLocator.Get<GameManager>().StartGame();
+        void OnSettingsButtonClicked() => titleScreen.SettingsView.Show();
+        void OnExitButtonClicked() => ServiceLocator.Get<ApplicationManager>().Quit();
 
         void OnLanguageButtonClicked()
         {

@@ -1,94 +1,24 @@
-using DG.Tweening;
 using UnityEngine;
 
 namespace Afterlife.Core
 {
-    public enum GameState
-    {
-        None,
-        Title,
-        Main,
-        InGame,
-        GameClear,
-        GameOver,
-        Demo,
-    }
-
     /// <summary>
-    /// 게임 전체 상태와 흐름을 관리하는 GameManager
+    /// 게임을 관리하는 GameManager
     /// </summary>
     public class GameManager : MonoBehaviour
     {
-        public GameState CurrentState;
         public Model.Game Game;
 
-        void Start()
+        public void StartGame()
         {
-            // 언어 설정
-            Localization.Load();
-
-            // 초기화하고 바뀌지 않는 Controller 설정
-            ServiceLocator.Get<UIManager>().TitleController.SetUp();
-            ServiceLocator.Get<UIManager>().GameOverController.SetUp();
-            ServiceLocator.Get<UIManager>().DemoController.SetUp();
-
-            ChangeState(GameState.Title);
-        }
-
-        public void ChangeState(GameState newState)
-        {
-            OnStateExited();
-            CurrentState = newState;
-            ServiceLocator.Get<UIManager>().Show(newState);
-            OnStateEntered();
-        }
-
-        void OnStateExited()
-        {
-            // 상태 전환 전 처리
-            switch (CurrentState)
+            ServiceLocator.Get<UIManager>().FadeTransition(() =>
             {
-                case GameState.Title:
-                    break;
-                case GameState.Main:
-                    break;
-                case GameState.InGame:
-                    break;
-                case GameState.GameClear:
-                    break;
-                case GameState.GameOver:
-                    break;
-            }
+                CreateGame();
+                ServiceLocator.Get<SceneManager>().ChangeState(SceneState.Main);
+            });
         }
 
-        void OnStateEntered()
-        {
-            // 상태 전환 후 처리
-            switch (CurrentState)
-            {
-                case GameState.Title:
-                    ServiceLocator.Get<AudioManager>().PlayBGM(GameState.Title);
-                    break;
-                case GameState.Main:
-                    ServiceLocator.Get<AudioManager>().PlayBGM(GameState.Main);
-                    ServiceLocator.Get<UIManager>().MainController.Refresh();
-                    break;
-                case GameState.InGame:
-                    ServiceLocator.Get<AudioManager>().PlayBGM(GameState.InGame);
-                    ServiceLocator.Get<UIManager>().StageController.Refresh();
-                    break;
-                case GameState.GameClear:
-                    break;
-                case GameState.GameOver:
-                    ServiceLocator.Get<AudioManager>().PlayBGM(GameState.GameOver);
-                    break;
-                case GameState.Demo:
-                    ServiceLocator.Get<AudioManager>().PlayBGM(GameState.Demo);
-                    break;
-            }
-        }
-
-        public void CreateGame()
+        void CreateGame()
         {
             // 게임 생성 로직
             // 예: 플레이어, 스테이지, 오브젝트 초기화 등
@@ -123,55 +53,71 @@ namespace Afterlife.Core
                 TotalStageCount = gameData.StageDataArray.Length,
             };
 
-            ServiceLocator.Get<UIManager>().MainController.SetUp();
-            ServiceLocator.Get<UIManager>().StageController.SetUp();
-
-            Debug.Log("게임이 생성되었습니다.");
+            Debug.Log("[System] 게임 생성");
         }
 
-        public void DeleteGame()
+        void SaveGame()
+        {
+            // 게임 저장 로직
+            // 예: 플레이어 상태, 스테이지 진행 상황 등을 저장
+            Debug.Log("[System] 게임 저장");
+        }
+
+        public void QuitGame()
+        {
+            ServiceLocator.Get<UIManager>().FadeTransition(() =>
+            {
+                // SaveGame();
+                DeleteGame();
+                ServiceLocator.Get<SceneManager>().ChangeState(SceneState.Title);
+            });
+        }
+
+        public void SucceedGame()
+        {
+            ServiceLocator.Get<UIManager>().FadeTransition(() =>
+            {
+                DeleteGame();
+                ServiceLocator.Get<SceneManager>().ChangeState(SceneState.Demo);
+            });
+        }
+
+        public void FailGame()
+        {
+            ServiceLocator.Get<UIManager>().FadeTransition(() =>
+            {
+                DeleteGame();
+                ServiceLocator.Get<SceneManager>().ChangeState(SceneState.GameOver);
+            });
+        }
+
+        void DeleteGame()
         {
             // 게임 종료 로직
             // 예: 플레이어 상태 초기화, 스테이지 리셋 등
-            ServiceLocator.Get<UIManager>().MainController.TearDown();
-            ServiceLocator.Get<UIManager>().StageController.TearDown();
+            ServiceLocator.Get<UIManager>().MainController.ResetView();
 
             Game = null;
 
-            Debug.Log("게임이 종료되었습니다.");
+            Debug.Log("[System] 게임 삭제");
         }
 
-        public void Quit()
+        public void StartStage()
         {
-            ServiceLocator.Get<UIManager>().TitleController.TearDown();
-            ServiceLocator.Get<UIManager>().GameOverController.TearDown();
-            ServiceLocator.Get<UIManager>().DemoController.TearDown();
-
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
+            ServiceLocator.Get<UIManager>().FadeTransition(() =>
+            {
+                CreateStage();
+                ServiceLocator.Get<SceneManager>().ChangeState(SceneState.InGame);
+            });
         }
 
-        public void CreateStage()
+        void CreateStage()
         {
             // 스테이지 생성 로직
             // 예: 스테이지 데이터 초기화, 몬스터 생성 등
             ServiceLocator.Get<StageManager>().StartStage();
-            Debug.Log("스테이지가 생성되었습니다.");
-        }
 
-        public void SaveGame()
-        {
-            // 게임 저장 로직
-            // 예: 플레이어 상태, 스테이지 진행 상황 등을 저장
-            Debug.Log("게임이 저장되었습니다.");
-        }
-
-        void OnDestroy()
-        {
-            DOTween.KillAll();
+            Debug.Log("[System] 스테이지 생성");
         }
     }
 }

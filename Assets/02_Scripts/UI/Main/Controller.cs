@@ -5,15 +5,25 @@ namespace Afterlife.UI.Main
 {
     public class Controller : UI.Controller
     {
+        Screen mainScreen;
+
+        public override void OnSceneEntered(SceneState previousSceneState, UI.Controller previousScreen)
+        {
+            ServiceLocator.Get<AudioManager>().PlayBGM(SceneState.Main);
+            ServiceLocator.Get<UIManager>().MainController.RefreshView();
+        }
+
+        public override void OnSceneExited(SceneState nextSceneState, UI.Controller nextScreen)
+        {
+            mainScreen.MenuView.Hide();
+        }
+
         public override void SetUp()
         {
-            var uiManager = ServiceLocator.Get<UIManager>();
-            var mainScreen = uiManager.MainScreen as Main.Screen;
+            mainScreen = Screen as Main.Screen;
 
             Localization.OnLanguageChangedEvent += mainScreen.Localize;
             mainScreen.Localize();
-
-            mainScreen.GetComponent<Tab>().SetView(0);
 
             mainScreen.OnMenuButtonClickedEvent += OnMenuButtonClicked;
             mainScreen.MenuView.OnContinueButtonClickedEvent += OnContinueButtonClicked;
@@ -26,14 +36,36 @@ namespace Afterlife.UI.Main
                 upgradeNode.OnPurchased += OnUpgradeItemPurchased;
                 upgradeNode.OnInformationShowed += OnUpgradeNodeInformationShowed;
                 upgradeNode.OnInformationHidden += OnUpgradeNodeInformationHidden;
-                upgradeNode.Clear();
             }
         }
 
+        public override void TearDown()
+        {
+            var upgradeNodes = mainScreen.UpgradeView.UpgradeTreeView.upgradeNodes;
+            foreach (var upgradeNode in upgradeNodes)
+            {
+                upgradeNode.OnPurchased -= OnUpgradeItemPurchased;
+                upgradeNode.OnInformationShowed -= OnUpgradeNodeInformationShowed;
+                upgradeNode.OnInformationHidden -= OnUpgradeNodeInformationHidden;
+            }
+
+            mainScreen.OnMenuButtonClickedEvent -= OnMenuButtonClicked;
+            mainScreen.MenuView.OnContinueButtonClickedEvent -= OnContinueButtonClicked;
+            mainScreen.MenuView.OnSaveAndQuitButtonClickedEvent -= OnSaveAndQuitButtonClicked;
+            mainScreen.OnStartMissionButtonClickedEvent -= OnStartMissionButtonClicked;
+
+            Localization.OnLanguageChangedEvent -= mainScreen.Localize;
+
+            mainScreen = null;
+        }
+
+        void OnMenuButtonClicked() => mainScreen.MenuView.Show();
+        void OnContinueButtonClicked() => mainScreen.MenuView.Hide();
+        void OnSaveAndQuitButtonClicked() => ServiceLocator.Get<GameManager>().QuitGame();
+        void OnStartMissionButtonClicked() => ServiceLocator.Get<GameManager>().StartStage();
+
         void OnUpgradeItemPurchased(UpgradeNode upgradeNode)
         {
-            var uiManager = ServiceLocator.Get<UIManager>();
-            var mainScreen = uiManager.MainScreen as Main.Screen;
             var gameManager = ServiceLocator.Get<GameManager>();
             var game = gameManager.Game;
 
@@ -42,9 +74,6 @@ namespace Afterlife.UI.Main
 
         void OnUpgradeNodeInformationShowed(UpgradeNode upgradeNode)
         {
-            var uiManager = ServiceLocator.Get<UIManager>();
-            var mainScreen = uiManager.MainScreen as Main.Screen;
-
             var nodeRectTransform = upgradeNode.GetComponent<RectTransform>();
             mainScreen.UpgradeInformationView.GetComponent<RectTransform>().position = nodeRectTransform.position + new Vector3(20, 20, 0);
             mainScreen.UpgradeInformationView.Show(upgradeNode.Id, upgradeNode.Cost, upgradeNode.State);
@@ -52,82 +81,31 @@ namespace Afterlife.UI.Main
 
         void OnUpgradeNodeInformationHidden(UpgradeNode upgradeNode)
         {
-            var uiManager = ServiceLocator.Get<UIManager>();
-            var mainScreen = uiManager.MainScreen as Main.Screen;
-
             mainScreen.UpgradeInformationView.Hide();
         }
 
-        public override void TearDown()
+        public override void RefreshView()
         {
-            var uiManager = ServiceLocator.Get<UIManager>();
-            var mainScreen = uiManager.MainScreen as Main.Screen;
+            mainScreen.GetComponent<Tab>().SetView(0);
 
-            Localization.OnLanguageChangedEvent -= mainScreen.Localize;
-
-            mainScreen.OnMenuButtonClickedEvent -= OnMenuButtonClicked;
-            mainScreen.MenuView.OnContinueButtonClickedEvent -= OnContinueButtonClicked;
-            mainScreen.MenuView.OnSaveAndQuitButtonClickedEvent -= OnSaveAndQuitButtonClicked;
-            mainScreen.OnStartMissionButtonClickedEvent -= OnStartMissionButtonClicked;
-
-            var upgradeNodes = mainScreen.GetComponentsInChildren<UpgradeNode>(true);
-            foreach (var upgradeNode in upgradeNodes)
-            {
-                upgradeNode.OnPurchased -= OnUpgradeItemPurchased;
-                upgradeNode.OnInformationShowed -= OnUpgradeNodeInformationShowed;
-                upgradeNode.OnInformationHidden -= OnUpgradeNodeInformationHidden;
-            }
-        }
-
-        void OnMenuButtonClicked()
-        {
-            var uiManager = ServiceLocator.Get<UIManager>();
-            var mainScreen = uiManager.MainScreen as Main.Screen;
-
-            mainScreen.MenuView.Show();
-        }
-
-        void OnContinueButtonClicked()
-        {
-            var uiManager = ServiceLocator.Get<UIManager>();
-            var mainScreen = uiManager.MainScreen as Main.Screen;
-
-            mainScreen.MenuView.Hide();
-        }
-
-        void OnSaveAndQuitButtonClicked()
-        {
-            var uiManager = ServiceLocator.Get<UIManager>();
-            var mainScreen = uiManager.MainScreen as Main.Screen;
-
-            mainScreen.MenuView.Hide();
-
-            ServiceLocator.Get<UIManager>().FadeTransition(() =>
-            {
-                ServiceLocator.Get<GameManager>().SaveGame();
-                ServiceLocator.Get<GameManager>().DeleteGame();
-                ServiceLocator.Get<GameManager>().ChangeState(GameState.Title);
-            });
-        }
-
-        void OnStartMissionButtonClicked()
-        {
-            ServiceLocator.Get<UIManager>().FadeTransition(() =>
-            {
-                ServiceLocator.Get<GameManager>().CreateStage();
-                ServiceLocator.Get<GameManager>().ChangeState(GameState.InGame);
-            });
-        }
-
-        public override void Refresh()
-        {
-            var uiManager = ServiceLocator.Get<UIManager>();
-            var mainScreen = uiManager.MainScreen as Main.Screen;
             var game = ServiceLocator.Get<GameManager>().Game;
 
             mainScreen.MissionView.LifeView.SetLifes(game.Lives);
             mainScreen.MissionView.MissionProgressView.SetProgress(game.CurrentStageIndex, game.TotalStageCount);
             mainScreen.UpgradeView.ExperienceView.SetAmount(game.Player.Experience);
+        }
+
+        public void ResetView()
+        {
+            mainScreen.GetComponent<Tab>().SetView(0);
+
+            var upgradeNodes = mainScreen.UpgradeView.UpgradeTreeView.upgradeNodes;
+            foreach (var upgradeNode in upgradeNodes)
+            {
+                upgradeNode.Clear();
+            }
+
+            mainScreen.MenuView.Hide();
         }
     }
 }

@@ -31,21 +31,21 @@ namespace Afterlife.Core
             }
         }
 
-        public void PlayBGM(GameState state)
+        public void PlayBGM(SceneState state)
         {
             AudioClip clip = null;
             switch (state)
             {
-                case GameState.Title:
+                case SceneState.Title:
                     clip = titleBGM;
                     break;
-                case GameState.Main:
+                case SceneState.Main:
                     clip = mainBGM;
                     break;
-                case GameState.InGame:
+                case SceneState.InGame:
                     clip = inGameBGM;
                     break;
-                case GameState.GameOver:
+                case SceneState.GameOver:
                     clip = gameOverBGM;
                     break;
             }
