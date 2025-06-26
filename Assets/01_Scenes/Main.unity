@@ -1149,6 +1149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toTitleButton: {fileID: 140003589}
+  toTitleButtonText: {fileID: 1241244174}
 --- !u!114 &86649224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20271,6 +20272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toTitleButton: {fileID: 1800826693}
+  toTitleButtonText: {fileID: 215298284}
 --- !u!114 &1403437107
 MonoBehaviour:
   m_ObjectHideFlags: 0
