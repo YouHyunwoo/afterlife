@@ -17,7 +17,7 @@ namespace Afterlife.Core
         [Header("Field")]
         [SerializeField] Transform fieldTransform;
         [SerializeField] FieldObjectSpawner fieldObjectSpawner;
-        [SerializeField] ObjectSpawnSystem monsterSpawnSystem;
+        [SerializeField] ObjectSpawnSystem objectSpawnSystem;
         [SerializeField] EnvironmentSpawnSystem environmentSpawnSystem;
 
         [Header("Time")]
@@ -50,17 +50,18 @@ namespace Afterlife.Core
             SetUpPlayer();
 
             timeSystem.OnDayChangedEvent += missionSystem.OnDayChanged;
-            timeSystem.OnDayChangedEvent += monsterSpawnSystem.OnDayChanged;
+            timeSystem.OnDayChangedEvent += objectSpawnSystem.OnDayChanged;
             timeSystem.OnDayChangedEvent += rewardSystem.OnDayChanged;
             missionSystem.OnMissionSuccessEvent += OnMissionSuccessed;
             missionSystem.OnMissionFailedEvent += OnMissionFailed;
-            monsterSpawnSystem.OnObjectSpawned += missionSystem.OnObjectSpawned;
+            objectSpawnSystem.OnObjectSpawnedEvent += missionSystem.OnObjectSpawned;
 
             ServiceLocator.Register(timeSystem);
             ServiceLocator.Register(tileInteractionSystem);
             ServiceLocator.Register(fogSystem);
             ServiceLocator.Register(missionSystem);
-            ServiceLocator.Register(monsterSpawnSystem);
+            ServiceLocator.Register(fieldObjectSpawner);
+            ServiceLocator.Register(objectSpawnSystem);
             ServiceLocator.Register(skillSystem);
             ServiceLocator.Register(environmentSpawnSystem);
             ServiceLocator.Register(itemCollectSystem);
@@ -72,7 +73,7 @@ namespace Afterlife.Core
             tileInteractionSystem.SetUp();
             fogSystem.SetUp();
             missionSystem.SetUp();
-            monsterSpawnSystem.SetUp();
+            objectSpawnSystem.SetUp();
             skillSystem.SetUp();
             environmentSpawnSystem.SetUp();
             itemCollectSystem.SetUp();
@@ -309,7 +310,7 @@ namespace Afterlife.Core
             itemCollectSystem.TearDown();
             environmentSpawnSystem.TearDown();
             skillSystem.TearDown();
-            monsterSpawnSystem.TearDown();
+            objectSpawnSystem.TearDown();
             missionSystem.TearDown();
             fogSystem.TearDown();
             tileInteractionSystem.TearDown();
@@ -321,6 +322,7 @@ namespace Afterlife.Core
             ServiceLocator.Unregister<ItemCollectSystem>();
             ServiceLocator.Unregister<EnvironmentSpawnSystem>();
             ServiceLocator.Unregister<SkillSystem>();
+            ServiceLocator.Unregister<FieldObjectSpawner>();
             ServiceLocator.Unregister<ObjectSpawnSystem>();
             ServiceLocator.Unregister<MissionSystem>();
             ServiceLocator.Unregister<FogSystem>();
@@ -328,11 +330,11 @@ namespace Afterlife.Core
             ServiceLocator.Unregister<TimeSystem>();
 
             timeSystem.OnDayChangedEvent -= missionSystem.OnDayChanged;
-            timeSystem.OnDayChangedEvent -= monsterSpawnSystem.OnDayChanged;
+            timeSystem.OnDayChangedEvent -= objectSpawnSystem.OnDayChanged;
             timeSystem.OnDayChangedEvent -= rewardSystem.OnDayChanged;
             missionSystem.OnMissionSuccessEvent -= OnMissionSuccessed;
             missionSystem.OnMissionFailedEvent -= OnMissionFailed;
-            monsterSpawnSystem.OnObjectSpawned -= missionSystem.OnObjectSpawned;
+            objectSpawnSystem.OnObjectSpawnedEvent -= missionSystem.OnObjectSpawned;
 
             TearDownPlayer();
             DeleteObjectsForStage();

@@ -10570,7 +10570,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 000000006f16b27dd38eabfb49c8608143af6015
+  m_ApplyToSortingLayers: 000000006f16b27dd38eabfb49c8608143af6015919fc3dd
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -26885,7 +26885,7 @@ MonoBehaviour:
   fogSystem: {fileID: 1540853844}
   fieldTransform: {fileID: 661714298}
   fieldObjectSpawner: {fileID: 212219396}
-  monsterSpawnSystem: {fileID: 1944477075}
+  objectSpawnSystem: {fileID: 1944477075}
   environmentSpawnSystem: {fileID: 1001290271}
   timeSystem: {fileID: 359114066}
   rewardSystem: {fileID: 228230893}
@@ -28690,7 +28690,7 @@ GameObject:
   - component: {fileID: 1944477074}
   - component: {fileID: 1944477075}
   m_Layer: 0
-  m_Name: Monster Spawn System
+  m_Name: Object Spawn System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

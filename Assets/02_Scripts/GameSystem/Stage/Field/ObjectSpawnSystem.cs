@@ -14,7 +14,7 @@ namespace Afterlife.GameSystem.Stage.Field
         public float ElapsedTime;
         public int DayIndex;
 
-        public event Action<View.Object> OnObjectSpawned;
+        public event Action<View.Object> OnObjectSpawnedEvent;
 
         public override void SetUp()
         {
@@ -31,7 +31,7 @@ namespace Afterlife.GameSystem.Stage.Field
         {
             enabled = false;
 
-            OnObjectSpawned = null;
+            OnObjectSpawnedEvent = null;
 
             ElapsedTime = 0f;
             DayIndex = 0;
@@ -70,7 +70,12 @@ namespace Afterlife.GameSystem.Stage.Field
             var spawnedGameObject = fieldObjectSpawner.Spawn(sampledPrefab, location);
             var @object = spawnedGameObject.GetComponent<View.Object>();
 
-            OnObjectSpawned?.Invoke(@object);
+            if (@object is View.Portal portal)
+            {
+                portal.OnObjectSpawnedEvent += OnObjectSpawnedEvent;
+            }
+
+            OnObjectSpawnedEvent?.Invoke(@object);
         }
 
         public void OnDayChanged(int dayIndex)

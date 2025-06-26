@@ -1,0 +1,76 @@
+using System;
+using System.Collections;
+using Afterlife.Core;
+using Afterlife.Data;
+using Afterlife.GameSystem.Stage.Field;
+using UnityEngine;
+
+namespace Afterlife.View
+{
+    public class Portal : Object
+    {
+        public ObjectSpawn ObjectSpawn;
+
+        Animator Animator;
+
+        public event Action<Object> OnObjectSpawnedEvent;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            Animator = GetComponent<Animator>();
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+            StartCoroutine(MonsterGenerationRoutine());
+        }
+
+        IEnumerator MonsterGenerationRoutine()
+        {
+            var stage = ServiceLocator.Get<StageManager>().Stage;
+            var fieldObjectSpawner = ServiceLocator.Get<FieldObjectSpawner>();
+            var offsets = new Vector2Int[]
+            {
+                new(-1, -1), new(-1, 0), new(-1, 1),
+                new( 0, -1),             new( 0, 1),
+                new(+1, -1), new(+1, 0), new(+1, 1),
+            };
+
+            while (true)
+            {
+                yield return new WaitForSeconds(ObjectSpawn.SpawnInterval);
+
+                var currentLocation = new Vector2Int(
+                    Mathf.RoundToInt(transform.position.x),
+                    Mathf.RoundToInt(transform.position.y)
+                );
+                var offset = offsets[UnityEngine.Random.Range(0, offsets.Length)];
+                var location = currentLocation + offset;
+                if (!stage.Map.IsAvailable(location)) { continue; }
+
+                var sampledPrefab = ObjectSpawn.Sample();
+                if (sampledPrefab == null) { continue; }
+
+                var spawnedGameObject = fieldObjectSpawner.Spawn(sampledPrefab, location);
+                var @object = spawnedGameObject.GetComponent<Object>();
+
+                OnObjectSpawnedEvent?.Invoke(@object);
+            }
+        }
+
+        public override void Interact(Model.Player player)
+        {
+            TakeDamage(player.AttackPower, null);
+            base.Interact(player);
+        }
+
+        public override void Died()
+        {
+            StopAllCoroutines();
+            base.Died();
+        }
+    }
+}

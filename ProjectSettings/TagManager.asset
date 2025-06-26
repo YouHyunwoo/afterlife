@@ -53,5 +53,8 @@ TagManager:
   - name: Field
     uniqueID: 4222324435
     locked: 0
+  - name: Value
+    uniqueID: 3720585105
+    locked: 0
   m_RenderingLayers:
   - Default
