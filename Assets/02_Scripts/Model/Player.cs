@@ -20,6 +20,8 @@ namespace Afterlife.Model
         public List<Skill> Skills = new();
         public Dictionary<string, int> Inventory = new();
         public Light Light;
+        public HashSet<string> Equipment = new();
+        public int MaxEquipmentCount = 6;
 
         public event Action<float> OnExperienceChanged;
 

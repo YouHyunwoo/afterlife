@@ -12,18 +12,34 @@ namespace Afterlife.GameSystem.Stage
 
         public override void SetUp()
         {
-            // inventory.OnItemSlotClickedEvent += OnItemSlotClicked;
+            inventoryView.OnItemSlotClickedEvent += OnItemSlotClicked;
             enabled = true;
         }
 
         public override void TearDown()
         {
             enabled = false;
-            // inventory.OnItemSlotClickedEvent -= OnItemSlotClicked;
+            inventoryView.OnItemSlotClickedEvent -= OnItemSlotClicked;
         }
 
         void OnItemSlotClicked(UI.Stage.InventoryItemSlot slot)
         {
+            var itemData = ServiceLocator.Get<DataManager>().ItemDataDictionary[slot.ItemId];
+            if (itemData == null)
+            {
+                Debug.LogWarning($"Item data for {slot.ItemId} not found.");
+                return;
+            }
+
+            if (itemData.Type == Data.ItemType.Equipment)
+            {
+                var isSuccess = ServiceLocator.Get<EquipmentSystem>().TryToggleEquipment(itemData, out bool isEquipped);
+                if (isSuccess)
+                {
+                    slot.SetEquippedIcon(isEquipped);
+                }
+            }
+
             OnItemSlotClickedEvent?.Invoke(slot);
         }
 
@@ -41,7 +57,9 @@ namespace Afterlife.GameSystem.Stage
                     continue;
                 }
                 var itemIcon = itemData.Icon;
+                inventoryView.ItemSlots[i].ItemId = itemPair.Key;
                 inventoryView.ItemSlots[i].SetItemIcon(itemIcon);
+                inventoryView.ItemSlots[i].SetEquippedIcon(itemData.Type == Data.ItemType.Equipment && ServiceLocator.Get<GameManager>().Game.Player.Equipment.Contains(itemPair.Key));
                 inventoryView.ItemSlots[i].SetItemCount(itemPair.Value);
                 i++;
             }

@@ -36,6 +36,7 @@ namespace Afterlife.Core
         [Header("Item")]
         [SerializeField] ItemCollectSystem itemCollectSystem;
         [SerializeField] InventorySystem inventorySystem;
+        [SerializeField] EquipmentSystem equipmentSystem;
         [SerializeField] CraftSystem craftSystem;
 
         [Header("Camera")]
@@ -68,6 +69,7 @@ namespace Afterlife.Core
             ServiceLocator.Register(inventorySystem);
             ServiceLocator.Register(craftSystem);
             ServiceLocator.Register(rewardSystem);
+            ServiceLocator.Register(equipmentSystem);
 
             timeSystem.SetUp();
             tileInteractionSystem.SetUp();
@@ -304,6 +306,7 @@ namespace Afterlife.Core
             var stageScreen = ServiceLocator.Get<UIManager>().InGameScreen as UI.Stage.Screen;
             stageScreen.MenuView.Hide();
 
+            equipmentSystem.TearDown();
             rewardSystem.TearDown();
             craftSystem.TearDown();
             inventorySystem.TearDown();
@@ -316,6 +319,7 @@ namespace Afterlife.Core
             tileInteractionSystem.TearDown();
             timeSystem.TearDown();
 
+            ServiceLocator.Unregister<EquipmentSystem>();
             ServiceLocator.Unregister<RewardSystem>();
             ServiceLocator.Unregister<CraftSystem>();
             ServiceLocator.Unregister<InventorySystem>();

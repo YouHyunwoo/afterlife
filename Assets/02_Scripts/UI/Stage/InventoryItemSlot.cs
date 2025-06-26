@@ -8,8 +8,11 @@ namespace Afterlife.UI.Stage
     public class InventoryItemSlot : View
     {
         [SerializeField] Image iconImage;
+        [SerializeField] Image equippedIconImage;
         [SerializeField] TextMeshProUGUI itemCountText;
         [SerializeField] Button button;
+
+        public string ItemId;
 
         public event Action<InventoryItemSlot> OnItemSlotClickedEvent;
 
@@ -24,6 +27,11 @@ namespace Afterlife.UI.Stage
         {
             iconImage.sprite = icon;
             iconImage.enabled = icon != null;
+        }
+
+        public void SetEquippedIcon(bool isEquipped)
+        {
+            equippedIconImage.enabled = isEquipped;
         }
 
         public void SetItemCount(int count)

@@ -16,6 +16,7 @@ namespace Afterlife.UI.Stage
             {
                 itemSlot.OnItemSlotClickedEvent += OnItemSlotClicked;
                 itemSlot.SetItemIcon(null);
+                itemSlot.SetEquippedIcon(false);
                 itemSlot.SetItemCount(0);
             }
         }

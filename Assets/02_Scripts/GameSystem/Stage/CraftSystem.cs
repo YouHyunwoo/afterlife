@@ -88,6 +88,13 @@ namespace Afterlife.GameSystem.Stage
                 inventory[itemId] = 1;
             }
 
+            var itemData = ServiceLocator.Get<DataManager>().ItemDataDictionary[itemId];
+            if (itemData.Type == ItemType.Equipment)
+            {
+                ServiceLocator.Get<EquipmentSystem>().TryToggleEquipment(itemData, out bool isEquipped);
+                ServiceLocator.Get<InventorySystem>().RefreshInventoryView();
+            }
+
             return true;
         }
 
