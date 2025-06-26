@@ -7,7 +7,7 @@ namespace Afterlife.GameSystem.Stage
 {
     public class MissionSystem : SystemBase
     {
-        HashSet<View.Monster> monsterSet;
+        HashSet<View.Object> monsterSet;
         HashSet<View.Village> villageSet;
         bool isTargetDayReached;
 
@@ -64,6 +64,10 @@ namespace Afterlife.GameSystem.Stage
             {
                 OnMonsterDied(monster);
             }
+            else if (@object is View.Portal portal)
+            {
+                OnPortalDied(portal);
+            }
             else if (@object is View.Village village)
             {
                 OnVillageDied(village);
@@ -75,6 +79,14 @@ namespace Afterlife.GameSystem.Stage
             // TODO: 몬스터가 가진 경험치 획득
             monsterSet.Remove(monster);
             monster.OnDied -= OnObjectDied;
+
+            VerifyMissionSuccess();
+        }
+
+        void OnPortalDied(View.Portal portal)
+        {
+            monsterSet.Remove(portal);
+            portal.OnDied -= OnObjectDied;
 
             VerifyMissionSuccess();
         }
@@ -98,16 +110,12 @@ namespace Afterlife.GameSystem.Stage
 
         public void OnObjectSpawned(View.Object @object)
         {
-            if (@object is View.Monster monster)
+            if (@object is View.Monster ||
+                @object is View.Portal)
             {
-                OnMonsterSpawned(monster);
+                monsterSet.Add(@object);
+                @object.OnDied += OnObjectDied;
             }
-        }
-
-        void OnMonsterSpawned(View.Monster monster)
-        {
-            monsterSet.Add(monster);
-            monster.OnDied += OnObjectDied;
         }
 
         public override void TearDown()
