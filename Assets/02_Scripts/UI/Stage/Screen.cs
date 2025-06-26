@@ -30,8 +30,12 @@ namespace Afterlife.UI.Stage
         public Reward RewardView;
 
         [Header("Localization")]
+        [SerializeField] TextMeshProUGUI menuMissionProgressText;
         [SerializeField] TextMeshProUGUI menuContinueButtonText;
         [SerializeField] TextMeshProUGUI menuGiveUpButtonText;
+        [SerializeField] TextMeshProUGUI inventoryTitleText;
+        [SerializeField] TextMeshProUGUI craftTitleText;
+        [SerializeField] TextMeshProUGUI rewardTitleText;
 
         public event Action OnMenuButtonClickedEvent;
 
@@ -44,8 +48,12 @@ namespace Afterlife.UI.Stage
 
         protected override void OnLocalizationChanged()
         {
-            menuContinueButtonText.text = Localization.Get("stage.menu.continue-button");
-            menuGiveUpButtonText.text = Localization.Get("stage.menu.giveup-button");
+            menuMissionProgressText.text = Localization.Get("stage.popup.menu.mission-progress");
+            menuContinueButtonText.text = Localization.Get("stage.popup.menu.continue-button");
+            menuGiveUpButtonText.text = Localization.Get("stage.popup.menu.giveup-button");
+            inventoryTitleText.text = Localization.Get("stage.popup.inventory.title");
+            craftTitleText.text = Localization.Get("stage.popup.craft.title");
+            rewardTitleText.text = Localization.Get("stage.popup.reward.title");
         }
     }
 }

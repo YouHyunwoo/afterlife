@@ -7204,8 +7204,12 @@ MonoBehaviour:
   SkillInformationView: {fileID: 680100964}
   CraftView: {fileID: 490446030}
   RewardView: {fileID: 1299634398}
+  menuMissionProgressText: {fileID: 1925385944}
   menuContinueButtonText: {fileID: 2143388394}
   menuGiveUpButtonText: {fileID: 2084878018}
+  inventoryTitleText: {fileID: 471029416}
+  craftTitleText: {fileID: 573095912}
+  rewardTitleText: {fileID: 1600103749}
 --- !u!114 &463088778
 MonoBehaviour:
   m_ObjectHideFlags: 0
