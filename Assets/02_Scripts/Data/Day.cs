@@ -6,6 +6,9 @@ namespace Afterlife.Data
     [CreateAssetMenu(fileName = "DayData", menuName = "Afterlife/Data/Day")]
     public class Day : ScriptableObject
     {
+        [Header("Difficulty")]
+        public float ValueMultiplier = 1f;
+
         [Header("Day")]
         public float DayDuration;
         public ObjectSpawn DayObjectSpawn;

@@ -73,6 +73,7 @@ namespace Afterlife.GameSystem.Stage.Field
 
             var health = Mathf.Max(@object.Health * (1 + (UnityEngine.Random.value - 0.5f) * 2 * 0.1f), 0f);
             health *= 1 + stage.ElapsedTime / 60f;
+            health *= DayDataArray[DayIndex].ValueMultiplier;
             @object.Health = health;
             @object.MaxHealth = health;
 

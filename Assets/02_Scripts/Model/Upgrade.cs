@@ -58,6 +58,15 @@ namespace Afterlife.Model
                     game.Player.AttackRange += 3f;
                     Debug.Log("Applied attack range upgrade Level 3.");
                     break;
+                case "sight-range-1":
+                    game.Player.Light.Range += 1f;
+                    break;
+                case "sight-range-2":
+                    game.Player.Light.Range += 1f;
+                    break;
+                case "sight-range-3":
+                    game.Player.Light.Range += 1f;
+                    break;
                 case "campfire":
                     {
                         break;

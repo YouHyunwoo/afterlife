@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59b61982472194c4faab81350966a4b4, type: 3}
   m_Name: Easy 6
   m_EditorClassIdentifier: 
+  ValueMultiplier: 5
   DayDuration: 3
   DayObjectSpawn:
     SpawnInterval: 1

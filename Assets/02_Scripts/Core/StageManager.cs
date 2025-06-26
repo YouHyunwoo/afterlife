@@ -52,7 +52,7 @@ namespace Afterlife.Core
 
             timeSystem.OnDayChangedEvent += missionSystem.OnDayChanged;
             timeSystem.OnDayChangedEvent += objectSpawnSystem.OnDayChanged;
-            timeSystem.OnDayChangedEvent += rewardSystem.OnDayChanged;
+            // timeSystem.OnDayChangedEvent += rewardSystem.OnDayChanged;
             missionSystem.OnMissionSuccessEvent += OnMissionSuccessed;
             missionSystem.OnMissionFailedEvent += OnMissionFailed;
             objectSpawnSystem.OnObjectSpawnedEvent += missionSystem.OnObjectSpawned;

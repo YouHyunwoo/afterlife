@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Easy
   m_EditorClassIdentifier: 
   Experience: 0
-  Lifes: 6
+  Lifes: 3
   StageDataArray:
   - {fileID: 11400000, guid: 2a7ad869cd389a04d903d5f52f82dbfe, type: 2}
   - {fileID: 11400000, guid: 3a459a31f62933b47a8c1dd7cd338171, type: 2}

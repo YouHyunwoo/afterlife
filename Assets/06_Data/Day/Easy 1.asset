@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59b61982472194c4faab81350966a4b4, type: 3}
   m_Name: Easy 1
   m_EditorClassIdentifier: 
+  ValueMultiplier: 1
   DayDuration: 10
   DayObjectSpawn:
     SpawnInterval: 1
     PrefabWeightGroups:
     - Prefab: {fileID: 0}
-      Weight: 5
+      Weight: 3
     - Prefab: {fileID: 6119026036536104667, guid: 63a52fd7cd96e674c818ff1c7431cb47, type: 3}
       Weight: 1
     - Prefab: {fileID: 6365514331638055027, guid: eb1f3c03538454a48874b7fded84a8b7, type: 3}
@@ -29,6 +30,6 @@ MonoBehaviour:
     - Prefab: {fileID: 0}
       Weight: 5
     - Prefab: {fileID: 2098846693792243547, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
-      Weight: 7
+      Weight: 3
     - Prefab: {fileID: 6363469665511161716, guid: 242e9d4d5cbdf92498d005e27e27b390, type: 3}
-      Weight: 1
+      Weight: 3
