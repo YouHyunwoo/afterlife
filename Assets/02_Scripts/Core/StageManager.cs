@@ -222,7 +222,7 @@ namespace Afterlife.Core
                     continue;
                 }
 
-                village.Health = 1;
+                village.Health = 10;
 
                 var villageLight = new Model.Light
                 {

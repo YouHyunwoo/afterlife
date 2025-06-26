@@ -20,6 +20,34 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 22100000, guid: efbb27129f2724d40bcd04db49fd9c88, type: 2}
+    - target: {fileID: 5694836025865611516, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
+      propertyPath: Health
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5694836025865611516, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
+      propertyPath: MaxHealth
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5694836025865611516, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
+      propertyPath: AttackPower
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5694836025865611516, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
+      propertyPath: AttackRange
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5694836025865611516, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
+      propertyPath: AttackSpeed
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5694836025865611516, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
+      propertyPath: MovementSpeed
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5694836025865611516, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
+      propertyPath: DetectingRange
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8267860250607984800, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -90,12 +90,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68b5dc3cfe8a07945a012cc81f0365eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 10
+  Health: 20
+  MaxHealth: 20
   IsAlive: 0
-  DetectingRange: 5
-  AttackPower: 1
+  DetectingRange: 7
+  AttackPower: 10
   AttackSpeed: 0.5
-  AttackRange: 3
+  AttackRange: 5
   AttackCount: 1
   CriticalRate: 0
   CriticalDamageMultiplier: 1.2
@@ -103,6 +104,7 @@ MonoBehaviour:
   TargetLayerMask:
     serializedVersion: 2
     m_Bits: 0
+  ItemDropGroups: []
   Animator: {fileID: 0}
   SpriteRenderer: {fileID: 0}
   SqrDetectingRange: 0

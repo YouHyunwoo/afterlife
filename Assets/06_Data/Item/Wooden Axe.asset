@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: wooden-axe
   Type: 1
-  Icon: {fileID: 21300000, guid: b81230041a588d048b52126cb0a9d323, type: 3}
+  Icon: {fileID: 21300000, guid: e4c64f606c8b04a4c9cd4df44f3f7520, type: 3}
   Effects:
   - EffectType: attack-power
     Values:

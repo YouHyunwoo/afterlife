@@ -54,8 +54,8 @@
         { "key": "item.gold.name", "value": "Gold" },
         { "key": "item.gold.description", "value": "Gold is used for building." },
         { "key": "reward.attack-power.name", "value": "Attack Power" },
-        { "key": "reward.attack-power.description", "value": "Increase attack power by 1" },
+        { "key": "reward.attack-power.description", "value": "Increase attack power by 5" },
         { "key": "reward.extra-life.name", "value": "Extra Life" },
-        { "key": "reward.extra-life.description", "value": "Increase player lives by 1" }
+        { "key": "reward.extra-life.description", "value": "Increase opportunities by 1" }
     ]
 }

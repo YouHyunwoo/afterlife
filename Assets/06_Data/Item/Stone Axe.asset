@@ -10,10 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ca2a39c4b35d8040b9e94f85131163f, type: 3}
-  m_Name: Wood
+  m_Name: Stone Axe
   m_EditorClassIdentifier: 
-  Id: wood
-  Type: 2
-  Icon: {fileID: 21300000, guid: b90d97efbaf650a48a39014d70a830ab, type: 3}
-  Effects: []
-  CraftRequirements: []
+  Id: stone-axe
+  Type: 1
+  Icon: {fileID: 21300000, guid: 4be5f489f1430f44693f524a403449cc, type: 3}
+  Effects:
+  - EffectType: attack-power
+    Values:
+    - 1
+  CraftRequirements:
+  - ItemId: wood
+    Amount: 5
+  - ItemId: stone
+    Amount: 1

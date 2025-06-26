@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65146e39ac7a065459360d198c2e5fd5, type: 3}
   m_Name: Normal
   m_EditorClassIdentifier: 
-  Size: {x: 15, y: 12}
+  Size: {x: 19, y: 19}
   TerrainData: {fileID: 11400000, guid: 51dd41db750b9b64b909701332a9d19c, type: 2}
   FieldData: {fileID: 11400000, guid: 942d27005b7b0674c8699d90a8c5191e, type: 2}

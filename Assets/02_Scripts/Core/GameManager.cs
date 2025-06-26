@@ -101,7 +101,7 @@ namespace Afterlife.Core
                 Lives = gameData.Lifes,
                 Player = new Model.Player
                 {
-                    Experience = 999,
+                    Experience = gameData.Experience,
                     AttackPower = 1f,
                     AttackSpeed = 1f,
                     AttackRange = 1f,

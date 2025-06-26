@@ -54,8 +54,8 @@
         { "key": "item.gold.name", "value": "금" },
         { "key": "item.gold.description", "value": "금입니다. 건축에 사용됩니다." },
         { "key": "reward.attack-power.name", "value": "공격력" },
-        { "key": "reward.attack-power.description", "value": "공격력을 1 증가시킵니다." },
-        { "key": "reward.extra-life.name", "value": "추가 생명" },
-        { "key": "reward.extra-life.description", "value": "플레이어의 생명을 1 증가시킵니다." }
+        { "key": "reward.attack-power.description", "value": "공격력을 5 증가시킵니다." },
+        { "key": "reward.extra-life.name", "value": "추가 기회" },
+        { "key": "reward.extra-life.description", "value": "기회를 1 증가시킵니다." }
     ]
 }

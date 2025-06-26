@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b44a926c87698e4ba9548e973ea89ac, type: 3}
   m_Name: Easy
   m_EditorClassIdentifier: 
-  Lifes: 1
+  Experience: 0
+  Lifes: 6
   StageDataArray:
+  - {fileID: 11400000, guid: 2a7ad869cd389a04d903d5f52f82dbfe, type: 2}
+  - {fileID: 11400000, guid: 3a459a31f62933b47a8c1dd7cd338171, type: 2}
+  - {fileID: 11400000, guid: aec514fb531c422429786714573a6cd4, type: 2}
   - {fileID: 11400000, guid: 2a7ad869cd389a04d903d5f52f82dbfe, type: 2}
   - {fileID: 11400000, guid: 2a7ad869cd389a04d903d5f52f82dbfe, type: 2}

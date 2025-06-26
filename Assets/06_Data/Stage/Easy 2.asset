@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: Easy 2
   m_EditorClassIdentifier: 
   MapData: {fileID: 11400000, guid: d4a8a520a7d438143aa1e2ad4768a085, type: 2}
-  DayDuration: 30
-  NightDuration: 30
-  SpawnIntervalPerDay:
-  - 10
-  Rewards: []
+  DayDataArray:
+  - {fileID: 11400000, guid: 89950483214f87347af7c58b542733b4, type: 2}
+  - {fileID: 11400000, guid: 45e59cde51a9c484599448d8eff45eaf, type: 2}
