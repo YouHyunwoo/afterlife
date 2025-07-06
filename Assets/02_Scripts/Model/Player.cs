@@ -13,16 +13,15 @@ namespace Afterlife.Model
         public float AttackDuration;
         public float CriticalRate;
         public float CriticalDamageMultiplier;
+        public float RecoveryPower;
+        public int MaxEquipmentCount;
         public int RewardSelectionCount;
 
-        public float RecoveryPower = 1f;
-
+        public Light Light;
         public List<string> Upgrades = new();
         public List<Skill> Skills = new();
         public Dictionary<string, int> Inventory = new();
-        public Light Light;
         public HashSet<string> Equipment = new();
-        public int MaxEquipmentCount = 6;
 
         public event Action<float> OnExperienceChanged;
 

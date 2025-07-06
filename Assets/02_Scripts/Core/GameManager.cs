@@ -37,8 +37,9 @@ namespace Afterlife.Core
                     AttackRange = 1f,
                     AttackCount = 1f,
                     CriticalRate = 0.0f,
-                    CriticalDamageMultiplier = 1.2f,
+                    CriticalDamageMultiplier = 2f,
                     RecoveryPower = 1f,
+                    MaxEquipmentCount = 6,
                     RewardSelectionCount = 3,
                     Light = new Model.Light
                     {
