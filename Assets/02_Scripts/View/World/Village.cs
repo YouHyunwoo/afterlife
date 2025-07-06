@@ -11,6 +11,7 @@ namespace Afterlife.View
             var isCriticalHit = UnityEngine.Random.value < player.CriticalRate;
             if (isCriticalHit) { ServiceLocator.Get<AudioManager>().PlaySFX("critical"); }
             var amount = player.RecoveryPower * (isCriticalHit ? player.CriticalDamageMultiplier : 1f);
+            player.TakeExperience(amount / 10f);
             Health += amount;
             UpdateValue();
             base.Interact(player);

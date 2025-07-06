@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: recovery-power-2
   Icon: {fileID: 0}
-  Cost: 10
+  Cost: 200
   Parameters:
   - Name: add-recovery-power
     Values:

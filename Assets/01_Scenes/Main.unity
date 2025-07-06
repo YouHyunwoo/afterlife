@@ -4086,6 +4086,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Attack Duration_2
       objectReference: {fileID: 0}
+    - target: {fileID: 1790829886341128746, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: Id
       value: attack-speed-1
@@ -4907,6 +4911,10 @@ PrefabInstance:
     - target: {fileID: 1790829886341128746, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: m_Name
       value: Attack Duration_4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1790829886341128746, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: Id
@@ -10339,6 +10347,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Attack Duration_3
       objectReference: {fileID: 0}
+    - target: {fileID: 1790829886341128746, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: Id
       value: attack-speed-1
@@ -13042,6 +13054,10 @@ PrefabInstance:
     - target: {fileID: 1790829886341128746, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: m_Name
       value: Attack Duration_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1790829886341128746, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: Id
@@ -21521,7 +21537,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1283559631
 RectTransform:
   m_ObjectHideFlags: 0
@@ -22451,6 +22467,10 @@ PrefabInstance:
     - target: {fileID: 1790829886341128746, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: m_Name
       value: Attack Duration_5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1790829886341128746, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: Id

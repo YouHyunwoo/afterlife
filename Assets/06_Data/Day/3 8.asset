@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 59b61982472194c4faab81350966a4b4, type: 3}
-  m_Name: 1 5
+  m_Name: 3 8
   m_EditorClassIdentifier: 
-  ValueMultiplier: 1.5
+  ValueMultiplier: 9.5
   DayDuration: 20
   DayObjectSpawn:
     SpawnInterval: 1
@@ -23,18 +23,19 @@ MonoBehaviour:
       Weight: 1
     - Prefab: {fileID: 6365514331638055027, guid: eb1f3c03538454a48874b7fded84a8b7, type: 3}
       Weight: 1
-  NightDuration: 15
+  NightDuration: 30
   NightObjectSpawn:
-    SpawnInterval: 2
+    SpawnInterval: 1
     PrefabWeightGroups:
     - Prefab: {fileID: 0}
-      Weight: 2
+      Weight: 1
     - Prefab: {fileID: 2098846693792243547, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
-      Weight: 4
+      Weight: 1
     - Prefab: {fileID: 2768388427046855092, guid: cb33ae0a581754742b8d37223e1cf47f, type: 3}
-      Weight: 2
-    - Prefab: {fileID: 6363469665511161716, guid: 242e9d4d5cbdf92498d005e27e27b390, type: 3}
-      Weight: 2
-  MaxResourceCount: 0
-  ResourceGenerationProbability: 0
-  ResourceObjectSpawnInterval: 0
+      Weight: 3.5
+    - Prefab: {fileID: 3853592589718587406, guid: 8f4713f8beee42f47ab2b03fd568bfb6, type: 3}
+      Weight: 1
+    - Prefab: {fileID: 6363469665511161716, guid: 0b8cc90afe292144c81885b6e27d79e1, type: 3}
+      Weight: 3
+    - Prefab: {fileID: 6363469665511161716, guid: 1e09afc4decda7644932dd2e023fe59a, type: 3}
+      Weight: 0.5

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: open-eyes
   Icon: {fileID: 0}
-  Cost: 20
+  Cost: 50
   Parameters:
   - Name: get-skill
     Values:

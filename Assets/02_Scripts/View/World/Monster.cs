@@ -93,6 +93,7 @@ namespace Afterlife.View
             var isCriticalHit = Random.value < player.CriticalRate;
             if (isCriticalHit) { ServiceLocator.Get<AudioManager>().PlaySFX("critical"); }
             var damage = player.AttackPower * (isCriticalHit ? player.CriticalDamageMultiplier : 1f);
+            player.TakeExperience(damage / 10f);
             TakeDamage(damage, null);
             base.Interact(player);
         }
