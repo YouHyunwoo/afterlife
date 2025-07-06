@@ -110,8 +110,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5432d6819d402c46a90d323b119bc42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 500
-  MaxHealth: 500
+  Health: 200
+  MaxHealth: 200
   IsAlive: 0
   ObjectSpawn:
     SpawnInterval: 4

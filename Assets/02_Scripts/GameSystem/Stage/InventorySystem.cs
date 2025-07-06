@@ -12,6 +12,7 @@ namespace Afterlife.GameSystem.Stage
 
         public override void SetUp()
         {
+            inventoryView.SetUp();
             inventoryView.OnItemSlotClickedEvent += OnItemSlotClicked;
             enabled = true;
         }
@@ -20,6 +21,7 @@ namespace Afterlife.GameSystem.Stage
         {
             enabled = false;
             inventoryView.OnItemSlotClickedEvent -= OnItemSlotClicked;
+            inventoryView.TearDown();
         }
 
         void OnItemSlotClicked(UI.Stage.InventoryItemSlot slot)

@@ -63,6 +63,8 @@ namespace Afterlife.View
 
         public override void Interact(Model.Player player)
         {
+            ServiceLocator.Get<EffectManager>().PlayGFX("Cut", transform.position);
+            ServiceLocator.Get<AudioManager>().PlaySFX("sword");
             TakeDamage(player.AttackPower, null);
             base.Interact(player);
         }

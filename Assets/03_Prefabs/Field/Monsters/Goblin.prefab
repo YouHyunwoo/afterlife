@@ -14,11 +14,15 @@ PrefabInstance:
       objectReference: {fileID: 22100000, guid: 4eed0e08e280c6046b53e9cbde387fba, type: 2}
     - target: {fileID: -4598636861707239977, guid: 1057a49d659c0604ea14e3244cd267cd, type: 3}
       propertyPath: Health
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -4598636861707239977, guid: 1057a49d659c0604ea14e3244cd267cd, type: 3}
       propertyPath: MaxHealth
-      value: 10
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -4598636861707239977, guid: 1057a49d659c0604ea14e3244cd267cd, type: 3}
+      propertyPath: AttackSpeed
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: -4598636861707239977, guid: 1057a49d659c0604ea14e3244cd267cd, type: 3}
       propertyPath: ItemDropGroups.Array.size

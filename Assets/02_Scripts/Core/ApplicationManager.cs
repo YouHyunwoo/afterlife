@@ -23,6 +23,7 @@ namespace Afterlife.Core
         public SceneManager sceneManager;
         public InputManager inputManager;
         public AudioManager audioManager;
+        public EffectManager effectManager;
         public UIManager uiManager;
         public GameManager gameManager;
         public StageManager stageManager;
@@ -34,6 +35,7 @@ namespace Afterlife.Core
             ServiceLocator.Register(sceneManager);
             ServiceLocator.Register(inputManager);
             ServiceLocator.Register(audioManager);
+            ServiceLocator.Register(effectManager);
             ServiceLocator.Register(uiManager);
             ServiceLocator.Register(gameManager);
             ServiceLocator.Register(stageManager);

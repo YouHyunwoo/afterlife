@@ -110,8 +110,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5432d6819d402c46a90d323b119bc42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 5000
-  MaxHealth: 5000
+  Health: 500
+  MaxHealth: 500
   IsAlive: 0
   ObjectSpawn:
     SpawnInterval: 3
@@ -121,6 +121,6 @@ MonoBehaviour:
     - Prefab: {fileID: 2098846693792243547, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
       Weight: 1
     - Prefab: {fileID: 2768388427046855092, guid: cb33ae0a581754742b8d37223e1cf47f, type: 3}
-      Weight: 2
+      Weight: 3
     - Prefab: {fileID: 3853592589718587406, guid: 8f4713f8beee42f47ab2b03fd568bfb6, type: 3}
-      Weight: 5
+      Weight: 4

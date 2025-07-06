@@ -8,10 +8,8 @@ namespace Afterlife.UI.Stage
 
         public event Action<InventoryItemSlot> OnItemSlotClickedEvent;
 
-        void Awake()
+        public void SetUp()
         {
-            ItemSlots = GetComponentsInChildren<InventoryItemSlot>();
-
             foreach (var itemSlot in ItemSlots)
             {
                 itemSlot.OnItemSlotClickedEvent += OnItemSlotClicked;
@@ -22,5 +20,16 @@ namespace Afterlife.UI.Stage
         }
 
         void OnItemSlotClicked(InventoryItemSlot slot) => OnItemSlotClickedEvent?.Invoke(slot);
+
+        public void TearDown()
+        {
+            foreach (var itemSlot in ItemSlots)
+            {
+                itemSlot.OnItemSlotClickedEvent -= OnItemSlotClicked;
+                itemSlot.SetItemIcon(null);
+                itemSlot.SetEquippedIcon(false);
+                itemSlot.SetItemCount(0);
+            }
+        }
     }
 }

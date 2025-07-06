@@ -90,13 +90,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68b5dc3cfe8a07945a012cc81f0365eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 20
-  MaxHealth: 20
+  Health: 8
+  MaxHealth: 8
   IsAlive: 0
   DetectingRange: 7
   AttackPower: 10
-  AttackSpeed: 0.5
-  AttackRange: 5
+  AttackSpeed: 0.2
+  AttackRange: 4
   AttackCount: 1
   CriticalRate: 0
   CriticalDamageMultiplier: 1.2

@@ -7,84 +7,80 @@ namespace Afterlife.Model
     {
         public void ApplyUpgrade(string upgradeId)
         {
+            var upgradeData = ServiceLocator.Get<DataManager>().UpgradeDataDictionary[upgradeId];
+            if (upgradeData == null)
+            {
+                Debug.LogError($"Upgrade data not found for ID: {upgradeId}");
+                return;
+            }
+
+            foreach (var parameter in upgradeData.Parameters)
+            {
+                ApplyUpgradeParameter(parameter);
+            }
+        }
+
+        void ApplyUpgradeParameter(Data.UpgradeParameter parameter)
+        {
+            var parameterName = parameter.Name;
+            var parameterValues = parameter.Values;
+
             var game = ServiceLocator.Get<GameManager>().Game;
 
-            switch (upgradeId)
+            switch (parameterName)
             {
-                case "attack-power-1":
-                    game.Player.AttackPower += 1;
-                    Debug.Log("Applied attack power upgrade.");
+                case "add-attack-power":
+                    game.Player.AttackPower += int.Parse(parameterValues[0]);
                     break;
-                case "attack-power-2":
-                    game.Player.AttackPower += 2;
-                    Debug.Log("Applied attack power upgrade level 2.");
+                case "add-critical-rate":
+                    game.Player.CriticalRate += float.Parse(parameterValues[0]);
                     break;
-                case "attack-power-3":
-                    game.Player.AttackPower += 5;
-                    Debug.Log("Applied attack power upgrade level 3.");
+                case "add-critical-damage-multiplier":
+                    game.Player.CriticalDamageMultiplier += float.Parse(parameterValues[0]);
                     break;
-                case "attack-power-4":
-                    game.Player.AttackPower += 10;
-                    Debug.Log("Applied attack power upgrade level 4.");
+                case "attack-speed":
+                    game.Player.AttackSpeed = float.Parse(parameterValues[0]);
                     break;
-                case "attack-power-5":
-                    game.Player.AttackPower += 20;
-                    Debug.Log("Applied attack power upgrade level 5.");
+                case "attack-range":
+                    game.Player.AttackRange = float.Parse(parameterValues[0]);
                     break;
-                case "auto-attack":
-                    Debug.Log("Applied auto attack upgrade.");
+                case "attack-duration":
+                    game.Player.AttackDuration = float.Parse(parameterValues[0]);
                     break;
-                case "attack-speed-1":
-                    game.Player.AttackSpeed += 0.1f;
-                    Debug.Log("Applied attack speed upgrade.");
+                case "add-recovery-power":
+                    game.Player.RecoveryPower += float.Parse(parameterValues[0]);
                     break;
-                case "attack-speed-2":
-                    game.Player.AttackSpeed += 0.2f;
-                    Debug.Log("Applied attack speed upgrade level 2.");
+                case "add-sight-range":
+                    game.Player.Light.Range += float.Parse(parameterValues[0]);
                     break;
-                case "attack-speed-3":
-                    game.Player.AttackSpeed += 0.3f;
-                    Debug.Log("Applied attack speed upgrade level 3.");
+                case "enable-automation":
                     break;
-                case "attack-range-1":
-                    game.Player.AttackRange += 1f;
-                    Debug.Log("Applied attack range upgrade.");
-                    break;
-                case "attack-range-2":
-                    game.Player.AttackRange += 2f;
-                    Debug.Log("Applied attack range upgrade Level 2.");
-                    break;
-                case "attack-range-3":
-                    game.Player.AttackRange += 3f;
-                    Debug.Log("Applied attack range upgrade Level 3.");
-                    break;
-                case "sight-range-1":
-                    game.Player.Light.Range += 1f;
-                    break;
-                case "sight-range-2":
-                    game.Player.Light.Range += 1f;
-                    break;
-                case "sight-range-3":
-                    game.Player.Light.Range += 1f;
-                    break;
-                case "campfire":
+                case "get-skill":
+                    var skillId = parameterValues[0];
+                    var skillData = ServiceLocator.Get<DataManager>().SkillDataDictionary[skillId];
+                    if (skillData != null)
                     {
-                        break;
+                        switch (skillId)
+                        {
+                            case "rich-resources":
+                                game.Player.Skills.Add(new RichResources(skillData));
+                                break;
+                            case "open-eyes":
+                                game.Player.Skills.Add(new OpenEyes(skillData));
+                                break;
+                            default:
+                                Debug.LogWarning($"Unknown skill ID: {skillId}");
+                                break;
+                        }
                     }
-                case "rich-resources":
+                    else
                     {
-                        var skillData = ServiceLocator.Get<DataManager>().SkillDataDictionary[upgradeId];
-                        game.Player.Skills.Add(new RichResources(skillData));
-                        break;
+                        Debug.LogWarning($"Skill data not found for ID: {skillId}");
                     }
-                case "open-eyes":
-                    {
-                        var skillData = ServiceLocator.Get<DataManager>().SkillDataDictionary[upgradeId];
-                        game.Player.Skills.Add(new OpenEyes(skillData));
-                        break;
-                    }
+                    break;
                 default:
-                    throw new System.ArgumentException($"Unknown upgrade ID: {upgradeId}");
+                    Debug.LogWarning($"Unknown upgrade parameter: {parameterName}");
+                    break;
             }
         }
     }

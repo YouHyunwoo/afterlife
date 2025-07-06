@@ -76,7 +76,7 @@ namespace Afterlife.UI.Main
         {
             var nodeRectTransform = upgradeNode.GetComponent<RectTransform>();
             mainScreen.UpgradeInformationView.GetComponent<RectTransform>().position = nodeRectTransform.position + new Vector3(20, 20, 0);
-            mainScreen.UpgradeInformationView.Show(upgradeNode.Id, upgradeNode.Cost, upgradeNode.State);
+            mainScreen.UpgradeInformationView.Show(upgradeNode.UpgradeData.Id, upgradeNode.UpgradeData.Cost, upgradeNode.State);
         }
 
         void OnUpgradeNodeInformationHidden(UpgradeNode upgradeNode)

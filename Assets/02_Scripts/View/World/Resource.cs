@@ -32,16 +32,11 @@ namespace Afterlife.View
 
         public override void Interact(Model.Player player)
         {
-            void OnDiedEvent(Object attacker, Object @object)
-            {
-                
-            }
-
-            OnDied += OnDiedEvent;
+            ServiceLocator.Get<EffectManager>().PlayGFX("Cut", transform.position);
+            ServiceLocator.Get<AudioManager>().PlaySFX("sword");
             TakeDamage(player.AttackPower, null);
             CollectByInteraction(player);
             base.Interact(player);
-            OnDied -= OnDiedEvent;
 
             if (Health > 0f)
             {

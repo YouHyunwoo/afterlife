@@ -80,7 +80,7 @@ namespace Afterlife.View
                 var targetCandidateTransform = objects[i].transform;
                 if (targetCandidateTransform.TryGetComponent<Object>(out var targetCandidateObject))
                 {
-                    targetCandidateObject.OnDied += OnTargetDied;
+                    targetCandidateObject.OnDiedEvent += OnTargetDied;
                 }
                 TargetCandidateTransforms.Add(targetCandidateTransform);
             }
@@ -88,6 +88,8 @@ namespace Afterlife.View
 
         public override void Interact(Model.Player player)
         {
+            ServiceLocator.Get<EffectManager>().PlayGFX("Cut", transform.position);
+            ServiceLocator.Get<AudioManager>().PlaySFX("sword");
             TakeDamage(player.AttackPower, null);
             base.Interact(player);
         }

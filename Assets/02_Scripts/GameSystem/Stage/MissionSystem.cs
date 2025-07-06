@@ -23,14 +23,14 @@ namespace Afterlife.GameSystem.Stage
             foreach (var monster in monsters)
             {
                 monsterSet.Add(monster);
-                monster.OnDied += OnObjectDied;
+                monster.OnDiedEvent += OnObjectDied;
             }
 
             var villages = GameObject.FindObjectsByType<View.Village>(FindObjectsSortMode.None);
             foreach (var village in villages)
             {
                 villageSet.Add(village);
-                village.OnDied += OnObjectDied;
+                village.OnDiedEvent += OnObjectDied;
             }
 
             isTargetDayReached = false;
@@ -78,7 +78,7 @@ namespace Afterlife.GameSystem.Stage
         {
             // TODO: 몬스터가 가진 경험치 획득
             monsterSet.Remove(monster);
-            monster.OnDied -= OnObjectDied;
+            monster.OnDiedEvent -= OnObjectDied;
 
             VerifyMissionSuccess();
         }
@@ -86,7 +86,7 @@ namespace Afterlife.GameSystem.Stage
         void OnPortalDied(View.Portal portal)
         {
             monsterSet.Remove(portal);
-            portal.OnDied -= OnObjectDied;
+            portal.OnDiedEvent -= OnObjectDied;
 
             VerifyMissionSuccess();
         }
@@ -94,7 +94,7 @@ namespace Afterlife.GameSystem.Stage
         void OnVillageDied(View.Village village)
         {
             villageSet.Remove(village);
-            village.OnDied -= OnObjectDied;
+            village.OnDiedEvent -= OnObjectDied;
 
             VerifyMissionFailure();
         }
@@ -114,7 +114,7 @@ namespace Afterlife.GameSystem.Stage
                 @object is View.Portal)
             {
                 monsterSet.Add(@object);
-                @object.OnDied += OnObjectDied;
+                @object.OnDiedEvent += OnObjectDied;
             }
         }
 

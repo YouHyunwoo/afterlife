@@ -10,6 +10,7 @@ namespace Afterlife.Model
         public float AttackSpeed;
         public float AttackRange;
         public float AttackCount;
+        public float AttackDuration;
         public float CriticalRate;
         public float CriticalDamageMultiplier;
         public int RewardSelectionCount;

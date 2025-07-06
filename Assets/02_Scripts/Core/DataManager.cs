@@ -13,6 +13,7 @@ namespace Afterlife.Core
         public Data.Item[] ItemDataArray;
         public string[] CraftableItemIds;
         public Data.Reward[] RewardDataArray;
+        public Data.Upgrade[] UpgradeDataArray;
 
         // [Header("Config Data (ScriptableObject)")]
         // public MapConfig mapConfig;
@@ -23,12 +24,14 @@ namespace Afterlife.Core
         public Dictionary<string, Data.Skill> SkillDataDictionary;
         public Dictionary<string, Data.Item> ItemDataDictionary;
         public Dictionary<string, Data.Reward> RewardDataDictionary;
+        public Dictionary<string, Data.Upgrade> UpgradeDataDictionary;
 
         void Awake()
         {
             InitializeSkillDataDictionary();
             InitializeItemDataDictionary();
             InitializeRewardDataDictionary();
+            InitializeUpgradeDataDictionary();
         }
 
         void InitializeSkillDataDictionary()
@@ -55,6 +58,16 @@ namespace Afterlife.Core
             foreach (var reward in RewardDataArray)
             {
                 RewardDataDictionary.Add(reward.Id, reward);
+            }
+        }
+
+        void InitializeUpgradeDataDictionary()
+        {
+            UpgradeDataDictionary = new();
+            foreach (var upgrade in UpgradeDataArray)
+            {
+                UpgradeDataDictionary.Add(upgrade.Id, upgrade);
+                Debug.Log($"Upgrade loaded: {upgrade.Id} - {upgrade.Cost}");
             }
         }
 

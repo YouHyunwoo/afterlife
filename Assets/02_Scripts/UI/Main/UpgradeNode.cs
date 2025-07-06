@@ -14,10 +14,7 @@ namespace Afterlife.UI.Main
         [SerializeField] Image borderImage;
         [SerializeField] Image lockedOverlayImage;
 
-        public string Id;
-        public string Name;
-        public string Description;
-        public int Cost;
+        public Data.Upgrade UpgradeData;
         public UpgradeNode[] Prerequisites;
         public UpgradeNode[] NextNodes;
 
@@ -45,11 +42,12 @@ namespace Afterlife.UI.Main
             var gameManager = ServiceLocator.Get<GameManager>();
             var game = gameManager.Game;
             var player = game.Player;
-            if (player.Experience >= Cost)
+
+            if (player.Experience >= UpgradeData.Cost)
             {
-                player.Experience -= Cost; // Example of deducting cost from player's experience
-                player.Upgrades.Add(Id); // Add the upgrade ID to the player's upgrades
-                game.Upgrade.ApplyUpgrade(Id);
+                player.Experience -= UpgradeData.Cost; // Example of deducting cost from player's experience
+                player.Upgrades.Add(UpgradeData.Id); // Add the upgrade ID to the player's upgrades
+                game.Upgrade.ApplyUpgrade(UpgradeData.Id);
                 SetPurchased();
                 OnPurchased?.Invoke(this);
             }
