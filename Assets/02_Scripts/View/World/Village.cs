@@ -8,7 +8,10 @@ namespace Afterlife.View
         {
             ServiceLocator.Get<EffectManager>().PlayGFX("Heal", transform.position);
             ServiceLocator.Get<AudioManager>().PlaySFX("heal");
-            Health += player.RecoveryPower;
+            var isCriticalHit = UnityEngine.Random.value < player.CriticalRate;
+            if (isCriticalHit) { ServiceLocator.Get<AudioManager>().PlaySFX("critical"); }
+            var amount = player.RecoveryPower * (isCriticalHit ? player.CriticalDamageMultiplier : 1f);
+            Health += amount;
             UpdateValue();
             base.Interact(player);
         }

@@ -90,7 +90,10 @@ namespace Afterlife.View
         {
             ServiceLocator.Get<EffectManager>().PlayGFX("Cut", transform.position);
             ServiceLocator.Get<AudioManager>().PlaySFX("sword");
-            TakeDamage(player.AttackPower, null);
+            var isCriticalHit = Random.value < player.CriticalRate;
+            if (isCriticalHit) { ServiceLocator.Get<AudioManager>().PlaySFX("critical"); }
+            var damage = player.AttackPower * (isCriticalHit ? player.CriticalDamageMultiplier : 1f);
+            TakeDamage(damage, null);
             base.Interact(player);
         }
 

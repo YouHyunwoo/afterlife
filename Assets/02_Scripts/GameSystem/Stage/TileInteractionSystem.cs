@@ -105,7 +105,6 @@ namespace Afterlife.GameSystem.Stage
 
                     if (tileObjectTransform.TryGetComponent(out View.Object @object))
                     {
-                        player.TakeExperience(player.AttackPower * player.AttackCount / 10f);
                         @object.Interact(player);
                     }
                 }
