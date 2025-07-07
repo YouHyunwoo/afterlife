@@ -92,11 +92,14 @@ namespace Afterlife.GameSystem.Stage
 
         void InteractByLocation(Vector2Int location)
         {
+            if (map == null || map.Field == null || player == null) { return; }
+
             var attackRange = (int)player.AttackRange - 1;
             for (int x = -attackRange; x <= attackRange; x++)
             {
                 for (int y = -attackRange; y <= attackRange; y++)
                 {
+                    if (map == null || map.Field == null || player == null) { return; }
                     var targetLocation = new Vector2Int(location.x + x, location.y + y);
                     if (!map.Field.IsInBounds(targetLocation)) { continue; }
 

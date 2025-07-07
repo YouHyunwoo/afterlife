@@ -1,6 +1,5 @@
 using System;
 using Afterlife.Core;
-using Afterlife.Data;
 using UnityEngine;
 
 namespace Afterlife.GameSystem.Stage.Field
