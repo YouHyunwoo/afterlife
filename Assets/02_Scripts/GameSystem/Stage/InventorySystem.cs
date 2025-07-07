@@ -8,23 +8,27 @@ namespace Afterlife.GameSystem.Stage
     {
         [SerializeField] UI.Stage.Inventory inventoryView;
 
-        public event Action<UI.Stage.InventoryItemSlot> OnItemSlotClickedEvent;
+        public event Action<UI.Stage.ItemSlot> OnItemSlotClickedEvent;
 
         public override void SetUp()
         {
-            inventoryView.SetUp();
-            inventoryView.OnItemSlotClickedEvent += OnItemSlotClicked;
+            foreach (var itemSlot in inventoryView.ItemSlots)
+            {
+                itemSlot.OnItemSlotClickedEvent += OnItemSlotClicked;
+            }
             enabled = true;
         }
 
         public override void TearDown()
         {
             enabled = false;
-            inventoryView.OnItemSlotClickedEvent -= OnItemSlotClicked;
-            inventoryView.TearDown();
+            foreach (var itemSlot in inventoryView.ItemSlots)
+            {
+                itemSlot.OnItemSlotClickedEvent -= OnItemSlotClicked;
+            }
         }
 
-        void OnItemSlotClicked(UI.Stage.InventoryItemSlot slot)
+        void OnItemSlotClicked(UI.Stage.ItemSlot slot)
         {
             var itemData = ServiceLocator.Get<DataManager>().ItemDataDictionary[slot.ItemId];
             if (itemData == null)

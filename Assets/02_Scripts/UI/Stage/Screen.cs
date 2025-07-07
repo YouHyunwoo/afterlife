@@ -26,8 +26,10 @@ namespace Afterlife.UI.Stage
         [Header("Popup")]
         public Menu MenuView;
         public SkillInformation SkillInformationView;
+        public Inventory InventoryView;
         public Craft CraftView;
         public Reward RewardView;
+        public ItemInformation ItemInformationView;
 
         [Header("Localization")]
         [SerializeField] TextMeshProUGUI menuMissionProgressText;
@@ -36,6 +38,7 @@ namespace Afterlife.UI.Stage
         [SerializeField] TextMeshProUGUI inventoryTitleText;
         [SerializeField] TextMeshProUGUI craftTitleText;
         [SerializeField] TextMeshProUGUI rewardTitleText;
+        [SerializeField] TextMeshProUGUI itemInformationRequirementsText; 
 
         public event Action OnMenuButtonClickedEvent;
 
@@ -54,6 +57,7 @@ namespace Afterlife.UI.Stage
             inventoryTitleText.text = Localization.Get("stage.popup.inventory.title");
             craftTitleText.text = Localization.Get("stage.popup.craft.title");
             rewardTitleText.text = Localization.Get("stage.popup.reward.title");
+            itemInformationRequirementsText.text = Localization.Get("stage.popup.item-information.requirements");
         }
     }
 }

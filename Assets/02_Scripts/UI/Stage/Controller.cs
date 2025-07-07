@@ -1,4 +1,5 @@
 using Afterlife.Core;
+using UnityEngine;
 
 namespace Afterlife.UI.Stage
 {
@@ -29,6 +30,23 @@ namespace Afterlife.UI.Stage
             stageScreen.OnMenuButtonClickedEvent += OnMenuButtonClicked;
             stageScreen.MenuView.OnContinueButtonClickedEvent += OnContinueButtonClicked;
             stageScreen.MenuView.OnGiveUpButtonClickedEvent += OnGiveUpButtonClicked;
+
+            foreach (var itemSlot in stageScreen.InventoryView.ItemSlots)
+            {
+                itemSlot.OnInformationShowed += OnItemInformationShowed;
+                itemSlot.OnInformationHidden += OnItemInformationHidden;
+                itemSlot.SetItemIcon(null);
+                itemSlot.SetEquippedIcon(false);
+                itemSlot.SetItemCount(0);
+            }
+            foreach (var itemSlot in stageScreen.CraftView.ItemSlots)
+            {
+                itemSlot.OnInformationShowed += OnItemInformationShowed;
+                itemSlot.OnInformationHidden += OnItemInformationHidden;
+                itemSlot.SetItemIcon(null);
+                itemSlot.SetEquippedIcon(false);
+                itemSlot.SetItemCount(0);
+            }
         }
 
         public override void TearDown()
@@ -36,6 +54,23 @@ namespace Afterlife.UI.Stage
             stageScreen.OnMenuButtonClickedEvent -= OnMenuButtonClicked;
             stageScreen.MenuView.OnContinueButtonClickedEvent -= OnContinueButtonClicked;
             stageScreen.MenuView.OnGiveUpButtonClickedEvent -= OnGiveUpButtonClicked;
+
+            foreach (var itemSlot in stageScreen.InventoryView.ItemSlots)
+            {
+                itemSlot.OnInformationShowed -= OnItemInformationShowed;
+                itemSlot.OnInformationHidden -= OnItemInformationHidden;
+                itemSlot.SetItemIcon(null);
+                itemSlot.SetEquippedIcon(false);
+                itemSlot.SetItemCount(0);
+            }
+            foreach (var itemSlot in stageScreen.CraftView.ItemSlots)
+            {
+                itemSlot.OnInformationShowed -= OnItemInformationShowed;
+                itemSlot.OnInformationHidden -= OnItemInformationHidden;
+                itemSlot.SetItemIcon(null);
+                itemSlot.SetEquippedIcon(false);
+                itemSlot.SetItemCount(0);
+            }
 
             Localization.OnLanguageChangedEvent -= stageScreen.Localize;
 
@@ -45,6 +80,25 @@ namespace Afterlife.UI.Stage
         void OnMenuButtonClicked() => stageScreen.MenuView.Show();
         void OnContinueButtonClicked() => stageScreen.MenuView.Hide();
         void OnGiveUpButtonClicked() => ServiceLocator.Get<StageManager>().FailStage();
+        void OnItemInformationShowed(ItemSlot itemSlot)
+        {
+            if (string.IsNullOrEmpty(itemSlot.ItemId)) { return; }
+
+            if (!ServiceLocator.Get<DataManager>().ItemDataDictionary.TryGetValue(itemSlot.ItemId, out var itemData))
+            {
+                Debug.LogWarning($"Item data not found for ItemId: {itemSlot.ItemId}");
+                return;
+            }
+
+            stageScreen.ItemInformationView.Show(itemData.Id, 0, itemData.CraftRequirements);
+            var itemSlotRectTransform = itemSlot.GetComponent<RectTransform>();
+            stageScreen.ItemInformationView.GetComponent<RectTransform>().position = itemSlotRectTransform.position + new Vector3(25, 25);
+        }
+
+        void OnItemInformationHidden(ItemSlot itemSlot)
+        {
+            stageScreen.ItemInformationView.Hide();
+        }
 
         public override void RefreshView()
         {

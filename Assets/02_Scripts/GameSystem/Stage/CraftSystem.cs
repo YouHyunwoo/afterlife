@@ -13,11 +13,15 @@ namespace Afterlife.GameSystem.Stage
             var stageScreen = ServiceLocator.Get<UIManager>().InGameScreen as UI.Stage.Screen;
             craftView = stageScreen.CraftView;
 
-            craftView.OnItemSlotClickedEvent += OnItemSlotClicked;
-            craftView.Refresh();
+            foreach (var itemSlot in craftView.ItemSlots)
+            {
+                itemSlot.OnItemSlotClickedEvent += OnItemSlotClicked;
+            }
+
+            RefreshCraftView();
         }
 
-        void OnItemSlotClicked(UI.Stage.CraftItemSlot slot)
+        void OnItemSlotClicked(UI.Stage.ItemSlot slot)
         {
             var itemId = slot.ItemId;
             if (string.IsNullOrEmpty(itemId)) { return; }
@@ -25,7 +29,7 @@ namespace Afterlife.GameSystem.Stage
             if (TryCraft(itemId))
             {
                 Debug.Log($"Crafted item: {itemId}");
-                craftView.Refresh();
+                RefreshCraftView();
             }
             else
             {
@@ -35,8 +39,29 @@ namespace Afterlife.GameSystem.Stage
 
         public override void TearDown()
         {
-            craftView.OnItemSlotClickedEvent -= OnItemSlotClicked;
+            foreach (var itemSlot in craftView.ItemSlots)
+            {
+                itemSlot.OnItemSlotClickedEvent -= OnItemSlotClicked;
+            }
+
             craftView = null;
+        }
+
+        public void RefreshCraftView()
+        {
+            var craftableItemIds = ServiceLocator.Get<DataManager>().CraftableItemIds;
+            for (int i = 0; i < craftableItemIds.Length && i < craftView.ItemSlots.Length; i++)
+            {
+                var craftableItemId = craftableItemIds[i];
+                var itemData = ServiceLocator.Get<DataManager>().ItemDataDictionary[craftableItemId];
+                var itemSlot = craftView.ItemSlots[i];
+                itemSlot.ItemId = craftableItemId;
+                itemSlot.SetItemIcon(itemData.Icon);
+                itemSlot.SetLocked(!ServiceLocator.Get<CraftSystem>().IsCraftable(craftableItemId));
+                Debug.Log(ServiceLocator.Get<CraftSystem>().IsCraftable(craftableItemId)
+                    ? $"Item {craftableItemId} is craftable."
+                    : $"Item {craftableItemId} is not craftable.");
+            }
         }
 
         public bool IsCraftable(string itemId)
