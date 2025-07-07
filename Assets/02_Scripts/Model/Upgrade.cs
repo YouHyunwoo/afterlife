@@ -54,6 +54,7 @@ namespace Afterlife.Model
                     game.Player.Light.Range += float.Parse(parameterValues[0]);
                     break;
                 case "enable-automation":
+                    game.Player.IsAutomationEnabled = true;
                     break;
                 case "get-skill":
                     var skillId = parameterValues[0];

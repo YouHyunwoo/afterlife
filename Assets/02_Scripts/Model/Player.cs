@@ -16,6 +16,7 @@ namespace Afterlife.Model
         public float RecoveryPower;
         public int MaxEquipmentCount;
         public int RewardSelectionCount;
+        public bool IsAutomationEnabled;
 
         public Light Light;
         public List<string> Upgrades = new();

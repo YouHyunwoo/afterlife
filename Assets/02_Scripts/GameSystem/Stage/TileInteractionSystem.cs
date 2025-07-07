@@ -74,7 +74,7 @@ namespace Afterlife.GameSystem.Stage
         IEnumerator InteractRoutine(Vector2Int location)
         {
             InteractByLocation(location);
-            if (!enabled || !player.Upgrades.Contains("auto-attack")) { yield break; }
+            if (!enabled || !player.IsAutomationEnabled) { yield break; }
 
             var waitTime = new WaitForSeconds(1f / player.AttackSpeed);
             var playerAttackSpeed = player.AttackSpeed;

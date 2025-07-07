@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23014ed8673639a4ab356473d9190ece, type: 3}
-  m_Name: Attack Speed 2
+  m_Name: Attack Speed 4
   m_EditorClassIdentifier: 
-  Id: attack-speed-2
+  Id: attack-speed-4
   Icon: {fileID: 0}
-  Cost: 500
+  Cost: 8000
   Parameters:
   - Name: attack-speed
     Values:
-    - 2
+    - 5

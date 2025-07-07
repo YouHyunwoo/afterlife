@@ -17,6 +17,12 @@ namespace Afterlife.Data
         public float NightDuration;
         public ObjectSpawn NightObjectSpawn;
 
+        [Header("Resources")]
+        public int MaxResourceCount;
+        [Range(0f, 1f)]
+        public float ResourceGenerationProbability;
+        public float ResourceObjectSpawnInterval;
+
         // Events
         // Rewards
     }
