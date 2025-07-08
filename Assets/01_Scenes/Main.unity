@@ -22753,11 +22753,17 @@ MonoBehaviour:
   ItemDataArray:
   - {fileID: 11400000, guid: b4b4add5c77389f4e8a09693e55ea596, type: 2}
   - {fileID: 11400000, guid: f34ed773790084d48870c492d11ed261, type: 2}
+  - {fileID: 11400000, guid: 191505081832c024abd3b0126bd27334, type: 2}
   - {fileID: 11400000, guid: 30f772098c2c123479ce1a1f46912245, type: 2}
   - {fileID: 11400000, guid: 56f3fc455ec0dcb4c9bfcc9ea98e7e54, type: 2}
+  - {fileID: 11400000, guid: 6c327650ff3c46b4b9e6124ace683327, type: 2}
+  - {fileID: 11400000, guid: bc45410884b7bdf46b58d322f90dfa75, type: 2}
+  - {fileID: 11400000, guid: 2d73aa1d559fc86408bb7ed86a1ced19, type: 2}
   CraftableItemIds:
   - wooden-axe
   - stone-axe
+  - iron-axe
+  - torchlight
   RewardDataArray:
   - {fileID: 11400000, guid: 8511626d03be75c44b3159cc66fdfa2b, type: 2}
   - {fileID: 11400000, guid: fac75dbe4c9329642911f5c73b23491b, type: 2}

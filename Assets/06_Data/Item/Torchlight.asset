@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ca2a39c4b35d8040b9e94f85131163f, type: 3}
-  m_Name: Wooden Axe
+  m_Name: Torchlight
   m_EditorClassIdentifier: 
-  Id: wooden-axe
+  Id: torchlight
   Type: 1
-  Icon: {fileID: 21300000, guid: e4c64f606c8b04a4c9cd4df44f3f7520, type: 3}
+  Icon: {fileID: 21300000, guid: 87eb2d42afc455340a605afccc8f364a, type: 3}
   Effects:
-  - EffectType: attack-power
+  - EffectType: add-sight-range
     Values:
-    - 1
+    - 2
   CraftRequirements:
   - ItemId: wood
-    Amount: 20
+    Amount: 12
   - ItemId: stone
-    Amount: 3
+    Amount: 6

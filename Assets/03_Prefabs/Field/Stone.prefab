@@ -78,19 +78,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7430109269739179928, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
       propertyPath: ItemDropGroups.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7430109269739179928, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
       propertyPath: ItemDropGroups.Array.data[0].Id
       value: stone
       objectReference: {fileID: 0}
     - target: {fileID: 7430109269739179928, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
+      propertyPath: ItemDropGroups.Array.data[1].Id
+      value: iron
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430109269739179928, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
       propertyPath: ItemDropGroups.Array.data[0].Amount
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7430109269739179928, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
+      propertyPath: ItemDropGroups.Array.data[1].Amount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430109269739179928, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
       propertyPath: ItemDropGroups.Array.data[0].DropRate
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430109269739179928, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
+      propertyPath: ItemDropGroups.Array.data[1].DropRate
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

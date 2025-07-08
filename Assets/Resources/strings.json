@@ -488,6 +488,30 @@
                     "text": "An axe made of stone. Used for chopping wood."
                 },
                 {
+                    "id": "item.iron-axe.name",
+                    "text": "Iron Axe"
+                },
+                {
+                    "id": "item.iron-axe.description",
+                    "text": "An axe made of iron. Used for chopping wood."
+                },
+                {
+                    "id": "item.dagger.name",
+                    "text": "Dagger"
+                },
+                {
+                    "id": "item.dagger.description",
+                    "text": "A small but swift blade. Can be obtained from goblins."
+                },
+                {
+                    "id": "item.torchlight.name",
+                    "text": "Torchlight"
+                },
+                {
+                    "id": "item.torchlight.description",
+                    "text": "Lights up the area around you."
+                },
+                {
                     "id": "reward.attack-power.name",
                     "text": "Attack Power"
                 },
@@ -991,6 +1015,30 @@
                 {
                     "id": "item.stone-axe.description",
                     "text": "돌로 만들어진 도끼입니다. 나무를 베는 데 사용됩니다."
+                },
+                {
+                    "id": "item.iron-axe.name",
+                    "text": "철 도끼"
+                },
+                {
+                    "id": "item.iron-axe.description",
+                    "text": "철로 만들어진 도끼입니다. 나무를 베는 데 사용됩니다."
+                },
+                {
+                    "id": "item.dagger.name",
+                    "text": "단검"
+                },
+                {
+                    "id": "item.dagger.description",
+                    "text": "작지만 빠른 검입니다. 고블린에게서 얻을 수 있습니다."
+                },
+                {
+                    "id": "item.torchlight.name",
+                    "text": "횃불"
+                },
+                {
+                    "id": "item.torchlight.description",
+                    "text": "주변을 밝혀줍니다."
                 },
                 {
                     "id": "reward.attack-power.name",

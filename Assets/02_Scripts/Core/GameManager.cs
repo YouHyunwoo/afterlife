@@ -44,8 +44,8 @@ namespace Afterlife.Core
                     Light = new Model.Light
                     {
                         Location = Vector2Int.zero,
-                        Intensity = 3f,
-                        Range = 5f,
+                        Intensity = 1f,
+                        Range = 3f,
                         IsActive = false,
                     },
                     Skills = new(),

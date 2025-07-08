@@ -49,11 +49,15 @@ namespace Afterlife.GameSystem.Stage
                     case "attack-range":
                         player.AttackRange += apply ? effect.Values[0] : -effect.Values[0];
                         break;
-                    case "critical-rate":
+                    case "add-critical-rate":
                         player.CriticalRate += apply ? effect.Values[0] : -effect.Values[0];
                         break;
-                    case "critical-damage-multiplier":
+                    case "add-critical-damage-multiplier":
                         player.CriticalDamageMultiplier += apply ? effect.Values[0] : -effect.Values[0];
+                        break;
+                    case "add-sight-range":
+                        player.Light.Range += apply ? effect.Values[0] : -effect.Values[0];
+                        gameManager.Game.Stage.Map.Fog.Update();
                         break;
                 }
             }
