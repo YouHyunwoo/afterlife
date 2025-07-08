@@ -8,44 +8,52 @@ namespace Afterlife.Core
     {
         [SerializeField] PlayerInput playerInput;
 
-        InputAction pointerButtonAction;
+        InputAction normalPointerButtonAction;
         InputAction pointerMoveAction;
+        InputAction specialPointerButtonAction;
 
         public Vector2 PointerInScreen;
 
-        public event Action<Vector2> OnPointerDownEvent;
-        public event Action<Vector2> OnPointerUpEvent;
+        public event Action<Vector2> OnNormalPointerDownEvent;
+        public event Action<Vector2> OnNormalPointerUpEvent;
         public event Action<Vector2> OnPointerMoveEvent;
+        public event Action<Vector2> OnSpecialPointerDownEvent;
+        public event Action<Vector2> OnSpecialPointerUpEvent;
 
         void Awake()
         {
-            pointerButtonAction = playerInput.actions["Pointer Button"];
+            normalPointerButtonAction = playerInput.actions["Normal Pointer Button"];
             pointerMoveAction = playerInput.actions["Pointer Move"];
+            specialPointerButtonAction = playerInput.actions["Special Pointer Button"];
         }
 
         void OnEnable()
         {
-            pointerButtonAction.performed += OnPointerButton;
-            pointerButtonAction.canceled += OnPointerButton;
+            normalPointerButtonAction.performed += OnPointerButton;
+            normalPointerButtonAction.canceled += OnPointerButton;
             pointerMoveAction.performed += OnPointerMove;
+            specialPointerButtonAction.performed += OnSpecialPointerButton;
+            specialPointerButtonAction.canceled += OnSpecialPointerButton;
         }
 
         void OnDisable()
         {
-            pointerButtonAction.performed -= OnPointerButton;
-            pointerButtonAction.canceled -= OnPointerButton;
+            normalPointerButtonAction.performed -= OnPointerButton;
+            normalPointerButtonAction.canceled -= OnPointerButton;
             pointerMoveAction.performed -= OnPointerMove;
+            specialPointerButtonAction.performed -= OnSpecialPointerButton;
+            specialPointerButtonAction.canceled -= OnSpecialPointerButton;
         }
 
         void OnPointerButton(InputAction.CallbackContext context)
         {
             if (context.performed)
             {
-                OnPointerDownEvent?.Invoke(PointerInScreen);
+                OnNormalPointerDownEvent?.Invoke(PointerInScreen);
             }
             else if (context.canceled)
             {
-                OnPointerUpEvent?.Invoke(PointerInScreen);
+                OnNormalPointerUpEvent?.Invoke(PointerInScreen);
             }
         }
 
@@ -53,6 +61,18 @@ namespace Afterlife.Core
         {
             PointerInScreen = context.ReadValue<Vector2>();
             OnPointerMoveEvent?.Invoke(PointerInScreen);
+        }
+
+        void OnSpecialPointerButton(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                OnSpecialPointerDownEvent?.Invoke(PointerInScreen);
+            }
+            else if (context.canceled)
+            {
+                OnSpecialPointerUpEvent?.Invoke(PointerInScreen);
+            }
         }
     }
 }

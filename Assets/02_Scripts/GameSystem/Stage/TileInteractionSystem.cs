@@ -28,8 +28,8 @@ namespace Afterlife.GameSystem.Stage
             isIndicatorShownOnce = false;
 
             var inputManager = ServiceLocator.Get<InputManager>();
-            inputManager.OnPointerDownEvent += OnPointerDown;
-            inputManager.OnPointerUpEvent += OnPointerUp;
+            inputManager.OnNormalPointerDownEvent += OnPointerDown;
+            inputManager.OnNormalPointerUpEvent += OnPointerUp;
             inputManager.OnPointerMoveEvent += ShowIndicatorOnce;
             inputManager.OnPointerMoveEvent += OnPointerMove;
 
@@ -46,8 +46,8 @@ namespace Afterlife.GameSystem.Stage
             tileIndicator.gameObject.SetActive(false);
 
             var inputManager = ServiceLocator.Get<InputManager>();
-            inputManager.OnPointerDownEvent -= OnPointerDown;
-            inputManager.OnPointerUpEvent -= OnPointerUp;
+            inputManager.OnNormalPointerDownEvent -= OnPointerDown;
+            inputManager.OnNormalPointerUpEvent -= OnPointerUp;
             inputManager.OnPointerMoveEvent -= OnPointerMove;
 
             if (!isIndicatorShownOnce)

@@ -41,6 +41,7 @@ namespace Afterlife.Core
 
         [Header("Camera")]
         [SerializeField] Camera mainCamera;
+        [SerializeField] CameraSystem cameraSystem;
 
         public Model.Stage Stage;
 
@@ -70,6 +71,7 @@ namespace Afterlife.Core
             ServiceLocator.Register(craftSystem);
             ServiceLocator.Register(rewardSystem);
             ServiceLocator.Register(equipmentSystem);
+            ServiceLocator.Register(cameraSystem);
 
             timeSystem.SetUp();
             tileInteractionSystem.SetUp();
@@ -82,6 +84,8 @@ namespace Afterlife.Core
             inventorySystem.SetUp();
             craftSystem.SetUp();
             rewardSystem.SetUp();
+            equipmentSystem.SetUp();
+            cameraSystem.SetUp();
 
             Stage.Map.Fog.Update();
         }
@@ -298,6 +302,7 @@ namespace Afterlife.Core
             var stageScreen = ServiceLocator.Get<UIManager>().InGameScreen as UI.Stage.Screen;
             stageScreen.MenuView.Hide();
 
+            cameraSystem.TearDown();
             equipmentSystem.TearDown();
             rewardSystem.TearDown();
             craftSystem.TearDown();
@@ -311,6 +316,7 @@ namespace Afterlife.Core
             tileInteractionSystem.TearDown();
             timeSystem.TearDown();
 
+            ServiceLocator.Unregister<CameraSystem>();
             ServiceLocator.Unregister<EquipmentSystem>();
             ServiceLocator.Unregister<RewardSystem>();
             ServiceLocator.Unregister<CraftSystem>();
