@@ -15,12 +15,6 @@ namespace Afterlife.Core
         public Data.Reward[] RewardDataArray;
         public Data.Upgrade[] UpgradeDataArray;
 
-        // [Header("Config Data (ScriptableObject)")]
-        // public MapConfig mapConfig;
-        // public List<MonsterConfig> monsterConfigs;
-        // public List<ObjectConfig> objectConfigs;
-        // 필요에 따라 추가
-
         public Dictionary<string, Data.Skill> SkillDataDictionary;
         public Dictionary<string, Data.Item> ItemDataDictionary;
         public Dictionary<string, Data.Reward> RewardDataDictionary;
@@ -67,24 +61,7 @@ namespace Afterlife.Core
             foreach (var upgrade in UpgradeDataArray)
             {
                 UpgradeDataDictionary.Add(upgrade.Id, upgrade);
-                Debug.Log($"Upgrade loaded: {upgrade.Id} - {upgrade.Cost}");
             }
         }
-
-        public void LoadAllData()
-        {
-            // ScriptableObject, JSON 등에서 데이터 로드
-            // (ScriptableObject는 에디터에서 직접 할당, JSON 등은 Resources/Addressable 등에서 로드)
-        }
-
-        // 예시: 특정 몬스터/오브젝트 데이터 가져오기
-        // public MonsterConfig GetMonsterConfig(string id)
-        // {
-        //     return monsterConfigs.Find(m => m.id == id);
-        // }
-        // public ObjectConfig GetObjectConfig(string id)
-        // {
-        //     return objectConfigs.Find(o => o.id == id);
-        // }
     }
 }

@@ -42,17 +42,16 @@ namespace Afterlife.Core
         {
             localizedText.Clear();
 
-            var languageData = Resources.Load<TextAsset>($"Localization/{locale}");
-            if (languageData == null)
+            var stringData = Model.StringJsonDataFileLoader.LoadFromResources($"strings");
+            Debug.Log(stringData.languages.Count + " languages found in strings.json");
+            foreach (var languageEntry in stringData.languages)
             {
-                Debug.LogError($"Localization JSON not found: {locale}");
-                return;
-            }
+                if (languageEntry.languageCode != locale) { continue; }
 
-            var data = JsonUtility.FromJson<LocalizationCollection>(languageData.text);
-            foreach (var item in data.items)
-            {
-                localizedText[item.key] = item.value;
+                foreach (var item in languageEntry.strings)
+                {
+                    localizedText[item.id] = item.text;
+                }
             }
 
             CurrentLanguage = ParseLocale(locale);
