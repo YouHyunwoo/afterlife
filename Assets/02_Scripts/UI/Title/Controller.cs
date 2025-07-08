@@ -23,6 +23,9 @@ namespace Afterlife.UI.Title
             titleScreen.OnSettingsButtonClickedEvent += OnSettingsButtonClicked;
             titleScreen.OnExitButtonClickedEvent += OnExitButtonClicked;
 
+            titleScreen.SettingsView.OnMasterVolumeChangedEvent += ServiceLocator.Get<AudioManager>().SetMasterVolume;
+            titleScreen.SettingsView.OnBGMVolumeChangedEvent += ServiceLocator.Get<AudioManager>().SetBGMVolume;
+            titleScreen.SettingsView.OnSFXVolumeChangedEvent += ServiceLocator.Get<AudioManager>().SetSFXVolume;
             titleScreen.SettingsView.OnLanguageButtonClickedEvent += OnLanguageButtonClicked;
         }
 
@@ -31,6 +34,11 @@ namespace Afterlife.UI.Title
             titleScreen.OnNewGameButtonClickedEvent -= OnNewGameButtonClicked;
             titleScreen.OnSettingsButtonClickedEvent -= OnSettingsButtonClicked;
             titleScreen.OnExitButtonClickedEvent -= OnExitButtonClicked;
+
+            titleScreen.SettingsView.OnMasterVolumeChangedEvent -= ServiceLocator.Get<AudioManager>().SetMasterVolume;
+            titleScreen.SettingsView.OnBGMVolumeChangedEvent -= ServiceLocator.Get<AudioManager>().SetBGMVolume;
+            titleScreen.SettingsView.OnSFXVolumeChangedEvent -= ServiceLocator.Get<AudioManager>().SetSFXVolume;
+            titleScreen.SettingsView.OnLanguageButtonClickedEvent -= OnLanguageButtonClicked;
 
             Localization.OnLanguageChangedEvent -= titleScreen.Localize;
 

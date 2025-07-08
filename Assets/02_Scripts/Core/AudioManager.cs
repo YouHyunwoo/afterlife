@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Audio;
 
 namespace Afterlife.Core
 {
@@ -8,6 +9,9 @@ namespace Afterlife.Core
     /// </summary>
     public class AudioManager : MonoBehaviour
     {
+        [Header("Audio Mixer")]
+        [SerializeField] AudioMixer audioMixer;
+
         [Header("Audio Sources")]
         public AudioSource bgmSource;
         public AudioSource sfxSource;
@@ -18,9 +22,9 @@ namespace Afterlife.Core
         public AudioClip inGameBGM;
         public AudioClip gameOverBGM;
 
-        [Header("SFX Clips")] // 효과음은 Dictionary로 관리 예시
+        [Header("SFX Clips")]
         public List<AudioClip> sfxClips;
-        private Dictionary<string, AudioClip> sfxClipDict = new();
+        readonly Dictionary<string, AudioClip> sfxClipDict = new();
 
         void Awake()
         {
@@ -29,6 +33,21 @@ namespace Afterlife.Core
                 if (clip != null && !sfxClipDict.ContainsKey(clip.name))
                     sfxClipDict.Add(clip.name, clip);
             }
+        }
+
+        public void SetMasterVolume(float volume)
+        {
+            audioMixer.SetFloat("Master", Mathf.Log10(volume) * 20);
+        }
+
+        public void SetBGMVolume(float volume)
+        {
+            audioMixer.SetFloat("BGM", Mathf.Log10(volume) * 20);
+        }
+
+        public void SetSFXVolume(float volume)
+        {
+            audioMixer.SetFloat("SFX", Mathf.Log10(volume) * 20);
         }
 
         public void PlayBGM(SceneState state)

@@ -20,6 +20,11 @@ namespace Afterlife.UI.Title
         [SerializeField] TextMeshProUGUI settingsText;
         [SerializeField] TextMeshProUGUI exitText;
         [SerializeField] TextMeshProUGUI settingsTitleText;
+        [SerializeField] TextMeshProUGUI soundsCategoryText;
+        [SerializeField] TextMeshProUGUI masterLabelText;
+        [SerializeField] TextMeshProUGUI bgmLabelText;
+        [SerializeField] TextMeshProUGUI sfxLabelText;
+        [SerializeField] TextMeshProUGUI interfacesCategoryText;
         [SerializeField] TextMeshProUGUI languageLabelText;
         [SerializeField] TextMeshProUGUI languageButtonText;
 
@@ -44,8 +49,13 @@ namespace Afterlife.UI.Title
             settingsText.text = Localization.Get("title.menu.settings");
             exitText.text = Localization.Get("title.menu.exit");
             settingsTitleText.text = Localization.Get("title.menu.settings.title");
-            languageLabelText.text = Localization.Get("title.menu.settings.language.label");
-            languageButtonText.text = Localization.Get("title.menu.settings.language.button");
+            soundsCategoryText.text = Localization.Get("title.menu.settings.sounds.category");
+            masterLabelText.text = Localization.Get("title.menu.settings.sounds.master.label");
+            bgmLabelText.text = Localization.Get("title.menu.settings.sounds.bgm.label");
+            sfxLabelText.text = Localization.Get("title.menu.settings.sounds.sfx.label");
+            interfacesCategoryText.text = Localization.Get("title.menu.settings.interfaces.category");
+            languageLabelText.text = Localization.Get("title.menu.settings.interfaces.language.label");
+            languageButtonText.text = Localization.Get("title.menu.settings.interfaces.language.button");
         }
     }
 }
