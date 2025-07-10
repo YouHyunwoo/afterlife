@@ -6,7 +6,7 @@ namespace Afterlife.GameSystem.Stage.Field
 {
     public class ObjectSpawnSystem : SystemBase
     {
-        [SerializeField] FieldObjectSpawner fieldObjectSpawner;
+        [SerializeField] FieldObjectSystem fieldObjectSpawner;
 
         Model.Stage stage;
 
@@ -71,12 +71,11 @@ namespace Afterlife.GameSystem.Stage.Field
             var spawnedGameObject = fieldObjectSpawner.Spawn(sampledPrefab, location);
             var @object = spawnedGameObject.GetComponent<View.Object>();
 
-            var health = Mathf.Max(@object.Health * (1 + (UnityEngine.Random.value - 0.5f) * 2 * 0.1f), 0f);
-            health *= 1 + stage.ElapsedTime / 60f;
-            health *= DayDataArray[DayIndex].ValueMultiplier;
-            health = Mathf.CeilToInt(health);
-            @object.Health = health;
-            @object.MaxHealth = health;
+            var value = Mathf.Max(@object.Value * (1 + (UnityEngine.Random.value - 0.5f) * 2 * 0.1f), 0f);
+            value *= 1 + stage.ElapsedTime / 60f;
+            value *= DayDataArray[DayIndex].ValueMultiplier;
+            value = Mathf.CeilToInt(value);
+            @object.Value = value;
 
             if (@object is View.Portal portal)
             {

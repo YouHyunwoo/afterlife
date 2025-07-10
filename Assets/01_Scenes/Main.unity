@@ -4186,7 +4186,7 @@ GameObject:
   - component: {fileID: 212219395}
   - component: {fileID: 212219396}
   m_Layer: 0
-  m_Name: Field Object Spawner
+  m_Name: Field Object System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34305,7 +34305,7 @@ MonoBehaviour:
   fogPrefab: {fileID: 8482595740769873763, guid: 51953b80539729942a0b9b995d1d1955, type: 3}
   fogSystem: {fileID: 1540853844}
   fieldTransform: {fileID: 661714298}
-  fieldObjectSpawner: {fileID: 212219396}
+  fieldObjectSystem: {fileID: 212219396}
   objectSpawnSystem: {fileID: 1944477075}
   environmentSpawnSystem: {fileID: 1001290271}
   constructionSystem: {fileID: 2039568308}

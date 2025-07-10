@@ -49,7 +49,6 @@ namespace Afterlife.GameSystem.Stage
 
             var map = ServiceLocator.Get<StageManager>().Stage.Map;
             map.Fog.Invalidate();
-            map.Fog.Update();
 
             var inputManager = ServiceLocator.Get<InputManager>();
             inputManager.OnPointerMoveEvent -= ShowIndicatorOnce;

@@ -1,4 +1,5 @@
 using System.Collections;
+using Afterlife.Core;
 using UnityEngine;
 
 namespace Afterlife.View
@@ -22,8 +23,9 @@ namespace Afterlife.View
                 Range = range,
             };
 
-            Map.Fog.AddLight(sight);
-            Map.Fog.Update();
+            var map = ServiceLocator.Get<StageManager>().Stage.Map;
+            map.Fog.AddLight(sight);
+            map.Fog.Invalidate();
 
             StartCoroutine(GoOutRoutine());
         }
@@ -49,17 +51,18 @@ namespace Afterlife.View
                 player.Inventory.Remove("wood");
             }
 
-            Health += 1f;
-            UpdateValue();
+            Value += 1f;
+            RefreshValue();
             base.Interact(player);
         }
 
-        public override void Died()
+        public override void Die()
         {
-            Map.Fog.RemoveLight(sight);
-            Map.Fog.Update();
+            var map = ServiceLocator.Get<StageManager>().Stage.Map;
+            map.Fog.RemoveLight(sight);
+            map.Fog.Invalidate();
 
-            base.Died();
+            base.Die();
         }
     }
 }

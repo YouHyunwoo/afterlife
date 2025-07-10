@@ -101,9 +101,11 @@ namespace Afterlife.View
         public void StartPatrol()
         {
             Animator.SetBool("Patrol", true);
+
+            var map = ServiceLocator.Get<StageManager>().Stage.Map;
             targetLocation = new Vector2Int(
-                Random.Range(0, Map.Size.x - 1),
-                Random.Range(0, Map.Size.y - 1)
+                Random.Range(0, map.Size.x - 1),
+                Random.Range(0, map.Size.y - 1)
             );
         }
         public void StopPatrol() => Animator.SetBool("Patrol", false);
@@ -116,7 +118,8 @@ namespace Afterlife.View
         {
             var currentLocation = Vector2Int.FloorToInt((Vector2)transform.position);
 
-            Map.PathFinder.FindPath(currentLocation, destination, out var path);
+            var map = ServiceLocator.Get<StageManager>().Stage.Map;
+            map.PathFinder.FindPath(currentLocation, destination, out var path);
 
             if (path.Length <= 1) { return false; }
 
@@ -129,7 +132,7 @@ namespace Afterlife.View
                 SpriteRenderer.flipX = direction < 0;
             }
 
-            Map.MoveFieldObject(currentLocation, nextLocation);
+            map.MoveFieldObject(currentLocation, nextLocation);
 
             transform.position = new Vector3(
                 nextLocation.x,
@@ -236,11 +239,9 @@ namespace Afterlife.View
             target.TakeDamage(damage, this);
         }
 
-        public override void Died()
+        public override void Die()
         {
             IsAlive = false;
-            var location = Vector2Int.FloorToInt(transform.position);
-            Map.Field.Set(location, null);
             Animator.SetBool("Dead", true);
 
             StartCoroutine(CollectByKillRoutine());
@@ -261,7 +262,7 @@ namespace Afterlife.View
                 yield return new WaitForSeconds(0.3f);
 
                 var itemId = itemDropGroup.Id;
-                var itemAmount = Mathf.FloorToInt(itemDropGroup.Amount * MaxHealth / 10f);
+                var itemAmount = Mathf.FloorToInt(itemDropGroup.Amount * OriginalValue / 10f);
                 var itemDropRate = itemDropGroup.DropRate;
                 var itemActualAmount = itemCollectSystem.SampleItems(itemAmount, itemDropRate);
                 if (itemActualAmount <= 0) { continue; }

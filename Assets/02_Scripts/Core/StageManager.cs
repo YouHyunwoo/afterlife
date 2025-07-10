@@ -19,7 +19,7 @@ namespace Afterlife.Core
 
         [Header("Field")]
         [SerializeField] Transform fieldTransform;
-        [SerializeField] FieldObjectSpawner fieldObjectSpawner;
+        [SerializeField] FieldObjectSystem fieldObjectSystem;
         [SerializeField] ObjectSpawnSystem objectSpawnSystem;
         [SerializeField] EnvironmentSpawnSystem environmentSpawnSystem;
         [SerializeField] ConstructionSystem constructionSystem;
@@ -53,8 +53,6 @@ namespace Afterlife.Core
         public void StartStage()
         {
             CreateStage();
-            CreateObjectsForStage();
-            SetUpPlayer();
 
             timeSystem.OnDayChangedEvent += missionSystem.OnDayChanged;
             timeSystem.OnDayChangedEvent += objectSpawnSystem.OnDayChanged;
@@ -67,7 +65,7 @@ namespace Afterlife.Core
             ServiceLocator.Register(tileInteractionSystem);
             ServiceLocator.Register(fogSystem);
             ServiceLocator.Register(missionSystem);
-            ServiceLocator.Register(fieldObjectSpawner);
+            ServiceLocator.Register(fieldObjectSystem);
             ServiceLocator.Register(objectSpawnSystem);
             ServiceLocator.Register(skillSystem);
             ServiceLocator.Register(environmentSpawnSystem);
@@ -85,6 +83,7 @@ namespace Afterlife.Core
             tileInteractionSystem.SetUp();
             fogSystem.SetUp();
             missionSystem.SetUp();
+            fieldObjectSystem.SetUp();
             objectSpawnSystem.SetUp();
             skillSystem.SetUp();
             environmentSpawnSystem.SetUp();
@@ -98,7 +97,9 @@ namespace Afterlife.Core
             constructionSystem.SetUp();
             tileIndicationSystem.SetUp();
 
-            Stage.Map.Fog.Update();
+            CreateObjectsForStage();
+            SetUpPlayer();
+            Stage.Map.Fog.Invalidate();
         }
 
         void CreateStage()
@@ -211,14 +212,11 @@ namespace Afterlife.Core
         void CreateFieldObjects()
         {
             var fieldData = Stage.Data.MapData.FieldData;
-            var mapSize = Stage.Data.MapData.Size;
-            var map = Stage.Map;
-            var field = map.Field;
-            GenerateVillages(fieldData, mapSize, field, map);
-            GenerateEnvironments(fieldData, mapSize, field, map);
+            GenerateVillages(fieldData);
+            GenerateEnvironments(fieldData);
         }
 
-        void GenerateVillages(Data.Field fieldData, Vector2Int mapSize, Model.Field field, Model.Map map)
+        void GenerateVillages(Data.Field fieldData)
         {
             var padding = 2;
             var villageCount = fieldData.VillageCount;
@@ -226,23 +224,25 @@ namespace Afterlife.Core
 
             if (villageCount <= 0) { throw new System.Exception("Village count must be greater than 0."); }
             if (villagePrefab == null) { throw new System.Exception("Village prefab cannot be null."); }
-            if (field.GetEmptyCount() < villageCount) { throw new System.Exception($"Not enough space to generate {villageCount} villages."); }
+            if (Stage.Map.Field.GetEmptyCount() < villageCount) { throw new System.Exception($"Not enough space to generate {villageCount} villages."); }
+
+            var mapSize = Stage.Map.Size;
 
             for (int i = 0; i < villageCount; i++)
             {
                 var x = Random.Range(padding, mapSize.x - padding);
                 var y = Random.Range(padding, mapSize.y - padding);
                 var location = new Vector2Int(x, y);
-                if (!map.IsAvailable(location)) { i--; continue; }
+                if (!Stage.Map.IsAvailable(location)) { i--; continue; }
 
-                var fieldObject = fieldObjectSpawner.Spawn(villagePrefab, location);
+                var fieldObject = fieldObjectSystem.Spawn(villagePrefab, location);
                 if (!fieldObject.TryGetComponent(out View.Object village))
                 {
                     Debug.LogError($"Village prefab {villagePrefab.name} does not have a Village component.");
                     continue;
                 }
 
-                village.Health = 10;
+                village.Value = 10;
 
                 var villageLight = new Model.Light
                 {
@@ -252,13 +252,14 @@ namespace Afterlife.Core
                 };
 
                 Stage.Map.Fog.AddLight(villageLight);
-
-                field.Set(location, fieldObject.transform);
+                Stage.Map.Field.Set(location, fieldObject.transform);
             }
         }
 
-        void GenerateEnvironments(Data.Field fieldData, Vector2Int mapSize, Model.Field field, Model.Map map)
+        void GenerateEnvironments(Data.Field fieldData)
         {
+            var mapSize = Stage.Map.Size;
+
             foreach (var resourceObjectGroup in fieldData.ResourceObjectGroups)
             {
                 for (int i = 0; i < resourceObjectGroup.Count; i++)
@@ -266,21 +267,20 @@ namespace Afterlife.Core
                     var x = Random.Range(0, mapSize.x);
                     var y = Random.Range(0, mapSize.y);
                     var location = new Vector2Int(x, y);
-                    if (!map.IsAvailable(location)) { continue; }
+                    if (!Stage.Map.IsAvailable(location)) { continue; }
 
-                    var fieldObject = fieldObjectSpawner.Spawn(resourceObjectGroup.Prefab, location);
+                    var fieldObject = fieldObjectSystem.Spawn(resourceObjectGroup.Prefab, location);
                     if (!fieldObject.TryGetComponent(out View.Resource resource))
                     {
                         Debug.LogError($"Object {resourceObjectGroup.Prefab.name} does not have a Resource component.");
                         continue;
                     }
 
-                    resource.Health = Random.Range(resourceObjectGroup.MinHealth, resourceObjectGroup.MaxHealth + 1);
-                    resource.MaxHealth = resource.Health;
+                    resource.Value = Random.Range(resourceObjectGroup.MinHealth, resourceObjectGroup.MaxHealth + 1);
                     resource.Type = resourceObjectGroup.Name;
                     resource.Amount = Random.Range(resourceObjectGroup.MinAmount, resourceObjectGroup.MaxAmount + 1);
 
-                    field.Set(location, fieldObject.transform);
+                    Stage.Map.Field.Set(location, fieldObject.transform);
                 }
             }
         }
@@ -380,6 +380,7 @@ namespace Afterlife.Core
             environmentSpawnSystem.TearDown();
             skillSystem.TearDown();
             objectSpawnSystem.TearDown();
+            fieldObjectSystem.TearDown();
             missionSystem.TearDown();
             fogSystem.TearDown();
             tileInteractionSystem.TearDown();
@@ -396,7 +397,7 @@ namespace Afterlife.Core
             ServiceLocator.Unregister<ItemCollectSystem>();
             ServiceLocator.Unregister<EnvironmentSpawnSystem>();
             ServiceLocator.Unregister<SkillSystem>();
-            ServiceLocator.Unregister<FieldObjectSpawner>();
+            ServiceLocator.Unregister<FieldObjectSystem>();
             ServiceLocator.Unregister<ObjectSpawnSystem>();
             ServiceLocator.Unregister<MissionSystem>();
             ServiceLocator.Unregister<FogSystem>();

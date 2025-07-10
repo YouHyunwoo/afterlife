@@ -12,8 +12,8 @@ namespace Afterlife.View
             if (isCriticalHit) { ServiceLocator.Get<AudioManager>().PlaySFX("critical"); }
             var amount = player.RecoveryPower * (isCriticalHit ? player.CriticalDamageMultiplier : 1f);
             player.TakeExperience(amount / 10f);
-            Health += amount;
-            UpdateValue();
+            Value += amount;
+            RefreshValue();
             base.Interact(player);
         }
     }

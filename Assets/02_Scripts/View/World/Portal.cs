@@ -31,7 +31,7 @@ namespace Afterlife.View
         IEnumerator MonsterGenerationRoutine()
         {
             var stage = ServiceLocator.Get<StageManager>().Stage;
-            var fieldObjectSpawner = ServiceLocator.Get<FieldObjectSpawner>();
+            var fieldObjectSpawner = ServiceLocator.Get<FieldObjectSystem>();
             var offsets = new Vector2Int[]
             {
                 new(-1, -1), new(-1, 0), new(-1, 1),
@@ -73,10 +73,10 @@ namespace Afterlife.View
             base.Interact(player);
         }
 
-        public override void Died()
+        public override void Die()
         {
             StopAllCoroutines();
-            base.Died();
+            base.Die();
         }
     }
 }

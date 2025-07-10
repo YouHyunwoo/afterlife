@@ -3,9 +3,21 @@ using UnityEngine;
 
 namespace Afterlife.GameSystem.Stage.Field
 {
-    public class FieldObjectSpawner : SystemBase
+    public class FieldObjectSystem : SystemBase
     {
         [SerializeField] Transform fieldTransform;
+
+        Model.Map map;
+
+        public override void SetUp()
+        {
+            map = ServiceLocator.Get<StageManager>().Stage.Map;
+        }
+
+        public override void TearDown()
+        {
+            map = null;
+        }
 
         public GameObject Spawn(GameObject prefab, Vector2Int location)
         {
@@ -16,14 +28,21 @@ namespace Afterlife.GameSystem.Stage.Field
 
             if (instance.TryGetComponent(out View.Object @object))
             {
-                var map = ServiceLocator.Get<GameManager>().Game.Stage.Map;
-                // TODO: 오브젝트에서 map 빼기
-                @object.Map = map;
+                @object.OnDiedEvent += OnDiedEvent;
+
                 map.Field.Set(location, instance.transform);
                 map.Fog.Invalidate();
             }
 
             return instance;
+        }
+
+        void OnDiedEvent(View.Object attacker, View.Object @object)
+        {
+            var location = Vector2Int.FloorToInt(@object.transform.position);
+            map.Field.Set(location, null);
+
+            @object.OnDiedEvent -= OnDiedEvent;
         }
     }
 }

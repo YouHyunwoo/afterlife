@@ -8,7 +8,7 @@ namespace Afterlife.GameSystem.Stage
     {
         [SerializeField] PlayerModeSystem playerModeSystem;
         [SerializeField] TileIndicationSystem tileIndicationSystem;
-        [SerializeField] FieldObjectSpawner fieldObjectSpawner;
+        [SerializeField] FieldObjectSystem fieldObjectSpawner;
         [SerializeField] TileInteractionSystem tileInteractionSystem;
         [SerializeField] InventorySystem inventorySystem;
         [SerializeField] Camera mainCamera;

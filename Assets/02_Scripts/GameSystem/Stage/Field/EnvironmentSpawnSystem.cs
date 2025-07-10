@@ -6,7 +6,7 @@ namespace Afterlife.GameSystem.Stage.Field
 {
     public class EnvironmentSpawnSystem : SystemBase
     {
-        [SerializeField] FieldObjectSpawner fieldObjectSpawner;
+        [SerializeField] FieldObjectSystem fieldObjectSpawner;
 
         Model.Map map;
         Model.Field field;

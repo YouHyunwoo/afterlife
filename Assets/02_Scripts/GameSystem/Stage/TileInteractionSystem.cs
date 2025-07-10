@@ -126,7 +126,6 @@ namespace Afterlife.GameSystem.Stage
 
             player.Light.Location = Location;
             map.Fog.Invalidate();
-            map.Fog.Update();
         }
 
         Vector2 ConvertToPointerInWorld(Vector2 pointerInScreen)

@@ -42,7 +42,7 @@ namespace Afterlife.View
             CollectByInteraction(player);
             base.Interact(player);
 
-            if (Health > 0f)
+            if (Value > 0f)
             {
                 var bodyTransform = transform.Find("Body");
                 bodyTransform.DOShakePosition(0.2f, 0.1f, 30, 90, false, true);
@@ -58,7 +58,7 @@ namespace Afterlife.View
                 yield return new WaitForSeconds(0.3f);
 
                 var itemId = itemDropGroup.Id;
-                var itemAmount = Mathf.FloorToInt(itemDropGroup.Amount * MaxHealth / 10f);
+                var itemAmount = Mathf.FloorToInt(itemDropGroup.Amount * OriginalValue / 10f);
                 var itemDropRate = itemDropGroup.DropRate;
                 var itemActualAmount = itemCollectSystem.SampleItems(itemAmount, itemDropRate);
                 if (itemActualAmount <= 0) { continue; }
@@ -83,11 +83,9 @@ namespace Afterlife.View
             }
         }
 
-        public override void Died()
+        public override void Die()
         {
             IsAlive = false;
-            var location = Vector2Int.FloorToInt(transform.position);
-            Map.Field.Set(location, null);
 
             StartCoroutine(CollectByKillRoutine());
 

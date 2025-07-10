@@ -6,12 +6,14 @@ namespace Afterlife.View
 {
     public class Object : MonoBehaviour
     {
-        public float Health;
-        public float MaxHealth;
-        public bool IsAlive;
-        public Model.Map Map;
+        public float Value;
+        [HideInInspector]
+        public float OriginalValue;
 
-        TextMeshPro text;
+        public bool IsAlive;
+
+        protected SpriteRenderer bodySpriteRenderer;
+        protected TextMeshPro valueText;
 
         public event Action<Object> OnInteractedEvent;
         public event Action<Object, Object> OnHitEvent;
@@ -19,19 +21,24 @@ namespace Afterlife.View
 
         protected virtual void Awake()
         {
-            text = GetComponentInChildren<TextMeshPro>();
+            var bodyObject = transform.Find("Body");
+            bodySpriteRenderer = bodyObject.GetComponent<SpriteRenderer>();
+
+            var valueTextObject = transform.Find("Value").Find("Text");
+            valueText = valueTextObject.GetComponent<TextMeshPro>();
+
+            OriginalValue = Value;
+            IsAlive = true;
         }
 
         protected virtual void Start()
         {
-            IsAlive = true;
-            UpdateValue();
+            RefreshValue();
         }
 
-        protected void UpdateValue()
+        protected void RefreshValue()
         {
-            if (text == null) { return; }
-            text.text = $"{Mathf.Max(Health, 0):0}";
+            valueText.text = $"{Mathf.Max(Value, 0):0}";
         }
 
         public virtual void Interact(Model.Player player)
@@ -43,23 +50,21 @@ namespace Afterlife.View
         {
             if (!IsAlive) { return; }
 
-            Health -= damage;
+            Value -= damage;
             OnHitEvent?.Invoke(attacker, this);
 
-            UpdateValue();
+            RefreshValue();
 
-            if (Health <= 0f)
+            if (Value <= 0f)
             {
-                Died();
+                Die();
                 OnDiedEvent?.Invoke(attacker, this);
             }
         }
 
-        public virtual void Died()
+        public virtual void Die()
         {
             IsAlive = false;
-            var location = Vector2Int.FloorToInt(transform.position);
-            Map.Field.Set(location, null);
             gameObject.SetActive(false);
             Destroy(gameObject, 0);
         }

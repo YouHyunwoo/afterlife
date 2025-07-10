@@ -57,7 +57,7 @@ namespace Afterlife.GameSystem.Stage
                         break;
                     case "add-sight-range":
                         player.Light.Range += apply ? effect.Values[0] : -effect.Values[0];
-                        gameManager.Game.Stage.Map.Fog.Update();
+                        gameManager.Game.Stage.Map.Fog.Invalidate();
                         break;
                 }
             }
