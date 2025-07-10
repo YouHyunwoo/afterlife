@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ca2a39c4b35d8040b9e94f85131163f, type: 3}
-  m_Name: Campfire
+  m_Name: Fire Altar
   m_EditorClassIdentifier: 
-  Id: campfire
+  Id: fire-altar
   Type: 2
-  Icon: {fileID: -6084711936022183385, guid: bbf463406b05b5745b66670a819f4dc9, type: 3}
+  Icon: {fileID: 21300000, guid: 959e9be0753b1174e83490e49840a3a8, type: 3}
   Effects: []
   CraftRequirements:
   - ItemId: wood
-    Amount: 10
+    Amount: 50
   - ItemId: stone
-    Amount: 5
-  ConstructionPrefab: {fileID: 9016846682806357974, guid: be263aa9b380acb43b3d6bbb9acaf5c2, type: 3}
-  PreviewPrefab: {fileID: 9016846682806357974, guid: 427138d545df2794ebf5db63ab455f30, type: 3}
+    Amount: 30
+  ConstructionPrefab: {fileID: 9016846682806357974, guid: e6dffb0a7b782f04bb4eb4b3964c50dc, type: 3}
+  PreviewPrefab: {fileID: 9016846682806357974, guid: 0698f20af61308749bcf7462aeb92845, type: 3}

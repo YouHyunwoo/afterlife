@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Afterlife.Model
@@ -31,6 +32,26 @@ namespace Afterlife.Model
         {
             var pointerInWorld = camera.ScreenToWorldPoint(pointerInScreen);
             return Vector2Int.FloorToInt(pointerInWorld);
+        }
+
+        public View.Object[] FindObjectsWithCondition(System.Func<View.Object, bool> condition)
+        {
+            var objects = new List<View.Object>();
+            for (int x = 0; x < Field.Size.x; x++)
+            {
+                for (int y = 0; y < Field.Size.y; y++)
+                {
+                    var objectTransform = Field.Get(x, y);
+                    if (objectTransform == null) { continue; }
+                    if (!objectTransform.TryGetComponent<View.Object>(out var @object)) { continue; }
+                    if (!@object.IsAlive) { continue; }
+                    if (condition(@object))
+                    {
+                        objects.Add(@object);
+                    }
+                }
+            }
+            return objects.ToArray();
         }
     }
 }

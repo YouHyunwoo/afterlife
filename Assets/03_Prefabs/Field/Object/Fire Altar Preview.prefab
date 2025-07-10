@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &6437531003601026235
+--- !u!1001 &3923243304072165661
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -8,6 +8,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8929847808762788563, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 693505398302754015, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2651952030695901488, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -49,76 +57,39 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4241637074521123045, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: a1e9c9e1fcce0114d9f2a9738e5dddf4, type: 2}
-    - target: {fileID: 5426959284589278923, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
-      propertyPath: m_Name
-      value: Monster
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5426959284589278923, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
-      propertyPath: m_TagString
-      value: Monster
+      propertyPath: m_Name
+      value: Fire Altar Preview
       objectReference: {fileID: 0}
     - target: {fileID: 6092459375316025021, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
       propertyPath: m_Size.x
-      value: 0.5
+      value: 0.14
       objectReference: {fileID: 0}
     - target: {fileID: 6092459375316025021, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
       propertyPath: m_Size.y
-      value: 0.5
+      value: 0.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092459375316025021, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 959e9be0753b1174e83490e49840a3a8, type: 3}
+    - target: {fileID: 6092459375316025021, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+      propertyPath: m_Color.a
+      value: 0.5019608
       objectReference: {fileID: 0}
     - target: {fileID: 6092459375316025021, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
       propertyPath: m_WasSpriteAssigned
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: -8929847808762788563, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+    - target: {fileID: 8314331382220324802, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.65
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5426959284589278923, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: -4598636861707239977}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
---- !u!1 &1298966199429778032 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5426959284589278923, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
-  m_PrefabInstance: {fileID: 6437531003601026235}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &-4598636861707239977
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1298966199429778032}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52e5402237d214940a01836113b2245b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Value: 0
-  OriginalValue: 0
-  IsAlive: 0
-  DetectingRange: 5
-  AttackPower: 1
-  AttackSpeed: 1
-  AttackRange: 1
-  AttackCount: 1
-  CriticalRate: 0
-  CriticalDamageMultiplier: 1.2
-  MovementSpeed: 1
-  TargetLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  ItemDropGroups: []
-  Animator: {fileID: 0}
-  SpriteRenderer: {fileID: 0}
-  SqrDetectingRange: 0
-  SqrAttackRange: 0
-  StateName: 
-  Direction: 0
-  TargetCandidateTransforms: []
-  targetTransform: {fileID: 0}
-  targetLocation: {x: 0, y: 0}

@@ -22929,12 +22929,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bc45410884b7bdf46b58d322f90dfa75, type: 2}
   - {fileID: 11400000, guid: 2d73aa1d559fc86408bb7ed86a1ced19, type: 2}
   - {fileID: 11400000, guid: 120205663d37d4447b1fde18999b0597, type: 2}
+  - {fileID: 11400000, guid: 1a3a45a95e271d84f98535f2dd598095, type: 2}
+  - {fileID: 11400000, guid: 7337a7e82af6e87418a48c5199a65b58, type: 2}
   CraftableItemIds:
   - wooden-axe
   - stone-axe
   - iron-axe
   - torchlight
   - campfire
+  - fire-altar
+  - thunder-altar
   RewardDataArray:
   - {fileID: 11400000, guid: 8511626d03be75c44b3159cc66fdfa2b, type: 2}
   - {fileID: 11400000, guid: fac75dbe4c9329642911f5c73b23491b, type: 2}
@@ -28786,6 +28790,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 76e208b8bbe0a8343b64573e5cad17ee, type: 3}
   - {fileID: 8300000, guid: 1a75573fbf6f96947b067c64d6241251, type: 3}
   - {fileID: 8300000, guid: e7ea0ff7dd81c4a458e79fb2fc5a60a3, type: 3}
+  - {fileID: 8300000, guid: 639177f48ee063449b6355012b696ff3, type: 3}
 --- !u!82 &1578736213
 AudioSource:
   m_ObjectHideFlags: 0
@@ -36729,6 +36734,7 @@ MonoBehaviour:
   effectPrefabs:
   - {fileID: 7358267170440605401, guid: 9d594b4db7ee6c4408d834697748393e, type: 3}
   - {fileID: 7358267170440605401, guid: ee476421cb635374695c3222a4d13f69, type: 3}
+  - {fileID: 7358267170440605401, guid: 79dec9a6bfb98e84a973997652ecaa31, type: 3}
 --- !u!1001 &1953288799
 PrefabInstance:
   m_ObjectHideFlags: 0

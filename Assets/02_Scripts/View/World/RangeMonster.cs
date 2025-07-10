@@ -13,6 +13,7 @@ namespace Afterlife.View
             projectile.Owner = this;
             projectile.Target = targetTransform.GetComponent<Object>();
             projectile.TargetPosition = targetTransform.position + new Vector3(0.5f, 0.5f);
+            projectile.Damage = AttackPower;
             projectile.Speed = ProjectileSpeed;
         }
     }

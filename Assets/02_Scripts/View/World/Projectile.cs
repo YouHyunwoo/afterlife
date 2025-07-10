@@ -7,7 +7,8 @@ namespace Afterlife.View
     {
         public float Speed;
         public Vector2 TargetPosition;
-        public Monster Owner;
+        public float Damage;
+        public Object Owner;
         public Object Target;
 
         void Start()
@@ -29,7 +30,7 @@ namespace Afterlife.View
                 yield return null;
             }
 
-            Target.TakeDamage(Owner.AttackPower, Owner);
+            Target.TakeDamage(Damage, Owner);
 
             Destroy(gameObject);
         }

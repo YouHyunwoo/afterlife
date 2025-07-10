@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Portal
       objectReference: {fileID: 0}
+    - target: {fileID: 5426959284589278923, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+      propertyPath: m_TagString
+      value: Monster
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -8929847808762788563, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
     m_RemovedGameObjects: []
