@@ -7,6 +7,7 @@ namespace Afterlife.Data
     {
         Consumable,
         Equipment,
+        Construction,
         Miscellaneous
     }
 
@@ -32,5 +33,7 @@ namespace Afterlife.Data
         public Sprite Icon;
         public ItemEffect[] Effects;
         public CraftRequirement[] CraftRequirements;
+        public GameObject ConstructionPrefab;
+        public GameObject PreviewPrefab;
     }
 }

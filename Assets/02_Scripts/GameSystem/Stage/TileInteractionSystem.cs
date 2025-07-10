@@ -6,8 +6,9 @@ namespace Afterlife.GameSystem.Stage
 {
     public class TileInteractionSystem : SystemBase
     {
+        [SerializeField] PlayerModeSystem playerModeSystem;
+        [SerializeField] TileIndicationSystem tileIndicationSystem;
         [SerializeField] Camera mainCamera;
-        [SerializeField] View.TerrainTileIndicator tileIndicator;
 
         public Vector2 PointerInWorld;
         public Vector2Int Location;
@@ -17,7 +18,6 @@ namespace Afterlife.GameSystem.Stage
 
         Coroutine interactRoutine;
         bool isPointerDown;
-        bool isIndicatorShownOnce;
         Vector2Int previousLocation;
 
         public override void SetUp()
@@ -25,12 +25,9 @@ namespace Afterlife.GameSystem.Stage
             player = ServiceLocator.Get<GameManager>().Game.Player;
             map = ServiceLocator.Get<StageManager>().Stage.Map;
 
-            isIndicatorShownOnce = false;
-
             var inputManager = ServiceLocator.Get<InputManager>();
             inputManager.OnNormalPointerDownEvent += OnPointerDown;
             inputManager.OnNormalPointerUpEvent += OnPointerUp;
-            inputManager.OnPointerMoveEvent += ShowIndicatorOnce;
             inputManager.OnPointerMoveEvent += OnPointerMove;
 
             enabled = true;
@@ -43,17 +40,10 @@ namespace Afterlife.GameSystem.Stage
 
             enabled = false;
 
-            tileIndicator.gameObject.SetActive(false);
-
             var inputManager = ServiceLocator.Get<InputManager>();
             inputManager.OnNormalPointerDownEvent -= OnPointerDown;
             inputManager.OnNormalPointerUpEvent -= OnPointerUp;
             inputManager.OnPointerMoveEvent -= OnPointerMove;
-
-            if (!isIndicatorShownOnce)
-            {
-                inputManager.OnPointerMoveEvent -= ShowIndicatorOnce;
-            }
 
             player = null;
             map = null;
@@ -62,6 +52,7 @@ namespace Afterlife.GameSystem.Stage
         void OnPointerDown(Vector2 pointerInScreen)
         {
             if (!enabled) { return; }
+            if (playerModeSystem.CurrentMode != EPlayerMode.Interaction) { return; }
 
             PointerInWorld = ConvertToPointerInWorld(pointerInScreen);
             Location = ConvertToLocation(PointerInWorld);
@@ -131,21 +122,11 @@ namespace Afterlife.GameSystem.Stage
             if (previousLocation == Location) { return; }
             previousLocation = Location;
 
-            tileIndicator.transform.position = new Vector3(Location.x, Location.y);
+            tileIndicationSystem.SetLocation(Location);
 
             player.Light.Location = Location;
             map.Fog.Invalidate();
             map.Fog.Update();
-        }
-
-        void ShowIndicatorOnce(Vector2 pointerInScreen)
-        {
-            tileIndicator.gameObject.SetActive(true);
-            isIndicatorShownOnce = true;
-            player.Light.IsActive = true;
-
-            var inputManager = ServiceLocator.Get<InputManager>();
-            inputManager.OnPointerMoveEvent -= ShowIndicatorOnce;
         }
 
         Vector2 ConvertToPointerInWorld(Vector2 pointerInScreen)
@@ -155,7 +136,7 @@ namespace Afterlife.GameSystem.Stage
 
         Vector2Int ConvertToLocation(Vector2 pointerInWorld)
         {
-            return Vector2Int.FloorToInt(pointerInWorld); ;
+            return Vector2Int.FloorToInt(pointerInWorld);
         }
     }
 }

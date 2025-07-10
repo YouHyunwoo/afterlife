@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Wood
   m_EditorClassIdentifier: 
   Id: wood
-  Type: 2
+  Type: 3
   Icon: {fileID: 21300000, guid: b90d97efbaf650a48a39014d70a830ab, type: 3}
   Effects: []
   CraftRequirements: []
+  ConstructionPrefab: {fileID: 0}
+  PreviewPrefab: {fileID: 0}

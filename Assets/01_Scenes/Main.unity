@@ -7619,8 +7619,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8208a2fbfce09e45b79e718b45a7947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerModeSystem: {fileID: 1066139493}
+  tileIndicationSystem: {fileID: 2129864976}
   mainCamera: {fileID: 519420031}
-  tileIndicator: {fileID: 1449939118}
   PointerInWorld: {x: 0, y: 0}
   Location: {x: 0, y: 0}
 --- !u!1001 &370990081
@@ -20249,6 +20250,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5097fc55d0406bc43b352b651b66d92e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1066139491
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1066139492}
+  - component: {fileID: 1066139493}
+  m_Layer: 0
+  m_Name: Player Mode System
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1066139492
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066139491}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1442482576}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1066139493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066139491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc18e927de78ad84aa3a75ed162f8411, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentMode: 0
 --- !u!1 &1076272049
 GameObject:
   m_ObjectHideFlags: 0
@@ -21991,7 +22037,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 820b49ec8e493714a873c438ae85d605, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  constructionSystem: {fileID: 2039568308}
   inventoryView: {fileID: 1298637638}
+  itemInformationView: {fileID: 275453705}
 --- !u!1 &1172870093
 GameObject:
   m_ObjectHideFlags: 0
@@ -22880,11 +22928,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6c327650ff3c46b4b9e6124ace683327, type: 2}
   - {fileID: 11400000, guid: bc45410884b7bdf46b58d322f90dfa75, type: 2}
   - {fileID: 11400000, guid: 2d73aa1d559fc86408bb7ed86a1ced19, type: 2}
+  - {fileID: 11400000, guid: 120205663d37d4447b1fde18999b0597, type: 2}
   CraftableItemIds:
   - wooden-axe
   - stone-axe
   - iron-axe
   - torchlight
+  - campfire
   RewardDataArray:
   - {fileID: 11400000, guid: 8511626d03be75c44b3159cc66fdfa2b, type: 2}
   - {fileID: 11400000, guid: fac75dbe4c9329642911f5c73b23491b, type: 2}
@@ -26960,6 +27010,9 @@ Transform:
   - {fileID: 228230892}
   - {fileID: 1000329799}
   - {fileID: 1047306806}
+  - {fileID: 1066139492}
+  - {fileID: 2039568307}
+  - {fileID: 2129864975}
   m_Father: {fileID: 2027443432}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1449939117 stripped
@@ -34246,6 +34299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e249d29bf6a0de4d9093852a68b98c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerModeSystem: {fileID: 1066139493}
   terrainTransform: {fileID: 1256633606}
   fogTransform: {fileID: 957022465}
   fogPrefab: {fileID: 8482595740769873763, guid: 51953b80539729942a0b9b995d1d1955, type: 3}
@@ -34254,9 +34308,11 @@ MonoBehaviour:
   fieldObjectSpawner: {fileID: 212219396}
   objectSpawnSystem: {fileID: 1944477075}
   environmentSpawnSystem: {fileID: 1001290271}
+  constructionSystem: {fileID: 2039568308}
   timeSystem: {fileID: 359114066}
   rewardSystem: {fileID: 228230893}
   tileInteractionSystem: {fileID: 370500480}
+  tileIndicationSystem: {fileID: 2129864976}
   missionSystem: {fileID: 1281474505}
   skillSystem: {fileID: 118102494}
   itemCollectSystem: {fileID: 1864664703}
@@ -38583,6 +38639,56 @@ MonoBehaviour:
             m_StringArgument: mouse-click
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!1 &2039568306
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2039568307}
+  - component: {fileID: 2039568308}
+  m_Layer: 0
+  m_Name: Construction System
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2039568307
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2039568306}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1442482576}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2039568308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2039568306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d73359621cbe08e47824a5e3bba674a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerModeSystem: {fileID: 1066139493}
+  tileIndicationSystem: {fileID: 2129864976}
+  fieldObjectSpawner: {fileID: 212219396}
+  tileInteractionSystem: {fileID: 370500480}
+  inventorySystem: {fileID: 1166281979}
+  mainCamera: {fileID: 519420031}
 --- !u!1 &2047711979
 GameObject:
   m_ObjectHideFlags: 0
@@ -40041,6 +40147,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2121095105}
   m_CullTransparentMesh: 1
+--- !u!1 &2129864974
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2129864975}
+  - component: {fileID: 2129864976}
+  m_Layer: 0
+  m_Name: Tile Indication System
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2129864975
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2129864974}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1442482576}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2129864976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2129864974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6b168397282a346aa6326b7f500ee1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileIndicator: {fileID: 1449939118}
 --- !u!1001 &2137017942
 PrefabInstance:
   m_ObjectHideFlags: 0

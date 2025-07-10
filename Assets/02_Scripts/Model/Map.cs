@@ -26,5 +26,11 @@ namespace Afterlife.Model
             Field.Set(to, @object);
             Fog.Invalidate();
         }
+
+        public Vector2Int GetTileLocationByScreenPosition(Vector2 pointerInScreen, Camera camera)
+        {
+            var pointerInWorld = camera.ScreenToWorldPoint(pointerInScreen);
+            return Vector2Int.FloorToInt(pointerInWorld);
+        }
     }
 }

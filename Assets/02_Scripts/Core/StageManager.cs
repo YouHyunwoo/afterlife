@@ -6,6 +6,9 @@ namespace Afterlife.Core
 {
     public class StageManager : MonoBehaviour
     {
+        [Header("Player")]
+        [SerializeField] PlayerModeSystem playerModeSystem;
+
         [Header("Terrain")]
         [SerializeField] Transform terrainTransform;
 
@@ -19,13 +22,15 @@ namespace Afterlife.Core
         [SerializeField] FieldObjectSpawner fieldObjectSpawner;
         [SerializeField] ObjectSpawnSystem objectSpawnSystem;
         [SerializeField] EnvironmentSpawnSystem environmentSpawnSystem;
+        [SerializeField] ConstructionSystem constructionSystem;
 
         [Header("Time")]
         [SerializeField] TimeSystem timeSystem;
         [SerializeField] RewardSystem rewardSystem;
 
-        [Header("Tile Interaction")]
+        [Header("Tile")]
         [SerializeField] TileInteractionSystem tileInteractionSystem;
+        [SerializeField] TileIndicationSystem tileIndicationSystem;
 
         [Header("Mission")]
         [SerializeField] MissionSystem missionSystem;
@@ -72,6 +77,9 @@ namespace Afterlife.Core
             ServiceLocator.Register(rewardSystem);
             ServiceLocator.Register(equipmentSystem);
             ServiceLocator.Register(cameraSystem);
+            ServiceLocator.Register(playerModeSystem);
+            ServiceLocator.Register(constructionSystem);
+            ServiceLocator.Register(tileIndicationSystem);
 
             timeSystem.SetUp();
             tileInteractionSystem.SetUp();
@@ -86,6 +94,9 @@ namespace Afterlife.Core
             rewardSystem.SetUp();
             equipmentSystem.SetUp();
             cameraSystem.SetUp();
+            playerModeSystem.SetUp();
+            constructionSystem.SetUp();
+            tileIndicationSystem.SetUp();
 
             Stage.Map.Fog.Update();
         }
@@ -302,6 +313,9 @@ namespace Afterlife.Core
             var stageScreen = ServiceLocator.Get<UIManager>().InGameScreen as UI.Stage.Screen;
             stageScreen.MenuView.Hide();
 
+            tileIndicationSystem.TearDown();
+            constructionSystem.TearDown();
+            playerModeSystem.TearDown();
             cameraSystem.TearDown();
             equipmentSystem.TearDown();
             rewardSystem.TearDown();
@@ -316,6 +330,9 @@ namespace Afterlife.Core
             tileInteractionSystem.TearDown();
             timeSystem.TearDown();
 
+            ServiceLocator.Unregister<TileIndicationSystem>();
+            ServiceLocator.Unregister<ConstructionSystem>();
+            ServiceLocator.Unregister<PlayerModeSystem>();
             ServiceLocator.Unregister<CameraSystem>();
             ServiceLocator.Unregister<EquipmentSystem>();
             ServiceLocator.Unregister<RewardSystem>();
