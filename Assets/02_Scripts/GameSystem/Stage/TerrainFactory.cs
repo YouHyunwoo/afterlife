@@ -14,26 +14,6 @@ namespace Afterlife.GameSystem.Stage
                 TransformGrid = new Transform[mapSize.x, mapSize.y]
             };
 
-            for (int y = 0; y < mapSize.y; y++)
-            {
-                for (int x = 0; x < mapSize.x; x++)
-                {
-                    var tileIndex = 1;
-                    terrain.TerrainGrid[x, y] = tileIndex;
-                    terrain.PassableGrid[x, y] = true;
-                }
-            }
-
-            for (int i = 0; i < 10; i++)
-            {
-                var x = Random.Range(0, mapSize.x);
-                var y = Random.Range(0, mapSize.y);
-
-                var tileIndex = 3;
-                terrain.TerrainGrid[x, y] = tileIndex;
-                terrain.PassableGrid[x, y] = terrainData.Passables[tileIndex];
-            }
-
             return terrain;
         }
     }
