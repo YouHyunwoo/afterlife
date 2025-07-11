@@ -13,6 +13,15 @@ MonoBehaviour:
   m_Name: 3 3
   m_EditorClassIdentifier: 
   ValueMultiplier: 6.5
+  AlwaysObjectSpawn:
+    SpawnInterval: 1
+    PrefabWeightGroups:
+    - Prefab: {fileID: 0}
+      Weight: 2
+    - Prefab: {fileID: 6119026036536104667, guid: 63a52fd7cd96e674c818ff1c7431cb47, type: 3}
+      Weight: 1
+    - Prefab: {fileID: 6365514331638055027, guid: eb1f3c03538454a48874b7fded84a8b7, type: 3}
+      Weight: 1
   DayDuration: 20
   DayObjectSpawn:
     SpawnInterval: 0.5
@@ -37,6 +46,4 @@ MonoBehaviour:
       Weight: 0.5
     - Prefab: {fileID: 4512169632169521353, guid: 21c7b8a22c956b847a342155becb747a, type: 3}
       Weight: 1.5
-  MaxResourceCount: 0
-  ResourceGenerationProbability: 0
-  ResourceObjectSpawnInterval: 0
+  MaxResourceCount: 800

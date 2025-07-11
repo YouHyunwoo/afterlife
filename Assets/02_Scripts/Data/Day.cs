@@ -9,6 +9,9 @@ namespace Afterlife.Data
         [Header("Difficulty")]
         public float ValueMultiplier = 1f;
 
+        [Header("Always")]
+        public ObjectSpawn AlwaysObjectSpawn;
+
         [Header("Day")]
         public float DayDuration;
         public ObjectSpawn DayObjectSpawn;
@@ -19,9 +22,6 @@ namespace Afterlife.Data
 
         [Header("Resources")]
         public int MaxResourceCount;
-        [Range(0f, 1f)]
-        public float ResourceGenerationProbability;
-        public float ResourceObjectSpawnInterval;
 
         // Events
         // Rewards

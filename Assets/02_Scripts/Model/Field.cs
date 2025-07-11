@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Afterlife.Model
@@ -52,6 +53,22 @@ namespace Afterlife.Model
         public Transform Get(int x, int y) => TransformGrid[x, y];
 
         public int GetEmptyCount() => Size.x * Size.y - Count;
+
+        public int GetObjectCountWithCondition(Func<View.Object, bool> condition)
+        {
+            int count = 0;
+            for (int x = 0; x < Size.x; x++)
+            {
+                for (int y = 0; y < Size.y; y++)
+                {
+                    if (TransformGrid[x, y] != null && condition(TransformGrid[x, y].GetComponent<View.Object>()))
+                    {
+                        count++;
+                    }
+                }
+            }
+            return count;
+        }
 
         public void OnFogUpdated(float[,] fogGrid)
         {
