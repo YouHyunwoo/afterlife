@@ -22931,6 +22931,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 120205663d37d4447b1fde18999b0597, type: 2}
   - {fileID: 11400000, guid: 1a3a45a95e271d84f98535f2dd598095, type: 2}
   - {fileID: 11400000, guid: 7337a7e82af6e87418a48c5199a65b58, type: 2}
+  - {fileID: 11400000, guid: fb2c2a9c4539d0c44828300d8724826e, type: 2}
   CraftableItemIds:
   - wooden-axe
   - stone-axe
@@ -22939,6 +22940,7 @@ MonoBehaviour:
   - campfire
   - fire-altar
   - thunder-altar
+  - wall
   RewardDataArray:
   - {fileID: 11400000, guid: 8511626d03be75c44b3159cc66fdfa2b, type: 2}
   - {fileID: 11400000, guid: fac75dbe4c9329642911f5c73b23491b, type: 2}

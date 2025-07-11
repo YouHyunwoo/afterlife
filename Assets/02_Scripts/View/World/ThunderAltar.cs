@@ -14,6 +14,13 @@ namespace Afterlife.View
         [SerializeField] float attackInterval;
         [SerializeField] string Tag;
 
+        [Header("Interaction")]
+        [SerializeField] string requiredItemName;
+        [SerializeField] int requiredItemAmount;
+
+        [Header("Upgrade Information")]
+        [SerializeField] UpgradeInformation[] upgradeInformation;
+
         Model.Light sight;
         float elapsedTime;
 
@@ -31,6 +38,8 @@ namespace Afterlife.View
             var map = ServiceLocator.Get<StageManager>().Stage.Map;
             map.Fog.AddLight(sight);
             map.Fog.Invalidate();
+
+            elapsedTime = attackInterval;
         }
 
         void Update()
@@ -41,7 +50,7 @@ namespace Afterlife.View
             elapsedTime = 0f;
 
             var map = ServiceLocator.Get<StageManager>().Stage.Map;
-            var enemies = map.FindObjectsWithCondition(o => o is Monster && o.IsAlive && o.CompareTag(Tag));
+            var enemies = map.FindObjectsWithCondition(o => o.IsAlive && o.CompareTag(Tag));
             var minDistance = float.MaxValue;
             var closestEnemy = (Object)null;
             foreach (var enemy in enemies)
@@ -71,6 +80,47 @@ namespace Afterlife.View
             targetObject.TakeDamage(attackDamage, this);
             ServiceLocator.Get<EffectManager>().PlayGFX("Thunder", targetTransform.position);
             ServiceLocator.Get<AudioManager>().PlaySFX("thunder");
+        }
+
+        public override void Interact(Model.Player player)
+        {
+            if (!player.Inventory.ContainsKey(requiredItemName)) { return; }
+
+            if (player.Inventory[requiredItemName] < requiredItemAmount) { return; }
+
+            player.Inventory[requiredItemName] -= requiredItemAmount;
+            if (player.Inventory[requiredItemName] <= 0)
+            {
+                player.Inventory.Remove(requiredItemName);
+            }
+
+            Value += 1f;
+            RefreshValue();
+            UpdateStatistics();
+
+            base.Interact(player);
+        }
+
+        public override void TakeDamage(float damage, Object attacker)
+        {
+            base.TakeDamage(damage, attacker);
+            if (!IsAlive) { return; }
+            UpdateStatistics();
+        }
+
+        void UpdateStatistics()
+        {
+            for (var i = upgradeInformation.Length - 1; i >= 0; i--)
+            {
+                if (Value < upgradeInformation[i].Value) { continue; }
+
+                sight.Intensity = upgradeInformation[i].LightIntensity;
+                sight.Range = upgradeInformation[i].LightRange;
+                attackDamage = upgradeInformation[i].AttackDamage;
+                attackRange = upgradeInformation[i].AttackRange;
+                attackInterval = upgradeInformation[i].AttackInterval;
+                break;
+            }
         }
 
         public override void Die()

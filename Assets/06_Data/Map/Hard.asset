@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65146e39ac7a065459360d198c2e5fd5, type: 3}
-  m_Name: Normal
+  m_Name: Hard
   m_EditorClassIdentifier: 
-  Size: {x: 50, y: 50}
+  Size: {x: 100, y: 100}
   TerrainData: {fileID: 11400000, guid: 51dd41db750b9b64b909701332a9d19c, type: 2}
-  FieldData: {fileID: 11400000, guid: 155a8a52bd251f246a8c1450d7000459, type: 2}
+  FieldData: {fileID: 11400000, guid: 52c7de3f141ef8144b2e497515a9e07c, type: 2}
   GenerationFrequency: 0.1
   GenerationOctaves: 1
-  GenerationRadius: 45
+  GenerationRadius: 80
   GenerationScale: 2.5
   GenerationHeightThreshold: 0.04

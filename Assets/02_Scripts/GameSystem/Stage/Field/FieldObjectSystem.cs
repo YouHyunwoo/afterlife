@@ -1,3 +1,4 @@
+using System;
 using Afterlife.Core;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ namespace Afterlife.GameSystem.Stage.Field
     public class FieldObjectSystem : SystemBase
     {
         [SerializeField] Transform fieldTransform;
+
+        public event Action<View.Object> OnObjectSpawnedEvent;
 
         Model.Map map;
 
@@ -28,21 +31,23 @@ namespace Afterlife.GameSystem.Stage.Field
 
             if (instance.TryGetComponent(out View.Object @object))
             {
-                @object.OnDiedEvent += OnDiedEvent;
+                @object.OnDiedEvent += OnDied;
 
                 map.Field.Set(location, instance.transform);
                 map.Fog.Invalidate();
+
+                OnObjectSpawnedEvent?.Invoke(@object);
             }
 
             return instance;
         }
 
-        void OnDiedEvent(View.Object attacker, View.Object @object)
+        void OnDied(View.Object attacker, View.Object @object)
         {
             var location = Vector2Int.FloorToInt(@object.transform.position);
             map.Field.Set(location, null);
 
-            @object.OnDiedEvent -= OnDiedEvent;
+            @object.OnDiedEvent -= OnDied;
         }
     }
 }

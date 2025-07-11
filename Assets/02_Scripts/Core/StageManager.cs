@@ -59,6 +59,7 @@ namespace Afterlife.Core
             // timeSystem.OnDayChangedEvent += rewardSystem.OnDayChanged;
             missionSystem.OnMissionSuccessEvent += OnMissionSuccessed;
             missionSystem.OnMissionFailedEvent += OnMissionFailed;
+            fieldObjectSystem.OnObjectSpawnedEvent += missionSystem.OnObjectSpawned;
             objectSpawnSystem.OnObjectSpawnedEvent += missionSystem.OnObjectSpawned;
 
             ServiceLocator.Register(timeSystem);
@@ -241,18 +242,6 @@ namespace Afterlife.Core
                     Debug.LogError($"Village prefab {villagePrefab.name} does not have a Village component.");
                     continue;
                 }
-
-                village.Value = 10;
-
-                var villageLight = new Model.Light
-                {
-                    Location = location,
-                    Intensity = 1f,
-                    Range = 5f,
-                };
-
-                Stage.Map.Fog.AddLight(villageLight);
-                Stage.Map.Field.Set(location, fieldObject.transform);
             }
         }
 
@@ -279,8 +268,6 @@ namespace Afterlife.Core
                     resource.Value = Random.Range(resourceObjectGroup.MinHealth, resourceObjectGroup.MaxHealth + 1);
                     resource.Type = resourceObjectGroup.Name;
                     resource.Amount = Random.Range(resourceObjectGroup.MinAmount, resourceObjectGroup.MaxAmount + 1);
-
-                    Stage.Map.Field.Set(location, fieldObject.transform);
                 }
             }
         }
@@ -409,6 +396,7 @@ namespace Afterlife.Core
             timeSystem.OnDayChangedEvent -= rewardSystem.OnDayChanged;
             missionSystem.OnMissionSuccessEvent -= OnMissionSuccessed;
             missionSystem.OnMissionFailedEvent -= OnMissionFailed;
+            fieldObjectSystem.OnObjectSpawnedEvent -= missionSystem.OnObjectSpawned;
             objectSpawnSystem.OnObjectSpawnedEvent -= missionSystem.OnObjectSpawned;
 
             TearDownPlayer();

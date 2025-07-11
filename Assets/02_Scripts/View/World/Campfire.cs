@@ -10,6 +10,10 @@ namespace Afterlife.View
         [SerializeField] float intensity;
         [SerializeField] float range;
 
+        [Header("Interaction")]
+        [SerializeField] string requiredItemName;
+        [SerializeField] int requiredItemAmount;
+
         Model.Light sight;
 
         protected override void Start()
@@ -42,13 +46,14 @@ namespace Afterlife.View
 
         public override void Interact(Model.Player player)
         {
-            if (!player.Inventory.ContainsKey("wood")) { return; }
-            if (player.Inventory["wood"] <= 0) { return; }
+            if (!player.Inventory.ContainsKey(requiredItemName)) { return; }
 
-            player.Inventory["wood"]--;
-            if (player.Inventory["wood"] <= 0)
+            if (player.Inventory[requiredItemName] < requiredItemAmount) { return; }
+
+            player.Inventory[requiredItemName] -= requiredItemAmount;
+            if (player.Inventory[requiredItemName] <= 0)
             {
-                player.Inventory.Remove("wood");
+                player.Inventory.Remove(requiredItemName);
             }
 
             Value += 1f;

@@ -77,17 +77,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: -7170346349030226390}
   m_SourcePrefab: {fileID: 100100000, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
---- !u!114 &779031768153131158 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8717564555270789615, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
-  m_PrefabInstance: {fileID: 8229395394123043193}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4135642791990732722 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5426959284589278923, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
@@ -105,7 +94,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4274202b5d304844b78880340457e2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 779031768153131158}
-  Value: 0
+  Value: 10
   OriginalValue: 0
   IsAlive: 0
+  intensity: 1
+  range: 5

@@ -534,6 +534,14 @@
                 {
                     "id": "item.campfire.description",
                     "text": "Provides light for a limited time. Interact with it to extend its duration by consuming 1 wood."
+                },
+                {
+                    "id": "item.wall.name",
+                    "text": "Wall"
+                },
+                {
+                    "id": "item.wall.description",
+                    "text": "A sturdy wall built from stone. You can increase its durability by interacting with it and spending stone."
                 }
             ]
         },
@@ -1071,6 +1079,14 @@
                 {
                     "id": "item.campfire.description",
                     "text": "일정 시간동안 주변을 밝혀주는 구조물입니다. 상호작용 시 목재를 하나 소모하여 시간을 늘일 수 있습니다."
+                },
+                {
+                    "id": "item.wall.name",
+                    "text": "벽"
+                },
+                {
+                    "id": "item.wall.description",
+                    "text": "돌로 만든 벽입니다. 상호작용 시 돌을 소모하여 내구성을 올릴 수 있습니다."
                 }
             ]
         }

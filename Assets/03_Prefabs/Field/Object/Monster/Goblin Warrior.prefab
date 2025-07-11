@@ -52,6 +52,38 @@ PrefabInstance:
       propertyPath: DetectingRange
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 5694836025865611516, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
+      propertyPath: ItemDropGroups.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5694836025865611516, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
+      propertyPath: ItemDropGroups.Array.data[2].Id
+      value: iron
+      objectReference: {fileID: 0}
+    - target: {fileID: 5694836025865611516, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
+      propertyPath: ItemDropGroups.Array.data[3].Id
+      value: dagger
+      objectReference: {fileID: 0}
+    - target: {fileID: 5694836025865611516, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
+      propertyPath: ItemDropGroups.Array.data[1].Amount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5694836025865611516, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
+      propertyPath: ItemDropGroups.Array.data[2].Amount
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5694836025865611516, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
+      propertyPath: ItemDropGroups.Array.data[3].Amount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5694836025865611516, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
+      propertyPath: ItemDropGroups.Array.data[2].DropRate
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5694836025865611516, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
+      propertyPath: ItemDropGroups.Array.data[3].DropRate
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 7831096985963430261, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
       propertyPath: m_Controller
       value: 

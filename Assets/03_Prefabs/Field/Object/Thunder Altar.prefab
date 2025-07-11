@@ -115,3 +115,27 @@ MonoBehaviour:
   attackRange: 5
   attackInterval: 3
   Tag: Monster
+  requiredItemName: iron
+  requiredItemAmount: 1
+  upgradeInformation:
+  - Value: 0
+    LightIntensity: 2
+    LightRange: 5
+    AttackDamage: 20
+    AttackRange: 5
+    AttackInterval: 3
+    ProjectileSpeed: 0
+  - Value: 70
+    LightIntensity: 3
+    LightRange: 6
+    AttackDamage: 50
+    AttackRange: 6
+    AttackInterval: 2
+    ProjectileSpeed: 0
+  - Value: 100
+    LightIntensity: 3
+    LightRange: 8
+    AttackDamage: 100
+    AttackRange: 8
+    AttackInterval: 1
+    ProjectileSpeed: 0

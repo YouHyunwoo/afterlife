@@ -19,23 +19,21 @@ namespace Afterlife.GameSystem.Stage
             monsterSet = new();
             villageSet = new();
 
-            var monsters = GameObject.FindObjectsByType<View.Monster>(FindObjectsSortMode.None);
-            foreach (var monster in monsters)
-            {
-                monsterSet.Add(monster);
-                monster.OnDiedEvent += OnObjectDied;
-            }
-
-            var villages = GameObject.FindObjectsByType<View.Village>(FindObjectsSortMode.None);
-            foreach (var village in villages)
-            {
-                villageSet.Add(village);
-                village.OnDiedEvent += OnObjectDied;
-            }
-
             isTargetDayReached = false;
 
             enabled = true;
+        }
+
+        public override void TearDown()
+        {
+            enabled = false;
+
+            isTargetDayReached = false;
+
+            monsterSet.Clear();
+            monsterSet = null;
+            villageSet.Clear();
+            villageSet = null;
         }
 
         public void OnDayChanged(int day)
@@ -60,6 +58,8 @@ namespace Afterlife.GameSystem.Stage
 
         void OnObjectDied(View.Object attacker, View.Object @object)
         {
+            if (!enabled) { return; }
+
             if (@object is View.Monster monster)
             {
                 OnMonsterDied(monster);
@@ -76,7 +76,6 @@ namespace Afterlife.GameSystem.Stage
 
         void OnMonsterDied(View.Monster monster)
         {
-            // TODO: 몬스터가 가진 경험치 획득
             monsterSet.Remove(monster);
             monster.OnDiedEvent -= OnObjectDied;
 
@@ -116,18 +115,11 @@ namespace Afterlife.GameSystem.Stage
                 monsterSet.Add(@object);
                 @object.OnDiedEvent += OnObjectDied;
             }
-        }
-
-        public override void TearDown()
-        {
-            enabled = false;
-
-            isTargetDayReached = false;
-
-            monsterSet.Clear();
-            monsterSet = null;
-            villageSet.Clear();
-            villageSet = null;
+            else if (@object is View.Village village)
+            {
+                villageSet.Add(village);
+                village.OnDiedEvent += OnObjectDied;
+            }
         }
     }
 }

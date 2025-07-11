@@ -107,9 +107,40 @@ MonoBehaviour:
   IsAlive: 0
   intensity: 1
   range: 3
-  attackDamage: 5
+  attackDamage: 10
   attackRange: 3
   attackInterval: 2
   projectileSpeed: 1.5
   ProjectilePrefab: {fileID: 4054185930266275010, guid: 626b67ef4a4a32a43a7e8414fa86aa79, type: 3}
   Tag: Monster
+  requiredItemName: wood
+  requiredItemAmount: 5
+  upgradeInformation:
+  - Value: 0
+    LightIntensity: 1
+    LightRange: 3
+    AttackDamage: 5
+    AttackRange: 3
+    AttackInterval: 2
+    ProjectileSpeed: 1.5
+  - Value: 50
+    LightIntensity: 2
+    LightRange: 4
+    AttackDamage: 15
+    AttackRange: 4
+    AttackInterval: 1.5
+    ProjectileSpeed: 1.5
+  - Value: 100
+    LightIntensity: 3
+    LightRange: 5
+    AttackDamage: 30
+    AttackRange: 5
+    AttackInterval: 1
+    ProjectileSpeed: 2
+  - Value: 200
+    LightIntensity: 4
+    LightRange: 10
+    AttackDamage: 50
+    AttackRange: 10
+    AttackInterval: 0.5
+    ProjectileSpeed: 4

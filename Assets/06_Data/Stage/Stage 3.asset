@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68d74e4499a8b354596609ff2ae728f8, type: 3}
   m_Name: Stage 3
   m_EditorClassIdentifier: 
-  MapData: {fileID: 11400000, guid: 8f15043d182dd574582223cffcde3040, type: 2}
+  MapData: {fileID: 11400000, guid: 3a8d53ca26fc9b04caea5ea871499dfb, type: 2}
   DayDataArray:
   - {fileID: 11400000, guid: cd50ce23017dd59459bbe7cc10c7c5b9, type: 2}
   - {fileID: 11400000, guid: 1e03533572aa255438dc026a8c9dd2ac, type: 2}
