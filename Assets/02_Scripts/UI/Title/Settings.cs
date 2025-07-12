@@ -27,5 +27,9 @@ namespace Afterlife.UI.Title
         void OnBGMVolumeChanged(float value) => OnBGMVolumeChangedEvent?.Invoke(value);
         void OnSFXVolumeChanged(float value) => OnSFXVolumeChangedEvent?.Invoke(value);
         void OnLanguageButtonClicked() => OnLanguageButtonClickedEvent?.Invoke();
+
+        public void SetMasterVolume(float volume) => MasterVolumeSlider.value = volume;
+        public void SetBGMVolume(float volume) => BGMVolumeSlider.value = volume;
+        public void SetSFXVolume(float volume) => SFXVolumeSlider.value = volume;
     }
 }

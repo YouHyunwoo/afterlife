@@ -37,17 +37,17 @@ namespace Afterlife.Core
 
         public void SetMasterVolume(float volume)
         {
-            audioMixer.SetFloat("Master", Mathf.Log10(volume) * 20);
+            audioMixer.SetFloat("Master", Mathf.Log10(Mathf.Clamp(volume, 0.0001f, 1f)) * 20);
         }
 
         public void SetBGMVolume(float volume)
         {
-            audioMixer.SetFloat("BGM", Mathf.Log10(volume) * 20);
+            audioMixer.SetFloat("BGM", Mathf.Log10(Mathf.Clamp(volume, 0.0001f, 1f)) * 20);
         }
 
         public void SetSFXVolume(float volume)
         {
-            audioMixer.SetFloat("SFX", Mathf.Log10(volume) * 20);
+            audioMixer.SetFloat("SFX", Mathf.Log10(Mathf.Clamp(volume, 0.0001f, 1f)) * 20);
         }
 
         public void PlayBGM(SceneState state)
