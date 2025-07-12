@@ -98,8 +98,6 @@ namespace Afterlife.GameSystem.Stage.Field
             {
                 portal.OnObjectSpawnedEvent += OnObjectSpawnedEvent;
             }
-
-            OnObjectSpawnedEvent?.Invoke(@object);
         }
 
         public void OnDayChanged(int dayIndex)
