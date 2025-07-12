@@ -17,7 +17,10 @@ namespace Afterlife.UI.Stage
         {
             stageScreen.MenuView.Hide();
             stageScreen.SkillInformationView.Hide();
+            stageScreen.InventoryView.Hide();
             stageScreen.CraftView.Hide();
+            stageScreen.ItemInformationView.Hide();
+            stageScreen.SettingsView.Hide();
         }
 
         public override void SetUp()
