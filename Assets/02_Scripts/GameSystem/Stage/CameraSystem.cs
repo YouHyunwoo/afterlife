@@ -37,14 +37,14 @@ namespace Afterlife.GameSystem.Stage
             map = null;
         }
 
-        void OnSpecialPointerDown(Vector2 pointerInScreen)
+        void OnSpecialPointerDown(Vector2 pointerInScreen, Vector2 pointerInWorld, Vector2Int location)
         {
             dragStartPosition = pointerInScreen;
             initialCameraPosition = mainCamera.transform.position;
             isDragging = true;
         }
 
-        void OnPointerMove(Vector2 pointerInScreen)
+        void OnPointerMove(Vector2 pointerInScreen, Vector2 pointerInWorld, Vector2Int location)
         {
             if (isDragging)
             {
@@ -63,7 +63,7 @@ namespace Afterlife.GameSystem.Stage
             return mainCamera.ScreenToWorldPoint(pointerInScreen);
         }
 
-        void OnSpecialPointerUp(Vector2 pointerInScreen)
+        void OnSpecialPointerUp(Vector2 pointerInScreen, Vector2 pointerInWorld, Vector2Int location)
         {
             if (isDragging)
             {

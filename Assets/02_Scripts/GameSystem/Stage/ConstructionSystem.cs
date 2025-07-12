@@ -16,6 +16,7 @@ namespace Afterlife.GameSystem.Stage
         Model.Player player;
         Model.Map map;
 
+        Vector2Int constructionLocation;
         Data.Item itemData;
         GameObject constructionPrefab;
         GameObject previewPrefab;
@@ -54,12 +55,11 @@ namespace Afterlife.GameSystem.Stage
             }
         }
 
-        void OnPointerDown(Vector2 pointerInScreen)
+        void OnPointerDown(Vector2 pointerInScreen, Vector2 pointerInWorld, Vector2Int location)
         {
             if (!enabled) { return; }
             if (playerModeSystem.CurrentMode != EPlayerMode.Construction) { return; }
 
-            var location = map.GetTileLocationByScreenPosition(pointerInScreen, mainCamera);
             if (!map.IsAvailable(location)) { return; }
 
             fieldObjectSpawner.Spawn(constructionPrefab, location);
@@ -78,25 +78,23 @@ namespace Afterlife.GameSystem.Stage
             StopConstruction();
         }
 
-        void OnPointerMove(Vector2 pointerInScreen)
+        void OnPointerMove(Vector2 pointerInScreen, Vector2 pointerInWorld, Vector2Int location)
         {
             if (!enabled) { return; }
             if (playerModeSystem.CurrentMode != EPlayerMode.Construction) { return; }
 
-            var location = map.GetTileLocationByScreenPosition(pointerInScreen, mainCamera);
+            constructionLocation = location;
             previewPrefab.transform.position = (Vector2)location;
             tileIndicationSystem.SetColor(map.IsAvailable(location) ? Color.green : Color.red);
         }
 
         public void StartConstruction(Data.Item itemData, GameObject constructionPrefab, GameObject previewPrefab)
         {
-            var location = tileInteractionSystem.Location;
-
             this.itemData = itemData;
             this.constructionPrefab = constructionPrefab;
-            this.previewPrefab = Instantiate(previewPrefab, (Vector2)location, Quaternion.identity);
+            this.previewPrefab = Instantiate(previewPrefab, (Vector2)constructionLocation, Quaternion.identity);
 
-            tileIndicationSystem.SetColor(map.IsAvailable(location) ? Color.green : Color.red);
+            tileIndicationSystem.SetColor(map.IsAvailable(constructionLocation) ? Color.green : Color.red);
             playerModeSystem.SetMode(EPlayerMode.Construction);
         }
 

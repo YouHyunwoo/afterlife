@@ -39,7 +39,7 @@ namespace Afterlife.GameSystem.Stage
             }
         }
 
-        void ShowIndicatorOnce(Vector2 pointerInScreen)
+        void ShowIndicatorOnce(Vector2 pointerInScreen, Vector2 pointerInWorld, Vector2Int location)
         {
             tileIndicator.gameObject.SetActive(true);
             isIndicatorShownOnce = true;

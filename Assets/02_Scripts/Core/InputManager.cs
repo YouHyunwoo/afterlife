@@ -7,18 +7,21 @@ namespace Afterlife.Core
     public class InputManager : MonoBehaviour
     {
         [SerializeField] PlayerInput playerInput;
+        [SerializeField] Camera mainCamera;
 
         InputAction normalPointerButtonAction;
         InputAction pointerMoveAction;
         InputAction specialPointerButtonAction;
 
         public Vector2 PointerInScreen;
+        public Vector2 PointerInWorld;
+        public Vector2Int Location;
 
-        public event Action<Vector2> OnNormalPointerDownEvent;
-        public event Action<Vector2> OnNormalPointerUpEvent;
-        public event Action<Vector2> OnPointerMoveEvent;
-        public event Action<Vector2> OnSpecialPointerDownEvent;
-        public event Action<Vector2> OnSpecialPointerUpEvent;
+        public event Action<Vector2, Vector2, Vector2Int> OnNormalPointerDownEvent;
+        public event Action<Vector2, Vector2, Vector2Int> OnNormalPointerUpEvent;
+        public event Action<Vector2, Vector2, Vector2Int> OnPointerMoveEvent;
+        public event Action<Vector2, Vector2, Vector2Int> OnSpecialPointerDownEvent;
+        public event Action<Vector2, Vector2, Vector2Int> OnSpecialPointerUpEvent;
 
         void Awake()
         {
@@ -49,29 +52,32 @@ namespace Afterlife.Core
         {
             if (context.performed)
             {
-                OnNormalPointerDownEvent?.Invoke(PointerInScreen);
+                OnNormalPointerDownEvent?.Invoke(PointerInScreen, PointerInWorld, Location);
             }
             else if (context.canceled)
             {
-                OnNormalPointerUpEvent?.Invoke(PointerInScreen);
+                OnNormalPointerUpEvent?.Invoke(PointerInScreen, PointerInWorld, Location);
             }
         }
 
         void OnPointerMove(InputAction.CallbackContext context)
         {
             PointerInScreen = context.ReadValue<Vector2>();
-            OnPointerMoveEvent?.Invoke(PointerInScreen);
+            PointerInWorld = mainCamera.ScreenToWorldPoint(PointerInScreen);
+            Location = Vector2Int.FloorToInt(PointerInWorld);
+
+            OnPointerMoveEvent?.Invoke(PointerInScreen, PointerInWorld, Location);
         }
 
         void OnSpecialPointerButton(InputAction.CallbackContext context)
         {
             if (context.performed)
             {
-                OnSpecialPointerDownEvent?.Invoke(PointerInScreen);
+                OnSpecialPointerDownEvent?.Invoke(PointerInScreen, PointerInWorld, Location);
             }
             else if (context.canceled)
             {
-                OnSpecialPointerUpEvent?.Invoke(PointerInScreen);
+                OnSpecialPointerUpEvent?.Invoke(PointerInScreen, PointerInWorld, Location);
             }
         }
     }

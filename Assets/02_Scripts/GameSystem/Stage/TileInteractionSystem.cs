@@ -1,6 +1,7 @@
 using System.Collections;
 using Afterlife.Core;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Afterlife.GameSystem.Stage
 {
@@ -10,15 +11,20 @@ namespace Afterlife.GameSystem.Stage
         [SerializeField] TileIndicationSystem tileIndicationSystem;
         [SerializeField] Camera mainCamera;
 
-        public Vector2 PointerInWorld;
-        public Vector2Int Location;
-
         Model.Player player;
         Model.Map map;
 
-        Coroutine interactRoutine;
+        Coroutine interactionRoutine;
         bool isPointerDown;
         Vector2Int previousLocation;
+
+        bool pointerDownRequested;
+        Vector2Int pointerDownLocation;
+
+        bool pointerMoveRequested;
+        Vector2Int pointerMoveLocation;
+
+        bool pointerUpRequested;
 
         public override void SetUp()
         {
@@ -30,15 +36,19 @@ namespace Afterlife.GameSystem.Stage
             inputManager.OnNormalPointerUpEvent += OnPointerUp;
             inputManager.OnPointerMoveEvent += OnPointerMove;
 
+            pointerDownRequested = false;
+
             enabled = true;
         }
 
         public override void TearDown()
         {
             isPointerDown = false;
-            if (interactRoutine != null) { StopCoroutine(interactRoutine); interactRoutine = null; }
+            StopInteractionRoutine();
 
             enabled = false;
+
+            pointerDownRequested = false;
 
             var inputManager = ServiceLocator.Get<InputManager>();
             inputManager.OnNormalPointerDownEvent -= OnPointerDown;
@@ -49,20 +59,104 @@ namespace Afterlife.GameSystem.Stage
             map = null;
         }
 
-        void OnPointerDown(Vector2 pointerInScreen)
+        void OnPointerDown(Vector2 pointerInScreen, Vector2 pointerInWorld, Vector2Int location)
         {
             if (!enabled) { return; }
-            if (playerModeSystem.CurrentMode != EPlayerMode.Interaction) { return; }
-
-            PointerInWorld = ConvertToPointerInWorld(pointerInScreen);
-            Location = ConvertToLocation(PointerInWorld);
-
-            isPointerDown = true;
-            if (interactRoutine != null) { StopCoroutine(interactRoutine); interactRoutine = null; }
-            interactRoutine = StartCoroutine(InteractRoutine(Location));
+            RequestPointerDown(location);
         }
 
-        IEnumerator InteractRoutine(Vector2Int location)
+        void OnPointerMove(Vector2 pointerInScreen, Vector2 pointerInWorld, Vector2Int location)
+        {
+            if (!enabled) { return; }
+            RequestPointerMove(location);
+        }
+
+        void OnPointerUp(Vector2 pointerInScreen, Vector2 pointerInWorld, Vector2Int location)
+        {
+            if (!enabled) { return; }
+            RequestPointerUp();
+        }
+
+        void Update()
+        {
+            if (pointerDownRequested)
+            {
+                pointerDownRequested = false;
+                ProcessPointerDown();
+            }
+
+            if (pointerMoveRequested)
+            {
+                pointerMoveRequested = false;
+                ProcessPointerMove();
+            }
+
+            if (pointerUpRequested)
+            {
+                pointerUpRequested = false;
+                ProcessPointerUp();
+            }
+        }
+
+        void RequestPointerDown(Vector2Int location)
+        {
+            pointerDownLocation = location;
+            pointerDownRequested = true;
+        }
+
+        void ProcessPointerDown()
+        {
+            if (playerModeSystem.CurrentMode != EPlayerMode.Interaction) { return; }
+            if (EventSystem.current == null) { return; }
+            if (EventSystem.current.IsPointerOverGameObject()) { return; }
+
+            StopInteractionRoutine();
+            isPointerDown = true;
+            StartInteractionRoutine(pointerDownLocation);
+        }
+
+        void RequestPointerMove(Vector2Int location)
+        {
+            pointerMoveLocation = location;
+            pointerMoveRequested = true;
+        }
+
+        void ProcessPointerMove()
+        {
+            if (previousLocation == pointerMoveLocation) { return; }
+            previousLocation = pointerMoveLocation;
+
+            tileIndicationSystem.SetLocation(pointerMoveLocation);
+
+            player.Light.Location = pointerMoveLocation;
+            map.Fog.Invalidate();
+        }
+
+        void RequestPointerUp()
+        {
+            pointerUpRequested = true;
+        }
+
+        void ProcessPointerUp()
+        {
+            StopInteractionRoutine();
+            isPointerDown = false;
+        }
+
+        void StartInteractionRoutine(Vector2Int location)
+        {
+            if (interactionRoutine != null) { return; }
+            interactionRoutine = StartCoroutine(InteractionRoutine(location));
+        }
+
+        void StopInteractionRoutine()
+        {
+            if (interactionRoutine == null) { return; }
+            StopCoroutine(interactionRoutine);
+            interactionRoutine = null;
+        }
+
+        IEnumerator InteractionRoutine(Vector2Int location)
         {
             InteractByLocation(location);
             if (!enabled || !player.IsAutomationEnabled) { yield break; }
@@ -77,7 +171,7 @@ namespace Afterlife.GameSystem.Stage
                     waitTime = new WaitForSeconds(1f / player.AttackSpeed);
                 }
                 yield return waitTime;
-                InteractByLocation(Location);
+                InteractByLocation(location);
             }
         }
 
@@ -103,39 +197,6 @@ namespace Afterlife.GameSystem.Stage
                     }
                 }
             }
-        }
-
-        void OnPointerUp(Vector2 pointerInScreen)
-        {
-            if (!enabled) { return; }
-
-            isPointerDown = false;
-            if (interactRoutine != null) { StopCoroutine(interactRoutine); interactRoutine = null; }
-        }
-
-        void OnPointerMove(Vector2 pointerInScreen)
-        {
-            if (!enabled) { return; }
-
-            PointerInWorld = ConvertToPointerInWorld(pointerInScreen);
-            Location = ConvertToLocation(PointerInWorld);
-            if (previousLocation == Location) { return; }
-            previousLocation = Location;
-
-            tileIndicationSystem.SetLocation(Location);
-
-            player.Light.Location = Location;
-            map.Fog.Invalidate();
-        }
-
-        Vector2 ConvertToPointerInWorld(Vector2 pointerInScreen)
-        {
-            return mainCamera.ScreenToWorldPoint(pointerInScreen);
-        }
-
-        Vector2Int ConvertToLocation(Vector2 pointerInWorld)
-        {
-            return Vector2Int.FloorToInt(pointerInWorld);
         }
     }
 }
