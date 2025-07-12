@@ -16,6 +16,14 @@ namespace Afterlife.Core
                 ServiceLocator.Get<StageManager>().FailStage();
                 Debug.Log("[System] 스테이지 실패");
             }
+            else if (Input.GetKeyDown(KeyCode.F11))
+            {
+                Time.timeScale = Time.timeScale == 1f ? 5f : 1f;
+            }
+            else if (Input.GetKeyDown(KeyCode.F12))
+            {
+                ServiceLocator.Get<GameManager>().Game.Player.AttackPower = 9999;
+            }
         }
     }
 }
