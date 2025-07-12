@@ -84,6 +84,7 @@ namespace Afterlife.Core
             SetUpPlayer();
             Stage.Map.Fog.Invalidate();
 
+            isDispositionRequested = false;
             enabled = true;
         }
 
@@ -336,6 +337,7 @@ namespace Afterlife.Core
         void DisposeStage()
         {
             enabled = false;
+            isDispositionRequested = false;
 
             tileIndicationSystem.TearDown();
             constructionSystem.TearDown();
