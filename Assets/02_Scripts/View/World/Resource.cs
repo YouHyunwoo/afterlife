@@ -51,7 +51,7 @@ namespace Afterlife.View
 
         IEnumerator CollectByKillRoutine()
         {
-            var itemCollectSystem = ServiceLocator.Get<ItemCollectSystem>();
+            var itemCollectSystem = ServiceLocator.Get<StageManager>().itemCollectSystem;
 
             foreach (var itemDropGroup in ItemDropGroups)
             {
@@ -69,7 +69,7 @@ namespace Afterlife.View
 
         void CollectByInteraction(Model.Player player)
         {
-            var itemCollectSystem = ServiceLocator.Get<ItemCollectSystem>();
+            var itemCollectSystem = ServiceLocator.Get<StageManager>().itemCollectSystem;
 
             foreach (var itemDropGroup in ItemDropGroups)
             {

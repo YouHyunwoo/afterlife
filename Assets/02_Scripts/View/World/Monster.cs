@@ -255,7 +255,7 @@ namespace Afterlife.View
 
         IEnumerator CollectByKillRoutine()
         {
-            var itemCollectSystem = ServiceLocator.Get<ItemCollectSystem>();
+            var itemCollectSystem = ServiceLocator.Get<StageManager>().itemCollectSystem;
 
             foreach (var itemDropGroup in ItemDropGroups)
             {

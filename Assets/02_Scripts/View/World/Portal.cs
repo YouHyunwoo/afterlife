@@ -31,7 +31,7 @@ namespace Afterlife.View
         IEnumerator MonsterGenerationRoutine()
         {
             var stage = ServiceLocator.Get<StageManager>().Stage;
-            var fieldObjectSpawner = ServiceLocator.Get<FieldObjectSystem>();
+            var fieldObjectSystem = ServiceLocator.Get<StageManager>().fieldObjectSystem;
             var offsets = new Vector2Int[]
             {
                 new(-1, -1), new(-1, 0), new(-1, 1),
@@ -54,7 +54,7 @@ namespace Afterlife.View
                 var sampledPrefab = ObjectSpawn.Sample();
                 if (sampledPrefab == null) { continue; }
 
-                var spawnedGameObject = fieldObjectSpawner.Spawn(sampledPrefab, location);
+                var spawnedGameObject = fieldObjectSystem.Spawn(sampledPrefab, location);
                 var @object = spawnedGameObject.GetComponent<Object>();
 
                 OnObjectSpawnedEvent?.Invoke(@object);

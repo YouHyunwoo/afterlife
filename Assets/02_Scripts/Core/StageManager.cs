@@ -18,7 +18,7 @@ namespace Afterlife.Core
 
         [Header("Field")]
         [SerializeField] Transform fieldTransform;
-        [SerializeField] FieldObjectSystem fieldObjectSystem;
+        public FieldObjectSystem fieldObjectSystem;
         [SerializeField] ObjectSpawnSystem objectSpawnSystem;
         [SerializeField] EnvironmentSpawnSystem environmentSpawnSystem;
         [SerializeField] ConstructionSystem constructionSystem;
@@ -38,7 +38,7 @@ namespace Afterlife.Core
         [SerializeField] SkillSystem skillSystem;
 
         [Header("Item")]
-        [SerializeField] ItemCollectSystem itemCollectSystem;
+        public ItemCollectSystem itemCollectSystem;
         [SerializeField] ItemUsageSystem itemUsageSystem;
         [SerializeField] EquipmentSystem equipmentSystem;
         [SerializeField] CraftSystem craftSystem;
