@@ -22,6 +22,9 @@ namespace Afterlife.GameSystem.Stage
         GameObject constructionPrefab;
         GameObject previewPrefab;
 
+        bool pointerDownRequested;
+        Vector2Int pointerDownLocation;
+
         public override void SetUp()
         {
             player = ServiceLocator.Get<GameManager>().Game.Player;
@@ -46,26 +49,38 @@ namespace Afterlife.GameSystem.Stage
             map = null;
         }
 
-        void Update()
+        public void UpdateSystem()
         {
             if (playerModeSystem.CurrentMode != EPlayerMode.Construction) { return; }
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 StopConstruction();
+                return;
+            }
+
+            if (pointerDownRequested)
+            {
+                pointerDownRequested = false;
+                ProcessPointerDown();
             }
         }
 
-        void OnPointerDown(Vector2 pointerInScreen, Vector2 pointerInWorld, Vector2Int location)
+        void RequestPointerDown(Vector2Int location)
         {
-            if (!enabled) { return; }
+            pointerDownLocation = location;
+            pointerDownRequested = true;
+        }
+
+        void ProcessPointerDown()
+        {
             if (playerModeSystem.CurrentMode != EPlayerMode.Construction) { return; }
             if (EventSystem.current == null) { return; }
             if (EventSystem.current.IsPointerOverGameObject()) { return; }
 
-            if (!map.IsAvailable(location)) { return; }
+            if (!map.IsAvailable(pointerDownLocation)) { return; }
 
-            fieldObjectSpawner.Spawn(constructionPrefab, location);
+            fieldObjectSpawner.Spawn(constructionPrefab, pointerDownLocation);
 
             var inventory = player.Inventory;
             if (!inventory.HasItem(itemData.Id))
@@ -79,6 +94,12 @@ namespace Afterlife.GameSystem.Stage
             itemUsageSystem.RefreshInventoryView();
 
             StopConstruction();
+        }
+
+        void OnPointerDown(Vector2 pointerInScreen, Vector2 pointerInWorld, Vector2Int location)
+        {
+            if (!enabled) { return; }
+            RequestPointerDown(location);
         }
 
         void OnPointerMove(Vector2 pointerInScreen, Vector2 pointerInWorld, Vector2Int location)

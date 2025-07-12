@@ -77,7 +77,7 @@ namespace Afterlife.GameSystem.Stage
             RequestPointerUp();
         }
 
-        void Update()
+        public void UpdateSystem()
         {
             if (pointerDownRequested)
             {

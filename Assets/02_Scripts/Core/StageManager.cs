@@ -317,6 +317,12 @@ namespace Afterlife.Core
 
         public void EndStage() => RequestDispose();
 
+        void Update()
+        {
+            tileInteractionSystem.UpdateSystem();
+            constructionSystem.UpdateSystem();
+        }
+
         void LateUpdate()
         {
             if (isDispositionRequested)
@@ -336,6 +342,7 @@ namespace Afterlife.Core
 
         void DisposeStage()
         {
+            Debug.Log("[System] Disposing stage...");
             enabled = false;
             isDispositionRequested = false;
 
@@ -358,7 +365,7 @@ namespace Afterlife.Core
 
             timeSystem.OnDayChangedEvent -= missionSystem.OnDayChanged;
             timeSystem.OnDayChangedEvent -= objectSpawnSystem.OnDayChanged;
-            timeSystem.OnDayChangedEvent -= rewardSystem.OnDayChanged;
+            // timeSystem.OnDayChangedEvent -= rewardSystem.OnDayChanged;
             missionSystem.OnMissionSuccessEvent -= OnMissionSuccessed;
             missionSystem.OnMissionFailedEvent -= OnMissionFailed;
             fieldObjectSystem.OnObjectSpawnedEvent -= missionSystem.OnObjectSpawned;
