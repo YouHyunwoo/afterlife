@@ -1,6 +1,7 @@
 using Afterlife.Core;
 using Afterlife.GameSystem.Stage.Field;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Afterlife.GameSystem.Stage
 {
@@ -59,6 +60,8 @@ namespace Afterlife.GameSystem.Stage
         {
             if (!enabled) { return; }
             if (playerModeSystem.CurrentMode != EPlayerMode.Construction) { return; }
+            if (EventSystem.current == null) { return; }
+            if (EventSystem.current.IsPointerOverGameObject()) { return; }
 
             if (!map.IsAvailable(location)) { return; }
 

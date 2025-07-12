@@ -15,7 +15,6 @@ namespace Afterlife.Core
         [Header("Fog")]
         [SerializeField] Transform fogTransform;
         [SerializeField] Transform fogPrefab;
-        [SerializeField] FogSystem fogSystem;
 
         [Header("Field")]
         [SerializeField] Transform fieldTransform;
@@ -45,14 +44,16 @@ namespace Afterlife.Core
         [SerializeField] CraftSystem craftSystem;
 
         [Header("Camera")]
-        [SerializeField] Camera mainCamera;
         [SerializeField] CameraSystem cameraSystem;
 
         public Model.Stage Stage;
 
+        bool isDispositionRequested;
+
         public void StartStage()
         {
             CreateStage();
+            GenerateMap();
 
             timeSystem.OnDayChangedEvent += missionSystem.OnDayChanged;
             timeSystem.OnDayChangedEvent += objectSpawnSystem.OnDayChanged;
@@ -62,27 +63,8 @@ namespace Afterlife.Core
             fieldObjectSystem.OnObjectSpawnedEvent += missionSystem.OnObjectSpawned;
             objectSpawnSystem.OnObjectSpawnedEvent += missionSystem.OnObjectSpawned;
 
-            ServiceLocator.Register(timeSystem);
-            ServiceLocator.Register(tileInteractionSystem);
-            ServiceLocator.Register(fogSystem);
-            ServiceLocator.Register(missionSystem);
-            ServiceLocator.Register(fieldObjectSystem);
-            ServiceLocator.Register(objectSpawnSystem);
-            ServiceLocator.Register(skillSystem);
-            ServiceLocator.Register(environmentSpawnSystem);
-            ServiceLocator.Register(itemCollectSystem);
-            ServiceLocator.Register(itemUsageSystem);
-            ServiceLocator.Register(craftSystem);
-            ServiceLocator.Register(rewardSystem);
-            ServiceLocator.Register(equipmentSystem);
-            ServiceLocator.Register(cameraSystem);
-            ServiceLocator.Register(playerModeSystem);
-            ServiceLocator.Register(constructionSystem);
-            ServiceLocator.Register(tileIndicationSystem);
-
             timeSystem.SetUp();
             tileInteractionSystem.SetUp();
-            fogSystem.SetUp();
             missionSystem.SetUp();
             fieldObjectSystem.SetUp();
             objectSpawnSystem.SetUp();
@@ -101,6 +83,8 @@ namespace Afterlife.Core
             CreateObjectsForStage();
             SetUpPlayer();
             Stage.Map.Fog.Invalidate();
+
+            enabled = true;
         }
 
         void CreateStage()
@@ -108,8 +92,6 @@ namespace Afterlife.Core
             var game = ServiceLocator.Get<GameManager>().Game;
             var stageData = game.Data.StageDataArray[game.CurrentStageIndex];
             Stage = game.Stage = StageFactory.Create(stageData);
-
-            GenerateMap();
         }
 
         void GenerateMap()
@@ -279,13 +261,12 @@ namespace Afterlife.Core
 
             player.OnExperienceChanged += OnExperienceChanged;
             Stage.Map.Fog.Lights.Add(player.Light);
+        }
 
-            var mapSize = Stage.Map.Size;
-            var targetPosition = new Vector3(mapSize.x / 2f, mapSize.y / 2f, 0f)
-            {
-                z = mainCamera.transform.position.z
-            };
-            mainCamera.transform.position = targetPosition;
+        void OnExperienceChanged(float experience)
+        {
+            var stageScreen = ServiceLocator.Get<UIManager>().InGameScreen as UI.Stage.Screen;
+            stageScreen.ExperienceView.SetAmount(experience);
         }
 
         void OnMissionSuccessed() => SuccessStage();
@@ -333,27 +314,28 @@ namespace Afterlife.Core
             }
         }
 
-        void TearDownPlayer()
+        public void EndStage() => RequestDispose();
+
+        void LateUpdate()
         {
-            var game = ServiceLocator.Get<GameManager>().Game;
-            var player = game.Player;
-
-            player.OnExperienceChanged -= OnExperienceChanged;
-            Stage.Map.Fog.Lights.Remove(player.Light);
-
-            mainCamera.transform.position = new Vector3(0f, 0f, mainCamera.transform.position.z);
+            if (isDispositionRequested)
+            {
+                DisposeStage();
+            }
+            else
+            {
+                Stage.Map.Fog.Update();
+            }
         }
 
-        void OnExperienceChanged(float experience)
+        void RequestDispose()
         {
-            var stageScreen = ServiceLocator.Get<UIManager>().InGameScreen as UI.Stage.Screen;
-            stageScreen.ExperienceView.SetAmount(experience);
+            isDispositionRequested = true;
         }
 
-        public void EndStage()
+        void DisposeStage()
         {
-            var stageScreen = ServiceLocator.Get<UIManager>().InGameScreen as UI.Stage.Screen;
-            stageScreen.MenuView.Hide();
+            enabled = false;
 
             tileIndicationSystem.TearDown();
             constructionSystem.TearDown();
@@ -369,27 +351,8 @@ namespace Afterlife.Core
             objectSpawnSystem.TearDown();
             fieldObjectSystem.TearDown();
             missionSystem.TearDown();
-            fogSystem.TearDown();
             tileInteractionSystem.TearDown();
             timeSystem.TearDown();
-
-            ServiceLocator.Unregister<TileIndicationSystem>();
-            ServiceLocator.Unregister<ConstructionSystem>();
-            ServiceLocator.Unregister<PlayerModeSystem>();
-            ServiceLocator.Unregister<CameraSystem>();
-            ServiceLocator.Unregister<EquipmentSystem>();
-            ServiceLocator.Unregister<RewardSystem>();
-            ServiceLocator.Unregister<CraftSystem>();
-            ServiceLocator.Unregister<ItemUsageSystem>();
-            ServiceLocator.Unregister<ItemCollectSystem>();
-            ServiceLocator.Unregister<EnvironmentSpawnSystem>();
-            ServiceLocator.Unregister<SkillSystem>();
-            ServiceLocator.Unregister<FieldObjectSystem>();
-            ServiceLocator.Unregister<ObjectSpawnSystem>();
-            ServiceLocator.Unregister<MissionSystem>();
-            ServiceLocator.Unregister<FogSystem>();
-            ServiceLocator.Unregister<TileInteractionSystem>();
-            ServiceLocator.Unregister<TimeSystem>();
 
             timeSystem.OnDayChangedEvent -= missionSystem.OnDayChanged;
             timeSystem.OnDayChangedEvent -= objectSpawnSystem.OnDayChanged;
@@ -402,6 +365,15 @@ namespace Afterlife.Core
             TearDownPlayer();
             DeleteObjectsForStage();
             DeleteStage();
+        }
+
+        void TearDownPlayer()
+        {
+            var game = ServiceLocator.Get<GameManager>().Game;
+            var player = game.Player;
+
+            player.OnExperienceChanged -= OnExperienceChanged;
+            Stage.Map.Fog.Lights.Remove(player.Light);
         }
 
         void DeleteObjectsForStage()

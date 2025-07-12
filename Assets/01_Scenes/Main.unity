@@ -7622,8 +7622,6 @@ MonoBehaviour:
   playerModeSystem: {fileID: 1066139493}
   tileIndicationSystem: {fileID: 2129864976}
   mainCamera: {fileID: 519420031}
-  PointerInWorld: {x: 0, y: 0}
-  Location: {x: 0, y: 0}
 --- !u!1001 &370990081
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27008,7 +27006,6 @@ Transform:
   - {fileID: 2031802609}
   - {fileID: 359114065}
   - {fileID: 370500479}
-  - {fileID: 1540853843}
   - {fileID: 1281474504}
   - {fileID: 118102493}
   - {fileID: 1864664702}
@@ -28338,50 +28335,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1531775153}
   m_CullTransparentMesh: 1
---- !u!1 &1540853842
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1540853843}
-  - component: {fileID: 1540853844}
-  m_Layer: 0
-  m_Name: Fog System
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1540853843
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1540853842}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1442482576}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1540853844
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1540853842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e8f51bccce25b340bb24bed8a86c426, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1563104207
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34303,7 +34256,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1846648684}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e249d29bf6a0de4d9093852a68b98c8, type: 3}
   m_Name: 
@@ -34312,7 +34265,6 @@ MonoBehaviour:
   terrainTransform: {fileID: 1256633606}
   fogTransform: {fileID: 957022465}
   fogPrefab: {fileID: 8482595740769873763, guid: 51953b80539729942a0b9b995d1d1955, type: 3}
-  fogSystem: {fileID: 1540853844}
   fieldTransform: {fileID: 661714298}
   fieldObjectSystem: {fileID: 212219396}
   objectSpawnSystem: {fileID: 1944477075}
@@ -34328,7 +34280,6 @@ MonoBehaviour:
   itemUsageSystem: {fileID: 1166281979}
   equipmentSystem: {fileID: 1000329800}
   craftSystem: {fileID: 1486662228}
-  mainCamera: {fileID: 519420031}
   cameraSystem: {fileID: 1047306807}
   Stage:
     Data: {fileID: 0}
@@ -35911,7 +35862,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerInput: {fileID: 1900353403}
+  mainCamera: {fileID: 519420031}
   PointerInScreen: {x: 0, y: 0}
+  PointerInWorld: {x: 0, y: 0}
+  Location: {x: 0, y: 0}
 --- !u!4 &1900353405
 Transform:
   m_ObjectHideFlags: 0

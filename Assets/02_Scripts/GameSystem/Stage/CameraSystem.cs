@@ -22,12 +22,21 @@ namespace Afterlife.GameSystem.Stage
             inputManager.OnPointerMoveEvent += OnPointerMove;
             inputManager.OnSpecialPointerUpEvent += OnSpecialPointerUp;
 
+            var mapSize = map.Size;
+            var targetPosition = new Vector3(mapSize.x / 2f, mapSize.y / 2f, 0f)
+            {
+                z = mainCamera.transform.position.z
+            };
+            mainCamera.transform.position = targetPosition;
+
             isDragging = false;
         }
 
         public override void TearDown()
         {
             isDragging = false;
+
+            mainCamera.transform.position = new Vector3(0f, 0f, mainCamera.transform.position.z);
 
             var inputManager = ServiceLocator.Get<InputManager>();
             inputManager.OnSpecialPointerDownEvent -= OnSpecialPointerDown;
