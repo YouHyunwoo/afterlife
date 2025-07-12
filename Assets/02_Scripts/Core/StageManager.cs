@@ -40,7 +40,7 @@ namespace Afterlife.Core
 
         [Header("Item")]
         [SerializeField] ItemCollectSystem itemCollectSystem;
-        [SerializeField] InventorySystem inventorySystem;
+        [SerializeField] ItemUsageSystem itemUsageSystem;
         [SerializeField] EquipmentSystem equipmentSystem;
         [SerializeField] CraftSystem craftSystem;
 
@@ -71,7 +71,7 @@ namespace Afterlife.Core
             ServiceLocator.Register(skillSystem);
             ServiceLocator.Register(environmentSpawnSystem);
             ServiceLocator.Register(itemCollectSystem);
-            ServiceLocator.Register(inventorySystem);
+            ServiceLocator.Register(itemUsageSystem);
             ServiceLocator.Register(craftSystem);
             ServiceLocator.Register(rewardSystem);
             ServiceLocator.Register(equipmentSystem);
@@ -89,7 +89,7 @@ namespace Afterlife.Core
             skillSystem.SetUp();
             environmentSpawnSystem.SetUp();
             itemCollectSystem.SetUp();
-            inventorySystem.SetUp();
+            itemUsageSystem.SetUp();
             craftSystem.SetUp();
             rewardSystem.SetUp();
             equipmentSystem.SetUp();
@@ -362,7 +362,7 @@ namespace Afterlife.Core
             equipmentSystem.TearDown();
             rewardSystem.TearDown();
             craftSystem.TearDown();
-            inventorySystem.TearDown();
+            itemUsageSystem.TearDown();
             itemCollectSystem.TearDown();
             environmentSpawnSystem.TearDown();
             skillSystem.TearDown();
@@ -380,7 +380,7 @@ namespace Afterlife.Core
             ServiceLocator.Unregister<EquipmentSystem>();
             ServiceLocator.Unregister<RewardSystem>();
             ServiceLocator.Unregister<CraftSystem>();
-            ServiceLocator.Unregister<InventorySystem>();
+            ServiceLocator.Unregister<ItemUsageSystem>();
             ServiceLocator.Unregister<ItemCollectSystem>();
             ServiceLocator.Unregister<EnvironmentSpawnSystem>();
             ServiceLocator.Unregister<SkillSystem>();

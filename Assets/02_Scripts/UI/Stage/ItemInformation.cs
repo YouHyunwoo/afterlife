@@ -15,7 +15,7 @@ namespace Afterlife.UI.Stage
         [SerializeField] Transform requirementsContainerTransform;
         [SerializeField] GameObject requirementItemSlotPrefab;
 
-        public void Show(string id, int cost, Data.CraftRequirement[] requirements)
+        public void Show(string id, int cost, Data.CraftRequirement[] craftRequirements)
         {
             nameText.text = Localization.Get($"item.{id}.name");
             costText.text = $"{cost}";
@@ -26,22 +26,22 @@ namespace Afterlife.UI.Stage
                 Destroy(child.gameObject);
             }
 
-            if (requirements.Length > 0)
+            if (craftRequirements.Length > 0)
             {
                 separatorImage.gameObject.SetActive(true);
                 requirementsText.gameObject.SetActive(true);
                 requirementsContainerTransform.gameObject.SetActive(true);
 
-                foreach (var requirement in requirements)
+                foreach (var craftRequirement in craftRequirements)
                 {
-                    var requirementItemSlotObject = Instantiate(requirementItemSlotPrefab, requirementsContainerTransform);
-                    var requirementItemSlot = requirementItemSlotObject.GetComponent<ItemSlot>();
+                    var craftRequirementItemSlotObject = Instantiate(requirementItemSlotPrefab, requirementsContainerTransform);
+                    var craftRequirementItemSlot = craftRequirementItemSlotObject.GetComponent<ItemSlot>();
 
-                    var itemData = ServiceLocator.Get<DataManager>().ItemDataDictionary[requirement.ItemId];
-                    requirementItemSlot.ItemId = requirement.ItemId;
-                    requirementItemSlot.SetItemIcon(itemData.Icon);
-                    requirementItemSlot.SetItemCount(requirement.Amount);
-                    requirementItemSlot.SetTargetable(false);
+                    var itemData = ServiceLocator.Get<DataManager>().ItemDataDictionary[craftRequirement.ItemId];
+                    craftRequirementItemSlot.ItemId = craftRequirement.ItemId;
+                    craftRequirementItemSlot.SetItemIcon(itemData.Icon);
+                    craftRequirementItemSlot.SetItemCount(craftRequirement.ItemAmount);
+                    craftRequirementItemSlot.SetTargetable(false);
                 }
 
                 var rectTransform = GetComponent<RectTransform>();

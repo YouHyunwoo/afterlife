@@ -1,17 +1,19 @@
+using UnityEngine;
+
 namespace Afterlife.View
 {
     public class Wall : Object
     {
+        [Header("Interaction")]
+        [SerializeField] string requiredItemName;
+        [SerializeField] int requiredItemAmount;
+
         public override void Interact(Model.Player player)
         {
-            if (!player.Inventory.ContainsKey("stone")) { return; }
-            if (player.Inventory["stone"] <= 0) { return; }
+            var inventory = player.Inventory;
 
-            player.Inventory["stone"]--;
-            if (player.Inventory["stone"] <= 0)
-            {
-                player.Inventory.Remove("stone");
-            }
+            if (!inventory.HasItem(requiredItemName, requiredItemAmount)) { return; }
+            inventory.RemoveItem(requiredItemName, requiredItemAmount, out var _);
 
             Value += 1f;
             RefreshValue();

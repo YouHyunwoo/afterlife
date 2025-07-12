@@ -21,7 +21,7 @@ namespace Afterlife.Model
         public Light Light;
         public List<string> Upgrades = new();
         public List<Skill> Skills = new();
-        public Dictionary<string, int> Inventory = new();
+        public Inventory Inventory = new();
         public HashSet<string> Equipment = new();
 
         public event Action<float> OnExperienceChanged;

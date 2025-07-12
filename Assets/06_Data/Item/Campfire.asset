@@ -18,8 +18,8 @@ MonoBehaviour:
   Effects: []
   CraftRequirements:
   - ItemId: wood
-    Amount: 20
+    ItemAmount: 20
   - ItemId: stone
-    Amount: 5
+    ItemAmount: 10
   ConstructionPrefab: {fileID: 9016846682806357974, guid: be263aa9b380acb43b3d6bbb9acaf5c2, type: 3}
   PreviewPrefab: {fileID: 9016846682806357974, guid: 427138d545df2794ebf5db63ab455f30, type: 3}

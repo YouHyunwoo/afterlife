@@ -1,17 +1,15 @@
-using System.Collections.Generic;
 using Afterlife.Core;
-using Afterlife.UI.Stage;
-using TMPro;
 using UnityEngine;
 
 namespace Afterlife.GameSystem.Stage
 {
     public class ItemCollectSystem : SystemBase
     {
+        [SerializeField] EquipmentSystem equipmentSystem;
         [SerializeField] Transform popupContainerTransform;
         [SerializeField] GameObject popupPrefab;
 
-        Dictionary<string, int> inventory;
+        Model.Inventory inventory;
 
         public override void SetUp()
         {
@@ -26,6 +24,7 @@ namespace Afterlife.GameSystem.Stage
         public int SampleItems(int itemAmount, float dropRate)
         {
             int collectedAmount = 0;
+
             for (int i = 0; i < itemAmount; i++)
             {
                 if (Random.value <= dropRate)
@@ -40,10 +39,14 @@ namespace Afterlife.GameSystem.Stage
         public void CollectWithRate(string itemId, int itemAmount)
         {
             if (inventory == null) { return; }
-            if (!inventory.ContainsKey(itemId)) { inventory[itemId] = 0; }
             inventory[itemId] += itemAmount;
-            Debug.Log(itemId + " : " + inventory[itemId]);
             Debug.Log($"Collected {itemAmount} of {itemId}.");
+
+            var itemData = ServiceLocator.Get<DataManager>().FindItemData(itemId);
+            if (itemData.Type == Data.ItemType.Equipment)
+            {
+                equipmentSystem.TryToggleEquipment(itemData, out bool _);
+            }
         }
 
         public void ShowPopup(Vector3 position, string itemId, int itemAmount)
@@ -51,7 +54,7 @@ namespace Afterlife.GameSystem.Stage
             var popup = Instantiate(popupPrefab, popupContainerTransform);
             var itemName = Localization.Get($"item.{itemId}.name");
             var text = $"{itemName} +{itemAmount}";
-            popup.GetComponent<TextIndicator>().Show(position, text);
+            popup.GetComponent<UI.Stage.TextIndicator>().Show(position, text);
         }
     }
 }

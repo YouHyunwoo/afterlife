@@ -21,8 +21,8 @@ MonoBehaviour:
     - 1
   CraftRequirements:
   - ItemId: wood
-    Amount: 15
+    ItemAmount: 10
   - ItemId: stone
-    Amount: 3
+    ItemAmount: 5
   ConstructionPrefab: {fileID: 0}
   PreviewPrefab: {fileID: 0}

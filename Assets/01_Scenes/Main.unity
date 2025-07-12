@@ -22004,7 +22004,7 @@ GameObject:
   - component: {fileID: 1166281978}
   - component: {fileID: 1166281979}
   m_Layer: 0
-  m_Name: Inventory System
+  m_Name: Item Usage System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22037,6 +22037,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 820b49ec8e493714a873c438ae85d605, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  equipmentSystem: {fileID: 1000329800}
   constructionSystem: {fileID: 2039568308}
   inventoryView: {fileID: 1298637638}
   itemInformationView: {fileID: 275453705}
@@ -27722,6 +27723,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a7d46f300a57d941b26108d90bd3592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  equipmentSystem: {fileID: 1000329800}
 --- !u!1 &1496110530
 GameObject:
   m_ObjectHideFlags: 0
@@ -34323,7 +34325,7 @@ MonoBehaviour:
   missionSystem: {fileID: 1281474505}
   skillSystem: {fileID: 118102494}
   itemCollectSystem: {fileID: 1864664703}
-  inventorySystem: {fileID: 1166281979}
+  itemUsageSystem: {fileID: 1166281979}
   equipmentSystem: {fileID: 1000329800}
   craftSystem: {fileID: 1486662228}
   mainCamera: {fileID: 519420031}
@@ -34605,6 +34607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 353ac9e94641cb84c8166e2c71eedee1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  equipmentSystem: {fileID: 1000329800}
   popupContainerTransform: {fileID: 1412860720}
   popupPrefab: {fileID: 1213301885276157114, guid: 1439a18e78ada7f48a9ff2f47a95181d, type: 3}
 --- !u!224 &1865612449 stripped
@@ -38696,7 +38699,7 @@ MonoBehaviour:
   tileIndicationSystem: {fileID: 2129864976}
   fieldObjectSpawner: {fileID: 212219396}
   tileInteractionSystem: {fileID: 370500480}
-  inventorySystem: {fileID: 1166281979}
+  itemUsageSystem: {fileID: 1166281979}
   mainCamera: {fileID: 519420031}
 --- !u!1 &2047711979
 GameObject:

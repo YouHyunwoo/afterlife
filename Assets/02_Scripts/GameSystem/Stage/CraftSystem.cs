@@ -1,15 +1,19 @@
 using Afterlife.Core;
-using Afterlife.Data;
 using UnityEngine;
 
 namespace Afterlife.GameSystem.Stage
 {
     public class CraftSystem : SystemBase
     {
+        [SerializeField] EquipmentSystem equipmentSystem;
+
+        Model.Inventory inventory;
         UI.Stage.Craft craftView;
 
         public override void SetUp()
         {
+            inventory = ServiceLocator.Get<GameManager>().Game.Player.Inventory;
+
             var stageScreen = ServiceLocator.Get<UIManager>().InGameScreen as UI.Stage.Screen;
             craftView = stageScreen.CraftView;
 
@@ -21,22 +25,6 @@ namespace Afterlife.GameSystem.Stage
             RefreshCraftView();
         }
 
-        void OnItemSlotClicked(UI.Stage.ItemSlot slot)
-        {
-            var itemId = slot.ItemId;
-            if (string.IsNullOrEmpty(itemId)) { return; }
-
-            if (TryCraft(itemId))
-            {
-                Debug.Log($"Crafted item: {itemId}");
-                RefreshCraftView();
-            }
-            else
-            {
-                Debug.LogWarning($"Cannot craft item: {itemId}. Requirements not met.");
-            }
-        }
-
         public override void TearDown()
         {
             foreach (var itemSlot in craftView.ItemSlots)
@@ -45,22 +33,32 @@ namespace Afterlife.GameSystem.Stage
             }
 
             craftView = null;
+
+            inventory = null;
+        }
+
+        void OnItemSlotClicked(UI.Stage.ItemSlot slot)
+        {
+            var itemId = slot.ItemId;
+            if (string.IsNullOrEmpty(itemId)) { return; }
+
+            if (!TryCraft(itemId, 1, out var _)) { return; }
+
+            RefreshCraftView();
         }
 
         public void RefreshCraftView()
         {
             var craftableItemIds = ServiceLocator.Get<DataManager>().CraftableItemIds;
+
             for (int i = 0; i < craftableItemIds.Length && i < craftView.ItemSlots.Length; i++)
             {
                 var craftableItemId = craftableItemIds[i];
-                var itemData = ServiceLocator.Get<DataManager>().ItemDataDictionary[craftableItemId];
+                var itemData = ServiceLocator.Get<DataManager>().FindItemData(craftableItemId);
                 var itemSlot = craftView.ItemSlots[i];
                 itemSlot.ItemId = craftableItemId;
                 itemSlot.SetItemIcon(itemData.Icon);
-                itemSlot.SetLocked(!ServiceLocator.Get<CraftSystem>().IsCraftable(craftableItemId));
-                Debug.Log(ServiceLocator.Get<CraftSystem>().IsCraftable(craftableItemId)
-                    ? $"Item {craftableItemId} is craftable."
-                    : $"Item {craftableItemId} is not craftable.");
+                itemSlot.SetLocked(!IsCraftable(craftableItemId));
             }
         }
 
@@ -68,64 +66,82 @@ namespace Afterlife.GameSystem.Stage
         {
             if (string.IsNullOrEmpty(itemId)) { return false; }
 
-            var requiredItems = GetCraftRequirements(itemId);
-            return IsCraftableInternal(requiredItems);
+            var itemData = ServiceLocator.Get<DataManager>().FindItemData(itemId);
+            var craftRequirements = itemData.CraftRequirements;
+
+            return IsCraftableInternal(craftRequirements);
         }
 
-        bool IsCraftableInternal(CraftRequirement[] craftRequirements)
+        bool IsCraftableInternal(Data.CraftRequirement[] craftRequirements)
         {
-            var inventory = ServiceLocator.Get<GameManager>().Game.Player.Inventory;
+            if (craftRequirements == null || craftRequirements.Length == 0) { return true; }
 
             foreach (var craftRequirement in craftRequirements)
             {
-                if (!inventory.ContainsKey(craftRequirement.ItemId)) { return false; }
-                var itemAmount = inventory[craftRequirement.ItemId];
-                if (itemAmount < craftRequirement.Amount) { return false; }
+                if (!inventory.HasItem(craftRequirement.ItemId, craftRequirement.ItemAmount)) { return false; }
             }
 
             return true;
         }
 
-        public bool TryCraft(string itemId)
+        public bool TryCraft(string itemId, int itemAmount, out int craftedAmount)
         {
-            var craftRequirements = GetCraftRequirements(itemId);
-            var inventory = ServiceLocator.Get<GameManager>().Game.Player.Inventory;
+            if (string.IsNullOrEmpty(itemId)) { craftedAmount = 0; return false; }
+            if (itemAmount <= 0) { craftedAmount = 0; return false; }
 
-            if (!IsCraftableInternal(craftRequirements)) { return false; }
+            var itemData = ServiceLocator.Get<DataManager>().FindItemData(itemId);
+            var craftRequirements = itemData.CraftRequirements;
 
-            // Remove the required items from the inventory
-            foreach (var craftRequirement in craftRequirements)
+            var craftableAmount = GetCraftableAmount(craftRequirements);
+            if (craftableAmount <= 0) { craftedAmount = 0; return false; }
+
+            craftedAmount = Mathf.Min(itemAmount, craftableAmount);
+
+            ConsumeRequiredItemsForCraft(craftRequirements, craftedAmount);
+            CraftItem(itemId, craftedAmount);
+
+            if (itemData.Type == Data.ItemType.Equipment)
             {
-                inventory[craftRequirement.ItemId] -= craftRequirement.Amount;
-                if (inventory[craftRequirement.ItemId] <= 0)
+                equipmentSystem.TryToggleEquipment(itemData, out bool isEquipped);
+            }
+
+            return true;
+        }
+
+        int GetCraftableAmount(Data.CraftRequirement[] craftRequirements)
+        {
+            if (craftRequirements == null || craftRequirements.Length == 0) { return int.MaxValue; }
+
+            int minAmount = int.MaxValue;
+
+            foreach (var requirement in craftRequirements)
+            {
+                if (requirement.ItemAmount <= 0) { continue; }
+
+                var availableAmount = inventory[requirement.ItemId] / requirement.ItemAmount;
+                if (availableAmount < minAmount)
                 {
-                    inventory.Remove(craftRequirement.ItemId);
+                    minAmount = availableAmount;
                 }
             }
 
-            // Add the crafted item to the inventory
-            if (inventory.ContainsKey(itemId))
-            {
-                inventory[itemId] += 1;
-            }
-            else
-            {
-                inventory[itemId] = 1;
-            }
-
-            var itemData = ServiceLocator.Get<DataManager>().ItemDataDictionary[itemId];
-            if (itemData.Type == ItemType.Equipment)
-            {
-                ServiceLocator.Get<EquipmentSystem>().TryToggleEquipment(itemData, out bool isEquipped);
-                ServiceLocator.Get<InventorySystem>().RefreshInventoryView();
-            }
-
-            return true;
+            return minAmount;
         }
 
-        public CraftRequirement[] GetCraftRequirements(string itemId)
+        void ConsumeRequiredItemsForCraft(Data.CraftRequirement[] craftRequirements, int craftableAmount)
         {
-            return ServiceLocator.Get<DataManager>().ItemDataDictionary[itemId].CraftRequirements;
+            if (craftRequirements == null) { return; }
+
+            foreach (var requirement in craftRequirements)
+            {
+                inventory.RemoveItem(requirement.ItemId, requirement.ItemAmount * craftableAmount, out _);
+            }
+        }
+
+        void CraftItem(string itemId, int itemAmount)
+        {
+            if (itemAmount <= 0) { return; }
+            inventory.AddItem(itemId, itemAmount);
         }
     }
 }

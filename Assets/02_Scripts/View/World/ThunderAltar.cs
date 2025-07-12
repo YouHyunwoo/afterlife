@@ -84,15 +84,10 @@ namespace Afterlife.View
 
         public override void Interact(Model.Player player)
         {
-            if (!player.Inventory.ContainsKey(requiredItemName)) { return; }
+            var inventory = player.Inventory;
 
-            if (player.Inventory[requiredItemName] < requiredItemAmount) { return; }
-
-            player.Inventory[requiredItemName] -= requiredItemAmount;
-            if (player.Inventory[requiredItemName] <= 0)
-            {
-                player.Inventory.Remove(requiredItemName);
-            }
+            if (!inventory.HasItem(requiredItemName, requiredItemAmount)) { return; }
+            inventory.RemoveItem(requiredItemName, requiredItemAmount, out var _);
 
             Value += 1f;
             RefreshValue();
@@ -104,6 +99,7 @@ namespace Afterlife.View
         public override void TakeDamage(float damage, Object attacker)
         {
             base.TakeDamage(damage, attacker);
+
             if (!IsAlive) { return; }
             UpdateStatistics();
         }

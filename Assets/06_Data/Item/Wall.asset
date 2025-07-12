@@ -18,6 +18,6 @@ MonoBehaviour:
   Effects: []
   CraftRequirements:
   - ItemId: stone
-    Amount: 50
+    ItemAmount: 50
   ConstructionPrefab: {fileID: 9016846682806357974, guid: 24e4ceb3fabb1fc4f8f1e44bdc551c0a, type: 3}
   PreviewPrefab: {fileID: 9016846682806357974, guid: bf04db89323df9c45b1a6f3fa197029d, type: 3}

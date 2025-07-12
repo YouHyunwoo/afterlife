@@ -22,7 +22,7 @@ namespace Afterlife.Data
     public class CraftRequirement
     {
         public string ItemId;
-        public int Amount;
+        public int ItemAmount;
     }
 
     [CreateAssetMenu(fileName = "ItemData", menuName = "Afterlife/Data/Item")]

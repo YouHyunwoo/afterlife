@@ -63,5 +63,17 @@ namespace Afterlife.Core
                 UpgradeDataDictionary.Add(upgrade.Id, upgrade);
             }
         }
+
+        public Data.Item FindItemData(string itemId)
+        {
+            if (ItemDataDictionary.TryGetValue(itemId, out var itemData))
+            {
+                return itemData;
+            }
+            else
+            {
+                throw new System.Exception($"Item data for {itemId} not found.");
+            }
+        }
     }
 }

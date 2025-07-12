@@ -1,10 +1,17 @@
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Afterlife.Model
 {
-    public class Inventory
+    public class Inventory : IEnumerable<KeyValuePair<string, int>>
     {
-        Dictionary<string, int> items = new();
+        readonly Dictionary<string, int> items = new();
+
+        public int this[string itemId]
+        {
+            get => items.ContainsKey(itemId) ? items[itemId] : 0;
+            set => items[itemId] = value;
+        }
 
         public void AddItem(string itemId, int amount)
         {
@@ -18,16 +25,26 @@ namespace Afterlife.Model
             }
         }
 
-        public void RemoveItem(string itemId, int amount)
+        public bool RemoveItem(string itemId, int amount, out int removedAmount)
         {
             if (items.ContainsKey(itemId))
             {
-                items[itemId] -= amount;
-                if (items[itemId] <= 0)
-                {
-                    items.Remove(itemId);
-                }
+                removedAmount = System.Math.Min(items[itemId], amount);
+                items[itemId] -= removedAmount;
+                if (items[itemId] <= 0) { items.Remove(itemId); }
+
+                return true;
             }
+            else
+            {
+                removedAmount = 0;
+                return false;
+            }
+        }
+
+        public void Clear()
+        {
+            items.Clear();
         }
 
         public bool HasItem(string itemId, int amount = 1)
@@ -35,11 +52,14 @@ namespace Afterlife.Model
             return items.ContainsKey(itemId) && items[itemId] >= amount;
         }
 
-        public int GetItemCount(string itemId)
+        public IEnumerator<KeyValuePair<string, int>> GetEnumerator()
         {
-            return items.ContainsKey(itemId) ? items[itemId] : 0;
+            return items.GetEnumerator();
         }
 
-        
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }

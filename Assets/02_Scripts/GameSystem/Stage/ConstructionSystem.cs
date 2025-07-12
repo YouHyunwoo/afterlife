@@ -10,7 +10,7 @@ namespace Afterlife.GameSystem.Stage
         [SerializeField] TileIndicationSystem tileIndicationSystem;
         [SerializeField] FieldObjectSystem fieldObjectSpawner;
         [SerializeField] TileInteractionSystem tileInteractionSystem;
-        [SerializeField] InventorySystem inventorySystem;
+        [SerializeField] ItemUsageSystem itemUsageSystem;
         [SerializeField] Camera mainCamera;
 
         Model.Player player;
@@ -63,17 +63,17 @@ namespace Afterlife.GameSystem.Stage
             if (!map.IsAvailable(location)) { return; }
 
             fieldObjectSpawner.Spawn(constructionPrefab, location);
-            Debug.Log($"사용 {itemData.Id}");
-            if (player.Inventory.ContainsKey(itemData.Id))
+
+            var inventory = player.Inventory;
+            if (!inventory.HasItem(itemData.Id))
             {
-                Debug.Log($"소모 {itemData.Id}");
-                player.Inventory[itemData.Id]--;
-                if (player.Inventory[itemData.Id] <= 0)
-                {
-                    player.Inventory.Remove(itemData.Id);
-                }
+                Debug.LogWarning($"Cannot construct {itemData.Id}. Item not found in inventory.");
+                return;
             }
-            inventorySystem.RefreshInventoryView();
+
+            inventory.RemoveItem(itemData.Id, 1, out var _);
+
+            itemUsageSystem.RefreshInventoryView();
 
             StopConstruction();
         }
