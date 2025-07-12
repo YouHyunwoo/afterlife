@@ -1,5 +1,6 @@
 using System;
 using Afterlife.Core;
+using Afterlife.UI.Title;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,6 +31,7 @@ namespace Afterlife.UI.Stage
         public Craft CraftView;
         public Reward RewardView;
         public ItemInformation ItemInformationView;
+        public Settings SettingsView;
 
         [Header("Localization")]
         [SerializeField] TextMeshProUGUI menuMissionProgressText;
@@ -38,7 +40,8 @@ namespace Afterlife.UI.Stage
         [SerializeField] TextMeshProUGUI inventoryTitleText;
         [SerializeField] TextMeshProUGUI craftTitleText;
         [SerializeField] TextMeshProUGUI rewardTitleText;
-        [SerializeField] TextMeshProUGUI itemInformationRequirementsText; 
+        [SerializeField] TextMeshProUGUI itemInformationRequirementsText;
+        [SerializeField] TextMeshProUGUI settingsText;
 
         public event Action OnMenuButtonClickedEvent;
 
@@ -58,6 +61,7 @@ namespace Afterlife.UI.Stage
             craftTitleText.text = Localization.Get("stage.popup.craft.title");
             rewardTitleText.text = Localization.Get("stage.popup.reward.title");
             itemInformationRequirementsText.text = Localization.Get("stage.popup.item-information.requirements");
+            settingsText.text = Localization.Get("title.menu.settings");
         }
     }
 }

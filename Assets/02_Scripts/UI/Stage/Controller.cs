@@ -29,6 +29,7 @@ namespace Afterlife.UI.Stage
 
             stageScreen.OnMenuButtonClickedEvent += OnMenuButtonClicked;
             stageScreen.MenuView.OnContinueButtonClickedEvent += OnContinueButtonClicked;
+            stageScreen.MenuView.OnSettingsButtonClickedEvent += OnSettingsButtonClicked;
             stageScreen.MenuView.OnGiveUpButtonClickedEvent += OnGiveUpButtonClicked;
 
             foreach (var itemSlot in stageScreen.InventoryView.ItemSlots)
@@ -53,6 +54,7 @@ namespace Afterlife.UI.Stage
         {
             stageScreen.OnMenuButtonClickedEvent -= OnMenuButtonClicked;
             stageScreen.MenuView.OnContinueButtonClickedEvent -= OnContinueButtonClicked;
+            stageScreen.MenuView.OnSettingsButtonClickedEvent -= OnSettingsButtonClicked;
             stageScreen.MenuView.OnGiveUpButtonClickedEvent -= OnGiveUpButtonClicked;
 
             foreach (var itemSlot in stageScreen.InventoryView.ItemSlots)
@@ -79,6 +81,7 @@ namespace Afterlife.UI.Stage
 
         void OnMenuButtonClicked() => stageScreen.MenuView.Show();
         void OnContinueButtonClicked() => stageScreen.MenuView.Hide();
+        void OnSettingsButtonClicked() => stageScreen.SettingsView.Show();
         void OnGiveUpButtonClicked() => ServiceLocator.Get<StageManager>().FailStage();
         void OnItemInformationShowed(ItemSlot itemSlot)
         {

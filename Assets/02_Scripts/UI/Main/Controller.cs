@@ -27,6 +27,7 @@ namespace Afterlife.UI.Main
 
             mainScreen.OnMenuButtonClickedEvent += OnMenuButtonClicked;
             mainScreen.MenuView.OnContinueButtonClickedEvent += OnContinueButtonClicked;
+            mainScreen.MenuView.OnSettingsButtonClickedEvent += OnSettingsButtonClicked;
             mainScreen.MenuView.OnSaveAndQuitButtonClickedEvent += OnSaveAndQuitButtonClicked;
             mainScreen.OnStartMissionButtonClickedEvent += OnStartMissionButtonClicked;
 
@@ -51,6 +52,7 @@ namespace Afterlife.UI.Main
 
             mainScreen.OnMenuButtonClickedEvent -= OnMenuButtonClicked;
             mainScreen.MenuView.OnContinueButtonClickedEvent -= OnContinueButtonClicked;
+            mainScreen.MenuView.OnSettingsButtonClickedEvent -= OnSettingsButtonClicked;
             mainScreen.MenuView.OnSaveAndQuitButtonClickedEvent -= OnSaveAndQuitButtonClicked;
             mainScreen.OnStartMissionButtonClickedEvent -= OnStartMissionButtonClicked;
 
@@ -61,6 +63,7 @@ namespace Afterlife.UI.Main
 
         void OnMenuButtonClicked() => mainScreen.MenuView.Show();
         void OnContinueButtonClicked() => mainScreen.MenuView.Hide();
+        void OnSettingsButtonClicked() => mainScreen.SettingsView.Show();
         void OnSaveAndQuitButtonClicked() => ServiceLocator.Get<GameManager>().QuitGame();
         void OnStartMissionButtonClicked() => ServiceLocator.Get<GameManager>().StartStage();
 

@@ -1,5 +1,6 @@
 using System;
 using Afterlife.Core;
+using Afterlife.UI.Title;
 using TMPro;
 using UnityEngine;
 
@@ -19,6 +20,7 @@ namespace Afterlife.UI.Main
         [Header("Popup")]
         public Menu MenuView;
         public UpgradeInformation UpgradeInformationView;
+        public Settings SettingsView;
 
         [Header("Localization")]
         [SerializeField] TextMeshProUGUI navigationBarMissionText;
@@ -28,6 +30,7 @@ namespace Afterlife.UI.Main
         [SerializeField] TextMeshProUGUI missionStartMissionButtonText;
         [SerializeField] TextMeshProUGUI menuContinueButtonText;
         [SerializeField] TextMeshProUGUI menuSaveAndQuitButtonText;
+        [SerializeField] TextMeshProUGUI settingsText;
 
         public event Action OnMenuButtonClickedEvent;
         public event Action OnStartMissionButtonClickedEvent;
@@ -47,6 +50,7 @@ namespace Afterlife.UI.Main
             missionStartMissionButtonText.text = Localization.Get("main.mission.start-mission-button");
             menuContinueButtonText.text = Localization.Get("main.menu.continue-button");
             menuSaveAndQuitButtonText.text = Localization.Get("main.menu.save-and-quit-button");
+            settingsText.text = Localization.Get("title.menu.settings");
         }
     }
 }
