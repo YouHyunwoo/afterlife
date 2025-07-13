@@ -8,21 +8,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 269676779632563720, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 518151985624572323, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.85
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 2368448852852908252, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 53f8abb4b145b6f4490cbfa44f66ca5c, type: 3}
+      objectReference: {fileID: 21300000, guid: d84bc2352ffb74c45add42e44838548f, type: 3}
     - target: {fileID: 2368448852852908252, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4540409748813293738, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
       propertyPath: m_Name
-      value: Stone
+      value: Rock
       objectReference: {fileID: 0}
     - target: {fileID: 5809371360850237265, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
       propertyPath: m_LocalPosition.x

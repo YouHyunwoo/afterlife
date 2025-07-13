@@ -1,6 +1,7 @@
 using Afterlife.GameSystem.Stage;
 using Afterlife.GameSystem.Stage.Field;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Afterlife.Core
 {
@@ -11,6 +12,9 @@ namespace Afterlife.Core
 
         [Header("Terrain")]
         [SerializeField] Transform terrainTransform;
+        [SerializeField] Tilemap terrainTilemap;
+        [SerializeField] TileBase dirtTile;
+        [SerializeField] TileBase waterTile;
 
         [Header("Fog")]
         [SerializeField] Transform fogTransform;
@@ -160,18 +164,21 @@ namespace Afterlife.Core
             var mapSize = Stage.Map.Size;
             var terrain = Stage.Map.Terrain;
             var terrainIndexGrid = terrain.TerrainGrid;
-            var terrainTilePrefabs = terrain.Data.TilePrefabs;
-            var terrainTransformGrid = terrain.TransformGrid;
 
             for (int y = 0; y < mapSize.y; y++)
             {
                 for (int x = 0; x < mapSize.x; x++)
                 {
                     var tileIndex = terrainIndexGrid[x, y];
-                    var tilePrefab = terrainTilePrefabs[tileIndex];
-                    var terrainTileTransform = Instantiate(tilePrefab, new Vector3(x, y), Quaternion.identity, terrainTransform).transform;
-                    terrainTileTransform.name = $"{tilePrefab.name} ({x}, {y})";
-                    terrainTransformGrid[x, y] = terrainTileTransform;
+                    switch (tileIndex)
+                    {
+                        case 1:
+                            terrainTilemap.SetTile(new Vector3Int(x, y, 0), dirtTile);
+                            break;
+                        case 3:
+                            terrainTilemap.SetTile(new Vector3Int(x, y, 0), waterTile);
+                            break;
+                    }
                 }
             }
         }

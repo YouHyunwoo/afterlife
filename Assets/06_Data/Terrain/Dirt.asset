@@ -15,7 +15,7 @@ MonoBehaviour:
   EnvironmentType: Dirt
   TilePrefabs:
   - {fileID: 1345322872074191395, guid: 6358743ec2cc48941adb472d28f8cfb4, type: 3}
-  - {fileID: 1345322872074191395, guid: 3971702e779963b40895e884367938aa, type: 3}
+  - {fileID: 1345322872074191395, guid: 7ecd02d16c771d44cab44e0c0fce1001, type: 3}
   - {fileID: 1345322872074191395, guid: 6da4241b18f2e984db642e436348a64d, type: 3}
-  - {fileID: 1345322872074191395, guid: e10aa924a78798d4e9226a70c9e24a9f, type: 3}
+  - {fileID: 1345322872074191395, guid: 7a6ade956ef275d49889e937b0c77873, type: 3}
   Passables: 00010100
