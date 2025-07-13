@@ -349,7 +349,6 @@ namespace Afterlife.Core
 
         void DisposeStage()
         {
-            Debug.Log("[System] Disposing stage...");
             enabled = false;
             isDispositionRequested = false;
 
@@ -401,7 +400,11 @@ namespace Afterlife.Core
 
         void DeleteFieldObjects() => Stage.Map.Field.Dispose();
         void DeleteFogObjects() => Stage.Map.Fog.Dispose();
-        void DeleteTerrainObjects() => Stage.Map.Terrain.Dispose();
+        void DeleteTerrainObjects()
+        {
+            Stage.Map.Terrain.Dispose();
+            terrainTilemap.ClearAllTiles();
+        }
 
         void DeleteStage()
         {
