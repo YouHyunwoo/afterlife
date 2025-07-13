@@ -124,9 +124,19 @@ namespace Afterlife.GameSystem.Stage
         void ProcessPointerMove()
         {
             if (previousLocation == pointerMoveLocation) { return; }
+            if (map.Field.IsInBounds(previousLocation) && map.Field.Has(previousLocation))
+            {
+                map.Field.SpriteRendererGrid[previousLocation.x, previousLocation.y].sortingOrder = 0;
+                map.Field.TextGrid[previousLocation.x, previousLocation.y].sortingOrder = 0;
+            }
             previousLocation = pointerMoveLocation;
 
             tileIndicationSystem.SetLocation(pointerMoveLocation);
+            if (map.Field.IsInBounds(pointerMoveLocation) && map.Field.Has(pointerMoveLocation))
+            {
+                map.Field.SpriteRendererGrid[pointerMoveLocation.x, pointerMoveLocation.y].sortingOrder = 99;
+                map.Field.TextGrid[pointerMoveLocation.x, pointerMoveLocation.y].sortingOrder = 99;
+            }
 
             player.Light.Location = pointerMoveLocation;
             map.Fog.Invalidate();

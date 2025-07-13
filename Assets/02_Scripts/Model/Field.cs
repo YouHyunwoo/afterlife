@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 namespace Afterlife.Model
@@ -9,6 +10,7 @@ namespace Afterlife.Model
         public Vector2Int Size;
         public Transform[,] TransformGrid;
         public SpriteRenderer[,] SpriteRendererGrid;
+        public TextMeshPro[,] TextGrid;
         public int Count;
 
         public bool IsInBounds(Vector2Int location) => IsInBounds(location.x, location.y);
@@ -29,11 +31,17 @@ namespace Afterlife.Model
                 {
                     SpriteRendererGrid[x, y] = spriteRenderer;
                 }
+                var textMeshPro = @object.GetComponentInChildren<TextMeshPro>();
+                if (textMeshPro != null)
+                {
+                    TextGrid[x, y] = textMeshPro;
+                }
                 Count++;
             }
             else
             {
                 SpriteRendererGrid[x, y] = null;
+                TextGrid[x, y] = null;
             }
         }
 
@@ -76,10 +84,17 @@ namespace Afterlife.Model
             {
                 for (int y = 0; y < Size.y; y++)
                 {
-                    if (SpriteRendererGrid[x, y] == null) { continue; }
-
                     var fogValue = fogGrid[x, y];
-                    SpriteRendererGrid[x, y].color = new Color(1f, 1f, 1f, 1 - fogValue);
+                    if (SpriteRendererGrid[x, y] != null)
+                    {
+                        SpriteRendererGrid[x, y].color = new Color(1f, 1f, 1f, 1 - fogValue);
+                    }
+                    if (TextGrid[x, y] != null)
+                    {
+                        var textColor = TextGrid[x, y].color;
+                        textColor.a = 1 - fogValue;
+                        TextGrid[x, y].color = textColor;
+                    }
                 }
             }
         }
@@ -99,12 +114,14 @@ namespace Afterlife.Model
                     }
                     TransformGrid[x, y] = null;
                     SpriteRendererGrid[x, y] = null;
+                    TextGrid[x, y] = null;
                 }
             }
 
             Count = 0;
             TransformGrid = null;
             SpriteRendererGrid = null;
+            TextGrid = null;
             Data = null;
             Size = Vector2Int.zero;
         }

@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 namespace Afterlife.GameSystem.Stage
@@ -12,6 +13,7 @@ namespace Afterlife.GameSystem.Stage
                 Size = mapSize,
                 TransformGrid = new Transform[mapSize.x, mapSize.y],
                 SpriteRendererGrid = new SpriteRenderer[mapSize.x, mapSize.y],
+                TextGrid = new TextMeshPro[mapSize.x, mapSize.y],
             };
 
             return field;
