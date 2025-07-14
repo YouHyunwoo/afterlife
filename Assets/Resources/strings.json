@@ -48,6 +48,14 @@
                     "text": "English"
                 },
                 {
+                    "id": "introduction.next-key",
+                    "text": "Next"
+                },
+                {
+                    "id": "introduction.skip-key",
+                    "text": "Skip"
+                },
+                {
                     "id": "main.navigation-bar.mission",
                     "text": "Mission"
                 },
@@ -542,6 +550,30 @@
                 {
                     "id": "item.wall.description",
                     "text": "A sturdy wall built from stone. You can increase its durability by interacting with it and spending stone."
+                },
+                {
+                    "id": "introduction.messages.0",
+                    "text": "“You have awakened.\\n…You possess consciousness, yet no form.\\nDo not be alarmed.\\nThat is the nature of this space.”"
+                },
+                {
+                    "id": "introduction.messages.1",
+                    "text": "“You have been chosen.\\nYour will has been deemed sufficient to endure the trials for the sake of balance in this world.”"
+                },
+                {
+                    "id": "introduction.messages.2",
+                    "text": "“Should you fail these trials,\\nyou will vanish from existence.\\nBut if you complete every mission—\\nyou shall return to your original world, and gain something far greater.”"
+                },
+                {
+                    "id": "introduction.messages.3",
+                    "text": "“A secluded village stands on the brink of destruction by monsters.\\nYour task is to protect this village.\\nEliminate all threats, and ensure its survival.”"
+                },
+                {
+                    "id": "introduction.messages.4",
+                    "text": "“You cannot intervene directly in this state.\\nBut through Aetheron—your will—\\nyou may touch the world.\\nThat will be your weapon… and your measure.”"
+                },
+                {
+                    "id": "introduction.messages.5",
+                    "text": "“Manifest your will.\\nThat is the only way to survive in this world.”"
                 }
             ]
         },
@@ -591,6 +623,14 @@
                 {
                     "id": "title.menu.settings.interfaces.language.button",
                     "text": "한국어"
+                },
+                {
+                    "id": "introduction.next-key",
+                    "text": "다음"
+                },
+                {
+                    "id": "introduction.skip-key",
+                    "text": "스킵"
                 },
                 {
                     "id": "main.navigation-bar.mission",
@@ -1087,6 +1127,30 @@
                 {
                     "id": "item.wall.description",
                     "text": "돌로 만든 벽입니다. 상호작용 시 돌을 소모하여 내구성을 올릴 수 있습니다."
+                },
+                {
+                    "id": "introduction.messages.0",
+                    "text": "“눈을 떴는가. \\n…의식은 있지만, 형체는 없지.\\n이상할 것 없다. 그것이 이 공간의 본질이다.”"
+                },
+                {
+                    "id": "introduction.messages.1",
+                    "text": "“너는 선택받았다.\\n이 세계의 균형을 위해, 시험을 감당할 자격이 있는 ‘의지’로 판단되었기 때문이다.”"
+                },
+                {
+                    "id": "introduction.messages.2",
+                    "text": "“네가 이 시험을 통과하지 못한다면,\\n너는 여기서 소멸할 것이다.\\n하지만 모든 임무를 완수한다면—\\n너는 원래 세계로 돌아갈 것이며, 그 이상의 자격도 부여받을 것이다.”"
+                },
+                {
+                    "id": "introduction.messages.3",
+                    "text": "“한 외딴 마을이 마물들의 위협 아래에 있다.\\n너의 과제는, 그 마을을 지키는 것.\\n모든 마물을 제거하고, 마을의 생존을 보장하라.”"
+                },
+                {
+                    "id": "introduction.messages.4",
+                    "text": "“지금의 너는 직접 개입할 수 없다.\\n그러나 ‘에테론’— 네 의지는 현실에 닿을 수 있다.\\n그것이 너의 무기이며, 시험의 기준이 된다.”"
+                },
+                {
+                    "id": "introduction.messages.5",
+                    "text": "“의지를 실현하라.\\n그것이 이 세계에서 살아남는 유일한 방법이다.”"
                 }
             ]
         }

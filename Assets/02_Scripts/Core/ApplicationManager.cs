@@ -52,6 +52,7 @@ namespace Afterlife.Core
             Localization.Load();
 
             uiManager.TitleController.SetUp();
+            uiManager.IntroductionController.SetUp();
             uiManager.MainController.SetUp();
             uiManager.StageController.SetUp();
             uiManager.GameOverController.SetUp();
@@ -88,6 +89,7 @@ namespace Afterlife.Core
             DOTween.KillAll();
 
             uiManager.TitleController.TearDown();
+            uiManager.IntroductionController.TearDown();
             uiManager.MainController.TearDown();
             uiManager.StageController.TearDown();
             uiManager.GameOverController.TearDown();

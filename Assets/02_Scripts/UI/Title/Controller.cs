@@ -80,7 +80,13 @@ namespace Afterlife.UI.Title
             PlayerPrefs.SetFloat(SFXVolumeKey, volume);
         }
 
-        void OnNewGameButtonClicked() => ServiceLocator.Get<GameManager>().StartGame();
+        void OnNewGameButtonClicked()
+        {
+            ServiceLocator.Get<UIManager>().FadeTransition(() =>
+            {
+                ServiceLocator.Get<SceneManager>().ChangeState(SceneState.Introduction);
+            });
+        }
         void OnSettingsButtonClicked() => titleScreen.SettingsView.Show();
         void OnExitButtonClicked() => ServiceLocator.Get<ApplicationManager>().Quit();
 

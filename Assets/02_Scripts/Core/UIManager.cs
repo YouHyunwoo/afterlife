@@ -12,6 +12,7 @@ namespace Afterlife.Core
     {
         [Header("Screens")]
         public UI.Screen TitleScreen;
+        public UI.Screen IntroductionScreen;
         public UI.Screen MainScreen;
         public UI.Screen InGameScreen;
         public UI.Screen GameOverScreen;
@@ -19,6 +20,7 @@ namespace Afterlife.Core
 
         [Header("Controllers")]
         public UI.Title.Controller TitleController;
+        public UI.Introduction.Controller IntroductionController;
         public UI.Main.Controller MainController;
         public UI.Stage.Controller StageController;
         public UI.GameOver.Controller GameOverController;
@@ -31,6 +33,7 @@ namespace Afterlife.Core
         public void HideAll()
         {
             TitleScreen.Hide();
+            IntroductionScreen.Hide();
             MainScreen.Hide();
             InGameScreen.Hide();
             GameOverScreen.Hide();

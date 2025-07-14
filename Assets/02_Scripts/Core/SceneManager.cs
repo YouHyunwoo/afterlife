@@ -7,6 +7,7 @@ namespace Afterlife.Core
     {
         None,
         Title,
+        Introduction,
         Main,
         InGame,
         GameClear,
