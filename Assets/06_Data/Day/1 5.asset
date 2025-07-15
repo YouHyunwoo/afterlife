@@ -37,6 +37,8 @@ MonoBehaviour:
     SpawnInterval: 2
     PrefabWeightGroups:
     - Prefab: {fileID: 0}
+      Weight: 1
+    - Prefab: {fileID: 2098846693792243547, guid: 6103130427f069948966eede65496261, type: 3}
       Weight: 2
     - Prefab: {fileID: 2098846693792243547, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
       Weight: 4
