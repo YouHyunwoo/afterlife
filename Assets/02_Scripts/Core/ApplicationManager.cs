@@ -9,15 +9,12 @@ namespace Afterlife.Core
         Initializing,
         Running,
         Paused,
-        ToBeExiting,
+        PendingExit,
         Exiting,
     }
 
     public class ApplicationManager : MonoBehaviour
     {
-        public ApplicationState CurrentState;
-        bool isQuitReserved;
-
         [Header("Managers")]
         public DataManager dataManager;
         public SceneManager sceneManager;
@@ -27,6 +24,10 @@ namespace Afterlife.Core
         public UIManager uiManager;
         public GameManager gameManager;
         public StageManager stageManager;
+
+        [Header("Application State")]
+        public ApplicationState CurrentState;
+        bool isQuitReserved;
 
         void Awake()
         {
@@ -44,8 +45,6 @@ namespace Afterlife.Core
         void Start()
         {
             enabled = false;
-
-            Debug.Log("[System] 어플리케이션 시작");
 
             CurrentState = ApplicationState.Initializing;
 
@@ -79,7 +78,7 @@ namespace Afterlife.Core
             isQuitReserved = true;
             enabled = true;
 
-            CurrentState = ApplicationState.ToBeExiting;
+            CurrentState = ApplicationState.PendingExit;
         }
 
         void QuitInternal()
@@ -94,8 +93,6 @@ namespace Afterlife.Core
             uiManager.StageController.TearDown();
             uiManager.GameOverController.TearDown();
             uiManager.DemoController.TearDown();
-
-            Debug.Log("[System] 어플리케이션 종료");
 
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
