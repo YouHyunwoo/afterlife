@@ -5,7 +5,7 @@ namespace Afterlife.Core
     /// <summary>
     /// 게임을 관리하는 GameManager
     /// </summary>
-    public class GameManager : MonoBehaviour
+    public class GameManager : ManagerBase
     {
         public Model.Game Game;
 

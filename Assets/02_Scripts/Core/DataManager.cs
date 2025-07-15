@@ -1,4 +1,3 @@
-using UnityEngine;
 using System.Collections.Generic;
 
 namespace Afterlife.Core
@@ -6,7 +5,7 @@ namespace Afterlife.Core
     /// <summary>
     /// 게임의 기본 데이터(맵, 몬스터, 오브젝트 등)를 관리하는 매니저
     /// </summary>
-    public class DataManager : MonoBehaviour
+    public class DataManager : ManagerBase
     {
         public Data.Game GameData;
         public Data.Skill[] SkillDataArray;

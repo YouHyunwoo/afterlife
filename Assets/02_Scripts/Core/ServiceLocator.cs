@@ -15,7 +15,7 @@ namespace Afterlife.Core
         /// </summary>
         public static void Register<T>(T service) where T : class
         {
-            var type = typeof(T);
+            var type = service.GetType();
             if (_services.ContainsKey(type))
             {
                 _services[type] = service;

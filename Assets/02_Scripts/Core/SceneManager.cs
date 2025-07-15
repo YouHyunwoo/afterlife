@@ -15,7 +15,7 @@ namespace Afterlife.Core
         Demo,
     }
 
-    public class SceneManager : MonoBehaviour
+    public class SceneManager : ManagerBase
     {
         [SerializeField] UI.Controller[] controllers;
 
@@ -59,6 +59,18 @@ namespace Afterlife.Core
             {
                 SceneControllerMap[nextState].Screen.Show();
                 SceneControllerMap[nextState].OnSceneEntered(previousSceneState, SceneControllerMap[previousSceneState]);
+            }
+        }
+
+        public void ChangeState(string nextStateName)
+        {
+            if (System.Enum.TryParse(nextStateName, out SceneState nextState))
+            {
+                ChangeState(nextState);
+            }
+            else
+            {
+                Debug.LogError($"SceneManager: Invalid SceneState name: {nextStateName}");
             }
         }
     }

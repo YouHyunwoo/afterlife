@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Afterlife.Core
 {
-    public class EffectManager : SystemBase
+    public class EffectManager : ManagerBase
     {
         [SerializeField] GameObject[] effectPrefabs;
 

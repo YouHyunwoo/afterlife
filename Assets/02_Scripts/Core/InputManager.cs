@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 namespace Afterlife.Core
 {
-    public class InputManager : MonoBehaviour
+    public class InputManager : ManagerBase
     {
         [SerializeField] PlayerInput playerInput;
         [SerializeField] Camera mainCamera;

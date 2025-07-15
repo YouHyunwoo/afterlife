@@ -34355,7 +34355,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1719502676
@@ -40955,15 +40955,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4322455fdd608844a62697d784f370d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  managers:
+  - {fileID: 1230561112}
+  - {fileID: 411740062}
+  - {fileID: 1900353404}
+  - {fileID: 1578736212}
+  - {fileID: 1949103578}
+  - {fileID: 1845819580}
+  - {fileID: 1789464874}
+  - {fileID: 1846648686}
+  onStartEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 411740062}
+        m_TargetAssemblyTypeName: Afterlife.Core.SceneManager, DefaultAssemblyDefinition
+        m_MethodName: ChangeState
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Title
+          m_BoolArgument: 0
+        m_CallState: 2
   CurrentState: 0
-  dataManager: {fileID: 1230561112}
-  sceneManager: {fileID: 411740062}
-  inputManager: {fileID: 1900353404}
-  audioManager: {fileID: 1578736212}
-  effectManager: {fileID: 1949103578}
-  uiManager: {fileID: 1845819580}
-  gameManager: {fileID: 1789464874}
-  stageManager: {fileID: 1846648686}
 --- !u!1 &2014900633
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,7 +8,7 @@ namespace Afterlife.Core
     /// <summary>
     /// 게임 내 모든 UI 화면을 전환 및 관리하는 UIManager
     /// </summary>
-    public class UIManager : MonoBehaviour
+    public class UIManager : ManagerBase
     {
         [Header("Screens")]
         public UI.Screen TitleScreen;
@@ -29,6 +29,27 @@ namespace Afterlife.Core
         [Header("Transition")]
         [SerializeField] float transitionDuration = 0.5f;
         [SerializeField] Image transitionImage;
+
+        public override void SetUp()
+        {
+            TitleController.SetUp();
+            IntroductionController.SetUp();
+            MainController.SetUp();
+            StageController.SetUp();
+            GameOverController.SetUp();
+            DemoController.SetUp();
+            HideAll();
+        }
+
+        public override void TearDown()
+        {
+            TitleController.TearDown();
+            IntroductionController.TearDown();
+            MainController.TearDown();
+            StageController.TearDown();
+            GameOverController.TearDown();
+            DemoController.TearDown();
+        }
 
         public void HideAll()
         {

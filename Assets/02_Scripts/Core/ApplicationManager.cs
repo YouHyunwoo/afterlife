@@ -1,5 +1,6 @@
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Afterlife.Core
 {
@@ -13,17 +14,13 @@ namespace Afterlife.Core
         Exiting,
     }
 
-    public class ApplicationManager : MonoBehaviour
+    public class ApplicationManager : ManagerBase
     {
         [Header("Managers")]
-        public DataManager dataManager;
-        public SceneManager sceneManager;
-        public InputManager inputManager;
-        public AudioManager audioManager;
-        public EffectManager effectManager;
-        public UIManager uiManager;
-        public GameManager gameManager;
-        public StageManager stageManager;
+        [SerializeField] ManagerBase[] managers;
+
+        [Header("Starter")]
+        [SerializeField] UnityEvent onStartEvent;
 
         [Header("Application State")]
         public ApplicationState CurrentState;
@@ -31,36 +28,23 @@ namespace Afterlife.Core
 
         void Awake()
         {
+            CurrentState = ApplicationState.Initializing;
+
             ServiceLocator.Register(this);
-            ServiceLocator.Register(dataManager);
-            ServiceLocator.Register(sceneManager);
-            ServiceLocator.Register(inputManager);
-            ServiceLocator.Register(audioManager);
-            ServiceLocator.Register(effectManager);
-            ServiceLocator.Register(uiManager);
-            ServiceLocator.Register(gameManager);
-            ServiceLocator.Register(stageManager);
+
+            foreach (var manager in managers)
+            {
+                if (manager == null) { continue; }
+
+                ServiceLocator.Register(manager);
+            }
         }
 
         void Start()
         {
             enabled = false;
 
-            CurrentState = ApplicationState.Initializing;
-
-            Localization.Load();
-
-            uiManager.TitleController.SetUp();
-            uiManager.IntroductionController.SetUp();
-            uiManager.MainController.SetUp();
-            uiManager.StageController.SetUp();
-            uiManager.GameOverController.SetUp();
-            uiManager.DemoController.SetUp();
-            uiManager.HideAll();
-
-            CurrentState = ApplicationState.Running;
-
-            sceneManager.ChangeState(SceneState.Title);
+            SetUp();
         }
 
         void LateUpdate()
@@ -73,32 +57,52 @@ namespace Afterlife.Core
             QuitInternal();
         }
 
-        public void Quit()
-        {
-            isQuitReserved = true;
-            enabled = true;
-
-            CurrentState = ApplicationState.PendingExit;
-        }
-
         void QuitInternal()
         {
-            CurrentState = ApplicationState.Exiting;
-
-            DOTween.KillAll();
-
-            uiManager.TitleController.TearDown();
-            uiManager.IntroductionController.TearDown();
-            uiManager.MainController.TearDown();
-            uiManager.StageController.TearDown();
-            uiManager.GameOverController.TearDown();
-            uiManager.DemoController.TearDown();
+            TearDown();
 
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #else
             Application.Quit();
 #endif
+        }
+
+        public override void SetUp()
+        {
+            Localization.Load();
+
+            foreach (var manager in managers)
+            {
+                if (manager == null) { continue; }
+
+                manager.SetUp();
+            }
+
+            CurrentState = ApplicationState.Running;
+            onStartEvent?.Invoke();
+        }
+
+        public override void TearDown()
+        {
+            CurrentState = ApplicationState.Exiting;
+
+            DOTween.KillAll();
+
+            foreach (var manager in managers)
+            {
+                if (manager == null) { continue; }
+
+                manager.TearDown();
+            }
+        }
+
+        public void Quit()
+        {
+            isQuitReserved = true;
+            enabled = true;
+
+            CurrentState = ApplicationState.PendingExit;
         }
     }
 }

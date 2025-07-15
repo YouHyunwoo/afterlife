@@ -7,7 +7,7 @@ namespace Afterlife.Core
     /// <summary>
     /// 게임 내 오디오(BGM, 효과음) 재생 및 관리를 담당하는 AudioManager
     /// </summary>
-    public class AudioManager : MonoBehaviour
+    public class AudioManager : ManagerBase
     {
         [Header("Audio Mixer")]
         [SerializeField] AudioMixer audioMixer;

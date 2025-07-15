@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 namespace Afterlife.Core
 {
-    public class StageManager : MonoBehaviour
+    public class StageManager : ManagerBase
     {
         [Header("Player")]
         [SerializeField] PlayerModeSystem playerModeSystem;
