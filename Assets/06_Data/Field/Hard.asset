@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c934c1e21ca6c5a41be234822673a946, type: 3}
   m_Name: Hard
   m_EditorClassIdentifier: 
-  VillageCount: 4
+  VillageCount: 5
   VillagePrefab: {fileID: 4135642791990732722, guid: cf4fb9c8c53563e418df36b2c898f252, type: 3}
   ResourceObjectGroups:
   - Name: Tree

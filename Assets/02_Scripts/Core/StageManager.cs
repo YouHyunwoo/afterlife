@@ -220,11 +220,14 @@ namespace Afterlife.Core
 
             var mapSize = Stage.Map.Size;
 
+            var pivotX = Random.Range(padding, mapSize.x - padding);
+            var pivotY = Random.Range(padding, mapSize.y - padding);
+
             for (int i = 0; i < villageCount; i++)
             {
-                var x = Random.Range(padding, mapSize.x - padding);
-                var y = Random.Range(padding, mapSize.y - padding);
-                var location = new Vector2Int(x, y);
+                var offsetX = Random.Range(-padding, padding + 1);
+                var offsetY = Random.Range(-padding, padding + 1);
+                var location = new Vector2Int(pivotX + offsetX, pivotY + offsetY);
                 if (!Stage.Map.IsAvailable(location)) { i--; continue; }
 
                 var fieldObject = fieldObjectSystem.Spawn(villagePrefab, location);

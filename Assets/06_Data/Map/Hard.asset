@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65146e39ac7a065459360d198c2e5fd5, type: 3}
   m_Name: Hard
   m_EditorClassIdentifier: 
-  Size: {x: 40, y: 40}
+  Size: {x: 100, y: 100}
   TerrainData: {fileID: 11400000, guid: 51dd41db750b9b64b909701332a9d19c, type: 2}
   FieldData: {fileID: 11400000, guid: 52c7de3f141ef8144b2e497515a9e07c, type: 2}
   GenerationFrequency: 0.1
