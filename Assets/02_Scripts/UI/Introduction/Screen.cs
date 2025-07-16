@@ -19,8 +19,8 @@ namespace Afterlife.UI.Introduction
 
         protected override void OnLocalizationChanged()
         {
-            nextKeyText.text = Localization.Get("introduction.next-key");
-            skipKeyText.text = Localization.Get("introduction.skip-key");
+            nextKeyText.text = LocalizationManager.Get("introduction.next-key");
+            skipKeyText.text = LocalizationManager.Get("introduction.skip-key");
         }
     }
 }

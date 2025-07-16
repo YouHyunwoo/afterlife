@@ -26,9 +26,9 @@ namespace Afterlife.UI.Demo
 
         protected override void OnLocalizationChanged()
         {
-            titleText.text = Localization.Get("game-clear-demo.title");
-            messageText.text = Localization.Get("game-clear-demo.message");
-            toTitleButtonText.text = Localization.Get("game-clear-demo.to-title-button");
+            titleText.text = LocalizationManager.Get("game-clear-demo.title");
+            messageText.text = LocalizationManager.Get("game-clear-demo.message");
+            toTitleButtonText.text = LocalizationManager.Get("game-clear-demo.to-title-button");
         }
     }
 }

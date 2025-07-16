@@ -52,7 +52,7 @@ namespace Afterlife.GameSystem.Stage
         public void ShowPopup(Vector3 position, string itemId, int itemAmount)
         {
             var popup = Instantiate(popupPrefab, popupContainerTransform);
-            var itemName = Localization.Get($"item.{itemId}.name");
+            var itemName = LocalizationManager.Get($"item.{itemId}.name");
             var text = $"{itemName} +{itemAmount}";
             popup.GetComponent<UI.Stage.TextIndicator>().Show(position, text);
         }

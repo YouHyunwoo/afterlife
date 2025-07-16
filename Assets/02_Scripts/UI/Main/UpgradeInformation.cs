@@ -14,9 +14,9 @@ namespace Afterlife.UI.Main
 
         public void Show(string id, int cost, UpgradeNode.UpgradeState state)
         {
-            nameText.text = Localization.Get($"upgrade.{id}.name");
+            nameText.text = LocalizationManager.Get($"upgrade.{id}.name");
             costText.text = $"{cost}";
-            descriptionText.text = Localization.Get($"upgrade.{id}.description");
+            descriptionText.text = LocalizationManager.Get($"upgrade.{id}.description");
 
             var isActive = gameObject.activeSelf;
             if (!isActive) { gameObject.SetActive(true); }

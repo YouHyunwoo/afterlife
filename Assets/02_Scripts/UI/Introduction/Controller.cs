@@ -27,7 +27,7 @@ namespace Afterlife.UI.Introduction
         {
             introductionScreen = Screen as Introduction.Screen;
 
-            Localization.OnLanguageChangedEvent += introductionScreen.Localize;
+            ServiceLocator.Get<LocalizationManager>().OnLanguageChangedEvent += introductionScreen.Localize;
             introductionScreen.Localize();
 
             pageCount = 6;
@@ -36,7 +36,7 @@ namespace Afterlife.UI.Introduction
 
         public override void TearDown()
         {
-            Localization.OnLanguageChangedEvent -= introductionScreen.Localize;
+            ServiceLocator.Get<LocalizationManager>().OnLanguageChangedEvent -= introductionScreen.Localize;
 
             introductionScreen = null;
         }
@@ -67,7 +67,7 @@ namespace Afterlife.UI.Introduction
         {
             if (currentPageIndex < pageCount)
             {
-                var message = Localization.Get($"introduction.messages.{currentPageIndex}");
+                var message = LocalizationManager.Get($"introduction.messages.{currentPageIndex}");
                 introductionScreen.SetMessage(message);
             }
             else

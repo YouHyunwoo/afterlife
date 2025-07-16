@@ -54,14 +54,14 @@ namespace Afterlife.UI.Stage
 
         protected override void OnLocalizationChanged()
         {
-            menuMissionProgressText.text = Localization.Get("stage.popup.menu.mission-progress");
-            menuContinueButtonText.text = Localization.Get("stage.popup.menu.continue-button");
-            menuGiveUpButtonText.text = Localization.Get("stage.popup.menu.giveup-button");
-            inventoryTitleText.text = Localization.Get("stage.popup.inventory.title");
-            craftTitleText.text = Localization.Get("stage.popup.craft.title");
-            rewardTitleText.text = Localization.Get("stage.popup.reward.title");
-            itemInformationRequirementsText.text = Localization.Get("stage.popup.item-information.requirements");
-            settingsText.text = Localization.Get("title.menu.settings");
+            menuMissionProgressText.text = LocalizationManager.Get("stage.popup.menu.mission-progress");
+            menuContinueButtonText.text = LocalizationManager.Get("stage.popup.menu.continue-button");
+            menuGiveUpButtonText.text = LocalizationManager.Get("stage.popup.menu.giveup-button");
+            inventoryTitleText.text = LocalizationManager.Get("stage.popup.inventory.title");
+            craftTitleText.text = LocalizationManager.Get("stage.popup.craft.title");
+            rewardTitleText.text = LocalizationManager.Get("stage.popup.reward.title");
+            itemInformationRequirementsText.text = LocalizationManager.Get("stage.popup.item-information.requirements");
+            settingsText.text = LocalizationManager.Get("title.menu.settings");
         }
     }
 }

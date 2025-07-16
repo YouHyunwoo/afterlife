@@ -15,7 +15,7 @@ namespace Afterlife.UI.Demo
         {
             demoScreen = Screen as Demo.Screen;
 
-            Localization.OnLanguageChangedEvent += demoScreen.Localize;
+            ServiceLocator.Get<LocalizationManager>().OnLanguageChangedEvent += demoScreen.Localize;
             demoScreen.Localize();
 
             demoScreen.OnToTitleButtonClickedEvent += OnToTitleButtonClicked;
@@ -23,7 +23,7 @@ namespace Afterlife.UI.Demo
 
         public override void TearDown()
         {
-            Localization.OnLanguageChangedEvent -= demoScreen.Localize;
+            ServiceLocator.Get<LocalizationManager>().OnLanguageChangedEvent -= demoScreen.Localize;
 
             demoScreen.OnToTitleButtonClickedEvent -= OnToTitleButtonClicked;
 

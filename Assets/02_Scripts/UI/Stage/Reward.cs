@@ -31,8 +31,8 @@ namespace Afterlife.UI.Stage
                 }
                 var reward = rewardCandidates[i];
                 var item = RewardListItems[i];
-                var rewardName = Localization.Get($"reward.{reward.Id}.name");
-                var rewardDescription = Localization.Get($"reward.{reward.Id}.description");
+                var rewardName = LocalizationManager.Get($"reward.{reward.Id}.name");
+                var rewardDescription = LocalizationManager.Get($"reward.{reward.Id}.description");
                 item.RewardId = reward.Id;
                 item.SetName(rewardName);
                 item.SetIcon(reward.Icon);

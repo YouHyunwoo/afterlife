@@ -15,7 +15,7 @@ namespace Afterlife.UI.GameOver
         {
             gameOverScreen = Screen as GameOver.Screen;
 
-            Localization.OnLanguageChangedEvent += gameOverScreen.Localize;
+            ServiceLocator.Get<LocalizationManager>().OnLanguageChangedEvent += gameOverScreen.Localize;
             gameOverScreen.Localize();
 
             gameOverScreen.OnToTitleButtonClickedEvent += OnToTitleButtonClicked;
@@ -23,7 +23,7 @@ namespace Afterlife.UI.GameOver
 
         public override void TearDown()
         {
-            Localization.OnLanguageChangedEvent -= gameOverScreen.Localize;
+            ServiceLocator.Get<LocalizationManager>().OnLanguageChangedEvent -= gameOverScreen.Localize;
 
             gameOverScreen.OnToTitleButtonClickedEvent -= OnToTitleButtonClicked;
 

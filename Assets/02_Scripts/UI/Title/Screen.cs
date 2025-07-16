@@ -45,17 +45,17 @@ namespace Afterlife.UI.Title
 
         protected override void OnLocalizationChanged()
         {
-            titleText.text = Localization.Get("title.menu.new-game");
-            settingsText.text = Localization.Get("title.menu.settings");
-            exitText.text = Localization.Get("title.menu.exit");
-            settingsTitleText.text = Localization.Get("title.menu.settings.title");
-            soundsCategoryText.text = Localization.Get("title.menu.settings.sounds.category");
-            masterLabelText.text = Localization.Get("title.menu.settings.sounds.master.label");
-            bgmLabelText.text = Localization.Get("title.menu.settings.sounds.bgm.label");
-            sfxLabelText.text = Localization.Get("title.menu.settings.sounds.sfx.label");
-            interfacesCategoryText.text = Localization.Get("title.menu.settings.interfaces.category");
-            languageLabelText.text = Localization.Get("title.menu.settings.interfaces.language.label");
-            languageButtonText.text = Localization.Get("title.menu.settings.interfaces.language.button");
+            titleText.text = LocalizationManager.Get("title.menu.new-game");
+            settingsText.text = LocalizationManager.Get("title.menu.settings");
+            exitText.text = LocalizationManager.Get("title.menu.exit");
+            settingsTitleText.text = LocalizationManager.Get("title.menu.settings.title");
+            soundsCategoryText.text = LocalizationManager.Get("title.menu.settings.sounds.category");
+            masterLabelText.text = LocalizationManager.Get("title.menu.settings.sounds.master.label");
+            bgmLabelText.text = LocalizationManager.Get("title.menu.settings.sounds.bgm.label");
+            sfxLabelText.text = LocalizationManager.Get("title.menu.settings.sounds.sfx.label");
+            interfacesCategoryText.text = LocalizationManager.Get("title.menu.settings.interfaces.category");
+            languageLabelText.text = LocalizationManager.Get("title.menu.settings.interfaces.language.label");
+            languageButtonText.text = LocalizationManager.Get("title.menu.settings.interfaces.language.button");
         }
     }
 }

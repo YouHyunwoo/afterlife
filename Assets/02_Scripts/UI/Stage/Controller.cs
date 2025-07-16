@@ -27,7 +27,7 @@ namespace Afterlife.UI.Stage
         {
             stageScreen = Screen as Stage.Screen;
 
-            Localization.OnLanguageChangedEvent += stageScreen.Localize;
+            ServiceLocator.Get<LocalizationManager>().OnLanguageChangedEvent += stageScreen.Localize;
             stageScreen.Localize();
 
             stageScreen.OnMenuButtonClickedEvent += OnMenuButtonClicked;
@@ -77,7 +77,7 @@ namespace Afterlife.UI.Stage
                 itemSlot.SetItemCount(0);
             }
 
-            Localization.OnLanguageChangedEvent -= stageScreen.Localize;
+            ServiceLocator.Get<LocalizationManager>().OnLanguageChangedEvent -= stageScreen.Localize;
 
             stageScreen = null;
         }

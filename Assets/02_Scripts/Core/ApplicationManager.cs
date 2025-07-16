@@ -70,8 +70,6 @@ namespace Afterlife.Core
 
         public override void SetUp()
         {
-            Localization.Load();
-
             foreach (var manager in managers)
             {
                 if (manager == null) { continue; }

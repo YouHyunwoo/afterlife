@@ -21,7 +21,7 @@ namespace Afterlife.UI.Title
         {
             titleScreen = Screen as Title.Screen;
 
-            Localization.OnLanguageChangedEvent += titleScreen.Localize;
+            ServiceLocator.Get<LocalizationManager>().OnLanguageChangedEvent += titleScreen.Localize;
             titleScreen.Localize();
 
             titleScreen.OnNewGameButtonClickedEvent += OnNewGameButtonClicked;
@@ -57,7 +57,7 @@ namespace Afterlife.UI.Title
             titleScreen.SettingsView.OnSFXVolumeChangedEvent -= OnSFXVolumeChanged;
             titleScreen.SettingsView.OnLanguageButtonClickedEvent -= OnLanguageButtonClicked;
 
-            Localization.OnLanguageChangedEvent -= titleScreen.Localize;
+            ServiceLocator.Get<LocalizationManager>().OnLanguageChangedEvent -= titleScreen.Localize;
 
             titleScreen = null;
         }
@@ -92,8 +92,7 @@ namespace Afterlife.UI.Title
 
         void OnLanguageButtonClicked()
         {
-            var rotatedLanguage = (int)(Localization.CurrentLanguage + 1) % Enum.GetValues(typeof(Language)).Length;
-            Localization.SetLanguage((Language)rotatedLanguage);
+            ServiceLocator.Get<LocalizationManager>().RotateLocale();
         }
     }
 }

@@ -17,9 +17,9 @@ namespace Afterlife.UI.Stage
 
         public void Show(string id, int cost, Data.CraftRequirement[] craftRequirements)
         {
-            nameText.text = Localization.Get($"item.{id}.name");
+            nameText.text = LocalizationManager.Get($"item.{id}.name");
             costText.text = $"{cost}";
-            descriptionText.text = Localization.Get($"item.{id}.description");
+            descriptionText.text = LocalizationManager.Get($"item.{id}.description");
 
             foreach (Transform child in requirementsContainerTransform)
             {

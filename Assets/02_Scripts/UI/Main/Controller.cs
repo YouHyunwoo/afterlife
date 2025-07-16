@@ -22,7 +22,7 @@ namespace Afterlife.UI.Main
         {
             mainScreen = Screen as Main.Screen;
 
-            Localization.OnLanguageChangedEvent += mainScreen.Localize;
+            ServiceLocator.Get<LocalizationManager>().OnLanguageChangedEvent += mainScreen.Localize;
             mainScreen.Localize();
 
             mainScreen.OnMenuButtonClickedEvent += OnMenuButtonClicked;
@@ -56,7 +56,7 @@ namespace Afterlife.UI.Main
             mainScreen.MenuView.OnSaveAndQuitButtonClickedEvent -= OnSaveAndQuitButtonClicked;
             mainScreen.OnStartMissionButtonClickedEvent -= OnStartMissionButtonClicked;
 
-            Localization.OnLanguageChangedEvent -= mainScreen.Localize;
+            ServiceLocator.Get<LocalizationManager>().OnLanguageChangedEvent -= mainScreen.Localize;
 
             mainScreen = null;
         }

@@ -26,9 +26,9 @@ namespace Afterlife.UI.GameOver
 
         protected override void OnLocalizationChanged()
         {
-            titleText.text = Localization.Get("game-over.title");
-            messageText.text = Localization.Get("game-over.message");
-            toTitleButtonText.text = Localization.Get("game-over.to-title-button");
+            titleText.text = LocalizationManager.Get("game-over.title");
+            messageText.text = LocalizationManager.Get("game-over.message");
+            toTitleButtonText.text = LocalizationManager.Get("game-over.to-title-button");
         }
     }
 }

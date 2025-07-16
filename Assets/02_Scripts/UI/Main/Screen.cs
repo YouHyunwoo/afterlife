@@ -43,14 +43,14 @@ namespace Afterlife.UI.Main
 
         protected override void OnLocalizationChanged()
         {
-            navigationBarMissionText.text = Localization.Get("main.navigation-bar.mission");
-            navigationBarUpgradeText.text = Localization.Get("main.navigation-bar.upgrade");
-            missionOpportunitiesLabelText.text = Localization.Get("main.mission.opportunities.label");
-            missionMissionLabelText.text = Localization.Get("main.mission.mission.label");
-            missionStartMissionButtonText.text = Localization.Get("main.mission.start-mission-button");
-            menuContinueButtonText.text = Localization.Get("main.menu.continue-button");
-            menuSaveAndQuitButtonText.text = Localization.Get("main.menu.save-and-quit-button");
-            settingsText.text = Localization.Get("title.menu.settings");
+            navigationBarMissionText.text = LocalizationManager.Get("main.navigation-bar.mission");
+            navigationBarUpgradeText.text = LocalizationManager.Get("main.navigation-bar.upgrade");
+            missionOpportunitiesLabelText.text = LocalizationManager.Get("main.mission.opportunities.label");
+            missionMissionLabelText.text = LocalizationManager.Get("main.mission.mission.label");
+            missionStartMissionButtonText.text = LocalizationManager.Get("main.mission.start-mission-button");
+            menuContinueButtonText.text = LocalizationManager.Get("main.menu.continue-button");
+            menuSaveAndQuitButtonText.text = LocalizationManager.Get("main.menu.save-and-quit-button");
+            settingsText.text = LocalizationManager.Get("title.menu.settings");
         }
     }
 }
