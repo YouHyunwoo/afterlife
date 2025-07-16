@@ -1,11 +1,22 @@
+using Afterlife.Core;
 using UnityEngine;
 
-namespace Afterlife.Core
+namespace Afterlife.Controller
 {
-    public class TestManager : MonoBehaviour
+    public class Test : MonoBehaviour
     {
+        public KeyCode TestActivationKey;
+        bool isTestActive;
+
         void Update()
         {
+            if (Input.GetKeyDown(TestActivationKey))
+            {
+                isTestActive = !isTestActive;
+            }
+
+            if (!isTestActive) { return; }
+
             if (Input.GetKeyDown(KeyCode.F9))
             {
                 ServiceLocator.Get<StageManager>().SuccessStage();
