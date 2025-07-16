@@ -11,20 +11,7 @@ namespace Afterlife.Core
     public class UIManager : ManagerBase
     {
         [Header("Screens")]
-        public UI.Screen TitleScreen;
-        public UI.Screen IntroductionScreen;
-        public UI.Screen MainScreen;
-        public UI.Screen InGameScreen;
-        public UI.Screen GameOverScreen;
-        public UI.Screen DemoScreen;
-
-        [Header("Controllers")]
-        public UI.Title.Controller TitleController;
-        public UI.Introduction.Controller IntroductionController;
-        public UI.Main.Controller MainController;
-        public UI.Stage.Controller StageController;
-        public UI.GameOver.Controller GameOverController;
-        public UI.Demo.Controller DemoController;
+        [SerializeField] UI.Screen[] screens;
 
         [Header("Transition")]
         [SerializeField] float transitionDuration = 0.5f;
@@ -32,33 +19,34 @@ namespace Afterlife.Core
 
         public override void SetUp()
         {
-            TitleController.SetUp();
-            IntroductionController.SetUp();
-            MainController.SetUp();
-            StageController.SetUp();
-            GameOverController.SetUp();
-            DemoController.SetUp();
-            HideAll();
+            foreach (var screen in screens)
+            {
+                screen.ObtainController();
+
+                ServiceLocator.Register(screen);
+                ServiceLocator.Register(screen.Controller);
+            }
+
+            foreach (var screen in screens)
+            {
+                screen.Controller.SetUp();
+                screen.Hide();
+            }
         }
 
         public override void TearDown()
         {
-            TitleController.TearDown();
-            IntroductionController.TearDown();
-            MainController.TearDown();
-            StageController.TearDown();
-            GameOverController.TearDown();
-            DemoController.TearDown();
-        }
+            foreach (var screen in screens)
+            {
+                screen.Controller.TearDown();
+                screen.Hide();
+            }
 
-        public void HideAll()
-        {
-            TitleScreen.Hide();
-            IntroductionScreen.Hide();
-            MainScreen.Hide();
-            InGameScreen.Hide();
-            GameOverScreen.Hide();
-            DemoScreen.Hide();
+            foreach (var screen in screens)
+            {
+                ServiceLocator.Unregister(screen);
+                ServiceLocator.Unregister(screen.Controller);
+            }
         }
 
         public void FadeOut(Action onComplete = null)
@@ -83,7 +71,7 @@ namespace Afterlife.Core
             });
         }
 
-        public void FadeTransition(Action onAction = null)
+        public void Fade(Action onAction = null)
         {
             FadeOut(() => { onAction?.Invoke(); FadeIn(); });
         }

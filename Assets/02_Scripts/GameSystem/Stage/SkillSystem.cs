@@ -9,7 +9,7 @@ namespace Afterlife.GameSystem.Stage
         {
             var skills = ServiceLocator.Get<GameManager>().Game.Player.Skills;
 
-            var stageScreen = ServiceLocator.Get<UIManager>().InGameScreen as UI.Stage.Screen;
+            var stageScreen = ServiceLocator.Get<UI.Stage.Screen>();
             var skillSlotListView = stageScreen.SkillView;
             // skillSlotListView.ClearSkillSlots(); // 여기서 Clear하면 에러남
 
@@ -34,8 +34,7 @@ namespace Afterlife.GameSystem.Stage
 
         void OnSkillInformationShowed(UI.Stage.SkillSlot skillSlot)
         {
-            var uiManager = ServiceLocator.Get<UIManager>();
-            var stageScreen = uiManager.InGameScreen as UI.Stage.Screen;
+            var stageScreen = ServiceLocator.Get<UI.Stage.Screen>();
 
             var nodeRectTransform = skillSlot.GetComponent<RectTransform>();
             stageScreen.SkillInformationView.GetComponent<RectTransform>().position = nodeRectTransform.position + new Vector3(-25, stageScreen.SkillInformationView.GetComponent<RectTransform>().sizeDelta.y - 50, 0);
@@ -45,8 +44,7 @@ namespace Afterlife.GameSystem.Stage
 
         void OnSkillInformationHidden(UI.Stage.SkillSlot skillSlot)
         {
-            var uiManager = ServiceLocator.Get<UIManager>();
-            var stageScreen = uiManager.InGameScreen as UI.Stage.Screen;
+            var stageScreen = ServiceLocator.Get<UI.Stage.Screen>();
 
             stageScreen.SkillInformationView.Hide();
         }
@@ -56,7 +54,7 @@ namespace Afterlife.GameSystem.Stage
             enabled = false;
 
             var skills = ServiceLocator.Get<GameManager>().Game.Player.Skills;
-            var stageScreen = ServiceLocator.Get<UIManager>().InGameScreen as UI.Stage.Screen;
+            var stageScreen = ServiceLocator.Get<UI.Stage.Screen>();
             var skillSlotListView = stageScreen.SkillView;
 
             for (int i = 0; i < skills.Count; i++)

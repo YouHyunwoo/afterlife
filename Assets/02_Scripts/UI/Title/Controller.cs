@@ -82,7 +82,7 @@ namespace Afterlife.UI.Title
 
         void OnNewGameButtonClicked()
         {
-            ServiceLocator.Get<UIManager>().FadeTransition(() =>
+            ServiceLocator.Get<UIManager>().Fade(() =>
             {
                 ServiceLocator.Get<SceneManager>().ChangeState(SceneState.Introduction);
             });

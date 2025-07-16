@@ -15,26 +15,34 @@ namespace Afterlife.Core
         Demo,
     }
 
+    [System.Serializable]
+    public class SceneStateScreenGroup
+    {
+        public SceneState SceneState;
+        public UI.Screen Screen;
+    }
+
     public class SceneManager : ManagerBase
     {
-        [SerializeField] UI.Controller[] controllers;
-
-        public Dictionary<SceneState, UI.Controller> SceneControllerMap = new();
+        [SerializeField] SceneStateScreenGroup[] sceneStateScreenGroups;
         public SceneState CurrentState;
+
+        readonly Dictionary<SceneState, UI.Screen> sceneScreenMap = new();
 
         void Awake()
         {
-            SceneControllerMap[SceneState.None] = null;
-
-            foreach (var controller in controllers)
+            foreach (var group in sceneStateScreenGroups)
             {
-                if (controller.SceneState == SceneState.None)
+                if (group.Screen == null)
                 {
-                    throw new System.Exception($"Controller: {controller.name} does not have a valid SceneState.");
+                    Debug.LogError($"SceneStateScreenGroup: {group.SceneState} has no screen assigned.");
+                    continue;
                 }
 
-                SceneControllerMap[controller.SceneState] = controller;
+                sceneScreenMap[group.SceneState] = group.Screen;
             }
+
+            sceneScreenMap[SceneState.None] = null;
         }
 
         public void ChangeState(SceneState nextState)
@@ -45,20 +53,24 @@ namespace Afterlife.Core
                 return;
             }
 
-            var previousSceneState = CurrentState;
+            var previousState = CurrentState;
 
-            if (previousSceneState != SceneState.None)
+            if (previousState != SceneState.None)
             {
-                SceneControllerMap[previousSceneState].OnSceneExited(nextState, SceneControllerMap[nextState]);
-                SceneControllerMap[previousSceneState].Screen.Hide();
+                var previousScreen = sceneScreenMap[previousState];
+                var nextController = nextState == SceneState.None ? null : sceneScreenMap[nextState].Controller;
+                previousScreen.Controller.OnSceneExited(nextState, nextController);
+                previousScreen.Hide();
             }
 
             CurrentState = nextState;
 
             if (nextState != SceneState.None)
             {
-                SceneControllerMap[nextState].Screen.Show();
-                SceneControllerMap[nextState].OnSceneEntered(previousSceneState, SceneControllerMap[previousSceneState]);
+                var nextScreen = sceneScreenMap[nextState];
+                var previousController = previousState == SceneState.None ? null : sceneScreenMap[previousState].Controller;
+                nextScreen.Show();
+                nextScreen.Controller.OnSceneEntered(previousState, previousController);
             }
         }
 

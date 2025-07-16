@@ -274,7 +274,7 @@ namespace Afterlife.Core
 
         void OnExperienceChanged(float experience)
         {
-            var stageScreen = ServiceLocator.Get<UIManager>().InGameScreen as UI.Stage.Screen;
+            var stageScreen = ServiceLocator.Get<UI.Stage.Screen>();
             stageScreen.ExperienceView.SetAmount(experience);
         }
 
@@ -293,7 +293,7 @@ namespace Afterlife.Core
             }
             else
             {
-                ServiceLocator.Get<UIManager>().FadeTransition(() =>
+                ServiceLocator.Get<UIManager>().Fade(() =>
                 {
                     ServiceLocator.Get<SceneManager>().ChangeState(SceneState.Main);
                 });
@@ -316,7 +316,7 @@ namespace Afterlife.Core
             }
             else
             {
-                ServiceLocator.Get<UIManager>().FadeTransition(() =>
+                ServiceLocator.Get<UIManager>().Fade(() =>
                 {
                     ServiceLocator.Get<SceneManager>().ChangeState(SceneState.Main);
                 });

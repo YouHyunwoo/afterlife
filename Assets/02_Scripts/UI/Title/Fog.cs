@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Afterlife.UI.Title
 {
-    public class Fog : UI.Screen
+    public class Fog : View
     {
         public int state;
         public float alpha;

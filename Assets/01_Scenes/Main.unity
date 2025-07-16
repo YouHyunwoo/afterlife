@@ -2246,6 +2246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 490500cfa6ef5d94c85f1edafb0435c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Controller: {fileID: 0}
   toTitleButton: {fileID: 140003589}
   titleText: {fileID: 332878451}
   messageText: {fileID: 1254807595}
@@ -2263,7 +2264,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Screen: {fileID: 86649223}
-  SceneState: 6
 --- !u!1 &91462605
 GameObject:
   m_ObjectHideFlags: 0
@@ -6270,6 +6270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0234944188b7f84387b83442b9a3d97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Controller: {fileID: 265364452}
   newGameButton: {fileID: 2001044846}
   settingsButton: {fileID: 204403578}
   exitButton: {fileID: 513607443}
@@ -6298,7 +6299,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Screen: {fileID: 265364451}
-  SceneState: 1
 --- !u!1001 &266229608
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9072,13 +9072,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6d6a42bff1f5fc40b985c9f6a8ac454, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controllers:
-  - {fileID: 265364452}
-  - {fileID: 2113084206}
-  - {fileID: 853286110}
-  - {fileID: 463088778}
-  - {fileID: 1403437107}
-  - {fileID: 86649224}
+  sceneStateScreenGroups:
+  - SceneState: 1
+    Screen: {fileID: 265364451}
+  - SceneState: 2
+    Screen: {fileID: 2113084207}
+  - SceneState: 3
+    Screen: {fileID: 853286108}
+  - SceneState: 4
+    Screen: {fileID: 463088777}
+  - SceneState: 6
+    Screen: {fileID: 86649223}
+  - SceneState: 7
+    Screen: {fileID: 1403437106}
   CurrentState: 0
 --- !u!1001 &412425498
 PrefabInstance:
@@ -10343,6 +10349,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83aec29276aa9ed4aad666822fb948b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Controller: {fileID: 0}
   MenuButton: {fileID: 1466400491}
   ExperienceView: {fileID: 1616506172}
   DaysView: {fileID: 1350813738}
@@ -10376,7 +10383,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Screen: {fileID: 463088777}
-  SceneState: 4
 --- !u!1 &463553836
 GameObject:
   m_ObjectHideFlags: 0
@@ -18312,6 +18318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 622f8404fb9c11346b789cd42df2da68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Controller: {fileID: 0}
   NavigationBarView: {fileID: 61703465}
   MissionView: {fileID: 1130055159}
   UpgradeView: {fileID: 1125424723}
@@ -18358,7 +18365,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Screen: {fileID: 853286108}
-  SceneState: 3
 --- !u!1 &858751059
 GameObject:
   m_ObjectHideFlags: 0
@@ -27403,8 +27409,8 @@ RectTransform:
   - {fileID: 2113084205}
   - {fileID: 853286107}
   - {fileID: 463088776}
-  - {fileID: 1403437105}
   - {fileID: 86649222}
+  - {fileID: 1403437105}
   m_Father: {fileID: 1635950552}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -28087,6 +28093,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9334b00cb692ea044aaaee6b5a4c9c25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Controller: {fileID: 0}
   toTitleButton: {fileID: 1800826693}
   titleText: {fileID: 970735739}
   messageText: {fileID: 248323221}
@@ -28104,7 +28111,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Screen: {fileID: 1403437106}
-  SceneState: 5
 --- !u!1 &1408432553
 GameObject:
   m_ObjectHideFlags: 0
@@ -37046,18 +37052,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0e5d19f03e8b064f8c0f2711f6dac55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TitleScreen: {fileID: 265364451}
-  IntroductionScreen: {fileID: 2113084207}
-  MainScreen: {fileID: 853286108}
-  InGameScreen: {fileID: 463088777}
-  GameOverScreen: {fileID: 86649223}
-  DemoScreen: {fileID: 1403437106}
-  TitleController: {fileID: 265364452}
-  IntroductionController: {fileID: 2113084206}
-  MainController: {fileID: 853286110}
-  StageController: {fileID: 463088778}
-  GameOverController: {fileID: 86649224}
-  DemoController: {fileID: 1403437107}
+  screens:
+  - {fileID: 265364451}
+  - {fileID: 2113084207}
+  - {fileID: 853286108}
+  - {fileID: 463088777}
+  - {fileID: 86649223}
+  - {fileID: 1403437106}
   transitionDuration: 0.25
   transitionImage: {fileID: 447669694}
 --- !u!1 &1845846678
@@ -43096,7 +43097,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Screen: {fileID: 2113084207}
-  SceneState: 2
 --- !u!114 &2113084207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43109,6 +43109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b203e0313b3fa043b7794cae617d7be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Controller: {fileID: 0}
   messageText: {fileID: 1171643930}
   nextKeyText: {fileID: 891850977}
   skipKeyText: {fileID: 1588925670}

@@ -51,6 +51,15 @@ namespace Afterlife.Core
             }
         }
 
+        public static void Unregister<T>(T service) where T : class
+        {
+            var type = service.GetType();
+            if (_services.ContainsKey(type))
+            {
+                _services.Remove(type);
+            }
+        }
+
         /// <summary>
         /// 모든 서비스 해제 (테스트/리셋용)
         /// </summary>

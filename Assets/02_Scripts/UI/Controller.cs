@@ -5,8 +5,12 @@ namespace Afterlife.UI
 {
     public abstract class Controller : MonoBehaviour
     {
-        public Screen Screen;
-        public SceneState SceneState;
+        [HideInInspector] public Screen Screen;
+
+        protected virtual void Awake()
+        {
+            Screen = GetComponent<Screen>();
+        }
 
         public virtual void OnSceneEntered(SceneState previousSceneState, Controller previousScreen) { }
         public virtual void OnSceneExited(SceneState nextSceneState, Controller nextScreen) { }

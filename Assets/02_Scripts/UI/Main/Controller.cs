@@ -10,7 +10,7 @@ namespace Afterlife.UI.Main
         public override void OnSceneEntered(SceneState previousSceneState, UI.Controller previousScreen)
         {
             ServiceLocator.Get<AudioManager>().PlayBGM(SceneState.Main);
-            ServiceLocator.Get<UIManager>().MainController.RefreshView();
+            RefreshView();
         }
 
         public override void OnSceneExited(SceneState nextSceneState, UI.Controller nextScreen)

@@ -32,7 +32,7 @@ namespace Afterlife.UI.Demo
 
         void OnToTitleButtonClicked()
         {
-            ServiceLocator.Get<UIManager>().FadeTransition(() =>
+            ServiceLocator.Get<UIManager>().Fade(() =>
             {
                 ServiceLocator.Get<SceneManager>().ChangeState(SceneState.Title);
             });

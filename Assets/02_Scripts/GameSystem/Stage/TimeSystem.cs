@@ -24,7 +24,7 @@ namespace Afterlife.GameSystem.Stage
             SetDay(0);
             stage.ElapsedTime = 0f;
 
-            var stageScreen = ServiceLocator.Get<UIManager>().InGameScreen as UI.Stage.Screen;
+            var stageScreen = ServiceLocator.Get<UI.Stage.Screen>();
             stageDaysView = stageScreen.DaysView;
             stageDaysView.SetTotalDays(DayDataArray.Length);
             stageDaysView.SetDays(stage.Days + 1);

@@ -43,7 +43,6 @@ namespace Afterlife.Core
             localizedText.Clear();
 
             var stringData = Model.StringJsonDataFileLoader.LoadFromResources($"strings");
-            Debug.Log(stringData.languages.Count + " languages found in strings.json");
             foreach (var languageEntry in stringData.languages)
             {
                 if (languageEntry.languageCode != locale) { continue; }
@@ -57,8 +56,6 @@ namespace Afterlife.Core
             CurrentLanguage = ParseLocale(locale);
             PlayerPrefs.SetString("Locale", locale);
             OnLanguageChangedEvent?.Invoke();
-
-            Debug.Log($"로케일 '{locale}'이(가) 성공적으로 로드되었습니다.");
         }
 
         static Language ParseLocale(string locale)

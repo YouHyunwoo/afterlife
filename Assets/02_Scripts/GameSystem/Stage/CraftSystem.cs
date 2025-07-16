@@ -14,7 +14,7 @@ namespace Afterlife.GameSystem.Stage
         {
             inventory = ServiceLocator.Get<GameManager>().Game.Player.Inventory;
 
-            var stageScreen = ServiceLocator.Get<UIManager>().InGameScreen as UI.Stage.Screen;
+            var stageScreen = ServiceLocator.Get<UI.Stage.Screen>();
             craftView = stageScreen.CraftView;
 
             foreach (var itemSlot in craftView.ItemSlots)

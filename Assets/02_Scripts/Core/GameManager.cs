@@ -11,7 +11,7 @@ namespace Afterlife.Core
 
         public void StartGame()
         {
-            ServiceLocator.Get<UIManager>().FadeTransition(() =>
+            ServiceLocator.Get<UIManager>().Fade(() =>
             {
                 CreateGame();
                 ServiceLocator.Get<SceneManager>().ChangeState(SceneState.Main);
@@ -66,7 +66,7 @@ namespace Afterlife.Core
 
         public void QuitGame()
         {
-            ServiceLocator.Get<UIManager>().FadeTransition(() =>
+            ServiceLocator.Get<UIManager>().Fade(() =>
             {
                 // SaveGame();
                 DeleteGame();
@@ -76,7 +76,7 @@ namespace Afterlife.Core
 
         public void SucceedGame()
         {
-            ServiceLocator.Get<UIManager>().FadeTransition(() =>
+            ServiceLocator.Get<UIManager>().Fade(() =>
             {
                 DeleteGame();
                 ServiceLocator.Get<SceneManager>().ChangeState(SceneState.Demo);
@@ -85,7 +85,7 @@ namespace Afterlife.Core
 
         public void FailGame()
         {
-            ServiceLocator.Get<UIManager>().FadeTransition(() =>
+            ServiceLocator.Get<UIManager>().Fade(() =>
             {
                 DeleteGame();
                 ServiceLocator.Get<SceneManager>().ChangeState(SceneState.GameOver);
@@ -96,7 +96,7 @@ namespace Afterlife.Core
         {
             // 게임 종료 로직
             // 예: 플레이어 상태 초기화, 스테이지 리셋 등
-            ServiceLocator.Get<UIManager>().MainController.ResetView();
+            ServiceLocator.Get<UI.Main.Controller>().ResetView();
 
             Game = null;
 
@@ -105,7 +105,7 @@ namespace Afterlife.Core
 
         public void StartStage()
         {
-            ServiceLocator.Get<UIManager>().FadeTransition(() =>
+            ServiceLocator.Get<UIManager>().Fade(() =>
             {
                 CreateStage();
                 ServiceLocator.Get<SceneManager>().ChangeState(SceneState.InGame);

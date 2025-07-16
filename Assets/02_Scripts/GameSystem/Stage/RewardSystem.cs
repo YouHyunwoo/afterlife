@@ -10,7 +10,7 @@ namespace Afterlife.GameSystem.Stage
 
         public override void SetUp()
         {
-            var stageScreen = ServiceLocator.Get<UIManager>().InGameScreen as UI.Stage.Screen;
+            var stageScreen = ServiceLocator.Get<UI.Stage.Screen>();
             rewardView = stageScreen.RewardView;
             rewardView.OnRewardListItemClickedEvent += OnRewardListItemClicked;
 
