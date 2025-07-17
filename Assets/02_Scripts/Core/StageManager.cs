@@ -342,6 +342,7 @@ namespace Afterlife.Core
         void Update()
         {
             shortcutKeySystem.UpdateKeyInput();
+            cameraSystem.UpdateCamera();
             tileInteractionSystem.UpdateSystem();
             constructionSystem.UpdateSystem();
         }

@@ -132,6 +132,8 @@ namespace Afterlife.GameSystem.Stage
             previousLocation = pointerMoveLocation;
 
             tileIndicationSystem.SetLocation(pointerMoveLocation);
+            tileIndicationSystem.SetColor(map.Field.IsInBounds(pointerMoveLocation) ? Color.white : Color.clear);
+
             if (map.Field.IsInBounds(pointerMoveLocation) && map.Field.Has(pointerMoveLocation))
             {
                 map.Field.SpriteRendererGrid[pointerMoveLocation.x, pointerMoveLocation.y].sortingOrder = 99;
