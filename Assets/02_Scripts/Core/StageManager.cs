@@ -223,7 +223,7 @@ namespace Afterlife.Core
             var pivotX = Random.Range(padding, mapSize.x - padding);
             var pivotY = Random.Range(padding, mapSize.y - padding);
 
-            for (int i = 0; i < villageCount; i++)
+            for (int i = 0, t = 0; i < villageCount && t < 100; i++, t++)
             {
                 var offsetX = Random.Range(-padding, padding + 1);
                 var offsetY = Random.Range(-padding, padding + 1);
