@@ -28,6 +28,8 @@ namespace Afterlife.Core
             normalPointerButtonAction = playerInput.actions["Normal Pointer Button"];
             pointerMoveAction = playerInput.actions["Pointer Move"];
             specialPointerButtonAction = playerInput.actions["Special Pointer Button"];
+
+            Cursor.lockState = CursorLockMode.Confined;
         }
 
         void OnEnable()
