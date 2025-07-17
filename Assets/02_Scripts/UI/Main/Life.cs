@@ -5,7 +5,8 @@ namespace Afterlife.UI.Main
     public class Life : View
     {
         [SerializeField] Transform lifeContainerTransform;
-        [SerializeField] GameObject lifePrefab;
+        [SerializeField] RectTransform targetTransform; // 중심점으로 사용할 Transform
+        [SerializeField] Soul soulPrefab;
 
         public void SetLifes(int lifes)
         {
@@ -13,7 +14,8 @@ namespace Afterlife.UI.Main
 
             for (int i = 0; i < lifes; i++)
             {
-                Instantiate(lifePrefab, lifeContainerTransform);
+                var soul = Instantiate(soulPrefab, lifeContainerTransform);
+                soul.center = targetTransform;
             }
         }
     }

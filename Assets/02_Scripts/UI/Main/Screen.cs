@@ -1,56 +1,57 @@
-using System;
 using Afterlife.Core;
 using Afterlife.UI.Title;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Afterlife.UI.Main
 {
     public class Screen : UI.Screen
     {
-        [Header("Navigation Bar")]
-        public NavigationBar NavigationBarView;
+        [Header("Menu")]
+        public Button menuButton;
 
-        [Header("Mission")]
-        public Mission MissionView;
+        [Header("Experience")]
+        public Amount ExperienceView;
 
-        [Header("Upgrade")]
-        public Upgrade UpgradeView;
+        [Header("Orb")]
+        public Orb OrbView;
+
+        [Header("Magic Circle")]
+        public MagicCircle MagicCircleView;
+
+        [Header("Soul")]
+        public Life LifeView;
+
+        [Header("Guide")]
+        public Guide GuideView;
 
         [Header("Popup")]
         public Menu MenuView;
+        public Mission MissionView;
+        public Upgrade UpgradeView;
         public UpgradeInformation UpgradeInformationView;
         public Settings SettingsView;
 
         [Header("Localization")]
-        [SerializeField] TextMeshProUGUI navigationBarMissionText;
-        [SerializeField] TextMeshProUGUI navigationBarUpgradeText;
-        [SerializeField] TextMeshProUGUI missionOpportunitiesLabelText;
-        [SerializeField] TextMeshProUGUI missionMissionLabelText;
-        [SerializeField] TextMeshProUGUI missionStartMissionButtonText;
         [SerializeField] TextMeshProUGUI menuContinueButtonText;
         [SerializeField] TextMeshProUGUI menuSaveAndQuitButtonText;
         [SerializeField] TextMeshProUGUI settingsText;
-
-        public event Action OnMenuButtonClickedEvent;
-        public event Action OnStartMissionButtonClickedEvent;
-
-        void Awake()
-        {
-            NavigationBarView.OnMenuButtonClickedEvent += OnMenuButtonClickedEvent;
-            MissionView.OnStartMissionButtonClickedEvent += OnStartMissionButtonClickedEvent;
-        }
+        [SerializeField] TextMeshProUGUI missionTitleText;
+        [SerializeField] TextMeshProUGUI upgradeTitleText;
 
         protected override void OnLocalizationChanged()
         {
-            navigationBarMissionText.text = LocalizationManager.Get("main.navigation-bar.mission");
-            navigationBarUpgradeText.text = LocalizationManager.Get("main.navigation-bar.upgrade");
-            missionOpportunitiesLabelText.text = LocalizationManager.Get("main.mission.opportunities.label");
-            missionMissionLabelText.text = LocalizationManager.Get("main.mission.mission.label");
-            missionStartMissionButtonText.text = LocalizationManager.Get("main.mission.start-mission-button");
             menuContinueButtonText.text = LocalizationManager.Get("main.menu.continue-button");
             menuSaveAndQuitButtonText.text = LocalizationManager.Get("main.menu.save-and-quit-button");
             settingsText.text = LocalizationManager.Get("title.menu.settings");
+            missionTitleText.text = LocalizationManager.Get("main.mission.text");
+            upgradeTitleText.text = LocalizationManager.Get("main.upgrade.text");
+
+            if (ServiceLocator.Get<GameManager>().Game != null)
+            {
+                GuideView.SetGuideText("opportunity");
+            }
         }
     }
 }

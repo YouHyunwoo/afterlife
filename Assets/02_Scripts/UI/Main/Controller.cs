@@ -16,6 +16,10 @@ namespace Afterlife.UI.Main
         public override void OnSceneExited(SceneState nextSceneState, UI.Controller nextScreen)
         {
             mainScreen.MenuView.Hide();
+            mainScreen.MissionView.Hide();
+            mainScreen.UpgradeView.Hide();
+            mainScreen.UpgradeInformationView.Hide();
+            mainScreen.SettingsView.Hide();
         }
 
         public override void SetUp()
@@ -25,11 +29,11 @@ namespace Afterlife.UI.Main
             ServiceLocator.Get<LocalizationManager>().OnLanguageChangedEvent += mainScreen.Localize;
             mainScreen.Localize();
 
-            mainScreen.OnMenuButtonClickedEvent += OnMenuButtonClicked;
             mainScreen.MenuView.OnContinueButtonClickedEvent += OnContinueButtonClicked;
             mainScreen.MenuView.OnSettingsButtonClickedEvent += OnSettingsButtonClicked;
             mainScreen.MenuView.OnSaveAndQuitButtonClickedEvent += OnSaveAndQuitButtonClicked;
-            mainScreen.OnStartMissionButtonClickedEvent += OnStartMissionButtonClicked;
+            mainScreen.OrbView.OnButtonClickedEvent += OnOrbClicked;
+            mainScreen.MagicCircleView.OnButtonClickedEvent += OnMagicCircleClicked;
 
             var upgradeNodes = mainScreen.UpgradeView.UpgradeTreeView.upgradeNodes;
             foreach (var upgradeNode in upgradeNodes)
@@ -50,11 +54,11 @@ namespace Afterlife.UI.Main
                 upgradeNode.OnInformationHidden -= OnUpgradeNodeInformationHidden;
             }
 
-            mainScreen.OnMenuButtonClickedEvent -= OnMenuButtonClicked;
             mainScreen.MenuView.OnContinueButtonClickedEvent -= OnContinueButtonClicked;
             mainScreen.MenuView.OnSettingsButtonClickedEvent -= OnSettingsButtonClicked;
             mainScreen.MenuView.OnSaveAndQuitButtonClickedEvent -= OnSaveAndQuitButtonClicked;
-            mainScreen.OnStartMissionButtonClickedEvent -= OnStartMissionButtonClicked;
+            mainScreen.OrbView.OnButtonClickedEvent -= OnOrbClicked;
+            mainScreen.MagicCircleView.OnButtonClickedEvent -= OnMagicCircleClicked;
 
             ServiceLocator.Get<LocalizationManager>().OnLanguageChangedEvent -= mainScreen.Localize;
 
@@ -65,14 +69,15 @@ namespace Afterlife.UI.Main
         void OnContinueButtonClicked() => mainScreen.MenuView.Hide();
         void OnSettingsButtonClicked() => mainScreen.SettingsView.Show();
         void OnSaveAndQuitButtonClicked() => ServiceLocator.Get<GameManager>().QuitGame();
-        void OnStartMissionButtonClicked() => ServiceLocator.Get<GameManager>().StartStage();
+        void OnOrbClicked() => mainScreen.MissionView.Show();
+        void OnMagicCircleClicked() => mainScreen.UpgradeView.Show();
 
         void OnUpgradeItemPurchased(UpgradeNode upgradeNode)
         {
             var gameManager = ServiceLocator.Get<GameManager>();
             var game = gameManager.Game;
 
-            mainScreen.UpgradeView.ExperienceView.SetAmount(game.Player.Experience);
+            mainScreen.ExperienceView.SetAmount(game.Player.Experience);
         }
 
         void OnUpgradeNodeInformationShowed(UpgradeNode upgradeNode)
@@ -89,19 +94,16 @@ namespace Afterlife.UI.Main
 
         public override void RefreshView()
         {
-            mainScreen.GetComponent<Tab>().SetView(0);
-
             var game = ServiceLocator.Get<GameManager>().Game;
 
-            mainScreen.MissionView.LifeView.SetLifes(game.Lives);
+            mainScreen.ExperienceView.SetAmount(game.Player.Experience);
+            mainScreen.LifeView.SetLifes(game.Lives);
+            mainScreen.GuideView.SetGuideText("opportunity");
             mainScreen.MissionView.MissionProgressView.SetProgress(game.CurrentStageIndex, game.TotalStageCount);
-            mainScreen.UpgradeView.ExperienceView.SetAmount(game.Player.Experience);
         }
 
         public void ResetView()
         {
-            mainScreen.GetComponent<Tab>().SetView(0);
-
             var upgradeNodes = mainScreen.UpgradeView.UpgradeTreeView.upgradeNodes;
             foreach (var upgradeNode in upgradeNodes)
             {

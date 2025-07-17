@@ -4,9 +4,9 @@ using UnityEngine.UI;
 
 namespace Afterlife.UI.Main
 {
-    public class Mission : View
+    public class Orb : View
     {
-        public Progress MissionProgressView;
+        [SerializeField] Animator animator;
         [SerializeField] Button button;
 
         public event Action OnButtonClickedEvent;

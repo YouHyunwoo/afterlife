@@ -56,24 +56,16 @@
                     "text": "Skip"
                 },
                 {
-                    "id": "main.navigation-bar.mission",
+                    "id": "main.mission.text",
                     "text": "Mission"
                 },
                 {
-                    "id": "main.navigation-bar.upgrade",
+                    "id": "main.upgrade.text",
                     "text": "Upgrade"
                 },
                 {
-                    "id": "main.mission.opportunities.label",
+                    "id": "main.opportunity.text",
                     "text": "Opportunities"
-                },
-                {
-                    "id": "main.mission.mission.label",
-                    "text": "Mission"
-                },
-                {
-                    "id": "main.mission.start-mission-button",
-                    "text": "Start Mission"
                 },
                 {
                     "id": "main.menu.continue-button",
@@ -633,24 +625,16 @@
                     "text": "스킵"
                 },
                 {
-                    "id": "main.navigation-bar.mission",
+                    "id": "main.mission.text",
                     "text": "임무"
                 },
                 {
-                    "id": "main.navigation-bar.upgrade",
+                    "id": "main.upgrade.text",
                     "text": "업그레이드"
                 },
                 {
-                    "id": "main.mission.opportunities.label",
+                    "id": "main.opportunity.text",
                     "text": "기회"
-                },
-                {
-                    "id": "main.mission.mission.label",
-                    "text": "임무"
-                },
-                {
-                    "id": "main.mission.start-mission-button",
-                    "text": "임무 시작"
                 },
                 {
                     "id": "main.menu.continue-button",

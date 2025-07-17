@@ -17,10 +17,15 @@ namespace Afterlife.UI.Title
             rectTransform = GetComponent<RectTransform>();
         }
 
-        void Start()
+        void OnEnable()
         {
             state = 0;
             StartCoroutine(FogRoutine());
+        }
+
+        void OnDisable()
+        {
+            StopAllCoroutines();
         }
 
         IEnumerator FogRoutine()
