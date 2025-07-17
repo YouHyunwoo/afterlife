@@ -151,7 +151,7 @@ namespace Afterlife.GameSystem.Stage
 
         void ProcessPointerUp()
         {
-            StopInteractionRoutine();
+            // StopInteractionRoutine();
             isPointerDown = false;
         }
 
@@ -170,25 +170,39 @@ namespace Afterlife.GameSystem.Stage
 
         IEnumerator InteractionRoutine(Vector2Int location)
         {
-            InteractByLocation(location);
-            if (!enabled || !player.IsAutomationEnabled) { yield break; }
+            var hasTileObject = map.Field.IsInBounds(location) && map.Field.Has(location);
+            var targetTileObjectTransform = hasTileObject ? map.Field.Get(location) : null;
+            var interactionLocation = new Vector2Int(location.x, location.y);
+            InteractByLocation(location, out bool targetDead);
+
+            // if (!enabled || !player.IsAutomationEnabled) { yield break; }
 
             var waitTime = new WaitForSeconds(1f / player.AttackSpeed);
             var playerAttackSpeed = player.AttackSpeed;
-            while (enabled && isPointerDown)
+            while (enabled && !targetDead)
             {
                 if (playerAttackSpeed != player.AttackSpeed)
-                {
+                {   
                     playerAttackSpeed = player.AttackSpeed;
                     waitTime = new WaitForSeconds(1f / player.AttackSpeed);
                 }
                 yield return waitTime;
-                InteractByLocation(location);
+                if (targetTileObjectTransform != null)
+                {
+                    interactionLocation = Vector2Int.FloorToInt(targetTileObjectTransform.position);
+                }
+                InteractByLocation(interactionLocation, out targetDead);
+                if (targetDead)
+                {
+                    targetTileObjectTransform = null;
+                    targetDead = false;
+                }
             }
         }
 
-        void InteractByLocation(Vector2Int location)
+        void InteractByLocation(Vector2Int location, out bool targetDead)
         {
+            targetDead = false;
             if (map == null || map.Field == null || player == null) { return; }
 
             var attackRange = (int)player.AttackRange - 1;
@@ -206,6 +220,7 @@ namespace Afterlife.GameSystem.Stage
                     if (tileObjectTransform.TryGetComponent(out View.Object @object))
                     {
                         @object.Interact(player);
+                        targetDead = !@object.IsAlive;
                     }
                 }
             }
