@@ -79,5 +79,12 @@ namespace Afterlife.GameSystem.Stage
                 isDragging = false;
             }
         }
+
+        public void SetCameraPosition(Vector2Int location)
+        {
+            if (map == null) { return; }
+
+            mainCamera.transform.position = new Vector3(location.x, location.y, mainCamera.transform.position.z);
+        }
     }
 }

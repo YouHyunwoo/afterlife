@@ -85,9 +85,10 @@ namespace Afterlife.Core
             constructionSystem.SetUp();
             tileIndicationSystem.SetUp();
 
-            CreateObjectsForStage();
+            CreateObjectsForStage(out var pivot);
             SetUpPlayer();
             Stage.Map.Fog.Invalidate();
+            cameraSystem.SetCameraPosition(pivot);
 
             isDispositionRequested = false;
             enabled = true;
@@ -153,11 +154,11 @@ namespace Afterlife.Core
             }
         }
 
-        void CreateObjectsForStage()
+        void CreateObjectsForStage(out Vector2Int pivot)
         {
             CreateTerrainObjects();
             CreateFogObjects();
-            CreateFieldObjects();
+            CreateFieldObjects(out pivot);
         }
 
         void CreateTerrainObjects()
@@ -201,15 +202,16 @@ namespace Afterlife.Core
             }
         }
 
-        void CreateFieldObjects()
+        void CreateFieldObjects(out Vector2Int pivot)
         {
             var fieldData = Stage.Data.MapData.FieldData;
-            GenerateVillages(fieldData);
+            GenerateVillages(fieldData, out pivot);
             GenerateEnvironments(fieldData);
         }
 
-        void GenerateVillages(Data.Field fieldData)
+        void GenerateVillages(Data.Field fieldData, out Vector2Int pivot)
         {
+            pivot = Vector2Int.zero;
             var padding = 2;
             var villageCount = fieldData.VillageCount;
             var villagePrefab = fieldData.VillagePrefab;
@@ -220,22 +222,31 @@ namespace Afterlife.Core
 
             var mapSize = Stage.Map.Size;
 
-            var pivotX = Random.Range(padding, mapSize.x - padding);
-            var pivotY = Random.Range(padding, mapSize.y - padding);
-
-            for (int i = 0, t = 0; i < villageCount && t < 100; i++, t++)
+            var isValid = false;
+            while (!isValid)
             {
-                var offsetX = Random.Range(-padding, padding + 1);
-                var offsetY = Random.Range(-padding, padding + 1);
-                var location = new Vector2Int(pivotX + offsetX, pivotY + offsetY);
-                if (!Stage.Map.IsAvailable(location)) { i--; continue; }
+                var pivotX = Random.Range(padding, mapSize.x - padding);
+                var pivotY = Random.Range(padding, mapSize.y - padding);
 
-                var fieldObject = fieldObjectSystem.Spawn(villagePrefab, location);
-                if (!fieldObject.TryGetComponent(out View.Object village))
+                pivot = new Vector2Int(pivotX, pivotY);
+
+                int trials = 0;
+                for (int i = 0; i < villageCount && trials < 100; i++, trials++)
                 {
-                    Debug.LogError($"Village prefab {villagePrefab.name} does not have a Village component.");
-                    continue;
+                    var offsetX = Random.Range(-padding, padding + 1);
+                    var offsetY = Random.Range(-padding, padding + 1);
+                    var location = new Vector2Int(pivotX + offsetX, pivotY + offsetY);
+                    if (!Stage.Map.IsAvailable(location)) { i--; continue; }
+
+                    var fieldObject = fieldObjectSystem.Spawn(villagePrefab, location);
+                    if (!fieldObject.TryGetComponent(out View.Object village))
+                    {
+                        Debug.LogError($"Village prefab {villagePrefab.name} does not have a Village component.");
+                        continue;
+                    }
                 }
+
+                if (trials < 100) { isValid = true; }
             }
         }
 
