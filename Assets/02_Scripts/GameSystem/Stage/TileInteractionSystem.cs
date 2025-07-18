@@ -7,158 +7,87 @@ namespace Afterlife.GameSystem.Stage
 {
     public class TileInteractionSystem : SystemBase
     {
+        [SerializeField] InputSystem inputSystem;
         [SerializeField] PlayerModeSystem playerModeSystem;
         [SerializeField] TileIndicationSystem tileIndicationSystem;
-        [SerializeField] Camera mainCamera;
 
         Model.Player player;
         Model.Map map;
 
         Coroutine interactionRoutine;
-        bool isPointerDown;
         Vector2Int previousLocation;
-
-        bool pointerDownRequested;
-        Vector2Int pointerDownLocation;
-
-        bool pointerMoveRequested;
-        Vector2Int pointerMoveLocation;
-
-        bool pointerUpRequested;
 
         public override void SetUp()
         {
             player = ServiceLocator.Get<GameManager>().Game.Player;
             map = ServiceLocator.Get<StageManager>().Stage.Map;
 
-            var inputManager = ServiceLocator.Get<InputManager>();
-            inputManager.OnNormalPointerDownEvent += OnPointerDown;
-            inputManager.OnNormalPointerUpEvent += OnPointerUp;
-            inputManager.OnPointerMoveEvent += OnPointerMove;
-
-            pointerDownRequested = false;
+            inputSystem.OnNormalPointerDownEvent += OnNormalPointerDown;
+            inputSystem.OnNormalPointerUpEvent += OnNormalPointerUp;
+            inputSystem.OnPointerMoveEvent += OnPointerMove;
 
             enabled = true;
         }
 
         public override void TearDown()
         {
-            isPointerDown = false;
             StopInteractionRoutine();
 
             enabled = false;
 
-            pointerDownRequested = false;
-
-            var inputManager = ServiceLocator.Get<InputManager>();
-            inputManager.OnNormalPointerDownEvent -= OnPointerDown;
-            inputManager.OnNormalPointerUpEvent -= OnPointerUp;
-            inputManager.OnPointerMoveEvent -= OnPointerMove;
+            inputSystem.OnNormalPointerDownEvent -= OnNormalPointerDown;
+            inputSystem.OnNormalPointerUpEvent -= OnNormalPointerUp;
+            inputSystem.OnPointerMoveEvent -= OnPointerMove;
 
             player = null;
             map = null;
         }
 
-        void OnPointerDown(Vector2 pointerInScreen, Vector2 pointerInWorld, Vector2Int location)
+        void OnNormalPointerDown(Vector2 pointerInScreen, Vector2 pointerInWorld, Vector2Int pointerInTile)
         {
             if (!enabled) { return; }
-            RequestPointerDown(location);
-        }
-
-        void OnPointerMove(Vector2 pointerInScreen, Vector2 pointerInWorld, Vector2Int location)
-        {
-            if (!enabled) { return; }
-            RequestPointerMove(location);
-        }
-
-        void OnPointerUp(Vector2 pointerInScreen, Vector2 pointerInWorld, Vector2Int location)
-        {
-            if (!enabled) { return; }
-            RequestPointerUp();
-        }
-
-        public void UpdateSystem()
-        {
-            if (pointerDownRequested)
-            {
-                pointerDownRequested = false;
-                ProcessPointerDown();
-            }
-
-            if (pointerMoveRequested)
-            {
-                pointerMoveRequested = false;
-                ProcessPointerMove();
-            }
-
-            if (pointerUpRequested)
-            {
-                pointerUpRequested = false;
-                ProcessPointerUp();
-            }
-        }
-
-        void RequestPointerDown(Vector2Int location)
-        {
-            pointerDownLocation = location;
-            pointerDownRequested = true;
-        }
-
-        void ProcessPointerDown()
-        {
             if (playerModeSystem.CurrentMode != EPlayerMode.Interaction) { return; }
             if (EventSystem.current == null) { return; }
             if (EventSystem.current.IsPointerOverGameObject()) { return; }
 
             StopInteractionRoutine();
-            isPointerDown = true;
-            StartInteractionRoutine(pointerDownLocation);
+            StartInteractionRoutine(pointerInTile);
         }
 
-        void RequestPointerMove(Vector2Int location)
+        void OnNormalPointerUp(Vector2 pointerInScreen, Vector2 pointerInWorld, Vector2Int pointerInTile)
         {
-            pointerMoveLocation = location;
-            pointerMoveRequested = true;
+            if (!enabled) { return; }
         }
 
-        void ProcessPointerMove()
+        void OnPointerMove(Vector2 pointerInScreen, Vector2 pointerInWorld, Vector2Int pointerInTile)
         {
-            if (previousLocation == pointerMoveLocation) { return; }
+            if (!enabled) { return; }
+            if (previousLocation == pointerInTile) { return; }
+
             if (map.Field.IsInBounds(previousLocation) && map.Field.Has(previousLocation))
             {
                 map.Field.SpriteRendererGrid[previousLocation.x, previousLocation.y].sortingOrder = 0;
                 map.Field.TextGrid[previousLocation.x, previousLocation.y].sortingOrder = 0;
             }
-            previousLocation = pointerMoveLocation;
+            previousLocation = pointerInTile;
 
-            tileIndicationSystem.SetTilePosition(pointerMoveLocation);
-            tileIndicationSystem.SetColor(map.Field.IsInBounds(pointerMoveLocation) ? Color.white : Color.clear);
+            tileIndicationSystem.SetTilePosition(pointerInTile);
+            tileIndicationSystem.SetColor(map.Field.IsInBounds(pointerInTile) ? Color.white : Color.clear);
 
-            if (map.Field.IsInBounds(pointerMoveLocation) && map.Field.Has(pointerMoveLocation))
+            if (map.Field.IsInBounds(pointerInTile) && map.Field.Has(pointerInTile))
             {
-                map.Field.SpriteRendererGrid[pointerMoveLocation.x, pointerMoveLocation.y].sortingOrder = 99;
-                map.Field.TextGrid[pointerMoveLocation.x, pointerMoveLocation.y].sortingOrder = 99;
+                map.Field.SpriteRendererGrid[pointerInTile.x, pointerInTile.y].sortingOrder = 99;
+                map.Field.TextGrid[pointerInTile.x, pointerInTile.y].sortingOrder = 99;
             }
 
-            player.Light.Location = pointerMoveLocation;
+            player.Light.Location = pointerInTile;
             map.Fog.Invalidate();
         }
 
-        void RequestPointerUp()
-        {
-            pointerUpRequested = true;
-        }
-
-        void ProcessPointerUp()
-        {
-            // StopInteractionRoutine();
-            isPointerDown = false;
-        }
-
-        void StartInteractionRoutine(Vector2Int location)
+        void StartInteractionRoutine(Vector2Int tilePosition)
         {
             if (interactionRoutine != null) { return; }
-            interactionRoutine = StartCoroutine(InteractionRoutine(location));
+            interactionRoutine = StartCoroutine(InteractionRoutine(tilePosition));
         }
 
         void StopInteractionRoutine()
@@ -168,34 +97,31 @@ namespace Afterlife.GameSystem.Stage
             interactionRoutine = null;
         }
 
-        IEnumerator InteractionRoutine(Vector2Int location)
+        IEnumerator InteractionRoutine(Vector2Int tilePosition)
         {
-            var hasTileObject = map.Field.IsInBounds(location) && map.Field.Has(location);
-            var targetTileObjectTransform = hasTileObject ? map.Field.Get(location) : null;
-            var interactionLocation = new Vector2Int(location.x, location.y);
-            InteractByLocation(location, out bool targetDead);
+            var hasTileObject = map.Field.IsInBounds(tilePosition) && map.Field.Has(tilePosition);
+            var targetTileObjectTransform = hasTileObject ? map.Field.Get(tilePosition) : null;
 
-            // if (!enabled || !player.IsAutomationEnabled) { yield break; }
-
-            var waitTime = new WaitForSeconds(1f / player.AttackSpeed);
+            var interactionLocation = tilePosition;
+            var targetDead = false;
             var playerAttackSpeed = player.AttackSpeed;
+            var waitTime = new WaitForSeconds(1f / playerAttackSpeed);
+
             while (enabled && !targetDead)
             {
+                InteractByLocation(interactionLocation, out targetDead);
+
                 if (playerAttackSpeed != player.AttackSpeed)
-                {   
+                {
                     playerAttackSpeed = player.AttackSpeed;
-                    waitTime = new WaitForSeconds(1f / player.AttackSpeed);
+                    waitTime = new WaitForSeconds(1f / playerAttackSpeed);
                 }
+
                 yield return waitTime;
+
                 if (targetTileObjectTransform != null)
                 {
                     interactionLocation = Vector2Int.FloorToInt(targetTileObjectTransform.position);
-                }
-                InteractByLocation(interactionLocation, out targetDead);
-                if (targetDead)
-                {
-                    targetTileObjectTransform = null;
-                    targetDead = false;
                 }
             }
         }

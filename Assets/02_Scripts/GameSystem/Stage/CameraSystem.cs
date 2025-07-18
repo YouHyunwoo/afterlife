@@ -5,10 +5,11 @@ namespace Afterlife.GameSystem.Stage
 {
     public class CameraSystem : SystemBase
     {
+        [SerializeField] InputSystem inputSystem;
         [SerializeField] TileIndicationSystem tileIndicationSystem;
         [SerializeField] Camera mainCamera;
         [SerializeField] float screenPadding = 10f;
-        [SerializeField] float cameraMoveSpeed = 10f; // 카메라 이동 속도
+        [SerializeField] float cameraMoveSpeed = 10f;
 
         Model.Player player;
         Model.Map map;
@@ -23,10 +24,9 @@ namespace Afterlife.GameSystem.Stage
             player = ServiceLocator.Get<GameManager>().Game.Player;
             map = ServiceLocator.Get<StageManager>().Stage.Map;
 
-            var inputManager = ServiceLocator.Get<InputManager>();
-            inputManager.OnSpecialPointerDownEvent += OnSpecialPointerDown;
-            inputManager.OnPointerMoveEvent += OnPointerMove;
-            inputManager.OnSpecialPointerUpEvent += OnSpecialPointerUp;
+            // inputSystem.OnSpecialPointerDownEvent += OnSpecialPointerDown;
+            // inputSystem.OnSpecialPointerUpEvent += OnSpecialPointerUp;
+            inputSystem.OnPointerMoveEvent += OnPointerMove;
 
             isDragging = false;
         }
@@ -37,27 +37,26 @@ namespace Afterlife.GameSystem.Stage
 
             mainCamera.transform.position = new Vector3(0f, 0f, mainCamera.transform.position.z);
 
-            var inputManager = ServiceLocator.Get<InputManager>();
-            inputManager.OnSpecialPointerDownEvent -= OnSpecialPointerDown;
-            inputManager.OnPointerMoveEvent -= OnPointerMove;
-            inputManager.OnSpecialPointerUpEvent -= OnSpecialPointerUp;
+            // inputSystem.OnSpecialPointerDownEvent -= OnSpecialPointerDown;
+            // inputSystem.OnSpecialPointerUpEvent -= OnSpecialPointerUp;
+            inputSystem.OnPointerMoveEvent -= OnPointerMove;
 
             map = null;
             player = null;
         }
 
-        void OnSpecialPointerDown(Vector2 pointerInScreen, Vector2 pointerInWorld, Vector2Int location)
-        {
-            dragStartPosition = pointerInScreen;
-            initialCameraPosition = mainCamera.transform.position;
-            isDragging = true;
-        }
+        // void OnSpecialPointerDown(Vector2 pointerInScreen, Vector2 pointerInWorld, Vector2Int location)
+        // {
+        //     dragStartPosition = pointerInScreen;
+        //     initialCameraPosition = mainCamera.transform.position;
+        //     isDragging = true;
+        // }
 
         void OnPointerMove(Vector2 pointerInScreen, Vector2 pointerInWorld, Vector2Int location)
         {
             if (isDragging)
             {
-                var delta = ConvertToPointerInWorld(pointerInScreen) - ConvertToPointerInWorld(dragStartPosition);
+                var delta = pointerInWorld - (Vector2)mainCamera.ScreenToWorldPoint(dragStartPosition);
                 var cameraPosition = initialCameraPosition - (Vector3)delta;
 
                 cameraPosition.x = Mathf.Clamp(cameraPosition.x, 0f, map.Size.x);
@@ -69,7 +68,7 @@ namespace Afterlife.GameSystem.Stage
             this.pointerInScreen = pointerInScreen;
         }
 
-        public void UpdateCamera()
+        public override void UpdateSystem()
         {
             if (pointerInScreen.x < screenPadding || pointerInScreen.x > Screen.width - screenPadding ||
                 pointerInScreen.y < screenPadding || pointerInScreen.y > Screen.height - screenPadding)
@@ -121,18 +120,13 @@ namespace Afterlife.GameSystem.Stage
             }
         }
 
-        Vector2 ConvertToPointerInWorld(Vector2 pointerInScreen)
-        {
-            return mainCamera.ScreenToWorldPoint(pointerInScreen);
-        }
-
-        void OnSpecialPointerUp(Vector2 pointerInScreen, Vector2 pointerInWorld, Vector2Int location)
-        {
-            if (isDragging)
-            {
-                isDragging = false;
-            }
-        }
+        // void OnSpecialPointerUp(Vector2 pointerInScreen, Vector2 pointerInWorld, Vector2Int location)
+        // {
+        //     if (isDragging)
+        //     {
+        //         isDragging = false;
+        //     }
+        // }
 
         public void SetCameraPosition(Vector2Int location)
         {

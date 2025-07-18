@@ -59,15 +59,15 @@ namespace Afterlife.GameSystem.Stage
             stageDaysView = null;
         }
 
-        void Update()
+        public override void UpdateSystem()
         {
-            var deltaTime = UnityEngine.Time.deltaTime * TimeScale;
-
             if (stage.Days >= DayDataArray.Length)
             {
                 enabled = false;
                 return;
             }
+
+            var deltaTime = UnityEngine.Time.deltaTime * TimeScale;
 
             stage.ElapsedTime += deltaTime;
             var nextElapsedTimeInDay = ElapsedTimeEachDay + deltaTime;

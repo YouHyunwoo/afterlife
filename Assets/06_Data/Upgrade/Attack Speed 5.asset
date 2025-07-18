@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: attack-speed-5
   Icon: {fileID: 0}
-  Cost: 22000
+  Cost: 8000
   Parameters:
   - Name: attack-speed
     Values:

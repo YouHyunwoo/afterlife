@@ -9,6 +9,7 @@ namespace Afterlife.Core
     {
         [Header("Player")]
         [SerializeField] PlayerModeSystem playerModeSystem;
+        [SerializeField] InputSystem inputSystem;
         [SerializeField] ShortcutKeySystem shortcutKeySystem;
 
         [Header("Terrain")]
@@ -25,7 +26,6 @@ namespace Afterlife.Core
         [SerializeField] Transform fieldTransform;
         public FieldObjectSystem fieldObjectSystem;
         [SerializeField] ObjectSpawnSystem objectSpawnSystem;
-        [SerializeField] EnvironmentSpawnSystem environmentSpawnSystem;
         [SerializeField] ConstructionSystem constructionSystem;
 
         [Header("Time")]
@@ -55,6 +55,16 @@ namespace Afterlife.Core
 
         bool isDispositionRequested;
 
+        public override void SetUp()
+        {
+            enabled = false;
+        }
+
+        public override void TearDown()
+        {
+            enabled = false;
+        }
+
         public void StartStage()
         {
             CreateStage();
@@ -74,7 +84,6 @@ namespace Afterlife.Core
             fieldObjectSystem.SetUp();
             objectSpawnSystem.SetUp();
             skillSystem.SetUp();
-            environmentSpawnSystem.SetUp();
             itemCollectSystem.SetUp();
             itemUsageSystem.SetUp();
             craftSystem.SetUp();
@@ -84,6 +93,7 @@ namespace Afterlife.Core
             playerModeSystem.SetUp();
             constructionSystem.SetUp();
             tileIndicationSystem.SetUp();
+            inputSystem.SetUp();
 
             CreateObjectsForStage(out var pivot);
             SetUpPlayer();
@@ -341,9 +351,11 @@ namespace Afterlife.Core
 
         void Update()
         {
+            inputSystem.UpdateSystem();
             shortcutKeySystem.UpdateKeyInput();
-            cameraSystem.UpdateCamera();
-            tileInteractionSystem.UpdateSystem();
+            cameraSystem.UpdateSystem();
+            timeSystem.UpdateSystem();
+            objectSpawnSystem.UpdateSystem();
             constructionSystem.UpdateSystem();
         }
 
@@ -369,6 +381,7 @@ namespace Afterlife.Core
             enabled = false;
             isDispositionRequested = false;
 
+            inputSystem.TearDown();
             tileIndicationSystem.TearDown();
             constructionSystem.TearDown();
             playerModeSystem.TearDown();
@@ -378,7 +391,6 @@ namespace Afterlife.Core
             craftSystem.TearDown();
             itemUsageSystem.TearDown();
             itemCollectSystem.TearDown();
-            environmentSpawnSystem.TearDown();
             skillSystem.TearDown();
             objectSpawnSystem.TearDown();
             fieldObjectSystem.TearDown();

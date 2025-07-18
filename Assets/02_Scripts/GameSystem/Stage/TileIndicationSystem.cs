@@ -5,7 +5,7 @@ namespace Afterlife.GameSystem.Stage
 {
     public class TileIndicationSystem : SystemBase
     {
-        [SerializeField] InputManager inputManager;
+        [SerializeField] InputSystem inputSystem;
         [SerializeField] View.TerrainTileIndicator tileIndicator;
 
         Model.Player player;
@@ -16,7 +16,7 @@ namespace Afterlife.GameSystem.Stage
             player = ServiceLocator.Get<GameManager>().Game.Player;
             map = ServiceLocator.Get<StageManager>().Stage.Map;
 
-            inputManager.OnPointerMoveEvent += ShowIndicatorOnce;
+            inputSystem.OnPointerMoveEvent += ShowIndicatorOnce;
 
             tileIndicator.gameObject.SetActive(false);
             player.Light.IsActive = false;
@@ -31,7 +31,7 @@ namespace Afterlife.GameSystem.Stage
             player.Light.IsActive = false;
             tileIndicator.gameObject.SetActive(false);
 
-            inputManager.OnPointerMoveEvent -= ShowIndicatorOnce;
+            inputSystem.OnPointerMoveEvent -= ShowIndicatorOnce;
 
             map = null;
             player = null;
@@ -43,7 +43,7 @@ namespace Afterlife.GameSystem.Stage
             player.Light.IsActive = true;
             map.Fog.Invalidate();
 
-            inputManager.OnPointerMoveEvent -= ShowIndicatorOnce;
+            inputSystem.OnPointerMoveEvent -= ShowIndicatorOnce;
         }
 
         public void SetTilePosition(Vector2Int tilePosition) => tileIndicator.SetTilePosition(tilePosition);

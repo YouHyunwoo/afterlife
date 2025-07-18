@@ -41,8 +41,10 @@ namespace Afterlife.GameSystem.Stage.Field
             stage = null;
         }
 
-        void Update()
+        public override void UpdateSystem()
         {
+            if (DayIndex >= DayDataArray.Length) { return; }
+
             ElapsedTime += Time.deltaTime;
             ElapsedTimeAlways += Time.deltaTime;
 
@@ -103,10 +105,6 @@ namespace Afterlife.GameSystem.Stage.Field
         public void OnDayChanged(int dayIndex)
         {
             DayIndex = dayIndex;
-            if (DayIndex >= DayDataArray.Length)
-            {
-                enabled = false;
-            }
         }
     }
 }

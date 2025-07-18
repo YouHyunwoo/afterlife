@@ -5641,6 +5641,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 248323219}
   m_CullTransparentMesh: 1
+--- !u!1 &250134467
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 250134469}
+  - component: {fileID: 250134468}
+  m_Layer: 0
+  m_Name: Input System
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &250134468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250134467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9d5a03796c0e9342b911acf3170ea50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputManager: {fileID: 1900353404}
+  mainCamera: {fileID: 519420031}
+  PointerInScreen: {x: 0, y: 0}
+  PointerInWorld: {x: 0, y: 0}
+  PointerInTile: {x: 0, y: 0}
+--- !u!4 &250134469
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250134467}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1442482576}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &262272677
 GameObject:
   m_ObjectHideFlags: 0
@@ -6563,10 +6612,12 @@ MonoBehaviour:
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
   points:
-  - {fileID: 958297099}
+  - {fileID: 1522718474}
   - {fileID: 2093512244}
   - {fileID: 795006221}
   - {fileID: 1340094705}
+  - {fileID: 753497130}
+  - {fileID: 1392052641}
   targetSprite: {fileID: 0}
   tintColor: {r: 1, g: 1, b: 1, a: 1}
   thickness: 5
@@ -7899,9 +7950,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8208a2fbfce09e45b79e718b45a7947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputSystem: {fileID: 250134468}
   playerModeSystem: {fileID: 1066139493}
   tileIndicationSystem: {fileID: 2129864976}
-  mainCamera: {fileID: 519420031}
 --- !u!1001 &370990081
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13622,7 +13673,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 600566672}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
   m_Name: 
@@ -13641,7 +13692,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -19469,6 +19520,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Automation
       objectReference: {fileID: 0}
+    - target: {fileID: 1790829886341128746, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: Id
       value: auto-attack
@@ -20198,6 +20253,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fieldObjectSpawner: {fileID: 212219396}
+  spawnTimer: 0
+  currentResourceObjectCount: 0
 --- !u!1 &1017896158
 GameObject:
   m_ObjectHideFlags: 0
@@ -20832,6 +20889,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44dc6b2517e03564a892351c2517e18f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputSystem: {fileID: 250134468}
   tileIndicationSystem: {fileID: 2129864976}
   mainCamera: {fileID: 519420031}
   screenPadding: 10
@@ -23879,8 +23937,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 642212171}
   m_HandleRect: {fileID: 642212170}
   m_Direction: 0
-  m_Value: -0.00000076293827
-  m_Size: 0.9487179
+  m_Value: -0.0000007629406
+  m_Size: 0.948718
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -26029,7 +26087,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 623431666}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.7125
+  m_Size: 0.71250004
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -28725,6 +28783,7 @@ Transform:
   - {fileID: 2039568307}
   - {fileID: 2129864975}
   - {fileID: 1902538858}
+  - {fileID: 250134469}
   m_Father: {fileID: 2027443432}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1449939117 stripped
@@ -30885,7 +30944,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 74e73d0ce0dad024d8cbe494362a5fba, type: 2}
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: NextNodes.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: 'NextNodes.Array.data[0]'
@@ -30899,6 +30958,10 @@ PrefabInstance:
       propertyPath: 'NextNodes.Array.data[2]'
       value: 
       objectReference: {fileID: 1219849210}
+    - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
+      propertyPath: 'NextNodes.Array.data[3]'
+      value: 
+      objectReference: {fileID: 2093512243}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -37174,12 +37237,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1846648684}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e249d29bf6a0de4d9093852a68b98c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerModeSystem: {fileID: 1066139493}
+  inputSystem: {fileID: 250134468}
   shortcutKeySystem: {fileID: 1902538859}
   terrainTransform: {fileID: 1256633606}
   terrainTilemap: {fileID: 1463495427}
@@ -37190,7 +37254,6 @@ MonoBehaviour:
   fieldTransform: {fileID: 661714298}
   fieldObjectSystem: {fileID: 212219396}
   objectSpawnSystem: {fileID: 1944477075}
-  environmentSpawnSystem: {fileID: 1001290271}
   constructionSystem: {fileID: 2039568308}
   timeSystem: {fileID: 359114066}
   rewardSystem: {fileID: 228230893}
@@ -38671,10 +38734,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerInput: {fileID: 1900353403}
-  mainCamera: {fileID: 519420031}
-  PointerInScreen: {x: 0, y: 0}
-  PointerInWorld: {x: 0, y: 0}
-  Location: {x: 0, y: 0}
 --- !u!4 &1900353405
 Transform:
   m_ObjectHideFlags: 0
@@ -42150,12 +42209,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d73359621cbe08e47824a5e3bba674a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputSystem: {fileID: 250134468}
   playerModeSystem: {fileID: 1066139493}
   tileIndicationSystem: {fileID: 2129864976}
   fieldObjectSpawner: {fileID: 212219396}
-  tileInteractionSystem: {fileID: 370500480}
   itemUsageSystem: {fileID: 1166281979}
-  mainCamera: {fileID: 519420031}
 --- !u!1001 &2043350414
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43396,7 +43454,7 @@ PrefabInstance:
     - target: {fileID: 3305786121984176146, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: 'Prerequisites.Array.data[0]'
       value: 
-      objectReference: {fileID: 958297098}
+      objectReference: {fileID: 1522718473}
     - target: {fileID: 8950532544278049635, guid: 5093e46733de80545891f332c8e6b48a, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -44496,7 +44554,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a6b168397282a346aa6326b7f500ee1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputManager: {fileID: 1900353404}
+  inputSystem: {fileID: 250134468}
   tileIndicator: {fileID: 1449939118}
 --- !u!1001 &2137017942
 PrefabInstance:

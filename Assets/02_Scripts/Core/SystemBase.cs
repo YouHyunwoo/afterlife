@@ -8,5 +8,7 @@ namespace Afterlife.Core
 
         public virtual void SetUp() { }
         public virtual void TearDown() { }
+
+        public virtual void UpdateSystem() { }
     }
 }
