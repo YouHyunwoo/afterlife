@@ -131,7 +131,7 @@ namespace Afterlife.GameSystem.Stage
             }
             previousLocation = pointerMoveLocation;
 
-            tileIndicationSystem.SetLocation(pointerMoveLocation);
+            tileIndicationSystem.SetTilePosition(pointerMoveLocation);
             tileIndicationSystem.SetColor(map.Field.IsInBounds(pointerMoveLocation) ? Color.white : Color.clear);
 
             if (map.Field.IsInBounds(pointerMoveLocation) && map.Field.Has(pointerMoveLocation))

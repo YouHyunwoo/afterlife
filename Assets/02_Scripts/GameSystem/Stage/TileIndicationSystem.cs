@@ -5,16 +5,21 @@ namespace Afterlife.GameSystem.Stage
 {
     public class TileIndicationSystem : SystemBase
     {
+        [SerializeField] InputManager inputManager;
         [SerializeField] View.TerrainTileIndicator tileIndicator;
 
-        bool isIndicatorShownOnce;
+        Model.Player player;
+        Model.Map map;
 
         public override void SetUp()
         {
-            var inputManager = ServiceLocator.Get<InputManager>();
+            player = ServiceLocator.Get<GameManager>().Game.Player;
+            map = ServiceLocator.Get<StageManager>().Stage.Map;
+
             inputManager.OnPointerMoveEvent += ShowIndicatorOnce;
 
-            isIndicatorShownOnce = false;
+            tileIndicator.gameObject.SetActive(false);
+            player.Light.IsActive = false;
 
             enabled = true;
         }
@@ -23,38 +28,25 @@ namespace Afterlife.GameSystem.Stage
         {
             enabled = false;
 
+            player.Light.IsActive = false;
             tileIndicator.gameObject.SetActive(false);
 
-            if (!isIndicatorShownOnce)
-            {
-                var inputManager = ServiceLocator.Get<InputManager>();
-                inputManager.OnPointerMoveEvent -= ShowIndicatorOnce;
+            inputManager.OnPointerMoveEvent -= ShowIndicatorOnce;
 
-                isIndicatorShownOnce = false;
-            }
-            else
-            {
-                var player = ServiceLocator.Get<GameManager>().Game.Player;
-                player.Light.IsActive = false;
-            }
+            map = null;
+            player = null;
         }
 
         void ShowIndicatorOnce(Vector2 pointerInScreen, Vector2 pointerInWorld, Vector2Int location)
         {
             tileIndicator.gameObject.SetActive(true);
-            isIndicatorShownOnce = true;
-
-            var player = ServiceLocator.Get<GameManager>().Game.Player;
             player.Light.IsActive = true;
-
-            var map = ServiceLocator.Get<StageManager>().Stage.Map;
             map.Fog.Invalidate();
 
-            var inputManager = ServiceLocator.Get<InputManager>();
             inputManager.OnPointerMoveEvent -= ShowIndicatorOnce;
         }
 
-        public void SetLocation(Vector2Int location) => tileIndicator.SetLocation(location);
+        public void SetTilePosition(Vector2Int tilePosition) => tileIndicator.SetTilePosition(tilePosition);
         public void SetColor(Color color) => tileIndicator.SetColor(color);
     }
 }

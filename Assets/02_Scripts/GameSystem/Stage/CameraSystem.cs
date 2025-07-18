@@ -115,7 +115,7 @@ namespace Afterlife.GameSystem.Stage
                 var pointerInWorld = mainCamera.ScreenToWorldPoint(pointerInScreen);
                 var location = Vector2Int.FloorToInt(pointerInWorld);
 
-                tileIndicationSystem.SetLocation(location);
+                tileIndicationSystem.SetTilePosition(location);
                 player.Light.Location = location;
                 map.Fog.Invalidate();
             }

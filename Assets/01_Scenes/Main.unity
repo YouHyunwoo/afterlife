@@ -24035,7 +24035,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1f889d5ac247dd14cb25acb219f60c33, type: 2}
   - {fileID: 11400000, guid: 783aba161ab7a094db9d9089ad9e5025, type: 2}
   - {fileID: 11400000, guid: 0686c810d19becb499d4155b360dcdf0, type: 2}
-  IsCursorLocked: 1
 --- !u!1 &1232256337
 GameObject:
   m_ObjectHideFlags: 0
@@ -44497,6 +44496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a6b168397282a346aa6326b7f500ee1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputManager: {fileID: 1900353404}
   tileIndicator: {fileID: 1449939118}
 --- !u!1001 &2137017942
 PrefabInstance:
