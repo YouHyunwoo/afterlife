@@ -15,8 +15,6 @@ namespace Afterlife.GameSystem.Stage.Field
         public float ElapsedTime;
         public int DayIndex;
 
-        public event Action<View.Object> OnObjectSpawnedEvent;
-
         public override void SetUp()
         {
             stage = ServiceLocator.Get<StageManager>().Stage;
@@ -31,8 +29,6 @@ namespace Afterlife.GameSystem.Stage.Field
         public override void TearDown()
         {
             enabled = false;
-
-            OnObjectSpawnedEvent = null;
 
             DayDataArray = null;
             ElapsedTime = 0f;
@@ -95,11 +91,6 @@ namespace Afterlife.GameSystem.Stage.Field
             value *= DayDataArray[DayIndex].ValueMultiplier;
             value = Mathf.CeilToInt(value);
             @object.Value = value;
-
-            if (@object is View.Portal portal)
-            {
-                portal.OnObjectSpawnedEvent += OnObjectSpawnedEvent;
-            }
         }
 
         public void OnDayChanged(int dayIndex)

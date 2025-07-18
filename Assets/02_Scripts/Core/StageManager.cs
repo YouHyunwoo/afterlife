@@ -76,7 +76,6 @@ namespace Afterlife.Core
             missionSystem.OnMissionSuccessEvent += OnMissionSuccessed;
             missionSystem.OnMissionFailedEvent += OnMissionFailed;
             fieldObjectSystem.OnObjectSpawnedEvent += missionSystem.OnObjectSpawned;
-            objectSpawnSystem.OnObjectSpawnedEvent += missionSystem.OnObjectSpawned;
 
             timeSystem.SetUp();
             tileInteractionSystem.SetUp();
@@ -404,7 +403,6 @@ namespace Afterlife.Core
             missionSystem.OnMissionSuccessEvent -= OnMissionSuccessed;
             missionSystem.OnMissionFailedEvent -= OnMissionFailed;
             fieldObjectSystem.OnObjectSpawnedEvent -= missionSystem.OnObjectSpawned;
-            objectSpawnSystem.OnObjectSpawnedEvent -= missionSystem.OnObjectSpawned;
 
             TearDownPlayer();
             DeleteObjectsForStage();

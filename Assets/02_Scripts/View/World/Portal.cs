@@ -1,8 +1,6 @@
-using System;
 using System.Collections;
 using Afterlife.Core;
 using Afterlife.Data;
-using Afterlife.GameSystem.Stage.Field;
 using UnityEngine;
 
 namespace Afterlife.View
@@ -12,8 +10,6 @@ namespace Afterlife.View
         public ObjectSpawn ObjectSpawn;
 
         Animator Animator;
-
-        public event Action<Object> OnObjectSpawnedEvent;
 
         protected override void Awake()
         {
@@ -55,9 +51,7 @@ namespace Afterlife.View
                 if (sampledPrefab == null) { continue; }
 
                 var spawnedGameObject = fieldObjectSystem.Spawn(sampledPrefab, location);
-                var @object = spawnedGameObject.GetComponent<Object>();
-
-                OnObjectSpawnedEvent?.Invoke(@object);
+                spawnedGameObject.GetComponent<Object>();
             }
         }
 

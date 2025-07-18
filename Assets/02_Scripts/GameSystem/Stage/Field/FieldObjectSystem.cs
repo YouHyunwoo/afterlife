@@ -24,7 +24,7 @@ namespace Afterlife.GameSystem.Stage.Field
 
         public GameObject Spawn(GameObject prefab, Vector2Int location)
         {
-            if (prefab == null) { throw new System.Exception("Prefab cannot be null."); }
+            if (prefab == null) { throw new Exception("Prefab cannot be null."); }
 
             var position = new Vector3(location.x, location.y);
             var instance = Instantiate(prefab, position, Quaternion.identity, fieldTransform);
