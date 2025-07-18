@@ -47,6 +47,9 @@ namespace Afterlife.GameSystem.Stage
             {
                 equipmentSystem.TryToggleEquipment(itemData, out bool _);
             }
+
+            (ServiceLocator.Get<UI.Stage.Screen>().Controller as UI.Stage.Controller).RefreshInventoryView();
+            (ServiceLocator.Get<UI.Stage.Screen>().Controller as UI.Stage.Controller).RefreshCraftView();
         }
 
         public void ShowPopup(Vector3 position, string itemId, int itemAmount)

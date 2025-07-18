@@ -11,7 +11,6 @@ namespace Afterlife.GameSystem.Stage
         [SerializeField] PlayerModeSystem playerModeSystem;
         [SerializeField] TileIndicationSystem tileIndicationSystem;
         [SerializeField] FieldObjectSystem fieldObjectSpawner;
-        [SerializeField] ItemUsageSystem itemUsageSystem;
 
         Model.Player player;
         Model.Map map;
@@ -75,7 +74,8 @@ namespace Afterlife.GameSystem.Stage
 
             inventory.RemoveItem(itemData.Id, 1, out var _);
 
-            itemUsageSystem.RefreshInventoryView();
+            var controller = ServiceLocator.Get<UI.Stage.Screen>().Controller as UI.Stage.Controller;
+            controller.RefreshInventoryView();
 
             StopConstruction();
         }

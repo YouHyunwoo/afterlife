@@ -10,7 +10,6 @@ namespace Afterlife.Core
         [Header("Player")]
         [SerializeField] PlayerModeSystem playerModeSystem;
         [SerializeField] InputSystem inputSystem;
-        [SerializeField] ShortcutKeySystem shortcutKeySystem;
 
         [Header("Terrain")]
         [SerializeField] Transform terrainTransform;
@@ -351,7 +350,6 @@ namespace Afterlife.Core
         void Update()
         {
             inputSystem.UpdateSystem();
-            shortcutKeySystem.UpdateKeyInput();
             cameraSystem.UpdateSystem();
             timeSystem.UpdateSystem();
             objectSpawnSystem.UpdateSystem();

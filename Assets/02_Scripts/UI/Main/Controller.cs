@@ -5,6 +5,8 @@ namespace Afterlife.UI.Main
 {
     public class Controller : UI.Controller
     {
+        [SerializeField] FocusManager focusManager;
+
         Screen mainScreen;
 
         public override void OnSceneEntered(SceneState previousSceneState, UI.Controller previousScreen)
@@ -29,6 +31,7 @@ namespace Afterlife.UI.Main
             ServiceLocator.Get<LocalizationManager>().OnLanguageChangedEvent += mainScreen.Localize;
             mainScreen.Localize();
 
+            mainScreen.menuButton.onClick.AddListener(OnMenuButtonClicked);
             mainScreen.MenuView.OnContinueButtonClickedEvent += OnContinueButtonClicked;
             mainScreen.MenuView.OnSettingsButtonClickedEvent += OnSettingsButtonClicked;
             mainScreen.MenuView.OnSaveAndQuitButtonClickedEvent += OnSaveAndQuitButtonClicked;
@@ -54,6 +57,7 @@ namespace Afterlife.UI.Main
                 upgradeNode.OnInformationHidden -= OnUpgradeNodeInformationHidden;
             }
 
+            mainScreen.menuButton.onClick.RemoveListener(OnMenuButtonClicked);
             mainScreen.MenuView.OnContinueButtonClickedEvent -= OnContinueButtonClicked;
             mainScreen.MenuView.OnSettingsButtonClickedEvent -= OnSettingsButtonClicked;
             mainScreen.MenuView.OnSaveAndQuitButtonClickedEvent -= OnSaveAndQuitButtonClicked;
@@ -65,12 +69,12 @@ namespace Afterlife.UI.Main
             mainScreen = null;
         }
 
-        void OnMenuButtonClicked() => mainScreen.MenuView.Show();
+        void OnMenuButtonClicked() => focusManager.Focus(mainScreen.MenuView);
         void OnContinueButtonClicked() => mainScreen.MenuView.Hide();
-        void OnSettingsButtonClicked() => mainScreen.SettingsView.Show();
+        void OnSettingsButtonClicked() => focusManager.Focus(mainScreen.SettingsView);
         void OnSaveAndQuitButtonClicked() => ServiceLocator.Get<GameManager>().QuitGame();
-        void OnOrbClicked() => mainScreen.MissionView.Show();
-        void OnMagicCircleClicked() => mainScreen.UpgradeView.Show();
+        void OnOrbClicked() => focusManager.Focus(mainScreen.MissionView);
+        void OnMagicCircleClicked() => focusManager.Focus(mainScreen.UpgradeView);
 
         void OnUpgradeItemPurchased(UpgradeNode upgradeNode)
         {
@@ -90,6 +94,15 @@ namespace Afterlife.UI.Main
         void OnUpgradeNodeInformationHidden(UpgradeNode upgradeNode)
         {
             mainScreen.UpgradeInformationView.Hide();
+        }
+
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (focusManager.IsFocused) { focusManager.Clear(); }
+                else { focusManager.Focus(mainScreen.MenuView); }
+            }
         }
 
         public override void RefreshView()

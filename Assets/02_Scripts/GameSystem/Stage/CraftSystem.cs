@@ -22,7 +22,7 @@ namespace Afterlife.GameSystem.Stage
                 itemSlot.OnItemSlotClickedEvent += OnItemSlotClicked;
             }
 
-            RefreshCraftView();
+            (ServiceLocator.Get<UI.Stage.Screen>().Controller as UI.Stage.Controller).RefreshCraftView();
         }
 
         public override void TearDown()
@@ -44,22 +44,7 @@ namespace Afterlife.GameSystem.Stage
 
             if (!TryCraft(itemId, 1, out var _)) { return; }
 
-            RefreshCraftView();
-        }
-
-        public void RefreshCraftView()
-        {
-            var craftableItemIds = ServiceLocator.Get<DataManager>().CraftableItemIds;
-
-            for (int i = 0; i < craftableItemIds.Length && i < craftView.ItemSlots.Length; i++)
-            {
-                var craftableItemId = craftableItemIds[i];
-                var itemData = ServiceLocator.Get<DataManager>().FindItemData(craftableItemId);
-                var itemSlot = craftView.ItemSlots[i];
-                itemSlot.ItemId = craftableItemId;
-                itemSlot.SetItemIcon(itemData.Icon);
-                itemSlot.SetLocked(!IsCraftable(craftableItemId));
-            }
+            (ServiceLocator.Get<UI.Stage.Screen>().Controller as UI.Stage.Controller).RefreshCraftView();
         }
 
         public bool IsCraftable(string itemId)

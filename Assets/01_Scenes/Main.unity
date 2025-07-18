@@ -10140,6 +10140,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Screen: {fileID: 463088777}
+  focusManager: {fileID: 815958949}
+  craftSystem: {fileID: 1486662228}
 --- !u!1 &463553836
 GameObject:
   m_ObjectHideFlags: 0
@@ -10954,6 +10956,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0718c64c10692b4da6fd01e7e59ea9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemInformationView: {fileID: 275453705}
   ItemSlots:
   - {fileID: 1354032717}
   - {fileID: 75042289}
@@ -13673,7 +13676,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 600566672}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
   m_Name: 
@@ -17367,6 +17370,51 @@ MonoBehaviour:
   BGMVolumeSlider: {fileID: 1312381205}
   SFXVolumeSlider: {fileID: 1173874939}
   LanguageButton: {fileID: 1884479946}
+--- !u!1 &815958947
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 815958948}
+  - component: {fileID: 815958949}
+  m_Layer: 0
+  m_Name: Focus Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &815958948
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 815958947}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1894845966}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &815958949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 815958947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c26572a393b66e42a06a7a05a594675, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {fileID: 0}
 --- !u!1001 &825159498
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17788,6 +17836,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Screen: {fileID: 853286108}
+  focusManager: {fileID: 815958949}
 --- !u!1 &858147616
 GameObject:
   m_ObjectHideFlags: 0
@@ -20252,9 +20301,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc50745bc40a2f249b03081d2ce35b8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fieldObjectSpawner: {fileID: 212219396}
-  spawnTimer: 0
-  currentResourceObjectCount: 0
 --- !u!1 &1017896158
 GameObject:
   m_ObjectHideFlags: 0
@@ -25495,6 +25541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68bea1b4b4e96844f9193836650eefa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemInformationView: {fileID: 275453705}
   ItemSlots:
   - {fileID: 808846354}
   - {fileID: 584762432}
@@ -37244,7 +37291,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerModeSystem: {fileID: 1066139493}
   inputSystem: {fileID: 250134468}
-  shortcutKeySystem: {fileID: 1902538859}
   terrainTransform: {fileID: 1256633606}
   terrainTilemap: {fileID: 1463495427}
   dirtTile: {fileID: 11400000, guid: d2bcc464cc96fcd41a6b8bac6890c9f5, type: 2}
@@ -38483,6 +38529,7 @@ Transform:
   - {fileID: 1845819579}
   - {fileID: 1789464873}
   - {fileID: 1846648685}
+  - {fileID: 815958948}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1895318187
@@ -41357,6 +41404,7 @@ MonoBehaviour:
   - {fileID: 1845819580}
   - {fileID: 1789464874}
   - {fileID: 1846648686}
+  - {fileID: 815958949}
   onStartEvent:
     m_PersistentCalls:
       m_Calls:
@@ -42213,7 +42261,6 @@ MonoBehaviour:
   playerModeSystem: {fileID: 1066139493}
   tileIndicationSystem: {fileID: 2129864976}
   fieldObjectSpawner: {fileID: 212219396}
-  itemUsageSystem: {fileID: 1166281979}
 --- !u!1001 &2043350414
 PrefabInstance:
   m_ObjectHideFlags: 0

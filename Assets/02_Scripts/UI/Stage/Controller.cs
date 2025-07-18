@@ -1,10 +1,14 @@
 using Afterlife.Core;
+using Afterlife.GameSystem.Stage;
 using UnityEngine;
 
 namespace Afterlife.UI.Stage
 {
     public class Controller : UI.Controller
     {
+        [SerializeField] FocusManager focusManager;
+        [SerializeField] CraftSystem craftSystem;
+
         Screen stageScreen;
 
         public override void OnSceneEntered(SceneState previousSceneState, UI.Controller previousScreen)
@@ -82,9 +86,9 @@ namespace Afterlife.UI.Stage
             stageScreen = null;
         }
 
-        void OnMenuButtonClicked() => stageScreen.MenuView.Show();
+        void OnMenuButtonClicked() => focusManager.Focus(stageScreen.MenuView);
         void OnContinueButtonClicked() => stageScreen.MenuView.Hide();
-        void OnSettingsButtonClicked() => stageScreen.SettingsView.Show();
+        void OnSettingsButtonClicked() => focusManager.Focus(stageScreen.SettingsView);
         void OnGiveUpButtonClicked() => ServiceLocator.Get<StageManager>().FailStage();
         void OnItemInformationShowed(ItemSlot itemSlot)
         {
@@ -100,10 +104,84 @@ namespace Afterlife.UI.Stage
             var itemSlotRectTransform = itemSlot.GetComponent<RectTransform>();
             stageScreen.ItemInformationView.GetComponent<RectTransform>().position = itemSlotRectTransform.position + new Vector3(25, 25);
         }
-
         void OnItemInformationHidden(ItemSlot itemSlot)
         {
             stageScreen.ItemInformationView.Hide();
+        }
+
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (focusManager.IsFocused) { focusManager.Clear(); }
+                else { focusManager.Focus(stageScreen.MenuView); }
+            }
+            else if (Input.GetKeyDown(KeyCode.I))
+            {
+                if (focusManager.Target == stageScreen.InventoryView)
+                {
+                    focusManager.Clear();
+                }
+                else if (focusManager.Target != stageScreen.MenuView)
+                {
+
+                    focusManager.Focus(stageScreen.InventoryView);
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.C))
+            {
+                if (focusManager.Target == stageScreen.CraftView)
+                {
+                    focusManager.Clear();
+                }
+                else if (focusManager.Target != stageScreen.MenuView)
+                {
+                    focusManager.Focus(stageScreen.CraftView);
+                }
+            }
+        }
+
+        public void RefreshInventoryView()
+        {
+            var inventoryView = stageScreen.InventoryView;
+            // TODO: 최적화
+            for (int j = 0; j < inventoryView.ItemSlots.Length; j++)
+            {
+                inventoryView.ItemSlots[j].ItemId = null;
+                inventoryView.ItemSlots[j].SetItemIcon(null);
+                inventoryView.ItemSlots[j].SetEquippedIcon(false);
+                inventoryView.ItemSlots[j].SetItemCount(0);
+            }
+
+            var player = ServiceLocator.Get<GameManager>().Game.Player;
+            var inventory = player.Inventory;
+            var equipment = player.Equipment;
+            var i = 0;
+            foreach (var (itemId, itemAmount) in inventory)
+            {
+                var itemData = ServiceLocator.Get<DataManager>().FindItemData(itemId);
+                inventoryView.ItemSlots[i].ItemId = itemId;
+                inventoryView.ItemSlots[i].SetItemIcon(itemData.Icon);
+                inventoryView.ItemSlots[i].SetEquippedIcon(itemData.Type == Data.ItemType.Equipment && equipment.Contains(itemId));
+                inventoryView.ItemSlots[i].SetItemCount(itemAmount);
+                i++;
+            }
+        }
+
+        public void RefreshCraftView()
+        {
+            var craftView = stageScreen.CraftView;
+            var craftableItemIds = ServiceLocator.Get<DataManager>().CraftableItemIds;
+
+            for (int i = 0; i < craftableItemIds.Length && i < craftView.ItemSlots.Length; i++)
+            {
+                var craftableItemId = craftableItemIds[i];
+                var itemData = ServiceLocator.Get<DataManager>().FindItemData(craftableItemId);
+                var itemSlot = craftView.ItemSlots[i];
+                itemSlot.ItemId = craftableItemId;
+                itemSlot.SetItemIcon(itemData.Icon);
+                itemSlot.SetLocked(!craftSystem.IsCraftable(craftableItemId));
+            }
         }
 
         public override void RefreshView()

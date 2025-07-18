@@ -68,29 +68,5 @@ namespace Afterlife.GameSystem.Stage
 
             OnItemSlotClickedEvent?.Invoke(slot);
         }
-
-        public void RefreshInventoryView()
-        {
-            // TODO: 최적화
-            for (int j = 0; j < inventoryView.ItemSlots.Length; j++)
-            {
-                inventoryView.ItemSlots[j].ItemId = null;
-                inventoryView.ItemSlots[j].SetItemIcon(null);
-                inventoryView.ItemSlots[j].SetEquippedIcon(false);
-                inventoryView.ItemSlots[j].SetItemCount(0);
-            }
-
-            var equipment = ServiceLocator.Get<GameManager>().Game.Player.Equipment;
-            var i = 0;
-            foreach (var (itemId, itemAmount) in inventory)
-            {
-                var itemData = ServiceLocator.Get<DataManager>().FindItemData(itemId);
-                inventoryView.ItemSlots[i].ItemId = itemId;
-                inventoryView.ItemSlots[i].SetItemIcon(itemData.Icon);
-                inventoryView.ItemSlots[i].SetEquippedIcon(itemData.Type == Data.ItemType.Equipment && equipment.Contains(itemId));
-                inventoryView.ItemSlots[i].SetItemCount(itemAmount);
-                i++;
-            }
-        }
     }
 }
