@@ -1,12 +1,14 @@
 using Afterlife.Core;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Afterlife.UI.Introduction
 {
     public class Screen : UI.Screen
     {
         [SerializeField] TextMeshProUGUI messageText;
+        public Button NextButton;
 
         [Header("Localization")]
         [SerializeField] TextMeshProUGUI nextKeyText;

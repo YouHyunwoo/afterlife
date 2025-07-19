@@ -26,6 +26,8 @@ namespace Afterlife.Core
             Game = new Model.Game
             {
                 Data = gameData,
+                IsMainTutorialActive = true,
+                IsStageTutorialActive = true,
                 Upgrade = new Model.Upgrade(),
                 Reward = new Model.Reward(),
                 Lives = gameData.Lifes,

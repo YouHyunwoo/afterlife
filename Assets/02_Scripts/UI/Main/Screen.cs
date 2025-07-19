@@ -39,6 +39,7 @@ namespace Afterlife.UI.Main
         [SerializeField] TextMeshProUGUI settingsText;
         [SerializeField] TextMeshProUGUI missionTitleText;
         [SerializeField] TextMeshProUGUI upgradeTitleText;
+        [SerializeField] TextMeshProUGUI skipTutorialText;
 
         protected override void OnLocalizationChanged()
         {
@@ -47,6 +48,7 @@ namespace Afterlife.UI.Main
             settingsText.text = LocalizationManager.Get("title.menu.settings");
             missionTitleText.text = LocalizationManager.Get("main.mission.text");
             upgradeTitleText.text = LocalizationManager.Get("main.upgrade.text");
+            skipTutorialText.text = LocalizationManager.Get("main.tutorial.skip-key.text");
 
             if (ServiceLocator.Get<GameManager>().Game != null)
             {

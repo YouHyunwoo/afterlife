@@ -566,6 +566,38 @@
                 {
                     "id": "introduction.messages.5",
                     "text": "“Manifest your will.\\nThat is the only way to survive in this world.”"
+                },
+                {
+                    "id": "main.tutorial.messages.0",
+                    "text": "This is the space between.\\nThe trial begins here.\\nYour will shall be proven within this boundary."
+                },
+                {
+                    "id": "main.tutorial.messages.1",
+                    "text": "The orb at the center is the key.\\nBeyond it lies your appointed mission.\\nWhether you are worthy—this will determine."
+                },
+                {
+                    "id": "main.tutorial.messages.2",
+                    "text": "The magic circle beneath amplifies the flow of Etheron.\\nWithin it, you may alter and enhance your abilities.\\nPower is not a right. It is a burden."
+                },
+                {
+                    "id": "main.tutorial.messages.3",
+                    "text": "What circles the orb are your remaining chances.\\nNot time—but potential.\\nWith each one lost, the end draws near."
+                },
+                {
+                    "id": "main.tutorial.messages.4",
+                    "text": "The value shown at the top left is called Etheron.\\nIt is your influence, the trace of your existence.\\nAction leaves a mark. A mark becomes strength."
+                },
+                {
+                    "id": "main.tutorial.messages.5",
+                    "text": "The symbol at the top right grants access to all structures of this realm.\\nBut full understanding is not required.\\nWill matters more than comprehension."
+                },
+                {
+                    "id": "main.tutorial.messages.6",
+                    "text": "From this point forth, your will shall lead.\\nChoices cannot be undone. Consequences shall return to you.\\nRecklessness will not be forgiven.\\n…Now, begin."
+                },
+                {
+                    "id": "main.tutorial.skip-key.text",
+                    "text": "Skip"
                 }
             ]
         },
@@ -1135,6 +1167,38 @@
                 {
                     "id": "introduction.messages.5",
                     "text": "“의지를 실현하라.\\n그것이 이 세계에서 살아남는 유일한 방법이다.”"
+                },
+                {
+                    "id": "main.tutorial.messages.0",
+                    "text": "여기는 경계의 공간이다.\\n시험은 이곳에서 시작된다.\\n네가 가진 의지는, 오직 이 안에서 증명될 것이다."
+                },
+                {
+                    "id": "main.tutorial.messages.1",
+                    "text": "중앙의 오브는 문을 여는 열쇠다.\\n그 문 너머에는 너를 기다리는 임무가 있다.\\n네가 감당할 수 있을지, 시험해보는 것이다."
+                },
+                {
+                    "id": "main.tutorial.messages.2",
+                    "text": "하단의 마법진은 에테론의 흐름을 증폭시키는 구조다.\\n그 안에서 너의 능력을 개조하고, 강화를 시도할 수 있다.\\n강함은 권리가 아니다. 책임이다."
+                },
+                {
+                    "id": "main.tutorial.messages.3",
+                    "text": "그 주위를 맴도는 것은, 너에게 허락된 기회다.\\n남은 시간이 아니다. 남은 가능성이다.\\n하나씩 사라질 때마다, 끝이 다가온다."
+                },
+                {
+                    "id": "main.tutorial.messages.4",
+                    "text": "좌측 상단의 수치는 ‘에테론’이라 불린다.\\n그것은 너의 영향력이자, 존재의 궤적이다.\\n너의 행위는 곧 흔적이 된다. 흔적은 힘이 된다."
+                },
+                {
+                    "id": "main.tutorial.messages.5",
+                    "text": "우측 상단의 문양은 이 경계의 모든 구조를 열람할 수 있는 창이다.\\n그러나 모든 구조를 이해할 필요는 없다.\\n이해보다 중요한 것은, 의지다."
+                },
+                {
+                    "id": "main.tutorial.messages.6",
+                    "text": "지금부터는 네 의지다.\\n선택은 돌이킬 수 없고, 결과는 너에게 돌아온다.\\n경솔함은 허용되지 않는다.\\n…이제, 시작하라."
+                },
+                {
+                    "id": "main.tutorial.skip-key.text",
+                    "text": "스킵"
                 }
             ]
         }

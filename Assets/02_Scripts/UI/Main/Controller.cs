@@ -5,14 +5,34 @@ namespace Afterlife.UI.Main
 {
     public class Controller : UI.Controller
     {
+        [SerializeField] LocalizationManager localizationManager;
         [SerializeField] FocusManager focusManager;
+        [SerializeField] Tutorial tutorialView;
 
         Screen mainScreen;
+
+        bool isTutorialActive;
 
         public override void OnSceneEntered(SceneState previousSceneState, UI.Controller previousScreen)
         {
             ServiceLocator.Get<AudioManager>().PlayBGM(SceneState.Main);
             RefreshView();
+
+            isTutorialActive = ServiceLocator.Get<GameManager>().Game.IsMainTutorialActive;
+            if (isTutorialActive)
+            {
+                enabled = false;
+                tutorialView.OnFinishedEvent += OnTutorialFinished;
+                tutorialView.Show();
+                tutorialView.StartTutorial();
+            }
+        }
+
+        void OnTutorialFinished()
+        {
+            ServiceLocator.Get<GameManager>().Game.IsMainTutorialActive = false;
+            tutorialView.OnFinishedEvent -= OnTutorialFinished;
+            enabled = true;
         }
 
         public override void OnSceneExited(SceneState nextSceneState, UI.Controller nextScreen)

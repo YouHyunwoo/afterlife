@@ -4,6 +4,8 @@ namespace Afterlife.Model
     public class Game
     {
         public Data.Game Data;
+        public bool IsMainTutorialActive;
+        public bool IsStageTutorialActive;
         public Upgrade Upgrade;
         public Reward Reward;
         public int Lives;

@@ -30,6 +30,8 @@ namespace Afterlife.UI.Introduction
             ServiceLocator.Get<LocalizationManager>().OnLanguageChangedEvent += introductionScreen.Localize;
             introductionScreen.Localize();
 
+            introductionScreen.NextButton.onClick.AddListener(NextMessage);
+
             pageCount = 6;
             currentPageIndex = 0;
         }
@@ -38,6 +40,8 @@ namespace Afterlife.UI.Introduction
         {
             ServiceLocator.Get<LocalizationManager>().OnLanguageChangedEvent -= introductionScreen.Localize;
 
+            introductionScreen.NextButton.onClick.RemoveListener(NextMessage);
+
             introductionScreen = null;
         }
 
@@ -45,16 +49,7 @@ namespace Afterlife.UI.Introduction
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                currentPageIndex++;
-                if (currentPageIndex < pageCount)
-                {
-                    RefreshMessage();
-                }
-                else
-                {
-                    ServiceLocator.Get<GameManager>().StartGame();
-                    enabled = false;
-                }
+                NextMessage();
             }
             else if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -65,14 +60,21 @@ namespace Afterlife.UI.Introduction
 
         void RefreshMessage()
         {
+            var message = LocalizationManager.Get($"introduction.messages.{currentPageIndex}");
+            introductionScreen.SetMessage(message);
+        }
+
+        void NextMessage()
+        {
+            currentPageIndex++;
             if (currentPageIndex < pageCount)
             {
-                var message = LocalizationManager.Get($"introduction.messages.{currentPageIndex}");
-                introductionScreen.SetMessage(message);
+                RefreshMessage();
             }
             else
             {
-                Debug.Log("End of introduction.");
+                ServiceLocator.Get<GameManager>().StartGame();
+                enabled = false;
             }
         }
     }
