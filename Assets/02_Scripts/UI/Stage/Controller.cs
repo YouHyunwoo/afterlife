@@ -34,6 +34,8 @@ namespace Afterlife.UI.Stage
             ServiceLocator.Get<LocalizationManager>().OnLanguageChangedEvent += stageScreen.Localize;
             stageScreen.Localize();
 
+            stageScreen.InventoryButton.onClick.AddListener(ActivateInventory);
+            stageScreen.CraftButton.onClick.AddListener(ActivateCraft);
             stageScreen.OnMenuButtonClickedEvent += OnMenuButtonClicked;
             stageScreen.MenuView.OnContinueButtonClickedEvent += OnContinueButtonClicked;
             stageScreen.MenuView.OnSettingsButtonClickedEvent += OnSettingsButtonClicked;
@@ -118,26 +120,35 @@ namespace Afterlife.UI.Stage
             }
             else if (Input.GetKeyDown(KeyCode.I))
             {
-                if (focusManager.Target == stageScreen.InventoryView)
-                {
-                    focusManager.Clear();
-                }
-                else if (focusManager.Target != stageScreen.MenuView)
-                {
-
-                    focusManager.Focus(stageScreen.InventoryView);
-                }
+                ActivateInventory();
             }
             else if (Input.GetKeyDown(KeyCode.C))
             {
-                if (focusManager.Target == stageScreen.CraftView)
-                {
-                    focusManager.Clear();
-                }
-                else if (focusManager.Target != stageScreen.MenuView)
-                {
-                    focusManager.Focus(stageScreen.CraftView);
-                }
+                ActivateCraft();
+            }
+        }
+
+        public void ActivateInventory()
+        {
+            if (focusManager.Target == stageScreen.InventoryView)
+            {
+                focusManager.Clear();
+            }
+            else if (focusManager.Target != stageScreen.MenuView)
+            {
+                focusManager.Focus(stageScreen.InventoryView);
+            }
+        }
+
+        public void ActivateCraft()
+        {
+            if (focusManager.Target == stageScreen.CraftView)
+            {
+                focusManager.Clear();
+            }
+            else if (focusManager.Target != stageScreen.MenuView)
+            {
+                focusManager.Focus(stageScreen.CraftView);
             }
         }
 

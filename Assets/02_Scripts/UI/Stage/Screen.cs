@@ -12,6 +12,10 @@ namespace Afterlife.UI.Stage
         [Header("Menu")]
         [SerializeField] Button MenuButton;
 
+        [Header("Icon Menu")]
+        public Button InventoryButton;
+        public Button CraftButton;
+
         [Header("Experience")]
         public Amount ExperienceView;
 
