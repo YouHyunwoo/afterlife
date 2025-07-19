@@ -46,6 +46,7 @@ namespace Afterlife.UI.Stage
         [SerializeField] TextMeshProUGUI rewardTitleText;
         [SerializeField] TextMeshProUGUI itemInformationRequirementsText;
         [SerializeField] TextMeshProUGUI settingsText;
+        [SerializeField] TextMeshProUGUI skipTutorialText;
 
         public event Action OnMenuButtonClickedEvent;
 
@@ -66,6 +67,7 @@ namespace Afterlife.UI.Stage
             rewardTitleText.text = LocalizationManager.Get("stage.popup.reward.title");
             itemInformationRequirementsText.text = LocalizationManager.Get("stage.popup.item-information.requirements");
             settingsText.text = LocalizationManager.Get("title.menu.settings");
+            skipTutorialText.text = LocalizationManager.Get("stage.tutorial.skip-key.text");
         }
     }
 }

@@ -5,7 +5,6 @@ namespace Afterlife.UI.Main
 {
     public class Controller : UI.Controller
     {
-        [SerializeField] LocalizationManager localizationManager;
         [SerializeField] FocusManager focusManager;
         [SerializeField] Tutorial tutorialView;
 

@@ -8,13 +8,32 @@ namespace Afterlife.UI.Stage
     {
         [SerializeField] FocusManager focusManager;
         [SerializeField] CraftSystem craftSystem;
+        [SerializeField] Tutorial tutorialView;
 
         Screen stageScreen;
+
+        bool isTutorialActive;
 
         public override void OnSceneEntered(SceneState previousSceneState, UI.Controller previousScreen)
         {
             ServiceLocator.Get<AudioManager>().PlayBGM(SceneState.InGame);
             RefreshView();
+
+            isTutorialActive = ServiceLocator.Get<GameManager>().Game.IsStageTutorialActive;
+            if (isTutorialActive)
+            {
+                enabled = false;
+                tutorialView.OnFinishedEvent += OnTutorialFinished;
+                tutorialView.Show();
+                tutorialView.StartTutorial();
+            }
+        }
+
+        void OnTutorialFinished()
+        {
+            ServiceLocator.Get<GameManager>().Game.IsStageTutorialActive = false;
+            tutorialView.OnFinishedEvent -= OnTutorialFinished;
+            enabled = true;
         }
 
         public override void OnSceneExited(SceneState nextSceneState, UI.Controller nextScreen)

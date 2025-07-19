@@ -598,6 +598,58 @@
                 {
                     "id": "main.tutorial.skip-key.text",
                     "text": "Skip"
+                },
+                {
+                    "id": "stage.tutorial.messages.0",
+                    "text": "This is the ground of your trial.\\nA fragment of life has taken root, and darkness circles around it.\\nYou must protect it.\\nBefore ruin reaches it, eliminate all threats."
+                },
+                {
+                    "id": "stage.tutorial.messages.1",
+                    "text": "Your will reaches the world through Aetheron.\\nLeft-click to project the power of Aetheron onto objects."
+                },
+                {
+                    "id": "stage.tutorial.messages.2",
+                    "text": "Resources are survival.\\nTouch trees and rocks to gather materials."
+                },
+                {
+                    "id": "stage.tutorial.messages.3",
+                    "text": "Aetheron can restore what is broken.\\nApproach the structures of the village.\\nThey shall rise again."
+                },
+                {
+                    "id": "stage.tutorial.messages.4",
+                    "text": "The enemy is a fracture in this world.\\nIt must be removed."
+                },
+                {
+                    "id": "stage.tutorial.messages.5",
+                    "text": "What is gathered must be kept in order.\\nPress 'I' to open your inventory and inspect your equipment."
+                },
+                {
+                    "id": "stage.tutorial.messages.6",
+                    "text": "You may also shape objects through Aetheron.\\nPress 'C' to open the crafting menu.\\nWhat you create will strengthen your will."
+                },
+                {
+                    "id": "stage.tutorial.messages.7",
+                    "text": "Aetheron is your trace, and your power.\\nGather it through interaction."
+                },
+                {
+                    "id": "stage.tutorial.messages.8",
+                    "text": "What is etched above is the mark of time passed.\\nIt records your actions and bears witness to the progress of this trial."
+                },
+                {
+                    "id": "stage.tutorial.messages.9",
+                    "text": "When night falls, the fiends awaken.\\nBe wary of movement in the dark."
+                },
+                {
+                    "id": "stage.tutorial.messages.10",
+                    "text": "The mark at the top right permits your choice.\\nIf you wish to abandon the mission, open that gate."
+                },
+                {
+                    "id": "stage.tutorial.messages.11",
+                    "text": "Your trial has begun.\\nIf you complete all tasks, the path home shall open.\\nI will observe your choices and their outcomes to the end."
+                },
+                {
+                    "id": "stage.tutorial.skip-key.text",
+                    "text": "Skip"
                 }
             ]
         },
@@ -1198,6 +1250,58 @@
                 },
                 {
                     "id": "main.tutorial.skip-key.text",
+                    "text": "스킵"
+                },
+                {
+                    "id": "stage.tutorial.messages.0",
+                    "text": "이곳은 너의 시험의 장이다.\\n한 조각의 생명이 움트고, 어둠은 그 주변을 맴돈다.\\n너는 그것을 지켜야 한다.\\n파멸이 닿기 전에, 모든 위협을 제거하라."
+                },
+                {
+                    "id": "stage.tutorial.messages.1",
+                    "text": "너의 의지는, 에테론을 통해 세상에 닿는다.\\n마우스 왼쪽 클릭으로, 에테론의 힘을 사물에 투사할 수 있다."
+                },
+                {
+                    "id": "stage.tutorial.messages.2",
+                    "text": "자원은 곧 생존이다.\\n나무와 바위에 닿아 재료를 모아라."
+                },
+                {
+                    "id": "stage.tutorial.messages.3",
+                    "text": "에테론은 파손된 형상을 복원할 수 있다.\\n마을의 구조물에 닿아라.\\n그것은 다시 일어설 것이다."
+                },
+                {
+                    "id": "stage.tutorial.messages.4",
+                    "text": "적은 이 세계의 균열이다.\\n그것을 제거해야만 한다."
+                },
+                {
+                    "id": "stage.tutorial.messages.5",
+                    "text": "모은 것은 정리되어야 한다.\\n‘I’키를 눌러 인벤토리를 열고, 장비를 확인하라."
+                },
+                {
+                    "id": "stage.tutorial.messages.6",
+                    "text": "에테론으로 사물을 형성할 수도 있다.\\n‘C’키를 눌러 제작창을 열어라.\\n형성된 것은 너의 의지를 강화하는 도구가 된다."
+                },
+                {
+                    "id": "stage.tutorial.messages.7",
+                    "text": "에테론은 너의 흔적이며, 너의 힘이다.\\n상호작용을 통해 그것을 모아라."
+                },
+                {
+                    "id": "stage.tutorial.messages.8",
+                    "text": "중앙 위에 새겨진 것은 지나간 시간의 흔적이다.\\n그것은 너의 행적을 기록하고, 이 시험의 경과를 증명한다."
+                },
+                {
+                    "id": "stage.tutorial.messages.9",
+                    "text": "밤이 오면, 마물이 깨어난다.\\n어둠 속의 움직임을 경계하라."
+                },
+                {
+                    "id": "stage.tutorial.messages.10",
+                    "text": "오른쪽 위의 문장은 너의 선택을 허락한다.\\n임무를 포기하고자 한다면, 그 문을 열어라."
+                },
+                {
+                    "id": "stage.tutorial.messages.11",
+                    "text": "너의 임무는 시작되었다.\\n모든 과업을 완수한다면, 돌아갈 길이 열릴 것이다.\\n그 선택과 결과를, 나는 끝까지 지켜볼 것이다."
+                },
+                {
+                    "id": "stage.tutorial.skip-key.text",
                     "text": "스킵"
                 }
             ]

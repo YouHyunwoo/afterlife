@@ -61,6 +61,7 @@ namespace Afterlife.UI
         void EndTutorial()
         {
             dialogueView.Hide();
+            dialogueView.OnInteractedEvent -= OnDialogueInteracted;
             Hide();
             OnFinishedEvent?.Invoke();
         }
