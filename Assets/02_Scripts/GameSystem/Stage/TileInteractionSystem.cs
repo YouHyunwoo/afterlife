@@ -103,13 +103,12 @@ namespace Afterlife.GameSystem.Stage
             var targetTileObjectTransform = hasTileObject ? map.Field.Get(tilePosition) : null;
 
             var interactionLocation = tilePosition;
-            var targetDead = false;
             var playerAttackSpeed = player.AttackSpeed;
             var waitTime = new WaitForSeconds(1f / playerAttackSpeed);
 
-            while (enabled && !targetDead)
+            while (enabled)
             {
-                InteractByLocation(interactionLocation, out targetDead);
+                InteractByLocation(interactionLocation);
 
                 if (playerAttackSpeed != player.AttackSpeed)
                 {
@@ -126,9 +125,8 @@ namespace Afterlife.GameSystem.Stage
             }
         }
 
-        void InteractByLocation(Vector2Int location, out bool targetDead)
+        void InteractByLocation(Vector2Int location)
         {
-            targetDead = false;
             if (map == null || map.Field == null || player == null) { return; }
 
             var attackRange = (int)player.AttackRange - 1;
@@ -146,7 +144,6 @@ namespace Afterlife.GameSystem.Stage
                     if (tileObjectTransform.TryGetComponent(out View.Object @object))
                     {
                         @object.Interact(player);
-                        targetDead = !@object.IsAlive;
                     }
                 }
             }

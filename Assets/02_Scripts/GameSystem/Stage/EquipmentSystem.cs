@@ -1,12 +1,30 @@
 using Afterlife.Core;
+using UnityEngine;
 
 namespace Afterlife.GameSystem.Stage
 {
     public class EquipmentSystem : SystemBase
     {
+        [SerializeField] GameManager gameManager;
+
+        public bool TryEquip(Data.Item itemData, out bool isEquipped)
+        {
+            var player = gameManager.Game.Player;
+
+            if (player.Equipment.Count >= player.MaxEquipmentCount)
+            {
+                isEquipped = false;
+                return false;
+            }
+
+            player.Equipment.Add(itemData.Id);
+            ApplyEffect(itemData, true);
+            isEquipped = true;
+            return true;
+        }
+
         public bool TryToggleEquipment(Data.Item itemData, out bool isEquipped)
         {
-            var gameManager = ServiceLocator.Get<GameManager>();
             var player = gameManager.Game.Player;
 
             if (player.Equipment.Contains(itemData.Id))

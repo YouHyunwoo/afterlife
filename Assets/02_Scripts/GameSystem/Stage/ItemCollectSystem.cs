@@ -45,7 +45,7 @@ namespace Afterlife.GameSystem.Stage
             var itemData = ServiceLocator.Get<DataManager>().FindItemData(itemId);
             if (itemData.Type == Data.ItemType.Equipment)
             {
-                equipmentSystem.TryToggleEquipment(itemData, out bool _);
+                equipmentSystem.TryEquip(itemData, out bool _);
             }
 
             (ServiceLocator.Get<UI.Stage.Screen>().Controller as UI.Stage.Controller).RefreshInventoryView();

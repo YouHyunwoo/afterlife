@@ -44,6 +44,7 @@ namespace Afterlife.GameSystem.Stage
 
             if (!TryCraft(itemId, 1, out var _)) { return; }
 
+            (ServiceLocator.Get<UI.Stage.Screen>().Controller as UI.Stage.Controller).RefreshInventoryView();
             (ServiceLocator.Get<UI.Stage.Screen>().Controller as UI.Stage.Controller).RefreshCraftView();
         }
 
@@ -87,7 +88,7 @@ namespace Afterlife.GameSystem.Stage
 
             if (itemData.Type == Data.ItemType.Equipment)
             {
-                equipmentSystem.TryToggleEquipment(itemData, out bool isEquipped);
+                equipmentSystem.TryEquip(itemData, out bool _);
             }
 
             return true;

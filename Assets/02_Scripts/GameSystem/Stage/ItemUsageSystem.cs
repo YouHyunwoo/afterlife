@@ -6,6 +6,7 @@ namespace Afterlife.GameSystem.Stage
 {
     public class ItemUsageSystem : SystemBase
     {
+        [SerializeField] FocusManager focusManager;
         [SerializeField] EquipmentSystem equipmentSystem;
         [SerializeField] ConstructionSystem constructionSystem;
         [SerializeField] UI.Stage.Inventory inventoryView;
@@ -58,8 +59,7 @@ namespace Afterlife.GameSystem.Stage
                     }
                 case Data.ItemType.Construction:
                     {
-                        inventoryView.Hide();
-                        itemInformationView.Hide();
+                        focusManager.Clear();
                         Debug.Log($"Starting construction for item: {itemData.Id}");
                         constructionSystem.StartConstruction(itemData, itemData.ConstructionPrefab, itemData.PreviewPrefab);
                         break;

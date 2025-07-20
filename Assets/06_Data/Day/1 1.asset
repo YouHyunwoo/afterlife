@@ -22,7 +22,7 @@ MonoBehaviour:
       Weight: 1
     - Prefab: {fileID: 6365514331638055027, guid: eb1f3c03538454a48874b7fded84a8b7, type: 3}
       Weight: 1
-  DayDuration: 15
+  DayDuration: 30
   DayObjectSpawn:
     SpawnInterval: 0.7
     PrefabWeightGroups:
