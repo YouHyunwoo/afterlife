@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Afterlife.GameSystem.Stage;
 using Afterlife.GameSystem.Stage.Field;
 using UnityEngine;
@@ -230,9 +231,12 @@ namespace Afterlife.Core
 
             var mapSize = Stage.Map.Size;
 
+            var tileLocations = new List<Vector2Int>();
             var isValid = false;
             while (!isValid)
             {
+                tileLocations.Clear();
+
                 var pivotX = Random.Range(padding, mapSize.x - padding);
                 var pivotY = Random.Range(padding, mapSize.y - padding);
 
@@ -245,16 +249,21 @@ namespace Afterlife.Core
                     var offsetY = Random.Range(-padding, padding + 1);
                     var location = new Vector2Int(pivotX + offsetX, pivotY + offsetY);
                     if (!Stage.Map.IsAvailable(location)) { i--; continue; }
-
-                    var fieldObject = fieldObjectSystem.Spawn(villagePrefab, location);
-                    if (!fieldObject.TryGetComponent(out View.Object village))
-                    {
-                        Debug.LogError($"Village prefab {villagePrefab.name} does not have a Village component.");
-                        continue;
-                    }
+                    if (tileLocations.Contains(location)) { i--; continue; }
+                    tileLocations.Add(location);
                 }
 
-                if (trials < 100) { isValid = true; }
+                isValid = trials < 100;
+            }
+
+            foreach (var location in tileLocations)
+            {
+                var fieldObject = fieldObjectSystem.Spawn(villagePrefab, location);
+                if (!fieldObject.TryGetComponent(out View.Object village))
+                {
+                    Debug.LogError($"Village prefab {villagePrefab.name} does not have a Village component.");
+                    continue;
+                }
             }
         }
 
