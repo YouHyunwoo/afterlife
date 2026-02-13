@@ -78,7 +78,6 @@ namespace Afterlife.GameSystem.Stage
 
                 var cameraPosition = mainCamera.transform.position;
                 Vector3 moveDirection = Vector3.zero;
-                var isMoving = false;
 
                 if (map.Size.x <= screenWorldWidth)
                 {
@@ -88,7 +87,8 @@ namespace Afterlife.GameSystem.Stage
                 {
                     if (pointerInScreen.x < screenPadding) moveDirection.x = -cameraMoveSpeed;
                     if (pointerInScreen.x > Screen.width - screenPadding) moveDirection.x = cameraMoveSpeed;
-                    isMoving = true;
+                    cameraPosition.x += moveDirection.x * Time.deltaTime;
+                    cameraPosition.x = Mathf.Clamp(cameraPosition.x, screenWorldWidth / 2f, map.Size.x - screenWorldWidth / 2f);
                 }
 
                 if (map.Size.y <= screenWorldHeight)
@@ -99,13 +99,7 @@ namespace Afterlife.GameSystem.Stage
                 {
                     if (pointerInScreen.y < screenPadding) moveDirection.y = -cameraMoveSpeed;
                     if (pointerInScreen.y > Screen.height - screenPadding) moveDirection.y = cameraMoveSpeed;
-                    isMoving = true;
-                }
-
-                if (isMoving)
-                {
-                    cameraPosition += moveDirection * Time.deltaTime;
-                    cameraPosition.x = Mathf.Clamp(cameraPosition.x, screenWorldWidth / 2f, map.Size.x - screenWorldWidth / 2f);
+                    cameraPosition.y += moveDirection.y * Time.deltaTime;
                     cameraPosition.y = Mathf.Clamp(cameraPosition.y, screenWorldHeight / 2f, map.Size.y - screenWorldHeight / 2f);
                 }
 

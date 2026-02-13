@@ -51,7 +51,7 @@ PrefabInstance:
     - target: {fileID: 4241637074521123045, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: a88df820150c5924f8334202a1d05d49, type: 2}
+      objectReference: {fileID: 22100000, guid: 482dcf19622deba499fd1892e3dc6037, type: 2}
     - target: {fileID: 5426959284589278923, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
       propertyPath: m_Name
       value: Campfire
@@ -102,10 +102,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bf0699f16211784d8d581ba18fe49a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Value: 20
+  Value: 10
   OriginalValue: 0
+  isSightEnabled: 1
+  Sight:
+    Location: {x: 0, y: 0}
+    Intensity: 2
+    Range: 5
+    IsActive: 1
   IsAlive: 0
-  intensity: 0.5
-  range: 3
+  Loot: []
+  IsDeadAnimationEnabled: 0
+  decreaseSpeed: 0.2
   requiredItemName: wood
   requiredItemAmount: 1

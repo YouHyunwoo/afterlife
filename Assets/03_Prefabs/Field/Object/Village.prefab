@@ -96,6 +96,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Value: 10
   OriginalValue: 0
+  isSightEnabled: 1
+  Sight:
+    Location: {x: 0, y: 0}
+    Intensity: 1
+    Range: 5
+    IsActive: 1
   IsAlive: 0
-  intensity: 1
-  range: 5
+  Loot: []
+  IsDeadAnimationEnabled: 0

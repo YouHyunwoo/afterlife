@@ -104,13 +104,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Value: 30
   OriginalValue: 0
+  isSightEnabled: 1
+  Sight:
+    Location: {x: 0, y: 0}
+    Intensity: 1
+    Range: 3
+    IsActive: 1
   IsAlive: 0
-  intensity: 1
-  range: 3
+  Loot: []
+  IsDeadAnimationEnabled: 0
   attackDamage: 10
   attackRange: 3
   attackInterval: 2
-  projectileSpeed: 1.5
+  projectileSpeed: 5
   ProjectilePrefab: {fileID: 4054185930266275010, guid: 626b67ef4a4a32a43a7e8414fa86aa79, type: 3}
   Tag: Monster
   requiredItemName: wood

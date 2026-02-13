@@ -56,6 +56,7 @@ namespace Afterlife.UI.Main
             mainScreen.MenuView.OnSaveAndQuitButtonClickedEvent += OnSaveAndQuitButtonClicked;
             mainScreen.OrbView.OnButtonClickedEvent += OnOrbClicked;
             mainScreen.MagicCircleView.OnButtonClickedEvent += OnMagicCircleClicked;
+            mainScreen.MissionView.OnButtonClickedEvent += OnMissionButtonClicked;
 
             var upgradeNodes = mainScreen.UpgradeView.UpgradeTreeView.upgradeNodes;
             foreach (var upgradeNode in upgradeNodes)
@@ -82,6 +83,7 @@ namespace Afterlife.UI.Main
             mainScreen.MenuView.OnSaveAndQuitButtonClickedEvent -= OnSaveAndQuitButtonClicked;
             mainScreen.OrbView.OnButtonClickedEvent -= OnOrbClicked;
             mainScreen.MagicCircleView.OnButtonClickedEvent -= OnMagicCircleClicked;
+            mainScreen.MissionView.OnButtonClickedEvent -= OnMissionButtonClicked;
 
             ServiceLocator.Get<LocalizationManager>().OnLanguageChangedEvent -= mainScreen.Localize;
 
@@ -94,6 +96,7 @@ namespace Afterlife.UI.Main
         void OnSaveAndQuitButtonClicked() => ServiceLocator.Get<GameManager>().QuitGame();
         void OnOrbClicked() => focusManager.Focus(mainScreen.MissionView);
         void OnMagicCircleClicked() => focusManager.Focus(mainScreen.UpgradeView);
+        void OnMissionButtonClicked() => ServiceLocator.Get<GameManager>().StartStage();
 
         void OnUpgradeItemPurchased(UpgradeNode upgradeNode)
         {

@@ -5,6 +5,7 @@ namespace Afterlife.Controller
     public class TestDayProgress : MonoBehaviour
     {
         public UI.Stage.Days DaysView;
+        public bool IsExpandable;
         public int TotalDays;
         public float DayDuration;
         public float NightDuration;
@@ -19,6 +20,7 @@ namespace Afterlife.Controller
             ElapsedTime = 0f;
             CurrentDay = 0;
 
+            DaysView.SetExpandable(IsExpandable);
             DaysView.SetTotalDays(TotalDays);
             DaysView.SetDays(CurrentDay + 1);
         }
@@ -31,9 +33,10 @@ namespace Afterlife.Controller
             {
                 ElapsedTime = 0;
                 CurrentDay++;
-                if (CurrentDay >= TotalDays - 1)
+                if (CurrentDay >= TotalDays)
                 {
                     enabled = false;
+                    return;
                 }
                 DaysView.SetDays(CurrentDay + 1);
                 DaysView.DayProgressView.SetDay();
@@ -43,7 +46,7 @@ namespace Afterlife.Controller
                 DaysView.DayProgressView.SetNight();
             }
 
-            DaysView.DayProgressView.SetRatio((CurrentDay + ElapsedTime / TotalDuration) / (TotalDays - 1));
+            DaysView.DayProgressView.SetRatio((CurrentDay + ElapsedTime / TotalDuration) / TotalDays);
         }
     }
 }

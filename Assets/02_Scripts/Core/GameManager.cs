@@ -14,7 +14,8 @@ namespace Afterlife.Core
             ServiceLocator.Get<UIManager>().Fade(() =>
             {
                 CreateGame();
-                ServiceLocator.Get<SceneManager>().ChangeState(SceneState.Main);
+                CreateStage();
+                ServiceLocator.Get<SceneManager>().ChangeState(SceneState.InGame);
             });
         }
 
@@ -116,8 +117,6 @@ namespace Afterlife.Core
 
         void CreateStage()
         {
-            // 스테이지 생성 로직
-            // 예: 스테이지 데이터 초기화, 몬스터 생성 등
             ServiceLocator.Get<StageManager>().StartStage();
 
             Debug.Log("[System] 스테이지 생성");

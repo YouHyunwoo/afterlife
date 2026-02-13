@@ -9,15 +9,6 @@ namespace Afterlife.View
     {
         public ObjectSpawn ObjectSpawn;
 
-        Animator Animator;
-
-        protected override void Awake()
-        {
-            base.Awake();
-
-            Animator = GetComponent<Animator>();
-        }
-
         protected override void Start()
         {
             base.Start();
@@ -67,10 +58,10 @@ namespace Afterlife.View
             base.Interact(player);
         }
 
-        public override void Die()
+        public override void Die(Object attacker)
         {
             StopAllCoroutines();
-            base.Die();
+            base.Die(attacker);
         }
     }
 }

@@ -96,25 +96,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Value: 50
   OriginalValue: 0
+  isSightEnabled: 0
+  Sight:
+    Location: {x: 0, y: 0}
+    Intensity: 0
+    Range: 0
+    IsActive: 1
   IsAlive: 0
+  Loot:
+  - Id: wood
+    DropRate: 0.5
+    Amount: 100
+  - Id: stone
+    DropRate: 0.5
+    Amount: 30
+  IsDeadAnimationEnabled: 0
   DetectingRange: 7
   AttackPower: 10
   AttackSpeed: 0.2
   AttackRange: 4
-  AttackCount: 1
   CriticalRate: 0
   CriticalDamageMultiplier: 1.2
   MovementSpeed: 1
   TargetLayerMask:
     serializedVersion: 2
     m_Bits: 0
-  ItemDropGroups: []
-  Animator: {fileID: 0}
-  SpriteRenderer: {fileID: 0}
-  SqrDetectingRange: 0
-  SqrAttackRange: 0
   StateName: 
-  Direction: 0
   TargetCandidateTransforms: []
   targetTransform: {fileID: 0}
   targetLocation: {x: 0, y: 0}

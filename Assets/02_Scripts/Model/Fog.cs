@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Afterlife.Model
 {
+    [Serializable]
     public class Light
     {
         public Vector2Int Location;

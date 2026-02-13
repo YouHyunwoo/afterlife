@@ -6,41 +6,29 @@ namespace Afterlife.View
 {
     public class Campfire : Object
     {
-        [Header("Light")]
-        [SerializeField] float intensity;
-        [SerializeField] float range;
+        [Header("Campfire")]
+        [SerializeField] float decreaseSpeed = 0.1f;
 
         [Header("Interaction")]
         [SerializeField] string requiredItemName;
         [SerializeField] int requiredItemAmount;
 
-        Model.Light sight;
-
         protected override void Start()
         {
             base.Start();
-
-            sight = new Model.Light
-            {
-                Location = new Vector2Int((int)transform.position.x, (int)transform.position.y),
-                Intensity = intensity,
-                Range = range,
-            };
-
-            var map = ServiceLocator.Get<StageManager>().Stage.Map;
-            map.Fog.AddLight(sight);
-            map.Fog.Invalidate();
 
             StartCoroutine(GoOutRoutine());
         }
 
         IEnumerator GoOutRoutine()
         {
+            var waiting = new WaitForSeconds(1f / decreaseSpeed);
+
             while (true)
             {
-                yield return new WaitForSeconds(1f);
-                sight.Intensity -= 0.1f;
+                yield return waiting;
                 TakeDamage(1f, this);
+                UpdateSight();
             }
         }
 
@@ -53,16 +41,17 @@ namespace Afterlife.View
 
             Value += 1f;
             RefreshValue();
+            UpdateSight();
+
             base.Interact(player);
         }
 
-        public override void Die()
+        void UpdateSight()
         {
-            var map = ServiceLocator.Get<StageManager>().Stage.Map;
-            map.Fog.RemoveLight(sight);
-            map.Fog.Invalidate();
+            Sight.Intensity = Mathf.Clamp((Value + 10) / 10f * 0.5f, 2f, 20f);
+            Sight.Range = Mathf.Clamp((Value + 10) / 4f * 0.5f, 5f, 50f);
 
-            base.Die();
-        }
+            ServiceLocator.Get<StageManager>().Stage.Map.Fog.Invalidate();
+        } 
     }
 }

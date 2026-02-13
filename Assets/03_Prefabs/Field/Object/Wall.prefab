@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1459882526757207739, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
       propertyPath: m_SortingLayer
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2651952030695901488, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -108,6 +108,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Value: 30
   OriginalValue: 0
+  isSightEnabled: 0
+  Sight:
+    Location: {x: 0, y: 0}
+    Intensity: 1
+    Range: 2
+    IsActive: 1
   IsAlive: 0
+  Loot: []
+  IsDeadAnimationEnabled: 0
   requiredItemName: 
   requiredItemAmount: 0

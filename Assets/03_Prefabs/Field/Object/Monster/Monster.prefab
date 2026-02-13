@@ -101,11 +101,12 @@ MonoBehaviour:
   Value: 0
   OriginalValue: 0
   IsAlive: 0
+  Loot: []
+  IsDeadAnimationEnabled: 1
   DetectingRange: 5
   AttackPower: 1
   AttackSpeed: 1
   AttackRange: 1
-  AttackCount: 1
   CriticalRate: 0
   CriticalDamageMultiplier: 1.2
   MovementSpeed: 1
@@ -113,10 +114,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   ItemDropGroups: []
-  Animator: {fileID: 0}
-  SpriteRenderer: {fileID: 0}
-  SqrDetectingRange: 0
-  SqrAttackRange: 0
   StateName: 
   Direction: 0
   TargetCandidateTransforms: []

@@ -18,11 +18,10 @@ namespace Afterlife.View
 
         IEnumerator MoveRoutine()
         {
-            var startPosition = transform.position;
+            var startPosition = (Vector2)transform.position;
             var endPosition = TargetPosition;
+            float duration = (endPosition - startPosition).magnitude / Speed;
             float elapsedTime = 0f;
-            float duration = 1f / Speed;
-
             while (elapsedTime < duration)
             {
                 elapsedTime += Time.deltaTime;

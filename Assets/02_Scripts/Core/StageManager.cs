@@ -288,8 +288,6 @@ namespace Afterlife.Core
                     }
 
                     resource.Value = Random.Range(resourceObjectGroup.MinHealth, resourceObjectGroup.MaxHealth + 1);
-                    resource.Type = resourceObjectGroup.Name;
-                    resource.Amount = Random.Range(resourceObjectGroup.MinAmount, resourceObjectGroup.MaxAmount + 1);
                 }
             }
         }

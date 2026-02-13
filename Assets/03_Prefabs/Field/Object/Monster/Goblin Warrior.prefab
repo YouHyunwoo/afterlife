@@ -57,6 +57,14 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5694836025865611516, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
+      propertyPath: Loot.Array.data[0].Amount
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5694836025865611516, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
+      propertyPath: Loot.Array.data[1].Amount
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5694836025865611516, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
       propertyPath: ItemDropGroups.Array.data[2].Id
       value: iron
       objectReference: {fileID: 0}

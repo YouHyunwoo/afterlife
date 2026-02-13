@@ -29,8 +29,40 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: -4598636861707239977, guid: 1057a49d659c0604ea14e3244cd267cd, type: 3}
+      propertyPath: Loot.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -4598636861707239977, guid: 1057a49d659c0604ea14e3244cd267cd, type: 3}
+      propertyPath: Loot.Array.data[0].Id
+      value: wood
+      objectReference: {fileID: 0}
+    - target: {fileID: -4598636861707239977, guid: 1057a49d659c0604ea14e3244cd267cd, type: 3}
+      propertyPath: Loot.Array.data[1].Id
+      value: stone
+      objectReference: {fileID: 0}
+    - target: {fileID: -4598636861707239977, guid: 1057a49d659c0604ea14e3244cd267cd, type: 3}
+      propertyPath: IsDeadAnimationEnabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4598636861707239977, guid: 1057a49d659c0604ea14e3244cd267cd, type: 3}
       propertyPath: ItemDropGroups.Array.size
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -4598636861707239977, guid: 1057a49d659c0604ea14e3244cd267cd, type: 3}
+      propertyPath: Loot.Array.data[0].Amount
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -4598636861707239977, guid: 1057a49d659c0604ea14e3244cd267cd, type: 3}
+      propertyPath: Loot.Array.data[1].Amount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -4598636861707239977, guid: 1057a49d659c0604ea14e3244cd267cd, type: 3}
+      propertyPath: Loot.Array.data[0].DropRate
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -4598636861707239977, guid: 1057a49d659c0604ea14e3244cd267cd, type: 3}
+      propertyPath: Loot.Array.data[1].DropRate
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: -4598636861707239977, guid: 1057a49d659c0604ea14e3244cd267cd, type: 3}
       propertyPath: ItemDropGroups.Array.data[0].Id

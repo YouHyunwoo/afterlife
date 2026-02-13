@@ -9,6 +9,11 @@ namespace Afterlife.UI.Stage
 
         public DayProgress DayProgressView;
 
+        public void SetExpandable(bool isExpandable)
+        {
+            DayProgressView.SetExpandable(isExpandable);
+        }
+
         public void SetTotalDays(int totalDays)
         {
             DayProgressView.Initialize(totalDays);

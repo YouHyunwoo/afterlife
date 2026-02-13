@@ -53,8 +53,7 @@ namespace Afterlife.UI.Introduction
             }
             else if (Input.GetKeyDown(KeyCode.Escape))
             {
-                ServiceLocator.Get<GameManager>().StartGame();
-                enabled = false;
+                NextScene();
             }
         }
 
@@ -73,9 +72,14 @@ namespace Afterlife.UI.Introduction
             }
             else
             {
-                ServiceLocator.Get<GameManager>().StartGame();
-                enabled = false;
+                NextScene();
             }
+        }
+
+        void NextScene()
+        {
+            ServiceLocator.Get<GameManager>().StartGame();
+            enabled = false;
         }
     }
 }

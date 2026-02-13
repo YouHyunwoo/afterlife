@@ -1,35 +1,11 @@
-using System;
-using System.Collections;
 using Afterlife.Core;
-using Afterlife.GameSystem.Stage;
 using DG.Tweening;
 using UnityEngine;
 
 namespace Afterlife.View
 {
-    [Serializable]
-    public class ItemDropGroup
-    {
-        public string Id;
-        public float DropRate;
-        public int Amount;
-    }
-
     public class Resource : Object
     {
-        public string Type;
-        public int Amount;
-        public ItemDropGroup[] ItemDropGroups;
-
-        public SpriteRenderer SpriteRenderer;
-
-        protected override void Awake()
-        {
-            base.Awake();
-
-            SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        }
-
         public override void Interact(Model.Player player)
         {
             ServiceLocator.Get<EffectManager>().PlayGFX("Cut", transform.position);
@@ -49,29 +25,11 @@ namespace Afterlife.View
             }
         }
 
-        IEnumerator CollectByKillRoutine()
-        {
-            var itemCollectSystem = ServiceLocator.Get<StageManager>().itemCollectSystem;
-
-            foreach (var itemDropGroup in ItemDropGroups)
-            {
-                yield return new WaitForSeconds(0.3f);
-
-                var itemId = itemDropGroup.Id;
-                var itemAmount = Mathf.FloorToInt(itemDropGroup.Amount * OriginalValue / 10f);
-                var itemDropRate = itemDropGroup.DropRate;
-                var itemActualAmount = itemCollectSystem.SampleItems(itemAmount, itemDropRate);
-                if (itemActualAmount <= 0) { continue; }
-                itemCollectSystem.CollectWithRate(itemId, itemActualAmount);
-                itemCollectSystem.ShowPopup(transform.position + new Vector3(.5f, .5f), itemId, itemActualAmount);
-            }
-        }
-
         void CollectByInteraction(Model.Player player)
         {
             var itemCollectSystem = ServiceLocator.Get<StageManager>().itemCollectSystem;
 
-            foreach (var itemDropGroup in ItemDropGroups)
+            foreach (var itemDropGroup in Loot)
             {
                 var itemId = itemDropGroup.Id;
                 var itemAmount = Mathf.FloorToInt(player.AttackPower);
@@ -81,19 +39,6 @@ namespace Afterlife.View
                 itemCollectSystem.CollectWithRate(itemId, itemActualAmount);
                 itemCollectSystem.ShowPopup(transform.position + new Vector3(.5f, .5f), itemId, itemActualAmount);
             }
-        }
-
-        public override void Die()
-        {
-            IsAlive = false;
-
-            StartCoroutine(CollectByKillRoutine());
-
-            SpriteRenderer.DOFade(0f, 1f).OnComplete(() =>
-            {
-                gameObject.SetActive(false);
-                Destroy(gameObject, 0);
-            });
         }
     }
 }

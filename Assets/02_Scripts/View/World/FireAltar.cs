@@ -17,10 +17,6 @@ namespace Afterlife.View
 
     public class FireAltar : Object
     {
-        [Header("Light")]
-        [SerializeField] float intensity;
-        [SerializeField] float range;
-
         [SerializeField] float attackDamage;
         [SerializeField] float attackRange;
         [SerializeField] float attackInterval;
@@ -35,23 +31,11 @@ namespace Afterlife.View
         [Header("Upgrade Information")]
         [SerializeField] UpgradeInformation[] upgradeInformation;
 
-        Model.Light sight;
         float elapsedTime;
 
         protected override void Start()
         {
             base.Start();
-
-            sight = new Model.Light
-            {
-                Location = new Vector2Int((int)transform.position.x, (int)transform.position.y),
-                Intensity = intensity,
-                Range = range,
-            };
-
-            var map = ServiceLocator.Get<StageManager>().Stage.Map;
-            map.Fog.AddLight(sight);
-            map.Fog.Invalidate();
 
             elapsedTime = attackInterval;
         }
@@ -125,23 +109,14 @@ namespace Afterlife.View
             {
                 if (Value < upgradeInformation[i].Value) { continue; }
 
-                sight.Intensity = upgradeInformation[i].LightIntensity;
-                sight.Range = upgradeInformation[i].LightRange;
+                Sight.Intensity = upgradeInformation[i].LightIntensity;
+                Sight.Range = upgradeInformation[i].LightRange;
                 attackDamage = upgradeInformation[i].AttackDamage;
                 attackRange = upgradeInformation[i].AttackRange;
                 attackInterval = upgradeInformation[i].AttackInterval;
                 projectileSpeed = upgradeInformation[i].ProjectileSpeed;
                 break;
             }
-        }
-
-        public override void Die()
-        {
-            var map = ServiceLocator.Get<StageManager>().Stage.Map;
-            map.Fog.RemoveLight(sight);
-            map.Fog.Invalidate();
-
-            base.Die();
         }
     }
 }

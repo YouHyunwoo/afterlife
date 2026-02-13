@@ -253,7 +253,7 @@ Animator:
   m_GameObject: {fileID: 5426959284589278923}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9b418d6843f7c8d4a906b4099d117309, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -280,6 +280,8 @@ MonoBehaviour:
   Value: 0
   OriginalValue: 0
   IsAlive: 0
+  Loot: []
+  IsDeadAnimationEnabled: 1
 --- !u!1 &8641490353912055913
 GameObject:
   m_ObjectHideFlags: 0

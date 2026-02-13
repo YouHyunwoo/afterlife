@@ -301,9 +301,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DaysView: {fileID: 2082483838}
-  TotalDays: 7
-  DayDuration: 1
-  NightDuration: 1
+  IsExpandable: 0
+  TotalDays: 30
+  DayDuration: 0.1
+  NightDuration: 0.1
   TotalDuration: 0
   ElapsedTime: 0
   CurrentDay: 0

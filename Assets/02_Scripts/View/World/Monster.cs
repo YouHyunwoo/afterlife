@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using Afterlife.Core;
-using Afterlife.GameSystem.Stage;
-using DG.Tweening;
 using UnityEditor;
 using UnityEngine;
 
@@ -15,23 +12,19 @@ namespace Afterlife.View
         public float AttackPower = 1f;
         public float AttackSpeed = 1f;
         public float AttackRange = 1f;
-        public float AttackCount = 1f;
         public float CriticalRate = 0.0f;
         public float CriticalDamageMultiplier = 1.2f;
         public float MovementSpeed = 1f;
         public LayerMask TargetLayerMask;
-        public ItemDropGroup[] ItemDropGroups;
 
         [Header("Viewer")]
-        public Animator Animator;
-        public SpriteRenderer SpriteRenderer;
-        public float SqrDetectingRange;
-        public float SqrAttackRange;
         public string StateName;
-        public int Direction;
         public List<Transform> TargetCandidateTransforms;
         public Transform targetTransform;
         public Vector2Int targetLocation;
+
+        float sqrDetectingRange;
+        float sqrAttackRange;
 
 #if UNITY_EDITOR
         void OnDrawGizmos()
@@ -51,21 +44,8 @@ namespace Afterlife.View
         {
             base.Awake();
 
-            Animator = GetComponent<Animator>();
-            SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
-
-            SqrDetectingRange = DetectingRange * DetectingRange;
-            SqrAttackRange = AttackRange * AttackRange;
-
-            Direction = Random.Range(0, 2) == 0 ? -1 : 1;
-            SpriteRenderer.flipX = Direction == -1;
-
-            OnHitEvent += OnHit;
-        }
-
-        void OnHit(Object attacker, Object target)
-        {
-            Animator.SetTrigger("Hit");
+            sqrDetectingRange = DetectingRange * DetectingRange;
+            sqrAttackRange = AttackRange * AttackRange;
         }
 
         protected override void Start()
@@ -100,7 +80,7 @@ namespace Afterlife.View
 
         public void StartPatrol()
         {
-            Animator.SetBool("Patrol", true);
+            animator.SetBool("Patrol", true);
 
             var map = ServiceLocator.Get<StageManager>().Stage.Map;
             targetLocation = new Vector2Int(
@@ -108,7 +88,7 @@ namespace Afterlife.View
                 Random.Range(0, map.Size.y - 1)
             );
         }
-        public void StopPatrol() => Animator.SetBool("Patrol", false);
+        public void StopPatrol() => animator.SetBool("Patrol", false);
         public bool PatrolStep()
         {
             return Move(targetLocation);
@@ -126,10 +106,9 @@ namespace Afterlife.View
             var nextLocation = path[1];
 
             var direction = nextLocation.x - transform.position.x;
-            if (direction != 0 && (direction < 0) != SpriteRenderer.flipX)
+            if (direction != 0 && (direction < 0) != bodySpriteRenderer.flipX)
             {
-                Direction = direction > 0 ? 1 : -1;
-                SpriteRenderer.flipX = direction < 0;
+                SetDirection(direction > 0 ? ObjectDirection.Right : ObjectDirection.Left);
             }
 
             map.MoveFieldObject(currentLocation, nextLocation);
@@ -139,6 +118,8 @@ namespace Afterlife.View
                 nextLocation.y,
                 transform.position.z
             );
+
+            RefreshSight();
 
             return true;
         }
@@ -159,7 +140,7 @@ namespace Afterlife.View
                 if (targetCandidateTransform == null) { continue; }
 
                 var sqrDistance = Vector2.SqrMagnitude(targetCandidateTransform.position - transform.position);
-                if (sqrDistance < SqrDetectingRange && sqrDistance < minSqrDistance)
+                if (sqrDistance < sqrDetectingRange && sqrDistance < minSqrDistance)
                 {
                     minSqrDistance = sqrDistance;
                     targetTransform = targetCandidateTransform;
@@ -185,8 +166,8 @@ namespace Afterlife.View
             StopAttack();
         }
 
-        public void StartChase() => Animator.SetBool("Chase", true);
-        public void StopChase() => Animator.SetBool("Chase", false);
+        public void StartChase() => animator.SetBool("Chase", true);
+        public void StopChase() => animator.SetBool("Chase", false);
         public bool ChaseStep()
         {
             targetLocation = Vector2Int.FloorToInt((Vector2)targetTransform.position);
@@ -204,71 +185,39 @@ namespace Afterlife.View
         public bool IsInDetectingRange()
         {
             if (targetTransform == null) { return false; }
-            return Vector2.SqrMagnitude(targetTransform.position - transform.position) < SqrDetectingRange;
+            return Vector2.SqrMagnitude(targetTransform.position - transform.position) < sqrDetectingRange;
         }
         public bool IsInDetectingRange(float sqrDistance)
         {
             if (targetTransform == null) { return false; }
-            return sqrDistance < SqrDetectingRange;
+            return sqrDistance < sqrDetectingRange;
         }
 
         public bool IsInAttackRange()
         {
             if (targetTransform == null) { return false; }
-            return Vector2.SqrMagnitude(targetTransform.position - transform.position) < SqrAttackRange + 0.001f;
+            return Vector2.SqrMagnitude(targetTransform.position - transform.position) < sqrAttackRange + 0.001f;
         }
         public bool IsInAttackRange(float sqrDistance)
         {
             if (targetTransform == null) { return false; }
-            return sqrDistance < SqrAttackRange + 0.001f;
+            return sqrDistance < sqrAttackRange + 0.001f;
         }
 
-        public void StartAttack() => Animator.SetBool("Attack", true);
-        public void StopAttack() => Animator.SetBool("Attack", false);
+        public void StartAttack() => animator.SetBool("Attack", true);
+        public void StopAttack() => animator.SetBool("Attack", false);
         public virtual void AttackStep()
         {
             if (targetTransform == null) { return; }
             if (!targetTransform.TryGetComponent<Object>(out var target)) { return; }
 
-            var damage = AttackPower * AttackCount;
+            var damage = AttackPower;
             if (Random.Range(0f, 1f) < CriticalRate)
             {
                 damage *= CriticalDamageMultiplier;
             }
 
             target.TakeDamage(damage, this);
-        }
-
-        public override void Die()
-        {
-            IsAlive = false;
-            Animator.SetBool("Dead", true);
-
-            StartCoroutine(CollectByKillRoutine());
-
-            SpriteRenderer.DOFade(0f, 1f).OnComplete(() =>
-            {
-                gameObject.SetActive(false);
-                Destroy(gameObject, 0);
-            });
-        }
-
-        IEnumerator CollectByKillRoutine()
-        {
-            var itemCollectSystem = ServiceLocator.Get<StageManager>().itemCollectSystem;
-
-            foreach (var itemDropGroup in ItemDropGroups)
-            {
-                yield return new WaitForSeconds(0.3f);
-
-                var itemId = itemDropGroup.Id;
-                var itemAmount = Mathf.FloorToInt(itemDropGroup.Amount * OriginalValue / 10f);
-                var itemDropRate = itemDropGroup.DropRate;
-                var itemActualAmount = itemCollectSystem.SampleItems(itemAmount, itemDropRate);
-                if (itemActualAmount <= 0) { continue; }
-                itemCollectSystem.CollectWithRate(itemId, itemActualAmount);
-                itemCollectSystem.ShowPopup(transform.position + new Vector3(.5f, .5f), itemId, itemActualAmount);
-            }
         }
     }
 }

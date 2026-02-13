@@ -48,10 +48,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4241637074521123045, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 5426959284589278923, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
       propertyPath: m_Name
       value: Thunder Altar
@@ -108,7 +104,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Value: 50
   OriginalValue: 0
+  isSightEnabled: 1
+  Sight:
+    Location: {x: 0, y: 0}
+    Intensity: 2
+    Range: 5
+    IsActive: 1
   IsAlive: 0
+  Loot: []
+  IsDeadAnimationEnabled: 0
   intensity: 2
   range: 5
   attackDamage: 20

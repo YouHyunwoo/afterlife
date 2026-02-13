@@ -45,6 +45,9 @@ TagManager:
   - name: Terrain
     uniqueID: 2108823151
     locked: 0
+  - name: Shadow
+    uniqueID: 3100029257
+    locked: 0
   - name: Fog
     uniqueID: 2170603593
     locked: 0
