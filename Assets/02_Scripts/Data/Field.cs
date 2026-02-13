@@ -31,6 +31,10 @@ namespace Afterlife.Data
 
         [Header("Resources")]
         public ResourceObjectGroup[] ResourceObjectGroups;
+        public int MaxResourceObjectCount;
+        [Range(0f, 1f)]
+        public float ResourceObjectSpawnProbability;
+        public float ResourceObjectSpawnInterval;
 
         [Header("Monsters")]
         public MonsterObjectGroup[] MonsterObjectGroups;

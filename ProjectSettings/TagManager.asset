@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Monster
   layers:
   - Default
   - TransparentFX
@@ -44,6 +45,9 @@ TagManager:
   - name: Terrain
     uniqueID: 2108823151
     locked: 0
+  - name: Shadow
+    uniqueID: 3100029257
+    locked: 0
   - name: Fog
     uniqueID: 2170603593
     locked: 0
@@ -52,6 +56,9 @@ TagManager:
     locked: 0
   - name: Field
     uniqueID: 4222324435
+    locked: 0
+  - name: Value
+    uniqueID: 3720585105
     locked: 0
   m_RenderingLayers:
   - Default

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68d74e4499a8b354596609ff2ae728f8, type: 3}
+  m_Name: Stage 3
+  m_EditorClassIdentifier: 
+  MapData: {fileID: 11400000, guid: 3a8d53ca26fc9b04caea5ea871499dfb, type: 2}
+  DayDataArray:
+  - {fileID: 11400000, guid: cd50ce23017dd59459bbe7cc10c7c5b9, type: 2}
+  - {fileID: 11400000, guid: 1e03533572aa255438dc026a8c9dd2ac, type: 2}
+  - {fileID: 11400000, guid: 45216bdc01471404682d54111845f023, type: 2}
+  - {fileID: 11400000, guid: e9ae6b284f22c0a42acbd6ce93ee01e2, type: 2}
+  - {fileID: 11400000, guid: d00ea2014ecae55499d6239b67bf73e9, type: 2}
+  - {fileID: 11400000, guid: ede8651c0069e1f41b87791416cd60c5, type: 2}
+  - {fileID: 11400000, guid: d9d14c7f8a38b11418d8a4d94977c93e, type: 2}
+  - {fileID: 11400000, guid: f8ed0fd04a3f76a4aad966293a806ac6, type: 2}

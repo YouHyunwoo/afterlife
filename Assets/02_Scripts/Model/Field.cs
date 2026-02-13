@@ -1,3 +1,5 @@
+using System;
+using TMPro;
 using UnityEngine;
 
 namespace Afterlife.Model
@@ -8,6 +10,7 @@ namespace Afterlife.Model
         public Vector2Int Size;
         public Transform[,] TransformGrid;
         public SpriteRenderer[,] SpriteRendererGrid;
+        public TextMeshPro[,] TextGrid;
         public int Count;
 
         public bool IsInBounds(Vector2Int location) => IsInBounds(location.x, location.y);
@@ -28,12 +31,30 @@ namespace Afterlife.Model
                 {
                     SpriteRendererGrid[x, y] = spriteRenderer;
                 }
+                var textMeshPro = @object.GetComponentInChildren<TextMeshPro>();
+                if (textMeshPro != null)
+                {
+                    TextGrid[x, y] = textMeshPro;
+                }
+                Count++;
             }
             else
             {
                 SpriteRendererGrid[x, y] = null;
+                TextGrid[x, y] = null;
             }
-            Count++;
+        }
+
+        public bool TryGet(Vector2Int location, out Transform @object) => TryGet(location.x, location.y, out @object);
+        public bool TryGet(int x, int y, out Transform @object)
+        {
+            if (IsInBounds(x, y) && Has(x, y))
+            {
+                @object = TransformGrid[x, y];
+                return true;
+            }
+            @object = null;
+            return false;
         }
 
         public Transform Get(Vector2Int location) => Get(location.x, location.y);
@@ -41,18 +62,68 @@ namespace Afterlife.Model
 
         public int GetEmptyCount() => Size.x * Size.y - Count;
 
+        public int GetObjectCountWithCondition(Func<View.Object, bool> condition)
+        {
+            int count = 0;
+            for (int x = 0; x < Size.x; x++)
+            {
+                for (int y = 0; y < Size.y; y++)
+                {
+                    if (TransformGrid[x, y] != null && condition(TransformGrid[x, y].GetComponent<View.Object>()))
+                    {
+                        count++;
+                    }
+                }
+            }
+            return count;
+        }
+
         public void OnFogUpdated(float[,] fogGrid)
         {
             for (int x = 0; x < Size.x; x++)
             {
                 for (int y = 0; y < Size.y; y++)
                 {
-                    if (SpriteRendererGrid[x, y] == null) { continue; }
-
                     var fogValue = fogGrid[x, y];
-                    SpriteRendererGrid[x, y].color = new Color(1f, 1f, 1f, 1 - fogValue);
+                    if (SpriteRendererGrid[x, y] != null)
+                    {
+                        SpriteRendererGrid[x, y].color = new Color(1f, 1f, 1f, 1 - fogValue);
+                    }
+                    if (TextGrid[x, y] != null)
+                    {
+                        var textColor = TextGrid[x, y].color;
+                        textColor.a = 1 - fogValue;
+                        TextGrid[x, y].color = textColor;
+                    }
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            var mapWidth = TransformGrid.GetLength(0);
+            var mapHeight = TransformGrid.GetLength(1);
+
+            for (int x = 0; x < mapWidth; x++)
+            {
+                for (int y = 0; y < mapHeight; y++)
+                {
+                    if (TransformGrid[x, y] != null)
+                    {
+                        UnityEngine.Object.Destroy(TransformGrid[x, y].gameObject);
+                    }
+                    TransformGrid[x, y] = null;
+                    SpriteRendererGrid[x, y] = null;
+                    TextGrid[x, y] = null;
+                }
+            }
+
+            Count = 0;
+            TransformGrid = null;
+            SpriteRendererGrid = null;
+            TextGrid = null;
+            Data = null;
+            Size = Vector2Int.zero;
         }
     }
 }

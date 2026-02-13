@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65146e39ac7a065459360d198c2e5fd5, type: 3}
   m_Name: Easy
   m_EditorClassIdentifier: 
-  Size: {x: 10, y: 7}
+  Size: {x: 25, y: 25}
   TerrainData: {fileID: 11400000, guid: 51dd41db750b9b64b909701332a9d19c, type: 2}
   FieldData: {fileID: 11400000, guid: 942d27005b7b0674c8699d90a8c5191e, type: 2}
+  GenerationFrequency: 0.1
+  GenerationOctaves: 1
+  GenerationRadius: 23
+  GenerationScale: 2.5
+  GenerationHeightThreshold: 0.04

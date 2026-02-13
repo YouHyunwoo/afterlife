@@ -6,9 +6,6 @@ namespace Afterlife.Data
     public class Stage : ScriptableObject
     {
         public Map MapData;
-        public float DayDuration;
-        public float NightDuration;
-        public float[] SpawnIntervalPerDay;
-        public Reward[] Rewards;
+        public Day[] DayDataArray;
     }
 }

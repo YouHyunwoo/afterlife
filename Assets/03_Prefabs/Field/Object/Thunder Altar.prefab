@@ -1,0 +1,145 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3923243304072165661
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2651952030695901488, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2651952030695901488, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2651952030695901488, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2651952030695901488, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2651952030695901488, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2651952030695901488, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2651952030695901488, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2651952030695901488, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2651952030695901488, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2651952030695901488, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5426959284589278923, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+      propertyPath: m_Name
+      value: Thunder Altar
+      objectReference: {fileID: 0}
+    - target: {fileID: 5426959284589278923, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092459375316025021, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+      propertyPath: m_Size.x
+      value: 0.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092459375316025021, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+      propertyPath: m_Size.y
+      value: 0.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092459375316025021, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4bb34a62c1834804aaaaae9280c082fe, type: 3}
+    - target: {fileID: 6092459375316025021, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8314331382220324802, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.65
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: -8929847808762788563, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5426959284589278923, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -5775628522502354832}
+  m_SourcePrefab: {fileID: 100100000, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+--- !u!1 &9016846682806357974 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5426959284589278923, guid: 9d49afd6c09deb7449b7d2fc39c1ae5a, type: 3}
+  m_PrefabInstance: {fileID: 3923243304072165661}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-5775628522502354832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9016846682806357974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c65a9ce1ae6e0914e805603d9fa26b93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Value: 50
+  OriginalValue: 0
+  isSightEnabled: 1
+  Sight:
+    Location: {x: 0, y: 0}
+    Intensity: 2
+    Range: 5
+    IsActive: 1
+  IsAlive: 0
+  Loot: []
+  IsDeadAnimationEnabled: 0
+  intensity: 2
+  range: 5
+  attackDamage: 20
+  attackRange: 5
+  attackInterval: 3
+  Tag: Monster
+  requiredItemName: iron
+  requiredItemAmount: 1
+  upgradeInformation:
+  - Value: 0
+    LightIntensity: 2
+    LightRange: 5
+    AttackDamage: 20
+    AttackRange: 5
+    AttackInterval: 3
+    ProjectileSpeed: 0
+  - Value: 70
+    LightIntensity: 3
+    LightRange: 6
+    AttackDamage: 50
+    AttackRange: 6
+    AttackInterval: 2
+    ProjectileSpeed: 0
+  - Value: 100
+    LightIntensity: 3
+    LightRange: 8
+    AttackDamage: 100
+    AttackRange: 8
+    AttackInterval: 1
+    ProjectileSpeed: 0

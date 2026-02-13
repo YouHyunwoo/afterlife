@@ -996,9 +996,18 @@
             "id": "9ed8a41a-c729-4e60-8973-c6f34c3ab526",
             "actions": [
                 {
-                    "name": "Pointer Button",
+                    "name": "Normal Pointer Button",
                     "type": "Button",
                     "id": "dfab7145-d8c3-40db-9dbb-4890a2d090ed",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Special Pointer Button",
+                    "type": "Button",
+                    "id": "e527af4c-f1a7-4928-ad0e-f0ec8a7fe17e",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -1022,7 +1031,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Pointer Button",
+                    "action": "Normal Pointer Button",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -1034,6 +1043,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Pointer Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "05e9aac5-cc82-463d-a605-6ab05956f46c",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Special Pointer Button",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

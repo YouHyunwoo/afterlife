@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ca2a39c4b35d8040b9e94f85131163f, type: 3}
+  m_Name: Wall
+  m_EditorClassIdentifier: 
+  Id: wall
+  Type: 2
+  Icon: {fileID: 21300000, guid: e64901eabf6887f41a1f1426d51dbf29, type: 3}
+  Effects: []
+  CraftRequirements:
+  - ItemId: stone
+    ItemAmount: 50
+  ConstructionPrefab: {fileID: 9016846682806357974, guid: 24e4ceb3fabb1fc4f8f1e44bdc551c0a, type: 3}
+  PreviewPrefab: {fileID: 9016846682806357974, guid: bf04db89323df9c45b1a6f3fa197029d, type: 3}

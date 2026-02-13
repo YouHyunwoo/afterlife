@@ -75,6 +75,8 @@ crashlytics-build.properties
 
 # Custom
 .vscode/
+.github/
 Workspace/
 /[Aa]ssets/Plugins/Demigiant*
 /[Aa]ssets/Resources/DOTweenSettings.asset*
+/[Aa]ssets/07_Resources/*

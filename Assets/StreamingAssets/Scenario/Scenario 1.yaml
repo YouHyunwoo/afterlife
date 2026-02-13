@@ -1,0 +1,14 @@
+name: "Scenario 1"
+description: "This is a test scenario for the simulation."
+scenes:
+  - name: "Scene 1"
+    description: "Introduction scene"
+    sequences:
+      - type: "narrative"
+        text: "Welcome to the simulation. In this scenario, you will learn about the basic concepts of the simulation."
+      - type: "dialogue"
+        speaker: "Alice"
+        text: "Hello, everyone! I'm excited to be here."
+      - type: "dialogue"
+        speaker: "Bob"
+        text: "Hi Alice! What are we going to learn today?"

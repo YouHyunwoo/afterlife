@@ -8,5 +8,14 @@ namespace Afterlife.Data
         public Vector2Int Size;
         public Terrain TerrainData;
         public Field FieldData;
+
+        [Header("Terrain Generation")]
+        [Range(0, 1)]
+        public float GenerationFrequency = 0.1f;
+        public int GenerationOctaves = 1;
+        public float GenerationRadius;
+        public float GenerationScale = 1f;
+        [Range(0, 1)]
+        public float GenerationHeightThreshold;
     }
 }

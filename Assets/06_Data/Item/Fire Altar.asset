@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ca2a39c4b35d8040b9e94f85131163f, type: 3}
+  m_Name: Fire Altar
+  m_EditorClassIdentifier: 
+  Id: fire-altar
+  Type: 2
+  Icon: {fileID: 21300000, guid: 959e9be0753b1174e83490e49840a3a8, type: 3}
+  Effects: []
+  CraftRequirements:
+  - ItemId: wood
+    ItemAmount: 100
+  - ItemId: stone
+    ItemAmount: 50
+  ConstructionPrefab: {fileID: 9016846682806357974, guid: e6dffb0a7b782f04bb4eb4b3964c50dc, type: 3}
+  PreviewPrefab: {fileID: 9016846682806357974, guid: 0698f20af61308749bcf7462aeb92845, type: 3}

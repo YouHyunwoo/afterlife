@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Afterlife.Model
 {
+    [Serializable]
     public class Light
     {
         public Vector2Int Location;
@@ -20,8 +21,8 @@ namespace Afterlife.Model
         public SpriteRenderer[,] SpriteRendererGrid;
         public List<Light> Lights = new();
         public bool IsDirty;
-        public event Action<float[,]> OnFogUpdated;
         public LinkedList<SpriteRenderer> PreviousActiveSpriteRenderers = new();
+        public event Action<float[,]> OnFogUpdated;
 
         public void AddLight(Light light)
         {
@@ -34,7 +35,8 @@ namespace Afterlife.Model
         }
 
         public void Invalidate() => IsDirty = true;
-        public void Update() {
+        public void Update()
+        {
             if (!IsDirty) { return; }
 
             for (int x = 0; x < Size.x; x++)
@@ -66,7 +68,7 @@ namespace Afterlife.Model
                     {
                         if (x < 0 || Size.x <= x || y < 0 || Size.y <= y) { continue; }
 
-                        var distance = Mathf.Abs(location.x - x) + Mathf.Abs(location.y - y);
+                        var distance = EuclideanDistance(location, new Vector2Int(x, y));
                         if (distance > range) { continue; }
 
                         float brightness;
@@ -91,6 +93,21 @@ namespace Afterlife.Model
             OnFogUpdated?.Invoke(FogGrid);
         }
 
+        float ManhattanDistance(Vector2Int a, Vector2Int b)
+        {
+            return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
+        }
+
+        float EuclideanDistance(Vector2Int a, Vector2Int b)
+        {
+            return Mathf.Sqrt(Mathf.Pow(a.x - b.x, 2) + Mathf.Pow(a.y - b.y, 2));
+        }
+
+        float ChebyshevDistance(Vector2Int a, Vector2Int b)
+        {
+            return Mathf.Max(Mathf.Abs(a.x - b.x), Mathf.Abs(a.y - b.y));
+        }
+
         public void FillFog()
         {
             for (var x = 0; x < Size.x; x++)
@@ -111,6 +128,36 @@ namespace Afterlife.Model
                     FogGrid[x, y] = 0;
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            var mapWidth = FogGrid.GetLength(0);
+            var mapHeight = FogGrid.GetLength(1);
+
+            for (int x = 0; x < mapWidth; x++)
+            {
+                for (int y = 0; y < mapHeight; y++)
+                {
+                    if (TransformGrid[x, y] != null)
+                    {
+                        UnityEngine.Object.Destroy(TransformGrid[x, y].gameObject);
+                    }
+                    TransformGrid[x, y] = null;
+                    FogGrid[x, y] = 0;
+                    SpriteRendererGrid[x, y] = null;
+                }
+            }
+
+            OnFogUpdated = null;
+            PreviousActiveSpriteRenderers.Clear();
+            IsDirty = false;
+            Lights.Clear();
+            Lights = null;
+            FogGrid = null;
+            TransformGrid = null;
+            SpriteRendererGrid = null;
+            Size = Vector2Int.zero;
         }
     }
 }

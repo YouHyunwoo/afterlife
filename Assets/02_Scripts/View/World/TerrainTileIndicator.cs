@@ -4,8 +4,10 @@ namespace Afterlife.View
 {
     public class TerrainTileIndicator : MonoBehaviour
     {
-        public Vector2Int TileIndex;
+        [SerializeField] SpriteRenderer spriteRenderer;
+        public Vector2Int TilePosition => Vector2Int.FloorToInt(transform.position);
 
-        public void SetLocation(Vector2Int location) => transform.position = new Vector3(location.x, location.y, 0f);
+        public void SetTilePosition(Vector2Int tilePosition) => transform.position = (Vector2)tilePosition;
+        public void SetColor(Color color) => spriteRenderer.color = color;
     }
 }

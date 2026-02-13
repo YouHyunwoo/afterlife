@@ -1,0 +1,1310 @@
+{
+    "languages": [
+        {
+            "languageCode": "en",
+            "strings": [
+                {
+                    "id": "title.menu.new-game",
+                    "text": "New Game"
+                },
+                {
+                    "id": "title.menu.settings",
+                    "text": "Settings"
+                },
+                {
+                    "id": "title.menu.exit",
+                    "text": "Exit"
+                },
+                {
+                    "id": "title.menu.settings.title",
+                    "text": "Settings"
+                },
+                {
+                    "id": "title.menu.settings.sounds.category",
+                    "text": "Sounds"
+                },
+                {
+                    "id": "title.menu.settings.sounds.master.label",
+                    "text": "Master"
+                },
+                {
+                    "id": "title.menu.settings.sounds.bgm.label",
+                    "text": "BGM"
+                },
+                {
+                    "id": "title.menu.settings.sounds.sfx.label",
+                    "text": "SFX"
+                },
+                {
+                    "id": "title.menu.settings.interfaces.category",
+                    "text": "Interfaces"
+                },
+                {
+                    "id": "title.menu.settings.interfaces.language.label",
+                    "text": "Language"
+                },
+                {
+                    "id": "title.menu.settings.interfaces.language.button",
+                    "text": "English"
+                },
+                {
+                    "id": "introduction.next-key",
+                    "text": "Next"
+                },
+                {
+                    "id": "introduction.skip-key",
+                    "text": "Skip"
+                },
+                {
+                    "id": "main.mission.text",
+                    "text": "Mission"
+                },
+                {
+                    "id": "main.upgrade.text",
+                    "text": "Upgrade"
+                },
+                {
+                    "id": "main.opportunity.text",
+                    "text": "Opportunities"
+                },
+                {
+                    "id": "main.menu.continue-button",
+                    "text": "Continue"
+                },
+                {
+                    "id": "main.menu.save-and-quit-button",
+                    "text": "Quit"
+                },
+                {
+                    "id": "stage.popup.menu.mission-progress",
+                    "text": "Mission"
+                },
+                {
+                    "id": "stage.popup.menu.continue-button",
+                    "text": "Continue"
+                },
+                {
+                    "id": "stage.popup.menu.giveup-button",
+                    "text": "Give Up"
+                },
+                {
+                    "id": "stage.popup.inventory.title",
+                    "text": "Inventory"
+                },
+                {
+                    "id": "stage.popup.craft.title",
+                    "text": "Craft"
+                },
+                {
+                    "id": "stage.popup.reward.title",
+                    "text": "Reward"
+                },
+                {
+                    "id": "stage.popup.item-information.requirements",
+                    "text": "Requirements"
+                },
+                {
+                    "id": "game-over.title",
+                    "text": "Game Over"
+                },
+                {
+                    "id": "game-over.message",
+                    "text": "You did not return to your world."
+                },
+                {
+                    "id": "game-over.to-title-button",
+                    "text": "To Title"
+                },
+                {
+                    "id": "game-clear-demo.title",
+                    "text": "Demo"
+                },
+                {
+                    "id": "game-clear-demo.message",
+                    "text": "Thank you for playing!\\n\\nIn the official version, more features and stages will be added.\\n\\nCheck out what's new in community.\\nYour feedbacks are always welcome."
+                },
+                {
+                    "id": "game-clear-demo.to-title-button",
+                    "text": "To Title"
+                },
+                {
+                    "id": "upgrade.attack-power-1.name",
+                    "text": "Attack Power 1"
+                },
+                {
+                    "id": "upgrade.attack-power-1.description",
+                    "text": "Increase attack power by 1"
+                },
+                {
+                    "id": "upgrade.attack-power-2.name",
+                    "text": "Attack Power 2"
+                },
+                {
+                    "id": "upgrade.attack-power-2.description",
+                    "text": "Increase attack power by 2"
+                },
+                {
+                    "id": "upgrade.attack-power-3.name",
+                    "text": "Attack Power 3"
+                },
+                {
+                    "id": "upgrade.attack-power-3.description",
+                    "text": "Increase attack power by 5"
+                },
+                {
+                    "id": "upgrade.attack-power-4.name",
+                    "text": "Attack Power 4"
+                },
+                {
+                    "id": "upgrade.attack-power-4.description",
+                    "text": "Increase attack power by 10"
+                },
+                {
+                    "id": "upgrade.attack-power-5.name",
+                    "text": "Attack Power 5"
+                },
+                {
+                    "id": "upgrade.attack-power-5.description",
+                    "text": "Increase attack power by 20"
+                },
+                {
+                    "id": "upgrade.attack-power-6.name",
+                    "text": "Attack Power 6"
+                },
+                {
+                    "id": "upgrade.attack-power-6.description",
+                    "text": "Increase attack power by 100"
+                },
+                {
+                    "id": "upgrade.attack-power-7.name",
+                    "text": "Attack Power 7"
+                },
+                {
+                    "id": "upgrade.attack-power-7.description",
+                    "text": "Increase attack power by 300"
+                },
+                {
+                    "id": "upgrade.attack-power-8.name",
+                    "text": "Attack Power 8"
+                },
+                {
+                    "id": "upgrade.attack-power-8.description",
+                    "text": "Increase attack power by 1000"
+                },
+                {
+                    "id": "upgrade.attack-power-9.name",
+                    "text": "Attack Power 9"
+                },
+                {
+                    "id": "upgrade.attack-power-9.description",
+                    "text": "Increase attack power by 2000"
+                },
+                {
+                    "id": "upgrade.attack-power-10.name",
+                    "text": "Attack Power 10"
+                },
+                {
+                    "id": "upgrade.attack-power-10.description",
+                    "text": "Increase attack power by 3000"
+                },
+                {
+                    "id": "upgrade.critical-rate-1.name",
+                    "text": "Critical Rate 1"
+                },
+                {
+                    "id": "upgrade.critical-rate-1.description",
+                    "text": "Increase critical rate by 10%"
+                },
+                {
+                    "id": "upgrade.critical-rate-2.name",
+                    "text": "Critical Rate 2"
+                },
+                {
+                    "id": "upgrade.critical-rate-2.description",
+                    "text": "Increase critical rate by 20%"
+                },
+                {
+                    "id": "upgrade.critical-rate-3.name",
+                    "text": "Critical Rate 3"
+                },
+                {
+                    "id": "upgrade.critical-rate-3.description",
+                    "text": "Increase critical rate by 30%"
+                },
+                {
+                    "id": "upgrade.critical-damage-1.name",
+                    "text": "Critical Damage 1"
+                },
+                {
+                    "id": "upgrade.critical-damage-1.description",
+                    "text": "Increase critical damage by 120%"
+                },
+                {
+                    "id": "upgrade.critical-damage-2.name",
+                    "text": "Critical Damage 2"
+                },
+                {
+                    "id": "upgrade.critical-damage-2.description",
+                    "text": "Increase critical damage by 150%"
+                },
+                {
+                    "id": "upgrade.critical-damage-3.name",
+                    "text": "Critical Damage 3"
+                },
+                {
+                    "id": "upgrade.critical-damage-3.description",
+                    "text": "Increase critical damage by 200%"
+                },
+                {
+                    "id": "upgrade.recovery-power-1.name",
+                    "text": "Recovery Power 1"
+                },
+                {
+                    "id": "upgrade.recovery-power-1.description",
+                    "text": "Increase recovery power by 2"
+                },
+                {
+                    "id": "upgrade.recovery-power-2.name",
+                    "text": "Recovery Power 2"
+                },
+                {
+                    "id": "upgrade.recovery-power-2.description",
+                    "text": "Increase recovery power by 5"
+                },
+                {
+                    "id": "upgrade.recovery-power-3.name",
+                    "text": "Recovery Power 3"
+                },
+                {
+                    "id": "upgrade.recovery-power-3.description",
+                    "text": "Increase recovery power by 10"
+                },
+                {
+                    "id": "upgrade.attack-range-1.name",
+                    "text": "Attack Range 1"
+                },
+                {
+                    "id": "upgrade.attack-range-1.description",
+                    "text": "Increase attack range by 1 tile"
+                },
+                {
+                    "id": "upgrade.attack-range-2.name",
+                    "text": "Attack Range 2"
+                },
+                {
+                    "id": "upgrade.attack-range-2.description",
+                    "text": "Increase attack range by 1 tile"
+                },
+                {
+                    "id": "upgrade.attack-range-3.name",
+                    "text": "Attack Range 3"
+                },
+                {
+                    "id": "upgrade.attack-range-3.description",
+                    "text": "Increase attack range by 1 tile"
+                },
+                {
+                    "id": "upgrade.automation.name",
+                    "text": "Automation"
+                },
+                {
+                    "id": "upgrade.automation.description",
+                    "text": "Enable automatic interaction in holding a tile"
+                },
+                {
+                    "id": "upgrade.attack-speed-1.name",
+                    "text": "Automation Speed 1"
+                },
+                {
+                    "id": "upgrade.attack-speed-1.description",
+                    "text": "Increase automation speed by 50%"
+                },
+                {
+                    "id": "upgrade.attack-speed-2.name",
+                    "text": "Automation Speed 2"
+                },
+                {
+                    "id": "upgrade.attack-speed-2.description",
+                    "text": "Increase automation speed by 100%"
+                },
+                {
+                    "id": "upgrade.attack-speed-3.name",
+                    "text": "Automation Speed 3"
+                },
+                {
+                    "id": "upgrade.attack-speed-3.description",
+                    "text": "Increase automation speed by 200%"
+                },
+                {
+                    "id": "upgrade.attack-speed-4.name",
+                    "text": "Automation Speed 4"
+                },
+                {
+                    "id": "upgrade.attack-speed-4.description",
+                    "text": "Increase automation speed by 400%"
+                },
+                {
+                    "id": "upgrade.attack-speed-5.name",
+                    "text": "Automation Speed 5"
+                },
+                {
+                    "id": "upgrade.attack-speed-5.description",
+                    "text": "Increase automation speed by 600%"
+                },
+                {
+                    "id": "upgrade.attack-duration-1.name",
+                    "text": "Attack Duration 1"
+                },
+                {
+                    "id": "upgrade.attack-duration-1.description",
+                    "text": "Increase attack duration by 3s"
+                },
+                {
+                    "id": "upgrade.attack-duration-2.name",
+                    "text": "Attack Duration 2"
+                },
+                {
+                    "id": "upgrade.attack-duration-2.description",
+                    "text": "Increase attack duration by 5s"
+                },
+                {
+                    "id": "upgrade.attack-duration-3.name",
+                    "text": "Attack Duration 3"
+                },
+                {
+                    "id": "upgrade.attack-duration-3.description",
+                    "text": "Increase attack duration by 10s"
+                },
+                {
+                    "id": "upgrade.attack-duration-4.name",
+                    "text": "Attack Duration 4"
+                },
+                {
+                    "id": "upgrade.attack-duration-4.description",
+                    "text": "Increase attack duration by 15s"
+                },
+                {
+                    "id": "upgrade.attack-duration-5.name",
+                    "text": "Attack Duration 5"
+                },
+                {
+                    "id": "upgrade.attack-duration-5.description",
+                    "text": "Increase attack duration by 30s"
+                },
+                {
+                    "id": "upgrade.sight-range-1.name",
+                    "text": "Sight Range 1"
+                },
+                {
+                    "id": "upgrade.sight-range-1.description",
+                    "text": "Increase sight range by 1 tile"
+                },
+                {
+                    "id": "upgrade.sight-range-2.name",
+                    "text": "Sight Range 2"
+                },
+                {
+                    "id": "upgrade.sight-range-2.description",
+                    "text": "Increase sight range by 1 tile"
+                },
+                {
+                    "id": "upgrade.sight-range-3.name",
+                    "text": "Sight Range 3"
+                },
+                {
+                    "id": "upgrade.sight-range-3.description",
+                    "text": "Increase sight range by 1 tile"
+                },
+                {
+                    "id": "upgrade.campfire.name",
+                    "text": "Campfire"
+                },
+                {
+                    "id": "upgrade.campfire.description",
+                    "text": "You can install a campfire that lights up the surroundings in field"
+                },
+                {
+                    "id": "upgrade.rich-resources.name",
+                    "text": "Rich Resources"
+                },
+                {
+                    "id": "upgrade.rich-resources.description",
+                    "text": "Increase more resource objects to be generated in field"
+                },
+                {
+                    "id": "upgrade.open-eyes.name",
+                    "text": "Open Eyes"
+                },
+                {
+                    "id": "upgrade.open-eyes.description",
+                    "text": "Increase view range of player in 5 seconds"
+                },
+                {
+                    "id": "item.wood.name",
+                    "text": "Wood"
+                },
+                {
+                    "id": "item.wood.description",
+                    "text": "Wood is used for building."
+                },
+                {
+                    "id": "item.stone.name",
+                    "text": "Stone"
+                },
+                {
+                    "id": "item.stone.description",
+                    "text": "Stone is used for building."
+                },
+                {
+                    "id": "item.iron.name",
+                    "text": "Iron"
+                },
+                {
+                    "id": "item.iron.description",
+                    "text": "Iron is used for building."
+                },
+                {
+                    "id": "item.gold.name",
+                    "text": "Gold"
+                },
+                {
+                    "id": "item.gold.description",
+                    "text": "Gold is used for building."
+                },
+                {
+                    "id": "item.wooden-axe.name",
+                    "text": "Wooden Axe"
+                },
+                {
+                    "id": "item.wooden-axe.description",
+                    "text": "An axe made of wood. Used for chopping wood."
+                },
+                {
+                    "id": "item.stone-axe.name",
+                    "text": "Stone Axe"
+                },
+                {
+                    "id": "item.stone-axe.description",
+                    "text": "An axe made of stone. Used for chopping wood."
+                },
+                {
+                    "id": "item.iron-axe.name",
+                    "text": "Iron Axe"
+                },
+                {
+                    "id": "item.iron-axe.description",
+                    "text": "An axe made of iron. Used for chopping wood."
+                },
+                {
+                    "id": "item.dagger.name",
+                    "text": "Dagger"
+                },
+                {
+                    "id": "item.dagger.description",
+                    "text": "A small but swift blade. Can be obtained from goblins."
+                },
+                {
+                    "id": "item.torchlight.name",
+                    "text": "Torchlight"
+                },
+                {
+                    "id": "item.torchlight.description",
+                    "text": "Lights up the area around you."
+                },
+                {
+                    "id": "item.fire-altar.name",
+                    "text": "Fire Altar"
+                },
+                {
+                    "id": "item.fire-altar.description",
+                    "text": "A ritual structure that uses fire. It targets a nearby enemy and deals damage."
+                },
+                {
+                    "id": "item.thunder-altar.name",
+                    "text": "Thunder Altar"
+                },
+                {
+                    "id": "item.thunder-altar.description",
+                    "text": "A ritual structure powered by iron. It attacks a nearby enemy and inflicts damage."
+                },
+                {
+                    "id": "item.campfire.name",
+                    "text": "Campfire"
+                },
+                {
+                    "id": "item.campfire.description",
+                    "text": "Provides light for a limited time. Interact with it to extend its duration by consuming 1 wood."
+                },
+                {
+                    "id": "item.wall.name",
+                    "text": "Wall"
+                },
+                {
+                    "id": "item.wall.description",
+                    "text": "A sturdy wall built from stone. You can increase its durability by interacting with it and spending stone."
+                },
+                {
+                    "id": "introduction.messages.0",
+                    "text": "“You have awakened.\\n…You possess consciousness, yet no form.\\nDo not be alarmed.\\nThat is the nature of this space.”"
+                },
+                {
+                    "id": "introduction.messages.1",
+                    "text": "“You have been chosen.\\nYour will has been deemed sufficient to endure the trials for the sake of balance in this world.”"
+                },
+                {
+                    "id": "introduction.messages.2",
+                    "text": "“Should you fail these trials,\\nyou will vanish from existence.\\nBut if you complete every mission—\\nyou shall return to your original world, and gain something far greater.”"
+                },
+                {
+                    "id": "introduction.messages.3",
+                    "text": "“A secluded village stands on the brink of destruction by monsters.\\nYour task is to protect this village.\\nEliminate all threats, and ensure its survival.”"
+                },
+                {
+                    "id": "introduction.messages.4",
+                    "text": "“You cannot intervene directly in this state.\\nBut through Aetheron—your will—\\nyou may touch the world.\\nThat will be your weapon… and your measure.”"
+                },
+                {
+                    "id": "introduction.messages.5",
+                    "text": "“Manifest your will.\\nThat is the only way to survive in this world.”"
+                },
+                {
+                    "id": "main.tutorial.messages.0",
+                    "text": "This is the space between.\\nThe trial begins here.\\nYour will shall be proven within this boundary."
+                },
+                {
+                    "id": "main.tutorial.messages.1",
+                    "text": "The orb at the center is the key.\\nBeyond it lies your appointed mission.\\nWhether you are worthy—this will determine."
+                },
+                {
+                    "id": "main.tutorial.messages.2",
+                    "text": "The magic circle beneath amplifies the flow of Etheron.\\nWithin it, you may alter and enhance your abilities.\\nPower is not a right. It is a burden."
+                },
+                {
+                    "id": "main.tutorial.messages.3",
+                    "text": "What circles the orb are your remaining chances.\\nNot time—but potential.\\nWith each one lost, the end draws near."
+                },
+                {
+                    "id": "main.tutorial.messages.4",
+                    "text": "The value shown at the top left is called Etheron.\\nIt is your influence, the trace of your existence.\\nAction leaves a mark. A mark becomes strength."
+                },
+                {
+                    "id": "main.tutorial.messages.5",
+                    "text": "The symbol at the top right grants access to all structures of this realm.\\nBut full understanding is not required.\\nWill matters more than comprehension."
+                },
+                {
+                    "id": "main.tutorial.messages.6",
+                    "text": "From this point forth, your will shall lead.\\nChoices cannot be undone. Consequences shall return to you.\\nRecklessness will not be forgiven.\\n…Now, begin."
+                },
+                {
+                    "id": "main.tutorial.skip-key.text",
+                    "text": "Skip"
+                },
+                {
+                    "id": "stage.tutorial.messages.0",
+                    "text": "This is the ground of your trial.\\nA fragment of life has taken root, and darkness circles around it.\\nYou must protect it.\\nBefore ruin reaches it, eliminate all threats."
+                },
+                {
+                    "id": "stage.tutorial.messages.1",
+                    "text": "Your will reaches the world through Aetheron.\\nLeft-click to project the power of Aetheron onto objects."
+                },
+                {
+                    "id": "stage.tutorial.messages.2",
+                    "text": "Resources are survival.\\nTouch trees and rocks to gather materials."
+                },
+                {
+                    "id": "stage.tutorial.messages.3",
+                    "text": "Aetheron can restore what is broken.\\nApproach the structures of the village.\\nThey shall rise again."
+                },
+                {
+                    "id": "stage.tutorial.messages.4",
+                    "text": "The enemy is a fracture in this world.\\nIt must be removed."
+                },
+                {
+                    "id": "stage.tutorial.messages.5",
+                    "text": "What is gathered must be kept in order.\\nPress 'I' to open your inventory and inspect your equipment."
+                },
+                {
+                    "id": "stage.tutorial.messages.6",
+                    "text": "You may also shape objects through Aetheron.\\nPress 'C' to open the crafting menu.\\nWhat you create will strengthen your will."
+                },
+                {
+                    "id": "stage.tutorial.messages.7",
+                    "text": "Aetheron is your trace, and your power.\\nGather it through interaction."
+                },
+                {
+                    "id": "stage.tutorial.messages.8",
+                    "text": "What is etched above is the mark of time passed.\\nIt records your actions and bears witness to the progress of this trial."
+                },
+                {
+                    "id": "stage.tutorial.messages.9",
+                    "text": "When night falls, the fiends awaken.\\nBe wary of movement in the dark."
+                },
+                {
+                    "id": "stage.tutorial.messages.10",
+                    "text": "The mark at the top right permits your choice.\\nIf you wish to abandon the mission, open that gate."
+                },
+                {
+                    "id": "stage.tutorial.messages.11",
+                    "text": "Your trial has begun.\\nIf you complete all tasks, the path home shall open.\\nI will observe your choices and their outcomes to the end."
+                },
+                {
+                    "id": "stage.tutorial.skip-key.text",
+                    "text": "Skip"
+                }
+            ]
+        },
+        {
+            "languageCode": "ko",
+            "strings": [
+                {
+                    "id": "title.menu.new-game",
+                    "text": "새 게임"
+                },
+                {
+                    "id": "title.menu.settings",
+                    "text": "설정"
+                },
+                {
+                    "id": "title.menu.exit",
+                    "text": "종료"
+                },
+                {
+                    "id": "title.menu.settings.title",
+                    "text": "설정"
+                },
+                {
+                    "id": "title.menu.settings.sounds.category",
+                    "text": "소리"
+                },
+                {
+                    "id": "title.menu.settings.sounds.master.label",
+                    "text": "마스터"
+                },
+                {
+                    "id": "title.menu.settings.sounds.bgm.label",
+                    "text": "배경음"
+                },
+                {
+                    "id": "title.menu.settings.sounds.sfx.label",
+                    "text": "효과음"
+                },
+                {
+                    "id": "title.menu.settings.interfaces.category",
+                    "text": "인터페이스"
+                },
+                {
+                    "id": "title.menu.settings.interfaces.language.label",
+                    "text": "언어"
+                },
+                {
+                    "id": "title.menu.settings.interfaces.language.button",
+                    "text": "한국어"
+                },
+                {
+                    "id": "introduction.next-key",
+                    "text": "다음"
+                },
+                {
+                    "id": "introduction.skip-key",
+                    "text": "스킵"
+                },
+                {
+                    "id": "main.mission.text",
+                    "text": "임무"
+                },
+                {
+                    "id": "main.upgrade.text",
+                    "text": "업그레이드"
+                },
+                {
+                    "id": "main.opportunity.text",
+                    "text": "기회"
+                },
+                {
+                    "id": "main.menu.continue-button",
+                    "text": "계속하기"
+                },
+                {
+                    "id": "main.menu.save-and-quit-button",
+                    "text": "종료하기"
+                },
+                {
+                    "id": "stage.popup.menu.mission-progress",
+                    "text": "임무"
+                },
+                {
+                    "id": "stage.popup.menu.continue-button",
+                    "text": "계속하기"
+                },
+                {
+                    "id": "stage.popup.menu.giveup-button",
+                    "text": "포기하기"
+                },
+                {
+                    "id": "stage.popup.inventory.title",
+                    "text": "인벤토리"
+                },
+                {
+                    "id": "stage.popup.craft.title",
+                    "text": "제작"
+                },
+                {
+                    "id": "stage.popup.reward.title",
+                    "text": "보상"
+                },
+                {
+                    "id": "stage.popup.item-information.requirements",
+                    "text": "필요한 재료"
+                },
+                {
+                    "id": "game-over.title",
+                    "text": "게임 오버"
+                },
+                {
+                    "id": "game-over.message",
+                    "text": "당신은 원래 세계로 돌아가지 못하고 소멸했습니다."
+                },
+                {
+                    "id": "game-over.to-title-button",
+                    "text": "타이틀로"
+                },
+                {
+                    "id": "game-clear-demo.title",
+                    "text": "데모"
+                },
+                {
+                    "id": "game-clear-demo.message",
+                    "text": "플레이해 주셔서 감사합니다!\\n\\n\\n정식 버전에서는 더 많은 기능과 스테이지가 추가될 예정입니다.\\n\\n커뮤니티에서 새로운 소식을 확인하세요.\\n피드백은 언제나 환영합니다."
+                },
+                {
+                    "id": "game-clear-demo.to-title-button",
+                    "text": "타이틀로"
+                },
+                {
+                    "id": "upgrade.attack-power-1.name",
+                    "text": "공격력 1"
+                },
+                {
+                    "id": "upgrade.attack-power-1.description",
+                    "text": "공격력을 1 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.attack-power-2.name",
+                    "text": "공격력 2"
+                },
+                {
+                    "id": "upgrade.attack-power-2.description",
+                    "text": "공격력을 2 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.attack-power-3.name",
+                    "text": "공격력 3"
+                },
+                {
+                    "id": "upgrade.attack-power-3.description",
+                    "text": "공격력을 5 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.attack-power-4.name",
+                    "text": "공격력 4"
+                },
+                {
+                    "id": "upgrade.attack-power-4.description",
+                    "text": "공격력을 10 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.attack-power-5.name",
+                    "text": "공격력 5"
+                },
+                {
+                    "id": "upgrade.attack-power-5.description",
+                    "text": "공격력을 20 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.attack-power-6.name",
+                    "text": "공격력 6"
+                },
+                {
+                    "id": "upgrade.attack-power-6.description",
+                    "text": "공격력을 100 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.attack-power-7.name",
+                    "text": "공격력 7"
+                },
+                {
+                    "id": "upgrade.attack-power-7.description",
+                    "text": "공격력을 300 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.attack-power-8.name",
+                    "text": "공격력 8"
+                },
+                {
+                    "id": "upgrade.attack-power-8.description",
+                    "text": "공격력을 1000 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.attack-power-9.name",
+                    "text": "공격력 9"
+                },
+                {
+                    "id": "upgrade.attack-power-9.description",
+                    "text": "공격력을 2000 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.attack-power-10.name",
+                    "text": "공격력 10"
+                },
+                {
+                    "id": "upgrade.attack-power-10.description",
+                    "text": "공격력을 3000 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.critical-rate-1.name",
+                    "text": "치명타 확률 1"
+                },
+                {
+                    "id": "upgrade.critical-rate-1.description",
+                    "text": "치명타 확률을 10% 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.critical-rate-2.name",
+                    "text": "치명타 확률 2"
+                },
+                {
+                    "id": "upgrade.critical-rate-2.description",
+                    "text": "치명타 확률을 20% 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.critical-rate-3.name",
+                    "text": "치명타 확률 3"
+                },
+                {
+                    "id": "upgrade.critical-rate-3.description",
+                    "text": "치명타 확률을 30% 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.critical-damage-1.name",
+                    "text": "치명타 피해 1"
+                },
+                {
+                    "id": "upgrade.critical-damage-1.description",
+                    "text": "치명타 피해를 120% 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.critical-damage-2.name",
+                    "text": "치명타 피해 2"
+                },
+                {
+                    "id": "upgrade.critical-damage-2.description",
+                    "text": "치명타 피해를 150% 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.critical-damage-3.name",
+                    "text": "치명타 피해 3"
+                },
+                {
+                    "id": "upgrade.critical-damage-3.description",
+                    "text": "치명타 피해를 200% 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.recovery-power-1.name",
+                    "text": "회복력 1"
+                },
+                {
+                    "id": "upgrade.recovery-power-1.description",
+                    "text": "회복력을 2 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.recovery-power-2.name",
+                    "text": "회복력 2"
+                },
+                {
+                    "id": "upgrade.recovery-power-2.description",
+                    "text": "회복력을 5 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.recovery-power-3.name",
+                    "text": "회복력 3"
+                },
+                {
+                    "id": "upgrade.recovery-power-3.description",
+                    "text": "회복력을 10 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.attack-range-1.name",
+                    "text": "공격 범위 1"
+                },
+                {
+                    "id": "upgrade.attack-range-1.description",
+                    "text": "공격 범위를 1 타일 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.attack-range-2.name",
+                    "text": "공격 범위 2"
+                },
+                {
+                    "id": "upgrade.attack-range-2.description",
+                    "text": "공격 범위를 1 타일 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.attack-range-3.name",
+                    "text": "공격 범위 3"
+                },
+                {
+                    "id": "upgrade.attack-range-3.description",
+                    "text": "공격 범위를 1 타일 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.automation.name",
+                    "text": "자동화"
+                },
+                {
+                    "id": "upgrade.automation.description",
+                    "text": "타일을 누르고 있을 때 자동 공격을 활성화합니다."
+                },
+                {
+                    "id": "upgrade.attack-speed-1.name",
+                    "text": "자동화 속도 1"
+                },
+                {
+                    "id": "upgrade.attack-speed-1.description",
+                    "text": "자동화 속도를 50% 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.attack-speed-2.name",
+                    "text": "자동화 속도 2"
+                },
+                {
+                    "id": "upgrade.attack-speed-2.description",
+                    "text": "자동화 속도를 100% 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.attack-speed-3.name",
+                    "text": "자동화 속도 3"
+                },
+                {
+                    "id": "upgrade.attack-speed-3.description",
+                    "text": "자동화 속도를 200% 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.attack-speed-4.name",
+                    "text": "자동화 속도 4"
+                },
+                {
+                    "id": "upgrade.attack-speed-4.description",
+                    "text": "자동화 속도를 400% 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.attack-speed-5.name",
+                    "text": "자동화 속도 5"
+                },
+                {
+                    "id": "upgrade.attack-speed-5.description",
+                    "text": "자동화 속도를 600% 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.attack-duration-1.name",
+                    "text": "공격 지속 시간 1"
+                },
+                {
+                    "id": "upgrade.attack-duration-1.description",
+                    "text": "공격 지속 시간을 3초 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.attack-duration-2.name",
+                    "text": "공격 지속 시간 2"
+                },
+                {
+                    "id": "upgrade.attack-duration-2.description",
+                    "text": "공격 지속 시간을 5초 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.attack-duration-3.name",
+                    "text": "공격 지속 시간 3"
+                },
+                {
+                    "id": "upgrade.attack-duration-3.description",
+                    "text": "공격 지속 시간을 10초 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.attack-duration-4.name",
+                    "text": "공격 지속 시간 4"
+                },
+                {
+                    "id": "upgrade.attack-duration-4.description",
+                    "text": "공격 지속 시간을 15초 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.attack-duration-5.name",
+                    "text": "공격 지속 시간 5"
+                },
+                {
+                    "id": "upgrade.attack-duration-5.description",
+                    "text": "공격 지속 시간을 30초 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.sight-range-1.name",
+                    "text": "시야 범위 1"
+                },
+                {
+                    "id": "upgrade.sight-range-1.description",
+                    "text": "시야 범위를 1 타일 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.sight-range-2.name",
+                    "text": "시야 범위 2"
+                },
+                {
+                    "id": "upgrade.sight-range-2.description",
+                    "text": "시야 범위를 1 타일 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.sight-range-3.name",
+                    "text": "시야 범위 3"
+                },
+                {
+                    "id": "upgrade.sight-range-3.description",
+                    "text": "시야 범위를 1 타일 증가시킵니다."
+                },
+                {
+                    "id": "upgrade.campfire.name",
+                    "text": "모닥불"
+                },
+                {
+                    "id": "upgrade.campfire.description",
+                    "text": "주변을 밝혀주는 모닥불을 설치할 수 있습니다."
+                },
+                {
+                    "id": "upgrade.rich-resources.name",
+                    "text": "풍부한 자원"
+                },
+                {
+                    "id": "upgrade.rich-resources.description",
+                    "text": "필드에서 생성되는 자원이 증가합니다."
+                },
+                {
+                    "id": "upgrade.open-eyes.name",
+                    "text": "개안"
+                },
+                {
+                    "id": "upgrade.open-eyes.description",
+                    "text": "5초 동안 플레이어의 시야 범위를 증가시킵니다."
+                },
+                {
+                    "id": "item.wood.name",
+                    "text": "목재"
+                },
+                {
+                    "id": "item.wood.description",
+                    "text": "목재입니다."
+                },
+                {
+                    "id": "item.stone.name",
+                    "text": "돌"
+                },
+                {
+                    "id": "item.stone.description",
+                    "text": "돌입니다."
+                },
+                {
+                    "id": "item.iron.name",
+                    "text": "철"
+                },
+                {
+                    "id": "item.iron.description",
+                    "text": "철입니다."
+                },
+                {
+                    "id": "item.gold.name",
+                    "text": "금"
+                },
+                {
+                    "id": "item.gold.description",
+                    "text": "금입니다."
+                },
+                {
+                    "id": "item.wooden-axe.name",
+                    "text": "나무 도끼"
+                },
+                {
+                    "id": "item.wooden-axe.description",
+                    "text": "나무로 만들어진 도끼입니다. 나무를 베는 데 사용됩니다."
+                },
+                {
+                    "id": "item.stone-axe.name",
+                    "text": "돌 도끼"
+                },
+                {
+                    "id": "item.stone-axe.description",
+                    "text": "돌로 만들어진 도끼입니다. 나무를 베는 데 사용됩니다."
+                },
+                {
+                    "id": "item.iron-axe.name",
+                    "text": "철 도끼"
+                },
+                {
+                    "id": "item.iron-axe.description",
+                    "text": "철로 만들어진 도끼입니다. 나무를 베는 데 사용됩니다."
+                },
+                {
+                    "id": "item.dagger.name",
+                    "text": "단검"
+                },
+                {
+                    "id": "item.dagger.description",
+                    "text": "작지만 빠른 검입니다. 고블린에게서 얻을 수 있습니다."
+                },
+                {
+                    "id": "item.torchlight.name",
+                    "text": "횃불"
+                },
+                {
+                    "id": "item.torchlight.description",
+                    "text": "주변을 밝혀줍니다."
+                },
+                {
+                    "id": "item.fire-altar.name",
+                    "text": "불의 제단"
+                },
+                {
+                    "id": "item.fire-altar.description",
+                    "text": "불로 제사를 지내는 구조물입니다. 주변 적들 중 하나를 공격하여 피해를 줍니다."
+                },
+                {
+                    "id": "item.thunder-altar.name",
+                    "text": "번개의 제단"
+                },
+                {
+                    "id": "item.thunder-altar.description",
+                    "text": "철을 이용해서 제사를 지내는 구조물입니다. 주변 적들 중 하나를 공격하여 피해를 줍니다."
+                },
+                {
+                    "id": "item.campfire.name",
+                    "text": "모닥불"
+                },
+                {
+                    "id": "item.campfire.description",
+                    "text": "일정 시간동안 주변을 밝혀주는 구조물입니다. 상호작용 시 목재를 하나 소모하여 시간을 늘일 수 있습니다."
+                },
+                {
+                    "id": "item.wall.name",
+                    "text": "벽"
+                },
+                {
+                    "id": "item.wall.description",
+                    "text": "돌로 만든 벽입니다. 상호작용 시 돌을 소모하여 내구성을 올릴 수 있습니다."
+                },
+                {
+                    "id": "introduction.messages.0",
+                    "text": "“눈을 떴는가. \\n…의식은 있지만, 형체는 없지.\\n이상할 것 없다. 그것이 이 공간의 본질이다.”"
+                },
+                {
+                    "id": "introduction.messages.1",
+                    "text": "“너는 선택받았다.\\n이 세계의 균형을 위해, 시험을 감당할 자격이 있는 ‘의지’로 판단되었기 때문이다.”"
+                },
+                {
+                    "id": "introduction.messages.2",
+                    "text": "“네가 이 시험을 통과하지 못한다면,\\n너는 여기서 소멸할 것이다.\\n하지만 모든 임무를 완수한다면—\\n너는 원래 세계로 돌아갈 것이며, 그 이상의 자격도 부여받을 것이다.”"
+                },
+                {
+                    "id": "introduction.messages.3",
+                    "text": "“한 외딴 마을이 마물들의 위협 아래에 있다.\\n너의 과제는, 그 마을을 지키는 것.\\n모든 마물을 제거하고, 마을의 생존을 보장하라.”"
+                },
+                {
+                    "id": "introduction.messages.4",
+                    "text": "“지금의 너는 직접 개입할 수 없다.\\n그러나 ‘에테론’— 네 의지는 현실에 닿을 수 있다.\\n그것이 너의 무기이며, 시험의 기준이 된다.”"
+                },
+                {
+                    "id": "introduction.messages.5",
+                    "text": "“의지를 실현하라.\\n그것이 이 세계에서 살아남는 유일한 방법이다.”"
+                },
+                {
+                    "id": "main.tutorial.messages.0",
+                    "text": "여기는 경계의 공간이다.\\n시험은 이곳에서 시작된다.\\n네가 가진 의지는, 오직 이 안에서 증명될 것이다."
+                },
+                {
+                    "id": "main.tutorial.messages.1",
+                    "text": "중앙의 오브는 문을 여는 열쇠다.\\n그 문 너머에는 너를 기다리는 임무가 있다.\\n네가 감당할 수 있을지, 시험해보는 것이다."
+                },
+                {
+                    "id": "main.tutorial.messages.2",
+                    "text": "하단의 마법진은 에테론의 흐름을 증폭시키는 구조다.\\n그 안에서 너의 능력을 개조하고, 강화를 시도할 수 있다.\\n강함은 권리가 아니다. 책임이다."
+                },
+                {
+                    "id": "main.tutorial.messages.3",
+                    "text": "그 주위를 맴도는 것은, 너에게 허락된 기회다.\\n남은 시간이 아니다. 남은 가능성이다.\\n하나씩 사라질 때마다, 끝이 다가온다."
+                },
+                {
+                    "id": "main.tutorial.messages.4",
+                    "text": "좌측 상단의 수치는 ‘에테론’이라 불린다.\\n그것은 너의 영향력이자, 존재의 궤적이다.\\n너의 행위는 곧 흔적이 된다. 흔적은 힘이 된다."
+                },
+                {
+                    "id": "main.tutorial.messages.5",
+                    "text": "우측 상단의 문양은 이 경계의 모든 구조를 열람할 수 있는 창이다.\\n그러나 모든 구조를 이해할 필요는 없다.\\n이해보다 중요한 것은, 의지다."
+                },
+                {
+                    "id": "main.tutorial.messages.6",
+                    "text": "지금부터는 네 의지다.\\n선택은 돌이킬 수 없고, 결과는 너에게 돌아온다.\\n경솔함은 허용되지 않는다.\\n…이제, 시작하라."
+                },
+                {
+                    "id": "main.tutorial.skip-key.text",
+                    "text": "스킵"
+                },
+                {
+                    "id": "stage.tutorial.messages.0",
+                    "text": "이곳은 너의 시험의 장이다.\\n한 조각의 생명이 움트고, 어둠은 그 주변을 맴돈다.\\n너는 그것을 지켜야 한다.\\n파멸이 닿기 전에, 모든 위협을 제거하라."
+                },
+                {
+                    "id": "stage.tutorial.messages.1",
+                    "text": "너의 의지는, 에테론을 통해 세상에 닿는다.\\n마우스 왼쪽 클릭으로, 에테론의 힘을 사물에 투사할 수 있다."
+                },
+                {
+                    "id": "stage.tutorial.messages.2",
+                    "text": "자원은 곧 생존이다.\\n나무와 바위에 닿아 재료를 모아라."
+                },
+                {
+                    "id": "stage.tutorial.messages.3",
+                    "text": "에테론은 파손된 형상을 복원할 수 있다.\\n마을의 구조물에 닿아라.\\n그것은 다시 일어설 것이다."
+                },
+                {
+                    "id": "stage.tutorial.messages.4",
+                    "text": "적은 이 세계의 균열이다.\\n그것을 제거해야만 한다."
+                },
+                {
+                    "id": "stage.tutorial.messages.5",
+                    "text": "모은 것은 정리되어야 한다.\\n‘I’키를 눌러 인벤토리를 열고, 장비를 확인하라."
+                },
+                {
+                    "id": "stage.tutorial.messages.6",
+                    "text": "에테론으로 사물을 형성할 수도 있다.\\n‘C’키를 눌러 제작창을 열어라.\\n형성된 것은 너의 의지를 강화하는 도구가 된다."
+                },
+                {
+                    "id": "stage.tutorial.messages.7",
+                    "text": "에테론은 너의 흔적이며, 너의 힘이다.\\n상호작용을 통해 그것을 모아라."
+                },
+                {
+                    "id": "stage.tutorial.messages.8",
+                    "text": "중앙 위에 새겨진 것은 지나간 시간의 흔적이다.\\n그것은 너의 행적을 기록하고, 이 시험의 경과를 증명한다."
+                },
+                {
+                    "id": "stage.tutorial.messages.9",
+                    "text": "밤이 오면, 마물이 깨어난다.\\n어둠 속의 움직임을 경계하라."
+                },
+                {
+                    "id": "stage.tutorial.messages.10",
+                    "text": "오른쪽 위의 문장은 너의 선택을 허락한다.\\n임무를 포기하고자 한다면, 그 문을 열어라."
+                },
+                {
+                    "id": "stage.tutorial.messages.11",
+                    "text": "너의 임무는 시작되었다.\\n모든 과업을 완수한다면, 돌아갈 길이 열릴 것이다.\\n그 선택과 결과를, 나는 끝까지 지켜볼 것이다."
+                },
+                {
+                    "id": "stage.tutorial.skip-key.text",
+                    "text": "스킵"
+                }
+            ]
+        }
+    ]
+}
