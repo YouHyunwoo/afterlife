@@ -6,86 +6,46 @@ namespace Afterlife.Dev
 {
     public class WorldManager : MonoBehaviour
     {
-        [SerializeField] private WorldMapGenerationParameter _generationParameter;
+        [Header("Tilemap")]
         [SerializeField] private Tilemap _terrainTilemap;
-        [SerializeField] private TileBase _dirtTile;
-        [SerializeField] private TileBase _waterTile;
-        [SerializeField] private bool _gizmosElevationEnabled = true;
-        [SerializeField] private bool _gizmosTemperatureEnabled = false;
-        [SerializeField] private bool _gizmosMoistureEnabled = false;
-        [SerializeField] private Gradient _elevationGradient;
-        [SerializeField] private Gradient _temperatureGradient;
-        [SerializeField] private Gradient _moistureGradient;
+        [SerializeField] private TileBase _dirtRuleTile;
+        [SerializeField] private TileBase _waterRuleTile;
 
-        private World.Terrain terrain;
+        private World.Terrain _terrain;
 
-        private void Start()
+        public World.Terrain Terrain => _terrain;
+
+        public World.Terrain GenerateWorldMap(WorldMapGenerationParameter generationParameter)
         {
             var generator = new WorldMapGenerator();
-            terrain = generator.Generate(_generationParameter);
+            _terrain = generator.Generate(generationParameter);
 
-            for (int y = 0; y < terrain.Size.y; y++)
+            for (int y = -1; y <= _terrain.Size.y; y++)
             {
-                for (int x = 0; x < terrain.Size.x; x++)
+                for (int x = -1; x <= _terrain.Size.x; x++)
                 {
-                    var tile = terrain.Tiles[x, y];
+                    if (x < 0 || x >= _terrain.Size.x || y < 0 || y >= _terrain.Size.y)
+                    {
+                        _terrainTilemap.SetTile(new Vector3Int(x, y, 0), _waterRuleTile);
+                        continue;
+                    }
+
+                    var tile = _terrain.Tiles[x, y];
                     switch (tile.Geography)
                     {
                         case GeographyType.Land:
                         case GeographyType.Beach:
-                            _terrainTilemap.SetTile(new Vector3Int(x, y, 0), _dirtTile);
+                            _terrainTilemap.SetTile(new Vector3Int(x, y, 0), _dirtRuleTile);
                             break;
                         case GeographyType.ShallowWater:
                         case GeographyType.DeepWater:
-                            _terrainTilemap.SetTile(new Vector3Int(x, y, 0), _waterTile);
+                            _terrainTilemap.SetTile(new Vector3Int(x, y, 0), _waterRuleTile);
                             break;
                     }
                 }
             }
-        }
 
-        private void OnDrawGizmos()
-        {
-            if (terrain == null) return;
-
-            if (_gizmosElevationEnabled)
-            {
-                for (int y = 0; y < terrain.Size.y; y++)
-                {
-                    for (int x = 0; x < terrain.Size.x; x++)
-                    {
-                        var tile = terrain.Tiles[x, y];
-                            Gizmos.color = _elevationGradient.Evaluate(tile.Elevation);
-                            Gizmos.DrawCube(new Vector3(x + 0.5f, y + 0.5f, 0), Vector3.one);
-                    }
-                }
-            }
-
-            if (_gizmosTemperatureEnabled)
-            {
-                for (int y = 0; y < terrain.Size.y; y++)
-                {
-                    for (int x = 0; x < terrain.Size.x; x++)
-                    {
-                        var tile = terrain.Tiles[x, y];
-                            Gizmos.color = _temperatureGradient.Evaluate(tile.Temperature);
-                            Gizmos.DrawCube(new Vector3(x + 0.5f, y + 0.5f, 0), Vector3.one);
-                    }
-                }
-            }
-
-            if (_gizmosMoistureEnabled)
-            {
-                for (int y = 0; y < terrain.Size.y; y++)
-                {
-                    for (int x = 0; x < terrain.Size.x; x++)
-                    {
-                        var tile = terrain.Tiles[x, y];
-                            Gizmos.color = _moistureGradient.Evaluate(tile.Moisture);
-                            Gizmos.DrawCube(new Vector3(x + 0.5f, y + 0.5f, 0), Vector3.one);
-                    }
-                }
-            }
+            return _terrain;
         }
     }
 }
