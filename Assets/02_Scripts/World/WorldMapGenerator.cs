@@ -69,12 +69,21 @@ namespace Afterlife.Dev.World
             var area = width * height;
 
             elevationLayer = new float[area];
+            float[] elevationHighFrequencyLayer = new float[area];
 
             fastNoiseLite.SetNoiseType(param.ElevationNoiseType);
             fastNoiseLite.SetFrequency(param.ElevationGenerationFrequency);
-            fastNoiseLite.SetSeed(param.ElevationGenerationSeed == 0 ? Random.Range(int.MinValue, int.MaxValue) : param.ElevationGenerationSeed);
+            fastNoiseLite.SetSeed(GetSeed(param.ElevationGenerationSeed));
 
             GenerateLayer(fastNoiseLite, width, height, elevationLayer);
+
+            fastNoiseLite.SetNoiseType(param.ElevationNoiseType);
+            fastNoiseLite.SetFrequency(param.ElevationGenerationFrequency * param.ElevationHighFrequencyMultiplier);
+            fastNoiseLite.SetSeed(GetSeed(param.ElevationGenerationHighFrequencySeed));
+
+            GenerateLayer(fastNoiseLite, width, height, elevationHighFrequencyLayer);
+
+            WeightedSumLayer(elevationLayer, elevationHighFrequencyLayer, param.ElevationHighFrequencyWeight);
             NormalizeLayer(elevationLayer);
             ExponentiateLayer(elevationLayer, param.ElevationExponent);
             ApplyRadialMask(elevationLayer, radialMask);
@@ -91,7 +100,7 @@ namespace Afterlife.Dev.World
 
             fastNoiseLite.SetNoiseType(param.TemperatureNoiseType);
             fastNoiseLite.SetFrequency(param.TemperatureGenerationFrequency);
-            fastNoiseLite.SetSeed(param.TemperatureGenerationSeed == 0 ? Random.Range(int.MinValue, int.MaxValue) : param.TemperatureGenerationSeed);
+            fastNoiseLite.SetSeed(GetSeed(param.TemperatureGenerationSeed));
 
             GenerateLayer(fastNoiseLite, width, height, temperatureLayer);
             NormalizeLayer(temperatureLayer);
@@ -108,10 +117,15 @@ namespace Afterlife.Dev.World
 
             fastNoiseLite.SetNoiseType(param.MoistureNoiseType);
             fastNoiseLite.SetFrequency(param.MoistureGenerationFrequency);
-            fastNoiseLite.SetSeed(param.MoistureGenerationSeed == 0 ? Random.Range(int.MinValue, int.MaxValue) : param.MoistureGenerationSeed);
+            fastNoiseLite.SetSeed(GetSeed(param.MoistureGenerationSeed));
 
             GenerateLayer(fastNoiseLite, width, height, moistureLayer);
             NormalizeLayer(moistureLayer);
+        }
+
+        private int GetSeed(int seed)
+        {
+            return seed == 0 ? Random.Range(int.MinValue, int.MaxValue) : seed;
         }
 
         private void GenerateLayer(FastNoiseLite fnl, int width, int height, float[] layer)
@@ -120,6 +134,12 @@ namespace Afterlife.Dev.World
             for (var y = 0; y < height; y++)
                 for (var x = 0; x < width; x++)
                     layer[index++] = fnl.GetNoise(x, y);
+        }
+
+        private void WeightedSumLayer(float[] baseLayer, float[] additionalLayer, float weight)
+        {
+            for (var i = 0; i < baseLayer.Length; i++)
+                baseLayer[i] = baseLayer[i] * (1 - weight) + additionalLayer[i] * weight;
         }
 
         private void NormalizeLayer(float[] layer, float minValue = -1f, float maxValue = 1f)

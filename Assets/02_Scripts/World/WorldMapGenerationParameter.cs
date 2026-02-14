@@ -14,8 +14,11 @@ namespace Afterlife.Dev
         public FastNoiseLite.NoiseType ElevationNoiseType = FastNoiseLite.NoiseType.Perlin;
         public int ElevationGenerationSeed; // 0 is random
         public float ElevationGenerationFrequency = 0.01f;
+        public int ElevationGenerationHighFrequencySeed;
+        public float ElevationHighFrequencyMultiplier = 4f;
+        [Range(0f, 1f)] public float ElevationHighFrequencyWeight;
         public float ElevationExponent = 1f;
-        public float ElevationSeaLevel = 0.5f;
+        [Range(0f, 1f)] public float ElevationSeaLevel = 0.5f;
 
         [Header("Temperature")]
         public FastNoiseLite.NoiseType TemperatureNoiseType = FastNoiseLite.NoiseType.Perlin;

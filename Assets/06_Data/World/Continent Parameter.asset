@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fdcd559398eb3b541820ff5129c1e549, type: 3}
-  m_Name: WorldMapGenerationParameter
+  m_Name: Continent Parameter
   m_EditorClassIdentifier: 
-  MapSize: {x: 200, y: 200}
+  MapSize: {x: 400, y: 400}
   RadialMaskFalloff:
     serializedVersion: 2
     m_Curve:
@@ -45,7 +45,7 @@ MonoBehaviour:
       outWeight: 0.11935463
     - serializedVersion: 3
       time: 1.5039876
-      value: 0.0029627234
+      value: 0.4946009
       inSlope: -1
       outSlope: -1
       tangentMode: 0
@@ -57,9 +57,12 @@ MonoBehaviour:
     m_RotationOrder: 4
   ElevationNoiseType: 3
   ElevationGenerationSeed: 0
-  ElevationGenerationFrequency: 0.04
-  ElevationExponent: 2
-  ElevationSeaLevel: 0.14
+  ElevationGenerationFrequency: 0.01
+  ElevationGenerationHighFrequencySeed: 0
+  ElevationHighFrequencyMultiplier: 3
+  ElevationHighFrequencyWeight: 0.238
+  ElevationExponent: 3
+  ElevationSeaLevel: 0.1
   TemperatureNoiseType: 3
   TemperatureGenerationSeed: 1338
   TemperatureGenerationFrequency: 0.1

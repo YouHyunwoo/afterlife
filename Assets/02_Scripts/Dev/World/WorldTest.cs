@@ -20,7 +20,19 @@ namespace Afterlife.Dev
 
         private void Start()
         {
+            GenerateWorldMap();
+        }
+
+        public void OnRefreshButtonClicked()
+        {
+            GenerateWorldMap();
+        }
+
+        private void GenerateWorldMap()
+        {
             _terrain = _worldManager.GenerateWorldMap(_generationParameter);
+            Camera.main.transform.position = new Vector3(_terrain.Size.x / 2f, _terrain.Size.y / 2f, -10f);
+            Camera.main.orthographicSize = Mathf.Max(_terrain.Size.x, _terrain.Size.y) / 2f + 5f;
         }
 
         private void OnDrawGizmos()
@@ -34,8 +46,8 @@ namespace Afterlife.Dev
                     for (int x = 0; x < _terrain.Size.x; x++)
                     {
                         var tile = _terrain.Tiles[x, y];
-                            Gizmos.color = _elevationGradient.Evaluate(tile.Elevation);
-                            Gizmos.DrawCube(new Vector3(x + 0.5f, y + 0.5f, 0), Vector3.one);
+                        Gizmos.color = _elevationGradient.Evaluate(tile.Elevation);
+                        Gizmos.DrawCube(new Vector3(x + 0.5f, y + 0.5f, 0), Vector3.one);
                     }
                 }
             }
@@ -47,8 +59,8 @@ namespace Afterlife.Dev
                     for (int x = 0; x < _terrain.Size.x; x++)
                     {
                         var tile = _terrain.Tiles[x, y];
-                            Gizmos.color = _temperatureGradient.Evaluate(tile.Temperature);
-                            Gizmos.DrawCube(new Vector3(x + 0.5f, y + 0.5f, 0), Vector3.one);
+                        Gizmos.color = _temperatureGradient.Evaluate(tile.Temperature);
+                        Gizmos.DrawCube(new Vector3(x + 0.5f, y + 0.5f, 0), Vector3.one);
                     }
                 }
             }
@@ -60,8 +72,8 @@ namespace Afterlife.Dev
                     for (int x = 0; x < _terrain.Size.x; x++)
                     {
                         var tile = _terrain.Tiles[x, y];
-                            Gizmos.color = _moistureGradient.Evaluate(tile.Moisture);
-                            Gizmos.DrawCube(new Vector3(x + 0.5f, y + 0.5f, 0), Vector3.one);
+                        Gizmos.color = _moistureGradient.Evaluate(tile.Moisture);
+                        Gizmos.DrawCube(new Vector3(x + 0.5f, y + 0.5f, 0), Vector3.one);
                     }
                 }
             }
