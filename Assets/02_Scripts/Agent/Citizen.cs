@@ -5,7 +5,7 @@ namespace Afterlife.Dev.Agent
 {
     public class Citizen : MonoBehaviour
     {
-        [SerializeField] Transform _homeTransform;
+        [SerializeField] private Transform _homeTransform;
         private NavMeshAgent _navMeshAgent;
         public bool _isObjectObtained;
 
