@@ -5,7 +5,7 @@ namespace Afterlife.Dev.Grid
 {
     public class Grid
     {
-        public static void ForEachCellInRadius(Vector3 center, int radius, Action<Vector3Int> action)
+        public static void ForEachCellInRadius(Vector3 center, float radius, Action<Vector3Int> action)
         {
             var minX = Mathf.FloorToInt(center.x - radius);
             var maxX = Mathf.CeilToInt(center.x + radius);

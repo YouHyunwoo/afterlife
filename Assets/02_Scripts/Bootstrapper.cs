@@ -9,15 +9,15 @@ namespace Afterlife.Dev
     {
         [SerializeField] private FieldNavigationSystem _fieldNavigationSystem;
         [SerializeField] private TownAreaSystem _townAreaSystem;
+        [SerializeField] private ConstructionSystem _constructionSystem;
         [SerializeField] private MonsterSpawnSystem _monsterSpawnSystem;
         [SerializeField] private Citizen _citizen;
-        [SerializeField] private House _housePrefab;
+        [SerializeField] private HouseVisible _houseVisiblePrefab;
+        [SerializeField] private BuildingData _houseData;
 
         protected override void CreateObjects()
         {
-            var house = Instantiate(_housePrefab, new Vector3(2, 2), Quaternion.identity);
-            house.Build(_townAreaSystem);
-
+            var house = _constructionSystem.Build(new Vector2Int(2, 2), _houseVisiblePrefab, _houseData);
             _citizen.SetHouse(house.transform);
         }
 
@@ -26,7 +26,6 @@ namespace Afterlife.Dev
             _fieldNavigationSystem.Initialize();
             _townAreaSystem.Initialize();
             _monsterSpawnSystem.Initialize();
-
         }
 
         protected override void BindObjects()
@@ -36,7 +35,7 @@ namespace Afterlife.Dev
         protected override void PrepareObjects()
         {
             _fieldNavigationSystem.BuildNavMesh();
-            _monsterSpawnSystem.SpawnMonster(new Vector3(5, 5));
+            // _monsterSpawnSystem.SpawnMonster(new Vector3(5, 5));
         }
     }
 }

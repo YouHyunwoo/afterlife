@@ -28,7 +28,7 @@ namespace Afterlife.Dev.Town
             return _areaInfluenceMap.ContainsKey(cellPosition) && _areaInfluenceMap[cellPosition] > 0;
         }
 
-        public void AddInfluence(Vector3 centerPosition, int radius)
+        public void AddInfluence(Vector3 centerPosition, float radius)
         {
             Grid.Grid.ForEachCellInRadius(centerPosition, radius, cellPosition =>
             {
@@ -39,7 +39,7 @@ namespace Afterlife.Dev.Town
             });
         }
 
-        public void RemoveInfluence(Vector3 centerPosition, int radius)
+        public void RemoveInfluence(Vector3 centerPosition, float radius)
         {
             Grid.Grid.ForEachCellInRadius(centerPosition, radius, cellPosition =>
             {

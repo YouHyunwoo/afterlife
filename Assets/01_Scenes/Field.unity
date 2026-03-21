@@ -293,6 +293,8 @@ GameObject:
   m_Component:
   - component: {fileID: 374512698}
   - component: {fileID: 374512699}
+  - component: {fileID: 374512702}
+  - component: {fileID: 374512701}
   - component: {fileID: 374512700}
   m_Layer: 0
   m_Name: Field
@@ -341,8 +343,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaf85c5b0c2a50a4b9461d8ae7453fdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _townAreaSystem: {fileID: 852864813}
+  _townAreaSystem: {fileID: 374512702}
   _monsterPrefab: {fileID: 2098846693792243547, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
+--- !u!114 &374512701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374512697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c79dac6db4fbad4e9f88cf4436a7819, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _townAreaSystem: {fileID: 374512702}
+--- !u!114 &374512702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374512697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a6f5836ebcb6f84b8795ba9455536ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _grid: {fileID: 1347286555}
 --- !u!1 &404897650
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,51 +403,6 @@ Transform:
   - {fileID: 1511666331}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &852864811
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 852864812}
-  - component: {fileID: 852864813}
-  m_Layer: 0
-  m_Name: Town
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &852864812
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 852864811}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1943847224}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &852864813
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 852864811}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a6f5836ebcb6f84b8795ba9455536ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _grid: {fileID: 1347286555}
 --- !u!1 &898314526
 GameObject:
   m_ObjectHideFlags: 0
@@ -1126,10 +1109,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fieldNavigationSystem: {fileID: 374512699}
-  _townAreaSystem: {fileID: 852864813}
+  _townAreaSystem: {fileID: 374512702}
+  _constructionSystem: {fileID: 374512701}
   _monsterSpawnSystem: {fileID: 374512700}
   _citizen: {fileID: 898314530}
-  _housePrefab: {fileID: -3029390687763540110, guid: 7a6c462fa6ca0fa47b285fd11c3c5ffd, type: 3}
+  _houseVisiblePrefab: {fileID: 8344033725246155502, guid: 22e70eaf3ff577242bbc28cf55b45d12, type: 3}
+  _houseData: {fileID: 11400000, guid: 81125d69814c84343a5d7e4014ca174d, type: 2}
 --- !u!1 &1337877828
 GameObject:
   m_ObjectHideFlags: 0
@@ -4914,6 +4899,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tree
       objectReference: {fileID: 0}
+    - target: {fileID: 6119026036536104667, guid: 63a52fd7cd96e674c818ff1c7431cb47, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4921,9 +4910,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6119026036536104667, guid: 63a52fd7cd96e674c818ff1c7431cb47, type: 3}
       insertIndex: 2
       addedObject: {fileID: 1375987031}
-    - targetCorrespondingSourceObject: {fileID: 962953573780829642, guid: 63a52fd7cd96e674c818ff1c7431cb47, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 63a52fd7cd96e674c818ff1c7431cb47, type: 3}
 --- !u!4 &1375987026 stripped
 Transform:
@@ -5173,7 +5159,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1318732989}
-  - {fileID: 852864812}
   - {fileID: 374512698}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

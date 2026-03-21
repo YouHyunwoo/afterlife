@@ -3,8 +3,8 @@ using UnityEngine;
 namespace Afterlife.Dev.Field
 {
     [CreateAssetMenu(fileName = "New Building", menuName = "Afterlife/Building")]
-    public class BuildingData : ScriptableObject
+    public class BuildingData : ObjectData
     {
-        public Vector2Int Size;
+        public float TownAreaInfluenceRadius = 3f;
     }
 }
