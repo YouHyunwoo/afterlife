@@ -51,5 +51,11 @@ namespace Afterlife.Dev.Town
                 }
             });
         }
+
+        public bool IsPositionInAnyInfluence(Vector3 position)
+        {
+            var cellPosition = _grid.WorldToCell(position);
+            return _areaInfluenceMap.ContainsKey(cellPosition) && _areaInfluenceMap[cellPosition] > 0;
+        }
     }
 }

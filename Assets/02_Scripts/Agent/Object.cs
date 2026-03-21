@@ -10,17 +10,8 @@ namespace Afterlife.Dev.Agent
             {
                 if (collision.TryGetComponent(out Citizen citizen))
                 {
-                    if (citizen._isObjectObtained)
-                    {
-                        citizen._isObjectObtained = false;
-                        citizen.ObtainObject();
-                        Debug.Log("목재 +1 획득!");
-                    }
-                    else
-                    {
-                        citizen.PickUpObject();
-                        Debug.Log("목재 +1 주움!");
-                    }
+                    citizen.PickUpObject();
+                    Debug.Log("목재 +1 주움!");
                 }
             }
         }

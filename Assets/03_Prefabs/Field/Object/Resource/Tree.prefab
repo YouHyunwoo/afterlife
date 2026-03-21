@@ -8,6 +8,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8867973961847666544, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
+      propertyPath: m_Area
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8867973961847666544, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
+      propertyPath: m_OverrideArea
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 518151985624572323, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.505
@@ -123,6 +131,18 @@ PrefabInstance:
     - target: {fileID: 7430109269739179928, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
       propertyPath: ItemDropGroups.Array.data[0].DropRate
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9091687085107437168, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9091687085107437168, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9091687085107437168, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
