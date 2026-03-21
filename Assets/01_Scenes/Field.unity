@@ -289,7 +289,7 @@ GameObject:
   m_Component:
   - component: {fileID: 404897651}
   m_Layer: 0
-  m_Name: Cameras
+  m_Name: '#3 Cameras'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1609,7 +1609,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1219520551}
   m_Layer: 0
-  m_Name: World
+  m_Name: '#4 World'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3398,7 +3398,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1419816975}
   m_Layer: 0
-  m_Name: Dev
+  m_Name: '#2 Dev'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3731,7 +3731,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1943847224}
   m_Layer: 0
-  m_Name: Core
+  m_Name: '#1 Core'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

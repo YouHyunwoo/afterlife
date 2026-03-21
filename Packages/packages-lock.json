@@ -17,6 +17,13 @@
       "dependencies": {},
       "hash": "53de7d5c64d880781d5df5162f584eff1888368e"
     },
+    "com.materialstone.moonstone": {
+      "version": "https://github.com/material-stone-games/moonstone.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "15b3c45b17a096ae1a7e4bfdb78027c62ebd1c48"
+    },
     "com.unity.2d.animation": {
       "version": "10.2.2",
       "depth": 1,
