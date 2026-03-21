@@ -1,0 +1,6 @@
+﻿<Solution>
+  <Project Path="DefaultAssemblyDefinition.csproj" />
+  <Project Path="DOTween.Modules.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
+</Solution>
