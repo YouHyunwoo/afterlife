@@ -1,5 +1,5 @@
-using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Afterlife.Dev.Field
 {
@@ -7,9 +7,10 @@ namespace Afterlife.Dev.Field
     public class ObjectVisible : Moonstone.Ore.Local.Visible
     {
         protected Animator animator;
+        protected EventTrigger eventTrigger;
         protected SpriteRenderer spriteRenderer;
         [SerializeField] // 임시
-        protected Vector2Int size;
+        protected Vector2Int size = Vector2Int.one;
 
         public Vector2Int Size => size;
 
@@ -35,14 +36,35 @@ namespace Afterlife.Dev.Field
         protected override void OnInitialize()
         {
             TryGetComponent(out animator);
+            TryGetComponent(out eventTrigger);
+            SetUpEventTriggers();
 
             var bodyTransform = transform.Find("Root").Find("Body");
             bodyTransform.TryGetComponent(out spriteRenderer);
+        }
+
+        protected virtual void SetUpEventTriggers()
+        {
+            var entry = new EventTrigger.Entry
+            {
+                eventID = EventTriggerType.PointerClick,
+            };
+            entry.callback.AddListener((data) => OnPointerClick((PointerEventData)data));
+            eventTrigger.triggers.Add(entry);
         }
 
         public virtual void SetData<TObjectData>(TObjectData data) where TObjectData : ObjectData
         {
             size = data.Size;
         }
+
+        #region Event Handler
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            Debug.Log("click");
+        }
+
+        #endregion
     }
 }

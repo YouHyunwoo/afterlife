@@ -14,11 +14,16 @@ namespace Afterlife.Dev
         [SerializeField] private Citizen _citizen;
         [SerializeField] private HouseVisible _houseVisiblePrefab;
         [SerializeField] private BuildingData _houseData;
+        [SerializeField] private ResourceVisible _treeVisiblePrefab;
+        [SerializeField] private ResourceData _treeData;
+
+        [Header("Modes")]
         [SerializeField] private ConstructionMode _constructionMode;
 
         protected override void CreateObjects()
         {
             var house = _constructionSystem.Build(new Vector2Int(2, 2), _houseVisiblePrefab, _houseData);
+            _constructionSystem.Build(new Vector2Int(2, 5), _treeVisiblePrefab, _treeData);
             _citizen.SetHouse(house.transform);
         }
 
