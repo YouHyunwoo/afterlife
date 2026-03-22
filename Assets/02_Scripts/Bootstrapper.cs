@@ -14,6 +14,7 @@ namespace Afterlife.Dev
         [SerializeField] private Citizen _citizen;
         [SerializeField] private HouseVisible _houseVisiblePrefab;
         [SerializeField] private BuildingData _houseData;
+        [SerializeField] private ConstructionMode _constructionMode;
 
         protected override void CreateObjects()
         {
@@ -26,16 +27,34 @@ namespace Afterlife.Dev
             _fieldNavigationSystem.Initialize();
             _townAreaSystem.Initialize();
             _monsterSpawnSystem.Initialize();
+            _constructionMode.Initialize();
+            _constructionMode.Exit();
         }
 
         protected override void BindObjects()
         {
+            _constructionMode.OnConfirmed += (position, objectVisible, mode, data) =>
+            {
+                _constructionSystem.Build(position, objectVisible, _houseData);
+            };
+            _constructionMode.OnCanceled += (position, objectVisible, mode, data) =>
+            {
+                Debug.Log("Construction canceled");
+            };
         }
 
         protected override void PrepareObjects()
         {
             _fieldNavigationSystem.BuildNavMesh();
             // _monsterSpawnSystem.SpawnMonster(new Vector3(5, 5));
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                _constructionMode.Enter(_houseVisiblePrefab);
+            }
         }
     }
 }
