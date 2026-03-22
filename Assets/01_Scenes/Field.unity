@@ -322,6 +322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _raycastSystem: {fileID: 902063032}
+  _gridSystem: {fileID: 374512704}
   _constructionGuideSystem: {fileID: 374512703}
 --- !u!1 &374512697
 GameObject:
@@ -332,6 +333,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 374512698}
+  - component: {fileID: 374512704}
   - component: {fileID: 374512699}
   - component: {fileID: 374512702}
   - component: {fileID: 374512703}
@@ -398,6 +400,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c79dac6db4fbad4e9f88cf4436a7819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gridSystem: {fileID: 374512704}
   _townAreaSystem: {fileID: 374512702}
 --- !u!114 &374512702
 MonoBehaviour:
@@ -425,6 +428,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _guideSpriteRendererPrefab: {fileID: 5873723305243552262, guid: 98736ea3d7a132043b576c16a303f3b4, type: 3}
+--- !u!114 &374512704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374512697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c729b2fb7d044b49bb4139de6ae3745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tilemaps:
+  - {fileID: 1347286555}
+  - {fileID: 1127550283}
 --- !u!1 &404897650
 GameObject:
   m_ObjectHideFlags: 0
@@ -1285,6 +1303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a88e627922c6df47b735d517c2e9bea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gridSystem: {fileID: 374512704}
   _fieldNavigationSystem: {fileID: 374512699}
   _townAreaSystem: {fileID: 374512702}
   _constructionSystem: {fileID: 374512701}

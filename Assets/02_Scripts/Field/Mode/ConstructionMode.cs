@@ -6,6 +6,7 @@ namespace Afterlife.Dev.Field
     public class ConstructionMode : Moonstone.Ore.Local.Entity
     {
         [SerializeField] private RaycastSystem _raycastSystem;
+        [SerializeField] private GridSystem _gridSystem;
         [SerializeField] private ConstructionGuideSystem _constructionGuideSystem;
 
         private ObjectVisible _currentObjectVisible;
@@ -31,17 +32,19 @@ namespace Afterlife.Dev.Field
 
             var gridSize = _currentObjectVisible.Size;
             var gridPosition = new Vector2Int(Mathf.RoundToInt(hitPoint.x - gridSize.x / 2f), Mathf.RoundToInt(hitPoint.y - gridSize.y / 2f));
-            _constructionGuideSystem.ShowGuide(gridPosition, gridSize, true);
+            var canBuild = _gridSystem.IsPassable(GridLayer.Terrain, gridPosition, gridSize) &&
+                _gridSystem.IsPassable(GridLayer.Field, gridPosition, gridSize);
+            _constructionGuideSystem.ShowGuide(gridPosition, gridSize, canBuild);
             // _previewObjectVisible.transform.position = new Vector3(gridPosition.x + gridSize.x / 2f, gridPosition.y + gridSize.y / 2f, 0);
 
             if (Input.GetMouseButtonDown(0))
             {
-                OnConfirmed?.Invoke(gridPosition, _currentObjectVisible, this, null);
+                OnConfirmed?.Invoke(gridPosition, _currentObjectVisible, this, this);
                 Exit();
             }
             else if (Input.GetMouseButtonDown(1))
             {
-                OnCanceled?.Invoke(gridPosition, _currentObjectVisible, this, null);
+                OnCanceled?.Invoke(gridPosition, _currentObjectVisible, this, this);
                 Exit();
             }
         }

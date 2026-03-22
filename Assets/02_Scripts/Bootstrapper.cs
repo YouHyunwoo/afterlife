@@ -7,6 +7,7 @@ namespace Afterlife.Dev
 {
     public class Bootstrapper : Moonstone.Ore.Bootstrapper
     {
+        [SerializeField] private GridSystem _gridSystem;
         [SerializeField] private FieldNavigationSystem _fieldNavigationSystem;
         [SerializeField] private TownAreaSystem _townAreaSystem;
         [SerializeField] private ConstructionSystem _constructionSystem;
@@ -22,9 +23,6 @@ namespace Afterlife.Dev
 
         protected override void CreateObjects()
         {
-            var house = _constructionSystem.Build(new Vector2Int(2, 2), _houseVisiblePrefab, _houseData);
-            _constructionSystem.Build(new Vector2Int(2, 5), _treeVisiblePrefab, _treeData);
-            _citizen.SetHouse(house.transform);
         }
 
         protected override void InitializeObjects()
@@ -40,7 +38,8 @@ namespace Afterlife.Dev
         {
             _constructionMode.OnConfirmed += (position, objectVisible, mode, data) =>
             {
-                _constructionSystem.Build(position, objectVisible, _houseData);
+                var result = _constructionSystem.TryBuild(position, objectVisible, _houseData, out _);
+                _fieldNavigationSystem.BuildNavMesh();
             };
             _constructionMode.OnCanceled += (position, objectVisible, mode, data) =>
             {
@@ -50,8 +49,16 @@ namespace Afterlife.Dev
 
         protected override void PrepareObjects()
         {
-            _fieldNavigationSystem.BuildNavMesh();
+            _gridSystem.SetGridSize(new Vector2Int(20, 17));
+            _gridSystem.SetUp();
+
+            var house = _constructionSystem.Build(new Vector2Int(2, 2), _houseVisiblePrefab, _houseData);
+            _constructionSystem.Build(new Vector2Int(2, 5), _treeVisiblePrefab, _treeData);
+            _citizen.SetHouse(house.transform);
+
             // _monsterSpawnSystem.SpawnMonster(new Vector3(5, 5));
+
+            _fieldNavigationSystem.BuildNavMesh();
         }
 
         private void Update()
