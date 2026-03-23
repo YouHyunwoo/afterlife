@@ -1,4 +1,3 @@
-using Afterlife.Dev.Agent;
 using Afterlife.Dev.Field;
 using Afterlife.Dev.Town;
 using UnityEngine;
@@ -12,7 +11,8 @@ namespace Afterlife.Dev
         [SerializeField] private TownAreaSystem _townAreaSystem;
         [SerializeField] private ConstructionSystem _constructionSystem;
         [SerializeField] private MonsterSpawnSystem _monsterSpawnSystem;
-        [SerializeField] private Citizen _citizen;
+        [SerializeField] private CitizenVisible _citizenVisiblePrefab;
+        [SerializeField] private CitizenVisible _citizenVisible;
         [SerializeField] private HouseVisible _houseVisiblePrefab;
         [SerializeField] private BuildingData _houseData;
         [SerializeField] private ResourceVisible _treeVisiblePrefab;
@@ -23,13 +23,13 @@ namespace Afterlife.Dev
 
         protected override void CreateObjects()
         {
+            // _citizenVisible = Instantiate(_citizenVisiblePrefab);
+            // _citizenVisible.SetTownAreaSystem(_townAreaSystem);
+            // _citizenVisible.SetGridSystem(_gridSytem);
         }
 
         protected override void InitializeObjects()
         {
-            _fieldNavigationSystem.Initialize();
-            _townAreaSystem.Initialize();
-            _monsterSpawnSystem.Initialize();
             _constructionMode.Initialize();
             _constructionMode.Exit();
         }
@@ -54,7 +54,6 @@ namespace Afterlife.Dev
 
             var house = _constructionSystem.Build(new Vector2Int(2, 2), _houseVisiblePrefab, _houseData);
             _constructionSystem.Build(new Vector2Int(2, 5), _treeVisiblePrefab, _treeData);
-            _citizen.SetHouse(house.transform);
 
             // _monsterSpawnSystem.SpawnMonster(new Vector3(5, 5));
 

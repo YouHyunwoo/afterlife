@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -56,6 +57,11 @@ namespace Afterlife.Dev.Town
         {
             var cellPosition = _grid.WorldToCell(position);
             return _areaInfluenceMap.ContainsKey(cellPosition) && _areaInfluenceMap[cellPosition] > 0;
+        }
+
+        public List<Vector3> GetAllInfluencedPositions()
+        {
+            return _areaInfluenceMap.Keys.Select(k => (Vector3)k).ToList();
         }
     }
 }
