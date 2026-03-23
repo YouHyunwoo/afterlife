@@ -286,7 +286,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 326308631}
+  - component: {fileID: 326308634}
   - component: {fileID: 326308632}
+  - component: {fileID: 326308633}
   m_Layer: 0
   m_Name: Mode
   m_TagString: Untagged
@@ -324,6 +326,34 @@ MonoBehaviour:
   _raycastSystem: {fileID: 902063032}
   _gridSystem: {fileID: 374512704}
   _constructionGuideSystem: {fileID: 374512703}
+--- !u!114 &326308633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326308630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ace617778219f7c4cb7f36e9b42b0667, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _raycastSystem: {fileID: 902063032}
+--- !u!114 &326308634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326308630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bc11f9b56b0e0841a57f4940fec0ebd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _modes:
+  - {fileID: 326308633}
+  - {fileID: 326308632}
 --- !u!1 &374512697
 GameObject:
   m_ObjectHideFlags: 0
@@ -1187,18 +1217,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a88e627922c6df47b735d517c2e9bea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _raycastSystem: {fileID: 902063032}
+  _modeSystem: {fileID: 326308634}
   _gridSystem: {fileID: 374512704}
   _fieldNavigationSystem: {fileID: 374512699}
   _townAreaSystem: {fileID: 374512702}
   _constructionSystem: {fileID: 374512701}
   _monsterSpawnSystem: {fileID: 374512700}
   _citizenVisiblePrefab: {fileID: -2478835091467415505, guid: 4a17b78819b59824fab559e1aca29d1a, type: 3}
-  _citizenVisible: {fileID: 0}
+  _citizenVisible: {fileID: 1822876870}
   _houseVisiblePrefab: {fileID: 8344033725246155502, guid: 22e70eaf3ff577242bbc28cf55b45d12, type: 3}
   _houseData: {fileID: 11400000, guid: 81125d69814c84343a5d7e4014ca174d, type: 2}
   _treeVisiblePrefab: {fileID: 900346423869797619, guid: 8c41f37aac4d4f040891ded86fe3518c, type: 3}
   _treeData: {fileID: 11400000, guid: ce8f3360505080c468f5195a1787b550, type: 2}
   _constructionMode: {fileID: 326308632}
+  _selectionMode: {fileID: 326308633}
 --- !u!1 &1337877828
 GameObject:
   m_ObjectHideFlags: 0
@@ -5149,6 +5182,17 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   m_MaxRayIntersections: 0
+--- !u!114 &1822876870 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -2478835091467415505, guid: 4a17b78819b59824fab559e1aca29d1a, type: 3}
+  m_PrefabInstance: {fileID: 826564793}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5461d9bcd1a7b6c4e8d5c9fb2e7da180, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1943847223
 GameObject:
   m_ObjectHideFlags: 0

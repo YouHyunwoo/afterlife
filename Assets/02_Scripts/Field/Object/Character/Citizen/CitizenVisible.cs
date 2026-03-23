@@ -1,3 +1,4 @@
+using Afterlife.Dev.State;
 using Afterlife.Dev.Town;
 using UnityEngine;
 
@@ -38,5 +39,16 @@ namespace Afterlife.Dev.Field
         
         public void SetGridSytem(GridSystem gridSystem)
             => _gridSystem = gridSystem;
+
+        public void DoCommand(CommandType command, object[] args)
+        {
+            if (command == CommandType.Move)
+            {
+                if (args == null || args.Length != 1) return;
+
+                var destination = (Vector3)args[0];
+                _stateMachine.Transit("wander", null, new object[] { destination });
+            }
+        }
     }
 }

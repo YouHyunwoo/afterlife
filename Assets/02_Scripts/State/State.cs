@@ -15,25 +15,25 @@ namespace Afterlife.Dev.State
             OnInitialize();
         }
 
-        public void Enter()
-            => OnEnter();
+        public void Enter(object[] args = null)
+            => OnEnter(args);
 
         public void Update()
             => OnUpdate();
 
-        public void Exit()
-            => OnExit();
+        public void Exit(object[] args = null)
+            => OnExit(args);
 
         public virtual void Request<T>(T args = default) where T : StateRequestParam { }
 
         protected virtual void OnInitialize() { }
-        protected virtual void OnEnter() { }
+        protected virtual void OnEnter(object[] args) { }
         protected virtual void OnUpdate() { }
-        protected virtual void OnExit() { }
+        protected virtual void OnExit(object[] args) { }
 
-        protected void Transit(State nextState)
-            => stateMachine.Transit(nextState);
-        protected void Transit(string stateId)
-            => stateMachine.Transit(stateId);
+        protected void Transit(State nextState, object[] exitArgs = null, object[] enterArgs = null)
+            => stateMachine.Transit(nextState, exitArgs, enterArgs);
+        protected void Transit(string stateId, object[] exitArgs = null, object[] enterArgs = null)
+            => stateMachine.Transit(stateId, exitArgs, enterArgs);
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Afterlife.Dev.Field
@@ -6,6 +7,7 @@ namespace Afterlife.Dev.Field
     {
         private CitizenStateContext _context;
         private CitizenVisible _visible;
+        private bool _isCommand;
 
         public CitizenWanderState(string stateId) : base(stateId)
         {
@@ -17,15 +19,25 @@ namespace Afterlife.Dev.Field
             _visible = _context.CitizenVisible;
         }
 
-        protected override void OnEnter()
+        protected override void OnEnter(object[] args)
         {
-            if (FindRandomDestinationInTown(out var destination))
+            if (args == null || args.Length != 1)
             {
-                _visible.StartMovement(destination);
+                _isCommand = false;
+                if (FindRandomDestinationInTown(out var destination))
+                {
+                    _visible.StartMovement(destination);
+                }
+                else
+                {
+                    Transit("idle");
+                }
             }
             else
             {
-                Transit("idle");
+                _isCommand = true;
+                var destination = (Vector3)args[0];
+                _visible.StartMovement(destination);
             }
         }
 
@@ -33,7 +45,10 @@ namespace Afterlife.Dev.Field
         {
             if (_visible.HasReachedDestination())
             {
-                Transit("idle");
+                if (_isCommand)
+                    Transit("idle", null, new object[] { TimeSpan.FromSeconds(10) });
+                else
+                    Transit("idle");
             }
         }
 
@@ -52,7 +67,7 @@ namespace Afterlife.Dev.Field
 
             while (positions.Count > 0)
             {
-                var index = Random.Range(0, positions.Count);
+                var index = UnityEngine.Random.Range(0, positions.Count);
                 var candidate = positions[index];
                 positions.RemoveAt(index);
 
