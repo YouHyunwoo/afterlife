@@ -1,4 +1,4 @@
-namespace Afterlife.Dev
+namespace Afterlife.Dev.Mode
 {
     public abstract class ModeParam { }
 }

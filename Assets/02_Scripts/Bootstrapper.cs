@@ -1,15 +1,16 @@
 using Afterlife.Dev.Field;
 using Afterlife.Dev.Town;
+using Afterlife.Dev.Mode;
 using UnityEngine;
 
 namespace Afterlife.Dev
 {
     public class Bootstrapper : Moonstone.Ore.Bootstrapper
     {
-        [SerializeField] private RaycastSystem _raycastSystem;
         [SerializeField] private ModeSystem _modeSystem;
+        [SerializeField] private RaycastSystem _raycastSystem;
         [SerializeField] private GridSystem _gridSystem;
-        [SerializeField] private FieldNavigationSystem _fieldNavigationSystem;
+        [SerializeField] private NavigationSystem _navigationSystem;
         [SerializeField] private TownAreaSystem _townAreaSystem;
         [SerializeField] private ConstructionSystem _constructionSystem;
         [SerializeField] private MonsterSpawnSystem _monsterSpawnSystem;
@@ -42,7 +43,7 @@ namespace Afterlife.Dev
             _constructionMode.OnConfirmed += (position, objectVisible, mode, sender) =>
             {
                 var result = _constructionSystem.TryBuild(position, objectVisible, _houseData, out _);
-                _fieldNavigationSystem.BuildNavMesh();
+                _navigationSystem.BuildNavMesh();
                 _modeSystem.Select<SelectionMode>();
             };
             _constructionMode.OnCanceled += (position, objectVisible, mode, sender) =>
@@ -67,7 +68,7 @@ namespace Afterlife.Dev
 
             // _monsterSpawnSystem.SpawnMonster(new Vector3(5, 5));
 
-            _fieldNavigationSystem.BuildNavMesh();
+            _navigationSystem.BuildNavMesh();
         }
 
         private void Update()

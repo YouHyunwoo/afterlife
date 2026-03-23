@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Afterlife.Dev
+namespace Afterlife.Dev.Mode
 {
     public class ModeSystem : Moonstone.Ore.Local.System
     {

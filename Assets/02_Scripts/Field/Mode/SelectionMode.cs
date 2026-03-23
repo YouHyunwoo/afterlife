@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Afterlife.Dev.Field
 {
-    public class SelectionMode : Mode
+    public class SelectionMode : Mode.Mode
     {
         [SerializeField] private RaycastSystem _raycastSystem;
 

@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace Afterlife.Dev.Field
 {
-    public class ConstructionModeParam : ModeParam
+    public class ConstructionModeParam : Mode.ModeParam
     {
         public ObjectVisible ObjectVisiblePrefab;
     }
 
-    public class ConstructionMode : Mode
+    public class ConstructionMode : Mode.Mode
     {
         [SerializeField] private RaycastSystem _raycastSystem;
         [SerializeField] private GridSystem _gridSystem;
