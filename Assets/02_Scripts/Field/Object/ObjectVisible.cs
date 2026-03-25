@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -14,10 +15,10 @@ namespace Afterlife.Dev.Field
 
         public Vector2Int Size => size;
 
-        // public event Action<ObjectVisible, object> OnSelected;
-        // public event Action<ObjectVisible, object> OnDeselected;
+        public event Action<ObjectVisible, object> OnSelected; // 마우스 왼쪽 클릭
+        public event Action<ObjectVisible, object> OnCommanded; // 마우스 오른쪽 클릭
 
-        private void OnDrawGizmos()
+        protected virtual void OnDrawGizmos()
         {
             Gizmos.color = Color.yellow;
             var size = (Vector3)(Vector2)this.size;
@@ -62,7 +63,11 @@ namespace Afterlife.Dev.Field
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            Debug.Log("click");
+            Debug.Log($"object {eventData.button} click: " + name);
+            if (eventData.button == PointerEventData.InputButton.Left)
+                OnSelected?.Invoke(this, this);
+            else if (eventData.button == PointerEventData.InputButton.Right)
+                OnCommanded?.Invoke(this, this);
         }
 
         #endregion

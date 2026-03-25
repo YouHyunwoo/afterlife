@@ -96,7 +96,7 @@ namespace Afterlife.Dev.Field
             {
                 for (var x = 0; x < size.x; x++)
                 {
-                    _grids[layer][position.x + x, position.y + y] += isPassable ? 1 : 0;
+                    _grids[layer][position.x + x, position.y + y] += isPassable ? 1 : -1;
                 }
             }
         }

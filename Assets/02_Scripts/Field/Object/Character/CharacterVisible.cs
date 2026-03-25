@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,6 +8,8 @@ namespace Afterlife.Dev.Field
     {
         protected NavMeshAgent navMeshAgent;
         protected CollisionField interactionCollisionField;
+
+        public event Action<Collider2D, CollisionField, CharacterVisible, object> OnInteractionCollided;
 
         protected override void OnInitialize()
         {
@@ -18,6 +21,14 @@ namespace Afterlife.Dev.Field
 
             var interactionCollisionFieldTransform = transform.Find("Collider").Find("Interaction");
             interactionCollisionFieldTransform.TryGetComponent(out interactionCollisionField);
+            interactionCollisionField.OnEnter += (collider, collisionField, sender) =>
+                OnInteractionCollided?.Invoke(collider, collisionField, this, sender);
+        }
+
+        public void RefreshInteractionCollisionField()
+        {
+            interactionCollisionField.Collider.enabled = false;
+            interactionCollisionField.Collider.enabled = true;
         }
 
         public void StartMovement(Vector3 destination)

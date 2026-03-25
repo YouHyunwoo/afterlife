@@ -3,22 +3,22 @@ using UnityEngine;
 
 namespace Afterlife.Dev.Field
 {
-    public class ConstructionModeParam : Mode.ModeParam
+    public class BuildModeParam : Mode.ModeParam
     {
         public ObjectVisible ObjectVisiblePrefab;
     }
 
-    public class ConstructionMode : Mode.Mode
+    public class BuildMode : Mode.Mode
     {
         [SerializeField] private RaycastSystem _raycastSystem;
         [SerializeField] private GridSystem _gridSystem;
-        [SerializeField] private ConstructionGuideSystem _constructionGuideSystem;
+        [SerializeField] private BuildGuideSystem _buildGuideSystem;
 
         private ObjectVisible _currentObjectVisiblePrefab;
         // private ObjectVisible _previewObjectVisible;
 
-        public event Action<Vector2Int, ObjectVisible, ConstructionMode, object> OnConfirmed;
-        public event Action<Vector2Int, ObjectVisible, ConstructionMode, object> OnCanceled;
+        public event Action<Vector2Int, ObjectVisible, BuildMode, object> OnConfirmed;
+        public event Action<Vector2Int, ObjectVisible, BuildMode, object> OnCanceled;
 
         private void Update()
         {
@@ -34,7 +34,7 @@ namespace Afterlife.Dev.Field
             var gridPosition = new Vector2Int(Mathf.RoundToInt(hitPoint.x - gridSize.x / 2f), Mathf.RoundToInt(hitPoint.y - gridSize.y / 2f));
             var canBuild = _gridSystem.IsPassable(GridLayer.Terrain, gridPosition, gridSize) &&
                 _gridSystem.IsPassable(GridLayer.Field, gridPosition, gridSize);
-            _constructionGuideSystem.ShowGuide(gridPosition, gridSize, canBuild);
+            _buildGuideSystem.ShowGuide(gridPosition, gridSize, canBuild);
             // _previewObjectVisible.transform.position = new Vector3(gridPosition.x + gridSize.x / 2f, gridPosition.y + gridSize.y / 2f, 0);
 
             if (Input.GetMouseButtonDown(0))
@@ -50,18 +50,18 @@ namespace Afterlife.Dev.Field
         protected override void OnEnter<TParam>(TParam param = null)
         {
             Debug.Log("건설 모드");
-            if (param is ConstructionModeParam constructionModeParam)
+            if (param is BuildModeParam buildModeParam)
             {
-                _currentObjectVisiblePrefab = constructionModeParam.ObjectVisiblePrefab;
+                _currentObjectVisiblePrefab = buildModeParam.ObjectVisiblePrefab;
                 // _previewObjectVisible = Instantiate(objectVisible);
-                _constructionGuideSystem.SetUp();
+                _buildGuideSystem.SetUp();
                 UpdateGuidance();
             }
         }
 
         protected override void OnExit<TParam>(TParam param = null)
         {
-            _constructionGuideSystem.TearDown();
+            _buildGuideSystem.TearDown();
             // _previewObjectVisible = null;
             _currentObjectVisiblePrefab = null;
         }

@@ -46,7 +46,7 @@ namespace Afterlife.Dev.Field
 
             if (UnityEngine.Random.value < _wanderStateTransitionRate)
             {
-                Transit("wander");
+                Transit("move");
             }
         }
 

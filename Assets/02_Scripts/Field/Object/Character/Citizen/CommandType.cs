@@ -4,5 +4,6 @@ namespace Afterlife.Dev.Field
     {
         None,
         Move,
+        Harvest,
     }
 }

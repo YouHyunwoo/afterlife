@@ -2,18 +2,25 @@ using Afterlife.Dev.Field;
 using Afterlife.Dev.Town;
 using Afterlife.Dev.Mode;
 using UnityEngine;
+using Afterlife.Dev.Game;
 
 namespace Afterlife.Dev
 {
     public class Bootstrapper : Moonstone.Ore.Bootstrapper
     {
+        [Header("Instances")]
+        [SerializeField] private Player _playerInstance;
+
+        [Header("Systems")]
         [SerializeField] private ModeSystem _modeSystem;
         [SerializeField] private RaycastSystem _raycastSystem;
         [SerializeField] private GridSystem _gridSystem;
         [SerializeField] private NavigationSystem _navigationSystem;
         [SerializeField] private TownAreaSystem _townAreaSystem;
-        [SerializeField] private ConstructionSystem _constructionSystem;
+        [SerializeField] private BuildSystem _buildSystem;
         [SerializeField] private MonsterSpawnSystem _monsterSpawnSystem;
+
+        [Header("Objects")]
         [SerializeField] private CitizenVisible _citizenVisiblePrefab;
         [SerializeField] private CitizenVisible _citizenVisible;
         [SerializeField] private HouseVisible _houseVisiblePrefab;
@@ -22,7 +29,7 @@ namespace Afterlife.Dev
         [SerializeField] private ResourceData _treeData;
 
         [Header("Modes")]
-        [SerializeField] private ConstructionMode _constructionMode;
+        [SerializeField] private BuildMode _buildMode;
         [SerializeField] private SelectionMode _selectionMode;
 
         protected override void CreateObjects()
@@ -30,6 +37,7 @@ namespace Afterlife.Dev
             // _citizenVisible = Instantiate(_citizenVisiblePrefab);
             // _citizenVisible.SetTownAreaSystem(_townAreaSystem);
             // _citizenVisible.SetGridSytem(_gridSystem);
+            // _citizenVisible.SetBuildSystem(_buildSystem);
         }
 
         protected override void InitializeObjects()
@@ -40,15 +48,15 @@ namespace Afterlife.Dev
 
         protected override void BindObjects()
         {
-            _constructionMode.OnConfirmed += (position, objectVisible, mode, sender) =>
+            Globals.Player = _playerInstance;
+
+            _buildMode.OnConfirmed += (position, objectVisible, mode, sender) =>
             {
-                var result = _constructionSystem.TryBuild(position, objectVisible, _houseData, out _);
-                _navigationSystem.BuildNavMesh();
+                var result = _buildSystem.TryBuild(position, objectVisible, _houseData, out _);
                 _modeSystem.Select<SelectionMode>();
             };
-            _constructionMode.OnCanceled += (position, objectVisible, mode, sender) =>
+            _buildMode.OnCanceled += (position, objectVisible, mode, sender) =>
             {
-                Debug.Log("Construction canceled");
                 _modeSystem.Select<SelectionMode>();
             };
 
@@ -60,22 +68,30 @@ namespace Afterlife.Dev
 
         protected override void PrepareObjects()
         {
+            _playerInstance.Initialize();
+
             _gridSystem.SetGridSize(new Vector2Int(20, 17));
             _gridSystem.SetUp();
 
-            var house = _constructionSystem.Build(new Vector2Int(2, 2), _houseVisiblePrefab, _houseData);
-            _constructionSystem.Build(new Vector2Int(2, 5), _treeVisiblePrefab, _treeData);
+            _buildSystem.TryBuild(new Vector2Int(2, 2), _houseVisiblePrefab, _houseData, out _);
+            if (_buildSystem.TryBuild(new Vector2Int(2, 9), _treeVisiblePrefab, _treeData, out var tree))
+            {
+                tree.OnCommanded += _selectionMode.HandleResourceCommanded;
+                tree.OnHarvested += (resourcePrefab, resourceVisible, sender) => _buildSystem.Demolish(resourceVisible);
+            }
 
             // _monsterSpawnSystem.SpawnMonster(new Vector3(5, 5));
 
             _navigationSystem.BuildNavMesh();
+
+            _selectionMode.AddSelectedObjects(new ObjectVisible[] { _citizenVisible });
         }
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.C))
             {
-                _modeSystem.Select<ConstructionMode, ConstructionModeParam>(null, new ConstructionModeParam() { ObjectVisiblePrefab = _houseVisiblePrefab });
+                _modeSystem.Select<BuildMode, BuildModeParam>(null, new BuildModeParam() { ObjectVisiblePrefab = _houseVisiblePrefab });
             }
             else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.Escape))
             {

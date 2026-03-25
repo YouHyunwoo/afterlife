@@ -3,13 +3,13 @@ using UnityEngine;
 
 namespace Afterlife.Dev.Field
 {
-    public class CitizenWanderState : CitizenState
+    public class CitizenMoveState : CitizenState
     {
         private CitizenStateContext _context;
         private CitizenVisible _visible;
         private bool _isCommand;
 
-        public CitizenWanderState(string stateId) : base(stateId)
+        public CitizenMoveState(string stateId) : base(stateId)
         {
         }
 
