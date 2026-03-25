@@ -50,9 +50,9 @@ namespace Afterlife.Dev
         {
             Globals.Player = _playerInstance;
 
-            _buildMode.OnConfirmed += (position, objectVisible, mode, sender) =>
+            _buildMode.OnConfirmed += (position, objectVisiblePrefab, mode, sender) =>
             {
-                var result = _buildSystem.TryBuild(position, objectVisible, _houseData, out _);
+                _buildSystem.TryBuild(position, objectVisiblePrefab, _houseData, out var objectVisible);
                 _modeSystem.Select<SelectionMode>();
             };
             _buildMode.OnCanceled += (position, objectVisible, mode, sender) =>
@@ -73,7 +73,11 @@ namespace Afterlife.Dev
             _gridSystem.SetGridSize(new Vector2Int(20, 17));
             _gridSystem.SetUp();
 
-            _buildSystem.TryBuild(new Vector2Int(2, 2), _houseVisiblePrefab, _houseData, out _);
+            if (_buildSystem.TryBuild(new Vector2Int(2, 2), _houseVisiblePrefab, _houseData, out var houseVisible))
+            {
+                houseVisible.FinishBuild();
+            }
+
             if (_buildSystem.TryBuild(new Vector2Int(2, 9), _treeVisiblePrefab, _treeData, out var tree))
             {
                 tree.OnCommanded += _selectionMode.HandleResourceCommanded;

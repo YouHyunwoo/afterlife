@@ -58,7 +58,7 @@ namespace Afterlife.Dev.Field
                 _previewObjectVisible = Instantiate(_currentObjectVisiblePrefab);
                 _previewObjectVisible.name += "(Preview)";
                 if (_previewObjectVisible is BuildingVisible buildingVisible)
-                    buildingVisible.SetPreviewMode(true);
+                    buildingVisible.SetPreviewMode();
                 _buildGuideSystem.SetUp();
                 UpdateGuidance();
             }

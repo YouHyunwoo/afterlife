@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: House
   m_EditorClassIdentifier: 
   Size: {x: 3, y: 2}
+  TownAreaInfluenceRadius: 3
+  BuildSpeed: 0.2

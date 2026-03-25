@@ -6,5 +6,6 @@ namespace Afterlife.Dev.Field
     public class BuildingData : ObjectData
     {
         public float TownAreaInfluenceRadius = 3f;
+        public float BuildSpeed = 1f;
     }
 }
