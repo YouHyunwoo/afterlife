@@ -1,5 +1,4 @@
 using Afterlife.Dev.Field;
-using Afterlife.Dev.Town;
 using Afterlife.Dev.Mode;
 using UnityEngine;
 using Afterlife.Dev.Game;

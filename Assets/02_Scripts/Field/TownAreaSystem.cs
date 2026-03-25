@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Afterlife.Dev.Town
+namespace Afterlife.Dev.Field
 {
     public class TownAreaSystem : Moonstone.Ore.Local.System
     {

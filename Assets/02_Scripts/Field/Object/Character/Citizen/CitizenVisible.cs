@@ -1,4 +1,3 @@
-using Afterlife.Dev.Town;
 using UnityEngine;
 
 namespace Afterlife.Dev.Field

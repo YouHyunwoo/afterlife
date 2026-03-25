@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Afterlife.Dev.Town;
 using UnityEngine;
 
 namespace Afterlife.Dev.Field

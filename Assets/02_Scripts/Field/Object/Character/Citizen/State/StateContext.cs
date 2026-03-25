@@ -1,5 +1,3 @@
-using Afterlife.Dev.Town;
-
 namespace Afterlife.Dev.Field
 {
     public class CitizenStateContext : State.StateContext
