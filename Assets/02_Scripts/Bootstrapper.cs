@@ -52,20 +52,11 @@ namespace Afterlife.Dev
             _buildMode.OnConfirmed += (position, objectVisiblePrefab, mode, sender) =>
             {
                 _buildSystem.TryBuild(position, objectVisiblePrefab, _houseData, out var objectVisible);
-                if (objectVisible is BuildingVisible buildingVisible)
-                {
-                    buildingVisible.OnCommanded += _selectionMode.HandleBuildingCommanded;
-                }
                 _modeSystem.Select<SelectionMode>();
             };
             _buildMode.OnCanceled += (position, objectVisible, mode, sender) =>
             {
                 _modeSystem.Select<SelectionMode>();
-            };
-
-            _selectionMode.OnSelected += (position, mode, sender) =>
-            {
-                _citizenVisible.DoCommand(CommandType.Move, new object[] { position });
             };
         }
 
@@ -83,15 +74,12 @@ namespace Afterlife.Dev
 
             if (_buildSystem.TryBuild(new Vector2Int(2, 9), _treeVisiblePrefab, _treeData, out var tree))
             {
-                tree.OnCommanded += _selectionMode.HandleResourceCommanded;
                 tree.OnHarvested += (resourcePrefab, resourceVisible, sender) => _buildSystem.Demolish(resourceVisible);
             }
 
             // _monsterSpawnSystem.SpawnMonster(new Vector3(5, 5));
 
             _navigationSystem.BuildNavMesh();
-
-            _selectionMode.AddSelectedObjects(new ObjectVisible[] { _citizenVisible });
         }
 
         private void Update()

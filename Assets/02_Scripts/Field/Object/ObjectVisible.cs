@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Afterlife.Dev.Field
 {
@@ -8,15 +6,13 @@ namespace Afterlife.Dev.Field
     public class ObjectVisible : Moonstone.Ore.Local.Visible
     {
         protected Animator animator;
-        protected EventTrigger eventTrigger;
         protected SpriteRenderer spriteRenderer;
+        protected Transform selectionIndicatorTransform;
+
         [SerializeField] // 임시
         protected Vector2Int size = Vector2Int.one;
 
         public Vector2Int Size => size;
-
-        public event Action<ObjectVisible, object> OnSelected; // 마우스 왼쪽 클릭
-        public event Action<ObjectVisible, object> OnCommanded; // 마우스 오른쪽 클릭
 
         protected virtual void OnDrawGizmos()
         {
@@ -37,21 +33,11 @@ namespace Afterlife.Dev.Field
         protected override void OnInitialize()
         {
             TryGetComponent(out animator);
-            TryGetComponent(out eventTrigger);
-            SetUpEventTriggers();
 
             var bodyTransform = transform.Find("Root").Find("Body");
             bodyTransform.TryGetComponent(out spriteRenderer);
-        }
 
-        protected virtual void SetUpEventTriggers()
-        {
-            var entry = new EventTrigger.Entry
-            {
-                eventID = EventTriggerType.PointerClick,
-            };
-            entry.callback.AddListener((data) => OnPointerClick((PointerEventData)data));
-            eventTrigger.triggers.Add(entry);
+            selectionIndicatorTransform = transform.Find("Indicator").Find("Selection");
         }
 
         public virtual void SetData<TObjectData>(TObjectData data) where TObjectData : ObjectData
@@ -59,17 +45,10 @@ namespace Afterlife.Dev.Field
             size = data.Size;
         }
 
-        #region Event Handler
-
-        public void OnPointerClick(PointerEventData eventData)
-        {
-            Debug.Log($"object {eventData.button} click: " + name);
-            if (eventData.button == PointerEventData.InputButton.Left)
-                OnSelected?.Invoke(this, this);
-            else if (eventData.button == PointerEventData.InputButton.Right)
-                OnCommanded?.Invoke(this, this);
-        }
-
-        #endregion
+        public void ShowSelectionIndicator()
+            => selectionIndicatorTransform.gameObject.SetActive(true);
+        
+        public void HideSelectionIndicator()
+            => selectionIndicatorTransform.gameObject.SetActive(false);
     }
 }

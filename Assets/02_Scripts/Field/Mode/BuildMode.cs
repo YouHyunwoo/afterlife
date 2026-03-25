@@ -27,7 +27,7 @@ namespace Afterlife.Dev.Field
 
         private void UpdateGuidance()
         {
-            var isHit = _raycastSystem.Cast(out var hitPoint);
+            var isHit = _raycastSystem.CastToPlane(out var hitPoint);
             if (!isHit) return;
 
             var gridSize = _currentObjectVisiblePrefab.Size;

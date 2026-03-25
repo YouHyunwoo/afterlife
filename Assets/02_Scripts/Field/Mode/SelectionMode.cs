@@ -11,23 +11,74 @@ namespace Afterlife.Dev.Field
         private bool _isCitizenSelected;
         private readonly List<ObjectVisible> _objectVisibles = new();
 
-        public event Action<Vector3, SelectionMode, object> OnSelected;
-
         private void Update()
         {
             // TODO: 마우스 왼쪽 드래그/클릭 시 유닛 선택
             // TODO: 마우스 오른쪽 드래그/클릭 시 유닛 명령
-            UpdateSelection();
+            if (IsSelectionButtonDown())
+                UpdateSelection();
+            if (IsCommandButtonDown())
+                UpdateCommand();
         }
+
+        private bool IsSelectionButtonDown()
+            => Input.GetMouseButtonDown(0);
 
         private void UpdateSelection()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (_raycastSystem.CastToObject(out var selectedObjectVisible))
             {
-                var isHit = _raycastSystem.Cast(out var hitPoint);
-                if (!isHit) return;
+                Debug.Log("오브젝트 선택: " + selectedObjectVisible);
+                foreach (var objectVisible in _objectVisibles)
+                    objectVisible.HideSelectionIndicator();
+                _objectVisibles.Clear();
 
-                OnSelected?.Invoke(hitPoint, this, this);
+                _objectVisibles.Add(selectedObjectVisible);
+                selectedObjectVisible.ShowSelectionIndicator();
+                _isCitizenSelected = selectedObjectVisible is CitizenVisible;
+            }
+            else
+            {
+                Debug.Log("선택 취소");
+                foreach (var objectVisible in _objectVisibles)
+                    objectVisible.HideSelectionIndicator();
+                _objectVisibles.Clear();
+            }
+        }
+
+        private bool IsCommandButtonDown()
+            => Input.GetMouseButtonDown(1);
+
+        private void UpdateCommand()
+        {
+            if (!_isCitizenSelected) return;
+            if (_raycastSystem.CastToObject(out var selectedObjectVisible))
+            {
+                if (selectedObjectVisible is ResourceVisible resourceVisible)
+                {
+                    foreach (var objectVisible in _objectVisibles)
+                    {
+                        if (objectVisible is not CitizenVisible citizenVisible) continue;
+                        citizenVisible.DoCommand(CommandType.Harvest, new object[] { resourceVisible });
+                    }
+                }
+                else if (selectedObjectVisible is BuildingVisible buildingVisible)
+                {
+                    foreach (var objectVisible in _objectVisibles)
+                    {
+                        if (objectVisible is not CitizenVisible citizenVisible) continue;
+                        citizenVisible.DoCommand(CommandType.Build, new object[] { buildingVisible });
+                    }
+                }
+            }
+            else if (_raycastSystem.CastToPlane(out var hitPoint))
+            {
+                var @params = new object[] { hitPoint };
+                foreach (var objectVisible in _objectVisibles)
+                {
+                    if (objectVisible is not CitizenVisible citizenVisible) continue;
+                    citizenVisible.DoCommand(CommandType.Move, @params);
+                }
             }
         }
 
@@ -56,36 +107,6 @@ namespace Afterlife.Dev.Field
             else
             {
                 _objectVisibles.Add(objectVisibles[0]);
-            }
-        }
-
-        public void HandleResourceCommanded(ObjectVisible objectVisible, object sender)
-        {
-            if (objectVisible is not ResourceVisible resourceVisible) return;
-            if (_objectVisibles.Count > 0 && _isCitizenSelected)
-            {
-                foreach (var visible in _objectVisibles)
-                {
-                    if (visible is CitizenVisible citizenVisible)
-                    {
-                        citizenVisible.DoCommand(CommandType.Harvest, new object[] { resourceVisible });
-                    }
-                }
-            }
-        }
-
-        public void HandleBuildingCommanded(ObjectVisible objectVisible, object sender)
-        {
-            if (objectVisible is not BuildingVisible buildingVisible) return;
-            if (_objectVisibles.Count > 0 && _isCitizenSelected)
-            {
-                foreach (var visible in _objectVisibles)
-                {
-                    if (visible is CitizenVisible citizenVisible)
-                    {
-                        citizenVisible.DoCommand(CommandType.Build, new object[] { buildingVisible });
-                    }
-                }
             }
         }
     }
