@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -107,7 +108,14 @@ namespace Afterlife.Dev.Field
             {
                 for (var x = 0; x < size.x; x++)
                 {
-                    if (_grids[layer][position.x + x, position.y + y] > 0)
+                    try
+                    {
+                        if (_grids[layer][position.x + x, position.y + y] > 0)
+                        {
+                            return false;
+                        }
+                    }
+                    catch (IndexOutOfRangeException)
                     {
                         return false;
                     }

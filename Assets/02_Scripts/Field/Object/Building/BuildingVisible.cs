@@ -1,10 +1,19 @@
+using UnityEngine;
+
 namespace Afterlife.Dev.Field
 {
     public class BuildingVisible : ObjectVisible
     {
+        protected Transform previewTransform;
         protected float townAreaInfluenceRadius;
 
         public float TownAreaInfluenceRadius => townAreaInfluenceRadius;
+
+        protected override void OnInitialize()
+        {
+            base.OnInitialize();
+            previewTransform = transform.Find("Root").Find("Preview");
+        }
 
         public override void SetData<TObjectData>(TObjectData data)
         {
@@ -14,6 +23,12 @@ namespace Afterlife.Dev.Field
             {
                 townAreaInfluenceRadius = buildingData.TownAreaInfluenceRadius;
             }
+        }
+
+        public void SetPreviewMode(bool isPreviewMode)
+        {
+            spriteRenderer.gameObject.SetActive(isPreviewMode);
+            previewTransform.gameObject.SetActive(isPreviewMode);
         }
     }
 }

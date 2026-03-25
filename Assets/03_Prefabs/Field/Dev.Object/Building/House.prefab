@@ -52,6 +52,46 @@ PrefabInstance:
       propertyPath: m_Name
       value: House
       objectReference: {fileID: 0}
+    - target: {fileID: 1912817414687733139, guid: 4a12308706fca3b428f580ad6d21d582, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+    - target: {fileID: 1912817414687733139, guid: 4a12308706fca3b428f580ad6d21d582, type: 3}
+      propertyPath: m_Color.a
+      value: 0.18431373
+      objectReference: {fileID: 0}
+    - target: {fileID: 1912817414687733139, guid: 4a12308706fca3b428f580ad6d21d582, type: 3}
+      propertyPath: m_Color.b
+      value: 0.09803922
+      objectReference: {fileID: 0}
+    - target: {fileID: 1912817414687733139, guid: 4a12308706fca3b428f580ad6d21d582, type: 3}
+      propertyPath: m_Color.g
+      value: 0.29803923
+      objectReference: {fileID: 0}
+    - target: {fileID: 1912817414687733139, guid: 4a12308706fca3b428f580ad6d21d582, type: 3}
+      propertyPath: m_Color.r
+      value: 0.5019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 1912817414687733139, guid: 4a12308706fca3b428f580ad6d21d582, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459761140524770841, guid: 4a12308706fca3b428f580ad6d21d582, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4557907485013933404, guid: 4a12308706fca3b428f580ad6d21d582, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6084334065461339883, guid: 4a12308706fca3b428f580ad6d21d582, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6084334065461339883, guid: 4a12308706fca3b428f580ad6d21d582, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7524246310474301389, guid: 4a12308706fca3b428f580ad6d21d582, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

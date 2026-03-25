@@ -15,7 +15,7 @@ namespace Afterlife.Dev.Field
         [SerializeField] private BuildGuideSystem _buildGuideSystem;
 
         private ObjectVisible _currentObjectVisiblePrefab;
-        // private ObjectVisible _previewObjectVisible;
+        private ObjectVisible _previewObjectVisible;
 
         public event Action<Vector2Int, ObjectVisible, BuildMode, object> OnConfirmed;
         public event Action<Vector2Int, ObjectVisible, BuildMode, object> OnCanceled;
@@ -32,10 +32,12 @@ namespace Afterlife.Dev.Field
 
             var gridSize = _currentObjectVisiblePrefab.Size;
             var gridPosition = new Vector2Int(Mathf.RoundToInt(hitPoint.x - gridSize.x / 2f), Mathf.RoundToInt(hitPoint.y - gridSize.y / 2f));
-            var canBuild = _gridSystem.IsPassable(GridLayer.Terrain, gridPosition, gridSize) &&
-                _gridSystem.IsPassable(GridLayer.Field, gridPosition, gridSize);
+            var canBuild = (
+                _gridSystem.IsPassable(GridLayer.Terrain, gridPosition, gridSize) &&
+                _gridSystem.IsPassable(GridLayer.Field, gridPosition, gridSize)
+            );
             _buildGuideSystem.ShowGuide(gridPosition, gridSize, canBuild);
-            // _previewObjectVisible.transform.position = new Vector3(gridPosition.x + gridSize.x / 2f, gridPosition.y + gridSize.y / 2f, 0);
+            _previewObjectVisible.transform.position = new Vector3(gridPosition.x + gridSize.x / 2f, gridPosition.y + gridSize.y / 2f, 0);
 
             if (Input.GetMouseButtonDown(0))
             {
@@ -53,7 +55,10 @@ namespace Afterlife.Dev.Field
             if (param is BuildModeParam buildModeParam)
             {
                 _currentObjectVisiblePrefab = buildModeParam.ObjectVisiblePrefab;
-                // _previewObjectVisible = Instantiate(objectVisible);
+                _previewObjectVisible = Instantiate(_currentObjectVisiblePrefab);
+                _previewObjectVisible.name += "(Preview)";
+                if (_previewObjectVisible is BuildingVisible buildingVisible)
+                    buildingVisible.SetPreviewMode(true);
                 _buildGuideSystem.SetUp();
                 UpdateGuidance();
             }
@@ -62,7 +67,9 @@ namespace Afterlife.Dev.Field
         protected override void OnExit<TParam>(TParam param = null)
         {
             _buildGuideSystem.TearDown();
-            // _previewObjectVisible = null;
+            if (_previewObjectVisible != null)
+                Destroy(_previewObjectVisible.gameObject);
+            _previewObjectVisible = null;
             _currentObjectVisiblePrefab = null;
         }
     }
