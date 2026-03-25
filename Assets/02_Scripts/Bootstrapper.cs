@@ -53,6 +53,10 @@ namespace Afterlife.Dev
             _buildMode.OnConfirmed += (position, objectVisiblePrefab, mode, sender) =>
             {
                 _buildSystem.TryBuild(position, objectVisiblePrefab, _houseData, out var objectVisible);
+                if (objectVisible is BuildingVisible buildingVisible)
+                {
+                    buildingVisible.OnCommanded += _selectionMode.HandleBuildingCommanded;
+                }
                 _modeSystem.Select<SelectionMode>();
             };
             _buildMode.OnCanceled += (position, objectVisible, mode, sender) =>

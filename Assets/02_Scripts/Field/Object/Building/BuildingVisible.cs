@@ -14,6 +14,7 @@ namespace Afterlife.Dev.Field
         protected bool isBuilt;
 
         public float TownAreaInfluenceRadius => townAreaInfluenceRadius;
+        public bool IsBuilt => isBuilt;
 
         public event Action<BuildingVisible, object> OnBuilt;
 
@@ -79,12 +80,12 @@ namespace Afterlife.Dev.Field
             previewTransform.gameObject.SetActive(false);
         }
 
-        public void AttachCitizen()
+        public void AttachCitizen(CitizenVisible citizenVisible)
         {
             buildSpeed += 0.2f;
         }
 
-        public void DetachCitizen()
+        public void DetachCitizen(CitizenVisible citizenVisible)
         {
             buildSpeed -= 0.2f;
         }

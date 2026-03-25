@@ -73,5 +73,20 @@ namespace Afterlife.Dev.Field
                 }
             }
         }
+
+        public void HandleBuildingCommanded(ObjectVisible objectVisible, object sender)
+        {
+            if (objectVisible is not BuildingVisible buildingVisible) return;
+            if (_objectVisibles.Count > 0 && _isCitizenSelected)
+            {
+                foreach (var visible in _objectVisibles)
+                {
+                    if (visible is CitizenVisible citizenVisible)
+                    {
+                        citizenVisible.DoCommand(CommandType.Build, new object[] { buildingVisible });
+                    }
+                }
+            }
+        }
     }
 }

@@ -38,6 +38,7 @@ namespace Afterlife.Dev.Field
                     new CitizenMoveState("move"),
                     new CitizenHarvestState("harvest"),
                     new CitizenReturnState("return"),
+                    new CitizenBuildState("build"),
                 },
                 new CitizenStateContext()
                 {
@@ -78,6 +79,14 @@ namespace Afterlife.Dev.Field
 
                 var resourceVisible = args[0];
                 _stateMachine.Transit("harvest", null, new object[] { resourceVisible });
+            }
+            else if (command == CommandType.Build)
+            {
+                if (args == null || args.Length != 1) return;
+
+                var buildingVisible = (BuildingVisible)args[0];
+                if (buildingVisible.IsBuilt) return;
+                _stateMachine.Transit("build", null, new object[] { buildingVisible });
             }
         }
 
