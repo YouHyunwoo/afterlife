@@ -23,6 +23,8 @@ namespace Afterlife.Dev
         [SerializeField] private NavigationSystem _navigationSystem;
         [SerializeField] private TownAreaSystem _townAreaSystem;
         [SerializeField] private BuildSystem _buildSystem;
+        [SerializeField] private TimeSystem _timeSystem;
+        [SerializeField] private EventSystem _eventSystem;
         #endregion
 
         #region Modes
@@ -52,8 +54,6 @@ namespace Afterlife.Dev
             // 오브젝트 모델 생성 및 저장 -> 오브젝트 Visible 생성 -> 바인딩
             // 오브젝트 == 건물: 필드 그리드 적용, 네비게이션 빌드
             // _citizenVisible = Instantiate(_citizenVisiblePrefab);
-            
-            _enemyVisible = Instantiate(_enemyVisiblePrefab);
         }
 
         protected override void InitializeObjects()
@@ -65,13 +65,16 @@ namespace Afterlife.Dev
         protected override void BindObjects()
         {
             _container.Register(
+                _container,
                 _player,
                 _modeSystem,
                 _raycastSystem,
                 _gridSystem,
                 _navigationSystem,
                 _townAreaSystem,
-                _buildSystem
+                _buildSystem,
+                _timeSystem,
+                _eventSystem
             );
             _container.AddInjectee(
                 _citizenVisible,
@@ -95,6 +98,13 @@ namespace Afterlife.Dev
             _gridSystem.SetGridSize(new Vector2Int(20, 17));
             _gridSystem.SetUp();
 
+            // * 게임 이벤트 생성 및 등록
+            {
+                var enemySpawnEvent = new EnemySpawnEvent(5, _enemyVisiblePrefab);
+                _container.Inject(enemySpawnEvent);
+                _eventSystem.Register(enemySpawnEvent);
+            }
+
             if (_buildSystem.TryBuild(new Vector2Int(2, 2), _houseVisiblePrefab, _houseData, out var houseVisible))
             {
                 houseVisible.FinishBuild();
@@ -107,6 +117,10 @@ namespace Afterlife.Dev
 
             _navigationSystem.BuildNavMesh();
 
+
+            // * 적 생성 및 바인딩, 초기화
+            _enemyVisible = Instantiate(_enemyVisiblePrefab);
+            _container.Inject(_enemyVisible);
             for (var i = 0; i < 100; i++)
             {
                 var enemyPosition = new Vector2(Random.Range(0, 20), Random.Range(0, 20));

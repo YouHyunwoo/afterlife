@@ -370,6 +370,8 @@ GameObject:
   - component: {fileID: 374512702}
   - component: {fileID: 374512703}
   - component: {fileID: 374512701}
+  - component: {fileID: 374512707}
+  - component: {fileID: 374512706}
   m_Layer: 0
   m_Name: Field
   m_TagString: Untagged
@@ -471,6 +473,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 913863a7443c2714c9f8b6214f263cc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &374512706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374512697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98d4aef3cdbd35347a85893d3d65d9d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &374512707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374512697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e07aaf689557c1d4f92e028abe82dcd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &404897650
@@ -1392,6 +1418,8 @@ MonoBehaviour:
   _navigationSystem: {fileID: 374512699}
   _townAreaSystem: {fileID: 374512702}
   _buildSystem: {fileID: 374512701}
+  _timeSystem: {fileID: 374512707}
+  _eventSystem: {fileID: 374512706}
   _buildMode: {fileID: 326308632}
   _selectionMode: {fileID: 326308633}
   _citizenVisiblePrefab: {fileID: -2478835091467415505, guid: 4a17b78819b59824fab559e1aca29d1a, type: 3}
