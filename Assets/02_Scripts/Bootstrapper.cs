@@ -23,7 +23,6 @@ namespace Afterlife.Dev
         [SerializeField] private NavigationSystem _navigationSystem;
         [SerializeField] private TownAreaSystem _townAreaSystem;
         [SerializeField] private BuildSystem _buildSystem;
-        // [SerializeField] private MonsterSpawnSystem _monsterSpawnSystem;
         #endregion
 
         #region Modes
@@ -53,9 +52,8 @@ namespace Afterlife.Dev
             // 오브젝트 모델 생성 및 저장 -> 오브젝트 Visible 생성 -> 바인딩
             // 오브젝트 == 건물: 필드 그리드 적용, 네비게이션 빌드
             // _citizenVisible = Instantiate(_citizenVisiblePrefab);
-            // _citizenVisible.SetTownAreaSystem(_townAreaSystem);
-            // _citizenVisible.SetGridSytem(_gridSystem);
-            // _citizenVisible.SetBuildSystem(_buildSystem);
+            
+            _enemyVisible = Instantiate(_enemyVisiblePrefab);
         }
 
         protected override void InitializeObjects()
@@ -107,9 +105,16 @@ namespace Afterlife.Dev
                 tree.OnHarvested += (resourcePrefab, resourceVisible, sender) => _buildSystem.Demolish(resourceVisible);
             }
 
-            // _monsterSpawnSystem.SpawnMonster(new Vector3(5, 5));
-
             _navigationSystem.BuildNavMesh();
+
+            for (var i = 0; i < 100; i++)
+            {
+                var enemyPosition = new Vector2(Random.Range(0, 20), Random.Range(0, 20));
+                if (_townAreaSystem.IsPositionInAnyInfluence(enemyPosition))
+                    continue;
+                _enemyVisible.NavMeshAgent.Warp(enemyPosition);
+                break;
+            }
         }
 
         private void Update()

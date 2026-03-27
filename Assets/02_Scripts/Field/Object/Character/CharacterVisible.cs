@@ -9,6 +9,8 @@ namespace Afterlife.Dev.Field
         protected NavMeshAgent navMeshAgent;
         protected CollisionField interactionCollisionField;
 
+        public NavMeshAgent NavMeshAgent => navMeshAgent;
+
         public event Action<Collider2D, CollisionField, CharacterVisible, object> OnInteractionCollided;
 
         protected override void OnInitialize()

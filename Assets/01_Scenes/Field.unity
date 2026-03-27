@@ -370,7 +370,6 @@ GameObject:
   - component: {fileID: 374512702}
   - component: {fileID: 374512703}
   - component: {fileID: 374512701}
-  - component: {fileID: 374512700}
   m_Layer: 0
   m_Name: Field
   m_TagString: Untagged
@@ -406,20 +405,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _navMeshSurface: {fileID: 157146156}
---- !u!114 &374512700
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 374512697}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaf85c5b0c2a50a4b9461d8ae7453fdf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _townAreaSystem: {fileID: 374512702}
-  _monsterPrefab: {fileID: 2098846693792243547, guid: f4b9a8e6d87c75b449fdc633c20464ad, type: 3}
 --- !u!114 &374512701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -774,6 +759,10 @@ PrefabInstance:
     - target: {fileID: 2669326423921465887, guid: 49f348a3ceca550458635cccb58e9065, type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 2669326423921465887, guid: 49f348a3ceca550458635cccb58e9065, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6556159582805190013, guid: 49f348a3ceca550458635cccb58e9065, type: 3}
       propertyPath: m_LocalPosition.x
