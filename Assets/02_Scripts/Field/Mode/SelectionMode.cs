@@ -70,6 +70,14 @@ namespace Afterlife.Dev.Field
                         citizenVisible.DoCommand(CommandType.Build, new object[] { buildingVisible });
                     }
                 }
+                else if (selectedObjectVisible is EnemyVisible enemyVisible)
+                {
+                    foreach (var objectVisible in _objectVisibles)
+                    {
+                        if (objectVisible is not CitizenVisible citizenVisible) continue;
+                        citizenVisible.DoCommand(CommandType.Fight, new object[] { enemyVisible });
+                    }
+                }
             }
             else if (_raycastSystem.CastToPlane(out var hitPoint))
             {

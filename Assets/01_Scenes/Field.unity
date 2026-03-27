@@ -662,8 +662,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: -2478835091467415505, guid: 4a17b78819b59824fab559e1aca29d1a, type: 3}
+      propertyPath: attackPower
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2478835091467415505, guid: 4a17b78819b59824fab559e1aca29d1a, type: 3}
+      propertyPath: attackRange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2478835091467415505, guid: 4a17b78819b59824fab559e1aca29d1a, type: 3}
       propertyPath: _buildSystem
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: -2478835091467415505, guid: 4a17b78819b59824fab559e1aca29d1a, type: 3}
+      propertyPath: attackInterval
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -2478835091467415505, guid: 4a17b78819b59824fab559e1aca29d1a, type: 3}
       propertyPath: _townAreaSystem

@@ -6,6 +6,6 @@ namespace Afterlife.Dev.Field
         Move,
         Harvest,
         Build,
-        // Fight,
+        Fight,
     }
 }

@@ -15,8 +15,8 @@ namespace Afterlife.Dev.Field
 
         private StateMachine _stateMachine;
 
-        public float AttackRange => attackRange;
         public float DetectionRange => detectionRange;
+        public float AttackRange => attackRange;
         public float AttackPower => attackPower;
         public float AttackInterval => attackInterval;
 

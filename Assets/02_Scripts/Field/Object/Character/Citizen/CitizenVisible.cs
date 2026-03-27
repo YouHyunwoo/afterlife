@@ -6,6 +6,10 @@ namespace Afterlife.Dev.Field
 {
     public class CitizenVisible : CharacterVisible
     {
+        [SerializeField] protected float attackPower;
+        [SerializeField] protected float attackRange;
+        [SerializeField] protected float attackInterval;
+
         [SerializeField] private TownAreaSystem _townAreaSystem;
         [SerializeField] private GridSystem _gridSystem;
         [SerializeField] private BuildSystem _buildSystem;
@@ -13,6 +17,11 @@ namespace Afterlife.Dev.Field
 
         private Transform _holdableVisibleContainerTransform;
         private StateMachine _stateMachine;
+
+        public float AttackRange => attackRange;
+        public float AttackPower => attackPower;
+        public float AttackInterval => attackInterval;
+
 
         protected override void OnDrawGizmos()
         {
@@ -41,6 +50,8 @@ namespace Afterlife.Dev.Field
                     new CitizenHarvestState("harvest"),
                     new CitizenReturnState("return"),
                     new CitizenBuildState("build"),
+                    new CitizenChaseState("chase"),
+                    new CitizenFightState("fight"),
                 },
                 new CitizenStateContext()
                 {
@@ -79,6 +90,13 @@ namespace Afterlife.Dev.Field
                 var buildingVisible = (BuildingVisible)args[0];
                 if (buildingVisible.IsBuilt) return;
                 _stateMachine.Transit("build", null, new object[] { buildingVisible });
+            }
+            else if (command == CommandType.Fight)
+            {
+                if (args == null || args.Length != 1) return;
+
+                var enemyVisible = args[0];
+                _stateMachine.Transit("chase", null, new object[] { enemyVisible });
             }
         }
 
