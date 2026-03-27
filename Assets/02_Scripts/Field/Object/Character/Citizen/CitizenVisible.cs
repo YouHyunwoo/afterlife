@@ -1,3 +1,4 @@
+using Afterlife.Dev.Game;
 using Afterlife.Dev.State;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ namespace Afterlife.Dev.Field
         [SerializeField] private TownAreaSystem _townAreaSystem;
         [SerializeField] private GridSystem _gridSystem;
         [SerializeField] private BuildSystem _buildSystem;
+        [SerializeField] private Player _player;
 
         private Transform _holdableVisibleContainerTransform;
         private StateMachine _stateMachine;
@@ -52,18 +54,7 @@ namespace Afterlife.Dev.Field
         }
 
         private void Update()
-        {
-            _stateMachine.Update();
-        }
-
-        public void SetTownAreaSystem(TownAreaSystem townAreaSystem)
-            => _townAreaSystem = townAreaSystem;
-        
-        public void SetGridSytem(GridSystem gridSystem)
-            => _gridSystem = gridSystem;
-
-        public void SetBuildSystem(BuildSystem buildSystem)
-            => _buildSystem = buildSystem;
+            => _stateMachine.Update();
 
         public void DoCommand(CommandType command, object[] args = null)
         {
@@ -91,18 +82,18 @@ namespace Afterlife.Dev.Field
             }
         }
 
-        public void AddHoldableVisible(HoldableVisible holdableVisible)
+        public void AddHoldable(HoldableVisible holdableVisible)
         {
             holdableVisible.transform.SetParent(_holdableVisibleContainerTransform, false);
         }
 
-        public void ClearHoldableVisibles()
+        public void ClearHoldables()
         {
             foreach (Transform child in _holdableVisibleContainerTransform)
                 Destroy(child.gameObject);
         }
 
-        public bool GetHoldableVisibles(out HoldableVisible[] holdableVisibles)
+        public bool GetHoldables(out HoldableVisible[] holdableVisibles)
         {
             holdableVisibles = _holdableVisibleContainerTransform.GetComponentsInChildren<HoldableVisible>();
             return holdableVisibles.Length > 0;
@@ -110,7 +101,7 @@ namespace Afterlife.Dev.Field
 
         public void ObtainHoldables()
         {
-            if (!GetHoldableVisibles(out var holdableVisibles)) return;
+            if (!GetHoldables(out var holdableVisibles)) return;
 
             foreach (var holdableVisible in holdableVisibles)
             {
@@ -118,16 +109,16 @@ namespace Afterlife.Dev.Field
                 {
                     if (type == "Woods")
                     {
-                        Globals.Player.Woods += (int)amount;
+                        _player.Woods += (int)amount;
                     }
                     else if (type == "Stones")
                     {
-                        Globals.Player.Stones += (int)amount;
+                        _player.Stones += (int)amount;
                     }
                 }
             }
 
-            ClearHoldableVisibles();
+            ClearHoldables();
         }
     }
 }

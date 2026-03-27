@@ -54,7 +54,7 @@ namespace Afterlife.Dev.Field
 
         private void HandleHarvested(HoldableVisible holdableVisible, ResourceVisible resourceVisible, object sender)
         {
-            visible.AddHoldableVisible(holdableVisible);
+            visible.AddHoldable(holdableVisible);
             Transit("return");
         }
     }

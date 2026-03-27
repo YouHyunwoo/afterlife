@@ -7,9 +7,15 @@ namespace Afterlife.Dev
 {
     public class Bootstrapper : Moonstone.Ore.Bootstrapper
     {
-        [Header("Instances")]
-        [SerializeField] private Player _playerInstance;
+        [Header("Container")]
+        [SerializeField] private Moonstone.Ore.Container _container;
 
+        #region Models
+        [Header("Models")]
+        [SerializeField] private Player _player;
+        #endregion
+
+        #region Systems
         [Header("Systems")]
         [SerializeField] private ModeSystem _modeSystem;
         [SerializeField] private RaycastSystem _raycastSystem;
@@ -17,23 +23,29 @@ namespace Afterlife.Dev
         [SerializeField] private NavigationSystem _navigationSystem;
         [SerializeField] private TownAreaSystem _townAreaSystem;
         [SerializeField] private BuildSystem _buildSystem;
-        [SerializeField] private MonsterSpawnSystem _monsterSpawnSystem;
+        // [SerializeField] private MonsterSpawnSystem _monsterSpawnSystem;
+        #endregion
 
-        [Header("Objects")]
-        [SerializeField] private CitizenVisible _citizenVisiblePrefab;
-        [SerializeField] private CitizenVisible _citizenVisible;
-        // [SerializeField] private CitizenData _citizenData;
-        [SerializeField] private EnemyVisible _enemyVisiblePrefab;
-        [SerializeField] private EnemyVisible _enemyVisible;
-        [SerializeField] private EnemyData _enemyData;
-        [SerializeField] private HouseVisible _houseVisiblePrefab;
-        [SerializeField] private BuildingData _houseData;
-        [SerializeField] private ResourceVisible _treeVisiblePrefab;
-        [SerializeField] private ResourceData _treeData;
-
+        #region Modes
         [Header("Modes")]
         [SerializeField] private BuildMode _buildMode;
         [SerializeField] private SelectionMode _selectionMode;
+        #endregion
+
+        #region Objects
+        [Header("Objects")]
+        [SerializeField] private CitizenVisible _citizenVisiblePrefab;
+        [SerializeField] private EnemyVisible _enemyVisiblePrefab;
+        [SerializeField] private HouseVisible _houseVisiblePrefab;
+        [SerializeField] private ResourceVisible _treeVisiblePrefab;
+        [Space(10)]
+        [SerializeField] private CitizenVisible _citizenVisible;
+        // [SerializeField] private CitizenData _citizenData;
+        [SerializeField] private EnemyVisible _enemyVisible;
+        [SerializeField] private EnemyData _enemyData;
+        [SerializeField] private BuildingData _houseData;
+        [SerializeField] private ResourceData _treeData;
+        #endregion
 
         protected override void CreateObjects()
         {
@@ -54,7 +66,20 @@ namespace Afterlife.Dev
 
         protected override void BindObjects()
         {
-            Globals.Player = _playerInstance;
+            _container.Register(
+                _player,
+                _modeSystem,
+                _raycastSystem,
+                _gridSystem,
+                _navigationSystem,
+                _townAreaSystem,
+                _buildSystem
+            );
+            _container.AddInjectee(
+                _citizenVisible,
+                _enemyVisible
+            );
+            _container.Bind();
 
             _buildMode.OnConfirmed += (position, objectVisiblePrefab, mode, sender) =>
             {
@@ -69,8 +94,6 @@ namespace Afterlife.Dev
 
         protected override void PrepareObjects()
         {
-            _playerInstance.Initialize();
-
             _gridSystem.SetGridSize(new Vector2Int(20, 17));
             _gridSystem.SetUp();
 

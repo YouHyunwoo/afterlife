@@ -19,7 +19,7 @@ namespace Afterlife.Dev.Field
             }
             else
             {
-                visible.ClearHoldableVisibles();
+                visible.ClearHoldables();
                 Transit("idle");
             }
         }

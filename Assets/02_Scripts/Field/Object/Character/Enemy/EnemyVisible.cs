@@ -12,7 +12,6 @@ namespace Afterlife.Dev.Field
 
         [SerializeField] private TownAreaSystem _townAreaSystem;
         [SerializeField] private GridSystem _gridSystem;
-        [SerializeField] private BuildSystem _buildSystem;
 
         private StateMachine _stateMachine;
 
@@ -51,9 +50,7 @@ namespace Afterlife.Dev.Field
         }
 
         private void Update()
-        {
-            _stateMachine.Update();
-        }
+            => _stateMachine.Update();
 
         public override void SetData(ObjectData data)
         {
@@ -67,14 +64,5 @@ namespace Afterlife.Dev.Field
                 attackInterval = enemyData.AttackInterval;
             }
         }
-
-        public void SetTownAreaSystem(TownAreaSystem townAreaSystem)
-            => _townAreaSystem = townAreaSystem;
-        
-        public void SetGridSytem(GridSystem gridSystem)
-            => _gridSystem = gridSystem;
-
-        public void SetBuildSystem(BuildSystem buildSystem)
-            => _buildSystem = buildSystem;
     }
 }
