@@ -5,5 +5,6 @@ namespace Afterlife.Dev.Field
         public CitizenVisible CitizenVisible;
         public TownAreaSystem TownAreaSystem;
         public GridSystem GridSystem;
+        public BuildSystem BuildSystem;
     }
 }

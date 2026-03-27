@@ -5,18 +5,10 @@ namespace Afterlife.Dev.Field
 {
     public class CitizenMoveState : CitizenState
     {
-        private CitizenStateContext _context;
-        private CitizenVisible _visible;
         private bool _isCommand;
 
         public CitizenMoveState(string stateId) : base(stateId)
         {
-        }
-
-        protected override void OnInitialize()
-        {
-            _context = stateContext as CitizenStateContext;
-            _visible = _context.CitizenVisible;
         }
 
         protected override void OnEnter(object[] args)
@@ -26,7 +18,7 @@ namespace Afterlife.Dev.Field
                 _isCommand = false;
                 if (FindRandomDestinationInTown(out var destination))
                 {
-                    _visible.StartMovement(destination);
+                    visible.StartMovement(destination);
                 }
                 else
                 {
@@ -37,13 +29,13 @@ namespace Afterlife.Dev.Field
             {
                 _isCommand = true;
                 var destination = (Vector3)args[0];
-                _visible.StartMovement(destination);
+                visible.StartMovement(destination);
             }
         }
 
         protected override void OnUpdate()
         {
-            if (_visible.HasReachedDestination())
+            if (visible.HasReachedDestination())
             {
                 if (_isCommand)
                     Transit("idle", null, new object[] { TimeSpan.FromSeconds(10) });
@@ -54,14 +46,14 @@ namespace Afterlife.Dev.Field
 
         private bool FindRandomDestinationInTown(out Vector3 destination)
         {
-            var townAreaSystem = _context.TownAreaSystem;
-            var gridSystem = _context.GridSystem;
+            var townAreaSystem = context.TownAreaSystem;
+            var gridSystem = context.GridSystem;
 
             var positions = townAreaSystem.GetAllInfluencedPositions();
 
             if (positions == null || positions.Count == 0)
             {
-                destination = _visible.transform.position;
+                destination = visible.transform.position;
                 return false;
             }
 
@@ -82,7 +74,7 @@ namespace Afterlife.Dev.Field
                 }
             }
 
-            destination = _visible.transform.position;
+            destination = visible.transform.position;
             return false;
         }
     }

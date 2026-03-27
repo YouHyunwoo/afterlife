@@ -1,3 +1,4 @@
+using Afterlife.Dev.State;
 using UnityEngine;
 
 namespace Afterlife.Dev.Field
@@ -9,7 +10,7 @@ namespace Afterlife.Dev.Field
         [SerializeField] private BuildSystem _buildSystem;
 
         private Transform _holdableVisibleContainerTransform;
-        private CitizenStateMachine _stateMachine;
+        private StateMachine _stateMachine;
 
         protected override void OnDrawGizmos()
         {
@@ -29,7 +30,7 @@ namespace Afterlife.Dev.Field
 
         private void Start()
         {
-            _stateMachine = new CitizenStateMachine();
+            _stateMachine = new StateMachine();
             _stateMachine.Initialize(
                 new CitizenState[]
                 {
@@ -44,6 +45,7 @@ namespace Afterlife.Dev.Field
                     CitizenVisible = this,
                     TownAreaSystem = _townAreaSystem,
                     GridSystem = _gridSystem,
+                    BuildSystem = _buildSystem,
                 }
             );
             _stateMachine.Run();
@@ -87,33 +89,6 @@ namespace Afterlife.Dev.Field
                 if (buildingVisible.IsBuilt) return;
                 _stateMachine.Transit("build", null, new object[] { buildingVisible });
             }
-        }
-
-        public bool FindNearestHouseVisible(out HouseVisible nearestHouseVisible)
-        {
-            nearestHouseVisible = null;
-
-            var objectMap = _buildSystem.ObjectMap;
-            if (objectMap.ContainsKey("HouseVisible"))
-            {
-                var position = transform.position;
-                var minHouseVisible = (HouseVisible)null;
-                var minDistance = float.MaxValue;
-                foreach (var objectVisible in objectMap["HouseVisible"])
-                {
-                    if (objectVisible is not HouseVisible houseVisible) continue;
-                    var targetPosition = houseVisible.transform.position;
-                    var distance = Vector3.Distance(position, targetPosition);
-                    if (minDistance > distance)
-                    {
-                        minHouseVisible = houseVisible;
-                        minDistance = distance;
-                    }
-                }
-                nearestHouseVisible = minHouseVisible;
-            }
-
-            return true;
         }
 
         public void AddHoldableVisible(HoldableVisible holdableVisible)

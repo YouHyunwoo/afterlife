@@ -22,6 +22,10 @@ namespace Afterlife.Dev
         [Header("Objects")]
         [SerializeField] private CitizenVisible _citizenVisiblePrefab;
         [SerializeField] private CitizenVisible _citizenVisible;
+        // [SerializeField] private CitizenData _citizenData;
+        [SerializeField] private EnemyVisible _enemyVisiblePrefab;
+        [SerializeField] private EnemyVisible _enemyVisible;
+        [SerializeField] private EnemyData _enemyData;
         [SerializeField] private HouseVisible _houseVisiblePrefab;
         [SerializeField] private BuildingData _houseData;
         [SerializeField] private ResourceVisible _treeVisiblePrefab;
@@ -33,6 +37,9 @@ namespace Afterlife.Dev
 
         protected override void CreateObjects()
         {
+            // 오브젝트 생성 흐름:
+            // 오브젝트 모델 생성 및 저장 -> 오브젝트 Visible 생성 -> 바인딩
+            // 오브젝트 == 건물: 필드 그리드 적용, 네비게이션 빌드
             // _citizenVisible = Instantiate(_citizenVisiblePrefab);
             // _citizenVisible.SetTownAreaSystem(_townAreaSystem);
             // _citizenVisible.SetGridSytem(_gridSystem);

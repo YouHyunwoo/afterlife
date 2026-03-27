@@ -4,20 +4,11 @@ namespace Afterlife.Dev.Field
 {
     public class CitizenBuildState : CitizenState
     {
-        private CitizenStateContext _context;
-        private CitizenVisible _visible;
-
         private BuildingVisible _targetVisible;
         private bool _isAttached;
 
         public CitizenBuildState(string stateId) : base(stateId)
         {
-        }
-
-        protected override void OnInitialize()
-        {
-            _context = stateContext as CitizenStateContext;
-            _visible = _context.CitizenVisible;
         }
 
         protected override void OnEnter(object[] args)
@@ -28,12 +19,12 @@ namespace Afterlife.Dev.Field
             }
             else
             {
-                _visible.OnInteractionCollided += HandleInteractionCollided;
-                _visible.RefreshInteractionCollisionField();
+                visible.OnInteractionCollided += HandleInteractionCollided;
+                visible.RefreshInteractionCollisionField();
 
                 _targetVisible = (BuildingVisible)args[0];
                 _targetVisible.OnBuilt += HandleBuilt;
-                _visible.StartMovement(_targetVisible.transform.position);
+                visible.StartMovement(_targetVisible.transform.position);
             }
         }
 
@@ -41,11 +32,11 @@ namespace Afterlife.Dev.Field
         {
             if (_isAttached)
             {
-                _targetVisible.DetachCitizen(_visible);
+                _targetVisible.DetachCitizen(visible);
                 _isAttached = false;
             }
             _targetVisible.OnBuilt -= HandleBuilt;
-            _visible.OnInteractionCollided -= HandleInteractionCollided;
+            visible.OnInteractionCollided -= HandleInteractionCollided;
         }
 
         private void HandleInteractionCollided(Collider2D collider, CollisionField collisionField, CharacterVisible characterVisible, object sender)
@@ -54,16 +45,16 @@ namespace Afterlife.Dev.Field
             {
                 if (!_targetVisible.IsBuilt)
                 {
-                    _visible.StopMovement();
+                    visible.StopMovement();
                     _isAttached = true;
-                    _targetVisible.AttachCitizen(_visible);
+                    _targetVisible.AttachCitizen(visible);
                 }
             }
         }
 
         private void HandleBuilt(BuildingVisible buildingVisible, object sender)
         {
-            _visible.StopMovement();
+            visible.StopMovement();
             Transit("idle");
         }
     }

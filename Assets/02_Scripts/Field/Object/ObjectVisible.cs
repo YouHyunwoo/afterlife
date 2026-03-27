@@ -2,17 +2,28 @@ using UnityEngine;
 
 namespace Afterlife.Dev.Field
 {
+    // * 오브젝트 Visible
+    // 1. 오브젝트 스프라이트 표시
+    // 2. 오브젝트 스프라이트 애니메이션 재생
+    // 3. 선택 표시자 표시/숨김
     [RequireComponent(typeof(Animator))]
-    public class ObjectVisible : Moonstone.Ore.Local.Visible
+    public class ObjectVisible : Moonstone.Ore.Local.Visible, IDamageable
     {
         protected Animator animator;
         protected SpriteRenderer spriteRenderer;
         protected Transform selectionIndicatorTransform;
 
-        [SerializeField] // 임시
+        // TODO: 모델과 뷰로 분리
+        [SerializeField]
+        private ObjectData data;
         protected Vector2Int size = Vector2Int.one;
+        [SerializeField]
+        protected float health, maxHealth;
 
         public Vector2Int Size => size;
+        public float Health => health;
+        public float MaxHealth => maxHealth;
+        public bool IsAlive => health <= 0;
 
         protected virtual void OnDrawGizmos()
         {
@@ -28,6 +39,9 @@ namespace Afterlife.Dev.Field
                     Gizmos.DrawWireCube(cellCenter, Vector3.one);
                 }
             }
+#if UNITY_EDITOR
+            UnityEditor.Handles.Label(transform.position + Vector3.down, "체력: " + health);
+#endif
         }
 
         protected override void OnInitialize()
@@ -38,11 +52,9 @@ namespace Afterlife.Dev.Field
             bodyTransform.TryGetComponent(out spriteRenderer);
 
             selectionIndicatorTransform = transform.Find("Indicator").Find("Selection");
-        }
 
-        public virtual void SetData<TObjectData>(TObjectData data) where TObjectData : ObjectData
-        {
-            size = data.Size;
+            if (data != null)
+                SetData(data);
         }
 
         public void ShowSelectionIndicator()
@@ -50,5 +62,22 @@ namespace Afterlife.Dev.Field
         
         public void HideSelectionIndicator()
             => selectionIndicatorTransform.gameObject.SetActive(false);
+
+        public virtual void SetData(ObjectData data)
+        {
+            size = data.Size;
+        }
+
+        public void TakeDamage(float damage, Object attacker)
+        {
+            health -= damage;
+            if (health <= 0f)
+                Die(attacker);
+        }
+
+        protected virtual void Die(Object attacker)
+        {
+            Destroy(gameObject);
+        }
     }
 }

@@ -23,7 +23,7 @@ namespace Afterlife.Dev.Field
             _harvestSpeed = _baseHarvestSpeed;
         }
 
-        public override void SetData<TObjectData>(TObjectData data)
+        public override void SetData(ObjectData data)
         {
             base.SetData(data);
             var resourceData = data as ResourceData;

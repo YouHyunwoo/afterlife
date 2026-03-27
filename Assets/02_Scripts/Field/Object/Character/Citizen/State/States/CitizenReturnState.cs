@@ -4,31 +4,22 @@ namespace Afterlife.Dev.Field
 {
     public class CitizenReturnState : CitizenState
     {
-        private CitizenStateContext _context;
-        private CitizenVisible _visible;
-
         private HouseVisible _nearestHouseVisible;
 
         public CitizenReturnState(string stateId) : base(stateId)
         {
         }
 
-        protected override void OnInitialize()
-        {
-            _context = stateContext as CitizenStateContext;
-            _visible = _context.CitizenVisible;
-        }
-
         protected override void OnEnter(object[] args)
         {
             if (FindNearestHouseVisible(out _nearestHouseVisible))
             {
-                _visible.OnInteractionCollided += HandleInteractionCollided;
-                _visible.StartMovement(_nearestHouseVisible.transform.position);
+                visible.OnInteractionCollided += HandleInteractionCollided;
+                visible.StartMovement(_nearestHouseVisible.transform.position);
             }
             else
             {
-                _visible.ClearHoldableVisibles();
+                visible.ClearHoldableVisibles();
                 Transit("idle");
             }
         }
@@ -37,18 +28,42 @@ namespace Afterlife.Dev.Field
         {
             if (_nearestHouseVisible.transform == collider.transform)
             {
-                _visible.StopMovement();
-                _visible.ObtainHoldables();
+                visible.StopMovement();
+                visible.ObtainHoldables();
                 Transit("idle");
             }
         }
 
         private bool FindNearestHouseVisible(out HouseVisible nearestHouseVisible)
-            => _visible.FindNearestHouseVisible(out nearestHouseVisible);
+        {
+            nearestHouseVisible = null;
+
+            var objectMap = context.BuildSystem.ObjectMap;
+            if (objectMap.ContainsKey("HouseVisible"))
+            {
+                var position = visible.transform.position;
+                var minHouseVisible = (HouseVisible)null;
+                var minDistance = float.MaxValue;
+                foreach (var objectVisible in objectMap["HouseVisible"])
+                {
+                    if (objectVisible is not HouseVisible houseVisible) continue;
+                    var targetPosition = houseVisible.transform.position;
+                    var distance = Vector3.Distance(position, targetPosition);
+                    if (minDistance > distance)
+                    {
+                        minHouseVisible = houseVisible;
+                        minDistance = distance;
+                    }
+                }
+                nearestHouseVisible = minHouseVisible;
+            }
+
+            return true;
+        }
 
         protected override void OnExit(object[] args)
         {
-            _visible.OnInteractionCollided -= HandleInteractionCollided;
+            visible.OnInteractionCollided -= HandleInteractionCollided;
             _nearestHouseVisible = null;
         }
     }

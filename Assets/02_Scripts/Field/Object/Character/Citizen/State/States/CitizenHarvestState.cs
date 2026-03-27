@@ -4,20 +4,11 @@ namespace Afterlife.Dev.Field
 {
     public class CitizenHarvestState : CitizenState
     {
-        private CitizenStateContext _context;
-        private CitizenVisible _visible;
-
         private ResourceVisible _targetResourceVisible;
         private bool _isAttached;
 
         public CitizenHarvestState(string stateId) : base(stateId)
         {
-        }
-
-        protected override void OnInitialize()
-        {
-            _context = stateContext as CitizenStateContext;
-            _visible = _context.CitizenVisible;
         }
 
         protected override void OnEnter(object[] args)
@@ -28,11 +19,11 @@ namespace Afterlife.Dev.Field
             }
             else
             {
-                _visible.OnInteractionCollided += HandleInteractionCollided;
-                _visible.RefreshInteractionCollisionField();
+                visible.OnInteractionCollided += HandleInteractionCollided;
+                visible.RefreshInteractionCollisionField();
 
                 _targetResourceVisible = (ResourceVisible)args[0];
-                _visible.StartMovement(_targetResourceVisible.transform.position);
+                visible.StartMovement(_targetResourceVisible.transform.position);
             }
         }
 
@@ -40,11 +31,11 @@ namespace Afterlife.Dev.Field
         {
             if (_isAttached)
             {
-                _targetResourceVisible.DetachCitizen(_visible);
+                _targetResourceVisible.DetachCitizen(visible);
                 _isAttached = false;
             }
             _targetResourceVisible.OnHarvested -= HandleHarvested;
-            _visible.OnInteractionCollided -= HandleInteractionCollided;
+            visible.OnInteractionCollided -= HandleInteractionCollided;
         }
 
         private void HandleInteractionCollided(Collider2D collider, CollisionField collisionField, CharacterVisible characterVisible, object sender)
@@ -53,17 +44,17 @@ namespace Afterlife.Dev.Field
             {
                 if (!_targetResourceVisible.IsHarvested)
                 {
-                    _visible.StopMovement();
+                    visible.StopMovement();
                     _targetResourceVisible.OnHarvested += HandleHarvested;
                     _isAttached = true;
-                    _targetResourceVisible.AttachCitizen(_visible);
+                    _targetResourceVisible.AttachCitizen(visible);
                 }
             }
         }
 
         private void HandleHarvested(HoldableVisible holdableVisible, ResourceVisible resourceVisible, object sender)
         {
-            _visible.AddHoldableVisible(holdableVisible);
+            visible.AddHoldableVisible(holdableVisible);
             Transit("return");
         }
     }

@@ -37,7 +37,7 @@ namespace Afterlife.Dev.Field
             state = BuildingState.Building;
         }
 
-        public override void SetData<TObjectData>(TObjectData data)
+        public override void SetData(ObjectData data)
         {
             base.SetData(data);
 
