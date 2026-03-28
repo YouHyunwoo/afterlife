@@ -32,10 +32,7 @@ namespace Afterlife.Dev.Field
 
             var gridSize = _previewObjectVisible.Size;
             var gridPosition = new Vector2Int(Mathf.RoundToInt(hitPoint.x - gridSize.x / 2f), Mathf.RoundToInt(hitPoint.y - gridSize.y / 2f));
-            var canBuild = (
-                _gridSystem.IsPassable(GridLayer.Terrain, gridPosition, gridSize) &&
-                _gridSystem.IsPassable(GridLayer.Field, gridPosition, gridSize)
-            );
+            var canBuild = _gridSystem.IsPassable(gridPosition, gridSize);
             _buildGuideSystem.ShowGuide(gridPosition, gridSize, canBuild);
             _previewObjectVisible.transform.position = new Vector3(gridPosition.x + gridSize.x / 2f, gridPosition.y + gridSize.y / 2f, 0);
 

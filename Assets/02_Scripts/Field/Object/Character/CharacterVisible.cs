@@ -45,7 +45,7 @@ namespace Afterlife.Dev.Field
 
         public bool HasReachedDestination()
         {
-            if (navMeshAgent == null || !navMeshAgent.enabled)
+            if (navMeshAgent == null || !navMeshAgent.enabled || !navMeshAgent.isOnNavMesh)
                 return false;
 
             if (navMeshAgent.pathPending)

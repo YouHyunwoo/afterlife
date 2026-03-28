@@ -217,8 +217,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 0}
-  size: {x: 0, y: 0}
   health: 0
+  maxHealth: 0
 --- !u!195 &67348253112083517
 NavMeshAgent:
   m_ObjectHideFlags: 0

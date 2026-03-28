@@ -1,6 +1,6 @@
 namespace Afterlife.Dev.World
 {
-    public class Tile
+    public class TerrainCell : Cell
     {
         public GeographyType Geography;
         public BiomeType Biome;

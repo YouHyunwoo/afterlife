@@ -1,43 +1,46 @@
-using System;
 using System.Collections.Generic;
+using Afterlife.Dev.World;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 namespace Afterlife.Dev.Field
 {
     public class GridSystem : Moonstone.Ore.Local.System
     {
-        [SerializeField] private Tilemap[] _tilemaps;
-
-        private readonly Dictionary<GridLayer, int[,]> _grids = new();
-        private Vector2Int _gridSize;
+        private WorldSystem _worldSystem;
+        private World.World _world;
+        private World.TerrainLayer _terrainLayer;
+        private World.FieldLayer _fieldLayer;
 
         private void OnDrawGizmos()
         {
-            if (_grids.ContainsKey(GridLayer.Terrain) && _grids[GridLayer.Terrain] != null)
-            {
-                Gizmos.color = Color.green;
-                for (var y = 0; y < _gridSize.y; y++)
-                {
-                    for (var x = 0; x < _gridSize.x; x++)
-                    {
-                        var position = new Vector2(x + 0.5f, y + 0.5f);
-                        Gizmos.DrawWireCube(position, Vector3.one);
-                        if (_grids[GridLayer.Terrain][x, y] > 0)
-                            Gizmos.DrawCube(position, Vector3.one * 0.8f);
-                    }
-                }
-            }
+            if (_world == null) return;
 
-            if (_grids.ContainsKey(GridLayer.Field) && _grids[GridLayer.Field] != null)
+            var worldMapSize = _world.WorldMap.Size;
+
+            // if (_terrainLayer != null)
+            // {
+            //     Gizmos.color = new Color(0, 1, 0, 0.5f);
+            //     for (var y = 0; y < worldMapSize.y; y++)
+            //     {
+            //         for (var x = 0; x < worldMapSize.x; x++)
+            //         {
+            //             var position = new Vector2(x + 0.5f, y + 0.5f);
+            //             Gizmos.DrawWireCube(position, Vector3.one);
+            //             if (!_terrainLayer.IsPassable(new Vector2Int(x, y), Vector2Int.one))
+            //                 Gizmos.DrawCube(position, Vector3.one * 0.8f);
+            //         }
+            //     }
+            // }
+
+            if (_fieldLayer != null)
             {
-                Gizmos.color = Color.red;
-                for (var y = 0; y < _gridSize.y; y++)
+                Gizmos.color = new Color(1, 0, 0, 0.5f);
+                for (var y = 0; y < worldMapSize.y; y++)
                 {
-                    for (var x = 0; x < _gridSize.x; x++)
+                    for (var x = 0; x < worldMapSize.x; x++)
                     {
                         var position = new Vector2(x + 0.5f, y + 0.5f);
-                        if (_grids[GridLayer.Field][x, y] > 0)
+                        if (!_fieldLayer.IsPassable(new Vector2Int(x, y), Vector2Int.one))
                             Gizmos.DrawCube(position, Vector3.one * 0.5f);
                     }
                 }
@@ -46,94 +49,49 @@ namespace Afterlife.Dev.Field
 
         protected override void OnSetUp()
         {
-            _grids[GridLayer.Terrain] = new int[_gridSize.x, _gridSize.y];
-            _grids[GridLayer.Field] = new int[_gridSize.x, _gridSize.y];
+            _world = _worldSystem.World;
 
-            FillTerrainPassableFromTilemap();
+            if (!_world.WorldMap.GetLayerByType<World.TerrainLayer>(WorldMapLayerType.Terrain, out var terrainLayer)) return;
+            if (!_world.WorldMap.GetLayerByType<FieldLayer>(WorldMapLayerType.Field, out var fieldLayer)) return;
+
+            _terrainLayer = terrainLayer;
+            _fieldLayer = fieldLayer;
         }
 
-        private void FillTerrainPassableFromTilemap()
+        public void SetPassable(Vector2Int position, Vector2Int size, bool isPassable)
         {
-            foreach (var tilemap in _tilemaps)
-            {
-                if (tilemap == null) continue;
-                var b = tilemap.cellBounds;
-                for (int y = b.yMin; y < b.yMax; y++)
-                {
-                    for (int x = b.xMin; x < b.xMax; x++)
-                    {
-                        var pos = new Vector3Int(x, y, 0);
-                        var tile = tilemap.GetTile(pos);
-                        if (tile == null) continue;
-
-                        int ix = x;
-                        int iy = y;
-                        if (ix < 0 || iy < 0 || ix >= _gridSize.x || iy >= _gridSize.y)
-                            continue;
-
-                        bool isWater = tile != null && tilemap.name == "Water";
-                        if (isWater)
-                        {
-                            _grids[GridLayer.Terrain][ix, iy] += 1; // 물은 통과 불가
-                        }
-                    }
-                }
-            }
+            if (_fieldLayer == null) return;
+            _fieldLayer.SetPassable(position, size, isPassable);
         }
 
-        protected override void OnTearDown()
+        public bool IsPassable(Vector2Int position, Vector2Int size)
         {
-            _grids.Clear();
+            return (
+                _terrainLayer.IsPassable(position, size) &&
+                _fieldLayer.IsPassable(position, size)
+            );
         }
-
-        public void SetGridSize(Vector2Int gridSize)
-        {
-            _gridSize = gridSize;
-        }
-
-        public void SetPassable(GridLayer layer, Vector2Int position, Vector2Int size, bool isPassable)
-        {
-            for (var y = 0; y < size.y; y++)
-            {
-                for (var x = 0; x < size.x; x++)
-                {
-                    _grids[layer][position.x + x, position.y + y] += isPassable ? 1 : -1;
-                }
-            }
-        }
-
-        public bool IsPassable(GridLayer layer, Vector2Int position, Vector2Int size)
-        {
-            for (var y = 0; y < size.y; y++)
-            {
-                for (var x = 0; x < size.x; x++)
-                {
-                    try
-                    {
-                        if (_grids[layer][position.x + x, position.y + y] > 0)
-                        {
-                            return false;
-                        }
-                    }
-                    catch (IndexOutOfRangeException)
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-
-        public void PlaceTerrain(Vector2Int position, Vector2Int size)
-            => SetPassable(GridLayer.Terrain, position, size, true);
-
-        public void UnplaceTerrain(Vector2Int position, Vector2Int size)
-            => SetPassable(GridLayer.Terrain, position, size, false);
 
         public void PlaceField(Vector2Int position, Vector2Int size)
-            => SetPassable(GridLayer.Field, position, size, true);
+            => SetPassable(position, size, false);
 
         public void UnplaceField(Vector2Int position, Vector2Int size)
-            => SetPassable(GridLayer.Field, position, size, false);
+            => SetPassable(position, size, true);
+
+        public List<Vector2Int> GetPassablePositions(Vector2Int size)
+        {
+            var result = new List<Vector2Int>();
+            var mapSize = _world.WorldMap.Size;
+            for (var y = 0; y <= mapSize.y - size.y; y++)
+            {
+                for (var x = 0; x <= mapSize.x - size.x; x++)
+                {
+                    var position = new Vector2Int(x, y);
+                    if (IsPassable(position, size))
+                        result.Add(position);
+                }
+            }
+            return result;
+        }
     }
 }

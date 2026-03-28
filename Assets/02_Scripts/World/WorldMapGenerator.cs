@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Afterlife.Dev.World
@@ -6,8 +7,9 @@ namespace Afterlife.Dev.World
     {
         private readonly FastNoiseLite fastNoiseLite = new();
 
-        public Terrain Generate(WorldMapGenerationParameter param)
+        public bool Generate(WorldMapGenerationParameter param, out WorldMap worldMap)
         {
+            worldMap = null;
             var mapSize = param.MapSize;
             var width = mapSize.x;
             var height = mapSize.y;
@@ -30,7 +32,7 @@ namespace Afterlife.Dev.World
             GenerateTemperatureLayer(param, out var temperatureLayer);
             GenerateMoistureLayer(param, out var moistureLayer);
 
-            Tile[,] tiles = new Tile[width, height];
+            TerrainCell[,] cells = new TerrainCell[width, height];
 
             for (int y = 0; y < height; y++)
             {
@@ -46,7 +48,8 @@ namespace Afterlife.Dev.World
                         moistureLayer[y * width + x],
                         param.MoistureThresholds
                     );
-                    tiles[x, y] = new Tile
+
+                    cells[x, y] = new TerrainCell
                     {
                         Geography = geographyType,
                         Biome = biomeType,
@@ -57,8 +60,14 @@ namespace Afterlife.Dev.World
                 }
             }
 
-            var terrain = new Terrain(tiles);
-            return terrain;
+            var layers = new Dictionary<WorldMapLayerType, IWorldMapLayer>()
+            {
+                [WorldMapLayerType.Terrain] = new TerrainLayer(mapSize, cells),
+                [WorldMapLayerType.Field] = new FieldLayer(mapSize, new()),
+            };
+
+            worldMap = new WorldMap(mapSize, layers);
+            return true;
         }
 
         private void GenerateElevationLayer(WorldMapGenerationParameter param, float[] radialMask, out float[] elevationLayer)

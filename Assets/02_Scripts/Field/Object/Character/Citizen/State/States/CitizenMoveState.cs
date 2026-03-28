@@ -66,8 +66,7 @@ namespace Afterlife.Dev.Field
                 var cell = new Vector2Int(Mathf.RoundToInt(candidate.x), Mathf.RoundToInt(candidate.y));
                 var size = Vector2Int.one;
 
-                if (gridSystem.IsPassable(GridLayer.Terrain, cell, size) &&
-                    gridSystem.IsPassable(GridLayer.Field, cell, size))
+                if (gridSystem.IsPassable(cell, size))
                 {
                     destination = candidate;
                     return true;

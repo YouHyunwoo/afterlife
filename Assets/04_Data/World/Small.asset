@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fdcd559398eb3b541820ff5129c1e549, type: 3}
-  m_Name: Tuning Parameter
+  m_Name: Small
   m_EditorClassIdentifier: 
-  MapSize: {x: 400, y: 400}
+  MapSize: {x: 100, y: 100}
   RadialMaskFalloff:
     serializedVersion: 2
     m_Curve:
@@ -57,7 +57,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   ElevationNoiseType: 3
   ElevationGenerationSeed: 0
-  ElevationGenerationFrequency: 0.01
+  ElevationGenerationFrequency: 0.04
   ElevationGenerationHighFrequencySeed: 0
   ElevationHighFrequencyMultiplier: 3
   ElevationHighFrequencyWeight: 0.238
@@ -65,13 +65,13 @@ MonoBehaviour:
   ElevationSeaLevel: 0.1
   TemperatureNoiseType: 3
   TemperatureGenerationSeed: 0
-  TemperatureGenerationFrequency: 0.01
+  TemperatureGenerationFrequency: 0.1
   TemperatureThresholds:
   - 0.3
   - 0.6
   MoistureNoiseType: 3
   MoistureGenerationSeed: 0
-  MoistureGenerationFrequency: 0.01
+  MoistureGenerationFrequency: 0.03
   MoistureThresholds:
   - 0.3
   - 0.6

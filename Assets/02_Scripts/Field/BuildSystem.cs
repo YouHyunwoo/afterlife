@@ -46,10 +46,7 @@ namespace Afterlife.Dev.Field
         }
 
         private bool CanBuild(Vector2Int position, Vector2Int size)
-            => (
-                _gridSystem.IsPassable(GridLayer.Terrain, position, size) &&
-                _gridSystem.IsPassable(GridLayer.Field, position, size)
-            );
+            => _gridSystem.IsPassable(position, size);
 
         private void RegisterObject(string type, ObjectVisible objectVisible)
         {

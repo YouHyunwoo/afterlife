@@ -1,49 +1,65 @@
-using Afterlife.Dev.World;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Afterlife.Dev
+namespace Afterlife.Dev.World
 {
-    public class WorldManager : MonoBehaviour
+    public class WorldSystem : Moonstone.Ore.Local.System
     {
         [Header("Tilemap")]
         [SerializeField] private Tilemap _terrainLowerTilemap;
         [SerializeField] private Tilemap _terrainMiddleTilemap;
         [SerializeField] private Tilemap _terrainUpperTilemap;
+        [SerializeField] private Tilemap _terrainObstacleTilemap;
         [SerializeField] private TileBase _waterRuleTile;
         [SerializeField] private TileBase _dirtRuleTile;
         [SerializeField] private TileBase _grassRuleTile;
         [SerializeField] private TileBase _snowRuleTile;
 
-        private World.Terrain _terrain;
+        private WorldRepository _worldRepository;
+        private World _world;
 
-        public World.Terrain Terrain => _terrain;
+        public World World => _world;
 
-        public World.Terrain GenerateWorldMap(WorldMapGenerationParameter generationParameter)
+        public bool GenerateWorld(WorldMapGenerationParameter generationParameter, out string worldId)
         {
+            worldId = null;
+
+            // * Model
+            var generator = new WorldMapGenerator();
+            if (!generator.Generate(generationParameter, out var worldMap)) return false;
+
+            worldId = Moonstone.Ore.Model.NewId();
+            var world = new World(worldId, worldMap);
+
+            _world = world;
+            _worldRepository.Save(world);
+
+            // * View
             _terrainLowerTilemap.ClearAllTiles();
             _terrainMiddleTilemap.ClearAllTiles();
             _terrainUpperTilemap.ClearAllTiles();
+            _terrainObstacleTilemap.ClearAllTiles();
 
-            var generator = new WorldMapGenerator();
-            _terrain = generator.Generate(generationParameter);
+            var worldMapSize = worldMap.Size;
+            if (!worldMap.GetLayerByType(WorldMapLayerType.Terrain, out TerrainLayer terrainLayer)) return false;
 
-            for (int y = -1; y <= _terrain.Size.y; y++)
+            for (int y = -1; y <= worldMapSize.y; y++)
             {
-                for (int x = -1; x <= _terrain.Size.x; x++)
+                for (int x = -1; x <= worldMapSize.x; x++)
                 {
-                    if (x < 0 || x >= _terrain.Size.x || y < 0 || y >= _terrain.Size.y)
+                    if (x < 0 || x >= worldMapSize.x || y < 0 || y >= worldMapSize.y)
                     {
-                        _terrainLowerTilemap.SetTile(new Vector3Int(x, y, 0), _waterRuleTile);
+                        _terrainLowerTilemap.SetTile(new Vector3Int(x, y), _waterRuleTile);
+                        _terrainObstacleTilemap.SetTile(new Vector3Int(x, y), _waterRuleTile);
                         continue;
                     }
 
                     var position = new Vector3Int(x, y, 0);
-                    var tile = _terrain.Tiles[x, y];
-                    switch (tile.Geography)
+                    var cell = terrainLayer.Cells[x, y];
+                    switch (cell.Geography)
                     {
                         case GeographyType.Land:
-                            TileLandByBiome(tile, position);
+                            SetLandTilesByBiome(cell, position);
                             _terrainLowerTilemap.SetTile(position, _dirtRuleTile);
                             break;
                         case GeographyType.Beach:
@@ -52,17 +68,18 @@ namespace Afterlife.Dev
                         case GeographyType.ShallowWater:
                         case GeographyType.DeepWater:
                             _terrainLowerTilemap.SetTile(position, _waterRuleTile);
+                            _terrainObstacleTilemap.SetTile(position, _waterRuleTile);
                             break;
                     }
                 }
             }
 
-            return _terrain;
+            return true;
         }
 
-        private void TileLandByBiome(World.Tile tile, Vector3Int position)
+        private void SetLandTilesByBiome(TerrainCell cell, Vector3Int position)
         {
-            switch (tile.Biome)
+            switch (cell.Biome)
             {
                 case BiomeType.IceSheet:
                     _terrainUpperTilemap.SetTile(position, _snowRuleTile);

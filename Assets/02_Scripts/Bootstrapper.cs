@@ -2,6 +2,8 @@ using Afterlife.Dev.Field;
 using Afterlife.Dev.Mode;
 using UnityEngine;
 using Afterlife.Dev.Game;
+using Afterlife.Dev.World;
+using System.Collections.Generic;
 
 namespace Afterlife.Dev
 {
@@ -26,6 +28,8 @@ namespace Afterlife.Dev
         [SerializeField] private TimeSystem _timeSystem;
         [SerializeField] private EventSystem _eventSystem;
         [SerializeField] private GameResultSystem _gameResultSystem;
+        [SerializeField] private WorldSystem _worldSystem;
+        [SerializeField] private WorldMapGenerationParameter _generationParameter;
         #endregion
 
         #region Modes
@@ -49,12 +53,14 @@ namespace Afterlife.Dev
         [SerializeField] private ResourceData _treeData;
         #endregion
 
+        private WorldRepository _worldRepository;
+
         protected override void CreateObjects()
         {
+            _worldRepository = new();
             // 오브젝트 생성 흐름:
             // 오브젝트 모델 생성 및 저장 -> 오브젝트 Visible 생성 -> 바인딩
             // 오브젝트 == 건물: 필드 그리드 적용, 네비게이션 빌드
-            // _citizenVisible = Instantiate(_citizenVisiblePrefab);
         }
 
         protected override void InitializeObjects()
@@ -76,11 +82,11 @@ namespace Afterlife.Dev
                 _buildSystem,
                 _timeSystem,
                 _eventSystem,
-                _gameResultSystem
+                _gameResultSystem,
+                _worldSystem,
+                _worldRepository
             );
             _container.AddInjectee(
-                _citizenVisible,
-                _enemyVisible
             );
             _container.Bind();
 
@@ -98,10 +104,14 @@ namespace Afterlife.Dev
             _gameResultSystem.OnGameOverEvent += () => Debug.Log("게임 오버");
         }
 
-        protected override void PrepareObjects()
+        protected override async void PrepareObjects()
         {
-            _gridSystem.SetGridSize(new Vector2Int(20, 17));
+            GenerateWorldMap();
             _gridSystem.SetUp();
+
+            await Awaitable.EndOfFrameAsync();
+
+            _navigationSystem.BuildNavMesh();
 
             // * 게임 이벤트 생성 및 등록
             {
@@ -110,37 +120,58 @@ namespace Afterlife.Dev
                 // _eventSystem.Register(enemySpawnEvent);
             }
 
-            if (_buildSystem.TryBuild(new Vector2Int(2, 2), _houseVisiblePrefab, _houseData, out var houseVisible))
+            // * 필드 오브젝트 생성 및 초기화
+            var worldMapSize = _worldSystem.World.WorldMap.Size;
+            var passablePositions = _gridSystem.GetPassablePositions(Vector2Int.one);
+
+            var housePassablePositions = _gridSystem.GetPassablePositions(_houseData.Size);
+            var housePosition = SamplePassablePosition(housePassablePositions);
+            if (_buildSystem.TryBuild(housePosition, _houseVisiblePrefab, _houseData, out var houseVisible))
             {
                 houseVisible.FinishBuild();
                 _gameResultSystem.RegisterHouse(houseVisible);
             }
 
-            if (_buildSystem.TryBuild(new Vector2Int(2, 9), _treeVisiblePrefab, _treeData, out var tree))
+            var treePosition = SamplePassablePosition(passablePositions);
+            if (_buildSystem.TryBuild(treePosition, _treeVisiblePrefab, _treeData, out var tree))
             {
                 tree.OnHarvested += (resourcePrefab, resourceVisible, sender) => _buildSystem.Demolish(resourceVisible);
             }
 
-            _navigationSystem.BuildNavMesh();
+            // * 시민 생성 및 초기화
+            var citizenPosition = SamplePassablePosition(passablePositions);
+            _citizenVisible = Instantiate(_citizenVisiblePrefab, (Vector2)citizenPosition, Quaternion.identity);
+            _container.Inject(_citizenVisible);
+            _citizenVisible.NavMeshAgent.Warp((Vector2)citizenPosition);
 
-
-            // * 적 생성 및 바인딩, 초기화
-            _enemyVisible = Instantiate(_enemyVisiblePrefab);
+            // * 적 생성 및 초기화
+            var enemyPosition = SamplePassablePosition(passablePositions);
+            _enemyVisible = Instantiate(_enemyVisiblePrefab, (Vector2)enemyPosition, Quaternion.identity);
             _container.Inject(_enemyVisible);
             _enemyVisible.OnDied += (attacker, ov, sender) =>
             {
                 if (ov is EnemyVisible enemyVisible)
                     _player.Aetheron += enemyVisible.Aetheron;
             };
-            for (var i = 0; i < 100; i++)
-            {
-                var enemyPosition = new Vector2(Random.Range(0, 20), Random.Range(0, 20));
-                if (_townAreaSystem.IsPositionInAnyInfluence(enemyPosition))
-                    continue;
-                _enemyVisible.NavMeshAgent.Warp(enemyPosition);
-                break;
-            }
             _gameResultSystem.RegisterBoss(_enemyVisible);
+        }
+
+        private void GenerateWorldMap()
+        {
+            if (!_worldSystem.GenerateWorld(_generationParameter, out var worldId)) return;
+            if (!_worldRepository.FindWorldById(worldId, out var world)) return;
+
+            var worldMapSize = world.WorldMap.Size;
+            Camera.main.transform.position = new Vector3(worldMapSize.x / 2f, worldMapSize.y / 2f, -10f);
+            Camera.main.orthographicSize = Mathf.Max(worldMapSize.x, worldMapSize.y) / 2f + 5f;
+        }
+
+        private Vector2Int SamplePassablePosition(List<Vector2Int> passablePositions)
+        {
+            var index = Random.Range(0, passablePositions.Count);
+            var passablePosition = passablePositions[index];
+            passablePositions.RemoveAt(index);
+            return passablePosition;
         }
 
         private void Update()
