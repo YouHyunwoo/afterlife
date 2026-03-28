@@ -90,7 +90,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08b94a78fe1f93042a2c77c7e005b66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 0, y: 0}
+  data: {fileID: 11400000, guid: f0865f26d599b664280a8b5f7cb1c3e1, type: 2}
+  health: 0
+  maxHealth: 0
   _townAreaSystem: {fileID: 0}
   _gridSystem: {fileID: 0}
-  _buildSystem: {fileID: 0}

@@ -25,6 +25,7 @@ namespace Afterlife.Dev
         [SerializeField] private BuildSystem _buildSystem;
         [SerializeField] private TimeSystem _timeSystem;
         [SerializeField] private EventSystem _eventSystem;
+        [SerializeField] private GameResultSystem _gameResultSystem;
         #endregion
 
         #region Modes
@@ -74,7 +75,8 @@ namespace Afterlife.Dev
                 _townAreaSystem,
                 _buildSystem,
                 _timeSystem,
-                _eventSystem
+                _eventSystem,
+                _gameResultSystem
             );
             _container.AddInjectee(
                 _citizenVisible,
@@ -91,6 +93,9 @@ namespace Afterlife.Dev
             {
                 _modeSystem.Select<SelectionMode>();
             };
+
+            _gameResultSystem.OnGameClearEvent += () => Debug.Log("게임 클리어");
+            _gameResultSystem.OnGameOverEvent += () => Debug.Log("게임 오버");
         }
 
         protected override void PrepareObjects()
@@ -102,12 +107,13 @@ namespace Afterlife.Dev
             {
                 var enemySpawnEvent = new EnemySpawnEvent(5, _enemyVisiblePrefab);
                 _container.Inject(enemySpawnEvent);
-                _eventSystem.Register(enemySpawnEvent);
+                // _eventSystem.Register(enemySpawnEvent);
             }
 
             if (_buildSystem.TryBuild(new Vector2Int(2, 2), _houseVisiblePrefab, _houseData, out var houseVisible))
             {
                 houseVisible.FinishBuild();
+                _gameResultSystem.RegisterHouse(houseVisible);
             }
 
             if (_buildSystem.TryBuild(new Vector2Int(2, 9), _treeVisiblePrefab, _treeData, out var tree))
@@ -129,6 +135,7 @@ namespace Afterlife.Dev
                 _enemyVisible.NavMeshAgent.Warp(enemyPosition);
                 break;
             }
+            _gameResultSystem.RegisterBoss(_enemyVisible);
         }
 
         private void Update()

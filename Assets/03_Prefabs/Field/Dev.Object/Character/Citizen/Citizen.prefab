@@ -133,7 +133,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5461d9bcd1a7b6c4e8d5c9fb2e7da180, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 0, y: 0}
+  data: {fileID: 0}
+  health: 10
+  maxHealth: 0
+  attackPower: 1
+  attackRange: 2
+  attackInterval: 1
   _townAreaSystem: {fileID: 0}
   _gridSystem: {fileID: 0}
   _buildSystem: {fileID: 0}
+  _player: {fileID: 0}

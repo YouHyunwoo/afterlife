@@ -38,13 +38,12 @@ namespace Afterlife.Dev.Field
 
             if (!hasValidTarget)
             {
-                Transit("move");
+                Transit("chase", null, new object[] { _targetVisible });
                 return;
             }
 
             if (Time.time >= _nextAttackTime)
             {
-                Debug.Log("dd");
                 Attack(_targetVisible.transform);
                 _nextAttackTime = Time.time + visible.AttackInterval;
             }

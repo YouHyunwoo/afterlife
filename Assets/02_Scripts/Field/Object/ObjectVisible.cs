@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Afterlife.Dev.Field
@@ -24,6 +25,8 @@ namespace Afterlife.Dev.Field
         public float Health => health;
         public float MaxHealth => maxHealth;
         public bool IsAlive => health <= 0;
+
+        public event Action<ObjectVisible, ObjectVisible, object> OnDied;
 
         protected virtual void OnDrawGizmos()
         {
@@ -66,17 +69,19 @@ namespace Afterlife.Dev.Field
         public virtual void SetData(ObjectData data)
         {
             size = data.Size;
+            health = maxHealth = data.Health;
         }
 
-        public void TakeDamage(float damage, Object attacker)
+        public void TakeDamage(float damage, ObjectVisible attacker)
         {
             health -= damage;
             if (health <= 0f)
                 Die(attacker);
         }
 
-        protected virtual void Die(Object attacker)
+        protected virtual void Die(ObjectVisible attacker)
         {
+            OnDied?.Invoke(attacker, this, this);
             Destroy(gameObject);
         }
     }

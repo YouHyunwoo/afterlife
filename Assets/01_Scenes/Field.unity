@@ -372,6 +372,7 @@ GameObject:
   - component: {fileID: 374512701}
   - component: {fileID: 374512707}
   - component: {fileID: 374512706}
+  - component: {fileID: 374512708}
   m_Layer: 0
   m_Name: Field
   m_TagString: Untagged
@@ -497,6 +498,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e07aaf689557c1d4f92e028abe82dcd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &374512708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374512697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62a152c455d2be74f8dfbdccbb03367c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &404897650
@@ -678,7 +691,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -2478835091467415505, guid: 4a17b78819b59824fab559e1aca29d1a, type: 3}
       propertyPath: attackRange
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -2478835091467415505, guid: 4a17b78819b59824fab559e1aca29d1a, type: 3}
       propertyPath: _buildSystem
@@ -1420,6 +1433,7 @@ MonoBehaviour:
   _buildSystem: {fileID: 374512701}
   _timeSystem: {fileID: 374512707}
   _eventSystem: {fileID: 374512706}
+  _gameResultSystem: {fileID: 374512708}
   _buildMode: {fileID: 326308632}
   _selectionMode: {fileID: 326308633}
   _citizenVisiblePrefab: {fileID: -2478835091467415505, guid: 4a17b78819b59824fab559e1aca29d1a, type: 3}

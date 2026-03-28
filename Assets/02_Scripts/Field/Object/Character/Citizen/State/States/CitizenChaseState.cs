@@ -28,7 +28,7 @@ namespace Afterlife.Dev.Field
             if (_targetVisible != null)
             {
                 float dist = Vector2.Distance(visible.transform.position, _targetVisible.transform.position);
-                if (dist <= visible.AttackRange)
+                if (dist <= visible.AttackRange * 0.95f)
                 {
                     Transit("fight", null, new object[] { _targetVisible });
                     return;

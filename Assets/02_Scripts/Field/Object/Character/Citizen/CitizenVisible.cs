@@ -18,8 +18,8 @@ namespace Afterlife.Dev.Field
         private Transform _holdableVisibleContainerTransform;
         private StateMachine _stateMachine;
 
-        public float AttackRange => attackRange;
         public float AttackPower => attackPower;
+        public float AttackRange => attackRange;
         public float AttackInterval => attackInterval;
 
 
