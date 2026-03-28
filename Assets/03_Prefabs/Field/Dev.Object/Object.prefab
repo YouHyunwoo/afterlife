@@ -151,7 +151,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!61 &3043194913582509936
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -246,7 +246,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4decf6def5dab148aa712756acbef2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 1, y: 1}
+  data: {fileID: 0}
+  health: 0
+  maxHealth: 0
 --- !u!95 &1201029212193748759
 Animator:
   serializedVersion: 7

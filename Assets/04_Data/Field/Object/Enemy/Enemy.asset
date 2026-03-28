@@ -16,5 +16,5 @@ MonoBehaviour:
   Health: 5
   DetectionRange: 3
   AttackPower: 1
-  AttackRange: 5
+  AttackRange: 3
   AttackInterval: 1

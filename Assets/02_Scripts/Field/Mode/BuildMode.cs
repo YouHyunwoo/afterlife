@@ -30,7 +30,7 @@ namespace Afterlife.Dev.Field
             var isHit = _raycastSystem.CastToPlane(out var hitPoint);
             if (!isHit) return;
 
-            var gridSize = _currentObjectVisiblePrefab.Size;
+            var gridSize = _previewObjectVisible.Size;
             var gridPosition = new Vector2Int(Mathf.RoundToInt(hitPoint.x - gridSize.x / 2f), Mathf.RoundToInt(hitPoint.y - gridSize.y / 2f));
             var canBuild = (
                 _gridSystem.IsPassable(GridLayer.Terrain, gridPosition, gridSize) &&

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85d8cacfd6a8f0e41b69ecdee907bffa, type: 3}
   m_Name: House
   m_EditorClassIdentifier: 
-  Size: {x: 3, y: 2}
+  Size: {x: 2, y: 2}
+  Health: 20
   TownAreaInfluenceRadius: 3
   BuildSpeed: 0.2
