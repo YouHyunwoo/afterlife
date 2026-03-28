@@ -10,6 +10,9 @@ namespace Afterlife.Dev.Field
         protected float attackRange;
         protected float attackInterval;
 
+        [SerializeField]
+        protected int aetheron;
+
         [SerializeField] private TownAreaSystem _townAreaSystem;
         [SerializeField] private GridSystem _gridSystem;
 
@@ -19,6 +22,7 @@ namespace Afterlife.Dev.Field
         public float AttackRange => attackRange;
         public float AttackPower => attackPower;
         public float AttackInterval => attackInterval;
+        public int Aetheron => aetheron;
 
         protected override void OnDrawGizmos()
         {

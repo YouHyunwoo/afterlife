@@ -22,7 +22,6 @@ namespace Afterlife.Dev.Field
         public float AttackRange => attackRange;
         public float AttackInterval => attackInterval;
 
-
         protected override void OnDrawGizmos()
         {
             base.OnDrawGizmos();

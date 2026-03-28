@@ -93,5 +93,6 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: f0865f26d599b664280a8b5f7cb1c3e1, type: 2}
   health: 0
   maxHealth: 0
+  aetheron: 5
   _townAreaSystem: {fileID: 0}
   _gridSystem: {fileID: 0}

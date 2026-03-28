@@ -68,7 +68,7 @@ namespace Afterlife.Dev.Field
         private void Attack(Transform target)
         {
             if (target.TryGetComponent<IDamageable>(out var damageable))
-                damageable.TakeDamage(visible.AttackPower, null);
+                damageable.TakeDamage(visible.AttackPower, visible);
         }
 
         private Transform FindPriorityTarget(float range)

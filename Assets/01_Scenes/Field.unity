@@ -588,6 +588,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3ab4e7506ee4e3448a56c6a72e36226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Aetheron: 0
   Woods: 0
   Stones: 0
 --- !u!1 &582755397

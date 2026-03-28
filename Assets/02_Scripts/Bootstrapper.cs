@@ -127,6 +127,11 @@ namespace Afterlife.Dev
             // * 적 생성 및 바인딩, 초기화
             _enemyVisible = Instantiate(_enemyVisiblePrefab);
             _container.Inject(_enemyVisible);
+            _enemyVisible.OnDied += (attacker, ov, sender) =>
+            {
+                if (ov is EnemyVisible enemyVisible)
+                    _player.Aetheron += enemyVisible.Aetheron;
+            };
             for (var i = 0; i < 100; i++)
             {
                 var enemyPosition = new Vector2(Random.Range(0, 20), Random.Range(0, 20));
