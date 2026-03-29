@@ -5,8 +5,6 @@ namespace Afterlife.Dev.World
 {
     public class WorldMapGenerator
     {
-        private readonly FastNoiseLite fastNoiseLite = new();
-
         public bool Generate(WorldMapGenerationParameter param, out WorldMap worldMap)
         {
             worldMap = null;
@@ -80,6 +78,7 @@ namespace Afterlife.Dev.World
             elevationLayer = new float[area];
             float[] elevationHighFrequencyLayer = new float[area];
 
+            var fastNoiseLite = new FastNoiseLite();
             fastNoiseLite.SetNoiseType(param.ElevationNoiseType);
             fastNoiseLite.SetFrequency(param.ElevationGenerationFrequency);
             fastNoiseLite.SetSeed(GetSeed(param.ElevationGenerationSeed));
@@ -107,6 +106,7 @@ namespace Afterlife.Dev.World
 
             temperatureLayer = new float[area];
 
+            var fastNoiseLite = new FastNoiseLite();
             fastNoiseLite.SetNoiseType(param.TemperatureNoiseType);
             fastNoiseLite.SetFrequency(param.TemperatureGenerationFrequency);
             fastNoiseLite.SetSeed(GetSeed(param.TemperatureGenerationSeed));
@@ -124,6 +124,7 @@ namespace Afterlife.Dev.World
 
             moistureLayer = new float[area];
 
+            var fastNoiseLite = new FastNoiseLite();
             fastNoiseLite.SetNoiseType(param.MoistureNoiseType);
             fastNoiseLite.SetFrequency(param.MoistureGenerationFrequency);
             fastNoiseLite.SetSeed(GetSeed(param.MoistureGenerationSeed));
