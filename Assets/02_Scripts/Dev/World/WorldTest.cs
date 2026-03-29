@@ -45,7 +45,7 @@ namespace Afterlife.Dev
         private void GenerateWorldMap()
         {
             if (!_worldSystem.GenerateWorld(_generationParameter, out var worldId)) return;
-            if (!_worldRepository.FindWorldById(worldId, out var world)) return;
+            if (!_worldRepository.TryFindById(worldId, out var world)) return;
             _worldId = worldId;
 
             var worldMapSize = world.WorldMap.Size;
@@ -57,7 +57,7 @@ namespace Afterlife.Dev
         {
             if (_worldId == null) return;
 
-            if (!_worldRepository.FindWorldById(_worldId, out var world)) return;
+            if (!_worldRepository.TryFindById(_worldId, out var world)) return;
             if (!world.WorldMap.GetLayerByType(WorldMapLayerType.Terrain, out World.TerrainLayer terrainLayer)) return;
 
             var worldMapSize = world.WorldMap.Size;

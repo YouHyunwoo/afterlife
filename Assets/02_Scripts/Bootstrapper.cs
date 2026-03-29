@@ -159,7 +159,7 @@ namespace Afterlife.Dev
         private void GenerateWorldMap()
         {
             if (!_worldSystem.GenerateWorld(_generationParameter, out var worldId)) return;
-            if (!_worldRepository.FindWorldById(worldId, out var world)) return;
+            if (!_worldRepository.TryFindById(worldId, out var world)) return;
 
             var worldMapSize = world.WorldMap.Size;
             Camera.main.transform.position = new Vector3(worldMapSize.x / 2f, worldMapSize.y / 2f, -10f);
