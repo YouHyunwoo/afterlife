@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using Afterlife.Dev.World;
 using UnityEngine;
 
 namespace Afterlife.Dev.Field
@@ -11,8 +13,10 @@ namespace Afterlife.Dev.Field
     public class BuildMode : Mode.Mode
     {
         [SerializeField] private RaycastSystem _raycastSystem;
-        [SerializeField] private GridSystem _gridSystem;
         [SerializeField] private BuildGuideSystem _buildGuideSystem;
+
+        private WorldRepository _worldRepository;
+        private World.World _world;
 
         private ObjectVisible _currentObjectVisiblePrefab;
         private ObjectVisible _previewObjectVisible;
@@ -32,7 +36,7 @@ namespace Afterlife.Dev.Field
 
             var gridSize = _previewObjectVisible.Size;
             var gridPosition = new Vector2Int(Mathf.RoundToInt(hitPoint.x - gridSize.x / 2f), Mathf.RoundToInt(hitPoint.y - gridSize.y / 2f));
-            var canBuild = _gridSystem.IsPassable(gridPosition, gridSize);
+            var canBuild = _world.WorldMap.IsPassable(gridPosition, gridSize);
             _buildGuideSystem.ShowGuide(gridPosition, gridSize, canBuild);
             _previewObjectVisible.transform.position = new Vector3(gridPosition.x + gridSize.x / 2f, gridPosition.y + gridSize.y / 2f, 0);
 
@@ -49,6 +53,8 @@ namespace Afterlife.Dev.Field
         protected override void OnEnter<TParam>(TParam param = null)
         {
             Debug.Log("건설 모드");
+
+            _world = _worldRepository.FindAll().First();
             if (param is BuildModeParam buildModeParam)
             {
                 _currentObjectVisiblePrefab = buildModeParam.ObjectVisiblePrefab;

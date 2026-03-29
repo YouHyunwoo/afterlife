@@ -1,21 +1,28 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Afterlife.Dev.World;
 using UnityEngine;
 
 namespace Afterlife.Dev.Field
 {
     public class BuildSystem : Moonstone.Ore.Local.System
     {
-        [SerializeField] private GridSystem _gridSystem;
         [SerializeField] private TownAreaSystem _townAreaSystem;
-        [SerializeField] private NavigationSystem _navigationSystem;
 
         private readonly Dictionary<string, List<ObjectVisible>> _objectMap = new();
+        private WorldRepository _worldRepository;
+        private World.World _world;
+
+        public Dictionary<string, List<ObjectVisible>> ObjectMap => _objectMap;
 
         public event Action<ObjectVisible, BuildSystem, object> OnBuilt;
         public event Action<ObjectVisible, BuildSystem, object> OnDemolished;
 
-        public Dictionary<string, List<ObjectVisible>> ObjectMap => _objectMap;
+        protected override void OnSetUp()
+        {
+            _world = _worldRepository.FindAll().First();
+        }
 
         public bool TryBuild<TObjectVisible, TObjectData>(
             Vector2Int position, TObjectVisible objectVisiblePrefab, TObjectData objectData, out TObjectVisible objectVisible
@@ -29,7 +36,7 @@ namespace Afterlife.Dev.Field
             objectVisible = Instantiate(objectVisiblePrefab, worldPosition, Quaternion.identity);
             objectVisible.SetData(objectData);
 
-            _gridSystem.PlaceField(position, objectData.Size);
+            _world.WorldMap.PlaceField(position, objectData.Size);
 
             // 건물이 TownAreaSystem에 영향을 주는 경우, 영향 추가
             if (objectVisible is BuildingVisible buildingVisible)
@@ -39,14 +46,11 @@ namespace Afterlife.Dev.Field
 
             OnBuilt?.Invoke(objectVisible, this, this);
 
-            if (objectVisible.Size != Vector2.zero)
-                _navigationSystem.BuildNavMesh();
-
             return true;
         }
 
         private bool CanBuild(Vector2Int position, Vector2Int size)
-            => _gridSystem.IsPassable(position, size);
+            => _world.WorldMap.IsPassable(position, size);
 
         private void RegisterObject(string type, ObjectVisible objectVisible)
         {
@@ -71,12 +75,9 @@ namespace Afterlife.Dev.Field
                 _townAreaSystem.RemoveInfluence(worldPosition, buildingVisible.TownAreaInfluenceRadius);
 
             var position = Vector2Int.FloorToInt((Vector2)worldPosition - (Vector2)objectVisible.Size * 0.5f);
-            _gridSystem.UnplaceField(position, objectVisible.Size);
+            _world.WorldMap.UnplaceField(position, objectVisible.Size);
 
             Destroy(objectVisible.gameObject);
-
-            if (objectVisible.Size != Vector2.zero)
-                _navigationSystem.BuildNavMesh();
         }
 
         private void DeregisterObject(string type, ObjectVisible objectVisible)

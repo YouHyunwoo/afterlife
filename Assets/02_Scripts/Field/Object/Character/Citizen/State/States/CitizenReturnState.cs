@@ -38,7 +38,7 @@ namespace Afterlife.Dev.Field
         {
             nearestHouseVisible = null;
 
-            var objectMap = context.BuildSystem.ObjectMap;
+            var objectMap = context.BuildSystem.ObjectMap; // TODO: 리팩토링
             if (objectMap.ContainsKey("HouseVisible"))
             {
                 var position = visible.transform.position;

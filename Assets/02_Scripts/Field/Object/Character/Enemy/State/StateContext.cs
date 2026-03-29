@@ -4,6 +4,5 @@ namespace Afterlife.Dev.Field
     {
         public EnemyVisible EnemyVisible;
         public TownAreaSystem TownAreaSystem;
-        public GridSystem GridSystem;
     }
 }

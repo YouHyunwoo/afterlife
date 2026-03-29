@@ -14,7 +14,6 @@ namespace Afterlife.Dev.Field
         protected int aetheron;
 
         [SerializeField] private TownAreaSystem _townAreaSystem;
-        [SerializeField] private GridSystem _gridSystem;
 
         private StateMachine _stateMachine;
 
@@ -47,7 +46,6 @@ namespace Afterlife.Dev.Field
                 {
                     EnemyVisible = this,
                     TownAreaSystem = _townAreaSystem,
-                    GridSystem = _gridSystem,
                 }
             );
             _stateMachine.Run();

@@ -1,3 +1,4 @@
+using System;
 using Afterlife.Dev.Game;
 using Afterlife.Dev.State;
 using UnityEngine;
@@ -11,7 +12,6 @@ namespace Afterlife.Dev.Field
         [SerializeField] protected float attackInterval;
 
         [SerializeField] private TownAreaSystem _townAreaSystem;
-        [SerializeField] private GridSystem _gridSystem;
         [SerializeField] private BuildSystem _buildSystem;
         [SerializeField] private Player _player;
 
@@ -21,6 +21,8 @@ namespace Afterlife.Dev.Field
         public float AttackPower => attackPower;
         public float AttackRange => attackRange;
         public float AttackInterval => attackInterval;
+
+        public event Func<Vector2Int, Vector2Int, bool> IsPassable;
 
         protected override void OnDrawGizmos()
         {
@@ -56,8 +58,8 @@ namespace Afterlife.Dev.Field
                 {
                     CitizenVisible = this,
                     TownAreaSystem = _townAreaSystem,
-                    GridSystem = _gridSystem,
                     BuildSystem = _buildSystem,
+                    IsPassable = IsPassable,
                 }
             );
             _stateMachine.Run();

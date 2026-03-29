@@ -47,8 +47,6 @@ namespace Afterlife.Dev.Field
         private bool FindRandomDestinationInTown(out Vector3 destination)
         {
             var townAreaSystem = context.TownAreaSystem;
-            var gridSystem = context.GridSystem;
-
             var positions = townAreaSystem.GetAllInfluencedPositions();
 
             if (positions == null || positions.Count == 0)
@@ -66,7 +64,7 @@ namespace Afterlife.Dev.Field
                 var cell = new Vector2Int(Mathf.RoundToInt(candidate.x), Mathf.RoundToInt(candidate.y));
                 var size = Vector2Int.one;
 
-                if (gridSystem.IsPassable(cell, size))
+                if (context.IsPassable(cell, size))
                 {
                     destination = candidate;
                     return true;
