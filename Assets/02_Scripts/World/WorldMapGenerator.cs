@@ -12,6 +12,7 @@ namespace Afterlife.Dev.World
             var width = mapSize.x;
             var height = mapSize.y;
             var area = width * height;
+            var radialScaler = Mathf.Sqrt(2f);
 
             var index = 0;
             var radialMask = new float[area];
@@ -22,7 +23,7 @@ namespace Afterlife.Dev.World
                     var dx = x / (float)width - 0.5f;
                     var dy = y / (float)height - 0.5f;
                     var distance = Mathf.Sqrt(dx * dx + dy * dy) * 2;
-                    radialMask[index++] = param.RadialMaskFalloff.Evaluate(distance * 1.414f);
+                    radialMask[index++] = param.RadialMaskFalloff.Evaluate(distance * radialScaler);
                 }
             }
 
@@ -38,7 +39,9 @@ namespace Afterlife.Dev.World
                 {
                     var geographyType = GetGeographyType(
                         elevationLayer[y * width + x],
-                        param.ElevationSeaLevel
+                        param.ElevationSeaLevel,
+                        0.5f,
+                        2f
                     );
                     var biomeType = GetBiomeType(
                         temperatureLayer[y * width + x],
@@ -173,9 +176,9 @@ namespace Afterlife.Dev.World
                 layer[i] *= radialMask[i];
         }
 
-        private GeographyType GetGeographyType(float elevation, float seaLevel)
+        private GeographyType GetGeographyType(float elevation, float seaLevel, float deepWaterFactor, float beachfactor)
         {
-            if (elevation < seaLevel * 0.5f)
+            if (elevation < seaLevel * deepWaterFactor)
             {
                 return GeographyType.DeepWater;
             }
@@ -183,7 +186,7 @@ namespace Afterlife.Dev.World
             {
                 return GeographyType.ShallowWater;
             }
-            else if (elevation < seaLevel + 0.1f)
+            else if (elevation < seaLevel * beachfactor)
             {
                 return GeographyType.Beach;
             }
