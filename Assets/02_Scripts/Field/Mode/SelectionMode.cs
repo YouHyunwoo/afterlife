@@ -6,8 +6,6 @@ namespace Afterlife.Dev.Field
 {
     public class SelectionMode : Mode.Mode
     {
-        [SerializeField] private RaycastSystem _raycastSystem;
-
         private bool _isCitizenSelected;
         private readonly List<ObjectVisible> _objectVisibles = new();
 
@@ -26,7 +24,7 @@ namespace Afterlife.Dev.Field
 
         private void UpdateSelection()
         {
-            if (_raycastSystem.CastToObject(out var selectedObjectVisible))
+            if (FieldCursor.CastToObject(out var selectedObjectVisible))
             {
                 Debug.Log("오브젝트 선택: " + selectedObjectVisible);
                 foreach (var objectVisible in _objectVisibles)
@@ -52,7 +50,7 @@ namespace Afterlife.Dev.Field
         private void UpdateCommand()
         {
             if (!_isCitizenSelected) return;
-            if (_raycastSystem.CastToObject(out var selectedObjectVisible))
+            if (FieldCursor.CastToObject(out var selectedObjectVisible))
             {
                 if (selectedObjectVisible is ResourceVisible resourceVisible)
                 {
@@ -79,7 +77,7 @@ namespace Afterlife.Dev.Field
                     }
                 }
             }
-            else if (_raycastSystem.CastToPlane(out var hitPoint))
+            else if (FieldCursor.CastToPlane(out var hitPoint))
             {
                 var @params = new object[] { hitPoint };
                 foreach (var objectVisible in _objectVisibles)

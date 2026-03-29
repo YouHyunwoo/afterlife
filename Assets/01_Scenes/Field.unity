@@ -165,7 +165,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 045c5a32874e926499701762690821f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _raycastSystem: {fileID: 0}
   _buildGuideSystem: {fileID: 0}
 --- !u!114 &326308633
 MonoBehaviour:
@@ -179,7 +178,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ace617778219f7c4cb7f36e9b42b0667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _raycastSystem: {fileID: 0}
 --- !u!114 &326308634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,14 +202,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 374512698}
-  - component: {fileID: 374512705}
   - component: {fileID: 374512703}
   - component: {fileID: 374512701}
   - component: {fileID: 374512707}
   - component: {fileID: 374512706}
   - component: {fileID: 374512708}
   m_Layer: 0
-  m_Name: Field
+  m_Name: Game
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -257,18 +254,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _guideSpriteRendererPrefab: {fileID: 5873723305243552262, guid: 98736ea3d7a132043b576c16a303f3b4, type: 3}
---- !u!114 &374512705
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 374512697}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 913863a7443c2714c9f8b6214f263cc0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &374512706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -554,7 +539,6 @@ MonoBehaviour:
   _container: {fileID: 1207781435}
   _player: {fileID: 432277437}
   _modeSystem: {fileID: 326308634}
-  _raycastSystem: {fileID: 374512705}
   _buildSystem: {fileID: 374512701}
   _buildGuideSystem: {fileID: 374512703}
   _timeSystem: {fileID: 374512707}

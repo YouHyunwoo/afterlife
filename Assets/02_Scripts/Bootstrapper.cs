@@ -20,7 +20,6 @@ namespace Afterlife.Dev
         #region Systems
         [Header("Systems")]
         [SerializeField] private ModeSystem _modeSystem;
-        [SerializeField] private RaycastSystem _raycastSystem;
         [SerializeField] private BuildSystem _buildSystem;
         [SerializeField] private BuildGuideSystem _buildGuideSystem;
         [SerializeField] private TimeSystem _timeSystem;
@@ -79,7 +78,6 @@ namespace Afterlife.Dev
                 _modeSystem,
                 _selectionMode,
                 _buildMode,
-                _raycastSystem,
                 _worldSystem,
                 _worldRepository,
                 _buildSystem,

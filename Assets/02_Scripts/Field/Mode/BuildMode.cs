@@ -12,7 +12,6 @@ namespace Afterlife.Dev.Field
 
     public class BuildMode : Mode.Mode
     {
-        [SerializeField] private RaycastSystem _raycastSystem;
         [SerializeField] private BuildGuideSystem _buildGuideSystem;
 
         private WorldRepository _worldRepository;
@@ -31,7 +30,7 @@ namespace Afterlife.Dev.Field
 
         private void UpdateGuidance()
         {
-            var isHit = _raycastSystem.CastToPlane(out var hitPoint);
+            var isHit = FieldCursor.CastToPlane(out var hitPoint);
             if (!isHit) return;
 
             var gridSize = _previewObjectVisible.Size;

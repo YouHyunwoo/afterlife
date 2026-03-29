@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace Afterlife.Dev.Field
 {
-    public class RaycastSystem : Moonstone.Ore.Local.System
+    public class FieldCursor
     {
-        public bool CastToPlane(out Vector3 hitPoint)
+        public static bool CastToPlane(out Vector3 hitPoint)
         {
             var plane = new Plane(Vector3.forward, Vector3.zero);
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -13,7 +13,7 @@ namespace Afterlife.Dev.Field
             return isHit;
         }
 
-        public bool CastToObject(out ObjectVisible objectVisible)
+        public static bool CastToObject(out ObjectVisible objectVisible)
         {
             objectVisible = null;
             var worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
