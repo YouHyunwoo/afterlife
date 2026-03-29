@@ -5,5 +5,6 @@ namespace Afterlife.Dev.World
         None,
         Terrain,
         Field,
+        Town,
     }
 }

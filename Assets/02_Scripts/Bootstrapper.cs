@@ -21,7 +21,6 @@ namespace Afterlife.Dev
         [Header("Systems")]
         [SerializeField] private ModeSystem _modeSystem;
         [SerializeField] private RaycastSystem _raycastSystem;
-        [SerializeField] private TownAreaSystem _townAreaSystem;
         [SerializeField] private BuildSystem _buildSystem;
         [SerializeField] private BuildGuideSystem _buildGuideSystem;
         [SerializeField] private TimeSystem _timeSystem;
@@ -83,7 +82,6 @@ namespace Afterlife.Dev
                 _raycastSystem,
                 _worldSystem,
                 _worldRepository,
-                _townAreaSystem,
                 _buildSystem,
                 _buildGuideSystem,
                 _timeSystem,
@@ -149,12 +147,14 @@ namespace Afterlife.Dev
             _citizenVisible = Instantiate(_citizenVisiblePrefab, (Vector2)citizenPosition, Quaternion.identity);
             _container.Inject(_citizenVisible);
             _citizenVisible.IsPassable += world.WorldMap.IsPassable;
+            _citizenVisible.GetAllInfluencedPositions += world.WorldMap.GetAllInfluencedPositions;
             _citizenVisible.NavMeshAgent.Warp((Vector2)citizenPosition);
 
             // * 적 생성 및 초기화
             var enemyPosition = SamplePassablePosition(passablePositions);
             _enemyVisible = Instantiate(_enemyVisiblePrefab, (Vector2)enemyPosition, Quaternion.identity);
             _container.Inject(_enemyVisible);
+            _enemyVisible.GetAllInfluencedPositions += world.WorldMap.GetAllInfluencedPositions;
             _enemyVisible.OnDied += (attacker, ov, sender) =>
             {
                 if (ov is EnemyVisible enemyVisible)

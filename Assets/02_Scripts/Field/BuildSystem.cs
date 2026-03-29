@@ -8,8 +8,6 @@ namespace Afterlife.Dev.Field
 {
     public class BuildSystem : Moonstone.Ore.Local.System
     {
-        [SerializeField] private TownAreaSystem _townAreaSystem;
-
         private readonly Dictionary<string, List<ObjectVisible>> _objectMap = new();
         private WorldRepository _worldRepository;
         private World.World _world;
@@ -40,7 +38,7 @@ namespace Afterlife.Dev.Field
 
             // 건물이 TownAreaSystem에 영향을 주는 경우, 영향 추가
             if (objectVisible is BuildingVisible buildingVisible)
-                _townAreaSystem.AddInfluence(worldPosition, buildingVisible.TownAreaInfluenceRadius);
+                _world.WorldMap.AddInfluence(worldPosition, buildingVisible.TownAreaInfluenceRadius);
 
             RegisterObject(objectVisible.GetType().Name, objectVisible);
 
@@ -72,7 +70,7 @@ namespace Afterlife.Dev.Field
 
             // 건물이 TownAreaSystem에 영향을 주는 경우, 영향 제거
             if (objectVisible is BuildingVisible buildingVisible)
-                _townAreaSystem.RemoveInfluence(worldPosition, buildingVisible.TownAreaInfluenceRadius);
+                _world.WorldMap.RemoveInfluence(worldPosition, buildingVisible.TownAreaInfluenceRadius);
 
             var position = Vector2Int.FloorToInt((Vector2)worldPosition - (Vector2)objectVisible.Size * 0.5f);
             _world.WorldMap.UnplaceField(position, objectVisible.Size);

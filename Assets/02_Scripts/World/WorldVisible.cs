@@ -23,6 +23,7 @@ namespace Afterlife.Dev.World
         private World _world;
         private IWorldMapLayer _terrainLayer;
         private IWorldMapLayer _fieldLayer;
+        private TownLayer _townLayer;
         #endregion
 
         private void OnDrawGizmos()
@@ -58,6 +59,16 @@ namespace Afterlife.Dev.World
                             Gizmos.DrawCube(position, Vector3.one * 0.5f);
                     }
                 }
+            }
+
+            if (_world.WorldMap.TownAreaMap.Count == 0) return;
+
+            var offset = new Vector3(0.5f, 0.5f);
+            Gizmos.color = new Color(1, 0, 1, 0.3f);
+            foreach (var cell in _world.WorldMap.TownAreaMap.Keys)
+            {
+                var position = (Vector3)(Vector2)cell + offset;
+                Gizmos.DrawCube(position, Vector3Int.one);
             }
         }
 

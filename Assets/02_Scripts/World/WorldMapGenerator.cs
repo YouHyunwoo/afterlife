@@ -65,6 +65,7 @@ namespace Afterlife.Dev.World
             {
                 [WorldMapLayerType.Terrain] = new TerrainLayer(mapSize, cells),
                 [WorldMapLayerType.Field] = new FieldLayer(mapSize, new()),
+                [WorldMapLayerType.Town] = new TownLayer(mapSize, new()),
             };
 
             worldMap = new WorldMap(mapSize, layers);

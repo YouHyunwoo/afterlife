@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Afterlife.Dev.Game;
 using Afterlife.Dev.State;
 using UnityEngine;
@@ -11,7 +12,6 @@ namespace Afterlife.Dev.Field
         [SerializeField] protected float attackRange;
         [SerializeField] protected float attackInterval;
 
-        [SerializeField] private TownAreaSystem _townAreaSystem;
         [SerializeField] private BuildSystem _buildSystem;
         [SerializeField] private Player _player;
 
@@ -23,6 +23,7 @@ namespace Afterlife.Dev.Field
         public float AttackInterval => attackInterval;
 
         public event Func<Vector2Int, Vector2Int, bool> IsPassable;
+        public event Func<List<Vector2Int>> GetAllInfluencedPositions;
 
         protected override void OnDrawGizmos()
         {
@@ -57,9 +58,9 @@ namespace Afterlife.Dev.Field
                 new CitizenStateContext()
                 {
                     CitizenVisible = this,
-                    TownAreaSystem = _townAreaSystem,
                     BuildSystem = _buildSystem,
                     IsPassable = IsPassable,
+                    GetAllInfluencedPositions = GetAllInfluencedPositions,
                 }
             );
             _stateMachine.Run();

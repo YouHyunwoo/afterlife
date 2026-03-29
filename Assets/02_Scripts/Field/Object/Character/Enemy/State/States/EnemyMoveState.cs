@@ -55,12 +55,12 @@ namespace Afterlife.Dev.Field
 
         private void MoveToRandomTownPosition()
         {
-            var positions = context.TownAreaSystem.GetAllInfluencedPositions();
+            var positions = context.GetAllInfluencedPositions();
             if (positions == null || positions.Count == 0)
                 return;
 
             var destination = positions[Random.Range(0, positions.Count)];
-            visible.StartMovement(destination);
+            visible.StartMovement((Vector2)destination);
         }
 
         private Transform FindPriorityTarget(float range)

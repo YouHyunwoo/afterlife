@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Afterlife.Dev.State;
 using UnityEngine;
 
@@ -13,8 +15,6 @@ namespace Afterlife.Dev.Field
         [SerializeField]
         protected int aetheron;
 
-        [SerializeField] private TownAreaSystem _townAreaSystem;
-
         private StateMachine _stateMachine;
 
         public float DetectionRange => detectionRange;
@@ -22,6 +22,8 @@ namespace Afterlife.Dev.Field
         public float AttackPower => attackPower;
         public float AttackInterval => attackInterval;
         public int Aetheron => aetheron;
+
+        public event Func<List<Vector2Int>> GetAllInfluencedPositions;
 
         protected override void OnDrawGizmos()
         {
@@ -45,7 +47,7 @@ namespace Afterlife.Dev.Field
                 new EnemyStateContext()
                 {
                     EnemyVisible = this,
-                    TownAreaSystem = _townAreaSystem,
+                    GetAllInfluencedPositions = GetAllInfluencedPositions,
                 }
             );
             _stateMachine.Run();

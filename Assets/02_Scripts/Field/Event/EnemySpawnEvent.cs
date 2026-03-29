@@ -1,3 +1,7 @@
+using System.Collections.Generic;
+using System.Linq;
+using Afterlife.Dev.Game;
+using Afterlife.Dev.World;
 using Moonstone.Ore;
 using UnityEngine;
 
@@ -5,9 +9,11 @@ namespace Afterlife.Dev.Field
 {
     public class EnemySpawnEvent : Event
     {
+        private Player _player;
         private EnemyVisible _enemyVisiblePrefab;
         private Container _container;
-        private TownAreaSystem _townAreaSystem;
+        private WorldRepository _worldRepository;
+        private World.World _world;
 
         private float _duration = 10f;
         private float _spawnInterval = 1f;
@@ -21,6 +27,7 @@ namespace Afterlife.Dev.Field
 
         protected override void OnStart()
         {
+            _world = _worldRepository.FindAll().First();
             _spawnTime = Time.time + _spawnInterval;
             _elapsedTime = Time.time + _duration;
         }
@@ -41,16 +48,24 @@ namespace Afterlife.Dev.Field
 
         private void SpawnEnemy()
         {
-            var enemyVisible = GameObject.Instantiate(_enemyVisiblePrefab);
+            var passablePositions = _world.WorldMap.GetPassablePositions(Vector2Int.one);
+            var enemyPosition = SamplePassablePosition(passablePositions);
+            var enemyVisible = GameObject.Instantiate(_enemyVisiblePrefab, (Vector2)enemyPosition, Quaternion.identity);
             _container.Inject(enemyVisible);
-            for (var i = 0; i < 100; i++) // Try Count
+            enemyVisible.GetAllInfluencedPositions += _world.WorldMap.GetAllInfluencedPositions;
+            enemyVisible.OnDied += (attacker, ov, sender) =>
             {
-                var enemyPosition = new Vector2(Random.Range(0, 20), Random.Range(0, 20)); // Grid Size
-                if (_townAreaSystem.IsPositionInAnyInfluence(enemyPosition))
-                    continue;
-                enemyVisible.NavMeshAgent.Warp(enemyPosition);
-                break;
-            }
+                if (ov is EnemyVisible enemyVisible)
+                    _player.Aetheron += enemyVisible.Aetheron;
+            };
+        }
+
+        private Vector2Int SamplePassablePosition(List<Vector2Int> passablePositions)
+        {
+            var index = Random.Range(0, passablePositions.Count);
+            var passablePosition = passablePositions[index];
+            passablePositions.RemoveAt(index);
+            return passablePosition;
         }
     }
 }
