@@ -10,6 +10,7 @@ namespace Afterlife.Dev.Field
         {
             base.OnDrawGizmos();
 
+            if (@object == null) return;
             var pos = transform.position;
             Gizmos.color = Color.white;
             var state = @object.BuildingState;

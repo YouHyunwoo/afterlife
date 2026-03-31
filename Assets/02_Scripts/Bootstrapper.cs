@@ -99,8 +99,17 @@ namespace Afterlife.Dev
             );
             _container.Bind();
 
-            _buildMode.OnConfirmed += (position, objectVisiblePrefab, mode, sender) =>
+            _buildMode.OnConfirmed += (position, buildParam, mode, sender) =>
             {
+                if (buildParam.Prefab is BuildingVisible prefab)
+                {
+                    if (_objectSpawnSystem.TrySpawn(position, prefab, buildParam.Data, id => new Building(id), out var building, out var buildingVisible))
+                    {
+                        building.FinishBuild();
+                        _gameResultSystem.RegisterHouse(building);
+                        building.OnDied += (_, o, __) => _objectSpawnSystem.Despawn(o);
+                    }
+                }
                 _modeSystem.Select<SelectionMode>();
             };
             _buildMode.OnCanceled += (position, objectVisible, mode, sender) =>
@@ -124,7 +133,12 @@ namespace Afterlife.Dev
                     }
                 }
             };
-            _objectSpawnSystem.OnDemolished += (ov, shouldBuildNavMesh, system, sender) => { if (shouldBuildNavMesh) _worldVisible.BuildNavMesh(); };
+            _objectSpawnSystem.OnDemolished += async (ov, shouldBuildNavMesh, system, sender) =>
+            {
+                if (!shouldBuildNavMesh) return;
+                await Awaitable.EndOfFrameAsync(); // Destroy() is deferred — wait for GameObject to be removed before baking
+                _worldVisible.BuildNavMesh();
+            };
 
             _gameResultSystem.OnGameClearEvent += () => Debug.Log("게임 클리어");
             _gameResultSystem.OnGameOverEvent += () => Debug.Log("게임 오버");
@@ -247,7 +261,7 @@ namespace Afterlife.Dev
         {
             if (Input.GetKeyDown(KeyCode.C))
             {
-                _modeSystem.Select<BuildMode, BuildModeParam>(null, new BuildModeParam() { Prefab = _houseVisiblePrefab });
+                _modeSystem.Select<BuildMode, BuildModeParam>(null, new BuildModeParam() { Prefab = _houseVisiblePrefab, Data = _houseData });
             }
             else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.Escape))
             {

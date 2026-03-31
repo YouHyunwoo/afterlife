@@ -39,6 +39,8 @@ namespace Afterlife.Dev.Field
 
         protected virtual void OnDrawGizmos()
         {
+            if (@object == null) return;
+
             Gizmos.color = Color.yellow;
             var size = (Vector3)(Vector2)@object.Size;
             var center = transform.position;

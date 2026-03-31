@@ -67,7 +67,6 @@ namespace Afterlife.Dev.Field
             if (!_idToVisible.TryGetValue(@object.Id, out var visible)) return;
 
             _objectSystem.Unregister(@object);
-            OnDemolished?.Invoke(visible, @object.Size != Vector2Int.zero, this, this);
 
             _idToVisible.Remove(@object.Id);
 
@@ -82,6 +81,8 @@ namespace Afterlife.Dev.Field
             Destroy(visible.gameObject);
 
             _objectRepository.Delete(@object.Id);
+
+            OnDemolished?.Invoke(visible, @object.Size != Vector2Int.zero, this, this);
         }
 
         private bool CanBuild(Vector2Int position, Vector2Int size)

@@ -8,7 +8,7 @@ namespace Afterlife.Dev.Field
     public class BuildModeParam : Mode.ModeParam
     {
         public BuildingVisible Prefab;
-        public Vector2Int Size;
+        public BuildingData Data;
     }
 
     public class BuildMode : Mode.Mode
@@ -21,8 +21,8 @@ namespace Afterlife.Dev.Field
         private BuildModeParam _param;
         private BuildingVisible _previewBuildingVisible;
 
-        public event Action<Vector2Int, ObjectVisible, BuildMode, object> OnConfirmed;
-        public event Action<Vector2Int, ObjectVisible, BuildMode, object> OnCanceled;
+        public event Action<Vector2Int, BuildModeParam, BuildMode, object> OnConfirmed;
+        public event Action<Vector2Int, BuildModeParam, BuildMode, object> OnCanceled;
 
         private void Update()
         {
@@ -34,7 +34,7 @@ namespace Afterlife.Dev.Field
             var isHit = FieldCursor.CastToPlane(out var hitPoint);
             if (!isHit) return;
 
-            var size = _param.Size;
+            var size = _param.Data.Size;
             var position = new Vector2Int(Mathf.RoundToInt(hitPoint.x - size.x / 2f), Mathf.RoundToInt(hitPoint.y - size.y / 2f));
             var canBuild = _world.WorldMap.IsPassable(position, size);
             _previewBuildingVisible.transform.position = new Vector3(position.x + size.x / 2f, position.y + size.y / 2f, 0);
@@ -42,11 +42,11 @@ namespace Afterlife.Dev.Field
 
             if (Input.GetMouseButtonDown(0))
             {
-                OnConfirmed?.Invoke(position, _param.Prefab, this, this);
+                OnConfirmed?.Invoke(position, _param, this, this);
             }
             else if (Input.GetMouseButtonDown(1))
             {
-                OnCanceled?.Invoke(position, _param.Prefab, this, this);
+                OnCanceled?.Invoke(position, _param, this, this);
             }
         }
 
