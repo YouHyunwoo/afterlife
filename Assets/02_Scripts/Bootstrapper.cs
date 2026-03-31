@@ -20,6 +20,7 @@ namespace Afterlife.Dev
 
         #region Systems
         [Header("Systems")]
+        [SerializeField] private CameraSystem _cameraSystem;
         [SerializeField] private ModeSystem _modeSystem;
         [SerializeField] private ObjectSpawnSystem _objectSpawnSystem;
         [SerializeField] private ObjectSystem _objectSystem;
@@ -58,6 +59,8 @@ namespace Afterlife.Dev
         private WorldRepository _worldRepository;
         private WorldVisible _worldVisible;
         private ObjectRepository _objectRepository;
+        private World.World _world;
+        private readonly Dictionary<string, Citizen> _houseCitizenPairs = new();
 
         protected override void CreateObjects()
         {
@@ -83,6 +86,7 @@ namespace Afterlife.Dev
                 _buildMode,
                 _worldSystem,
                 _worldRepository,
+                _cameraSystem,
                 _objectSpawnSystem,
                 _objectRepository,
                 _buildGuideSystem,
@@ -105,7 +109,21 @@ namespace Afterlife.Dev
             };
 
             _worldSystem.OnWorldGeneratedAsync += _worldVisible.Render;
-            _objectSpawnSystem.OnBuilt += (ov, shouldBuildNavMesh, system, sender) => { if (shouldBuildNavMesh) _worldVisible.BuildNavMesh(); };
+            _objectSpawnSystem.OnBuilt += (ov, shouldBuildNavMesh, system, sender) =>
+            {
+                if (shouldBuildNavMesh) _worldVisible.BuildNavMesh();
+
+                if (ov is BuildingVisible buildingVisible)
+                {
+                    var building = buildingVisible.Object;
+                    if (building.BuildingType == BuildingType.House)
+                    {
+                        var houseWorldPos = buildingVisible.transform.position;
+                        building.OnBuilt += (b, _) => SpawnCitizenForHouse(b, houseWorldPos);
+                        building.OnDied += (_, b, __) => DespawnCitizenForHouse((Building)b);
+                    }
+                }
+            };
             _objectSpawnSystem.OnDemolished += (ov, shouldBuildNavMesh, system, sender) => { if (shouldBuildNavMesh) _worldVisible.BuildNavMesh(); };
 
             _gameResultSystem.OnGameClearEvent += () => Debug.Log("게임 클리어");
@@ -114,8 +132,9 @@ namespace Afterlife.Dev
 
         protected override async void PrepareObjects()
         {
-            var world = await GenerateWorld();
+            _world = await GenerateWorld();
 
+            _cameraSystem.SetUp();
             _objectSpawnSystem.SetUp();
 
             // * 웨이브 스케줄 등록
@@ -127,7 +146,7 @@ namespace Afterlife.Dev
             });
 
             // * 필드 오브젝트 생성 및 초기화
-            var worldMap = world.WorldMap;
+            var worldMap = _world.WorldMap;
             var passablePositions = worldMap.GetPassablePositions(Vector2Int.one);
 
             var housePassablePositions = worldMap.GetPassablePositions(_houseData.Size);
@@ -136,39 +155,13 @@ namespace Afterlife.Dev
             {
                 house.FinishBuild();
                 _gameResultSystem.RegisterHouse(house);
+                house.OnDied += (_, o, __) => _objectSpawnSystem.Despawn(o);
             }
 
             var treePosition = SamplePassablePosition(passablePositions);
-            if (_objectSpawnSystem.TrySpawn(treePosition, _treeVisiblePrefab, _treeData, id => new Resource(id), out var tree, out var treeVisible))
+            if (_objectSpawnSystem.TrySpawn(treePosition, _treeVisiblePrefab, _treeData, id => new Resource(id), out var tree, out _))
             {
                 tree.OnHarvested += (harvestResultInfo, r, s) => _objectSpawnSystem.Despawn(r);
-            }
-
-            // * 시민 생성 및 초기화
-            // TODO: 편의 메소드 필요
-            var citizenPosition = SamplePassablePosition(passablePositions);
-            if (_objectSpawnSystem.TrySpawn(citizenPosition, _citizenVisiblePrefab, _citizenData, id => new Citizen(id), out var citizen, out var citizenVisible))
-            {
-                citizen.Wander.IsPassable = world.WorldMap.IsPassable;
-                citizen.Wander.GetTownZonePositions = world.WorldMap.GetTownZonePositions;
-                citizen.BuildingLocator.GetBuildings = _objectRepository.FindAll().OfType<Building>;
-
-                // 충돌 이벤트 → ObjectSystem 전달
-                citizenVisible.OnInteractionCollided += (collider, field, cv, sender) =>
-                {
-                    var other = _objectSystem.GetModel(collider.gameObject);
-                    if (other != null) _objectSystem.RegisterCollision(citizen, other);
-                };
-
-                citizen.OnHoldingsTaken += (woods, stones, c, s) => citizenVisible.TakeHoldings(woods, stones);
-                citizen.OnHoldingsDropped += (c, s) => citizenVisible.DropHoldings();
-                citizen.OnHoldingsReturned += (woods, stones, c, s) =>
-                {
-                    _player.Woods += woods;
-                    _player.Stones += stones;
-                    citizenVisible.DropHoldings();
-                };
-                citizen.OnDied += (a, o, s) => _objectSpawnSystem.Despawn(o);
             }
 
             // * 적 생성 및 초기화 (테스트용 — 웨이브 시스템 사용 시 주석 처리)
@@ -183,6 +176,10 @@ namespace Afterlife.Dev
             //         _objectSpawnSystem.Despawn(o);
             //     };
             // }
+
+            var cameraPosition = houseVisible.transform.position;
+            cameraPosition.z = Camera.main.transform.position.z;
+            Camera.main.transform.position = cameraPosition;
         }
 
         private async Awaitable<World.World> GenerateWorld()
@@ -190,12 +187,52 @@ namespace Afterlife.Dev
             var world = await _worldSystem.GenerateWorldAsync(_generationParameter);
             if (world == null) return null;
             _worldRepository.Save(world);
-
-            var worldMapSize = world.WorldMap.Size;
-            Camera.main.transform.position = new Vector3(worldMapSize.x / 2f, worldMapSize.y / 2f, -10f);
-            Camera.main.orthographicSize = Mathf.Max(worldMapSize.x, worldMapSize.y) / 2f + 5f;
-
             return world;
+        }
+
+        private void SpawnCitizenForHouse(Building house, Vector3 houseWorldPos)
+        {
+            var passablePositions = _world.WorldMap.GetPassablePositions(Vector2Int.one);
+            if (passablePositions.Count == 0) return;
+
+            var housePos = (Vector2)houseWorldPos;
+            var citizenPosition = passablePositions.OrderBy(p => ((Vector2)p - housePos).sqrMagnitude).First();
+
+            if (!_objectSpawnSystem.TrySpawn(citizenPosition, _citizenVisiblePrefab, _citizenData,
+                id => new Citizen(id), out var citizen, out var citizenVisible)) return;
+
+            citizen.Wander.IsPassable = _world.WorldMap.IsPassable;
+            citizen.Wander.GetTownZonePositions = _world.WorldMap.GetTownZonePositions;
+            citizen.BuildingLocator.GetBuildings = _objectRepository.FindAll().OfType<Building>;
+
+            // 충돌 이벤트 → ObjectSystem 전달
+            citizenVisible.OnInteractionCollided += (collider, field, cv, sender) =>
+            {
+                var other = _objectSystem.GetModel(collider.gameObject);
+                if (other != null) _objectSystem.RegisterCollision(citizen, other);
+            };
+
+            citizen.OnHoldingsTaken += (woods, stones, c, s) => citizenVisible.TakeHoldings(woods, stones);
+            citizen.OnHoldingsDropped += (c, s) => citizenVisible.DropHoldings();
+            citizen.OnHoldingsReturned += (woods, stones, c, s) =>
+            {
+                _player.Woods += woods;
+                _player.Stones += stones;
+                citizenVisible.DropHoldings();
+            };
+
+            _houseCitizenPairs[house.Id] = citizen;
+            citizen.OnDied += (_, o, __) =>
+            {
+                _houseCitizenPairs.Remove(house.Id);
+                _objectSpawnSystem.Despawn(o);
+            };
+        }
+
+        private void DespawnCitizenForHouse(Building house)
+        {
+            if (_houseCitizenPairs.Remove(house.Id, out var citizen))
+                _objectSpawnSystem.Despawn(citizen);
         }
 
         private Vector2Int SamplePassablePosition(List<Vector2Int> passablePositions)
