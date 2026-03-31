@@ -14,5 +14,11 @@ namespace Afterlife.Dev.Field
             Gizmos.color = new Color(1, 0, 0, 0.4f);
             Gizmos.DrawSphere(transform.position, Object.AttackRange);
         }
+
+        public override void Bind(Enemy enemy)
+        {
+            base.Bind(enemy);
+            navMeshAgent.speed = enemy.MoveSpeed;
+        }
     }
 }

@@ -563,11 +563,15 @@ MonoBehaviour:
   _selectionMode: {fileID: 326308633}
   _worldVisiblePrefab: {fileID: 7806013826716640510, guid: 58f89036a74e77e49a9bd67d1c75d850, type: 3}
   _citizenVisiblePrefab: {fileID: -2478835091467415505, guid: 4a17b78819b59824fab559e1aca29d1a, type: 3}
-  _enemyVisiblePrefab: {fileID: 1177827184402940991, guid: 49f348a3ceca550458635cccb58e9065, type: 3}
   _houseVisiblePrefab: {fileID: 8481876388257436325, guid: 22e70eaf3ff577242bbc28cf55b45d12, type: 3}
   _treeVisiblePrefab: {fileID: 900346423869797619, guid: 8c41f37aac4d4f040891ded86fe3518c, type: 3}
   _citizenData: {fileID: 11400000, guid: 30fb6bcff69ac974b8718e77511e268b, type: 2}
-  _enemyData: {fileID: 11400000, guid: f0865f26d599b664280a8b5f7cb1c3e1, type: 2}
+  _goblinData: {fileID: 11400000, guid: 3df7c24cf33f0a446bb66f33e07237de, type: 2}
+  _orcData: {fileID: 11400000, guid: 9e1804015ff3bc04b94fac52034e1e24, type: 2}
+  _trollData: {fileID: 11400000, guid: d3edeb56ed312774c9b5f138140ee69f, type: 2}
+  _goblinVisiblePrefab: {fileID: 1177827184402940991, guid: 8f81a8c229637c946a5caf7e141fc46e, type: 3}
+  _orcVisiblePrefab: {fileID: 1177827184402940991, guid: a3a230da6ba509f4eb6e0fb682d0dc64, type: 3}
+  _trollVisiblePrefab: {fileID: 1177827184402940991, guid: 8c360e8885307dc4a8ceabfc52e1802a, type: 3}
   _houseData: {fileID: 11400000, guid: 81125d69814c84343a5d7e4014ca174d, type: 2}
   _treeData: {fileID: 11400000, guid: ce8f3360505080c468f5195a1787b550, type: 2}
 --- !u!1 &1337877828

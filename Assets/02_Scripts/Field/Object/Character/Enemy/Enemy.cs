@@ -7,6 +7,7 @@ namespace Afterlife.Dev.Field
 {
     public class Enemy : Object
     {
+        protected float moveSpeed;
         protected float detectionRange;
         protected float attackPower;
         protected float attackRange;
@@ -15,6 +16,7 @@ namespace Afterlife.Dev.Field
 
         protected StateMachine stateMachine;
 
+        public float MoveSpeed => moveSpeed;
         public float DetectionRange => detectionRange;
         public float AttackPower => attackPower;
         public float AttackRange => attackRange;
@@ -33,6 +35,7 @@ namespace Afterlife.Dev.Field
         {
             base.Initialize(data);
 
+            moveSpeed = data.MoveSpeed;
             detectionRange = data.DetectionRange;
             attackPower = data.AttackPower;
             attackRange = data.AttackRange;

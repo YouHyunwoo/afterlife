@@ -40,12 +40,16 @@ namespace Afterlife.Dev
         [Header("Objects")]
         [SerializeField] private WorldVisible _worldVisiblePrefab;
         [SerializeField] private CitizenVisible _citizenVisiblePrefab;
-        [SerializeField] private EnemyVisible _enemyVisiblePrefab;
         [SerializeField] private BuildingVisible _houseVisiblePrefab;
         [SerializeField] private ResourceVisible _treeVisiblePrefab;
         [Space(10)]
         [SerializeField] private CitizenData _citizenData;
-        [SerializeField] private EnemyData _enemyData;
+        [SerializeField] private EnemyData _goblinData;
+        [SerializeField] private EnemyData _orcData;
+        [SerializeField] private EnemyData _trollData;
+        [SerializeField] private EnemyVisible _goblinVisiblePrefab;
+        [SerializeField] private EnemyVisible _orcVisiblePrefab;
+        [SerializeField] private EnemyVisible _trollVisiblePrefab;
         [SerializeField] private BuildingData _houseData;
         [SerializeField] private ResourceData _treeData;
         #endregion
@@ -114,11 +118,13 @@ namespace Afterlife.Dev
 
             _objectSpawnSystem.SetUp();
 
-            // * 게임 이벤트 생성 및 등록
+            // * 웨이브 스케줄 등록
+            WaveScheduler.Schedule(_eventSystem, _container, new WaveSchedulerConfig
             {
-                var enemySpawnEvent = new EnemySpawnEvent(5, _enemyVisiblePrefab);
-                _container.Inject(enemySpawnEvent);
-            }
+                GoblinData = _goblinData, GoblinPrefab = _goblinVisiblePrefab,
+                OrcData    = _orcData,    OrcPrefab    = _orcVisiblePrefab,
+                TrollData  = _trollData,  TrollPrefab  = _trollVisiblePrefab,
+            });
 
             // * 필드 오브젝트 생성 및 초기화
             var worldMap = world.WorldMap;
@@ -165,18 +171,18 @@ namespace Afterlife.Dev
                 citizen.OnDied += (a, o, s) => _objectSpawnSystem.Despawn(o);
             }
 
-            // * 적 생성 및 초기화
-            var enemyPosition = SamplePassablePosition(passablePositions);
-            if (_objectSpawnSystem.TrySpawn(enemyPosition, _enemyVisiblePrefab, _enemyData, id => new Enemy(id), out var enemy, out var enemyVisible))
-            {
-                enemy.Wander.GetTownZonePositions += world.WorldMap.GetTownZonePositions;
-                enemy.TargetScan.QueryObjects += _objectSystem.QueryObjects;
-                enemy.OnDied += (a, o, s) =>
-                {
-                    _player.Aetheron += enemy.Aetheron;
-                    _objectSpawnSystem.Despawn(o);
-                };
-            }
+            // * 적 생성 및 초기화 (테스트용 — 웨이브 시스템 사용 시 주석 처리)
+            // var enemyPosition = SamplePassablePosition(passablePositions);
+            // if (_objectSpawnSystem.TrySpawn(enemyPosition, _orcVisiblePrefab, _orcData, id => new Enemy(id), out var enemy, out var enemyVisible))
+            // {
+            //     enemy.Wander.GetTownZonePositions += world.WorldMap.GetTownZonePositions;
+            //     enemy.TargetScan.QueryObjects += _objectSystem.QueryObjects;
+            //     enemy.OnDied += (a, o, s) =>
+            //     {
+            //         _player.Aetheron += enemy.Aetheron;
+            //         _objectSpawnSystem.Despawn(o);
+            //     };
+            // }
         }
 
         private async Awaitable<World.World> GenerateWorld()

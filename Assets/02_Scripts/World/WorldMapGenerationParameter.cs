@@ -31,5 +31,9 @@ namespace Afterlife.Dev
         public int MoistureGenerationSeed; // 0 is random
         public float MoistureGenerationFrequency = 0.01f;
         public float[] MoistureThresholds = new float[] { 0.3f, 0.6f };
+
+        [Header("Connectivity")]
+        [Min(1)] public int MinIslandSize = 50;
+        [Min(0)] public int BridgeRadius = 2;
     }
 }
