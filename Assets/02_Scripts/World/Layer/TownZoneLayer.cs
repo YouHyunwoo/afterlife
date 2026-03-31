@@ -5,11 +5,9 @@ using UnityEngine;
 
 namespace Afterlife.Dev.World
 {
-    public class TownLayer : DictLayer<int>, IWorldMapLayer
+    public class TownZoneLayer : DictLayer<int>, IWorldMapLayer
     {
-        public TownLayer(Vector2Int size, Dictionary<Vector2Int, int> cells) : base(size, cells)
-        {
-        }
+        public TownZoneLayer(Vector2Int size, Dictionary<Vector2Int, int> cells) : base(size, cells) { }
 
         public bool IsPassable(Vector2Int position, Vector2Int size)
         {
@@ -48,10 +46,10 @@ namespace Afterlife.Dev.World
             }
         }
 
-        public bool IsInTown(Vector2Int position)
+        public bool IsInTownZone(Vector2Int position)
             => cells.TryGetValue(position, out var count) && count > 0;
 
-        public void AddInfluence(Vector3 centerPosition, float radius)
+        public void AddTownZone(Vector3 centerPosition, float radius)
         {
             Grid.Grid.ForEachCellInRadius(centerPosition, radius, cellPosition =>
             {
@@ -60,7 +58,7 @@ namespace Afterlife.Dev.World
             });
         }
 
-        public void RemoveInfluence(Vector3 centerPosition, float radius)
+        public void RemoveTownZone(Vector3 centerPosition, float radius)
         {
             Grid.Grid.ForEachCellInRadius(centerPosition, radius, cellPosition =>
             {
@@ -73,7 +71,7 @@ namespace Afterlife.Dev.World
             });
         }
 
-        public List<Vector2Int> GetAllInfluencedPositions()
+        public List<Vector2Int> GetTownZonePositions()
             => cells.Keys.ToList();
     }
 }

@@ -8,6 +8,7 @@ namespace Afterlife.Dev.World
         public bool Generate(WorldMapGenerationParameter param, out WorldMap worldMap)
         {
             worldMap = null;
+
             var mapSize = param.MapSize;
             var width = mapSize.x;
             var height = mapSize.y;
@@ -65,7 +66,7 @@ namespace Afterlife.Dev.World
             {
                 [WorldMapLayerType.Terrain] = new TerrainLayer(mapSize, cells),
                 [WorldMapLayerType.Field] = new FieldLayer(mapSize, new()),
-                [WorldMapLayerType.Town] = new TownLayer(mapSize, new()),
+                [WorldMapLayerType.TownZone] = new TownZoneLayer(mapSize, new()),
             };
 
             worldMap = new WorldMap(mapSize, layers);

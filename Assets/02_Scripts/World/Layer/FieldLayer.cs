@@ -6,9 +6,7 @@ namespace Afterlife.Dev.World
 {
     public class FieldLayer : DictLayer<int>, IWorldMapLayer
     {
-        public FieldLayer(Vector2Int size, Dictionary<Vector2Int, int> cells) : base(size, cells)
-        {
-        }
+        public FieldLayer(Vector2Int size, Dictionary<Vector2Int, int> cells) : base(size, cells) { }
 
         public bool IsPassable(Vector2Int position, Vector2Int size)
         {

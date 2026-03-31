@@ -11,11 +11,11 @@ namespace Afterlife.Dev.World
         #region Caching
         private IWorldMapLayer _terrainLayer;
         private IWorldMapLayer _fieldLayer;
-        private TownLayer _townLayer;
+        private TownZoneLayer _townZoneLayer;
         #endregion
 
         public Vector2Int Size => _size;
-        public Dictionary<Vector2Int, int> TownAreaMap => _townLayer.Cells;
+        public Dictionary<Vector2Int, int> TownZoneMap => _townZoneLayer.Cells;
 
         public WorldMap(Vector2Int size, Dictionary<WorldMapLayerType, IWorldMapLayer> layers)
         {
@@ -25,8 +25,8 @@ namespace Afterlife.Dev.World
             // * 캐싱
             _layers.TryGetValue(WorldMapLayerType.Terrain, out _terrainLayer);
             _layers.TryGetValue(WorldMapLayerType.Field, out _fieldLayer);
-            _layers.TryGetValue(WorldMapLayerType.Town, out var townLayer);
-            _townLayer = townLayer as TownLayer;
+            _layers.TryGetValue(WorldMapLayerType.TownZone, out var townZoneLayer);
+            _townZoneLayer = townZoneLayer as TownZoneLayer;
         }
 
         public bool GetLayerByType<TLayer>(WorldMapLayerType layerType, out TLayer layer) where TLayer : IWorldMapLayer
@@ -38,22 +38,13 @@ namespace Afterlife.Dev.World
         }
 
         public void SetPassable(Vector2Int position, Vector2Int size, bool isPassable)
-        {
-            if (_fieldLayer == null) return;
-            _fieldLayer.SetPassable(position, size, isPassable);
-        }
+            => _fieldLayer.SetPassable(position, size, isPassable);
 
         public bool IsPassable(Vector2Int position, Vector2Int size)
             => (
                 _terrainLayer.IsPassable(position, size) &&
                 _fieldLayer.IsPassable(position, size)
             );
-
-        public void PlaceField(Vector2Int position, Vector2Int size)
-            => SetPassable(position, size, false);
-
-        public void UnplaceField(Vector2Int position, Vector2Int size)
-            => SetPassable(position, size, true);
 
         public List<Vector2Int> GetPassablePositions(Vector2Int size)
         {
@@ -70,16 +61,24 @@ namespace Afterlife.Dev.World
             return result;
         }
 
-        public bool IsInTown(Vector2Int position)
-            => _townLayer.IsInTown(position);
+        #region Convenience Methods
+        public void PlaceField(Vector2Int position, Vector2Int size)
+            => SetPassable(position, size, false);
 
-        public void AddInfluence(Vector3 centerPosition, float radius)
-            => _townLayer.AddInfluence(centerPosition, radius);
+        public void UnplaceField(Vector2Int position, Vector2Int size)
+            => SetPassable(position, size, true);
 
-        public void RemoveInfluence(Vector3 centerPosition, float radius)
-            => _townLayer.RemoveInfluence(centerPosition, radius);
+        public bool IsInTownZone(Vector2Int position)
+            => _townZoneLayer.IsInTownZone(position);
 
-        public List<Vector2Int> GetAllInfluencedPositions()
-            => _townLayer.GetAllInfluencedPositions();
+        public void AddTownZone(Vector3 centerPosition, float radius)
+            => _townZoneLayer.AddTownZone(centerPosition, radius);
+
+        public void RemoveTownZone(Vector3 centerPosition, float radius)
+            => _townZoneLayer.RemoveTownZone(centerPosition, radius);
+
+        public List<Vector2Int> GetTownZonePositions()
+            => _townZoneLayer.GetTownZonePositions();
+        #endregion
     }
 }
