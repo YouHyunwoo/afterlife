@@ -207,6 +207,7 @@ GameObject:
   - component: {fileID: 374512707}
   - component: {fileID: 374512706}
   - component: {fileID: 374512708}
+  - component: {fileID: 374512709}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -288,6 +289,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62a152c455d2be74f8dfbdccbb03367c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &374512709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374512697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27332484b86a82e4e92b0334d8339eab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &404897650
@@ -539,7 +552,8 @@ MonoBehaviour:
   _container: {fileID: 1207781435}
   _player: {fileID: 432277437}
   _modeSystem: {fileID: 326308634}
-  _buildSystem: {fileID: 374512701}
+  _objectSpawnSystem: {fileID: 374512701}
+  _objectSystem: {fileID: 374512709}
   _buildGuideSystem: {fileID: 374512703}
   _timeSystem: {fileID: 374512707}
   _eventSystem: {fileID: 374512706}
@@ -550,10 +564,9 @@ MonoBehaviour:
   _worldVisiblePrefab: {fileID: 7806013826716640510, guid: 58f89036a74e77e49a9bd67d1c75d850, type: 3}
   _citizenVisiblePrefab: {fileID: -2478835091467415505, guid: 4a17b78819b59824fab559e1aca29d1a, type: 3}
   _enemyVisiblePrefab: {fileID: 1177827184402940991, guid: 49f348a3ceca550458635cccb58e9065, type: 3}
-  _houseVisiblePrefab: {fileID: 8344033725246155502, guid: 22e70eaf3ff577242bbc28cf55b45d12, type: 3}
+  _houseVisiblePrefab: {fileID: 8481876388257436325, guid: 22e70eaf3ff577242bbc28cf55b45d12, type: 3}
   _treeVisiblePrefab: {fileID: 900346423869797619, guid: 8c41f37aac4d4f040891ded86fe3518c, type: 3}
-  _citizenVisible: {fileID: 0}
-  _enemyVisible: {fileID: 0}
+  _citizenData: {fileID: 11400000, guid: 30fb6bcff69ac974b8718e77511e268b, type: 2}
   _enemyData: {fileID: 11400000, guid: f0865f26d599b664280a8b5f7cb1c3e1, type: 2}
   _houseData: {fileID: 11400000, guid: 81125d69814c84343a5d7e4014ca174d, type: 2}
   _treeData: {fileID: 11400000, guid: ce8f3360505080c468f5195a1787b550, type: 2}

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -57,7 +56,7 @@ namespace Afterlife.Dev.Field
                     foreach (var objectVisible in _objectVisibles)
                     {
                         if (objectVisible is not CitizenVisible citizenVisible) continue;
-                        citizenVisible.DoCommand(CommandType.Harvest, new object[] { resourceVisible });
+                        citizenVisible.Object.DoCommand(CommandType.Harvest, new object[] { resourceVisible.Object });
                     }
                 }
                 else if (selectedObjectVisible is BuildingVisible buildingVisible)
@@ -65,7 +64,7 @@ namespace Afterlife.Dev.Field
                     foreach (var objectVisible in _objectVisibles)
                     {
                         if (objectVisible is not CitizenVisible citizenVisible) continue;
-                        citizenVisible.DoCommand(CommandType.Build, new object[] { buildingVisible });
+                        citizenVisible.Object.DoCommand(CommandType.Build, new object[] { buildingVisible.Object });
                     }
                 }
                 else if (selectedObjectVisible is EnemyVisible enemyVisible)
@@ -73,7 +72,7 @@ namespace Afterlife.Dev.Field
                     foreach (var objectVisible in _objectVisibles)
                     {
                         if (objectVisible is not CitizenVisible citizenVisible) continue;
-                        citizenVisible.DoCommand(CommandType.Fight, new object[] { enemyVisible });
+                        citizenVisible.Object.DoCommand(CommandType.Fight, new object[] { enemyVisible.Object });
                     }
                 }
             }
@@ -83,7 +82,7 @@ namespace Afterlife.Dev.Field
                 foreach (var objectVisible in _objectVisibles)
                 {
                     if (objectVisible is not CitizenVisible citizenVisible) continue;
-                    citizenVisible.DoCommand(CommandType.Move, @params);
+                    citizenVisible.Object.DoCommand(CommandType.Move, @params);
                 }
             }
         }
@@ -95,25 +94,6 @@ namespace Afterlife.Dev.Field
 
         protected override void OnExit<TParam>(TParam param = null)
         {
-        }
-
-        public void AddSelectedObjects(ObjectVisible[] objectVisibles)
-        {
-            _isCitizenSelected = objectVisibles.Length != 1 || objectVisibles[0] is CitizenVisible;
-            if (_isCitizenSelected)
-            {
-                foreach (var objectVisible in objectVisibles)
-                {
-                    if (objectVisible is CitizenVisible)
-                    {
-                        _objectVisibles.Add(objectVisible);
-                    }
-                }
-            }
-            else
-            {
-                _objectVisibles.Add(objectVisibles[0]);
-            }
         }
     }
 }

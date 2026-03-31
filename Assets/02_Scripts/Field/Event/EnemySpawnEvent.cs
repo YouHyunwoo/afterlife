@@ -49,15 +49,15 @@ namespace Afterlife.Dev.Field
         private void SpawnEnemy()
         {
             var passablePositions = _world.WorldMap.GetPassablePositions(Vector2Int.one);
-            var enemyPosition = SamplePassablePosition(passablePositions);
-            var enemyVisible = GameObject.Instantiate(_enemyVisiblePrefab, (Vector2)enemyPosition, Quaternion.identity);
-            _container.Inject(enemyVisible);
-            enemyVisible.GetAllInfluencedPositions += _world.WorldMap.GetAllInfluencedPositions;
-            enemyVisible.OnDied += (attacker, ov, sender) =>
-            {
-                if (ov is EnemyVisible enemyVisible)
-                    _player.Aetheron += enemyVisible.Aetheron;
-            };
+            // var enemyPosition = SamplePassablePosition(passablePositions);
+            // var enemyVisible = GameObject.Instantiate(_enemyVisiblePrefab, (Vector2)enemyPosition, Quaternion.identity);
+            // _container.Inject(enemyVisible);
+            // enemyVisible.GetAllInfluencedPositions += _world.WorldMap.GetAllInfluencedPositions;
+            // enemyVisible.OnDied += (attacker, ov, sender) =>
+            // {
+            //     if (ov is EnemyVisible enemyVisible)
+            //         _player.Aetheron += enemyVisible.Aetheron;
+            // };
         }
 
         private Vector2Int SamplePassablePosition(List<Vector2Int> passablePositions)

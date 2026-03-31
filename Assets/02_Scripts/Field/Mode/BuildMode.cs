@@ -7,7 +7,8 @@ namespace Afterlife.Dev.Field
 {
     public class BuildModeParam : Mode.ModeParam
     {
-        public ObjectVisible ObjectVisiblePrefab;
+        public BuildingVisible Prefab;
+        public Vector2Int Size;
     }
 
     public class BuildMode : Mode.Mode
@@ -17,8 +18,8 @@ namespace Afterlife.Dev.Field
         private WorldRepository _worldRepository;
         private World.World _world;
 
-        private ObjectVisible _currentObjectVisiblePrefab;
-        private ObjectVisible _previewObjectVisible;
+        private BuildModeParam _param;
+        private BuildingVisible _previewBuildingVisible;
 
         public event Action<Vector2Int, ObjectVisible, BuildMode, object> OnConfirmed;
         public event Action<Vector2Int, ObjectVisible, BuildMode, object> OnCanceled;
@@ -33,19 +34,19 @@ namespace Afterlife.Dev.Field
             var isHit = FieldCursor.CastToPlane(out var hitPoint);
             if (!isHit) return;
 
-            var gridSize = _previewObjectVisible.Size;
-            var gridPosition = new Vector2Int(Mathf.RoundToInt(hitPoint.x - gridSize.x / 2f), Mathf.RoundToInt(hitPoint.y - gridSize.y / 2f));
-            var canBuild = _world.WorldMap.IsPassable(gridPosition, gridSize);
-            _buildGuideSystem.ShowGuide(gridPosition, gridSize, canBuild);
-            _previewObjectVisible.transform.position = new Vector3(gridPosition.x + gridSize.x / 2f, gridPosition.y + gridSize.y / 2f, 0);
+            var size = _param.Size;
+            var position = new Vector2Int(Mathf.RoundToInt(hitPoint.x - size.x / 2f), Mathf.RoundToInt(hitPoint.y - size.y / 2f));
+            var canBuild = _world.WorldMap.IsPassable(position, size);
+            _previewBuildingVisible.transform.position = new Vector3(position.x + size.x / 2f, position.y + size.y / 2f, 0);
+            _buildGuideSystem.ShowGuide(position, size, canBuild);
 
             if (Input.GetMouseButtonDown(0))
             {
-                OnConfirmed?.Invoke(gridPosition, _currentObjectVisiblePrefab, this, this);
+                OnConfirmed?.Invoke(position, _param.Prefab, this, this);
             }
             else if (Input.GetMouseButtonDown(1))
             {
-                OnCanceled?.Invoke(gridPosition, _currentObjectVisiblePrefab, this, this);
+                OnCanceled?.Invoke(position, _param.Prefab, this, this);
             }
         }
 
@@ -56,11 +57,10 @@ namespace Afterlife.Dev.Field
             _world = _worldRepository.FindAll().First();
             if (param is BuildModeParam buildModeParam)
             {
-                _currentObjectVisiblePrefab = buildModeParam.ObjectVisiblePrefab;
-                _previewObjectVisible = Instantiate(_currentObjectVisiblePrefab);
-                _previewObjectVisible.name += "(Preview)";
-                if (_previewObjectVisible is BuildingVisible buildingVisible)
-                    buildingVisible.SetPreviewMode();
+                _param = buildModeParam;
+                _previewBuildingVisible = Instantiate(_param.Prefab);
+                _previewBuildingVisible.name += "(Preview)";
+                _previewBuildingVisible.SetMode(BuildingMode.Preview);
                 _buildGuideSystem.SetUp();
                 UpdateGuidance();
             }
@@ -69,10 +69,10 @@ namespace Afterlife.Dev.Field
         protected override void OnExit<TParam>(TParam param = null)
         {
             _buildGuideSystem.TearDown();
-            if (_previewObjectVisible != null)
-                Destroy(_previewObjectVisible.gameObject);
-            _previewObjectVisible = null;
-            _currentObjectVisiblePrefab = null;
+            if (_previewBuildingVisible != null)
+                Destroy(_previewBuildingVisible.gameObject);
+            _previewBuildingVisible = null;
+            _param = null;
         }
     }
 }

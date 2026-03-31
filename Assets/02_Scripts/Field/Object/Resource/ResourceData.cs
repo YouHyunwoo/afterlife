@@ -7,6 +7,5 @@ namespace Afterlife.Dev.Field
     {
         public int Woods;
         public int Stones;
-        public HoldableVisible ResourceHoldableVisiblePrefab;
     }
 }

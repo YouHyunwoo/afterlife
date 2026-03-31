@@ -5,26 +5,26 @@ namespace Afterlife.Dev.Field
 {
     public class GameResultSystem : Moonstone.Ore.Local.System
     {
-        readonly HashSet<ObjectVisible> houses = new();
-        ObjectVisible boss;
+        readonly HashSet<Object> houses = new();
+        Object boss;
         bool isResolved;
 
         public event Action OnGameClearEvent;
         public event Action OnGameOverEvent;
 
-        public void RegisterHouse(ObjectVisible house)
+        public void RegisterHouse(Object house)
         {
             if (houses.Add(house))
                 house.OnDied += OnHouseDied;
         }
 
-        public void UnregisterHouse(ObjectVisible house)
+        public void UnregisterHouse(Object house)
         {
             if (houses.Remove(house))
                 house.OnDied -= OnHouseDied;
         }
 
-        public void RegisterBoss(ObjectVisible newBoss)
+        public void RegisterBoss(Object newBoss)
         {
             if (boss != null)
                 boss.OnDied -= OnBossDied;
@@ -33,7 +33,7 @@ namespace Afterlife.Dev.Field
             boss.OnDied += OnBossDied;
         }
 
-        public void UnregisterBoss(ObjectVisible oldBoss)
+        public void UnregisterBoss(Object oldBoss)
         {
             if (boss != oldBoss) return;
             boss.OnDied -= OnBossDied;
@@ -54,13 +54,13 @@ namespace Afterlife.Dev.Field
             isResolved = false;
         }
 
-        void OnHouseDied(ObjectVisible attacker, ObjectVisible house, object _)
+        void OnHouseDied(Object attacker, Object house, object _)
         {
             UnregisterHouse(house);
             CheckGameOver();
         }
 
-        void OnBossDied(ObjectVisible attacker, ObjectVisible _, object __)
+        void OnBossDied(Object attacker, Object _, object __)
         {
             if (isResolved) return;
             isResolved = true;

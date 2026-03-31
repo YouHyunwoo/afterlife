@@ -4,6 +4,7 @@ using UnityEngine;
 using Afterlife.Dev.Game;
 using Afterlife.Dev.World;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Afterlife.Dev
 {
@@ -20,7 +21,8 @@ namespace Afterlife.Dev
         #region Systems
         [Header("Systems")]
         [SerializeField] private ModeSystem _modeSystem;
-        [SerializeField] private BuildSystem _buildSystem;
+        [SerializeField] private ObjectSpawnSystem _objectSpawnSystem;
+        [SerializeField] private ObjectSystem _objectSystem;
         [SerializeField] private BuildGuideSystem _buildGuideSystem;
         [SerializeField] private TimeSystem _timeSystem;
         [SerializeField] private EventSystem _eventSystem;
@@ -39,12 +41,10 @@ namespace Afterlife.Dev
         [SerializeField] private WorldVisible _worldVisiblePrefab;
         [SerializeField] private CitizenVisible _citizenVisiblePrefab;
         [SerializeField] private EnemyVisible _enemyVisiblePrefab;
-        [SerializeField] private HouseVisible _houseVisiblePrefab;
+        [SerializeField] private BuildingVisible _houseVisiblePrefab;
         [SerializeField] private ResourceVisible _treeVisiblePrefab;
         [Space(10)]
-        [SerializeField] private CitizenVisible _citizenVisible;
-        // [SerializeField] private CitizenData _citizenData;
-        [SerializeField] private EnemyVisible _enemyVisible;
+        [SerializeField] private CitizenData _citizenData;
         [SerializeField] private EnemyData _enemyData;
         [SerializeField] private BuildingData _houseData;
         [SerializeField] private ResourceData _treeData;
@@ -53,15 +53,14 @@ namespace Afterlife.Dev
         private WorldSystem _worldSystem;
         private WorldRepository _worldRepository;
         private WorldVisible _worldVisible;
+        private ObjectRepository _objectRepository;
 
         protected override void CreateObjects()
         {
             _worldSystem = new();
             _worldRepository = new();
             _worldVisible = Instantiate(_worldVisiblePrefab);
-            // 오브젝트 생성 흐름:
-            // 오브젝트 모델 생성 및 저장 -> 오브젝트 Visible 생성 -> 바인딩
-            // 오브젝트 == 건물: 필드 그리드 적용, 네비게이션 빌드
+            _objectRepository = new();
         }
 
         protected override void InitializeObjects()
@@ -80,11 +79,13 @@ namespace Afterlife.Dev
                 _buildMode,
                 _worldSystem,
                 _worldRepository,
-                _buildSystem,
+                _objectSpawnSystem,
+                _objectRepository,
                 _buildGuideSystem,
                 _timeSystem,
                 _eventSystem,
-                _gameResultSystem
+                _gameResultSystem,
+                _objectSystem
             );
             _container.AddInjectee(
             );
@@ -92,7 +93,6 @@ namespace Afterlife.Dev
 
             _buildMode.OnConfirmed += (position, objectVisiblePrefab, mode, sender) =>
             {
-                _buildSystem.TryBuild(position, objectVisiblePrefab, _houseData, out var objectVisible);
                 _modeSystem.Select<SelectionMode>();
             };
             _buildMode.OnCanceled += (position, objectVisible, mode, sender) =>
@@ -101,8 +101,8 @@ namespace Afterlife.Dev
             };
 
             _worldSystem.OnWorldGeneratedAsync += _worldVisible.Render;
-            _buildSystem.OnBuilt += (objectVisible, buildSystem, sender) => { if (objectVisible.Size != Vector2Int.zero) _worldVisible.BuildNavMesh(); };
-            _buildSystem.OnDemolished += (objectVisible, buildSystem, sender) => { if (objectVisible.Size != Vector2Int.zero) _worldVisible.BuildNavMesh(); };
+            _objectSpawnSystem.OnBuilt += (ov, shouldBuildNavMesh, system, sender) => { if (shouldBuildNavMesh) _worldVisible.BuildNavMesh(); };
+            _objectSpawnSystem.OnDemolished += (ov, shouldBuildNavMesh, system, sender) => { if (shouldBuildNavMesh) _worldVisible.BuildNavMesh(); };
 
             _gameResultSystem.OnGameClearEvent += () => Debug.Log("게임 클리어");
             _gameResultSystem.OnGameOverEvent += () => Debug.Log("게임 오버");
@@ -112,53 +112,71 @@ namespace Afterlife.Dev
         {
             var world = await GenerateWorld();
 
-            _buildSystem.SetUp();
+            _objectSpawnSystem.SetUp();
 
             // * 게임 이벤트 생성 및 등록
             {
                 var enemySpawnEvent = new EnemySpawnEvent(5, _enemyVisiblePrefab);
                 _container.Inject(enemySpawnEvent);
-                // _eventSystem.Register(enemySpawnEvent);
             }
 
             // * 필드 오브젝트 생성 및 초기화
             var worldMap = world.WorldMap;
-            var worldMapSize = worldMap.Size;
             var passablePositions = worldMap.GetPassablePositions(Vector2Int.one);
 
             var housePassablePositions = worldMap.GetPassablePositions(_houseData.Size);
             var housePosition = SamplePassablePosition(housePassablePositions);
-            if (_buildSystem.TryBuild(housePosition, _houseVisiblePrefab, _houseData, out var houseVisible))
+            if (_objectSpawnSystem.TrySpawn(housePosition, _houseVisiblePrefab, _houseData, id => new Building(id), out var house, out var houseVisible))
             {
-                houseVisible.FinishBuild();
-                _gameResultSystem.RegisterHouse(houseVisible);
+                house.FinishBuild();
+                _gameResultSystem.RegisterHouse(house);
             }
 
             var treePosition = SamplePassablePosition(passablePositions);
-            if (_buildSystem.TryBuild(treePosition, _treeVisiblePrefab, _treeData, out var tree))
+            if (_objectSpawnSystem.TrySpawn(treePosition, _treeVisiblePrefab, _treeData, id => new Resource(id), out var tree, out var treeVisible))
             {
-                tree.OnHarvested += (resourcePrefab, resourceVisible, sender) => _buildSystem.Demolish(resourceVisible);
+                tree.OnHarvested += (harvestResultInfo, r, s) => _objectSpawnSystem.Despawn(r);
             }
 
             // * 시민 생성 및 초기화
+            // TODO: 편의 메소드 필요
             var citizenPosition = SamplePassablePosition(passablePositions);
-            _citizenVisible = Instantiate(_citizenVisiblePrefab, (Vector2)citizenPosition, Quaternion.identity);
-            _container.Inject(_citizenVisible);
-            _citizenVisible.IsPassable += world.WorldMap.IsPassable;
-            _citizenVisible.GetAllInfluencedPositions += world.WorldMap.GetAllInfluencedPositions;
-            _citizenVisible.NavMeshAgent.Warp((Vector2)citizenPosition);
+            if (_objectSpawnSystem.TrySpawn(citizenPosition, _citizenVisiblePrefab, _citizenData, id => new Citizen(id), out var citizen, out var citizenVisible))
+            {
+                citizen.Wander.IsPassable = world.WorldMap.IsPassable;
+                citizen.Wander.GetTownZonePositions = world.WorldMap.GetTownZonePositions;
+                citizen.BuildingLocator.GetBuildings = _objectRepository.FindAll().OfType<Building>;
+
+                // 충돌 이벤트 → ObjectSystem 전달
+                citizenVisible.OnInteractionCollided += (collider, field, cv, sender) =>
+                {
+                    var other = _objectSystem.GetModel(collider.gameObject);
+                    if (other != null) _objectSystem.RegisterCollision(citizen, other);
+                };
+
+                citizen.OnHoldingsTaken += (woods, stones, c, s) => citizenVisible.TakeHoldings(woods, stones);
+                citizen.OnHoldingsDropped += (c, s) => citizenVisible.DropHoldings();
+                citizen.OnHoldingsReturned += (woods, stones, c, s) =>
+                {
+                    _player.Woods += woods;
+                    _player.Stones += stones;
+                    citizenVisible.DropHoldings();
+                };
+                citizen.OnDied += (a, o, s) => _objectSpawnSystem.Despawn(o);
+            }
 
             // * 적 생성 및 초기화
             var enemyPosition = SamplePassablePosition(passablePositions);
-            _enemyVisible = Instantiate(_enemyVisiblePrefab, (Vector2)enemyPosition, Quaternion.identity);
-            _container.Inject(_enemyVisible);
-            _enemyVisible.GetAllInfluencedPositions += world.WorldMap.GetAllInfluencedPositions;
-            _enemyVisible.OnDied += (attacker, ov, sender) =>
+            if (_objectSpawnSystem.TrySpawn(enemyPosition, _enemyVisiblePrefab, _enemyData, id => new Enemy(id), out var enemy, out var enemyVisible))
             {
-                if (ov is EnemyVisible enemyVisible)
-                    _player.Aetheron += enemyVisible.Aetheron;
-            };
-            _gameResultSystem.RegisterBoss(_enemyVisible);
+                enemy.Wander.GetTownZonePositions += world.WorldMap.GetTownZonePositions;
+                enemy.TargetScan.QueryObjects += _objectSystem.QueryObjects;
+                enemy.OnDied += (a, o, s) =>
+                {
+                    _player.Aetheron += enemy.Aetheron;
+                    _objectSpawnSystem.Despawn(o);
+                };
+            }
         }
 
         private async Awaitable<World.World> GenerateWorld()
@@ -186,7 +204,7 @@ namespace Afterlife.Dev
         {
             if (Input.GetKeyDown(KeyCode.C))
             {
-                _modeSystem.Select<BuildMode, BuildModeParam>(null, new BuildModeParam() { ObjectVisiblePrefab = _houseVisiblePrefab });
+                _modeSystem.Select<BuildMode, BuildModeParam>(null, new BuildModeParam() { Prefab = _houseVisiblePrefab });
             }
             else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.Escape))
             {
