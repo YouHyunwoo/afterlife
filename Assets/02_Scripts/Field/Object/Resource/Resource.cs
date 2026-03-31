@@ -47,7 +47,6 @@ namespace Afterlife.Dev.Field
         public void FinishHarvest()
         {
             var count = workers.Count;
-            Debug.Log("workers count: " + count);
             if (count > 0)
             {
                 int woodsBase = woods / count, woodsRem = woods % count;

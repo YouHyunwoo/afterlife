@@ -43,6 +43,7 @@ namespace Afterlife.Dev
         [SerializeField] private CitizenVisible _citizenVisiblePrefab;
         [SerializeField] private BuildingVisible _houseVisiblePrefab;
         [SerializeField] private ResourceVisible _treeVisiblePrefab;
+        [SerializeField] private ResourceVisible _rockVisiblePrefab;
         [Space(10)]
         [SerializeField] private CitizenData _citizenData;
         [SerializeField] private EnemyData _goblinData;
@@ -53,6 +54,10 @@ namespace Afterlife.Dev
         [SerializeField] private EnemyVisible _trollVisiblePrefab;
         [SerializeField] private BuildingData _houseData;
         [SerializeField] private ResourceData _treeData;
+        [SerializeField] private ResourceData _rockData;
+        [Header("Initial Scatter")]
+        [SerializeField] private int _initialTreeCount = 15;
+        [SerializeField] private int _initialRockCount = 10;
         #endregion
 
         private WorldSystem _worldSystem;
@@ -172,24 +177,21 @@ namespace Afterlife.Dev
                 house.OnDied += (_, o, __) => _objectSpawnSystem.Despawn(o);
             }
 
-            var treePosition = SamplePassablePosition(passablePositions);
-            if (_objectSpawnSystem.TrySpawn(treePosition, _treeVisiblePrefab, _treeData, id => new Resource(id), out var tree, out _))
+            for (var i = 0; i < _initialTreeCount; i++)
             {
-                tree.OnHarvested += (harvestResultInfo, r, s) => _objectSpawnSystem.Despawn(r);
+                if (passablePositions.Count == 0) break;
+                var pos = SamplePassablePosition(passablePositions);
+                if (_objectSpawnSystem.TrySpawn(pos, _treeVisiblePrefab, _treeData, id => new Resource(id), out var tree, out _))
+                    tree.OnHarvested += (_, r, __) => _objectSpawnSystem.Despawn(r);
             }
 
-            // * 적 생성 및 초기화 (테스트용 — 웨이브 시스템 사용 시 주석 처리)
-            // var enemyPosition = SamplePassablePosition(passablePositions);
-            // if (_objectSpawnSystem.TrySpawn(enemyPosition, _orcVisiblePrefab, _orcData, id => new Enemy(id), out var enemy, out var enemyVisible))
-            // {
-            //     enemy.Wander.GetTownZonePositions += world.WorldMap.GetTownZonePositions;
-            //     enemy.TargetScan.QueryObjects += _objectSystem.QueryObjects;
-            //     enemy.OnDied += (a, o, s) =>
-            //     {
-            //         _player.Aetheron += enemy.Aetheron;
-            //         _objectSpawnSystem.Despawn(o);
-            //     };
-            // }
+            for (var i = 0; i < _initialRockCount; i++)
+            {
+                if (passablePositions.Count == 0) break;
+                var pos = SamplePassablePosition(passablePositions);
+                if (_objectSpawnSystem.TrySpawn(pos, _rockVisiblePrefab, _rockData, id => new Resource(id), out var rock, out _))
+                    rock.OnHarvested += (_, r, __) => _objectSpawnSystem.Despawn(r);
+            }
 
             var cameraPosition = houseVisible.transform.position;
             cameraPosition.z = Camera.main.transform.position.z;

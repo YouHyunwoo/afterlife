@@ -67,7 +67,6 @@ namespace Afterlife.Dev.Field
 
         public void TakeHoldings(int woods, int stones)
         {
-            Debug.Log("???");
             holdingWoods += woods;
             holdingStones += stones;
             OnHoldingsTaken?.Invoke(woods, stones, this, this);

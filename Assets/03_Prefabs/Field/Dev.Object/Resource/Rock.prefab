@@ -54,28 +54,44 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2594817080950174413, guid: 55380ec15d0af2c40badcc17ae876a3f, type: 3}
       propertyPath: m_Size.x
-      value: 0.67
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 2594817080950174413, guid: 55380ec15d0af2c40badcc17ae876a3f, type: 3}
       propertyPath: m_Size.y
-      value: 1
+      value: 0.54
       objectReference: {fileID: 0}
     - target: {fileID: 2594817080950174413, guid: 55380ec15d0af2c40badcc17ae876a3f, type: 3}
       propertyPath: m_Offset.x
-      value: -0.01
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2594817080950174413, guid: 55380ec15d0af2c40badcc17ae876a3f, type: 3}
       propertyPath: m_Offset.y
-      value: 0.35
+      value: 0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 2594817080950174413, guid: 55380ec15d0af2c40badcc17ae876a3f, type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.x
+      value: 0.49892125
+      objectReference: {fileID: 0}
+    - target: {fileID: 2594817080950174413, guid: 55380ec15d0af2c40badcc17ae876a3f, type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.y
+      value: 0.31337646
+      objectReference: {fileID: 0}
+    - target: {fileID: 2594817080950174413, guid: 55380ec15d0af2c40badcc17ae876a3f, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2594817080950174413, guid: 55380ec15d0af2c40badcc17ae876a3f, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7737854465282185860, guid: 55380ec15d0af2c40badcc17ae876a3f, type: 3}
       propertyPath: m_Name
-      value: Tree
+      value: Rock
       objectReference: {fileID: 0}
     - target: {fileID: 7772550103581826489, guid: 55380ec15d0af2c40badcc17ae876a3f, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -6861365922197683907, guid: 9c2942b6e332fa440b3d71769ac31899, type: 3}
+      objectReference: {fileID: 21300000, guid: 53f8abb4b145b6f4490cbfa44f66ca5c, type: 3}
     - target: {fileID: 7772550103581826489, guid: 55380ec15d0af2c40badcc17ae876a3f, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1

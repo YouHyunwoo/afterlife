@@ -585,6 +585,7 @@ MonoBehaviour:
   _citizenVisiblePrefab: {fileID: -2478835091467415505, guid: 4a17b78819b59824fab559e1aca29d1a, type: 3}
   _houseVisiblePrefab: {fileID: 8481876388257436325, guid: 22e70eaf3ff577242bbc28cf55b45d12, type: 3}
   _treeVisiblePrefab: {fileID: 900346423869797619, guid: 8c41f37aac4d4f040891ded86fe3518c, type: 3}
+  _rockVisiblePrefab: {fileID: 900346423869797619, guid: 461afd20e57390e43967f00c04c808cc, type: 3}
   _citizenData: {fileID: 11400000, guid: 30fb6bcff69ac974b8718e77511e268b, type: 2}
   _goblinData: {fileID: 11400000, guid: 3df7c24cf33f0a446bb66f33e07237de, type: 2}
   _orcData: {fileID: 11400000, guid: 9e1804015ff3bc04b94fac52034e1e24, type: 2}
@@ -594,6 +595,9 @@ MonoBehaviour:
   _trollVisiblePrefab: {fileID: 1177827184402940991, guid: 8c360e8885307dc4a8ceabfc52e1802a, type: 3}
   _houseData: {fileID: 11400000, guid: 81125d69814c84343a5d7e4014ca174d, type: 2}
   _treeData: {fileID: 11400000, guid: ce8f3360505080c468f5195a1787b550, type: 2}
+  _rockData: {fileID: 11400000, guid: 5ccbc5e950ac01349be3aa7a3b4280bf, type: 2}
+  _initialTreeCount: 15
+  _initialRockCount: 10
 --- !u!1 &1337877828
 GameObject:
   m_ObjectHideFlags: 0
