@@ -1,22 +1,10 @@
-using System;
 using UnityEngine;
 
 namespace Afterlife.Dev.Field
 {
-    public class BuildingVisible : ObjectVisible
+    public class BuildingVisible : ObjectVisible<Building>
     {
         protected Transform previewTransform;
-        protected float townAreaInfluenceRadius;
-        protected float baseBuildSpeed;
-        protected float buildSpeed;
-        protected float elapsedTime;
-        protected BuildingState state;
-        protected bool isBuilt;
-
-        public float TownAreaInfluenceRadius => townAreaInfluenceRadius;
-        public bool IsBuilt => isBuilt;
-
-        public event Action<BuildingVisible, object> OnBuilt;
 
         protected override void OnDrawGizmos()
         {
@@ -24,70 +12,34 @@ namespace Afterlife.Dev.Field
 
             var pos = transform.position;
             Gizmos.color = Color.white;
+            var state = @object.BuildingState;
+            var buildRate = @object.BuildRate;
 #if UNITY_EDITOR
             UnityEditor.Handles.Label(pos + Vector3.up * 1.5f, state.ToString());
-            if (state == BuildingState.Building && elapsedTime < 1f)
-                Gizmos.DrawCube(pos + Vector3.up * 2f + Vector3.right * (-1f + elapsedTime), new Vector3(elapsedTime * 2f, 0.2f));
+            if (state == BuildingState.Building && buildRate < 1f)
+                Gizmos.DrawCube(pos + Vector3.up * 2f + Vector3.right * (-1f + buildRate), new Vector3(buildRate * 2f, 0.2f));
 #endif
         }
+
         protected override void OnInitialize()
         {
             base.OnInitialize();
             previewTransform = transform.Find("Root").Find("Preview");
-            state = BuildingState.Building;
         }
 
-        public override void SetData(ObjectData data)
+        public void SetMode(BuildingMode mode)
         {
-            base.SetData(data);
-
-            if (data is BuildingData buildingData)
+            switch (mode)
             {
-                townAreaInfluenceRadius = buildingData.TownAreaInfluenceRadius;
-                buildSpeed = baseBuildSpeed = buildingData.BuildSpeed;
+                case BuildingMode.Preview:
+                    spriteRenderer.gameObject.SetActive(false);
+                    previewTransform.gameObject.SetActive(true);
+                    break;
+                case BuildingMode.Normal:
+                    spriteRenderer.gameObject.SetActive(true);
+                    previewTransform.gameObject.SetActive(false);
+                    break;
             }
-        }
-
-        protected virtual void Update()
-        {
-            if (state == BuildingState.Building)
-            {
-                elapsedTime += Time.deltaTime * buildSpeed;
-                if (elapsedTime >= 1f)
-                    FinishBuild();
-            }
-        }
-
-        public virtual void FinishBuild()
-        {
-            state = BuildingState.Built;
-            isBuilt = true;
-            SetNormalMode();
-            OnBuilt?.Invoke(this, this);
-        }
-
-        public void SetPreviewMode()
-        {
-            state = BuildingState.Preview;
-            spriteRenderer.gameObject.SetActive(false);
-            previewTransform.gameObject.SetActive(true);
-        }
-
-        public void SetNormalMode()
-        {
-            state = isBuilt ? BuildingState.Built : BuildingState.Building;
-            spriteRenderer.gameObject.SetActive(true);
-            previewTransform.gameObject.SetActive(false);
-        }
-
-        public void AttachCitizen(CitizenVisible citizenVisible)
-        {
-            buildSpeed += 0.2f;
-        }
-
-        public void DetachCitizen(CitizenVisible citizenVisible)
-        {
-            buildSpeed -= 0.2f;
         }
     }
 }
