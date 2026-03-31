@@ -158,6 +158,10 @@ PrefabInstance:
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Afterlife.Dev.Field.BuildingVisible, DefaultAssemblyDefinition
       objectReference: {fileID: 0}
+    - target: {fileID: 1187291070506634217, guid: 792baacbbde253c43a25b59c6f88c274, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1921961977004767323, guid: 792baacbbde253c43a25b59c6f88c274, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -196,6 +200,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1921961977004767323, guid: 792baacbbde253c43a25b59c6f88c274, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5586610532601395914, guid: 792baacbbde253c43a25b59c6f88c274, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7303532817217636153, guid: 792baacbbde253c43a25b59c6f88c274, type: 3}
@@ -237,9 +245,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 975049d3289bab649a49975773e88987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 0}
-  health: 0
-  maxHealth: 0
 --- !u!61 &-3175323866537641371
 BoxCollider2D:
   m_ObjectHideFlags: 0

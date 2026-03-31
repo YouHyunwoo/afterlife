@@ -7,5 +7,6 @@ namespace Afterlife.Dev.Field
         Harvest,
         Build,
         Fight,
+        Return,
     }
 }

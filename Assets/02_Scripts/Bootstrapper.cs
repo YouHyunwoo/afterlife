@@ -110,9 +110,10 @@ namespace Afterlife.Dev
                 {
                     if (_objectSpawnSystem.TrySpawn(position, prefab, buildParam.Data, id => new Building(id), out var building, out var buildingVisible))
                     {
-                        building.FinishBuild();
-                        _gameResultSystem.RegisterHouse(building);
+                        building.OnModeChanged += (mode, building, _) => buildingVisible.SetMode(mode.BuildingMode);
                         building.OnDied += (_, o, __) => _objectSpawnSystem.Despawn(o);
+                        building.SetMode(BuildingMode.Preview);
+                        _gameResultSystem.RegisterHouse(building);
                     }
                 }
                 _modeSystem.Select<SelectionMode>();
@@ -172,9 +173,10 @@ namespace Afterlife.Dev
             var housePosition = SamplePassablePosition(housePassablePositions);
             if (_objectSpawnSystem.TrySpawn(housePosition, _houseVisiblePrefab, _houseData, id => new Building(id), out var house, out var houseVisible))
             {
+                house.OnModeChanged += (m, _, _) => houseVisible.SetMode(m.BuildingMode);
+                house.OnDied += (_, o, __) => _objectSpawnSystem.Despawn(o);
                 house.FinishBuild();
                 _gameResultSystem.RegisterHouse(house);
-                house.OnDied += (_, o, __) => _objectSpawnSystem.Despawn(o);
             }
 
             for (var i = 0; i < _initialTreeCount; i++)

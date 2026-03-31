@@ -20,6 +20,7 @@ namespace Afterlife.Dev.Field
         public float AttackRange => attackRange;
         public float AttackInterval => attackInterval;
         public string StateName => stateMachine?.CurrentState?.GetType().Name ?? "None";
+        public bool HasHoldings => holdingWoods > 0 || holdingStones > 0;
 
         public WanderComponent Wander { get; } = new();
         public BuildingLocatorComponent BuildingLocator { get; } = new();
@@ -74,12 +75,18 @@ namespace Afterlife.Dev.Field
 
         public void DropHoldings()
         {
+            holdingWoods = 0;
+            holdingStones = 0;
             OnHoldingsDropped?.Invoke(this, this);
         }
 
         public void ReturnHoldings()
         {
-            OnHoldingsReturned?.Invoke(holdingWoods, holdingStones, this, this);
+            var holdingWoodsToBeReturn = holdingWoods;
+            var holdingStonesToBeReturn = holdingStones;
+            holdingWoods = 0;
+            holdingStones = 0;
+            OnHoldingsReturned?.Invoke(holdingWoodsToBeReturn, holdingStonesToBeReturn, this, this);
         }
 
         public void DoCommand(CommandType command, object[] args = null)
@@ -103,6 +110,10 @@ namespace Afterlife.Dev.Field
             {
                 if (args == null || args.Length != 1) return;
                 stateMachine.Transit("chase", null, new object[] { args[0] });
+            }
+            else if (command == CommandType.Return)
+            {
+                stateMachine.Transit("return");
             }
         }
     }

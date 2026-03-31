@@ -20,7 +20,7 @@ namespace Afterlife.Dev.Field
             var hits = Physics2D.RaycastAll(worldPoint, Vector2.zero);
             foreach (var hit in hits)
             {
-                if (hit.collider.name != "Body") continue;
+                if (hit.collider.name != "Body" && hit.collider.name != "Preview") continue;
                 var rootObjectVisible = hit.collider.GetComponentInParent<ObjectVisible>();
                 if (rootObjectVisible == null) continue;
                 objectVisible = rootObjectVisible;

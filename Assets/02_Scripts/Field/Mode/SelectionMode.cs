@@ -61,10 +61,32 @@ namespace Afterlife.Dev.Field
                 }
                 else if (selectedObjectVisible is BuildingVisible buildingVisible)
                 {
+                    var building = buildingVisible.Object;
                     foreach (var objectVisible in _objectVisibles)
                     {
                         if (objectVisible is not CitizenVisible citizenVisible) continue;
-                        citizenVisible.Object.DoCommand(CommandType.Build, new object[] { buildingVisible.Object });
+                        if (building.BuildingType == BuildingType.House && building.IsBuilt)
+                        {
+                            if (citizenVisible.Object.HasHoldings)
+                            {
+                                citizenVisible.Object.DoCommand(CommandType.Return);
+                            }
+                            else
+                            {
+                                var angle = UnityEngine.Random.Range(0f, Mathf.PI * 2f);
+                                var radius = UnityEngine.Random.Range(0f, building.TownZoneRadius);
+                                var randomPos = building.Position + new Vector3(
+                                    Mathf.Cos(angle) * radius,
+                                    Mathf.Sin(angle) * radius,
+                                    0f
+                                );
+                                citizenVisible.Object.DoCommand(CommandType.Move, new object[] { randomPos });
+                            }
+                        }
+                        else
+                        {
+                            citizenVisible.Object.DoCommand(CommandType.Build, new object[] { building });
+                        }
                     }
                 }
                 else if (selectedObjectVisible is EnemyVisible enemyVisible)

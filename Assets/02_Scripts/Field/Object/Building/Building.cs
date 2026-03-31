@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Afterlife.Dev.Field
 {
@@ -13,7 +14,7 @@ namespace Afterlife.Dev.Field
         protected float buildSpeed;
         protected float buildRate;
         protected BuildingState state = BuildingState.Building;
-        protected BuildingMode mode = BuildingMode.Preview;
+        protected BuildingMode mode = BuildingMode.Normal;
         protected readonly List<Citizen> workers = new();
 
         public BuildingType BuildingType => buildingType;
@@ -45,13 +46,13 @@ namespace Afterlife.Dev.Field
             if (buildRate >= 1f) return;
 
             var canBuild = (
-                mode == BuildingMode.Normal &&
+                mode == BuildingMode.Preview &&
                 state == BuildingState.Building
             );
 
             if (canBuild)
             {
-                buildRate += deltaTime * buildSpeed; // TODO: Duration으로 해야하나?
+                buildRate += deltaTime * buildSpeed;
                 if (buildRate >= 1f)
                     FinishBuild();
             }
@@ -59,7 +60,9 @@ namespace Afterlife.Dev.Field
 
         public void FinishBuild()
         {
+            buildRate = 1f;
             state = BuildingState.Built;
+            SetMode(BuildingMode.Normal);
             OnBuilt?.Invoke(this, this);
         }
 
