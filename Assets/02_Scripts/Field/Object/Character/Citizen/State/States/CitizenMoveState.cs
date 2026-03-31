@@ -7,18 +7,16 @@ namespace Afterlife.Dev.Field
     {
         private bool _isCommand;
 
-        public CitizenMoveState(string stateId) : base(stateId)
-        {
-        }
+        public CitizenMoveState(string stateId) : base(stateId) { }
 
         protected override void OnEnter(object[] args)
         {
             if (args == null || args.Length != 1)
             {
                 _isCommand = false;
-                if (FindRandomDestinationInTown(out var destination))
+                if (model.Wander.FindRandomDestination(out var destination))
                 {
-                    visible.StartMovement(destination);
+                    model.Movement.Destination = destination;
                 }
                 else
                 {
@@ -29,49 +27,19 @@ namespace Afterlife.Dev.Field
             {
                 _isCommand = true;
                 var destination = (Vector3)args[0];
-                visible.StartMovement(destination);
+                model.Movement.Destination = destination;
             }
         }
 
         protected override void OnUpdate()
         {
-            if (visible.HasReachedDestination())
+            if (model.Movement.HasArrived)
             {
                 if (_isCommand)
                     Transit("idle", null, new object[] { TimeSpan.FromSeconds(10) });
                 else
                     Transit("idle");
             }
-        }
-
-        private bool FindRandomDestinationInTown(out Vector3 destination)
-        {
-            var positions = context.GetAllInfluencedPositions();
-
-            if (positions == null || positions.Count == 0)
-            {
-                destination = visible.transform.position;
-                return false;
-            }
-
-            while (positions.Count > 0)
-            {
-                var index = UnityEngine.Random.Range(0, positions.Count);
-                var candidate = positions[index];
-                positions.RemoveAt(index);
-
-                var cell = new Vector2Int(Mathf.RoundToInt(candidate.x), Mathf.RoundToInt(candidate.y));
-                var size = Vector2Int.one;
-
-                if (context.IsPassable(cell, size))
-                {
-                    destination = (Vector2)candidate;
-                    return true;
-                }
-            }
-
-            destination = visible.transform.position;
-            return false;
         }
     }
 }

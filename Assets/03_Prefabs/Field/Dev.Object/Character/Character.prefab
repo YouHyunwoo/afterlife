@@ -182,9 +182,6 @@ PrefabInstance:
       addedObject: {fileID: 7903654026993549246}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7303532817217636153, guid: 792baacbbde253c43a25b59c6f88c274, type: 3}
-      insertIndex: 1
-      addedObject: {fileID: 8499239367354874927}
-    - targetCorrespondingSourceObject: {fileID: 7303532817217636153, guid: 792baacbbde253c43a25b59c6f88c274, type: 3}
       insertIndex: -1
       addedObject: {fileID: 67348253112083517}
     - targetCorrespondingSourceObject: {fileID: 7303532817217636153, guid: 792baacbbde253c43a25b59c6f88c274, type: 3}
@@ -204,21 +201,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7303532817217636153, guid: 792baacbbde253c43a25b59c6f88c274, type: 3}
   m_PrefabInstance: {fileID: 3114366205351220041}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8499239367354874927
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5648411095251719280}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68ac4a1f6c975924282e2ae9bca436bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  data: {fileID: 0}
-  health: 0
-  maxHealth: 0
 --- !u!195 &67348253112083517
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -229,10 +211,10 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 1
+  m_Acceleration: 100
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 360
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1

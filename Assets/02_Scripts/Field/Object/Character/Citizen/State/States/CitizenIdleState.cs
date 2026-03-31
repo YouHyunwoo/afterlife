@@ -6,21 +6,16 @@ namespace Afterlife.Dev.Field
     public class CitizenIdleState : CitizenState
     {
         private const float WanderCheckInterval = 1f;
-        private float _wanderStateTransitionRate;
+        private float _wanderStateTransitionRate = 0.5f;
         private float _nextWanderCheckTime;
         private float _wanderingDisabledUntil;
 
-        public CitizenIdleState(string stateId) : base(stateId)
-        {
-        }
-
-        protected override void OnInitialize()
-        {
-            _wanderStateTransitionRate = 0.5f;
-        }
+        public CitizenIdleState(string stateId) : base(stateId) { }
 
         protected override void OnEnter(object[] args)
         {
+            model.Movement.ShouldStop = true;
+
             _nextWanderCheckTime = Time.time + WanderCheckInterval;
             _wanderingDisabledUntil = 0f;
 

@@ -4,14 +4,14 @@ using UnityEngine.AI;
 
 namespace Afterlife.Dev.Field
 {
-    public class CharacterVisible : ObjectVisible
+    public class CharacterVisible<TObject> : ObjectVisible<TObject> where TObject : Object
     {
         protected NavMeshAgent navMeshAgent;
         protected CollisionField interactionCollisionField;
 
         public NavMeshAgent NavMeshAgent => navMeshAgent;
 
-        public event Action<Collider2D, CollisionField, CharacterVisible, object> OnInteractionCollided;
+        public event Action<Collider2D, CollisionField, CharacterVisible<TObject>, object> OnInteractionCollided;
 
         protected override void OnInitialize()
         {
@@ -34,14 +34,10 @@ namespace Afterlife.Dev.Field
         }
 
         public void StartMovement(Vector3 destination)
-        {
-            navMeshAgent.SetDestination(destination);
-        }
+            => navMeshAgent.SetDestination(destination);
 
         public void StopMovement()
-        {
-            navMeshAgent.SetDestination(transform.position);
-        }
+            => navMeshAgent.SetDestination(transform.position);
 
         public bool HasReachedDestination()
         {

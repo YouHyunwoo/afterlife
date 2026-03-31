@@ -1,60 +1,36 @@
-using UnityEngine;
-
 namespace Afterlife.Dev.Field
 {
     public class CitizenBuildState : CitizenState
     {
-        private BuildingVisible _targetVisible;
-        private bool _isAttached;
+        private Building _target;
 
-        public CitizenBuildState(string stateId) : base(stateId)
-        {
-        }
+        public CitizenBuildState(string stateId) : base(stateId) { }
 
         protected override void OnEnter(object[] args)
         {
-            if (args == null || args.Length != 1)
-            {
-                Transit("idle");
-            }
-            else
-            {
-                visible.OnInteractionCollided += HandleInteractionCollided;
-                visible.RefreshInteractionCollisionField();
+            _target = (Building)args[0];
+            model.Movement.Destination = _target.Position;
+            model.Collision.NeedsRefresh = true;
+            _target.OnBuilt += HandleBuilt;
+        }
 
-                _targetVisible = (BuildingVisible)args[0];
-                _targetVisible.OnBuilt += HandleBuilt;
-                visible.StartMovement(_targetVisible.transform.position);
+        protected override void OnUpdate()
+        {
+            if (model.Collision.Entered == _target && !_target.IsBuilt)
+            {
+                model.Movement.ShouldStop = true;
+                _target.AddWorker(model);
             }
         }
 
         protected override void OnExit(object[] args)
         {
-            if (_isAttached)
-            {
-                _targetVisible.DetachCitizen(visible);
-                _isAttached = false;
-            }
-            _targetVisible.OnBuilt -= HandleBuilt;
-            visible.OnInteractionCollided -= HandleInteractionCollided;
+            _target.RemoveWorker(model);
+            _target.OnBuilt -= HandleBuilt;
         }
 
-        private void HandleInteractionCollided(Collider2D collider, CollisionField collisionField, CharacterVisible characterVisible, object sender)
+        private void HandleBuilt(Building building, object sender)
         {
-            if (_targetVisible.transform == collider.transform)
-            {
-                if (!_targetVisible.IsBuilt)
-                {
-                    visible.StopMovement();
-                    _isAttached = true;
-                    _targetVisible.AttachCitizen(visible);
-                }
-            }
-        }
-
-        private void HandleBuilt(BuildingVisible buildingVisible, object sender)
-        {
-            visible.StopMovement();
             Transit("idle");
         }
     }

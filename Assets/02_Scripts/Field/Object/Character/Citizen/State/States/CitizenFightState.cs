@@ -4,55 +4,38 @@ namespace Afterlife.Dev.Field
 {
     public class CitizenFightState : CitizenState
     {
-        private EnemyVisible _targetVisible;
+        private Enemy _target;
         private float _nextAttackTime;
 
-        public CitizenFightState(string stateId) : base(stateId)
-        {
-        }
+        public CitizenFightState(string stateId) : base(stateId) { }
 
         protected override void OnEnter(object[] args)
         {
-            if (args == null || args.Length != 1)
-            {
-                Transit("idle");
-            }
-            else
-            {
-                visible.StopMovement();
-                _targetVisible = (EnemyVisible)args[0];
-                _nextAttackTime = Time.time + visible.AttackInterval;
-            }
+            _target = (Enemy)args[0];
+            model.Movement.ShouldStop = true;
+            _nextAttackTime = Time.time + model.AttackInterval;
         }
 
         protected override void OnUpdate()
         {
-            if (_targetVisible == null
-                || !_targetVisible.gameObject.activeInHierarchy)
+            if (_target == null || !_target.IsAlive)
             {
                 Transit("idle");
                 return;
             }
 
-            bool hasValidTarget = Vector2.Distance(visible.transform.position, _targetVisible.transform.position) <= visible.AttackRange;
-
-            if (!hasValidTarget)
+            var distance = Vector3.Distance(model.Position, _target.Position);
+            if (distance > model.AttackRange)
             {
-                Transit("chase", null, new object[] { _targetVisible });
+                Transit("chase", null, new object[] { _target });
                 return;
             }
 
             if (Time.time >= _nextAttackTime)
             {
-                Attack(_targetVisible.transform);
-                _nextAttackTime = Time.time + visible.AttackInterval;
+                _target.TakeDamage(model.AttackPower, model);
+                _nextAttackTime = Time.time + model.AttackInterval;
             }
-        }
-
-        private void Attack(Transform target)
-        {
-            if (target.TryGetComponent<IDamageable>(out var damageable))
-                damageable.TakeDamage(visible.AttackPower, visible);
         }
     }
 }

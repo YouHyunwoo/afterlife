@@ -39,6 +39,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 67348253112083517, guid: 29fbb70c0cc8890418c0ea7bfa2d5b14, type: 3}
+      propertyPath: m_Speed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 550861954402217888, guid: 29fbb70c0cc8890418c0ea7bfa2d5b14, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.5
@@ -101,6 +105,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8499239367354874927, guid: 29fbb70c0cc8890418c0ea7bfa2d5b14, type: 3}
+    - {fileID: 6139118503226193763, guid: 29fbb70c0cc8890418c0ea7bfa2d5b14, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6911420883162323201, guid: 29fbb70c0cc8890418c0ea7bfa2d5b14, type: 3}
@@ -133,13 +138,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5461d9bcd1a7b6c4e8d5c9fb2e7da180, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 0}
-  health: 10
-  maxHealth: 0
-  attackPower: 1
-  attackRange: 2
-  attackInterval: 1
-  _townAreaSystem: {fileID: 0}
-  _gridSystem: {fileID: 0}
-  _buildSystem: {fileID: 0}
-  _player: {fileID: 0}
+  _woodHoldingPrefab: {fileID: 8220951028531746144, guid: d03831592b4cfde488816fecff65bbe8, type: 3}
+  _stoneHoldingPrefab: {fileID: 8220951028531746144, guid: b6b329ddd9f351e479d57623b915875e, type: 3}

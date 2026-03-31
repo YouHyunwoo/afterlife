@@ -4,39 +4,32 @@ namespace Afterlife.Dev.Field
 {
     public class CitizenChaseState : CitizenState
     {
-        private EnemyVisible _targetVisible;
+        private Enemy _target;
 
-        public CitizenChaseState(string stateId) : base(stateId)
-        {
-        }
+        public CitizenChaseState(string stateId) : base(stateId) { }
 
         protected override void OnEnter(object[] args)
         {
-            if (args == null || args.Length != 1)
-            {
-                Transit("idle");
-            }
-            else
-            {
-                _targetVisible = (EnemyVisible)args[0];
-                visible.StartMovement(_targetVisible.transform.position);
-            }
+            _target = (Enemy)args[0];
+            model.Movement.Destination = _target.Position;
         }
 
         protected override void OnUpdate()
         {
-            if (_targetVisible != null)
+            if (_target == null)
             {
-                float dist = Vector2.Distance(visible.transform.position, _targetVisible.transform.position);
-                if (dist <= visible.AttackRange * 0.95f)
-                {
-                    Transit("fight", null, new object[] { _targetVisible });
-                    return;
-                }
+                Transit("idle");
+                return;
             }
 
-            if (_targetVisible != null)
-                visible.StartMovement(_targetVisible.transform.position);
+            float distance = Vector3.Distance(model.Position, _target.Position);
+            if (distance <= model.AttackRange * 0.95f)
+            {
+                Transit("fight", null, new object[] { _target });
+                return;
+            }
+
+            model.Movement.Destination = _target.Position;
         }
     }
 }

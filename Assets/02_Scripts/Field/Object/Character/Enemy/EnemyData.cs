@@ -9,5 +9,6 @@ namespace Afterlife.Dev.Field
         public float AttackPower = 1f;
         public float AttackRange = 1f;
         public float AttackInterval = 1f;
+        public int Aetheron = 1;
     }
 }
