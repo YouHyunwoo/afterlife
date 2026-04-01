@@ -28,6 +28,14 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 1416494979623566765, guid: 4a12308706fca3b428f580ad6d21d582, type: 3}
+      propertyPath: _sight.Range
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1416494979623566765, guid: 4a12308706fca3b428f580ad6d21d582, type: 3}
+      propertyPath: _sight.Intensity
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1667397277198665618, guid: 4a12308706fca3b428f580ad6d21d582, type: 3}
       propertyPath: m_Sprite
       value: 

@@ -35,10 +35,12 @@ namespace Afterlife.Dev.Field
                 case BuildingMode.Preview:
                     spriteRenderer.gameObject.SetActive(false);
                     previewTransform.gameObject.SetActive(true);
+                    SetFogLightActive(false);
                     break;
                 case BuildingMode.Normal:
                     spriteRenderer.gameObject.SetActive(true);
                     previewTransform.gameObject.SetActive(false);
+                    SetFogLightActive(true);
                     break;
             }
         }

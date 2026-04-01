@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Afterlife.Dev.World;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,7 +13,7 @@ namespace Afterlife.Dev.Field
         private readonly Dictionary<Object, Object> _frameCollisions = new();
         private readonly List<Object> _pendingUnregister = new();
 
-        private record CharacterEntry(Object Obj, NavMeshAgent Agent, System.Action RefreshCollider);
+        private record CharacterEntry(Object Obj, ObjectVisible Visible, NavMeshAgent Agent, System.Action RefreshCollider);
 
         public void Register(Object obj, ObjectVisible visible)
         {
@@ -22,7 +23,7 @@ namespace Afterlife.Dev.Field
 
         public void RegisterCharacter(Object obj, ObjectVisible visible, NavMeshAgent agent, System.Action refreshCollider)
         {
-            _characters.Add(new CharacterEntry(obj, agent, refreshCollider));
+            _characters.Add(new CharacterEntry(obj, visible, agent, refreshCollider));
             _goToModel[visible.gameObject] = obj;
         }
 
@@ -46,6 +47,28 @@ namespace Afterlife.Dev.Field
                 }
             }
             _pendingUnregister.Clear();
+        }
+
+        public void UpdateFogVisibility(FogLayer layer)
+        {
+            var cells = layer.Cells;
+            var width = cells.GetLength(0);
+            var height = cells.GetLength(1);
+
+            foreach (var (_, visible) in _objects)
+                ApplyFog(visible, cells, width, height);
+
+            foreach (var entry in _characters)
+                ApplyFog(entry.Visible, cells, width, height);
+        }
+
+        private static void ApplyFog(ObjectVisible visible, float[,] cells, int width, int height)
+        {
+            var pos = visible.transform.position;
+            var x = Mathf.FloorToInt(pos.x);
+            var y = Mathf.FloorToInt(pos.y);
+            if (x < 0 || y < 0 || x >= width || y >= height) return;
+            visible.SetFogAlpha(cells[x, y]);
         }
 
         // Bootstrapper에서 충돌 이벤트를 번역해 호출

@@ -142,5 +142,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5461d9bcd1a7b6c4e8d5c9fb2e7da180, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sight:
+    Location: {x: 0, y: 0}
+    Intensity: 3
+    Range: 5
+    IsActive: 1
   _woodHoldingPrefab: {fileID: 8220951028531746144, guid: d03831592b4cfde488816fecff65bbe8, type: 3}
   _stoneHoldingPrefab: {fileID: 8220951028531746144, guid: b6b329ddd9f351e479d57623b915875e, type: 3}

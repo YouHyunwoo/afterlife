@@ -28,6 +28,7 @@ namespace Afterlife.Dev
         [SerializeField] private TimeSystem _timeSystem;
         [SerializeField] private EventSystem _eventSystem;
         [SerializeField] private GameResultSystem _gameResultSystem;
+        [SerializeField] private FogSystem _fogSystem;
         [SerializeField] private WorldMapGenerationParameter _generationParameter;
         #endregion
 
@@ -99,7 +100,8 @@ namespace Afterlife.Dev
                 _timeSystem,
                 _eventSystem,
                 _gameResultSystem,
-                _objectSystem
+                _objectSystem,
+                _fogSystem
             );
             _container.AddInjectee(
             );
@@ -111,8 +113,9 @@ namespace Afterlife.Dev
                 {
                     if (_objectSpawnSystem.TrySpawn(position, prefab, buildParam.Data, id => new Building(id), out var building, out var buildingVisible))
                     {
+                        buildingVisible.BindFogSystem(_fogSystem);
                         building.OnModeChanged += (mode, building, _) => buildingVisible.SetMode(mode.BuildingMode);
-                        building.OnDied += (_, o, __) => _objectSpawnSystem.Despawn(o);
+                        building.OnDied += (_, o, __) => { buildingVisible.DetachFogLight(); _objectSpawnSystem.Despawn(o); };
                         building.SetMode(BuildingMode.Preview);
                         _gameResultSystem.RegisterHouse(building);
                     }
@@ -147,6 +150,8 @@ namespace Afterlife.Dev
                 _worldVisible.BuildNavMesh();
             };
 
+            _fogSystem.OnFogUpdated += layer => _objectSystem.UpdateFogVisibility(layer);
+
             _gameResultSystem.OnGameClearEvent += () => Debug.Log("게임 클리어");
             _gameResultSystem.OnGameOverEvent += () => Debug.Log("게임 오버");
         }
@@ -155,6 +160,7 @@ namespace Afterlife.Dev
         {
             _world = await GenerateWorld();
 
+            _fogSystem.Build(_world.WorldMap.Size);
             _cameraSystem.SetUp();
             _objectSpawnSystem.SetUp();
 
@@ -174,8 +180,9 @@ namespace Afterlife.Dev
             var housePosition = SamplePassablePosition(housePassablePositions);
             if (_objectSpawnSystem.TrySpawn(housePosition, _houseVisiblePrefab, _houseData, id => new Building(id), out var house, out var houseVisible))
             {
+                houseVisible.BindFogSystem(_fogSystem);
                 house.OnModeChanged += (m, _, _) => houseVisible.SetMode(m.BuildingMode);
-                house.OnDied += (_, o, __) => _objectSpawnSystem.Despawn(o);
+                house.OnDied += (_, o, __) => { houseVisible.DetachFogLight(); _objectSpawnSystem.Despawn(o); };
                 house.FinishBuild();
                 _gameResultSystem.RegisterHouse(house);
             }
@@ -223,6 +230,8 @@ namespace Afterlife.Dev
             if (!_objectSpawnSystem.TrySpawn(citizenPosition, _citizenVisiblePrefab, _citizenData,
                 id => new Citizen(id), out var citizen, out var citizenVisible)) return;
 
+            citizenVisible.BindFogSystem(_fogSystem);
+
             citizen.Wander.IsPassable = _world.WorldMap.IsPassable;
             citizen.Wander.GetTownZonePositions = _world.WorldMap.GetTownZonePositions;
             citizen.BuildingLocator.GetBuildings = _objectRepository.FindAll().OfType<Building>;
@@ -247,6 +256,7 @@ namespace Afterlife.Dev
             citizen.OnDied += (_, o, __) =>
             {
                 _houseCitizenPairs.Remove(house.Id);
+                citizenVisible.DetachFogLight();
                 _objectSpawnSystem.Despawn(o);
             };
         }

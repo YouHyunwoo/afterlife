@@ -24,6 +24,12 @@ namespace Afterlife.Dev.Field
             _holdingContainerTransform = transform.Find("Root").Find("Body").Find("Holdings");
         }
 
+        public override void BindFogSystem(FogSystem fogSystem)
+        {
+            base.BindFogSystem(fogSystem);
+            SetFogLightActive(true);
+        }
+
         public void TakeHoldings(int woods, int stones)
         {
             if (woods > 0)
