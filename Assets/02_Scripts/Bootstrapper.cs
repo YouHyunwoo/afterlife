@@ -66,6 +66,7 @@ namespace Afterlife.Dev
         private ObjectRepository _objectRepository;
         private World.World _world;
         private readonly Dictionary<string, Citizen> _houseCitizenPairs = new();
+        private bool isReady;
 
         protected override void CreateObjects()
         {
@@ -126,7 +127,7 @@ namespace Afterlife.Dev
             _worldSystem.OnWorldGeneratedAsync += _worldVisible.Render;
             _objectSpawnSystem.OnBuilt += (ov, shouldBuildNavMesh, system, sender) =>
             {
-                if (shouldBuildNavMesh) _worldVisible.BuildNavMesh();
+                if (isReady && shouldBuildNavMesh) _worldVisible.BuildNavMesh();
 
                 if (ov is BuildingVisible buildingVisible)
                 {
@@ -141,7 +142,7 @@ namespace Afterlife.Dev
             };
             _objectSpawnSystem.OnDemolished += async (ov, shouldBuildNavMesh, system, sender) =>
             {
-                if (!shouldBuildNavMesh) return;
+                if (!isReady || !shouldBuildNavMesh) return;
                 await Awaitable.EndOfFrameAsync(); // Destroy() is deferred — wait for GameObject to be removed before baking
                 _worldVisible.BuildNavMesh();
             };
@@ -194,6 +195,9 @@ namespace Afterlife.Dev
                 if (_objectSpawnSystem.TrySpawn(pos, _rockVisiblePrefab, _rockData, id => new Resource(id), out var rock, out _))
                     rock.OnHarvested += (_, r, __) => _objectSpawnSystem.Despawn(r);
             }
+
+            isReady = true;
+            _worldVisible.BuildNavMesh();
 
             var cameraPosition = houseVisible.transform.position;
             cameraPosition.z = Camera.main.transform.position.z;

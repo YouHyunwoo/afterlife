@@ -7,6 +7,7 @@ namespace Afterlife.Dev.Field
         protected override void OnDrawGizmos()
         {
             base.OnDrawGizmos();
+            if (@object == null) return;
 #if UNITY_EDITOR
             var stateName = @object.StateName;
             UnityEditor.Handles.Label(transform.position, $"State: {stateName}");

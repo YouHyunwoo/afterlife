@@ -22,7 +22,6 @@ namespace Afterlife.Dev.Field
             enabled = false;
         }
 
-
         protected override void OnSetUp()
         {
             var world = _worldRepository.FindAll().First();
