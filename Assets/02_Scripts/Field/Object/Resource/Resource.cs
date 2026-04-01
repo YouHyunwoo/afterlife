@@ -14,6 +14,7 @@ namespace Afterlife.Dev.Field
         protected float harvestSpeed;
         protected float harvestRate;
         protected readonly List<Citizen> workers = new();
+        protected bool isHarvesting;
 
         public int Woods => woods;
         public int Stones => stones;
@@ -37,6 +38,7 @@ namespace Afterlife.Dev.Field
 
         public override void Update(float deltaTime)
         {
+            if (!isHarvesting) return;
             if (harvestRate >= 1f) return;
 
             harvestRate += deltaTime * harvestSpeed;
@@ -71,6 +73,7 @@ namespace Afterlife.Dev.Field
             harvestSpeed += 1.2f; // TODO: citizen harvest speed
             workers.Add(citizen);
             OnWorkerAdded?.Invoke(new HarvestInfo(workers, harvestRate), this, this);
+            isHarvesting = true;
         }
 
         public void RemoveWorker(Citizen citizen)
@@ -78,6 +81,8 @@ namespace Afterlife.Dev.Field
             OnWorkerRemoved?.Invoke(new HarvestInfo(workers, harvestRate), this, this);
             workers.Remove(citizen);
             harvestSpeed -= 0.2f;
+            if (workers.Count <= 0)
+                isHarvesting = false;
         }
     }
 }
