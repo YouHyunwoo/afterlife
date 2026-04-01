@@ -8,6 +8,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 73159538029411385, guid: 29fbb70c0cc8890418c0ea7bfa2d5b14, type: 3}
+      propertyPath: m_Size.x
+      value: 0.73
+      objectReference: {fileID: 0}
+    - target: {fileID: 73159538029411385, guid: 29fbb70c0cc8890418c0ea7bfa2d5b14, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 73159538029411385, guid: 29fbb70c0cc8890418c0ea7bfa2d5b14, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 73159538029411385, guid: 29fbb70c0cc8890418c0ea7bfa2d5b14, type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 550861954402217888, guid: 29fbb70c0cc8890418c0ea7bfa2d5b14, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.974
+      objectReference: {fileID: 0}
     - target: {fileID: 3572583397817445138, guid: 29fbb70c0cc8890418c0ea7bfa2d5b14, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -70,7 +90,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6911420883162323201, guid: 29fbb70c0cc8890418c0ea7bfa2d5b14, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.343
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8499239367354874927, guid: 29fbb70c0cc8890418c0ea7bfa2d5b14, type: 3}

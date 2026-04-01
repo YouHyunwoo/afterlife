@@ -158,10 +158,6 @@ PrefabInstance:
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Afterlife.Dev.Field.BuildingVisible, DefaultAssemblyDefinition
       objectReference: {fileID: 0}
-    - target: {fileID: 1187291070506634217, guid: 792baacbbde253c43a25b59c6f88c274, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1921961977004767323, guid: 792baacbbde253c43a25b59c6f88c274, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
