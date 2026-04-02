@@ -13,6 +13,8 @@ namespace Afterlife.Dev.Field
         private readonly Dictionary<Object, Object> _frameCollisions = new();
         private readonly List<Object> _pendingUnregister = new();
 
+        private FogLayer _fogLayer;
+
         private record CharacterEntry(Object Obj, ObjectVisible Visible, NavMeshAgent Agent, System.Action RefreshCollider);
 
         public void Register(Object obj, ObjectVisible visible)
@@ -51,6 +53,7 @@ namespace Afterlife.Dev.Field
 
         public void UpdateFogVisibility(FogLayer layer)
         {
+            _fogLayer = layer;
             var cells = layer.Cells;
             var width = cells.GetLength(0);
             var height = cells.GetLength(1);
@@ -58,6 +61,18 @@ namespace Afterlife.Dev.Field
             foreach (var (_, visible) in _objects)
                 ApplyFog(visible, cells, width, height);
 
+            foreach (var entry in _characters)
+                ApplyFog(entry.Visible, cells, width, height);
+        }
+
+        private void LateUpdate()
+        {
+            if (_fogLayer == null) return;
+            var cells = _fogLayer.Cells;
+            var width  = cells.GetLength(0);
+            var height = cells.GetLength(1);
+            foreach (var (_, visible) in _objects)
+                ApplyFog(visible, cells, width, height);
             foreach (var entry in _characters)
                 ApplyFog(entry.Visible, cells, width, height);
         }
