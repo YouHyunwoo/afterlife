@@ -9,7 +9,6 @@ namespace Afterlife.Dev
         [SerializeField] private Moonstone.Ore.Container _container;
 
         [Header("World Map Generation")]
-        [SerializeField] private WorldSystem _worldSystem;
         [SerializeField] private WorldMapGenerationParameter _generationParameter;
 
         [Header("Debug")]
@@ -20,11 +19,13 @@ namespace Afterlife.Dev
         [SerializeField] private Gradient _temperatureGradient;
         [SerializeField] private Gradient _moistureGradient;
 
-        private string _worldId;
+        private WorldSystem _worldSystem;
         private WorldRepository _worldRepository;
+        private string _worldId;
 
         private void Start()
         {
+            _worldSystem = new();
             _worldRepository = new();
 
             _container.Register(

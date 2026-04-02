@@ -119,58 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &26911605
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 26911606}
-  - component: {fileID: 26911608}
-  m_Layer: 0
-  m_Name: World
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &26911606
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 26911605}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 890077926}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &26911608
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 26911605}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f82de48136910648b65853d1524a10a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _terrainLowerTilemap: {fileID: 1571800822}
-  _terrainMiddleTilemap: {fileID: 118299848}
-  _terrainUpperTilemap: {fileID: 1057997726}
-  _terrainObstacleTilemap: {fileID: 1753462706}
-  _waterRuleTile: {fileID: 11400000, guid: 6ec8c5ff2f0b3a543a6e17adae33e245, type: 2}
-  _dirtRuleTile: {fileID: 11400000, guid: d2bcc464cc96fcd41a6b8bac6890c9f5, type: 2}
-  _grassRuleTile: {fileID: 11400000, guid: aa917f92c2f2db449be847d9684c27f1, type: 2}
-  _snowRuleTile: {fileID: 11400000, guid: 3bfd01945015ccd4aae66068c3dcdf37, type: 2}
 --- !u!1 &118299845
 GameObject:
   m_ObjectHideFlags: 0
@@ -705,7 +653,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 744160659}
-  - {fileID: 26911606}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &896755462
@@ -1250,7 +1197,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _container: {fileID: 744160660}
-  _worldSystem: {fileID: 26911608}
   _generationParameter: {fileID: 11400000, guid: 457418baa38c53a49951fa245dd8de3c, type: 2}
   _gizmosElevationEnabled: 0
   _gizmosTemperatureEnabled: 0
