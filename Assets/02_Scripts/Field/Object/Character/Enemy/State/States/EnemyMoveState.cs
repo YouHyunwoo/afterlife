@@ -11,7 +11,7 @@ namespace Afterlife.Dev.Field
 
         protected override void OnEnter(object[] args)
         {
-            if (args == null || args.Length != 1)
+            if (args == null || args.Length != 1 || args[0] == null)
             {
                 _target = null;
                 MoveToRandomTownPosition();
