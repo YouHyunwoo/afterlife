@@ -7,12 +7,18 @@ public class Shadow : MonoBehaviour
     [SerializeField] private float _objectHeight = 1f;
 
     private Material _material;
+    private float _pivotOffsetX;
+    private float _pivotOffsetY;
 
     void Awake()
     {
         _spriteRenderer.material = _material = Instantiate(_spriteRenderer.material);
+
+        var sprite = _spriteRenderer.sprite;
+        _pivotOffsetX = (sprite.rect.width * 0.5f - sprite.pivot.x) / sprite.pixelsPerUnit;
+        _pivotOffsetY = sprite.pivot.y / sprite.pixelsPerUnit;
     }
-    
+
     void Update()
     {
         var lightDirection = _globalLightSystem.transform.forward;
@@ -35,6 +41,7 @@ public class Shadow : MonoBehaviour
 
         var shadowDirection = horizontalDirection.normalized;
         transform.rotation = Quaternion.LookRotation(Vector3.forward, new Vector3(shadowDirection.x, shadowDirection.z, 0));
+        transform.localPosition = transform.localRotation * new Vector3(-_pivotOffsetX, _pivotOffsetY * shadowLength, 0);
         var color = new Color(0, 0, 0, Mathf.Lerp(0, 0.5f, 1 - Mathf.Clamp01(timeOfDay + 1f)));
         _spriteRenderer.color = color;
     }
