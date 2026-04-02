@@ -51,16 +51,16 @@ namespace Afterlife.Dev.World
 
         public void AddTownZone(Vector3 centerPosition, float radius)
         {
-            Grid.Grid.ForEachCellInRadius(centerPosition, radius, cellPosition =>
+            foreach (var cellPosition in Grid.Grid.GetCellPositionInRadius(centerPosition, radius))
             {
                 cells.TryAdd(cellPosition, 0);
                 cells[cellPosition]++;
-            });
+            }
         }
 
         public void RemoveTownZone(Vector3 centerPosition, float radius)
         {
-            Grid.Grid.ForEachCellInRadius(centerPosition, radius, cellPosition =>
+            foreach (var cellPosition in Grid.Grid.GetCellPositionInRadius(centerPosition, radius))
             {
                 if (cells.TryGetValue(cellPosition, out _))
                 {
@@ -68,7 +68,7 @@ namespace Afterlife.Dev.World
                     if (cells[cellPosition] <= 0)
                         cells.Remove(cellPosition);
                 }
-            });
+            }
         }
 
         public List<Vector2Int> GetTownZonePositions()
