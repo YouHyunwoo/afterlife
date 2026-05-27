@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Afterlife.GameSystem.Stage;
 using Afterlife.GameSystem.Stage.Field;
 using UnityEngine;
@@ -55,6 +57,7 @@ namespace Afterlife.Core
         StageObjectBuildSystem stageObjectBuildSystem;
         StageEventBindingSystem stageEventBindingSystem;
         StagePlayerBindingSystem stagePlayerBindingSystem;
+        readonly List<Action> stageCleanupActions = new();
         bool isDispositionRequested;
 
         public override void SetUp()
@@ -74,46 +77,80 @@ namespace Afterlife.Core
 
         public override void TearDown()
         {
-            enabled = false;
+            DisposeStage();
         }
 
         public void StartStage()
         {
-            CreateStage();
-            MapGenerator.Generate(Stage);
+            if (Stage != null || stageCleanupActions.Count > 0)
+            {
+                DisposeStage();
+            }
 
-            stageEventBindingSystem.Bind(
-                timeSystem,
-                missionSystem,
-                objectSpawnSystem,
-                fieldObjectSystem,
-                SuccessStage,
-                FailStage);
+            try
+            {
+                CreateStage();
+                MapGenerator.Generate(Stage);
 
-            timeSystem.SetUp();
-            tileInteractionSystem.SetUp();
-            missionSystem.SetUp();
-            fieldObjectSystem.SetUp();
-            objectSpawnSystem.SetUp();
-            skillSystem.SetUp();
-            itemCollectSystem.SetUp();
-            itemUsageSystem.SetUp();
-            craftSystem.SetUp();
-            rewardSystem.SetUp();
-            equipmentSystem.SetUp();
-            cameraSystem.SetUp();
-            playerModeSystem.SetUp();
-            constructionSystem.SetUp();
-            tileIndicationSystem.SetUp();
-            inputSystem.SetUp();
+                var objectStage = Stage;
+                RegisterStageCleanup(() => stageObjectBuildSystem.Clear(objectStage));
 
-            stageObjectBuildSystem.Build(Stage, out var pivot);
-            stagePlayerBindingSystem.Bind(Stage);
-            Stage.Map.Fog.Invalidate();
-            cameraSystem.SetCameraPosition(pivot);
+                Model.Stage playerBoundStage = null;
+                RegisterStageCleanup(() =>
+                {
+                    if (playerBoundStage == null) { return; }
 
-            isDispositionRequested = false;
-            enabled = true;
+                    stagePlayerBindingSystem.Unbind(playerBoundStage);
+                });
+
+                RegisterStageCleanup(() => stageEventBindingSystem.Unbind(
+                    timeSystem,
+                    missionSystem,
+                    objectSpawnSystem,
+                    fieldObjectSystem,
+                    SuccessStage,
+                    FailStage));
+                stageEventBindingSystem.Bind(
+                    timeSystem,
+                    missionSystem,
+                    objectSpawnSystem,
+                    fieldObjectSystem,
+                    SuccessStage,
+                    FailStage);
+
+                SetUpStageSystem(timeSystem);
+                SetUpStageSystem(tileInteractionSystem);
+                SetUpStageSystem(missionSystem);
+                SetUpStageSystem(fieldObjectSystem);
+                SetUpStageSystem(objectSpawnSystem);
+                SetUpStageSystem(skillSystem);
+                SetUpStageSystem(itemCollectSystem);
+                SetUpStageSystem(itemUsageSystem);
+                SetUpStageSystem(craftSystem);
+                SetUpStageSystem(rewardSystem);
+                SetUpStageSystem(equipmentSystem);
+                SetUpStageSystem(cameraSystem);
+                SetUpStageSystem(playerModeSystem);
+                SetUpStageSystem(constructionSystem);
+                SetUpStageSystem(tileIndicationSystem);
+                SetUpStageSystem(inputSystem);
+
+                stageObjectBuildSystem.Build(Stage, out var pivot);
+
+                playerBoundStage = Stage;
+                stagePlayerBindingSystem.Bind(playerBoundStage);
+
+                Stage.Map.Fog.Invalidate();
+                cameraSystem.SetCameraPosition(pivot);
+
+                isDispositionRequested = false;
+                enabled = true;
+            }
+            catch
+            {
+                DisposeStage();
+                throw;
+            }
         }
 
         void CreateStage()
@@ -181,7 +218,7 @@ namespace Afterlife.Core
             {
                 DisposeStage();
             }
-            else
+            else if (Stage?.Map?.Fog != null)
             {
                 Stage.Map.Fog.Update();
             }
@@ -194,37 +231,58 @@ namespace Afterlife.Core
 
         void DisposeStage()
         {
+            if (Stage == null && stageCleanupActions.Count == 0)
+            {
+                enabled = false;
+                isDispositionRequested = false;
+                return;
+            }
+
             enabled = false;
             isDispositionRequested = false;
 
-            inputSystem.TearDown();
-            tileIndicationSystem.TearDown();
-            constructionSystem.TearDown();
-            playerModeSystem.TearDown();
-            cameraSystem.TearDown();
-            equipmentSystem.TearDown();
-            rewardSystem.TearDown();
-            craftSystem.TearDown();
-            itemUsageSystem.TearDown();
-            itemCollectSystem.TearDown();
-            skillSystem.TearDown();
-            objectSpawnSystem.TearDown();
-            fieldObjectSystem.TearDown();
-            missionSystem.TearDown();
-            tileInteractionSystem.TearDown();
-            timeSystem.TearDown();
+            ExecuteStageCleanupActions();
+            DeleteStageSafely();
+        }
 
-            stageEventBindingSystem.Unbind(
-                timeSystem,
-                missionSystem,
-                objectSpawnSystem,
-                fieldObjectSystem,
-                SuccessStage,
-                FailStage);
+        void RegisterStageCleanup(Action cleanupAction)
+        {
+            stageCleanupActions.Add(cleanupAction);
+        }
 
-            stagePlayerBindingSystem.Unbind(Stage);
-            stageObjectBuildSystem.Clear(Stage);
-            DeleteStage();
+        void SetUpStageSystem(SystemBase system)
+        {
+            RegisterStageCleanup(system.TearDown);
+            system.SetUp();
+        }
+
+        void ExecuteStageCleanupActions()
+        {
+            for (int i = stageCleanupActions.Count - 1; i >= 0; i--)
+            {
+                try
+                {
+                    stageCleanupActions[i]?.Invoke();
+                }
+                catch (Exception exception)
+                {
+                    Debug.LogException(exception);
+                }
+            }
+
+            stageCleanupActions.Clear();
+        }
+
+        void DeleteStageSafely()
+        {
+            try
+            {
+                DeleteStage();
+            }
+            catch (Exception exception)
+            {
+                Debug.LogException(exception);
+            }
         }
 
         void DeleteStage()

@@ -39,10 +39,24 @@ namespace Afterlife.GameSystem.Stage
 
         public void Clear(Model.Stage stage)
         {
-            stage.Map.Field.Dispose();
-            stage.Map.Fog.Dispose();
-            stage.Map.Terrain.Dispose();
-            terrainTilemap.ClearAllTiles();
+            if (stage == null) { return; }
+
+            ClearSafely(() => stage.Map.Field?.Dispose());
+            ClearSafely(() => stage.Map.Fog?.Dispose());
+            ClearSafely(() => stage.Map.Terrain?.Dispose());
+            ClearSafely(() => terrainTilemap?.ClearAllTiles());
+        }
+
+        void ClearSafely(System.Action clearAction)
+        {
+            try
+            {
+                clearAction?.Invoke();
+            }
+            catch (System.Exception exception)
+            {
+                Debug.LogException(exception);
+            }
         }
 
         void CreateTerrainObjects(Model.Stage stage)
