@@ -83,3 +83,5 @@ Workspace/
 /[Aa]ssets/Plugins/UnityEditorDarkMode*
 
 .claudeignore
+AGENTS.md
+CLAUDE.md
