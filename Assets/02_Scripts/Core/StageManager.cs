@@ -20,8 +20,8 @@ namespace Afterlife.Core
         [SerializeField] TileBase waterTile;
 
         [Header("Fog")]
-        [SerializeField] Transform fogTransform;
-        [SerializeField] Transform fogPrefab;
+        [SerializeField] Tilemap fogTilemap;
+        [SerializeField] TileBase fogTile;
 
         [Header("Field")]
         [SerializeField] Transform fieldTransform;
@@ -66,8 +66,8 @@ namespace Afterlife.Core
                 terrainTilemap,
                 dirtTile,
                 waterTile,
-                fogTransform,
-                fogPrefab,
+                fogTilemap,
+                fogTile,
                 fieldObjectSystem);
             stageEventBindingSystem = new StageEventBindingSystem();
             stagePlayerBindingSystem = new StagePlayerBindingSystem();

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Afterlife.Model
 {
@@ -17,12 +18,17 @@ namespace Afterlife.Model
     {
         public Vector2Int Size;
         public float[,] FogGrid;
-        public Transform[,] TransformGrid;
-        public SpriteRenderer[,] SpriteRendererGrid;
         public List<Light> Lights = new();
         public bool IsDirty;
-        public LinkedList<SpriteRenderer> PreviousActiveSpriteRenderers = new();
+        public HashSet<Vector2Int> PreviousActiveCells = new();
         public event Action<float[,]> OnFogUpdated;
+
+        Tilemap fogTilemap;
+
+        public void BindTilemap(Tilemap tilemap)
+        {
+            fogTilemap = tilemap;
+        }
 
         public void AddLight(Light light)
         {
@@ -47,11 +53,11 @@ namespace Afterlife.Model
                 }
             }
 
-            foreach (var spriteRenderer in PreviousActiveSpriteRenderers)
+            foreach (var cell in PreviousActiveCells)
             {
-                spriteRenderer.color = new Color(0, 0, 0, 1);
+                fogTilemap.SetColor(new Vector3Int(cell.x, cell.y, 0), new Color(0, 0, 0, 1));
             }
-            PreviousActiveSpriteRenderers.Clear();
+            PreviousActiveCells.Clear();
 
             for (int i = 0; i < Lights.Count; i++)
             {
@@ -83,8 +89,8 @@ namespace Afterlife.Model
 
                         var fog = 1 - brightness;
                         FogGrid[x, y] = Mathf.Min(FogGrid[x, y], fog);
-                        SpriteRendererGrid[x, y].color = new Color(0, 0, 0, FogGrid[x, y]);
-                        PreviousActiveSpriteRenderers.AddLast(SpriteRendererGrid[x, y]);
+                        fogTilemap.SetColor(new Vector3Int(x, y, 0), new Color(0, 0, 0, FogGrid[x, y]));
+                        PreviousActiveCells.Add(new Vector2Int(x, y));
                     }
                 }
             }
@@ -132,31 +138,13 @@ namespace Afterlife.Model
 
         public void Dispose()
         {
-            var mapWidth = FogGrid.GetLength(0);
-            var mapHeight = FogGrid.GetLength(1);
-
-            for (int x = 0; x < mapWidth; x++)
-            {
-                for (int y = 0; y < mapHeight; y++)
-                {
-                    if (TransformGrid[x, y] != null)
-                    {
-                        UnityEngine.Object.Destroy(TransformGrid[x, y].gameObject);
-                    }
-                    TransformGrid[x, y] = null;
-                    FogGrid[x, y] = 0;
-                    SpriteRendererGrid[x, y] = null;
-                }
-            }
-
             OnFogUpdated = null;
-            PreviousActiveSpriteRenderers.Clear();
+            PreviousActiveCells.Clear();
             IsDirty = false;
-            Lights.Clear();
+            Lights?.Clear();
             Lights = null;
             FogGrid = null;
-            TransformGrid = null;
-            SpriteRendererGrid = null;
+            fogTilemap = null;
             Size = Vector2Int.zero;
         }
     }

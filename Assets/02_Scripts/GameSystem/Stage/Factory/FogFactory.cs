@@ -11,8 +11,6 @@ namespace Afterlife.GameSystem.Stage
             {
                 Size = mapSize,
                 FogGrid = new float[mapSize.x, mapSize.y],
-                TransformGrid = new Transform[mapSize.x, mapSize.y],
-                SpriteRendererGrid = new SpriteRenderer[mapSize.x, mapSize.y],
                 Lights = new List<Model.Light>(),
             };
 

@@ -10,30 +10,30 @@ namespace Afterlife.GameSystem.Stage
         readonly Tilemap terrainTilemap;
         readonly TileBase dirtTile;
         readonly TileBase waterTile;
-        readonly Transform fogTransform;
-        readonly Transform fogPrefab;
+        readonly Tilemap fogTilemap;
+        readonly TileBase fogTile;
         readonly FieldObjectSystem fieldObjectSystem;
 
         public StageObjectBuildSystem(
             Tilemap terrainTilemap,
             TileBase dirtTile,
             TileBase waterTile,
-            Transform fogTransform,
-            Transform fogPrefab,
+            Tilemap fogTilemap,
+            TileBase fogTile,
             FieldObjectSystem fieldObjectSystem)
         {
             this.terrainTilemap = terrainTilemap;
             this.dirtTile = dirtTile;
             this.waterTile = waterTile;
-            this.fogTransform = fogTransform;
-            this.fogPrefab = fogPrefab;
+            this.fogTilemap = fogTilemap;
+            this.fogTile = fogTile;
             this.fieldObjectSystem = fieldObjectSystem;
         }
 
         public void Build(Model.Stage stage, out Vector2Int pivot)
         {
             CreateTerrainObjects(stage);
-            CreateFogObjects(stage);
+            CreateFogTiles(stage);
             CreateFieldObjects(stage, out pivot);
         }
 
@@ -45,6 +45,7 @@ namespace Afterlife.GameSystem.Stage
             ClearSafely(() => stage.Map.Fog?.Dispose());
             ClearSafely(() => stage.Map.Terrain?.Dispose());
             ClearSafely(() => terrainTilemap?.ClearAllTiles());
+            ClearSafely(() => fogTilemap?.ClearAllTiles());
         }
 
         void ClearSafely(System.Action clearAction)
@@ -83,19 +84,23 @@ namespace Afterlife.GameSystem.Stage
             }
         }
 
-        void CreateFogObjects(Model.Stage stage)
+        void CreateFogTiles(Model.Stage stage)
         {
+            if (fogTilemap == null) { throw new System.Exception("Fog tilemap cannot be null."); }
+            if (fogTile == null) { throw new System.Exception("Fog tile cannot be null."); }
+
             var mapSize = stage.Map.Size;
             var fog = stage.Map.Fog;
+            fog.BindTilemap(fogTilemap);
 
             for (int x = 0; x < mapSize.x; x++)
             {
                 for (int y = 0; y < mapSize.y; y++)
                 {
-                    var fogTile = Object.Instantiate(fogPrefab, new Vector3(x, y), Quaternion.identity, fogTransform);
-                    fogTile.name = $"FogTile ({x}, {y})";
-                    fog.TransformGrid[x, y] = fogTile;
-                    fog.SpriteRendererGrid[x, y] = fogTile.GetComponentInChildren<SpriteRenderer>();
+                    var position = new Vector3Int(x, y, 0);
+                    fogTilemap.SetTile(position, fogTile);
+                    fogTilemap.SetTileFlags(position, TileFlags.None);
+                    fogTilemap.SetColor(position, new Color(0, 0, 0, 1));
                 }
             }
         }
