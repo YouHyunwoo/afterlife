@@ -8,6 +8,7 @@ namespace Afterlife.Controller
         public KeyCode TestActivationKey;
         bool isTestActive;
 
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
         void Update()
         {
             if (Input.GetKeyDown(TestActivationKey))
@@ -36,5 +37,6 @@ namespace Afterlife.Controller
                 ServiceLocator.Get<GameManager>().Game.Player.AttackPower = 9999;
             }
         }
+#endif
     }
 }
