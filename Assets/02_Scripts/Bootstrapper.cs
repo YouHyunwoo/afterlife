@@ -1,10 +1,13 @@
-using Afterlife.Dev.Field;
 using Afterlife.Dev.Mode;
 using UnityEngine;
 using Afterlife.Dev.Game;
-using Afterlife.Dev.World;
 using System.Collections.Generic;
 using System.Linq;
+using ECS.Dev;
+using BuildingData = Afterlife.Dev.Game.BuildingData;
+using ResourceData = Afterlife.Dev.Game.ResourceData;
+using UnityEngine.AI;
+using System.Threading.Tasks;
 
 namespace Afterlife.Dev
 {
@@ -13,95 +16,76 @@ namespace Afterlife.Dev
         [Header("Container")]
         [SerializeField] private Moonstone.Ore.Container _container;
 
-        #region Models
-        [Header("Models")]
-        [SerializeField] private Player _player;
-        #endregion
-
         #region Systems
         [Header("Systems")]
-        [SerializeField] private CameraSystem _cameraSystem;
         [SerializeField] private ModeSystem _modeSystem;
-        [SerializeField] private ObjectSpawnSystem _objectSpawnSystem;
-        [SerializeField] private ObjectSystem _objectSystem;
-        [SerializeField] private BuildGuideSystem _buildGuideSystem;
-        [SerializeField] private TimeSystem _timeSystem;
-        [SerializeField] private EventSystem _eventSystem;
-        [SerializeField] private GameResultSystem _gameResultSystem;
-        [SerializeField] private FogSystem _fogSystem;
+        [SerializeField] private SpriteRenderer _buildGuidePrefab;
         [SerializeField] private WorldMapGenerationParameter _generationParameter;
         #endregion
 
         #region Modes
         [Header("Modes")]
         [SerializeField] private BuildMode _buildMode;
-        [SerializeField] private SelectionMode _selectionMode;
+        [SerializeField] private SelectMode _selectMode;
         #endregion
 
         #region Objects
         [Header("Objects")]
-        [SerializeField] private WorldVisible _worldVisiblePrefab;
-        [SerializeField] private CitizenVisible _citizenVisiblePrefab;
-        [SerializeField] private BuildingVisible _houseVisiblePrefab;
-        [SerializeField] private ResourceVisible _treeVisiblePrefab;
-        [SerializeField] private ResourceVisible _rockVisiblePrefab;
-        [Space(10)]
-        [SerializeField] private CitizenData _citizenData;
-        [SerializeField] private EnemyData _goblinData;
-        [SerializeField] private EnemyData _orcData;
-        [SerializeField] private EnemyData _trollData;
-        [SerializeField] private EnemyVisible _goblinVisiblePrefab;
-        [SerializeField] private EnemyVisible _orcVisiblePrefab;
-        [SerializeField] private EnemyVisible _trollVisiblePrefab;
+        [SerializeField] private Game.World _worldPrefab;
         [SerializeField] private BuildingData _houseData;
         [SerializeField] private ResourceData _treeData;
         [SerializeField] private ResourceData _rockData;
+        [SerializeField] private CitizenData _citizenData;
+        [SerializeField] private EnemyData _enemyData;
+
         [Header("Initial Scatter")]
         [SerializeField] private int _initialTreeCount = 15;
         [SerializeField] private int _initialRockCount = 10;
         #endregion
 
-        private WorldSystem _worldSystem;
-        private WorldRepository _worldRepository;
-        private WorldVisible _worldVisible;
-        private ObjectRepository _objectRepository;
-        private World.World _world;
-        private readonly Dictionary<string, Citizen> _houseCitizenPairs = new();
+        private Game.World _world;
         private bool isReady;
+
+        #region ECS
+        private ComponentManager componentManager;
+        private EntityManager entityManager;
+        private EntityFactory entityFactory;
+        private Application<ComponentManager> application;
+        private List<int> spawnedBuildingIds = new();
+        private BuildGuideSystem buildGuideSystem;
+        #endregion
 
         protected override void CreateObjects()
         {
-            _worldSystem = new();
-            _worldRepository = new();
-            _worldVisible = Instantiate(_worldVisiblePrefab);
-            _objectRepository = new();
+            _world = Instantiate(_worldPrefab);
+            componentManager = new();
+            entityManager = new();
+            entityFactory = new();
+            buildGuideSystem = new BuildGuideSystem(_buildGuidePrefab);
         }
 
         protected override void InitializeObjects()
         {
+            componentManager.Game.World = _world;
+            componentManager.Game.Time = 0f;
+            componentManager.Game.TimeScale = 1f;
+
             _modeSystem.Initialize();
-            _modeSystem.Select<SelectionMode>();
+            _modeSystem.Select<SelectMode>();
+            _buildMode.SetBuildGuideSystem(buildGuideSystem);
         }
 
         protected override void BindObjects()
         {
             _container.Register(
                 _container,
-                _player,
                 _modeSystem,
-                _selectionMode,
+                _selectMode,
                 _buildMode,
-                _worldSystem,
-                _worldRepository,
-                _cameraSystem,
-                _objectSpawnSystem,
-                _objectRepository,
-                _buildGuideSystem,
-                _timeSystem,
-                _eventSystem,
-                _gameResultSystem,
-                _objectSystem,
-                _fogSystem
+                _world,
+                componentManager,
+                entityManager,
+                entityFactory
             );
             _container.AddInjectee(
             );
@@ -109,162 +93,192 @@ namespace Afterlife.Dev
 
             _buildMode.OnConfirmed += (position, buildParam, mode, sender) =>
             {
-                if (buildParam.Prefab is BuildingVisible prefab)
+                if (_world.TrySpawn(position, buildParam.Data, out var entity))
                 {
-                    if (_objectSpawnSystem.TrySpawn(position, prefab, buildParam.Data, id => new Building(id), out var building, out var buildingVisible))
+                    if (componentManager.HasBuildingModeSetter[entity.Id] &&
+                        componentManager.HasBuildingTag[entity.Id])
                     {
-                        buildingVisible.BindFogSystem(_fogSystem);
-                        building.OnModeChanged += (mode, building, _) => buildingVisible.SetMode(mode.BuildingMode);
-                        building.OnDied += (_, o, __) => { buildingVisible.DetachFogLight(); _objectSpawnSystem.Despawn(o); };
-                        building.SetMode(BuildingMode.Preview);
-                        _gameResultSystem.RegisterHouse(building);
+                        var buildingModeSetter = componentManager.BuildingModeSetters[entity.Id];
+                        buildingModeSetter.SetMode(BuildingMode.Preview);
+                        var building = componentManager.Buildings[entity.Id];
+                        building.Mode = BuildingMode.Preview;
                     }
                 }
-                _modeSystem.Select<SelectionMode>();
+                _modeSystem.Select<SelectMode>();
             };
-            _buildMode.OnCanceled += (position, objectVisible, mode, sender) =>
+            _buildMode.OnCanceled += (position, buildParam, mode, sender) =>
             {
-                _modeSystem.Select<SelectionMode>();
+                _modeSystem.Select<SelectMode>();
             };
 
-            _worldSystem.OnWorldGeneratedAsync += _worldVisible.Render;
-            _objectSpawnSystem.OnBuilt += (ov, shouldBuildNavMesh, system, sender) =>
+            entityFactory.OnSpawned += async (info, _) =>
             {
-                if (isReady && shouldBuildNavMesh) _worldVisible.BuildNavMesh();
-
-                if (ov is BuildingVisible buildingVisible)
-                {
-                    var building = buildingVisible.Object;
-                    if (building.BuildingType == BuildingType.House)
-                    {
-                        var houseWorldPos = buildingVisible.transform.position;
-                        building.OnBuilt += (b, _) => SpawnCitizenForHouse(b, houseWorldPos);
-                        building.OnDied += (_, b, __) => DespawnCitizenForHouse((Building)b);
-                    }
-                }
+                if (componentManager.HasBuildingTag[info.EntityId])
+                    spawnedBuildingIds.Add(info.EntityId);
+                if (isReady && info.HasVolume)
+                    await RebuildNavMesh();
             };
-            _objectSpawnSystem.OnDemolished += async (ov, shouldBuildNavMesh, system, sender) =>
+            entityFactory.OnDespawned += async (info, _) =>
             {
-                if (!isReady || !shouldBuildNavMesh) return;
-                await Awaitable.EndOfFrameAsync(); // Destroy() is deferred — wait for GameObject to be removed before baking
-                _worldVisible.BuildNavMesh();
+                if (componentManager.HasBuildingTag[info.EntityId])
+                    spawnedBuildingIds.Remove(info.EntityId);
+                if (isReady && info.HasVolume)
+                    await RebuildNavMesh();
             };
 
-            _fogSystem.OnFogUpdated += layer => _objectSystem.UpdateFogVisibility(layer);
+            entityManager.OnEntityDestroyed += componentManager.HandleEntityDestroyed;
+        }
 
-            _gameResultSystem.OnGameClearEvent += () => Debug.Log("게임 클리어");
-            _gameResultSystem.OnGameOverEvent += () => Debug.Log("게임 오버");
+        private async Task RebuildNavMesh()
+        {
+            await Awaitable.EndOfFrameAsync();
+            _world.BuildNavMesh();
+
+            for (var i = 0; i < ComponentManager.MAX_ENTITIES; i++)
+            {
+                if (!componentManager.HasEntity[i]) continue;
+                if (!componentManager.HasNavMeshAgent[i]) continue;
+                var agent = componentManager.NavMeshAgents[i];
+                if (agent.isActiveAndEnabled)
+                    agent.Warp(componentManager.Entities[i].transform.position);
+            }
         }
 
         protected override async void PrepareObjects()
         {
-            _world = await GenerateWorld();
+            var gameResultSystem = new GameResultSystem();
+            gameResultSystem.OnGameClear += () => Debug.Log("ECS 게임 클리어");
+            gameResultSystem.OnGameOver  += () => Debug.Log("ECS 게임 오버");
 
-            _fogSystem.Build(_world.WorldMap.Size);
-            _cameraSystem.SetUp();
-            _objectSpawnSystem.SetUp();
+            var buildingSystem = new BuildingSystem();
+            buildingSystem.OnBuilt += (entityId) =>
+            {
+                if (componentManager.HasHouseTag[entityId] &&
+                    componentManager.HasEntity[entityId])
+                {
+                    SpawnCitizenForHouse(componentManager.Entities[entityId].transform.position);
+                }
+            };
+
+            application = new (
+                new ISystem<ComponentManager>[]
+                {
+                    new CameraSystem(Camera.main),
+                    new TimeSystem(),
+                    new EventSystem(),
+                    new HealthSystem(),
+                    new MoveSystem(),
+                    buildingSystem,
+                    new ArrivalSystem(),
+                    new WanderSystem
+                    {
+                        GetTownZonePositions = _world.GetTownZonePositions,
+                        IsPassable = _world.IsPassable,
+                    },
+                    new SelectSystem(),
+                    new DetectionSystem(),
+                    new ChaseSystem(),
+                    new FightSystem(),
+                    new HarvestSystem(),
+                    new ReturnSystem()
+                    {
+                        GetBuildings = () => spawnedBuildingIds,
+                    },
+                    new BuildSystem(),
+                    new EnemyMoveSystem(),
+                    new EnemyFightSystem(),
+                    gameResultSystem,
+                    new FogSystem()
+                    {
+                        GetFog = (pos) => _world.FogLayer.GetFog(pos),
+                        SetFog = (pos, fog) => _world.FogLayer.SetFog(pos, fog),
+                        SetRendererAlpha = (pos, color) => _world.Fog.SetRendererAlpha(pos, color),
+                    },
+                    new FogAlphaSystem()
+                    {
+                        GetFogCells = () => _world.FogLayer.Cells,
+                    },
+                },
+                componentManager
+            );
+
+            var generationResult = _world.Generate(_generationParameter);
+            if (generationResult == null) return;
 
             // * 웨이브 스케줄 등록
-            WaveScheduler.Schedule(_eventSystem, _container, new WaveSchedulerConfig
-            {
-                GoblinData = _goblinData, GoblinPrefab = _goblinVisiblePrefab,
-                OrcData    = _orcData,    OrcPrefab    = _orcVisiblePrefab,
-                TrollData  = _trollData,  TrollPrefab  = _trollVisiblePrefab,
-            });
+            // WaveScheduler.Schedule(componentManager, _world, new WaveSchedulerConfig
+            // {
+            //     GoblinData = _goblinData,
+            //     OrcData    = _orcData,
+            //     TrollData  = _trollData,
+            // });
 
             // * 필드 오브젝트 생성 및 초기화
-            var worldMap = _world.WorldMap;
-            var passablePositions = worldMap.GetPassablePositions(Vector2Int.one);
-
-            var housePassablePositions = worldMap.GetPassablePositions(_houseData.Size);
+            var housePassablePositions = _world.GetPassablePositions(_houseData.Volume2DSize);
             var housePosition = SamplePassablePosition(housePassablePositions);
-            if (_objectSpawnSystem.TrySpawn(housePosition, _houseVisiblePrefab, _houseData, id => new Building(id), out var house, out var houseVisible))
+            if (_world.TrySpawn(housePosition, _houseData, out var houseEntity))
             {
-                houseVisible.BindFogSystem(_fogSystem);
-                house.OnModeChanged += (m, _, _) => houseVisible.SetMode(m.BuildingMode);
-                house.OnDied += (_, o, __) => { houseVisible.DetachFogLight(); _objectSpawnSystem.Despawn(o); };
-                house.FinishBuild();
-                _gameResultSystem.RegisterHouse(house);
+                componentManager.Buildings[houseEntity.Id].BuildRate = 1f;
+                // 체력 떨어졌을 때 light 제거, 디스폰되는지 확인
+
+                var cameraPosition = houseEntity.transform.position;
+                cameraPosition.z = Camera.main.transform.position.z;
+                Camera.main.transform.position = cameraPosition;
             }
 
-            for (var i = 0; i < _initialTreeCount; i++)
-            {
-                if (passablePositions.Count == 0) break;
-                var pos = SamplePassablePosition(passablePositions);
-                if (_objectSpawnSystem.TrySpawn(pos, _treeVisiblePrefab, _treeData, id => new Resource(id), out var tree, out _))
-                    tree.OnHarvested += (_, r, __) => _objectSpawnSystem.Despawn(r);
-            }
+            var passablePositions = _world.GetPassablePositions(Vector2Int.one);
+            // for (var i = 0; i < 1; i++)
+            // {
+            //     if (passablePositions.Count == 0) break;
+            //     var position = SamplePassablePosition(passablePositions);
+            //     if (_world.TrySpawn(housePosition + Vector2Int.right * 5, _treeData, out var entity)) {}
+            // }
 
-            for (var i = 0; i < _initialRockCount; i++)
+            // for (var i = 0; i < 1; i++)
+            // {
+            //     if (passablePositions.Count == 0) break;
+            //     var position = SamplePassablePosition(passablePositions);
+            //     if (_world.TrySpawn(housePosition + Vector2Int.right * 5, _rockData, out var entity)) {}
+            // }
+
+            var enemyPosition = SamplePassablePosition(passablePositions);
+            if (_world.TrySpawn(enemyPosition, _enemyData, out var enemyEntity))
             {
-                if (passablePositions.Count == 0) break;
-                var pos = SamplePassablePosition(passablePositions);
-                if (_objectSpawnSystem.TrySpawn(pos, _rockVisiblePrefab, _rockData, id => new Resource(id), out var rock, out _))
-                    rock.OnHarvested += (_, r, __) => _objectSpawnSystem.Despawn(r);
+                
             }
 
             isReady = true;
-            _worldVisible.BuildNavMesh();
 
-            var cameraPosition = houseVisible.transform.position;
-            cameraPosition.z = Camera.main.transform.position.z;
-            Camera.main.transform.position = cameraPosition;
+            await Awaitable.EndOfFrameAsync();
+            _world.BuildNavMesh();
         }
 
-        private async Awaitable<World.World> GenerateWorld()
+        private void SpawnCitizenForHouse(Vector3 houseWorldPosition)
         {
-            var world = await _worldSystem.GenerateWorldAsync(_generationParameter);
-            if (world == null) return null;
-            _worldRepository.Save(world);
-            return world;
-        }
-
-        private void SpawnCitizenForHouse(Building house, Vector3 houseWorldPos)
-        {
-            var passablePositions = _world.WorldMap.GetPassablePositions(Vector2Int.one);
+            var passablePositions = _world.GetPassablePositions(Vector2Int.one);
             if (passablePositions.Count == 0) return;
 
-            var housePos = (Vector2)houseWorldPos;
-            var citizenPosition = passablePositions.OrderBy(p => ((Vector2)p - housePos).sqrMagnitude).First();
+            var housePosition = (Vector2)houseWorldPosition;
+            var citizenPosition = passablePositions.OrderBy(p => ((Vector2)p - housePosition).sqrMagnitude).First();
 
-            if (!_objectSpawnSystem.TrySpawn(citizenPosition, _citizenVisiblePrefab, _citizenData,
-                id => new Citizen(id), out var citizen, out var citizenVisible)) return;
-
-            citizenVisible.BindFogSystem(_fogSystem);
-
-            citizen.Wander.IsPassable = _world.WorldMap.IsPassable;
-            citizen.Wander.GetTownZonePositions = _world.WorldMap.GetTownZonePositions;
-            citizen.BuildingLocator.GetBuildings = _objectRepository.FindAll().OfType<Building>;
+            if (!_world.TrySpawn(citizenPosition, _citizenData, out var entity))
+                return;
 
             // 충돌 이벤트 → ObjectSystem 전달
-            citizenVisible.OnInteractionCollided += (collider, field, cv, sender) =>
-            {
-                var other = _objectSystem.GetModel(collider.gameObject);
-                if (other != null) _objectSystem.RegisterCollision(citizen, other);
-            };
+            // citizenAgent.TryGetComponent(out Game.Field.Citizen citizen);
+            // citizen.OnInteractionCollided += (collider, field, citizen) =>
+            // {
+            //     // var other = _objectSystem.GetModel(collider.gameObject);
+            //     // if (other != null) _objectSystem.RegisterCollision(citizen, other);
+            // };
 
-            citizen.OnHoldingsTaken += (woods, stones, c, s) => citizenVisible.TakeHoldings(woods, stones);
-            citizen.OnHoldingsDropped += (c, s) => citizenVisible.DropHoldings();
-            citizen.OnHoldingsReturned += (woods, stones, c, s) =>
-            {
-                _player.Woods += woods;
-                _player.Stones += stones;
-                citizenVisible.DropHoldings();
-            };
-
-            _houseCitizenPairs[house.Id] = citizen;
-            citizen.OnDied += (_, o, __) =>
-            {
-                _houseCitizenPairs.Remove(house.Id);
-                citizenVisible.DetachFogLight();
-                _objectSpawnSystem.Despawn(o);
-            };
-        }
-
-        private void DespawnCitizenForHouse(Building house)
-        {
-            if (_houseCitizenPairs.Remove(house.Id, out var citizen))
-                _objectSpawnSystem.Despawn(citizen);
+            // _houseCitizenPairs[house] = citizenAgent;
+            // citizenAgent.OnDied += (diedInfo, o) =>
+            // {
+            //     _houseCitizenPairs.Remove(house);
+            //     _world.Fog.RemoveLight(light.Light);
+            //     _world.Despawn(o);
+            // };
         }
 
         private Vector2Int SamplePassablePosition(List<Vector2Int> passablePositions)
@@ -277,13 +291,22 @@ namespace Afterlife.Dev
 
         private void Update()
         {
+            application.Update(Time.deltaTime);
+
+            for (var i = 0; i < ComponentManager.MAX_ENTITIES; i++)
+            {
+                if (!componentManager.HasDespawnTag[i]) continue;
+                componentManager.HasDespawnTag[i] = false;
+                _world.Despawn(i);
+            }
+
             if (Input.GetKeyDown(KeyCode.C))
             {
-                _modeSystem.Select<BuildMode, BuildModeParam>(null, new BuildModeParam() { Prefab = _houseVisiblePrefab, Data = _houseData });
+                _modeSystem.Select<BuildMode, BuildModeParam>(null, new BuildModeParam() { Data = _houseData });
             }
             else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.Escape))
             {
-                _modeSystem.Select<SelectionMode>();
+                _modeSystem.Select<SelectMode>();
             }
         }
     }

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af348758501cb3a4c8062d29c4033a91, type: 3}
+  m_Name: Citizen
+  m_EditorClassIdentifier: 
+  Name: citizen
+  Prefab: {fileID: 1877708489568880986, guid: 25a5281ce449b244f8288c60955834b9, type: 3}
+  Volume2DSize: {x: 0, y: 0}
+  Light:
+    Range: 5
+    Intensity: 3
+    IsActive: 1
+  Health: 10
+  MoveSpeed: 5
+  AttackPower: 1
+  AttackRange: 2
+  AttackInterval: 1
+  DetectionRange: 3

@@ -16,14 +16,6 @@ PrefabInstance:
       propertyPath: m_OverrideArea
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 518151985624572323, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.505
-      objectReference: {fileID: 0}
-    - target: {fileID: 518151985624572323, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.455
-      objectReference: {fileID: 0}
     - target: {fileID: 2368448852852908252, guid: e7cb7fc50bdea7d48a7528c19b0edb22, type: 3}
       propertyPath: m_Size.x
       value: 0.53125

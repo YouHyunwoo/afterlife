@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Afterlife.Dev.World
 {
-    public class WorldMap
+    public class WorldMap : Moonstone.Ore.Model
     {
         private readonly Vector2Int _size; // * 맵 크기
         private readonly Dictionary<WorldMapLayerType, IWorldMapLayer> _layers; // * 레이어
@@ -17,7 +17,7 @@ namespace Afterlife.Dev.World
         public Vector2Int Size => _size;
         public Dictionary<Vector2Int, int> TownZoneMap => _townZoneLayer.Cells;
 
-        public WorldMap(Vector2Int size, Dictionary<WorldMapLayerType, IWorldMapLayer> layers)
+        public WorldMap(string id, Vector2Int size, Dictionary<WorldMapLayerType, IWorldMapLayer> layers) : base(id)
         {
             _size = size;
             _layers = layers;

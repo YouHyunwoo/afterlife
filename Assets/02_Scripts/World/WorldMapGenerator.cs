@@ -4,11 +4,13 @@ using UnityEngine;
 
 namespace Afterlife.Dev.World
 {
+    public record GenerationResult(Vector2Int Size, TerrainLayer TerrainLayer, FieldLayer FieldLayer, TownZoneLayer TownZoneLayer);
+
     public class WorldMapGenerator
     {
-        public bool Generate(WorldMapGenerationParameter param, out WorldMap worldMap)
+        public bool Generate(WorldMapGenerationParameter param, out GenerationResult result)
         {
-            worldMap = null;
+            result = null;
 
             var mapSize = param.MapSize;
             var width = mapSize.x;
@@ -66,14 +68,13 @@ namespace Afterlife.Dev.World
             EnsureConnectivity(cells, width, height, param.ElevationSeaLevel, param.MinIslandSize,
                 param.BridgeRadius, param.TemperatureThresholds, param.MoistureThresholds);
 
-            var layers = new Dictionary<WorldMapLayerType, IWorldMapLayer>()
-            {
-                [WorldMapLayerType.Terrain] = new TerrainLayer(mapSize, cells),
-                [WorldMapLayerType.Field] = new FieldLayer(mapSize, new()),
-                [WorldMapLayerType.TownZone] = new TownZoneLayer(mapSize, new()),
-            };
+            result = new GenerationResult(
+                mapSize,
+                new TerrainLayer(mapSize, cells),
+                new FieldLayer(mapSize, new()),
+                new TownZoneLayer(mapSize, new())
+            );
 
-            worldMap = new WorldMap(mapSize, layers);
             return true;
         }
 

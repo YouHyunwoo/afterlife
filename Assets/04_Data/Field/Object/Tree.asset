@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 258ff5e8d0c29b7408305b4d95641b5c, type: 3}
+  m_Name: Tree
+  m_EditorClassIdentifier: 
+  Name: tree
+  Prefab: {fileID: 1619448915729530712, guid: 422fbd5d07e6f85468e49940bc394bfd, type: 3}
+  Volume2DSize: {x: 1, y: 1}
+  Light:
+    Location: {x: 0, y: 0}
+    Intensity: 0
+    Range: 0
+    IsActive: 0
+  Woods: 10
+  Stones: 0
+  HarvestSpeed: 1

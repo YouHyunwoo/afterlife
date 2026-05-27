@@ -14,5 +14,10 @@ namespace Afterlife.Dev.World
                     grid[x, y] = 1f;
             return grid;
         }
+
+        public float GetFog(Vector2Int position)
+            => cells[position.x, position.y];
+        public void SetFog(Vector2Int position, float fog)
+            => cells[position.x, position.y] = fog;
     }
 }

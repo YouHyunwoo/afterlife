@@ -20,7 +20,7 @@ namespace Afterlife.Dev.World
         [SerializeField] private NavMeshSurface _navMeshSurface;
 
         #region Caching
-        private World _world;
+        private WorldMap _world;
         private IWorldMapLayer _terrainLayer;
         private IWorldMapLayer _fieldLayer;
         private TownZoneLayer _townZoneLayer;
@@ -30,7 +30,7 @@ namespace Afterlife.Dev.World
         {
             if (_world == null) return;
 
-            var worldMapSize = _world.WorldMap.Size;
+            var worldMapSize = _world.Size;
 
             // if (_terrainLayer != null)
             // {
@@ -61,25 +61,25 @@ namespace Afterlife.Dev.World
                 }
             }
 
-            if (_world.WorldMap.TownZoneMap.Count == 0) return;
+            if (_world.TownZoneMap.Count == 0) return;
 
             var offset = new Vector3(0.5f, 0.5f);
             Gizmos.color = new Color(1, 0, 1, 0.3f);
-            foreach (var cell in _world.WorldMap.TownZoneMap.Keys)
+            foreach (var cell in _world.TownZoneMap.Keys)
             {
                 var position = (Vector3)(Vector2)cell + offset;
                 Gizmos.DrawCube(position, Vector3Int.one);
             }
         }
 
-        public async Awaitable Render(World world)
+        public async Awaitable Render(WorldMap world)
         {
             _world = world;
-            _world.WorldMap.GetLayerByType(WorldMapLayerType.Terrain, out _terrainLayer);
-            _world.WorldMap.GetLayerByType(WorldMapLayerType.Field, out _fieldLayer);
+            _world.GetLayerByType(WorldMapLayerType.Terrain, out _terrainLayer);
+            _world.GetLayerByType(WorldMapLayerType.Field, out _fieldLayer);
 
             ClearTilemaps();
-            SetUpTilemaps(world.WorldMap);
+            SetUpTilemaps(world);
 
             await Awaitable.EndOfFrameAsync();
 

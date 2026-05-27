@@ -6,38 +6,32 @@ namespace Afterlife.Dev.World
 {
     public class WorldSystem
     {
-        public event Action<World> OnWorldGenerated;
-        public event Func<World, Awaitable> OnWorldGeneratedAsync;
+        public event Action<GenerationResult> OnWorldGenerated;
+        public event Func<GenerationResult, Awaitable> OnWorldGeneratedAsync;
 
-        public bool GenerateWorld(WorldMapGenerationParameter @params, out World world)
+        public bool GenerateWorld(WorldMapGenerationParameter @params, out GenerationResult result)
         {
-            world = null;
+            result = null;
 
             var generator = new WorldMapGenerator();
-            if (!generator.Generate(@params, out var worldMap))
+            if (!generator.Generate(@params, out result))
                 return false;
 
-            var worldId = Moonstone.Ore.Model.NewId();
-            world = new World(worldId, worldMap);
-
-            OnWorldGenerated?.Invoke(world);
+            OnWorldGenerated?.Invoke(result);
 
             return true;
         }
 
-        public async Awaitable<World> GenerateWorldAsync(WorldMapGenerationParameter @params)
+        public async Awaitable<GenerationResult> GenerateWorldAsync(WorldMapGenerationParameter @params)
         {
             var generator = new WorldMapGenerator();
-            if (!generator.Generate(@params, out var worldMap))
-                return null;
-
-            var worldId = Moonstone.Ore.Model.NewId();
-            var world = new World(worldId, worldMap);
+            if (!generator.Generate(@params, out var world))
+                return world;
 
             if (OnWorldGeneratedAsync != null)
             {
-                var handlers = OnWorldGeneratedAsync.GetInvocationList().Cast<Func<World, Awaitable>>();
-                foreach (Func<World, Awaitable> handler in handlers)
+                var handlers = OnWorldGeneratedAsync.GetInvocationList().Cast<Func<GenerationResult, Awaitable>>();
+                foreach (Func<GenerationResult, Awaitable> handler in handlers)
                     await handler(world);
             }
 

@@ -19,18 +19,14 @@ namespace Afterlife.Dev
         [SerializeField] private Gradient _temperatureGradient;
         [SerializeField] private Gradient _moistureGradient;
 
-        private WorldSystem _worldSystem;
-        private WorldRepository _worldRepository;
-        private string _worldId;
+        // private WorldSystem _worldSystem;
+        private Game.World _world;
+        // private string _worldId;
 
         private void Start()
         {
-            _worldSystem = new();
-            _worldRepository = new();
-
             _container.Register(
-                _worldSystem,
-                _worldRepository
+                _world
             );
             _container.AddInjectee();
             _container.Bind();
@@ -45,23 +41,19 @@ namespace Afterlife.Dev
 
         private void GenerateWorldMap()
         {
-            if (!_worldSystem.GenerateWorld(_generationParameter, out var world)) return;
-            _worldRepository.Save(world);
-            _worldId = world.Id;
+            var generationResult = _world.Generate(_generationParameter);
+            if (generationResult == null) return;
 
-            var worldMapSize = world.WorldMap.Size;
+            var worldMapSize = _world.Size;
             Camera.main.transform.position = new Vector3(worldMapSize.x / 2f, worldMapSize.y / 2f, -10f);
             Camera.main.orthographicSize = Mathf.Max(worldMapSize.x, worldMapSize.y) / 2f + 5f;
         }
 
         private void OnDrawGizmos()
         {
-            if (_worldId == null) return;
+            if (_world == null) return;
 
-            if (!_worldRepository.TryFindById(_worldId, out var world)) return;
-            if (!world.WorldMap.GetLayerByType(WorldMapLayerType.Terrain, out World.TerrainLayer terrainLayer)) return;
-
-            var worldMapSize = world.WorldMap.Size;
+            var worldMapSize = _world.Size;
 
             if (_gizmosMoistureEnabled)
             {
@@ -69,7 +61,7 @@ namespace Afterlife.Dev
                 {
                     for (int x = 0; x < worldMapSize.x; x++)
                     {
-                        var cell = terrainLayer.Cells[x, y];
+                        var cell = _world.TerrainLayer.Cells[x, y];
                         Gizmos.color = _moistureGradient.Evaluate(cell.Moisture);
                         Gizmos.DrawCube(new Vector3(x + 0.5f, y + 0.5f, 0), Vector3.one);
                     }
@@ -83,7 +75,7 @@ namespace Afterlife.Dev
                 {
                     for (int x = 0; x < worldMapSize.x; x++)
                     {
-                        var cell = terrainLayer.Cells[x, y];
+                        var cell = _world.TerrainLayer.Cells[x, y];
                         Gizmos.color = _temperatureGradient.Evaluate(cell.Temperature);
                         Gizmos.DrawCube(new Vector3(x + 0.5f, y + 0.5f, 0), Vector3.one);
                     }
@@ -97,7 +89,7 @@ namespace Afterlife.Dev
                 {
                     for (int x = 0; x < worldMapSize.x; x++)
                     {
-                        var cell = terrainLayer.Cells[x, y];
+                        var cell = _world.TerrainLayer.Cells[x, y];
                         Gizmos.color = _elevationGradient.Evaluate(cell.Elevation);
                         Gizmos.DrawCube(new Vector3(x + 0.5f, y + 0.5f, 0), Vector3.one);
                     }
