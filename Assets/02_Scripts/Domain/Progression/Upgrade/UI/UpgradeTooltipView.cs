@@ -3,16 +3,16 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Afterlife.UI.Main
+namespace Afterlife.Domain.Progression.Upgrade.UI
 {
-    public class UpgradeInformation : View
+    public class UpgradeTooltipView : Afterlife.UI.View
     {
         [SerializeField] TextMeshProUGUI nameText;
         [SerializeField] TextMeshProUGUI costText;
         [SerializeField] Image separatorImage;
         [SerializeField] TextMeshProUGUI descriptionText;
 
-        public void Show(string id, int cost, UpgradeNode.UpgradeState state)
+        public void Show(string id, int cost, UpgradeNodeView.UpgradeState state)
         {
             nameText.text = LocalizationManager.Get($"upgrade.{id}.name");
             costText.text = $"{cost}";
@@ -23,7 +23,7 @@ namespace Afterlife.UI.Main
             LayoutRebuilder.ForceRebuildLayoutImmediate(costText.rectTransform);
             gameObject.SetActive(isActive);
 
-            if (state == UpgradeNode.UpgradeState.Locked)
+            if (state == UpgradeNodeView.UpgradeState.Locked)
             {
                 nameText.color = Color.gray;
                 costText.color = Color.gray;

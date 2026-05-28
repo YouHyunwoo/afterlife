@@ -1,3 +1,4 @@
+using Afterlife.Domain.Progression.Upgrade.Model;
 using UnityEngine;
 
 namespace Afterlife.Core
@@ -23,7 +24,7 @@ namespace Afterlife.Core
                 Data = gameData,
                 IsMainTutorialActive = true,
                 IsStageTutorialActive = true,
-                Upgrade = new Model.Upgrade(),
+                Upgrade = new UpgradeService(),
                 Artifact = new Model.Artifact(),
                 Reward = new Model.Reward(),
                 Lives = gameData.Lifes,

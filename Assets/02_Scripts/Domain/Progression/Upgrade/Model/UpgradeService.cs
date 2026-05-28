@@ -1,9 +1,10 @@
 using Afterlife.Core;
+using Afterlife.Model;
 using UnityEngine;
 
-namespace Afterlife.Model
+namespace Afterlife.Domain.Progression.Upgrade.Model
 {
-    public class Upgrade
+    public class UpgradeService
     {
         public void ApplyUpgrade(string upgradeId)
         {

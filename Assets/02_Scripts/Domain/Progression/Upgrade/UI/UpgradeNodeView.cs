@@ -1,12 +1,13 @@
 using System;
 using Afterlife.Core;
+using Afterlife.Domain.Progression.Upgrade.Data;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Afterlife.UI.Main
+namespace Afterlife.Domain.Progression.Upgrade.UI
 {
-    public class UpgradeNode : View, IPointerEnterHandler, IPointerExitHandler
+    public class UpgradeNodeView : Afterlife.UI.View, IPointerEnterHandler, IPointerExitHandler
     {
         public enum UpgradeState { Locked, Unlocked, Purchased }
 
@@ -14,15 +15,15 @@ namespace Afterlife.UI.Main
         [SerializeField] Image borderImage;
         [SerializeField] Image lockedOverlayImage;
 
-        public Data.Upgrade UpgradeData;
-        public UpgradeNode[] Prerequisites;
-        public UpgradeNode[] NextNodes;
+        public UpgradeData UpgradeData;
+        public UpgradeNodeView[] Prerequisites;
+        public UpgradeNodeView[] NextNodes;
 
         public UpgradeState State;
 
-        public event Action<UpgradeNode> OnPurchased;
-        public event Action<UpgradeNode> OnInformationShowed;
-        public event Action<UpgradeNode> OnInformationHidden;
+        public event Action<UpgradeNodeView> OnPurchased;
+        public event Action<UpgradeNodeView> OnInformationShowed;
+        public event Action<UpgradeNodeView> OnInformationHidden;
 
         void Awake()
         {

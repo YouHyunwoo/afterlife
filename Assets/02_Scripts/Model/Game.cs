@@ -1,3 +1,5 @@
+using Afterlife.Domain.Progression.Upgrade.Model;
+
 namespace Afterlife.Model
 {
     [System.Serializable]
@@ -6,7 +8,7 @@ namespace Afterlife.Model
         public Data.Game Data;
         public bool IsMainTutorialActive;
         public bool IsStageTutorialActive;
-        public Upgrade Upgrade;
+        public UpgradeService Upgrade;
         public Artifact Artifact;
         public Reward Reward;
         public int Lives;

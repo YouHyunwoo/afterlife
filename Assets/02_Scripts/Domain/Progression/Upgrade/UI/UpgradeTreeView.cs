@@ -1,8 +1,8 @@
-namespace Afterlife.UI.Main
+namespace Afterlife.Domain.Progression.Upgrade.UI
 {
-    public class UpgradeTree : View
+    public class UpgradeTreeView : Afterlife.UI.View
     {
-        public UpgradeNode[] upgradeNodes;
+        public UpgradeNodeView[] upgradeNodes;
 
         void Awake()
         {

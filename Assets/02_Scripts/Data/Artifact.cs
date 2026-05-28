@@ -1,3 +1,4 @@
+using Afterlife.Domain.Progression.Effect.Data;
 using UnityEngine;
 
 namespace Afterlife.Data
@@ -7,6 +8,6 @@ namespace Afterlife.Data
     {
         public string Id;
         public Sprite Icon;
-        public UpgradeParameter[] Parameters;
+        public PlayerEffectParameter[] Parameters;
     }
 }

@@ -17378,7 +17378,7 @@ GameObject:
   - component: {fileID: 656447030}
   - component: {fileID: 656447031}
   m_Layer: 5
-  m_Name: Main Upgrade Information
+  m_Name: Main Upgrade Tooltip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21095,10 +21095,10 @@ MonoBehaviour:
   BaseCampTabView: {fileID: 867779203}
   MenuView: {fileID: 217102275}
   MissionView: {fileID: 1106543946}
-  UpgradeView: {fileID: 1791297647}
+  UpgradePanel: {fileID: 1791297647}
   ArtifactView: {fileID: 0}
   RecipeView: {fileID: 0}
-  UpgradeInformationView: {fileID: 656447031}
+  UpgradeTooltipView: {fileID: 656447031}
   SettingsView: {fileID: 811076501}
   menuContinueButtonText: {fileID: 1593242475}
   menuSaveAndQuitButtonText: {fileID: 1913030081}

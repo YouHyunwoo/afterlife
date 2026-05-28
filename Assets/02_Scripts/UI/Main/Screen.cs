@@ -1,4 +1,5 @@
 using Afterlife.Core;
+using Afterlife.Domain.Progression.Upgrade.UI;
 using Afterlife.UI.Title;
 using TMPro;
 using UnityEngine;
@@ -30,10 +31,10 @@ namespace Afterlife.UI.Main
         public Tab BaseCampTabView;
         public Menu MenuView;
         public Mission MissionView;
-        public Upgrade UpgradeView;
+        public UpgradePanel UpgradePanel;
         public Artifact ArtifactView;
         public Recipe RecipeView;
-        public UpgradeInformation UpgradeInformationView;
+        public UpgradeTooltipView UpgradeTooltipView;
         public Settings SettingsView;
 
         [Header("Localization")]

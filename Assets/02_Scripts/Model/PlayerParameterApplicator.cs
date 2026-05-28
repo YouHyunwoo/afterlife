@@ -1,11 +1,12 @@
 using Afterlife.Core;
+using Afterlife.Domain.Progression.Effect.Data;
 using UnityEngine;
 
 namespace Afterlife.Model
 {
     public static class PlayerParameterApplicator
     {
-        public static void Apply(Data.UpgradeParameter parameter)
+        public static void Apply(PlayerEffectParameter parameter)
         {
             var parameterName = parameter.Name;
             var parameterValues = parameter.Values;
