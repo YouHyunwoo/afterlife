@@ -43,9 +43,8 @@ namespace Afterlife.UI.Main
             var game = gameManager.Game;
             var player = game.Player;
 
-            if (player.Experience >= UpgradeData.Cost)
+            if (player.SpendExperience(UpgradeData.Cost))
             {
-                player.Experience -= UpgradeData.Cost; // Example of deducting cost from player's experience
                 player.Upgrades.Add(UpgradeData.Id); // Add the upgrade ID to the player's upgrades
                 game.Upgrade.ApplyUpgrade(UpgradeData.Id);
                 SetPurchased();

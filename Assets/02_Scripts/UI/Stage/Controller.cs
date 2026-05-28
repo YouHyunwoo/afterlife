@@ -201,7 +201,17 @@ namespace Afterlife.UI.Stage
         public void RefreshCraftView()
         {
             var craftView = stageScreen.CraftView;
-            var craftableItemIds = ServiceLocator.Get<DataManager>().CraftableItemIds;
+            var craftableItemIds = GetUnlockedCraftableItemIds();
+
+            for (int i = 0; i < craftView.ItemSlots.Length; i++)
+            {
+                var itemSlot = craftView.ItemSlots[i];
+                itemSlot.ItemId = null;
+                itemSlot.SetItemIcon(null);
+                itemSlot.SetEquippedIcon(false);
+                itemSlot.SetItemCount(0);
+                itemSlot.SetLocked(false);
+            }
 
             for (int i = 0; i < craftableItemIds.Length && i < craftView.ItemSlots.Length; i++)
             {
@@ -212,6 +222,29 @@ namespace Afterlife.UI.Stage
                 itemSlot.SetItemIcon(itemData.Icon);
                 itemSlot.SetLocked(!craftSystem.IsCraftable(craftableItemId));
             }
+        }
+
+        string[] GetUnlockedCraftableItemIds()
+        {
+            var dataManager = ServiceLocator.Get<DataManager>();
+            var player = ServiceLocator.Get<GameManager>().Game.Player;
+            var recipeUnlocks = dataManager.RecipeUnlockDataArray;
+            if (recipeUnlocks == null || recipeUnlocks.Length == 0)
+            {
+                return dataManager.CraftableItemIds;
+            }
+
+            var itemIds = new System.Collections.Generic.List<string>();
+            foreach (var recipeUnlock in recipeUnlocks)
+            {
+                if (recipeUnlock == null) { continue; }
+                if (!player.UnlockedRecipeIds.Contains(recipeUnlock.Id)) { continue; }
+                if (string.IsNullOrEmpty(recipeUnlock.ItemId)) { continue; }
+
+                itemIds.Add(recipeUnlock.ItemId);
+            }
+
+            return itemIds.ToArray();
         }
 
         public override void RefreshView()

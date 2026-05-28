@@ -64,6 +64,10 @@
                     "text": "Upgrade"
                 },
                 {
+                    "id": "main.soul-engraving.text",
+                    "text": "Soul Engraving"
+                },
+                {
                     "id": "main.opportunity.text",
                     "text": "Opportunities"
                 },
@@ -715,6 +719,10 @@
                 {
                     "id": "main.upgrade.text",
                     "text": "업그레이드"
+                },
+                {
+                    "id": "main.soul-engraving.text",
+                    "text": "영혼 각인"
                 },
                 {
                     "id": "main.opportunity.text",

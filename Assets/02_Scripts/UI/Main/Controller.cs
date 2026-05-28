@@ -39,6 +39,8 @@ namespace Afterlife.UI.Main
             mainScreen.MenuView.Hide();
             mainScreen.MissionView.Hide();
             mainScreen.UpgradeView.Hide();
+            if (mainScreen.ArtifactView != null) { mainScreen.ArtifactView.Hide(); }
+            if (mainScreen.RecipeView != null) { mainScreen.RecipeView.Hide(); }
             mainScreen.UpgradeInformationView.Hide();
             mainScreen.SettingsView.Hide();
         }
@@ -57,6 +59,16 @@ namespace Afterlife.UI.Main
             mainScreen.OrbView.OnButtonClickedEvent += OnOrbClicked;
             mainScreen.MagicCircleView.OnButtonClickedEvent += OnMagicCircleClicked;
             mainScreen.MissionView.OnButtonClickedEvent += OnMissionButtonClicked;
+            if (mainScreen.ArtifactView != null)
+            {
+                mainScreen.ArtifactView.OnArtifactListItemClickedEvent += OnArtifactListItemClicked;
+            }
+            if (mainScreen.RecipeView != null)
+            {
+                mainScreen.RecipeView.OnRecipeUnlockedEvent += OnRecipeUnlocked;
+                mainScreen.RecipeView.OnRecipeInformationShowedEvent += OnRecipeInformationShowed;
+                mainScreen.RecipeView.OnRecipeInformationHiddenEvent += OnRecipeInformationHidden;
+            }
 
             var upgradeNodes = mainScreen.UpgradeView.UpgradeTreeView.upgradeNodes;
             foreach (var upgradeNode in upgradeNodes)
@@ -84,6 +96,16 @@ namespace Afterlife.UI.Main
             mainScreen.OrbView.OnButtonClickedEvent -= OnOrbClicked;
             mainScreen.MagicCircleView.OnButtonClickedEvent -= OnMagicCircleClicked;
             mainScreen.MissionView.OnButtonClickedEvent -= OnMissionButtonClicked;
+            if (mainScreen.ArtifactView != null)
+            {
+                mainScreen.ArtifactView.OnArtifactListItemClickedEvent -= OnArtifactListItemClicked;
+            }
+            if (mainScreen.RecipeView != null)
+            {
+                mainScreen.RecipeView.OnRecipeUnlockedEvent -= OnRecipeUnlocked;
+                mainScreen.RecipeView.OnRecipeInformationShowedEvent -= OnRecipeInformationShowed;
+                mainScreen.RecipeView.OnRecipeInformationHiddenEvent -= OnRecipeInformationHidden;
+            }
 
             ServiceLocator.Get<LocalizationManager>().OnLanguageChangedEvent -= mainScreen.Localize;
 
@@ -104,6 +126,37 @@ namespace Afterlife.UI.Main
             var game = gameManager.Game;
 
             mainScreen.ExperienceView.SetAmount(game.Player.Experience);
+            RefreshArtifactView();
+            RefreshRecipeView();
+        }
+
+        void OnArtifactListItemClicked(ArtifactListItem item)
+        {
+            var game = ServiceLocator.Get<GameManager>().Game;
+            if (game.Artifact.TrySelectArtifact(item.ArtifactId))
+            {
+                RefreshView();
+            }
+        }
+
+        void OnRecipeUnlocked(RecipeNode node)
+        {
+            RefreshView();
+        }
+
+        void OnRecipeInformationShowed(RecipeNode node)
+        {
+            if (node.RecipeData == null) { return; }
+
+            var nodeRectTransform = node.GetComponent<RectTransform>();
+            mainScreen.UpgradeInformationView.GetComponent<RectTransform>().position =
+                nodeRectTransform.position + new Vector3(20, 20, 0);
+            mainScreen.UpgradeInformationView.Show(node.RecipeData.ItemId, node.RecipeData.Cost, UpgradeNode.UpgradeState.Unlocked);
+        }
+
+        void OnRecipeInformationHidden(RecipeNode node)
+        {
+            mainScreen.UpgradeInformationView.Hide();
         }
 
         void OnUpgradeNodeInformationShowed(UpgradeNode upgradeNode)
@@ -135,6 +188,63 @@ namespace Afterlife.UI.Main
             mainScreen.LifeView.SetLifes(game.Lives);
             mainScreen.GuideView.SetGuideText("opportunity");
             mainScreen.MissionView.MissionProgressView.SetProgress(game.CurrentStageIndex, game.TotalStageCount);
+            RefreshArtifactView();
+            RefreshRecipeView();
+        }
+
+        void RefreshArtifactView()
+        {
+            if (mainScreen.ArtifactView == null) { return; }
+
+            var game = ServiceLocator.Get<GameManager>().Game;
+            var player = game.Player;
+            mainScreen.ArtifactView.SetAvailableSelectionCount(player.AvailableArtifactSelectionCount);
+
+            if (player.AvailableArtifactSelectionCount <= 0)
+            {
+                mainScreen.ArtifactView.SetArtifactList(System.Array.Empty<Data.Artifact>());
+                return;
+            }
+
+            var candidates = GetArtifactCandidates(player);
+            mainScreen.ArtifactView.SetArtifactList(candidates);
+        }
+
+        Data.Artifact[] GetArtifactCandidates(Model.Player player)
+        {
+            var artifacts = ServiceLocator.Get<DataManager>().ArtifactDataArray;
+            if (artifacts == null || artifacts.Length == 0) { return System.Array.Empty<Data.Artifact>(); }
+
+            var candidates = new System.Collections.Generic.List<Data.Artifact>();
+            foreach (var artifact in artifacts)
+            {
+                if (artifact == null) { continue; }
+                if (player.SelectedArtifactIds.Contains(artifact.Id)) { continue; }
+
+                candidates.Add(artifact);
+                if (candidates.Count >= player.RewardSelectionCount) { break; }
+            }
+
+            return candidates.ToArray();
+        }
+
+        void RefreshRecipeView()
+        {
+            if (mainScreen.RecipeView == null) { return; }
+            if (mainScreen.RecipeView.RecipeNodes == null) { return; }
+
+            var unlockedCount = 0;
+            foreach (var node in mainScreen.RecipeView.RecipeNodes)
+            {
+                if (node == null) { continue; }
+                node.Refresh();
+                if (node.State == RecipeNode.RecipeState.Purchased)
+                {
+                    unlockedCount++;
+                }
+            }
+
+            mainScreen.RecipeView.SetUnlockedCount(unlockedCount, mainScreen.RecipeView.RecipeNodes.Length);
         }
 
         public void ResetView()

@@ -27,9 +27,12 @@ namespace Afterlife.UI.Main
         public Guide GuideView;
 
         [Header("Popup")]
+        public Tab BaseCampTabView;
         public Menu MenuView;
         public Mission MissionView;
         public Upgrade UpgradeView;
+        public Artifact ArtifactView;
+        public Recipe RecipeView;
         public UpgradeInformation UpgradeInformationView;
         public Settings SettingsView;
 
@@ -47,7 +50,7 @@ namespace Afterlife.UI.Main
             menuSaveAndQuitButtonText.text = LocalizationManager.Get("main.menu.save-and-quit-button");
             settingsText.text = LocalizationManager.Get("title.menu.settings");
             missionTitleText.text = LocalizationManager.Get("main.mission.text");
-            upgradeTitleText.text = LocalizationManager.Get("main.upgrade.text");
+            upgradeTitleText.text = LocalizationManager.Get("main.soul-engraving.text");
             skipTutorialText.text = LocalizationManager.Get("main.tutorial.skip-key.text");
 
             if (ServiceLocator.Get<GameManager>().Game != null)
