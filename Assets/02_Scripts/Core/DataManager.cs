@@ -13,11 +13,15 @@ namespace Afterlife.Core
         public string[] CraftableItemIds;
         public Data.Reward[] RewardDataArray;
         public Data.Upgrade[] UpgradeDataArray;
+        public Data.Artifact[] ArtifactDataArray;
+        public Data.RecipeUnlock[] RecipeUnlockDataArray;
 
         public Dictionary<string, Data.Skill> SkillDataDictionary;
         public Dictionary<string, Data.Item> ItemDataDictionary;
         public Dictionary<string, Data.Reward> RewardDataDictionary;
         public Dictionary<string, Data.Upgrade> UpgradeDataDictionary;
+        public Dictionary<string, Data.Artifact> ArtifactDataDictionary;
+        public Dictionary<string, Data.RecipeUnlock> RecipeUnlockDataDictionary;
 
         void Awake()
         {
@@ -25,6 +29,8 @@ namespace Afterlife.Core
             InitializeItemDataDictionary();
             InitializeRewardDataDictionary();
             InitializeUpgradeDataDictionary();
+            InitializeArtifactDataDictionary();
+            InitializeRecipeUnlockDataDictionary();
         }
 
         void InitializeSkillDataDictionary()
@@ -60,6 +66,30 @@ namespace Afterlife.Core
             foreach (var upgrade in UpgradeDataArray)
             {
                 UpgradeDataDictionary.Add(upgrade.Id, upgrade);
+            }
+        }
+
+        void InitializeArtifactDataDictionary()
+        {
+            ArtifactDataDictionary = new();
+            if (ArtifactDataArray == null) { return; }
+
+            foreach (var artifact in ArtifactDataArray)
+            {
+                if (artifact == null || string.IsNullOrEmpty(artifact.Id)) { continue; }
+                ArtifactDataDictionary.Add(artifact.Id, artifact);
+            }
+        }
+
+        void InitializeRecipeUnlockDataDictionary()
+        {
+            RecipeUnlockDataDictionary = new();
+            if (RecipeUnlockDataArray == null) { return; }
+
+            foreach (var recipeUnlock in RecipeUnlockDataArray)
+            {
+                if (recipeUnlock == null || string.IsNullOrEmpty(recipeUnlock.Id)) { continue; }
+                RecipeUnlockDataDictionary.Add(recipeUnlock.Id, recipeUnlock);
             }
         }
 

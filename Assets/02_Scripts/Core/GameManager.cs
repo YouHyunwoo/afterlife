@@ -2,9 +2,6 @@ using UnityEngine;
 
 namespace Afterlife.Core
 {
-    /// <summary>
-    /// 게임을 관리하는 GameManager
-    /// </summary>
     public class GameManager : ManagerBase
     {
         public Model.Game Game;
@@ -14,15 +11,12 @@ namespace Afterlife.Core
             ServiceLocator.Get<UIManager>().Fade(() =>
             {
                 CreateGame();
-                CreateStage();
-                ServiceLocator.Get<SceneManager>().ChangeState(SceneState.InGame);
+                ServiceLocator.Get<SceneManager>().ChangeState(SceneState.Main);
             });
         }
 
         void CreateGame()
         {
-            // 게임 생성 로직
-            // 예: 플레이어, 스테이지, 오브젝트 초기화 등
             var gameData = ServiceLocator.Get<DataManager>().GameData;
             Game = new Model.Game
             {
@@ -30,11 +24,16 @@ namespace Afterlife.Core
                 IsMainTutorialActive = true,
                 IsStageTutorialActive = true,
                 Upgrade = new Model.Upgrade(),
+                Artifact = new Model.Artifact(),
                 Reward = new Model.Reward(),
                 Lives = gameData.Lifes,
                 Player = new Model.Player
                 {
                     Experience = gameData.Experience,
+                    Level = 1,
+                    CurrentLevelExperience = 0f,
+                    RequiredLevelExperience = GetInitialLevelExperience(gameData),
+                    LevelExperienceGrowth = GetLevelExperienceGrowth(gameData),
                     AttackPower = 1f,
                     AttackSpeed = 1f,
                     AttackRange = 1f,
@@ -57,14 +56,50 @@ namespace Afterlife.Core
                 TotalStageCount = gameData.StageDataArray.Length,
             };
 
-            Debug.Log("[System] 게임 생성");
+            InitializeRecipeUnlocks(Game.Player);
+
+            Debug.Log("[System] Game created");
+        }
+
+        float GetInitialLevelExperience(Data.Game gameData)
+        {
+            return gameData.BaseLevelExperience > 0f ? gameData.BaseLevelExperience : 100f;
+        }
+
+        float GetLevelExperienceGrowth(Data.Game gameData)
+        {
+            return gameData.LevelExperienceGrowth > 0f ? gameData.LevelExperienceGrowth : 1.2f;
+        }
+
+        void InitializeRecipeUnlocks(Model.Player player)
+        {
+            var dataManager = ServiceLocator.Get<DataManager>();
+            var recipeUnlocks = dataManager.RecipeUnlockDataArray;
+            if (recipeUnlocks == null || recipeUnlocks.Length == 0)
+            {
+                foreach (var itemId in dataManager.CraftableItemIds)
+                {
+                    player.UnlockedRecipeIds.Add(itemId);
+                }
+
+                return;
+            }
+
+            foreach (var recipeUnlock in recipeUnlocks)
+            {
+                if (recipeUnlock == null) { continue; }
+                var hasPrerequisites = recipeUnlock.PrerequisiteRecipeIds != null &&
+                    recipeUnlock.PrerequisiteRecipeIds.Length > 0;
+                if (recipeUnlock.Cost <= 0 && !hasPrerequisites)
+                {
+                    player.UnlockedRecipeIds.Add(recipeUnlock.Id);
+                }
+            }
         }
 
         void SaveGame()
         {
-            // 게임 저장 로직
-            // 예: 플레이어 상태, 스테이지 진행 상황 등을 저장
-            Debug.Log("[System] 게임 저장");
+            Debug.Log("[System] Game saved");
         }
 
         public void QuitGame()
@@ -97,13 +132,11 @@ namespace Afterlife.Core
 
         void DeleteGame()
         {
-            // 게임 종료 로직
-            // 예: 플레이어 상태 초기화, 스테이지 리셋 등
             ServiceLocator.Get<UI.Main.Controller>().ResetView();
 
             Game = null;
 
-            Debug.Log("[System] 게임 삭제");
+            Debug.Log("[System] Game deleted");
         }
 
         public void StartStage()
@@ -119,7 +152,7 @@ namespace Afterlife.Core
         {
             ServiceLocator.Get<StageManager>().StartStage();
 
-            Debug.Log("[System] 스테이지 생성");
+            Debug.Log("[System] Stage created");
         }
     }
 }

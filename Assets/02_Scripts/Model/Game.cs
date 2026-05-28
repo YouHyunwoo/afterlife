@@ -7,6 +7,7 @@ namespace Afterlife.Model
         public bool IsMainTutorialActive;
         public bool IsStageTutorialActive;
         public Upgrade Upgrade;
+        public Artifact Artifact;
         public Reward Reward;
         public int Lives;
         public Player Player;

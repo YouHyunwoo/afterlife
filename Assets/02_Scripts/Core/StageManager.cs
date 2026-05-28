@@ -184,21 +184,10 @@ namespace Afterlife.Core
         {
             EndStage();
 
-            var game = ServiceLocator.Get<GameManager>().Game;
-
-            game.Lives--;
-            if (game.Lives <= 0)
+            ServiceLocator.Get<UIManager>().Fade(() =>
             {
-                game.Lives = 0;
-                ServiceLocator.Get<GameManager>().FailGame();
-            }
-            else
-            {
-                ServiceLocator.Get<UIManager>().Fade(() =>
-                {
-                    ServiceLocator.Get<SceneManager>().ChangeState(SceneState.Main);
-                });
-            }
+                ServiceLocator.Get<SceneManager>().ChangeState(SceneState.Main);
+            });
         }
 
         public void EndStage() => RequestDispose();
