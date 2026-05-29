@@ -1,9 +1,10 @@
 using Afterlife.Core;
-using Afterlife.Domain.Progression.Upgrade.UI;
 using Afterlife.UI.Title;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UpgradeTooltipView = Afterlife.Domain.Progression.Upgrade.UI.UpgradeTooltipView;
+using UpgradeTreeView = Afterlife.Dev.UpgradeTree.UI.UpgradeTreeView;
 
 namespace Afterlife.UI.Main
 {
@@ -31,7 +32,7 @@ namespace Afterlife.UI.Main
         public Tab BaseCampTabView;
         public Menu MenuView;
         public Mission MissionView;
-        public UpgradePanel UpgradePanel;
+        public UpgradeTreeView UpgradeTreeView;
         public Artifact ArtifactView;
         public Recipe RecipeView;
         public UpgradeTooltipView UpgradeTooltipView;

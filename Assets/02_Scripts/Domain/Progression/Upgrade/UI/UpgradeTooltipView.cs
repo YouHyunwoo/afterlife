@@ -14,6 +14,11 @@ namespace Afterlife.Domain.Progression.Upgrade.UI
 
         public void Show(string id, int cost, UpgradeNodeView.UpgradeState state)
         {
+            Show(id, cost, state == UpgradeNodeView.UpgradeState.Locked);
+        }
+
+        public void Show(string id, int cost, bool locked = false)
+        {
             nameText.text = LocalizationManager.Get($"upgrade.{id}.name");
             costText.text = $"{cost}";
             descriptionText.text = LocalizationManager.Get($"upgrade.{id}.description");
@@ -23,7 +28,7 @@ namespace Afterlife.Domain.Progression.Upgrade.UI
             LayoutRebuilder.ForceRebuildLayoutImmediate(costText.rectTransform);
             gameObject.SetActive(isActive);
 
-            if (state == UpgradeNodeView.UpgradeState.Locked)
+            if (locked)
             {
                 nameText.color = Color.gray;
                 costText.color = Color.gray;

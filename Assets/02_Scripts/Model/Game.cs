@@ -1,4 +1,5 @@
 using Afterlife.Domain.Progression.Upgrade.Model;
+using Afterlife.Dev.UpgradeTree.Model;
 
 namespace Afterlife.Model
 {
@@ -9,6 +10,7 @@ namespace Afterlife.Model
         public bool IsMainTutorialActive;
         public bool IsStageTutorialActive;
         public UpgradeService Upgrade;
+        public UpgradeTreeProgress UpgradeTreeProgress;
         public Artifact Artifact;
         public Reward Reward;
         public int Lives;

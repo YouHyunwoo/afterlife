@@ -62,6 +62,11 @@ namespace Afterlife.Dev.UpgradeTree.UI
             Rebuild();
         }
 
+        public void Initialize(UpgradeTreeProgress progress)
+        {
+            Initialize(_treeData, progress);
+        }
+
         public void Rebuild()
         {
             ClearRuntimeViews();

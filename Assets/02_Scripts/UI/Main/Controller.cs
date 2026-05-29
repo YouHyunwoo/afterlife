@@ -1,5 +1,5 @@
 using Afterlife.Core;
-using Afterlife.Domain.Progression.Upgrade.UI;
+using Afterlife.Dev.UpgradeTree.Model;
 using UnityEngine;
 
 namespace Afterlife.UI.Main
@@ -39,7 +39,7 @@ namespace Afterlife.UI.Main
         {
             mainScreen.MenuView.Hide();
             mainScreen.MissionView.Hide();
-            mainScreen.UpgradePanel.Hide();
+            if (mainScreen.UpgradeTreeView != null) { mainScreen.UpgradeTreeView.Hide(); }
             if (mainScreen.ArtifactView != null) { mainScreen.ArtifactView.Hide(); }
             if (mainScreen.RecipeView != null) { mainScreen.RecipeView.Hide(); }
             mainScreen.UpgradeTooltipView.Hide();
@@ -71,23 +71,19 @@ namespace Afterlife.UI.Main
                 mainScreen.RecipeView.OnRecipeInformationHiddenEvent += OnRecipeInformationHidden;
             }
 
-            var upgradeNodes = mainScreen.UpgradePanel.UpgradeTreeView.upgradeNodes;
-            foreach (var upgradeNode in upgradeNodes)
+            if (mainScreen.UpgradeTreeView != null)
             {
-                upgradeNode.OnPurchased += OnUpgradeItemPurchased;
-                upgradeNode.OnInformationShowed += OnUpgradeNodeInformationShowed;
-                upgradeNode.OnInformationHidden += OnUpgradeNodeInformationHidden;
+                var game = ServiceLocator.Get<GameManager>().Game;
+                mainScreen.UpgradeTreeView.Initialize(game.UpgradeTreeProgress);
+                mainScreen.UpgradeTreeView.OnPurchaseCompleted += OnUpgradePurchaseCompleted;
             }
         }
 
         public override void TearDown()
         {
-            var upgradeNodes = mainScreen.UpgradePanel.UpgradeTreeView.upgradeNodes;
-            foreach (var upgradeNode in upgradeNodes)
+            if (mainScreen.UpgradeTreeView != null)
             {
-                upgradeNode.OnPurchased -= OnUpgradeItemPurchased;
-                upgradeNode.OnInformationShowed -= OnUpgradeNodeInformationShowed;
-                upgradeNode.OnInformationHidden -= OnUpgradeNodeInformationHidden;
+                mainScreen.UpgradeTreeView.OnPurchaseCompleted -= OnUpgradePurchaseCompleted;
             }
 
             mainScreen.menuButton.onClick.RemoveListener(OnMenuButtonClicked);
@@ -118,11 +114,19 @@ namespace Afterlife.UI.Main
         void OnSettingsButtonClicked() => focusManager.Focus(mainScreen.SettingsView);
         void OnSaveAndQuitButtonClicked() => ServiceLocator.Get<GameManager>().QuitGame();
         void OnOrbClicked() => focusManager.Focus(mainScreen.MissionView);
-        void OnMagicCircleClicked() => focusManager.Focus(mainScreen.UpgradePanel);
+        void OnMagicCircleClicked()
+        {
+            if (mainScreen.UpgradeTreeView != null)
+            {
+                focusManager.Focus(mainScreen.UpgradeTreeView);
+            }
+        }
         void OnMissionButtonClicked() => ServiceLocator.Get<GameManager>().StartStage();
 
-        void OnUpgradeItemPurchased(UpgradeNodeView upgradeNode)
+        void OnUpgradePurchaseCompleted(string nodeId, UpgradeTreePurchaseResult result)
         {
+            if (result != UpgradeTreePurchaseResult.Purchased) { return; }
+
             var gameManager = ServiceLocator.Get<GameManager>();
             var game = gameManager.Game;
 
@@ -152,22 +156,10 @@ namespace Afterlife.UI.Main
             var nodeRectTransform = node.GetComponent<RectTransform>();
             mainScreen.UpgradeTooltipView.GetComponent<RectTransform>().position =
                 nodeRectTransform.position + new Vector3(20, 20, 0);
-            mainScreen.UpgradeTooltipView.Show(node.RecipeData.ItemId, node.RecipeData.Cost, UpgradeNodeView.UpgradeState.Unlocked);
+            mainScreen.UpgradeTooltipView.Show(node.RecipeData.ItemId, node.RecipeData.Cost);
         }
 
         void OnRecipeInformationHidden(RecipeNode node)
-        {
-            mainScreen.UpgradeTooltipView.Hide();
-        }
-
-        void OnUpgradeNodeInformationShowed(UpgradeNodeView upgradeNode)
-        {
-            var nodeRectTransform = upgradeNode.GetComponent<RectTransform>();
-            mainScreen.UpgradeTooltipView.GetComponent<RectTransform>().position = nodeRectTransform.position + new Vector3(20, 20, 0);
-            mainScreen.UpgradeTooltipView.Show(upgradeNode.UpgradeData.Id, upgradeNode.UpgradeData.Cost, upgradeNode.State);
-        }
-
-        void OnUpgradeNodeInformationHidden(UpgradeNodeView upgradeNode)
         {
             mainScreen.UpgradeTooltipView.Hide();
         }
@@ -250,10 +242,9 @@ namespace Afterlife.UI.Main
 
         public void ResetView()
         {
-            var upgradeNodes = mainScreen.UpgradePanel.UpgradeTreeView.upgradeNodes;
-            foreach (var upgradeNode in upgradeNodes)
+            if (mainScreen.UpgradeTreeView != null)
             {
-                upgradeNode.Clear();
+                mainScreen.UpgradeTreeView.Hide();
             }
 
             mainScreen.MenuView.Hide();
