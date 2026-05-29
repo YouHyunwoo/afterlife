@@ -21,7 +21,8 @@ namespace Afterlife.UI
             }
 
             CurrentViewIndex = 0;
-            buttons[CurrentViewIndex].onClick.Invoke();
+            buttons[CurrentViewIndex].interactable = false;
+            views[CurrentViewIndex].SetActive(true);
         }
 
         void OnButtonClicked(int index) => SetView(index);
