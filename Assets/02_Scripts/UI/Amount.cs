@@ -7,6 +7,6 @@ namespace Afterlife.UI
     {
         [SerializeField] TextMeshProUGUI amountText;
 
-        public void SetAmount(float amount) => amountText.text = $"{amount:0}";
+        public void SetAmount(float amount) => amountText.text = $"<sprite=0> {amount:0}";
     }
 }
