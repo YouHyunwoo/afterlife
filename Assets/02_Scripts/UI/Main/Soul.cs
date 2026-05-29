@@ -16,6 +16,7 @@ namespace Afterlife.UI.Main
         float orbitRotation = 0f; // 궤도 회전 각도(도)
 
         RectTransform rectTransform;
+        Coroutine moveCoroutine;
         float angle;
         Material material;
 
@@ -25,12 +26,34 @@ namespace Afterlife.UI.Main
             material = image.material;
         }
 
-        void Start()
+        void OnEnable()
         {
-            angle = 0f;
+            StartMoveRoutine();
+        }
+
+        void OnDisable()
+        {
+            if (moveCoroutine == null) { return; }
+
+            StopCoroutine(moveCoroutine);
+            moveCoroutine = null;
+        }
+
+        public void Initialize(RectTransform center)
+        {
+            this.center = center;
+            StartMoveRoutine();
+        }
+
+        void StartMoveRoutine()
+        {
+            if (!isActiveAndEnabled) { return; }
+            if (center == null) { return; }
+            if (moveCoroutine != null) { return; }
+
             orbitRotation = Random.Range(-30f, 30f);
             currentAngularSpeed = angularSpeed;
-            StartCoroutine(MoveRoutine());
+            moveCoroutine = StartCoroutine(MoveRoutine());
         }
 
         IEnumerator MoveRoutine()

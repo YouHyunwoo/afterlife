@@ -15,7 +15,7 @@ namespace Afterlife.UI.Main
             for (int i = 0; i < lifes; i++)
             {
                 var soul = Instantiate(soulPrefab, lifeContainerTransform);
-                soul.center = targetTransform;
+                soul.Initialize(targetTransform);
             }
         }
     }
