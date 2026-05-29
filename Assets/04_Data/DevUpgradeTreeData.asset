@@ -24,6 +24,7 @@ MonoBehaviour:
     - recovery-power
     - critical-rate
     - attack-speed
+    - sight-range
     Levels:
     - Cost: 5
       Description: upgrade.attack-power-1.description
