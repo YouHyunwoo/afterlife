@@ -1,8 +1,18 @@
 {
-  "timestamp": "2026-09-20T10:59:44.961965",
+  "timestamp": "2026-09-20T12:42:13.437951",
   "method": "dotnet build --no-restore",
   "unity_play_tests": false,
   "assemblies": [
+    {
+      "assembly": "Afterlife.Devlog.AmbientAudio.Core",
+      "exit_code": 0,
+      "log": "devlog\\records\\build-logs\\Afterlife.Devlog.AmbientAudio.Core.txt"
+    },
+    {
+      "assembly": "Afterlife.Devlog.AmbientAudio",
+      "exit_code": 0,
+      "log": "devlog\\records\\build-logs\\Afterlife.Devlog.AmbientAudio.txt"
+    },
     {
       "assembly": "Afterlife.Devlog.Audio",
       "exit_code": 0,
@@ -12,6 +22,16 @@
       "assembly": "Afterlife.Devlog.Contracts",
       "exit_code": 0,
       "log": "devlog\\records\\build-logs\\Afterlife.Devlog.Contracts.txt"
+    },
+    {
+      "assembly": "Afterlife.Devlog.DamageMarks.Core",
+      "exit_code": 0,
+      "log": "devlog\\records\\build-logs\\Afterlife.Devlog.DamageMarks.Core.txt"
+    },
+    {
+      "assembly": "Afterlife.Devlog.DamageMarks",
+      "exit_code": 0,
+      "log": "devlog\\records\\build-logs\\Afterlife.Devlog.DamageMarks.txt"
     },
     {
       "assembly": "Afterlife.Devlog.Interaction",

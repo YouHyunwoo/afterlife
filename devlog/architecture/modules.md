@@ -13,10 +13,14 @@ Day01은 입력·카메라·촬영 UI와 모듈 조합을 담당한다. 공용 �
 |Vegetation|풀/잎 빌보드·바람·색상 배치·적설 노출|Terrain, Interaction|
 |Lighting|낮/밤·집/커서 시야·연기|없음|
 |Wind|CPU/GPU 공통 방향·공간 돌풍, 전역값 발행·복원|없음|
+|DamageMarks.Core|최대 8개 타격 자국 이력·근접 병합, 순수 C#|없음, noEngineReferences|
+|DamageMarks|표면 좌표 변환·셰이더 배열 전달|DamageMarks.Core|
 |Destruction|쓰러짐 후 제거, 바위 조각, 설정|없음|
 |Hover|커서 흔적·먼지·풀 반응|Terrain|
 |Shoreline|해안 모서리 메시 변형과 단면|Terrain|
 |Audio|음원 데이터, 타격/파괴 채널과 순환|없음|
+|AmbientAudio.Core|환경음 페이드·간헐음 간격, 순수 C#|없음, noEngineReferences|
+|AmbientAudio|풀 접촉음·간헐적 새 울음 채널, 주입된 설정/음원 재생|AmbientAudio.Core|
 |Rendering / Water|공통 표면/물 셰이더|기능별 HLSL include, C# 어셈블리 없음|
 |Day01 Runtime|씬 참조와 실행 순서, 타깃 어댑터|위 모듈, Input System, URP|
 |Day01 Editor|씬/메시 제작, 마이그레이션·프리팹 저장|Runtime 및 제작에 필요한 모듈, Editor 전용|
@@ -33,6 +37,8 @@ DestructionProfile은 타격 횟수, 나무 넘어지는 시간/각도, 대기 �
 
 ## 수명과 초기화
 
+환경음은 Day01이 AmbientAudio에 클립·풀 접촉 여부·낮/밤·활성 공간을 주입한다. Vegetation.HasGrassAt은 실제 생성된 After 풀의 위치와 폭으로 지면 접촉 영역을 확인한다. Day01은 유효한 지면 선택과 실제 마우스 이동을 함께 요구한다. 풀 접촉음은 선택한 2·3·4번 발췌본을 직전 반복 없이 랜덤 재생한다. 정지 시 추가 재생만 막고 여운은 보존하며, 공간 이탈은 0.12초 페이드한다. 바람 재생은 제거했다. 새 울음은 기존 2초 공간 페이드와 밤 억제를 유지한다. R은 두 채널과 타이머를 초기화한다. Dispose는 모든 채널과 재생 요청 구독을 해제한다. [설정과 확인 절차](../records/nature-ambience.md).
+
 Picking 데이터는 원본 Mesh별로 최초 접근 시 생성하며 파일로 저장하지 않는다. Surface가 사용을 등록하고 마지막 사용자 파괴 시 해제한다. 비활성 풀 객체는 재사용을 위해 유지하고 씬 언로드 시 파괴된 사용자를 정리한다. 플레이 진입/종료와 어셈블리 리로드에서 캐시를 초기화한다. 외부 주입된 눈/변형 지형의 데이터는 해당 모듈이 해제한다. 원본 모델은 Read/Write가 필요하다. [전환 기록](../records/runtime-picking.md).
 
 Day01Showcase의 OnEnable에서 모듈을 구성하고 OnDisable에서 Dispose/복원을 호출한다. 생성한 메시·재질·파티클의 해제 책임은 생성 모듈에 있다. R과 공간 전환은 타깃/흔적/효과의 촬영 상태를 초기화한다. 셰이더 전역값과 전용 렌더 파이프라인은 종료 시 복원한다.
@@ -44,3 +50,7 @@ Wind는 씬의 식생/집을 직접 찾지 않는다. Day01이 바람 샘플 함
 Terrain은 엔진과 분리됐지만 고정 Day01 지도 데이터가 함께 있는 샘플 모듈이다. Day01의 메시 생성기·배치·도구 애니메이션은 에피소드 전용으로 남겼다. 모든 기능을 게임플레이 프레임워크로 재작성한 것은 아니다.
 
 시야·호버·침식은 셰이더 전역 배열을 공유한다. 여러 쇼케이스 인스턴스를 동시에 실행하는 것은 지원하지 않는다. 큰 맵 적용 전에는 공간별 상태 주입, 파티클/파편 풀링, 선택 메시 가속 구조를 별도로 설계해야 한다.
+
+## 6단계 촬영 구성
+
+Day01의 PresentationStages가 6개 공간을 소유한다. 기존 Stages[2]는 After 업그레이드 호환을 유지한다. 공간 전환에서 기존 효과를 해제한 뒤 해당 단계 모듈을 재생성한다. Vegetation의 단일 공간 생성과 Lighting의 즉시 낮/밤 설정, Wind의 강도 인자는 기존 호출을 보존하는 선택 API다. [상세 단계 계약](../records/stage-progression.md).
