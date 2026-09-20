@@ -74,3 +74,5 @@ Day01의 PresentationStages가 6개 공간을 소유한다. 기존 Stages[2]는 
 Terrain의 ShowcaseTerrainField가 맵 전체 좌표의 gradient Perlin과 실제 0.25m 삼각형 표면 높이를 제공한다. ShowcaseTileVariants.Height는 이 필드로 위임하고 기존 높이는 LegacyHeight로 이관 시에만 사용한다. Day01ContinuousTerrainSetup은 3~6단계를 같은 좌표별 메시로 갱신하고 경계 높이를 확인한다. Vegetation과 타깃 지면 조회도 같은 표면 보간을 사용한다. 쇼케이스 공간 이동 오프셋은 제외하여 전후 비교 구도를 유지한다. [상세 기록](../records/continuous-terrain.md).
 
 프로토타입 지면 색은 PrototypeGroundAppearance HLSL과 런타임 색/법선 텍스처를 지형·풀·식물 장식이 공유한다. TerrainSurface는 원본 맵의 색/높이를 제공하고, 프로토타입 어댑터가 텍스처 생성·소유·전역값 복원을 담당한다. Grass 출력 훅은 Day01과 프로토타입 표현을 분리한다.
+
+프로토타입 커서 반응은 `PrototypeHover`가 `ShowcaseTileHover.Map`으로 지도 범위·바이옴·흙먼지 셰이더를 주입한다. HoverDust 패스를 공유하고 출력 조명만 바꾼다. TerrainSurface는 선택적 높이 함수를 받아 변형 후 삼각형을 선택한다. WaterSurface는 파문 표시를 명시적으로 켜며 생성/초기화/메뉴 정지/해제는 프로토타입 어댑터가 조율한다. [이관 상태와 확인 절차](../temp-prototype-migration-context.md).
