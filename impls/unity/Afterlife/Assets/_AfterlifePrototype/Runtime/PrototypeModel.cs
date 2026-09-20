@@ -29,7 +29,16 @@ namespace Afterlife.Prototype
         public int MapRadius=45, Days=6,TreeLimit=260,RockLimit=160;public float ResourceSpawnSeconds=12;
     }
     public sealed class Order { public float Progress; public int Paid; public Kind Kind; public float Seconds; }
-    public sealed class VisionEcho { public Point Position; public float Life; }
+    public sealed class VisionEcho
+    {
+        public Point Position; public float Life;
+        public float Strength(float lifetime)
+        {
+            float age=1-Life/Math.Max(.1f,lifetime);
+            float t=Math.Max(0,Math.Min(1,(age-.2f)/.8f));
+            return 1-t*t*(3-2*t);
+        }
+    }
     public sealed class Body
     {
         public int Id, Width=1, Depth=1, Owner, PatrolIndex;
@@ -340,7 +349,20 @@ namespace Afterlife.Prototype
         {
             for(int i=Echoes.Count-1;i>=0;i--){Echoes[i].Life-=dt;if(Echoes[i].Life<=0)Echoes.RemoveAt(i);}
             _echoClock+=dt;
-            if(PointerVisible&&_echoClock>=.09f){_echoClock=0;Echoes.Add(new VisionEcho{Position=WorkCenter,Life=Settings.VisionTrailSeconds});if(Echoes.Count>20)Echoes.RemoveAt(0);}
+            if(!PointerVisible)return;
+            float lifetime=Math.Max(.1f,Settings.VisionTrailSeconds);
+            Point previous=Echoes.Count>0?Echoes[Echoes.Count-1].Position:WorkCenter;
+            float distance=Point.Distance(previous,WorkCenter);
+            if(Echoes.Count>0 && distance<.12f){Echoes[Echoes.Count-1].Life=lifetime;return;}
+            if(Echoes.Count>0 && _echoClock<.06f && distance<.35f)return;
+            int steps=distance<Settings.CursorVision*2?Math.Max(1,Math.Min(8,(int)Math.Ceiling(distance/Math.Max(.25f,Settings.CursorVision*.35f)))):1;
+            for(int i=1;i<=steps;i++)
+            {
+                float t=i/(float)steps;
+                Echoes.Add(new VisionEcho{Position=new Point(previous.X+(WorkCenter.X-previous.X)*t,previous.Z+(WorkCenter.Z-previous.Z)*t),Life=lifetime});
+                if(Echoes.Count>32)Echoes.RemoveAt(0);
+            }
+            _echoClock=0;
         }
         private static float Clamp01(float n)=>Math.Max(0,Math.Min(1,n));
         private float Light(Point p,Point center,float radius)
@@ -354,7 +376,7 @@ namespace Afterlife.Prototype
             float amount=0;
             foreach(var b in Bodies){float radius=BodyVisionRadius(b);if(radius>0)amount=Math.Max(amount,Light(p,b.Position,radius));}
             if(PointerVisible)amount=Math.Max(amount,Light(p,WorkCenter,Settings.CursorVision));
-            foreach(var echo in Echoes)amount=Math.Max(amount,Light(p,echo.Position,Settings.CursorVision)*Clamp01(echo.Life/Settings.VisionTrailSeconds));
+            foreach(var echo in Echoes)amount=Math.Max(amount,Light(p,echo.Position,Settings.CursorVision)*echo.Strength(Settings.VisionTrailSeconds));
             return amount;
         }
         private void ProcessConstruction(float dt)

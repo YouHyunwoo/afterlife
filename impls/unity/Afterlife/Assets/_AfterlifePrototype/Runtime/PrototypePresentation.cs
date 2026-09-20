@@ -20,32 +20,13 @@ namespace Afterlife.Prototype
         private readonly List<ToolEffect> _tools=new List<ToolEffect>();
         private readonly Dictionary<int,Reaction> _reactions=new Dictionary<int,Reaction>();
         private readonly List<int> _expiredReactions=new List<int>();
-        private Mesh _grassMesh;
         private Texture2D _terrainTiles;
         private float _effectTime;
 
         private void InitializePresentation()
         {
             UploadTerrainTiles();BuildTerrainDetails();
-            // 하나의 메시로 풀 군락을 묶는다. 개별 풀 Update/Collider/Material을 만들지 않는다.
-            var vertices=new List<Vector3>();var triangles=new List<int>();
-            var random=new System.Random(537);
-            for(int i=0;i<1200;i++)
-            {
-                float span=(_settings.MapRadius-2)*2;float x=(float)random.NextDouble()*span-span/2,z=(float)random.NextDouble()*span-span/2;
-                if(_model.Terrain.At(new Point(x,z))!=TerrainKind.Grass||Mathf.Abs(x)<3&&Mathf.Abs(z)<3)continue;
-                for(int blade=0;blade<3;blade++)
-                {
-                    float xx=x+blade*.09f,zz=z+blade*.07f;int n=vertices.Count;
-                    float lift=GroundLift(xx,zz);
-                    vertices.Add(new Vector3(xx-.04f,-.04f+lift,zz));vertices.Add(new Vector3(xx+.04f,-.04f+lift,zz));vertices.Add(new Vector3(xx+.02f,.16f+(i%3)*.035f+lift,zz));
-                    triangles.Add(n);triangles.Add(n+1);triangles.Add(n+2);
-                }
-            }
-            _grassMesh=new Mesh{name="Combined swaying grass"};_grassMesh.SetVertices(vertices);_grassMesh.SetTriangles(triangles,0);_grassMesh.RecalculateNormals();
-            var grass=new GameObject("Environment grass patches");grass.transform.SetParent(transform,false);
-            grass.AddComponent<MeshFilter>().sharedMesh=_grassMesh;var renderer=grass.AddComponent<MeshRenderer>();renderer.sharedMaterial=_surface;
-            Tint(renderer,new Color(.3f,.48f,.22f));renderer.GetPropertyBlock(_block);_block.SetFloat("_Grass",1);renderer.SetPropertyBlock(_block);
+            InitializeVegetation();
         }
         private bool CanContribute(Body b)=>b.Alive&&(b.Kind==Kind.Tree||b.Kind==Kind.Rock||b.Hostile||b.Kind==Kind.Animal||b.Kind==Kind.Chest||b.Kind==Kind.Treasure||b.Building&&(b.MovingOut||b.MoveSource!=0||!b.Complete||b.Health<b.MaxHealth&&_model.Money>0));
         private ToolEffect GetTool(Body b)
@@ -199,11 +180,11 @@ namespace Afterlife.Prototype
                 else go.transform.position+=new Vector3(Mathf.Sin(t*35),0,Mathf.Cos(t*29))*(1-t)*.065f;
             }
             foreach(int id in _expiredReactions)_reactions.Remove(id);
-            UpdateContentEffects();UpdateGrowthEffects();
+            UpdateContentEffects();UpdateGrowthEffects();UpdateVegetation();
         }
         private void ResetPresentation()
         {
-            ResetGoldFeedback();ResetContentEffects();ResetGrowthEffects();_reactions.Clear();foreach(var tool in _tools){tool.Body=0;tool.Root.SetActive(false);}
+            ResetVegetation();ResetGoldFeedback();ResetContentEffects();ResetGrowthEffects();_reactions.Clear();foreach(var tool in _tools){tool.Body=0;tool.Root.SetActive(false);}
             _renderCache.Clear();_lightCache.Clear();_modelPositions.Clear();_displayPositions.Clear();_fogTerritoryRevision=-1;
         }
         private void UploadTerrainTiles()
@@ -215,6 +196,6 @@ namespace Afterlife.Prototype
             _terrainTiles.SetPixels32(pixels);_terrainTiles.Apply(false,true);
             Shader.SetGlobalTexture("_TerrainTiles",_terrainTiles);Shader.SetGlobalFloat("_TerrainSize",map.Size);Shader.SetGlobalFloat("_TerrainRadius",map.Radius);
         }
-        private void DisposePresentation(){DisposeContent();if(_terrainTiles!=null)Destroy(_terrainTiles);if(_grassMesh!=null)Destroy(_grassMesh);Shader.SetGlobalVector("_CursorCircle",Vector4.zero);Shader.SetGlobalInt("_VisionCount",0);}
+        private void DisposePresentation(){DisposeVegetation();DisposeContent();if(_terrainTiles!=null)Destroy(_terrainTiles);Shader.SetGlobalVector("_CursorCircle",Vector4.zero);Shader.SetGlobalInt("_VisionCount",0);}
     }
 }

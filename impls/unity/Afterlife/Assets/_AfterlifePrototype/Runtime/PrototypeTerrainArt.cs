@@ -35,10 +35,18 @@ namespace Afterlife.Prototype
                 var matrix=Matrix4x4.TRS(pos,Quaternion.Euler(0,(float)random.NextDouble()*360,0),Vector3.one*(.8f+(float)random.NextDouble()*.35f));
                 foreach(var filter in sample.GetComponentsInChildren<MeshFilter>(true))list.Add(new CombineInstance{mesh=filter.sharedMesh,transform=matrix*filter.transform.localToWorldMatrix});
             }
-            var material=new Material(_surface){name="Batched biome palette"};material.SetFloat("_VertexPalette",1);material.SetFloat("_ZWrite",1);_materials.Add(material);
+            var material=new Material(_surface){name="Batched biome palette"};material.SetFloat("_VertexPalette",1);material.SetFloat("_GroundDecoration",1);material.SetFloat("_ZWrite",1);_materials.Add(material);
             foreach(var pair in chunks)
             {
                 var mesh=new Mesh{name="Biome patch "+pair.Key,indexFormat=UnityEngine.Rendering.IndexFormat.UInt32};mesh.CombineMeshes(pair.Value.ToArray(),true,true);_environmentMeshes.Add(mesh);
+                var colors=mesh.colors;var markers=new List<Vector2>(mesh.vertexCount);
+                for(int i=0;i<mesh.vertexCount;i++)
+                {
+                    var color=i<colors.Length?colors[i]:Color.white;
+                    bool plant=color.g>color.r*1.08f && color.g>color.b*1.05f;
+                    markers.Add(new Vector2(plant?1:0,0));
+                }
+                mesh.SetUVs(2,markers);
                 var go=new GameObject(mesh.name);go.transform.SetParent(transform,false);go.AddComponent<MeshFilter>().sharedMesh=mesh;
                 var renderer=go.AddComponent<MeshRenderer>();renderer.sharedMaterial=material;Tint(renderer,Color.white);
             }

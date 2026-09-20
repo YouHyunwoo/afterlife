@@ -1,6 +1,6 @@
 Shader "Afterlife/Prototype/PixelSurface"
 {
-    Properties { _BaseColor("Color", Color) = (1,1,1,1) _Ground("Ground", Float) = 0 _TerrainRelief("Continuous biome terrain", Float) = 0 _Overlay("Overlay", Float) = 0 _Grass("Grass", Float) = 0 _VertexPalette("Blender vertex colours", Float) = 0 _SrcBlend("Source blend", Float) = 5 _DstBlend("Destination blend", Float) = 10 _ZWrite("Depth write", Float) = 0 }
+    Properties { _BaseColor("Color", Color) = (1,1,1,1) _Ground("Ground", Float) = 0 _TerrainRelief("Continuous biome terrain", Float) = 0 _Overlay("Overlay", Float) = 0 _Grass("Grass", Float) = 0 _FoliageWind("Tree foliage wind",Float)=0 _GroundDecoration("Ground-linked decoration",Float)=0 _VertexPalette("Blender vertex colours", Float) = 0 _SrcBlend("Source blend", Float) = 5 _DstBlend("Destination blend", Float) = 10 _ZWrite("Depth write", Float) = 0 }
     SubShader
     {
         Tags { "RenderPipeline"="UniversalPipeline" "RenderType"="Transparent" "Queue"="Transparent" }
@@ -15,14 +15,16 @@ Shader "Afterlife/Prototype/PixelSurface"
             #pragma vertex Vert
             #pragma fragment Frag
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-            struct Attributes { float4 positionOS : POSITION; float3 normalOS : NORMAL; half4 color : COLOR; };
-            struct Varyings { float4 positionCS : SV_POSITION; float3 normalWS : TEXCOORD0; float3 world : TEXCOORD1; half4 color : COLOR; };
+            #include "Assets/Devlog/Modules/Wind/Shaders/ShowcaseWind.hlsl"
+            #include "Assets/_AfterlifePrototype/Shaders/PrototypeGroundVisibility.hlsl"
+            #include "Assets/_AfterlifePrototype/Shaders/PrototypeGroundAppearance.hlsl"
+            struct Attributes { float4 positionOS : POSITION; float3 normalOS : NORMAL; half4 color : COLOR; float2 ground : TEXCOORD2; };
+            struct Varyings { float4 positionCS : SV_POSITION; float3 normalWS : TEXCOORD0; float3 world : TEXCOORD1; half4 color : COLOR; float ground : TEXCOORD3; };
             CBUFFER_START(UnityPerMaterial)
             half4 _BaseColor;
-            float _Ground, _TerrainRelief, _Overlay, _Grass, _VertexPalette;
+            float _Ground, _TerrainRelief, _Overlay, _Grass, _VertexPalette, _FoliageWind, _GroundDecoration;
             CBUFFER_END
-            TEXTURE2D(_PrototypeVision); SAMPLER(sampler_PrototypeVision);
-            float _PrototypeMapRadius, _PrototypeNight;
+            float _PrototypeNight;
             float4 _VisionSources[128], _VillageLamps[32];
             int _VisionCount, _LampCount;
             float TerrainHash(float2 p){return frac(sin(dot(p,float2(127.1,311.7)))*43758.5453);}
@@ -61,8 +63,12 @@ Shader "Afterlife/Prototype/PixelSurface"
             Varyings Vert(Attributes input)
             {
                 Varyings output;
+                output.ground=input.ground.x;
                 output.world = TransformObjectToWorld(input.positionOS.xyz);
                 if(_Grass>.5)output.world.x+=sin(_Time.y*2+output.world.z*1.7+output.world.x)*.08*saturate(input.positionOS.y+.5);
+                half3 foliageColor=_BaseColor.rgb*lerp(half3(1,1,1),input.color.rgb,saturate(_VertexPalette));
+                if(_FoliageWind>.5 && foliageColor.g>foliageColor.r*1.08 && foliageColor.g>foliageColor.b*1.05)
+                    output.world.xz+=DevlogWindAt(output.world)*(.025*saturate(output.world.y*2));
                 output.positionCS = TransformWorldToHClip(output.world);
                 output.normalWS = TransformObjectToWorldNormal(input.normalOS);
                 output.color = lerp(half4(1,1,1,1),input.color,saturate(_VertexPalette));
@@ -78,15 +84,16 @@ Shader "Afterlife/Prototype/PixelSurface"
                 float visibility=0;
                 for(int i=0;i<_VisionCount;i++)
                 {
-                    float d=distance(input.world.xz,_VisionSources[i].xy);
-                    visibility=max(visibility,saturate((_VisionSources[i].z-d)/.65)*_VisionSources[i].w);
+                    visibility=max(visibility,ShowcaseVisionCircle(input.world.xz,_VisionSources[i].xy,_VisionSources[i].z,_VisionSources[i].w));
                 }
                 visibility=smoothstep(0,1,visibility);
                 half light = saturate(dot(normalize(input.normalWS + .00001), normalize(float3(-.4,.85,-.3))));
                 half shade = .55 + floor(light * 3.0) * .15;
                 if(_Ground<.5&&_Overlay<.5)clip(visibility-.001);
+                bool linkedGround=(_Ground>.5 && _TerrainRelief>.5 && input.color.a>=0 && input.color.a<.5 && input.normalWS.y>.5)
+                    || (_GroundDecoration>.5 && input.ground>.5);
                 half3 baseColor=_BaseColor.rgb*input.color.rgb;
-                if(_Ground>.5)
+                if(_Ground>.5 && !linkedGround)
                 {
                     float2 p=input.world.xz;
                     float water=0;
@@ -131,8 +138,9 @@ Shader "Afterlife/Prototype/PixelSurface"
                 #else
                 color=floor(saturate(color)*31.0+.5)/31.0;
                 #endif
+                if(linkedGround)color=PrototypeGroundColor(input.world);
                 // 지면은 낮에 약간 어둡게 남고 밤에는 암흑. 물체는 clip되어 완전히 숨는다.
-                if(_Ground>.5)color*=lerp(lerp(.48,0,_PrototypeNight),1,visibility);
+                if(_Overlay<.5)color*=PrototypeGroundBrightness(_PrototypeNight,visibility);
                 float warm=0;
                 for(int j=0;j<_LampCount;j++)warm=max(warm,saturate(1-distance(input.world.xz,_VillageLamps[j].xy)/_VillageLamps[j].z));
                 color+=half3(.10,.055,.01)*warm*_PrototypeNight*visibility;
@@ -146,7 +154,7 @@ Shader "Afterlife/Prototype/PixelSurface"
                     float ring=edge*(angle<=_CursorCircle.w?.72:.22);
                     color=lerp(color,_CursorColor.rgb,max(fill,ring));
                 }
-                return half4(lerp(color,_BaseColor.rgb,saturate(_Overlay)),(_Ground>.5||_Overlay>.5)?_BaseColor.a:visibility*_BaseColor.a*input.color.a);
+                return half4(lerp(color,_BaseColor.rgb,saturate(_Overlay)),(_Ground>.5||_Overlay>.5)?_BaseColor.a:_BaseColor.a*input.color.a);
             }
             ENDHLSL
         }

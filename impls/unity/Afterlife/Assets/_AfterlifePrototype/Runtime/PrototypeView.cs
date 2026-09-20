@@ -67,14 +67,15 @@ namespace Afterlife.Prototype
         private void OnNotice(string message) { _notice=message;_noticeTime=Time.unscaledTime; }
         private void BuildGround()
         {
-            var palette=new[]{new Color(.24f,.39f,.19f),new Color(.42f,.30f,.19f),new Color(.72f,.64f,.40f),
-                new Color(.055f,.25f,.32f),new Color(.83f,.87f,.86f),new Color(.16f,.28f,.12f),new Color(.37f,.39f,.38f)};
+            var palette=new[]{new Color(.30f,.40f,.23f),new Color(.43f,.34f,.25f),new Color(.68f,.61f,.44f),
+                new Color(.055f,.25f,.32f),new Color(.81f,.85f,.88f),new Color(.23f,.32f,.19f),new Color(.43f,.45f,.43f)};
             var coast=new Afterlife.Devlog.Terrain.CoastalTerrain(Afterlife.Devlog.Terrain.CoastShape.Rounded,-.46f,-.82f);
             var waterShader=Resources.Load<Shader>("PrototypeWater");
             _terrainSurface=new Afterlife.Devlog.TerrainView.TerrainSurface(transform,_model.Terrain.Radius,
                 (x,z)=>(Afterlife.Devlog.Terrain.ShowcaseBiome)(int)_model.Terrain.At(x,z),_surface,palette,coast);
             _waterSurface=new Afterlife.Devlog.Water.WaterSurface(transform,_model.Terrain.Radius,
                 (x,z)=>_model.Terrain.At(x,z)==TerrainKind.Water,waterShader,coast.WaterHeight,coast.FloorHeight);
+            InitializeGroundAppearance();
         }
         private GameObject Part(Transform parent,string name,PrimitiveType type,Vector3 position,Vector3 scale,Color color,bool collider=true)
         {
@@ -85,7 +86,7 @@ namespace Afterlife.Prototype
             return go;
         }
         private void Tint(Renderer renderer,Color color)
-        { _block.Clear(); _block.SetColor("_BaseColor",color); if(renderer is LineRenderer)_block.SetFloat("_Overlay",1); renderer.SetPropertyBlock(_block); }
+        { NotifyVegetationTint(renderer,color);_block.Clear(); _block.SetColor("_BaseColor",color); if(renderer is LineRenderer)_block.SetFloat("_Overlay",1); renderer.SetPropertyBlock(_block); }
         private GameObject CreateBody(Body body)
         {
             var root=new GameObject(body.Kind + "." + body.Id); root.transform.SetParent(transform,false);

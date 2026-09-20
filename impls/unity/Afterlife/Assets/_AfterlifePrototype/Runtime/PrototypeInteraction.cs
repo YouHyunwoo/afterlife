@@ -281,7 +281,7 @@ namespace Afterlife.Prototype
                 if(house&&lamps<_lamps.Length)_lamps[lamps++]=new Vector4(body.Position.X,body.Position.Z,1.8f,1);
             }
             if(_model.PointerVisible&&count<_visionSources.Length)_visionSources[count++]=new Vector4(_model.WorkCenter.X,_model.WorkCenter.Z,_settings.CursorVision,1);
-            foreach(var echo in _model.Echoes)if(count<_visionSources.Length)_visionSources[count++]=new Vector4(echo.Position.X,echo.Position.Z,_settings.CursorVision,Mathf.Clamp01(echo.Life/_settings.VisionTrailSeconds));
+            foreach(var echo in _model.Echoes)if(count<_visionSources.Length)_visionSources[count++]=new Vector4(echo.Position.X,echo.Position.Z,_settings.CursorVision,echo.Strength(_settings.VisionTrailSeconds));
             Shader.SetGlobalVectorArray("_VisionSources",_visionSources);Shader.SetGlobalInt("_VisionCount",count);
             Shader.SetGlobalVectorArray("_VillageLamps",_lamps);Shader.SetGlobalInt("_LampCount",lamps);
             // 정적 마을 영역만 변경 시 업로드. 매 프레임 16,384×전체 오브젝트 검색 제거.
@@ -302,11 +302,11 @@ namespace Afterlife.Prototype
 
         private void Sync()
         {
-            foreach(int id in _objects.Keys.ToArray())if(_model.Find(id)==null&&!ReactionAlive(id)){Destroy(_objects[id]);_objects.Remove(id);_renderCache.Remove(id);_lightCache.Remove(id);_modelPositions.Remove(id);_displayPositions.Remove(id);_weapons.Remove(id);_animals.Remove(id);_worldRigs.Remove(id);_connectionMasks.Remove(id);}
+            foreach(int id in _objects.Keys.ToArray())if(_model.Find(id)==null&&!ReactionAlive(id)){RemoveTreeLeaves(id);Destroy(_objects[id]);_objects.Remove(id);_renderCache.Remove(id);_lightCache.Remove(id);_modelPositions.Remove(id);_displayPositions.Remove(id);_weapons.Remove(id);_animals.Remove(id);_worldRigs.Remove(id);_connectionMasks.Remove(id);}
             foreach(var b in _model.Bodies)
             {
                 if(!b.Alive)continue;
-                if(!_objects.TryGetValue(b.Id,out var go)){go=CreateBody(b);_objects.Add(b.Id,go);_renderCache[b.Id]=go.GetComponentsInChildren<Renderer>();_lightCache[b.Id]=go.GetComponentInChildren<Light>();_weapons[b.Id]=go.GetComponent<PrototypeWeapon>();_animals[b.Id]=go.GetComponent<PrototypeAnimalRig>();}
+                if(!_objects.TryGetValue(b.Id,out var go)){go=CreateBody(b);_objects.Add(b.Id,go);_renderCache[b.Id]=go.GetComponentsInChildren<Renderer>();_lightCache[b.Id]=go.GetComponentInChildren<Light>();_weapons[b.Id]=go.GetComponent<PrototypeWeapon>();_animals[b.Id]=go.GetComponent<PrototypeAnimalRig>();AttachTreeLeaves(b,_renderCache[b.Id]);}
                 Vector3 targetPosition=V(b.Position);
                 if(!_modelPositions.TryGetValue(b.Id,out var previous))previous=targetPosition;
                 Vector3 movement=targetPosition-previous;_modelPositions[b.Id]=targetPosition;
