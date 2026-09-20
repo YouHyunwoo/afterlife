@@ -1,0 +1,9 @@
+{
+  "name": "Afterlife.Devlog.Cinematics",
+  "references": [
+    "Afterlife.Devlog.Cinematics.Core",
+    "Unity.TextMeshPro",
+    "UnityEngine.UI"
+  ],
+  "autoReferenced": true
+}
