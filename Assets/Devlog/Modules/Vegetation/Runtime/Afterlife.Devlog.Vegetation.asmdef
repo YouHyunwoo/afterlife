@@ -1,0 +1,9 @@
+{
+  "name": "Afterlife.Devlog.Vegetation",
+  "rootNamespace": "Afterlife.Devlog.Day01",
+  "references": [
+    "Afterlife.Devlog.Terrain",
+    "Afterlife.Devlog.Interaction"
+  ],
+  "autoReferenced": true
+}
