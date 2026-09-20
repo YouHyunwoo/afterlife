@@ -49,11 +49,16 @@ Shader "Afterlife/Devlog/ShowcaseSurface"
             float4 _TerrainMapBounds;
             float4 _SnowHits[32];
             float4x4 _SnowWorldToLocal;
+            int _DamageMarkCountV1;
+            float _DamageWood;
+            float4 _DamageMarksV1[8], _DamageNormalsV1[8];
+            float4x4 _DamageWorldToLocal;
             CBUFFER_END
+            #include "Assets/Devlog/Modules/DamageMarks/Shaders/ShowcaseDamageMarks.hlsl"
             TEXTURE2D(_TerrainColorMap);
             SAMPLER(sampler_TerrainColorMap);
             struct Attributes { float4 positionOS:POSITION; float3 normalOS:NORMAL; half4 color:COLOR; };
-            struct Varyings { float4 positionCS:SV_POSITION; float3 world:TEXCOORD0; float3 normal:TEXCOORD1; half4 color:COLOR; float3 snowLocal:TEXCOORD2; float pine:TEXCOORD3; float3 dissolveLocal:TEXCOORD4; };
+            struct Varyings { float4 positionCS:SV_POSITION; float3 world:TEXCOORD0; float3 normal:TEXCOORD1; half4 color:COLOR; float3 snowLocal:TEXCOORD2; float pine:TEXCOORD3; float3 dissolveLocal:TEXCOORD4; float3 damageLocal:TEXCOORD5; };
             float Hash(float2 p) { return frac(sin(dot(p,float2(127.1,311.7)))*43758.5453); }
             void ClipRemoval(float3 world,float3 local)
             {
@@ -77,6 +82,7 @@ Shader "Afterlife/Devlog/ShowcaseSurface"
                 o.world=TransformObjectToWorld(i.positionOS.xyz);
                 o.normal=TransformObjectToWorldNormal(i.normalOS);
                 o.snowLocal=mul(_SnowWorldToLocal,float4(o.world,1)).xyz;
+                o.damageLocal=mul(_DamageWorldToLocal,float4(o.world,1)).xyz;
                 // 합쳐진 Tree1 메시에서 초록 팔레트의 잎만 구분하고 갈색 줄기는 유지한다.
                 o.pine=_SnowShell;
                 // 눈 두께는 별도 닫힌 메시에서 계산한다. 원본 정점은 움직이지 않는다.
@@ -106,6 +112,7 @@ Shader "Afterlife/Devlog/ShowcaseSurface"
                 half stepped=floor(ndl*3+.001)/3;
                 half shade=lerp(ndl,stepped,_Stylized);
                 half3 baseColor=_BaseColor.rgb*i.color.rgb;
+                baseColor=DamageSurface(baseColor,i.damageLocal);
                 if (_TerrainBlend>.5)
                     baseColor=SAMPLE_TEXTURE2D(_TerrainColorMap,sampler_TerrainColorMap,
                         (i.world.xz-_TerrainMapBounds.xy)/_TerrainMapBounds.zw).rgb;
