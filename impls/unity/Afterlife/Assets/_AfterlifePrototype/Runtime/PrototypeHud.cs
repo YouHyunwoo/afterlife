@@ -34,6 +34,7 @@ namespace Afterlife.Prototype
                 GUI.matrix=Matrix4x4.TRS(new Vector3(panel.x,panel.y,0),Quaternion.identity,new Vector3(DebugPanelScale,DebugPanelScale,1));
                 GUILayout.BeginArea(new Rect(0,0,270,180),GUI.skin.box);
                 GUILayout.Label("디버그 패널 · F4 표시/숨김");
+                GUILayout.Label("지도 시드: "+_model.Terrain.Seed);
                 GUILayout.Label($"골드: {_model.Money:0.##}");
                 if(GUILayout.Button("+100 골드",GUILayout.Height(30)))_model.DebugAddGold();
                 _model.DebugCursorBoost=GUILayout.Toggle(_model.DebugCursorBoost,"커서 기여량 ×100",GUILayout.Height(28));

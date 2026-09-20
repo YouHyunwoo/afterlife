@@ -32,8 +32,8 @@ MonoBehaviour:
   VisionTrailSeconds: 1.4
   AutoConstruction: 0.25
   ResourceSpawnSeconds: 12
-  TreeLimit: 260
-  RockLimit: 160
+  TreeLimit: 780
+  RockLimit: 480
   MapRadius: 45
   PrototypeDays: 6
   CameraEdgeBand: 160

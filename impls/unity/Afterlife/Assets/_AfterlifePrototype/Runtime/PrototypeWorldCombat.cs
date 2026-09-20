@@ -88,18 +88,6 @@ namespace Afterlife.Prototype
                 if((!shot.Arc||shot.Elapsed>=shot.Duration)&&target.DistanceTo(next)<=.12f){if(shot.Enemy)EnemyHit(target,shot.Damage);else PlayerHit(target,shot.Damage,!shot.Magic);Projectiles.RemoveAt(i);}
             }
         }
-        private void SeedBiomes()
-        {
-            // 자원을 밀집시키되 4타일마다 통로를 남긴다. 시작 마을과 물은 피한다.
-            for(int z=-Settings.MapRadius+2;z<Settings.MapRadius-1;z++)for(int x=-Settings.MapRadius+2;x<Settings.MapRadius-1;x++)
-            {
-                var terrain=Terrain.At(x,z);
-                if(terrain!=TerrainKind.Forest&&terrain!=TerrainKind.Rocky||x%4==0||z%4==0)continue;
-                if(_random.NextDouble()>(terrain==TerrainKind.Forest?.82:.72))continue;
-                var p=new Point(x,z);if(!Walkable(p,.38f))continue;
-                AddResource(terrain==TerrainKind.Forest?Kind.Tree:Kind.Rock,x,z);
-            }
-        }
         private static int ObstacleKey(int x,int z)=>(x+128)*256+z+128;
         private void EnsureObstacleIndex()
         {

@@ -26,7 +26,8 @@ namespace Afterlife.Prototype
         public float DaySeconds=35, DuskSeconds=5, NightSeconds=35, PulseSeconds=2, ContributionPower=1;
         public float CursorVision=7, VillageVision=9, VisionTrailSeconds=1.4f;
         public float AutoConstruction=.25f;
-        public int MapRadius=45, Days=6,TreeLimit=260,RockLimit=160;public float ResourceSpawnSeconds=12;
+        public int MapSeed=0;
+        public int MapRadius=45, Days=6,TreeLimit=780,RockLimit=480;public float ResourceSpawnSeconds=12;
     }
     public sealed class Order { public float Progress; public int Paid; public Kind Kind; public float Seconds; }
     public sealed class VisionEcho
@@ -186,9 +187,10 @@ namespace Afterlife.Prototype
         }
         private void ResetAttempt()
         {
+            Terrain.Regenerate(Settings.MapSeed);
             ResetManualWork();
             SoundReset?.Invoke();
-            ResetProgression();ResetCombatGrowth();ResetExploration();Bodies.Clear();Projectiles.Clear();_obstaclesDirty=true;_nextShotId=0;Territory.Clear();Selected.Clear();Echoes.Clear();_nextId=0;_random=new Random(7919);
+            ResetProgression();ResetCombatGrowth();ResetExploration();Bodies.Clear();Projectiles.Clear();_obstaclesDirty=true;_nextShotId=0;Territory.Clear();Selected.Clear();Echoes.Clear();_nextId=0;_random=new Random(Terrain.Seed);
             Money=0;_goldRemainder=0;Population=0;Working=PointerVisible=false;Mode=InputMode.Work;
             SelectedBarracks=0;Wave=1;DaySequence++;Phase=Phase.Day;Remaining=Settings.DaySeconds;
             PulseLevel=ResidentLevel=ConstructionLevel=CriticalChanceLevel=CriticalPowerLevel=Valuables=LastValuables=LastSettlement=PulseCount=0;
@@ -203,7 +205,7 @@ namespace Afterlife.Prototype
         private Body Add(Kind k,Point p,float hp)
         {var b=new Body{Id=++_nextId,Kind=k,Position=p,Rally=p,Destination=p,Health=hp,MaxHealth=hp};Bodies.Add(b);if(!b.Unit)_obstaclesDirty=true;return b;}
         private void AddResource(Kind k,float x,float z)
-        {if(!Terrain.Land(new Point(x,z),.35f))return;var b=Add(k,new Point(x,z),k==Kind.Animal?25:k==Kind.Tree?70*Wave:k==Kind.Rock?50*Wave:1);b.Variant=(b.Id-1)%4;}
+        {if(!Terrain.Land(new Point(x,z),.35f)||(k==Kind.Tree||k==Kind.Rock)&&Terrain.At(new Point(x,z))==TerrainKind.Dirt)return;var b=Add(k,new Point(x,z),k==Kind.Animal?25:k==Kind.Tree?70*Wave:k==Kind.Rock?50*Wave:1);b.Variant=(b.Id-1)%4;}
         private Body AddBuilding(Kind k,int x,int z,bool complete)
         {
             int w=k==Kind.LargeTest?2:1;var b=Add(k,new Point(x+(w-1)*.5f,z),k==Kind.House?180*(1+.25f*MemoryHouse):k==Kind.Wall?WallHealth:k==Kind.ArrowTower||k==Kind.MagicTower?190:120);
@@ -544,6 +546,7 @@ namespace Afterlife.Prototype
             for(int i=0;i<50;i++)
             {
                 var p=new Point(_random.Next(-Settings.MapRadius+2,Settings.MapRadius-1),_random.Next(-Settings.MapRadius+2,Settings.MapRadius-1));
+                if((k==Kind.Tree||k==Kind.Rock)&&!InResourceCluster(k,p))continue;
                 if(Point.Distance(p,new Point(0,0))<minimum||!Walkable(p,.7f)||!UnitFree(p,0))continue;
                 if(Bodies.Any(b=>b.Alive&&Point.Distance(p,b.Position)<1.1f))continue;
                 if(IsHostile(k))Add(k,p,EnemyHealth(k));else AddResource(k,p.X,p.Z);return;

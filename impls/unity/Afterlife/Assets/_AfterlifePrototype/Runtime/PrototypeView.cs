@@ -66,15 +66,19 @@ namespace Afterlife.Prototype
             Resize(); InitializeSceneUi(); _ready=true; UpdateFog(); Sync(); InitializeGameFlow();
         }
         private void OnNotice(string message) { _notice=message;_noticeTime=Time.unscaledTime; }
+        private GameObject _mapRoot;
+        private int _mapRevision;
         private void BuildGround()
         {
+            _mapRevision=_model.Terrain.Revision;
+            _mapRoot=new GameObject("GeneratedMap");_mapRoot.transform.SetParent(transform,false);
             var palette=new[]{new Color(.30f,.40f,.23f),new Color(.43f,.34f,.25f),new Color(.68f,.61f,.44f),
                 new Color(.055f,.25f,.32f),new Color(.81f,.85f,.88f),new Color(.23f,.32f,.19f),new Color(.43f,.45f,.43f)};
             var coast=new Afterlife.Devlog.Terrain.CoastalTerrain(Afterlife.Devlog.Terrain.CoastShape.Rounded,-.46f,-.82f);
             var waterShader=Resources.Load<Shader>("PrototypeWater");
-            _terrainSurface=new Afterlife.Devlog.TerrainView.TerrainSurface(transform,_model.Terrain.Radius,
+            _terrainSurface=new Afterlife.Devlog.TerrainView.TerrainSurface(_mapRoot.transform,_model.Terrain.Radius,
                 (x,z)=>(Afterlife.Devlog.Terrain.ShowcaseBiome)(int)_model.Terrain.At(x,z),_surface,palette,coast);
-            _waterSurface=new Afterlife.Devlog.Water.WaterSurface(transform,_model.Terrain.Radius,
+            _waterSurface=new Afterlife.Devlog.Water.WaterSurface(_mapRoot.transform,_model.Terrain.Radius,
                 (x,z)=>_model.Terrain.At(x,z)==TerrainKind.Water,waterShader,coast.WaterHeight,coast.FloorHeight);
             InitializeGroundAppearance();
         }

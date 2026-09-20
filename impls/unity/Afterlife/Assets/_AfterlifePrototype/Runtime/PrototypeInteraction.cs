@@ -281,6 +281,7 @@ namespace Afterlife.Prototype
         private void RebuildVillageView()
         {
             ClearVillageView();
+            if(_mapRevision!=_model.Terrain.Revision)RebuildMap();
             _camera.transform.position=new Vector3(10,15,-14);_camera.transform.LookAt(Vector3.zero);_cameraVelocity=Vector3.zero;_orbiting=false;UpdateFog();Sync();
         }
         private void ClearVillageView()

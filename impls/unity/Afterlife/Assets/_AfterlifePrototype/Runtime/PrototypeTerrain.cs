@@ -10,24 +10,17 @@ namespace Afterlife.Prototype
         private readonly TerrainKind[] _tiles;
         public int Radius { get; }
         public int Size => Radius*2+1;
-        public TerrainMap(int radius)
+        public int Seed { get; private set; }
+        public int Revision { get; private set; }
+        public Afterlife.Devlog.Terrain.ShowcaseWorldMap Layout { get; private set; }
+        public TerrainMap(int radius){Radius=Math.Max(8,radius);_tiles=new TerrainKind[Size*Size];}
+        public void Regenerate(int seed)
         {
-            Radius=radius;_tiles=new TerrainKind[Size*Size];
-            for(int z=-Radius;z<=Radius;z++)for(int x=-Radius;x<=Radius;x++)
-            {
-                double noise=(Math.Sin(x*.23+Math.Sin(z*.19)*2)+Math.Sin(z*.31+x*.07))*.5;
-                double coast=x-Radius*.60+noise*2;
-                TerrainKind kind=coast>=0?TerrainKind.Water:coast>=-2?TerrainKind.Sand:z+noise*3>Radius*.55?TerrainKind.Snow:noise>.40?TerrainKind.Dirt:TerrainKind.Grass;
-                if(kind!=TerrainKind.Water&&kind!=TerrainKind.Sand&&kind!=TerrainKind.Snow)
-                {
-                    if(Patch(x,z,-12,-9,5,noise)||Patch(x,z,-15,11,5,noise)||Patch(x,z,7,12,4,noise)||Patch(x,z,4,-18,4,noise))kind=TerrainKind.Forest;
-                    if(Patch(x,z,-10,-21,3.5,noise)||Patch(x,z,10,-6,3.5,noise)||Patch(x,z,-23,0,3,noise))kind=TerrainKind.Rocky;
-                }
-                if(Math.Abs(x)<=5&&Math.Abs(z)<=5)kind=TerrainKind.Grass;
-                _tiles[(z+Radius)*Size+x+Radius]=kind;
-            }
+            Seed=seed==0?Guid.NewGuid().GetHashCode():seed;
+            Layout=new Afterlife.Devlog.Terrain.ShowcaseWorldMap(Radius,Seed);
+            for(int i=0;i<_tiles.Length;i++)_tiles[i]=(TerrainKind)(int)Layout.Tiles[i];
+            Revision++;
         }
-        private static bool Patch(int x,int z,int cx,int cz,double radius,double noise)=>(x-cx)*(x-cx)+(z-cz)*(z-cz)<(radius+noise*.7)*(radius+noise*.7);
         public TerrainKind At(int x,int z)
         {
             if(x < -Radius || x > Radius || z < -Radius || z > Radius)return TerrainKind.Water;

@@ -32,8 +32,11 @@ namespace Afterlife.Prototype
         [Min(.1f)] public float RockModelScale = 1.20f/1.8f;
         [Header("자원 재생성")]
         public float ResourceSpawnSeconds = 12;
-        public int TreeLimit = 260;
-        public int RockLimit = 160;
+        public int TreeLimit = 780;
+        public int RockLimit = 480;
+        [Header("지도 생성 · 새 게임에 적용")]
+        [Tooltip("0이면 새 게임마다 무작위 지도, 다른 값이면 같은 시드의 지도를 재현합니다.")]
+        public int MapSeed = 0;
         public int MapRadius = 45;
         [Range(3,15)] public int PrototypeDays = 6;
         [Header("카메라 거리")]
@@ -72,7 +75,7 @@ namespace Afterlife.Prototype
             WarriorSeconds = WarriorSeconds, WarriorMoney = WarriorMoney,
             DaySeconds = DaySeconds, DuskSeconds = DuskSeconds, NightSeconds = NightSeconds,
             PulseSeconds = ContributionSeconds, ContributionPower = ContributionPower, CursorVision = CursorVision, VillageVision = VillageVision,
-            VisionTrailSeconds = VisionTrailSeconds, AutoConstruction = AutoConstruction, MapRadius = MapRadius, Days = PrototypeDays,ResourceSpawnSeconds=ResourceSpawnSeconds,TreeLimit=TreeLimit,RockLimit=RockLimit
+            VisionTrailSeconds = VisionTrailSeconds, AutoConstruction = AutoConstruction, MapRadius = MapRadius, MapSeed=MapSeed, Days = PrototypeDays,ResourceSpawnSeconds=ResourceSpawnSeconds,TreeLimit=TreeLimit,RockLimit=RockLimit
         };
     }
 }

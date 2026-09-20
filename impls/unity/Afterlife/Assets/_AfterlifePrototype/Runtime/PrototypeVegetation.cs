@@ -76,7 +76,7 @@ namespace Afterlife.Prototype
             if(_leafShader==null)throw new System.InvalidOperationException("PrototypeLeaves shader missing.");
             _grassContactVisible=IsGrassContactVisible;
             _vegetationWind=new ShowcaseWind();
-            _vegetationGrass=new ShowcaseGrass(transform,new ShowcaseGrass.Map {
+            _vegetationGrass=new ShowcaseGrass(_mapRoot.transform,new ShowcaseGrass.Map {
                 Radius=_model.Terrain.Radius,SamplesPerAxis=7,AccentFraction=.25f,
                 Biome=(x,z)=>(ShowcaseBiome)(int)_model.Terrain.At(x,z),
                 Height=(x,z)=>_terrainSurface.Height(x,z),

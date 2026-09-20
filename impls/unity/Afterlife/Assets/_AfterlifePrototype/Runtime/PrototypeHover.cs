@@ -16,7 +16,7 @@ namespace Afterlife.Prototype
         {
             _waterSurface?.SetHoverRipples(true);
             var map=_model.Terrain;
-            _tileHover=new ShowcaseTileHover(transform,new ShowcaseTileHover.Map
+            _tileHover=new ShowcaseTileHover(_mapRoot.transform,new ShowcaseTileHover.Map
             {
                 MinX=-map.Radius,MinZ=-map.Radius,Width=map.Size,Depth=map.Size,
                 // Prototype 타일은 정수 중심, Day01 호버 셀은 정수 모서리 기준이다.

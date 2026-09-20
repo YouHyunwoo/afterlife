@@ -105,8 +105,11 @@ namespace Afterlife.Prototype
         private void ResetExploration(){Loot.Clear();Relics.Clear();_relicRanks.Clear();_dailyRelicChoices.Clear();DailyRewardPending=DailyRewardChoosing=false;LastLootSummary="";ActiveShrine=ActiveRuins=false;_chestClock=50;_resourceClock=0;_baseTreeLimit=_baseRockLimit=0;RelicsChanged?.Invoke();}
         private void SeedDiscoveries()
         {
-            Add(Kind.AbandonedAltar,new Point(-10,5),9999);Add(Kind.Ruins,new Point(9,-11),9999);
-            Add(Kind.AbandonedAltar,new Point(-26,-16),9999);Add(Kind.Ruins,new Point(15,24),9999);
+            for(int i=0;i<Terrain.Layout.Landmarks.Count;i++)
+            {
+                var point=Terrain.Layout.Landmarks[i];
+                Add(i%2==0?Kind.AbandonedAltar:Kind.Ruins,new Point(point.X,point.Z),9999);
+            }
             for(int i=0;i<4;i++)SpawnChest();
         }
         private void SpawnChest()

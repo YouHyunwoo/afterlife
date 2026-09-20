@@ -51,6 +51,7 @@ namespace Afterlife.Prototype
         {
             _runEndPending = false;
             _audio.enabled = true;
+            _model.Settings.MapSeed=_settings.MapSeed;
             _model.Reset();
             RebuildVillageView();
             _dragging = false;

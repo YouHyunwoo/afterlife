@@ -76,7 +76,7 @@ namespace Afterlife.Prototype
                 var chunk=pair.Value;var mesh=new Mesh{name="Biome decorations "+pair.Key,indexFormat=UnityEngine.Rendering.IndexFormat.UInt32};
                 mesh.SetVertices(chunk.Vertices);mesh.SetNormals(chunk.Normals);mesh.SetColors(chunk.Colors);
                 mesh.SetUVs(2,chunk.Ground);mesh.SetUVs(3,chunk.Anchors);mesh.SetTriangles(chunk.Triangles,0);mesh.RecalculateBounds();_environmentMeshes.Add(mesh);_decorationMeshes.Add(mesh);
-                var go=new GameObject(mesh.name);go.transform.SetParent(transform,false);go.AddComponent<MeshFilter>().sharedMesh=mesh;
+                var go=new GameObject(mesh.name);go.transform.SetParent(_mapRoot.transform,false);go.AddComponent<MeshFilter>().sharedMesh=mesh;
                 var renderer=go.AddComponent<MeshRenderer>();renderer.sharedMaterial=_decorationMaterial;Tint(renderer,Color.white);
             }
             foreach(var sample in samples.Values)Destroy(sample);
