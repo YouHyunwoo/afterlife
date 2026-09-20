@@ -8,6 +8,7 @@ Day01은 입력·카메라·촬영 UI와 모듈 조합을 담당한다. 공용 �
 |---|---|---|
 |Contracts|IPickTarget, ISnowTarget 최소 계약|없음|
 |Terrain|바이옴·타일 변형·색 혼합 규칙, 순수 C#|없음, noEngineReferences|
+|TerrainView|주입된 맵의 청크 지형 메시·높이 조회·정밀 지면 선택|Terrain|
 |Interaction|삼각형 선택, 표면 색, 런타임 선택 메시 생성·공유 캐시|Contracts|
 |Snow|눈 덮개 생성과 타격 침식|Contracts, Interaction|
 |Vegetation|풀/잎 빌보드·바람·색상 배치·적설 노출|Terrain, Interaction|
@@ -52,6 +53,8 @@ Day01Showcase의 OnEnable에서 모듈을 구성하고 OnDisable에서 Dispose/�
 Wind는 씬의 식생/집을 직접 찾지 않는다. Day01이 바람 샘플 함수를 Smoke에 주입하고, GPU 식생은 같은 수식의 HLSL을 사용한다. Dispose에서 기존 셰이더 전역값을 복원한다. Lighting과 Vegetation C# 어셈블리는 Wind 어셈블리를 직접 참조하지 않는다.
 
 Terrain은 엔진과 분리됐지만 고정 Day01 지도 데이터가 함께 있는 샘플 모듈이다. Day01의 메시 생성기·배치·도구 애니메이션은 에피소드 전용으로 남겼다. 모든 기능을 게임플레이 프레임워크로 재작성한 것은 아니다.
+
+프로토타입은 Terrain의 지도 조회 주입 오버로드와 TerrainHeightGrid, TerrainView를 사용한다. 기존 TerrainMap이 바이옴/이동 규칙의 원본이고, PrototypeView가 지형 높이를 표시 위치에만 연결한다. [지형 적용 계약](../records/prototype-terrain.md).
 
 시야·호버·침식은 셰이더 전역 배열을 공유한다. 여러 쇼케이스 인스턴스를 동시에 실행하는 것은 지원하지 않는다. 큰 맵 적용 전에는 공간별 상태 주입, 파티클/파편 풀링, 선택 메시 가속 구조를 별도로 설계해야 한다.
 
