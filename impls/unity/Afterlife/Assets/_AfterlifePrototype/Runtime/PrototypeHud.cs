@@ -17,18 +17,22 @@ namespace Afterlife.Prototype
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
         private bool _showDebugPanel=true;
-        private Rect DebugPanelRect=>new Rect(Mathf.Max(0,Screen.width-280),Mathf.Min(110,Mathf.Max(0,Screen.height-190)),270,180);
+        private const float DebugPanelScale=2f;
+        private Rect DebugPanelRect=>new Rect(Mathf.Max(0,Screen.width-270*DebugPanelScale-10),Mathf.Min(110,Mathf.Max(0,Screen.height-180*DebugPanelScale-10)),270*DebugPanelScale,180*DebugPanelScale);
 
         private void OnGUI()
         {
             if(!_ready||!_showDebugPanel)return;
             var previousFont=GUI.skin.font;
+            var previousMatrix=GUI.matrix;
             int previousDepth=GUI.depth;
             GUI.depth=-100;
             if(_font!=null)GUI.skin.font=_font;
             try
             {
-                GUILayout.BeginArea(DebugPanelRect,GUI.skin.box);
+                var panel=DebugPanelRect;
+                GUI.matrix=Matrix4x4.TRS(new Vector3(panel.x,panel.y,0),Quaternion.identity,new Vector3(DebugPanelScale,DebugPanelScale,1));
+                GUILayout.BeginArea(new Rect(0,0,270,180),GUI.skin.box);
                 GUILayout.Label("디버그 패널 · F4 표시/숨김");
                 GUILayout.Label($"골드: {_model.Money:0.##}");
                 if(GUILayout.Button("+100 골드",GUILayout.Height(30)))_model.DebugAddGold();
@@ -39,6 +43,7 @@ namespace Afterlife.Prototype
             finally
             {
                 GUI.skin.font=previousFont;
+                GUI.matrix=previousMatrix;
                 GUI.depth=previousDepth;
             }
         }
