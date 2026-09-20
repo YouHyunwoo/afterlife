@@ -1,5 +1,8 @@
 # 다음 세션 인계 · 2026-09-17
 
+> 최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. [최신 규칙·구현·검증](46-click-work-and-automation.md).
+
+
 ## 최신 UI · 강화 트리 아이콘·툴팁·전체 보기 (2026-09-19)
 
 UpgradeTreeScreen 우측 패널/노드 텍스트 제거, UpgradeHoverTooltip·UpgradeNodeVisual 분리. viewport 전체 stretch, 전체 노드 bounds로 초기/전체 보기/리사이즈 자동 맞춤, 부모 가시성은 유지. imagegen 20개 → 8색 48px/투명 0·255/여백4px → 48·32px 시각 검사 → 승인 해시 일치본만 Resources/UI/Upgrades에 적용. PrototypeUpgradeIconImporter가 Point/무압축/Sprite Single 설정 및 비어 있는 Catalog Icon만 연결. 정확한 프롬프트와 검수표는 res/art-source/ui/upgrades-v1. 관련 독립 빌드 오류·경고0, Unity 플레이 미실시. 상세: upgrade-tree-icon-tooltip.md

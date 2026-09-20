@@ -76,3 +76,7 @@ Terrain의 ShowcaseTerrainField가 맵 전체 좌표의 gradient Perlin과 실�
 프로토타입 지면 색은 PrototypeGroundAppearance HLSL과 런타임 색/법선 텍스처를 지형·풀·식물 장식이 공유한다. TerrainSurface는 원본 맵의 색/높이를 제공하고, 프로토타입 어댑터가 텍스처 생성·소유·전역값 복원을 담당한다. Grass 출력 훅은 Day01과 프로토타입 표현을 분리한다.
 
 프로토타입 커서 반응은 `PrototypeHover`가 `ShowcaseTileHover.Map`으로 지도 범위·바이옴·흙먼지 셰이더를 주입한다. HoverDust 패스를 공유하고 출력 조명만 바꾼다. TerrainSurface는 선택적 높이 함수를 받아 변형 후 삼각형을 선택한다. WaterSurface는 파문 표시를 명시적으로 켜며 생성/초기화/메뉴 정지/해제는 프로토타입 어댑터가 조율한다. [이관 상태와 확인 절차](../temp-prototype-migration-context.md).
+
+`PrototypeSurfaceFeedback`은 나무·바위의 Renderer에 공용 ShowcasePickSurface를 붙여 원본 메시 선택 캐시를 재사용한다. 도구 접촉점으로 ShowcaseDamageMarks를 갱신하며 게임 규칙을 소유하지 않는다. 렌더러 틴트와 자국 MPB를 보존하고 제거/재시작 시 표면 등록을 해제한다.
+
+프로토타입 직접 작업은 PrototypeManualWork(모델의 작업 가능/단일 대상 기여)와 Presentation의 준비/접촉 타이밍으로 나눈다. 모든 커서 자동 반복은 CursorAutomationUnlocked로 제한한다. PrototypeImpactFeedback은 Destruction의 타격 타이밍/작은 파편 풀을 재사용하며 게임 피해량이나 자동화 해금을 결정하지 않는다. [최신 규칙](../../docs/game-process/46-click-work-and-automation.md).

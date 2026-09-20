@@ -14,8 +14,11 @@
 </style>
 </head>
 <body>
-<header><div class="eyebrow">Game design → release / project journal</div><h1>집 하나에서 시작해 채집과 건설로 성장하고 최종 웨이브를 막는 생존 디펜스.</h1><div class="overview"><div><span class="label">현재 단계</span><p>M5 — 43 독립 스킬·강화 모듈과 트리 에디터 구현, Unity 임포트/실제 플레이 확인 대기</p></div><div><span class="label">다음 행동</span><p>Unity에서 DayNight 표시 확인 후 씬 저장. Windows 빌드 미요청.</p></div></div><div class="updated">문서 생성 · 2026-09-19 14:55 +0900 · Markdown 원본 기반 / 열람용</div></header>
+<header><div class="eyebrow">Game design → release / project journal</div><h1>집 하나에서 시작해 채집과 건설로 성장하고 최종 웨이브를 막는 생존 디펜스.</h1><div class="overview"><div><span class="label">현재 단계</span><p>M5 — 43 독립 스킬·강화 모듈과 트리 에디터 구현, Unity 임포트/실제 플레이 확인 대기</p></div><div><span class="label">다음 행동</span><p>Unity에서 DayNight 표시 확인 후 씬 저장. Windows 빌드 미요청.</p></div></div><div class="updated">문서 생성 · 2026-09-20 22:11 +0900 · Markdown 원본 기반 / 열람용</div></header>
 <div class="layout"><nav aria-label="프로젝트 단계"><h2>PROJECT PATH</h2><a href="#stage-01"><span>01</span>아이디어 구체화</a><a href="#stage-02"><span>02</span>타깃과 핵심 경험</a><a href="#stage-03"><span>03</span>플레이 반복 구조</a><a href="#stage-04"><span>04</span>규칙·행동·경험</a><a href="#stage-05"><span>05</span>시스템과 성장</a><a href="#stage-06"><span>06</span>플레이 흐름과 UX</a><a href="#stage-07"><span>07</span>프로토타입과 검증</a><a href="#stage-08"><span>08</span>MVP 범위와 계획</a><a href="#stage-mvp"><span>MVP</span>MVP 개발</a><a href="#stage-iterations" aria-current="step"><span>반복</span>테스트·수정 반복</a><a href="#stage-release"><span>출시</span>출시 준비</a><a href="#stage-operations"><span>운영</span>출시·운영</a><a href="#stage-records"><span>기록</span>진행·결정 기록</a></nav><main><div class="toolbar"><span>기획 정리 ≠ 구현 완료 ≠ 경험 검증 ≠ 출시 준비</span><div><button id="expand" type="button">모두 펼치기</button> <button id="collapse" type="button">모두 접기</button></div></div><details class="stage" id="stage-01"><summary><span class="stage-number">01</span><span>아이디어 구체화</span><span class="badge">방향 확정</span></summary><div class="stage-body"><p class="stage-description">주민 개별 지휘를 제거하고 인구 기반 커서 기여 강화로 방향 변경. 병력은 별도 유지.</p><details class="artifact" id="doc-1efa8ff406c3c7f8"><summary>1단계 · 아이디어 구체화<small>01-game-analysis.md</small></summary><div class="markdown"><a class="source" href="01-game-analysis.md">Markdown 원본 열기 ↗</a><h3 id="doc-1efa8ff406c3c7f8--1단계-아이디어-구체화">1단계 · 아이디어 구체화</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <ul>
 <li>핵심 요약: 집 하나에서 시작하는 마을 성장형 웨이브 디펜스의 첫 추천안을 작성했다. 아래 AI 제안은 아직 채택되지 않았다.</li>
 <li>상태: 진행</li>
@@ -100,6 +103,9 @@
 <h4 id="doc-1efa8ff406c3c7f8--최신-방향-변경-2026-09-14">최신 방향 변경 · 2026-09-14</h4>
 <p>주민 개별 지휘를 주민 수 기반 커서 효율 강화로 대체한다. 앞선 주민 배정·직접 보조 역할 설명은 이력이며 현행 규칙은 05·06을 따른다. 재화 기반 스킬 트리를 포함한다. 병력은 별도로 유지하고 조작 방식은 미정이다.</p>
 </div></details></div></details><details class="stage" id="stage-02"><summary><span class="stage-number">02</span><span>타깃과 핵심 경험</span><span class="badge">기획 정리 완료</span></summary><div class="stage-body"><p class="stage-description">최신 인구 기반 커서 성장 방향의 타깃·핵심 경험·환생 선택 동기를 사용자 확정.</p><details class="artifact" id="doc-50f4501fb2594fda"><summary>타깃과 핵심 경험 · 확정<small>02-experience-brief.md</small></summary><div class="markdown"><a class="source" href="02-experience-brief.md">Markdown 원본 열기 ↗</a><h3 id="doc-50f4501fb2594fda--타깃과-핵심-경험-확정">타깃과 핵심 경험 · 확정</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <ul>
 <li>핵심 요약: 복잡한 개별 유닛 조작 부담을 줄이고, 주민·커서 강화와 마을 방어 투자 판단의 재미를 제공한다.</li>
 <li>상태: 사용자 채택. M1 기획 정리 완료. 재미·시장성은 실제 검증 전이다.</li>
@@ -123,6 +129,9 @@
 <h4 id="doc-50f4501fb2594fda--세계관-사용자-채택">세계관 · 사용자 채택</h4>
 <p>중세 판타지 마을에 슬라임·고블린·오크·리자드 등 마물들이 침공한다. 신을 모시는 제단이 존재한다. 신의 정체와 환생 원리는 아직 미정이며 플레이어를 신으로 확정하지 않는다.</p>
 </div></details></div></details><details class="stage" id="stage-03"><summary><span class="stage-number">03</span><span>플레이 반복 구조</span><span class="badge">제안 검토</span></summary><div class="stage-body"><p class="stage-description">한 판은 클리어·패배까지. 그 안에서 환생 후 첫 웨이브부터 재진행하며, 판 종료 후 새 판은 강화 초기화.</p><details class="artifact" id="doc-bf4d1b439d7bd935"><summary>한 판의 흐름 · 마우스 자동 행동과 지휘 병행<small>03-core-loop.md</small></summary><div class="markdown"><a class="source" href="03-core-loop.md">Markdown 원본 열기 ↗</a><h3 id="doc-bf4d1b439d7bd935--한-판의-흐름-마우스-자동-행동과-지휘-병행">한 판의 흐름 · 마우스 자동 행동과 지휘 병행</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <p>규칙→행동→경험 연결과 미검증 위험은 <a href="#doc-7727c1379411e107">04 규칙·행동·경험</a>을 따른다.</p>
 <h4 id="doc-bf4d1b439d7bd935--2026-09-16-최신-변경-사용자-피드백-반영">2026-09-16 최신 변경 · 사용자 피드백 반영</h4>
 <p>기존 클릭 고정 기여·영역 인구 보너스·커서 필수 공사·자동 환전 규칙은 대체되었다. 커서는 마우스를 따라 기본2초마다 기여하며 주기는 스킬로만 단축한다. 주민은 집에서만 공급하고 집당 주민 수를 강화한다. 주민은 회당 기여량/반경을 높인다. 공사는 자동+커서지원이며 자동 속도 강화가 있다.</p>
@@ -199,6 +208,9 @@
 <li>돈·교역소 및 구체 환산 계수는 여전히 제안 상태다. 이번 결정으로 함께 채택하지 않는다.</li>
 </ul>
 </div></details></div></details><details class="stage" id="stage-04"><summary><span class="stage-number">04</span><span>규칙·행동·경험</span><span class="badge">기획 정리 완료 · 경험 재검증 진행</span></summary><div class="stage-body"><p class="stage-description">규칙이 유도하는 선택과 목표 경험, 사용자 관찰과 미검증 위험을 연결했다. 04 문서 누락을 보완했고 현재 M5의 방어·탐험·환생 경험을 재검증한다.</p><details class="artifact" id="doc-7727c1379411e107"><summary>규칙·행동·경험<small>04-mda-risks.md</small></summary><div class="markdown"><a class="source" href="04-mda-risks.md">Markdown 원본 열기 ↗</a><h3 id="doc-7727c1379411e107--규칙행동경험">규칙·행동·경험</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <ul>
 <li>핵심 요약: 낮의 제한 시간 안에 성장·방어·탐험에 커서를 배분하고, 밤의 압박을 넘어 더 높은 날짜에 도전한다. 환생은 실패 직전의 자동 구조가 아니라 다음 도전을 위한 자발적 재건이다.</li>
 <li>상태: <strong>기획 연결 정리 완료 / 실제 경험 재검증 진행 중</strong>. M1의 타깃·핵심 경험을 M2 규칙과 연결하고, 현재 M5에서 확인할 위험을 정리한다.</li>
@@ -301,6 +313,9 @@
 <p><a href="#doc-74f10c8f7a2465f1">15 전투·성장</a>에서 자동 방어 분산, 수동 지점 유지, 강화 단계, 화상과 자원 내구도를 추가했다. 병력 지휘가 줄어든 만큼 판단 여유가 생기는지, 후반 자원 내구도가 투자 선택 대신 지루한 채집 시간만 늘리지 않는지 확인한다. 변경 전 경험을 새 버전의 검증 증거로 재사용하지 않는다.</p>
 <p>M5·15 사용자 피드백으로 공전 볼을 제거했다. 마우스 왕복으로 접촉 기여를 반복할 수 있다는 규칙상의 문제를 없애고 기존 주기 기여를 유지한다. 실제 플레이 재검증은 대기 중이다.</p>
 </div></details></div></details><details class="stage" id="stage-05"><summary><span class="stage-number">05</span><span>시스템과 성장</span><span class="badge">첫 수치 기준 채택·세부 경제 설계 진행</span></summary><div class="stage-body"><p class="stage-description">집당 주민 +1, 주민은 커서 범위·작업 효율 증가, 일반 강화는 증가율·수행 효율 개선. 연구소·제단 선행 조건 확정.</p><details class="artifact" id="doc-18551506f39492cd"><summary>주민·건물·자원의 성장 구조<small>05-system-map.md</small></summary><div class="markdown"><a class="source" href="05-system-map.md">Markdown 원본 열기 ↗</a><h3 id="doc-18551506f39492cd--주민건물자원의-성장-구조">주민·건물·자원의 성장 구조</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <h4 id="doc-18551506f39492cd--2026-09-16-최신-변경-사용자-피드백-반영">2026-09-16 최신 변경 · 사용자 피드백 반영</h4>
 <p>기존 클릭 고정 기여·영역 인구 보너스·커서 필수 공사·자동 환전 규칙은 대체되었다. 커서는 마우스를 따라 기본3초마다 기여하며 주기는 스킬로만 단축한다. 주민은 집에서만 공급하고 집당 주민 수를 강화한다. 주민은 회당 기여량/반경을 높인다. 공사는 자동+커서지원이며 자동 속도 강화가 있다.</p>
 <p>낮/황혼/밤/새벽 정산과 공유 시야·마우스 탐험·잔상·임의 암흑 침공을 추가했다. 귀중품은 새벽에 돈으로 정산한다. 에테론은 환생 전용이다. 교역소는 클릭 모달의 재료별 비율 슬라이더와 환전 버튼으로 한 번 판매하며1개 제한은 유지한다. 병영은 생산/병종 목록 모달, 모든 모달ESC. 병력 클릭/박스 선택과 선택 몸체 드래그 공격 이동, 비중첩·배회. 카메라는중심400px이내정지·바깥비선형가속.</p>
@@ -985,6 +1000,9 @@
 <p>교역소는 자동 환전하며 On/Off 토글로 작동을 제어한다. 교역소는 하나만 건설할 수 있다. 이전 여러 교역소의 생존 여유 제안은 폐기한다. 중복 건설을 막기 위해 건설 중인 교역소도1개 제한에 포함하고 파괴/취소 후 다시 건설할 수 있는 안을 추천한다.</p>
 <p>환전 대상 자원·보존량 설정·기본 토글 상태·환율·가격·판매 주기는 여전히 제안이다. 이번 사용자 결정으로 보존량 기능까지 확정하지 않는다. 건설 재료를 모두 팔지 않도록 기존 보존량 제안을 유지하되 On일 때 전량 판매인지 초과분 판매인지 후속 확인한다.</p>
 </div></details></div></details><details class="stage" id="stage-06"><summary><span class="stage-number">06</span><span>플레이 흐름과 UX</span><span class="badge">콘텐츠 초안 검토</span></summary><div class="stage-body"><p class="stage-description">마우스 추적 2초 기여, 병력 드래그 공격 이동, 건물 단일 클릭 관리/누른 채 드래그 이전. 인구는 집으로만 증가하고 영역 인구 보너스는 제거.</p><details class="artifact" id="doc-b47e24407e231ade"><summary>조작과 자동 기여<small>06-player-flow.md</small></summary><div class="markdown"><a class="source" href="06-player-flow.md">Markdown 원본 열기 ↗</a><h3 id="doc-b47e24407e231ade--조작과-자동-기여">조작과 자동 기여</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <h4 id="doc-b47e24407e231ade--2026-09-19-최신-추가-단계형-튜토리얼">2026-09-19 최신 추가 · 단계형 튜토리얼</h4>
 <p>첫 플레이 튜토리얼은 <a href="#doc-2043725335fe3b58">44 단계형 튜토리얼</a>을 따른다. HUD 순차 공개, 채집·농장·집·밤 방어·정산·유물 학습 후 마을을 유지하며 맵을 확장한다. 이후 튜토리얼 없는 새 게임은 집 1채로 시작한다. 모든 집 파괴가 실패 조건이며 수리는 무료다. 사용자 채택 기획이며 구현·경험 검증 전이다.</p>
 <h4 id="doc-b47e24407e231ade--2026-09-16-최신-변경-사용자-피드백-반영">2026-09-16 최신 변경 · 사용자 피드백 반영</h4>
@@ -1320,6 +1338,9 @@
 <p>사용자 확정: 3D pixel art, 건물 사각 격자 배치, 적 연속 좌표 자유 이동, 큰 건물의 외곽 정지/공격, 모든 월드 오브젝트 호버 포커스. 새 프로토타입 씬에서 개발한다. 구체 검증 범위는08·07 최신 항목 참조. 호버는 활성 커서 범위를 이동시키지 않는 연결안이다.</p>
 </div></details></div></details><details class="stage" id="stage-07"><summary><span class="stage-number">07</span><span>프로토타입과 검증</span><span class="badge">기록 있음 · 상태 미지정</span></summary><div class="stage-body"><p class="stage-description">문서를 펼쳐 세부 내용과 근거를 확인하세요.</p><details class="artifact" id="doc-2431ea35a0895405"><summary>첫 프로토타입 검증 계획 · M3<small>07-validation.md</small></summary><div class="markdown"><a class="source" href="07-validation.md">Markdown 원본 열기 ↗</a><h3 id="doc-2431ea35a0895405--첫-프로토타입-검증-계획-m3">첫 프로토타입 검증 계획 · M3</h3>
 <blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
+<blockquote>
 <p>현재 M5의 최신 대상은 6웨이브 확장판이다. <a href="#doc-7727c1379411e107">04 규칙·행동·경험</a>의 경험 가설과 <a href="#doc-74f10c8f7a2465f1">15 전투·성장 개선</a>의 최신 기술 확인 순서를 우선한다. 아래는 첫 2웨이브 기획 당시의 검증 계획으로, 폐기된 클릭 고정 기여·자동 판매 규칙은 현행에 적용하지 않는다.</p>
 </blockquote>
 <ul>
@@ -1406,6 +1427,9 @@
 <p>사용자 실제 플레이 후 “지금 충분히 괜찮은 것 같은데 다음 웨이브를 더 하고 싶었어.”라고 평가했다. 제작자 1인의 핵심 순환 수용과 지속 플레이 의향 관찰이다. 첫 검증 사이클을 마치고 12의 6일/환생 검증으로 전환한다. 초심자 일반화나 성능/모든 경계 상태 통과 근거로 사용하지 않는다.</p>
 </div></details></div></details><details class="stage" id="stage-08"><summary><span class="stage-number">08</span><span>MVP 범위와 계획</span><span class="badge">기록 있음 · 상태 미지정</span></summary><div class="stage-body"><p class="stage-description">문서를 펼쳐 세부 내용과 근거를 확인하세요.</p><details class="artifact" id="doc-bb94c6aa6e96f2f3"><summary>첫 프로토타입 제작 범위 · M3<small>08-gdd-mvp.md</small></summary><div class="markdown"><a class="source" href="08-gdd-mvp.md">Markdown 원본 열기 ↗</a><blockquote>
 <p>최신 확장: 사용자 요청으로 첫 2일 검증을 마치고 6웨이브·환생 확장판을 구현했다. 현재 범위와 검증은 <a href="#doc-8690862a9ffb1454">12 확장 프로토타입</a>을 우선한다. 아래 후속 제안 중 환생의 작은 검증 범위는 구현됐으며 전체 본편은 여전히 후속이다.</p>
+</blockquote>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
 </blockquote>
 <h3 id="doc-bb94c6aa6e96f2f3--첫-프로토타입-제작-범위-m3">첫 프로토타입 제작 범위 · M3</h3>
 <h4 id="doc-bb94c6aa6e96f2f3--2026-09-16-최신-변경-사용자-피드백-반영">2026-09-16 최신 변경 · 사용자 피드백 반영</h4>
@@ -1613,6 +1637,9 @@
 <h4 id="doc-8ae7f65310297d70--현재-m5-19-씬-ugui-전환">현재 M5 · 19 씬 uGUI 전환</h4>
 <p>씬에 Canvas와 EventSystem 및 고정 UI를 저장하고 IMGUI를 제거했다. Font/Sprite를 Inspector에서 편집할 수 있다. <a href="#doc-ef792f48471e8474">편집 안내</a>, <a href="#doc-5d36454cd3444fba">검증과 제한</a>.</p>
 </div></details><details class="artifact" id="doc-aa339961ba5ad2c2"><summary>M4 구현 작업 목록<small>09-prototype-implementation.md</small></summary><div class="markdown"><a class="source" href="09-prototype-implementation.md">Markdown 원본 열기 ↗</a><h3 id="doc-aa339961ba5ad2c2--m4-구현-작업-목록">M4 구현 작업 목록</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <p>사용자 구현 요청으로 M3 첫 범위를 개발 기준으로 채택하고 M4 시작. M2 상세는 후속 검증으로 남긴다.</p>
 <ul>
 <li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>Unity6 본 프로젝트 안에 격리된 런타임/설정/새 씬 구성</li>
@@ -1684,6 +1711,9 @@
 <p>이후Unity Player 컴파일·셰이더/에셋 빌드·실행 파일 패키징 통과. 빌드용렌더/품질/백엔드 설정은 복원하고 프로젝트 설정4개를 작업 전 백업과 바이트 비교해 일치 확인했다. 최초 변경 없던URP 전역 설정의 빌드 자동 갱신도 원본으로 복원했다. 기존사용자 Afterlife.slnx/EditorBuildSettings 변경과_EmberVillage는 보존했다.</p>
 <p>이번 사용자 요청으로Unity CLI 빌드를 허용받아 검증 범위를 확장했다. 이전의“Unity 에셋/셰이더 미검증”은이 빌드 대상으로해소되었으나실행 파일을실제로플레이하거나화면/조작/성능/2웨이브완주를확인한것은아니다. M4는Unity빌드완료·플레이확인대기, M5인간경험검증은미시작.</p>
 </div></details></div></details><details class="stage" id="stage-iterations" open><summary><span class="stage-number">반복</span><span>테스트·수정 반복</span><span class="badge">진행</span></summary><div class="stage-body"><p class="stage-description">타일 중앙 회전 사각뿔과 작은 세로 건설 메뉴의 순차 상승/페이드 인, 취소 역재생. 컴파일 오류·경고 0. 실제 플레이 확인 대기.</p><h3 class="round">회차 · game-process</h3><details class="artifact" id="doc-32bc47b7768bfec4"><summary>M5 플레이 피드백 반영 · 2026-09-16<small>10-playtest-revision.md</small></summary><div class="markdown"><a class="source" href="10-playtest-revision.md">Markdown 원본 열기 ↗</a><h3 id="doc-32bc47b7768bfec4--m5-플레이-피드백-반영-2026-09-16">M5 플레이 피드백 반영 · 2026-09-16</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <ul>
 <li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>마우스 추적/3초 기여와 인구·스킬 분리, 집만 인구 공급</li>
 <li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>자동 공사·일반 강화(주기/집당 주민/자동 공사)</li>
@@ -1887,6 +1917,9 @@
 </div></details><details class="artifact" id="doc-cf1b6b16cb11d37f"><summary>프로토타입에서 확인할 것과 이후 제작 범위<small>11-prototype-and-update-scope.md</small></summary><div class="markdown"><a class="source" href="11-prototype-and-update-scope.md">Markdown 원본 열기 ↗</a><blockquote>
 <p>최신 확장: 사용자 요청으로 첫 2일 검증을 마치고 6웨이브·환생 확장판을 구현했다. 현재 범위와 검증은 <a href="#doc-8690862a9ffb1454">12 확장 프로토타입</a>을 우선한다. 아래 후속 제안 중 환생의 작은 검증 범위는 구현됐으며 전체 본편은 여전히 후속이다.</p>
 </blockquote>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <h3 id="doc-cf1b6b16cb11d37f--프로토타입에서-확인할-것과-이후-제작-범위">프로토타입에서 확인할 것과 이후 제작 범위</h3>
 <p>현재: <strong>M5 플레이 검증·수정 — 10 도구 모션·타일 지형 수정</strong>. 첫 프로토타입의 제작 범위(M3)는 정리됐지만, 본편 상세 기획(M2) 전체나 실제 플레이 검증(M5)이 끝난 상태는 아니다.</p>
 <h4 id="doc-cf1b6b16cb11d37f--1-현재-프로토타입에서-끝낼-작업">1. 현재 프로토타입에서 끝낼 작업</h4>
@@ -1973,6 +2006,9 @@
 <p><strong>이번 수정본 플레이 → 모션·지형·성능/핵심 순환의 문제 정리 → 첫 프로토타입 검증 종료 안내 → 작은 환생 검증 범위 확정</strong> 순서로 진행한다. 프로토타입 단계 완료를 빌드 성공만으로 선언하지 않는다. 전체 기획 완료와 첫 프로토타입 완료도 별도로 브리핑한다.</p>
 </div></details><details class="artifact" id="doc-8690862a9ffb1454"><summary>확장 프로토타입 · 전투 반응과 환생<small>12-rebirth-prototype.md</small></summary><div class="markdown"><a class="source" href="12-rebirth-prototype.md">Markdown 원본 열기 ↗</a><blockquote>
 <p>최신 웨이브 구성·적·투사체 수치는 <a href="#doc-f41197f86f04e749">13 웨이브·월드</a>로 변경됐다. 이 문서의 환생·정산·판 종료 규칙은 유지한다.</p>
+</blockquote>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
 </blockquote>
 <h3 id="doc-8690862a9ffb1454--확장-프로토타입-전투-반응과-환생">확장 프로토타입 · 전투 반응과 환생</h3>
 <p>현재 M4 확장 구현 → M5 검증. 사용자 관찰: “지금 충분히 괜찮은 것 같은데 다음 웨이브를 더 하고 싶었어.” 첫 프로토타입의 핵심 순환은 다음 단계로 확장할 근거를 얻었다. 성능과 모든 예외 상황 검증 완료를 뜻하지 않는다.</p>
@@ -2073,6 +2109,9 @@
 </ol>
 <p>다음 판단은 계속 도전과 환생 중 실제 선택이 생기는지, 초기 재건 반복이 지루하지 않은지, 경직 때문에 일방적인 전투가 되지 않는지다.</p>
 </div></details><details class="artifact" id="doc-f41197f86f04e749"><summary>웨이브 압박과 월드·전투 콘텐츠<small>13-wave-and-world.md</small></summary><div class="markdown"><a class="source" href="13-wave-and-world.md">Markdown 원본 열기 ↗</a><h3 id="doc-f41197f86f04e749--웨이브-압박과-월드전투-콘텐츠">웨이브 압박과 월드·전투 콘텐츠</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <p>현재 M5 — 13 환생 동기·웨이브 압박 개선. 사용자 목적은 더 높은 웨이브에 도전하기 위해 자발적으로 환생하고 재건 이점을 얻는 것이다. 이전 6일판은 수치 증가만으로 위협이 충분히 전달되지 않았다는 실제 피드백을 받았다.</p>
 <h4 id="doc-f41197f86f04e749--작업-목록">작업 목록</h4>
 <ul>
@@ -2242,6 +2281,9 @@
 <li>F3로 숲 주변 및 후반 혼성 전투의 끊김을 비교한다. 난이도 증가를 프레임 저하나 길막으로 대신하지 않도록 확인한다.</li>
 </ol>
 </div></details><details class="artifact" id="doc-e9a7aba949de6d85"><summary>방어 시설·탐험 보상·건물 이동<small>14-defense-and-exploration.md</small></summary><div class="markdown"><a class="source" href="14-defense-and-exploration.md">Markdown 원본 열기 ↗</a><h3 id="doc-e9a7aba949de6d85--방어-시설탐험-보상건물-이동">방어 시설·탐험 보상·건물 이동</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <p>현재 <strong>M5 — 14 방어·탐험 확장 구현/Windows 빌드 완료, 직접 플레이 검증 대기</strong>. 이번 범위의 구현 완료이며 M5 전체 종료나 업데이트 출시 준비 완료를 뜻하지 않는다.</p>
 <h4 id="doc-e9a7aba949de6d85--작업과-변경-전후">작업과 변경 전후</h4>
 <ul>
@@ -2490,6 +2532,9 @@
 </ul>
 <p>최신 입력 수정(M5·15): 사전 선택 없이 건물을 누른 채 드래그하면 이전한다. 클릭으로 놓으면 관리 창을 연다.</p>
 </div></details><details class="artifact" id="doc-74f10c8f7a2465f1"><summary>전투 AI·방어 강화·건물 조작<small>15-combat-and-growth.md</small></summary><div class="markdown"><a class="source" href="15-combat-and-growth.md">Markdown 원본 열기 ↗</a><h3 id="doc-74f10c8f7a2465f1--전투-ai방어-강화건물-조작">전투 AI·방어 강화·건물 조작</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <ul>
 <li>현재: <strong>M5 — 15 전투·성장 개선 / 구현 완료·직접 플레이 검증 대기</strong>.</li>
 <li>핵심 요약: 방어 구역·표적을 나누는 병력 AI, 타워 범위/강화, 5단계 일반 연구, 발화·화상, 웨이브별 자원 내구도를 구현하고 건물 단일 클릭 관리로 수정했다. 공전 에너지 볼은 제거했다.</li>
@@ -2709,6 +2754,9 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <p>직접 확인: 새 실행 파일에서 한글/숫자 및 모달 글자가 보이는지, 1080p에서 HUD가 2배인지, 확대된 버튼/교역 슬라이더/건설 스크롤의 클릭 위치가 맞는지 확인한다. 새 Player.log에 위 폰트 경고가 재발하는지도 확인 대상이다. 프로젝트 지침에 따라 실행/플레이 테스트는 수행하지 않았다.</p>
 <p>최종 빌드: C#/Windows 오류 0·경고 0, Windows 162303984 bytes, 9.462초. 프로젝트 설정 5개 복원 해시 일치. 실제 표시 재검증 대기.</p>
 </div></details><details class="artifact" id="doc-6a805f7ac3da0524"><summary>M5 · 16 UI 폴리싱<small>16-ui-polish.md</small></summary><div class="markdown"><a class="source" href="16-ui-polish.md">Markdown 원본 열기 ↗</a><h3 id="doc-6a805f7ac3da0524--m5-16-ui-폴리싱">M5 · 16 UI 폴리싱</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <p>상태: 이번 UI 구현·QA 완료. 남색/황동/청록의 단순한 16-bit 픽셀 아트, 1920×1080, 폴리싱 전 대비 HUD 80%, 카메라 가장자리 각 축 25%, 관리 창 시간 진행·ESC 메뉴 정지를 적용했다. 커서 기여 주기는 월드 표시로 확인하며 HUD에 중복 표시하지 않는다. 미정산 전리품은 왼쪽 아이콘 버튼에서 여는 모달로 확인한다. 마을 건설은 같은 왼쪽 사이드 메뉴의 아이콘이며, 목록은 사이드 메뉴를 가리지 않도록 바로 오른쪽에 열린다. <a href="#doc-5f039d1e632b7124">QA 결과와 실제 화면</a>에 최종 57장 캡처·11개 자동 확인·실제 입력 검증을 기록했다. M5 전체 게임 검증은 계속 진행한다.</p>
 <h4 id="doc-6a805f7ac3da0524--이번-작업-목록">이번 작업 목록</h4>
 <ul>
@@ -2838,6 +2886,9 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>결과 대시보드와 빌드 저장</li>
 </ul>
 </div></details><details class="artifact" id="doc-c41d4c0501b997d4"><summary>UI 자산과 제작 기록<small>ui-assets.md</small></summary><div class="markdown"><a class="source" href="ui-assets.md">Markdown 원본 열기 ↗</a><h3 id="doc-c41d4c0501b997d4--ui-자산과-제작-기록">UI 자산과 제작 기록</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <h4 id="doc-c41d4c0501b997d4--시각-기준">시각 기준</h4>
 <p>사용자 지정: 남색·황동·청록, 복잡한 장식 대신 16-bit 픽셀 아트. Slotbound Demo의 명확한 프레임, 아이콘과 수치의 결합, 정보 계층을 참고했다. 게임 자체 자산은 복사하지 않았다. 참고 스크린샷은 <code>reference/slotbound-01.jpg</code>에 보관한다.</p>
 <h4 id="doc-c41d4c0501b997d4--생성-자산">생성 자산</h4>
@@ -2870,6 +2921,9 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <h4 id="doc-c41d4c0501b997d4--공통-피드백">공통 피드백</h4>
 <p>호버 청록 강조, 누를 때 2 논리 픽셀 이동, 클릭 테두리 0.18초 강조와 짧은 효과음, 모달 등장 0.18초 이동·배경 암전, 건설 패널 등장 0.18초 이동. 비활성 상태는 배경과 테두리로 구분하되 글자를 읽을 수 있게 유지한다. 상시 번쩍임은 사용하지 않는다.</p>
 </div></details><details class="artifact" id="doc-5f039d1e632b7124"><summary>M5 · 16 UI 폴리싱 QA 결과<small>16-ui-qa.md</small></summary><div class="markdown"><a class="source" href="16-ui-qa.md">Markdown 원본 열기 ↗</a><h3 id="doc-5f039d1e632b7124--m5-16-ui-폴리싱-qa-결과">M5 · 16 UI 폴리싱 QA 결과</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <h4 id="doc-5f039d1e632b7124--판정과-범위">판정과 범위</h4>
 <p>이번 프로토타입 UI 변경 범위 통과. 설계 규칙·생성 자산·코드·Windows 빌드·실제 화면과 입력 증거를 확인했다. M5 전체 게임 밸런스나 M6 출시 검증의 완료를 뜻하지 않는다.</p>
 <p>기준 화면 1920×1080. 추가 화면 1280×720, 2560×1440, 2560×1080. 설정 UI 배율 80~120%를 확인했다. UI 기본 100%는 폴리싱 전 HUD 대비 약 80% 크기다.</p>
@@ -3032,6 +3086,9 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <h4 id="doc-5f039d1e632b7124--재실행">재실행</h4>
 <p>Unity 에디터가 닫혀 있는지 확인한 뒤 게임 프로젝트에서 <code>Tools/AfterlifePrototype/Build-Prototype.ps1</code>, <code>Build-Windows.ps1</code> 순으로 실행한다. 화면 점검은 플레이어에 <code>--ui-qa &lt;출력 폴더&gt;</code>를 전달한다. 실제 입력 점검은 <code>--ui-qa-live &lt;출력 폴더&gt;</code>를 사용한다. 일반 플레이는 인자 없이 실행하며 QA용 상태나 프레임 수집을 사용하지 않는다. QA 실행 중 UI 설정은 사용자 PlayerPrefs에 저장하지 않는다.</p>
 </div></details><details class="artifact" id="doc-f378edd7e0d8ef12"><summary>M5 · 17 월드 모델링·지형·애니메이션 개선<small>17-world-art.md</small></summary><div class="markdown"><a class="source" href="17-world-art.md">Markdown 원본 열기 ↗</a><h3 id="doc-f378edd7e0d8ef12--m5-17-월드-모델링지형애니메이션-개선">M5 · 17 월드 모델링·지형·애니메이션 개선</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <p>상태: 이번 월드 아트 개선 범위 구현·QA 완료. 16 UI의 확정 배치와 입력 규칙을 보존했다. 실제 화면 70장·자동 확인 8/8 및 실제 입력 결과는 <a href="#doc-ec505c9d35933001">QA 보고서</a>에 기록했다. M5 전체 게임 검증은 계속 진행한다.</p>
 <h4 id="doc-f378edd7e0d8ef12--목표와-변경-전">목표와 변경 전</h4>
 <p>기존 건물·병력·자원 대부분은 Unity 기본 도형 조합이다. 건물 간 형태 차이가 작고 슬라임 이동은 작은 상하 이동, 상자는 열리지 않고 축소되어 사라진다. 지면은 타일 종류를 공유하지만 대부분 색 차이로 표현된다.</p>
@@ -3076,6 +3133,9 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <li>성벽 갤러리의 수동 배치가 지형 변경 번호를 갱신하지 않음 → QA 배치 함수를 수정하고 실제 연결 메시 확인 추가. 일반 건설은 기존 갱신 규칙을 유지한다.</li>
 </ol>
 </div></details><details class="artifact" id="doc-ec505c9d35933001"><summary>M5 · 17 월드 아트 QA 결과<small>17-world-art-qa.md</small></summary><div class="markdown"><a class="source" href="17-world-art-qa.md">Markdown 원본 열기 ↗</a><h3 id="doc-ec505c9d35933001--m5-17-월드-아트-qa-결과">M5 · 17 월드 아트 QA 결과</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <p>이번 모델·지형·애니메이션 개선 범위의 구현과 화면 검증을 완료했다. <strong>M5 전체 게임 검증과 M6 출시 준비 완료는 아니다.</strong></p>
 <p><a href="qa/world-art/index.html">실제 화면과 애니메이션 프레임 보기</a> · <a href="#doc-f378edd7e0d8ef12">제작 범위</a> · <a href="qa/world-art/build-summary.txt">빌드 결과</a></p>
 <h4 id="doc-ec505c9d35933001--변경-전후">변경 전후</h4>
@@ -3230,6 +3290,9 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <p>새로운 실행 예외는 없었다. 종료 시 기존 ComputeBuffer 정리 경고가 재현됐으며 이번 변경에서 해결한 것으로 보지 않는다. 전체 판의 난이도·환생 효용·경제 밸런스는 M5의 후속 검증이다.</p>
 <p>직접 확인할 때는 왼쪽 메뉴와 유물에 마우스를 접근시켜 카메라가 멈추는지, UI에서 떨어진 가장자리에서 다시 이동하는지 확인한다. 밤에는 병력/타워/성벽이 적 시야에 함께 들어왔을 때 가까운 우선 대상을 공격하고, 처치 직후 돈 및 전리품 목록이 증가해야 한다.</p>
 </div></details><details class="artifact" id="doc-ef792f48471e8474"><summary>19 씬에 저장하는 uGUI 전환<small>19-scene-ugui.md</small></summary><div class="markdown"><a class="source" href="19-scene-ugui.md">Markdown 원본 열기 ↗</a><h3 id="doc-ef792f48471e8474--19-씬에-저장하는-ugui-전환">19 씬에 저장하는 uGUI 전환</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <p>M5 구현·플레이 검증 반복. 사용자가 Inspector에서 UI를 직접 편집하기 위한 구조 전환.</p>
 <h4 id="doc-ef792f48471e8474--작업-목록">작업 목록</h4>
 <ul>
@@ -3299,6 +3362,9 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <p>실제 Win32 마우스/ESC 입력도 시도했지만 <code>SetForegroundWindow=false</code>, 다른 프로세스가 전경이라는 결과를 확인했다. 따라서 이 입력 시도는 UI 검증 성공으로 세지 않는다. 자동 이벤트 확인은 하드웨어 클릭의 대체 증거로 주장하지 않는다. 일반 플레이어를 직접 열어 건설/전리품 버튼, 교역소 슬라이더와 환전, ESC 닫기, 스크롤을 확인하면 된다.</p>
 <p>이번 최종 로그에서 실행 예외/오류는 검출되지 않았다. 게임 전체 판의 난이도·경제·환생 효용 검증은 별도이며, UI 미술의 세부 조정은 <a href="#doc-ef792f48471e8474">씬 편집 안내</a>에 따라 Inspector에서 진행할 수 있다.</p>
 </div></details><details class="artifact" id="doc-6476b71fc1f65d5e"><summary>20 하루 보상·채집 표시 개선<small>20-daily-rewards-and-resources.md</small></summary><div class="markdown"><a class="source" href="20-daily-rewards-and-resources.md">Markdown 원본 열기 ↗</a><h3 id="doc-6476b71fc1f65d5e--20-하루-보상채집-표시-개선">20 하루 보상·채집 표시 개선</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <p>현재: M5 플레이 검증·수정 / 요청 기능 구현·컴파일·Windows 빌드 완료. 실제 조작과 밸런스는 미검증.</p>
 <h4 id="doc-6476b71fc1f65d5e--작업-목록">작업 목록</h4>
 <ul>
@@ -3352,6 +3418,9 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 </ol>
 <p>현재 완료는 요청 기능 구현·컴파일·빌드 범위이며 M5 전체 한 판 경험 검증이나 M6 출시 준비 완료가 아니다.</p>
 </div></details><details class="artifact" id="doc-ee467d096c04eb73"><summary>21 골드 경제 통일·채집 연출<small>21-gold-economy-and-collection.md</small></summary><div class="markdown"><a class="source" href="21-gold-economy-and-collection.md">Markdown 원본 열기 ↗</a><h3 id="doc-ee467d096c04eb73--21-골드-경제-통일채집-연출">21 골드 경제 통일·채집 연출</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <p>현재: M5 플레이 검증·수정 / 구현·씬 저장·Windows 빌드 완료. 실제 연출 감각·경제 밸런스 미검증.</p>
 <h4 id="doc-ee467d096c04eb73--작업-목록">작업 목록</h4>
 <ul>
@@ -3405,6 +3474,9 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 </ol>
 <p>이번 완료 범위는 기능 구현·씬 저장·빌드다. M5 전체 한 판의 경제 밸런스와 실제 연출 감각은 플레이 확인이 필요하다.</p>
 </div></details><details class="artifact" id="doc-7617cf5e5f86cfb0"><summary>22 초반 성장·하루 길이·일차 배너<small>22-opening-pace-and-day-banner.md</small></summary><div class="markdown"><a class="source" href="22-opening-pace-and-day-banner.md">Markdown 원본 열기 ↗</a><h3 id="doc-7617cf5e5f86cfb0--22-초반-성장하루-길이일차-배너">22 초반 성장·하루 길이·일차 배너</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <p>현재: M5 플레이 검증·수정 / 구현·씬 저장·Windows 빌드 완료. game-design-to-release 기존 제작 절차를 이어간다.</p>
 <h4 id="doc-7617cf5e5f86cfb0--작업-목록">작업 목록</h4>
 <ul>
@@ -3446,6 +3518,9 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 </ol>
 <p>M5 이번 기능 구현·빌드 범위 완료. 전체 경제/방어 난이도 검증과 출시 준비는 미완료.</p>
 </div></details><details class="artifact" id="doc-1303d520ba315aa6"><summary>23 타격·지형·적 이동·메뉴·UI 편집<small>23-combat-navigation-and-editing.md</small></summary><div class="markdown"><a class="source" href="23-combat-navigation-and-editing.md">Markdown 원본 열기 ↗</a><h3 id="doc-1303d520ba315aa6--23-타격지형적-이동메뉴ui-편집">23 타격·지형·적 이동·메뉴·UI 편집</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <p>현재: M5 플레이 검증·수정 / 구현·씬 저장·Windows 빌드 완료.</p>
 <h4 id="doc-1303d520ba315aa6--작업-목록">작업 목록</h4>
 <ul>
@@ -3550,6 +3625,9 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 </ul>
 <p>현재 구현의 실제 타격 화면·적 군집 성능·지형 미감은 플레이 관찰 전이다. 전체 M5와 M6는 미완료다.</p>
 </div></details><details class="artifact" id="doc-3108166f5c685887"><summary>24 HUD Resources TMP 전환<small>24-hud-resources-tmp.md</small></summary><div class="markdown"><a class="source" href="24-hud-resources-tmp.md">Markdown 원본 열기 ↗</a><h3 id="doc-3108166f5c685887--24-hud-resources-tmp-전환">24 HUD Resources TMP 전환</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <p>현재: M5 UI 편집 개선 / 변환 코드·메뉴·컴파일 완료. 사용자가 에디터에서 확인한 뒤 빌드하기로 함.</p>
 <h4 id="doc-3108166f5c685887--작업-목록">작업 목록</h4>
 <ul>
@@ -3627,6 +3705,9 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <h4 id="doc-007e3db03e3cd749--직접-확인">직접 확인</h4>
 <p>Unity에서 플레이 중이면 종료한 뒤 임포트/컴파일 완료를 기다린다. DayNight/Icon Image에 해 Sprite, PrototypeCanvas에 해/달 두 참조와 DayNight.Text Binding이 연결됐는지 확인한다. 누락되면 위 연결 메뉴 실행. 낮/황혼/밤에서 텍스트가 새 TMP에 갱신되고 같은 Image가 해/달로 바뀌는지 확인한 뒤 씬을 저장한다.</p>
 </div></details><details class="artifact" id="doc-3dc33dc818c1f581"><summary>26 마우스 조작 규칙 변경<small>26-mouse-camera-controls.md</small></summary><div class="markdown"><a class="source" href="26-mouse-camera-controls.md">Markdown 원본 열기 ↗</a><h3 id="doc-3dc33dc818c1f581--26-마우스-조작-규칙-변경">26 마우스 조작 규칙 변경</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <p>M5 · 조작 개선. 25까지의 사용자 UI 편집/TMP/골드 경제 변경을 유지한다.</p>
 <ul>
 <li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>빈 지면 왼쪽 클릭 시 병력/건물 선택 취소 (건설 배치 모드의 왼쪽 클릭은 배치 유지)</li>
@@ -3656,6 +3737,9 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <p>C# 컴파일 오류·경고 0. Windows 빌드 및 Unity 에디터 테스트는 하지 않았다.</p>
 <p>수동 확인: Unity 컴파일 완료 후 플레이 → 빈 타일 클릭 → 마우스 위 가로 목록 확인 → 집 선택 → 최초 클릭 타일에 공사 시작 확인. 물/영역 밖/골드 부족에서는 공사와 비용 차감 없이 알림 확인. 화면 네 모서리와 UI 배율 변경에서 잘림/스크롤 확인. ESC/오른쪽 누름으로 닫힌 뒤 왼쪽 건설 버튼의 원래 레이아웃 복원 확인. 실제 화면과 입력 체감은 아직 미검증.</p>
 </div></details><details class="artifact" id="doc-ca80f5c76d22a68e"><summary>28 건설 메뉴 크기·닫기 개선<small>28-build-menu-dismiss.md</small></summary><div class="markdown"><a class="source" href="28-build-menu-dismiss.md">Markdown 원본 열기 ↗</a><h3 id="doc-ca80f5c76d22a68e--28-건설-메뉴-크기닫기-개선">28 건설 메뉴 크기·닫기 개선</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <p>M5 · 조작 개선</p>
 <ul>
 <li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>배경 클릭을 닫기 전용으로 소비</li>
@@ -3688,6 +3772,9 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <p>C# 컴파일 오류·경고 0. Unity 에디터 플레이 테스트 및 Windows 빌드 미실시.</p>
 <p>사용자 확인 순서: 빈 타일 클릭 → 사각뿔이 해당 타일 정중앙에서 상승·회전·페이드 인 → 직후 메뉴가 상승·페이드 인. 사각뿔 등장 중, 메뉴 등장 중, 완전히 열린 뒤 각각 배경 클릭하여 현재 지점부터 부드럽게 역재생되는지 확인한다. 닫는 중 연속 클릭에 월드 선택/건설이 발생하지 않아야 한다. 다시 열어 건물 선택과 세로 스크롤이 동작하는지, 화면 모서리에서 잘리지 않는지도 확인한다. 실제 연출 체감은 아직 미검증이다.</p>
 </div></details><details class="artifact" id="doc-beea37365674f1c5"><summary>30 빈 타일 호버 표시<small>30-tile-hover.md</small></summary><div class="markdown"><a class="source" href="30-tile-hover.md">Markdown 원본 열기 ↗</a><h3 id="doc-beea37365674f1c5--30-빈-타일-호버-표시">30 빈 타일 호버 표시</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <p>M5 · 조작 피드백</p>
 <ul>
 <li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>오브젝트가 아닌 타일에 사각 테두리 표시</li>
@@ -3699,6 +3786,9 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <p>검증: C# 컴파일 오류·경고 0. Unity 플레이 테스트와 Windows 빌드 미실시.
 사용자 확인: 빈 지면 위로 마우스 이동 → 타일별 사각 테두리 이동 확인. 나무/건물 위로 이동 → 기존 오브젝트 호버로 전환 확인. UI 위/건설 메뉴/가운데 드래그에서는 빈 타일 표시가 사라지는지 확인. 실제 화면 표시는 미검증.</p>
 </div></details><details class="artifact" id="doc-a9aa426431c90f4a"><summary>31 건설 가능한 타일의 메뉴 표시<small>31-buildable-tile-menu.md</small></summary><div class="markdown"><a class="source" href="31-buildable-tile-menu.md">Markdown 원본 열기 ↗</a><h3 id="doc-a9aa426431c90f4a--31-건설-가능한-타일의-메뉴-표시">31 건설 가능한 타일의 메뉴 표시</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <p>M5 · 조작 개선</p>
 <ul>
 <li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>타일 건설 조건을 기존 배치 검증과 공유</li>
@@ -3710,6 +3800,9 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <p>검증: C# 컴파일 오류·경고 0. Unity 플레이 테스트와 Windows 빌드 미실시.
 수동 확인: 마을 영역 내 빈 육지 클릭 시 메뉴/사각뿔 표시. 물, 마을 밖, 오브젝트와 겹친 위치는 메뉴/연출 미표시. 골드가 부족해도 유효한 타일에서 메뉴는 열리고 실제 건설 시 비용 검사. 실제 플레이 확인은 남아 있다.</p>
 </div></details><details class="artifact" id="doc-5102028ee0970e9e"><summary>32 건설 메뉴 선택 타일 표시 유지<small>32-selected-tile-highlight.md</small></summary><div class="markdown"><a class="source" href="32-selected-tile-highlight.md">Markdown 원본 열기 ↗</a><h3 id="doc-5102028ee0970e9e--32-건설-메뉴-선택-타일-표시-유지">32 건설 메뉴 선택 타일 표시 유지</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <p>M5 · 조작 피드백</p>
 <ul>
 <li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>메뉴 표시 중 저장된 선택 타일 테두리 유지</li>
@@ -3802,6 +3895,9 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <p>기존 씬, 프리팹, UI, 폰트, 렌더 에셋은 수정하지 않았다. .meta는 직접 조작하지 않았으며 Unity가 삭제된 스크립트의 메타를 정리한다. 이후 빌드는 씬/UI를 재설치하지 않고 저장된 콘텐츠를 사용한다.</p>
 <p>검증: 프로토타입 C# 컴파일 오류·경고 0. 소스에서 세 메뉴명/PrototypeUiInstaller/CreateAssets 참조 잔존 없음. Unity 플레이/Windows 빌드 미실시. 사용자 확인: Unity 컴파일/임포트 후 Tools/Afterlife에서 세 항목이 사라졌는지 확인. 과거 문서의 세 메뉴 실행 안내는 더 이상 유효하지 않다.</p>
 </div></details><details class="artifact" id="doc-47fe454db53c9ec0"><summary>다음 세션 인계 · 2026-09-17<small>session-handoff.md</small></summary><div class="markdown"><a class="source" href="session-handoff.md">Markdown 원본 열기 ↗</a><h3 id="doc-47fe454db53c9ec0--다음-세션-인계-2026-09-17">다음 세션 인계 · 2026-09-17</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <h4 id="doc-47fe454db53c9ec0--최신-ui-강화-트리-아이콘툴팁전체-보기-2026-09-19">최신 UI · 강화 트리 아이콘·툴팁·전체 보기 (2026-09-19)</h4>
 <p>UpgradeTreeScreen 우측 패널/노드 텍스트 제거, UpgradeHoverTooltip·UpgradeNodeVisual 분리. viewport 전체 stretch, 전체 노드 bounds로 초기/전체 보기/리사이즈 자동 맞춤, 부모 가시성은 유지. imagegen 20개 → 8색 48px/투명 0·255/여백4px → 48·32px 시각 검사 → 승인 해시 일치본만 Resources/UI/Upgrades에 적용. PrototypeUpgradeIconImporter가 Point/무압축/Sprite Single 설정 및 비어 있는 Catalog Icon만 연결. 정확한 프롬프트와 검수표는 res/art-source/ui/upgrades-v1. 관련 독립 빌드 오류·경고0, Unity 플레이 미실시. 상세: upgrade-tree-icon-tooltip.md</p>
 <h4 id="doc-47fe454db53c9ec0--최신-추가-45-독립-화면-흐름-모듈-2026-09-19">최신 추가 · 45 독립 화면 흐름 모듈 (2026-09-19)</h4>
@@ -4081,6 +4177,9 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <h4 id="doc-47fe454db53c9ec0--새-세션-시작-메시지-예시">새 세션 시작 메시지 예시</h4>
 <p><code>D:/area/dev/alone/Afterlife/docs/game-process/session-handoff.md를 먼저 읽고 현재 상태를 이어받아줘. M5의 uGUI 전환까지 완료한 프로젝트야. 다음 요청은 ...</code></p>
 </div></details><details class="artifact" id="doc-e0847d20ec1b5755"><summary>43 · 독립 스킬·강화 시스템과 격자 트리 에디터<small>43-modular-skills-upgrade-trees.md</small></summary><div class="markdown"><a class="source" href="43-modular-skills-upgrade-trees.md">Markdown 원본 열기 ↗</a><h3 id="doc-e0847d20ec1b5755--43-독립-스킬강화-시스템과-격자-트리-에디터">43 · 독립 스킬·강화 시스템과 격자 트리 에디터</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <ul>
 <li>날짜: 2026-09-19</li>
 <li>상태: 코드 구현 및 5개 독립 어셈블리 컴파일 완료. Unity 임포트·화면·플레이 검증 대기.</li>
@@ -4223,6 +4322,9 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 </table>
 <p>기술 컴파일 결과는 실제 화면 품질이나 게임 밸런스 검증을 대신하지 않는다.</p>
 </div></details><details class="artifact" id="doc-2043725335fe3b58"><summary>44 단계형 튜토리얼과 본 게임 전환<small>44-guided-tutorial.md</small></summary><div class="markdown"><a class="source" href="44-guided-tutorial.md">Markdown 원본 열기 ↗</a><h3 id="doc-2043725335fe3b58--44-단계형-튜토리얼과-본-게임-전환">44 단계형 튜토리얼과 본 게임 전환</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <ul>
 <li>작성일: 2026-09-19</li>
 <li>상태: 사용자 채택 기획. 구현·플레이 검증 전.</li>
@@ -4428,6 +4530,9 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <h4 id="doc-2043725335fe3b58--8-남은-조정-항목">8. 남은 조정 항목</h4>
 <p>황혼 길이, 슬라임 체력·이동·공격 수치, 연출 간격·높이·시간, 대화의 최종 문구는 구현 및 플레이 확인으로 조정한다. 튜토리얼 진입 UI와 중도 저장·재개 정책은 별도 확정한다. 이 문서는 구현 완료나 사용성 검증의 증거가 아니다.</p>
 </div></details><details class="artifact" id="doc-3d17deb6d506cc16"><summary>강화 트리 · 픽셀 아이콘, 호버 툴팁, 전체 보기<small>upgrade-tree-icon-tooltip.md</small></summary><div class="markdown"><a class="source" href="upgrade-tree-icon-tooltip.md">Markdown 원본 열기 ↗</a><h3 id="doc-3d17deb6d506cc16--강화-트리-픽셀-아이콘-호버-툴팁-전체-보기">강화 트리 · 픽셀 아이콘, 호버 툴팁, 전체 보기</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <ul>
 <li>날짜: 2026-09-19</li>
 <li>요청: 오른쪽 설명 패널 제거, 호버 툴팁, imagegen 픽셀 아이콘과 축소 품질 검사, 미강화/강화/완료 상태, 전체 화면 트리 및 전체 노드 크기 맞춤.</li>
@@ -4538,10 +4643,50 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <p>결과: 20/20 통과. 게임 자산은 <code>impls/unity/Afterlife/Assets/_AfterlifePrototype/Resources/UI/Upgrades/R1.png</code>~<code>R10.png</code>, <code>A1.png</code>~<code>A10.png</code>다. 생성 이미지의 큰 원본을 게임에 직접 적용하지 않았다.</p>
 <p>Unity importer는 Sprite Single, Point, 무압축, mipmap 없음, NPOT 크기 유지, FullRect, PPU 48로 설정한다. 기존 Catalog의 빈 Icon 필드만 연결하며 사용자가 지정한 Sprite는 유지한다. 런타임 기본 데이터도 게임 어댑터의 Resources resolver로 같은 승인 에셋을 찾는다. 공통 트리 모듈 자체는 프로젝트 리소스 경로에 의존하지 않는다.</p>
 <h4 id="doc-3d17deb6d506cc16--검증과-남은-확인">검증과 남은 확인</h4>
+<h5 id="doc-3d17deb6d506cc16--툴팁과-강화-성공-연출">툴팁과 강화 성공 연출</h5>
 <ul>
-<li><code>Build-Modules.ps1</code>: 관련 모듈 모두 <code>dotnet build --no-restore</code> 성공, 오류·경고 0. 최종 상태 배지 수정 후 공통 UI 어셈블리 재빌드 성공.</li>
-<li>이미지 검사: 원본 투명도, 48×48, 최대 8색, 알파 0/255, 최소 4px 여백, 20개 시각 검사 및 적용 해시 일치.</li>
-<li><code>AGENTS.md</code>에 따라 Unity Test Runner, PlayMode 및 플레이어 빌드는 실행하지 않았다. 이미지 검수표는 실제 게임 화면 캡처가 아니다.</li>
+<li>툴팁은 unscaled time 기준 0.36초 진행값으로 0.5→1 스케일 바운스와 감쇠 회전을 적용한다. 숨김은 동일한 진행값을 역으로 이동하며, 중간 취소/재진입에도 초기화하지 않는다. 모달 비활성화 시에는 즉시 초기화한다.</li>
+<li>구매 결과가 Success일 때만 0.55초 젤리 바운스를 재생한다. 가로·세로 변형이 엇갈리고 마지막에는 원래 크기로 복원된다.</li>
+<li>노드보다 앞선 sibling의 전용 그래픽에서 연구소 물방울/제단 크리스탈 16개를 방사형으로 발생시킨다. 0.8초 동안 감속 이동하며 페이드아웃한다. 128개 고정 풀을 재사용하고 닫을 때 초기화한다.</li>
+<li>검증: UI 모듈 <code>dotnet build --no-restore</code> 통과, 경고·오류 0. Unity 플레이 검증은 수행하지 않았다.</li>
+<li>직접 확인: 빠른 호버 진입/이탈/재진입에서 역재생의 연속성, 화면 모서리 툴팁 잘림, 구매 성공/실패 시 연출 구분, 연속 구매 및 모달 재개방 후 스케일 복원, 파티클이 노드 뒤에서 출력되는지 확인한다.</li>
+</ul>
+<h5 id="doc-3d17deb6d506cc16--정산-우선-표시-및-툴팁-정리">정산 우선 표시 및 툴팁 정리</h5>
+<ul>
+<li>정산 진입 시 연구소·제단을 닫고 스택에서도 제거한다. 필수 보상 선택과 정산 완료 후 강화 화면을 자동으로 다시 열지 않는다.</li>
+<li>툴팁을 340×260 카드로 통일했다. 이름·설명·현재 수치 → 다음 수치를 분리하고 선행 조건, 강화 상태, 클릭 안내를 제거했다. 작은 화면은 카드 전체를 같은 비율로 축소한다.</li>
+<li>하단 중앙에 금화 도형과 가격을 배치한다. 조건·진행 상태·잔액이 모두 구매 가능하면 민트색, 아니면 붉은색이다. 최대 단계는 현재 수치만 표시하고 가격은 숨긴다.</li>
+<li>화살표는 글꼴에서 지원하면 <code>→</code>, 지원하지 않으면 <code>-&gt;</code>를 사용한다. 비율은 <code>10% → 20%</code>처럼 불필요한 소수점 없이 표시한다.</li>
+<li>기본 정의와 저장된 카탈로그의 설명 20개를 쉬운 문장으로 정리했다.</li>
+<li>UI 및 게임 모듈의 <code>dotnet build --no-restore</code> 통과, 경고·오류 0. Unity 실행 검증은 수행하지 않았다.</li>
+<li>직접 확인: 연구소/제단 중 정산 발생 시 해당 화면이 닫히는지, 보상 선택 후 돌아오지 않는지 확인한다. 두 트리에서 긴 설명의 잘림, 가격 중앙 정렬, 잔액·잠금에 따른 가격 색상, 최대 단계의 가격 숨김을 확인한다.</li>
+</ul>
+<h5 id="doc-3d17deb6d506cc16--배경-애니메이션-비용-절감">배경 애니메이션 비용 절감</h5>
+<ul>
+<li>매 프레임 물방울의 약 48,216개 정점과 크리스탈의 38,400개 정점을 다시 만들던 방식을, 런타임 텍스처 캐시와 각각 최대 96개 정점으로 변경했다. 개수 24개와 깊이별 크기·블러·색상은 유지한다.</li>
+<li>물방울은 깊이별 이미지 3개를 처음에만 계산한다. 크리스탈의 입체 회전·블러 계산은 4개씩 분산하며, 낙하 위치는 매 프레임 갱신한다. 회전 이미지 갱신은 이동보다 낮은 빈도이며 처음 표시할 때 최대 6회 갱신에 걸쳐 준비된다.</li>
+<li>배경을 별도 Canvas로 분리했다. 캐시 버퍼는 재사용하고 생성한 텍스처는 컴포넌트 파괴 시 해제한다.</li>
+<li>검증: 관련 UI 모듈 <code>dotnet build --no-restore</code> 성공, 경고·오류 0. 플레이 실행 및 FPS 측정은 수행하지 않았다.</li>
+<li>사용자 확인: 연구소·제단을 각각 열어 배경 24개, 원근감, 색상, 회전을 확인한다. 같은 해상도에서 트리를 드래그·확대/축소하며 이전과 비교해 프레임 시간과 조작 반응을 확인한다. 특히 크리스탈 회전이 낮아진 갱신 빈도에서도 자연스러운지 확인한다.</li>
+</ul>
+<h5 id="doc-3d17deb6d506cc16--canvasrenderer-누락-수정">CanvasRenderer 누락 수정</h5>
+<ul>
+<li><p>사용자 실행에서 <code>주거 개선</code> 노드의 <code>RectMask2D</code> 클리핑 중 <code>MissingComponentException</code>이 발생했다.</p>
+</li>
+<li><p>수정 전: 직접 만든 <code>MaskableGraphic</code>인 <code>UpgradeNodeVisual</code>과 <code>ProgressionBackdrop</code>에 렌더러 필수 지정이 없어 런타임 생성 시 <code>CanvasRenderer</code>가 누락됐다.</p>
+</li>
+<li><p>수정 후: 두 클래스에 <code>[RequireComponent(typeof(CanvasRenderer))]</code>를 선언했다. 노드, 상태 배지, 배경 생성 시 Unity가 렌더러를 함께 추가한다.</p>
+</li>
+<li><p>검증: <code>Afterlife.Progression.Unity.ModuleValidation.csproj</code>의 <code>dotnet build --no-restore</code> 성공, 경고 0·오류 0. Unity 실행 검증은 수행하지 않았다.</p>
+</li>
+<li><p>직접 확인: 플레이를 종료하고 스크립트 컴파일 완료 후 다시 실행한다. 연구소와 제단을 각각 열고 트리를 드래그·확대/축소했을 때 누락 예외 없이 노드와 상태 배지가 표시되어야 한다. 이미 생성된 오브젝트에는 필수 컴포넌트 선언이 소급 적용되지 않으므로 플레이를 재시작한다.</p>
+</li>
+<li><p><code>Build-Modules.ps1</code>: 관련 모듈 모두 <code>dotnet build --no-restore</code> 성공, 오류·경고 0. 최종 상태 배지 수정 후 공통 UI 어셈블리 재빌드 성공.</p>
+</li>
+<li><p>이미지 검사: 원본 투명도, 48×48, 최대 8색, 알파 0/255, 최소 4px 여백, 20개 시각 검사 및 적용 해시 일치.</p>
+</li>
+<li><p><code>AGENTS.md</code>에 따라 Unity Test Runner, PlayMode 및 플레이어 빌드는 실행하지 않았다. 이미지 검수표는 실제 게임 화면 캡처가 아니다.</p>
+</li>
 </ul>
 <p>Unity에서 확인할 절차:</p>
 <ol>
@@ -4551,7 +4696,51 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <li>노드를 0→1→최대 단계로 구매한다. 빈 칸→민트/단계 채움→금색 이중 테두리/체크로 변해야 한다. 부모 미충족 노드는 잠금 배지를 보여야 한다.</li>
 <li>드래그/줌 후 전체 보기를 누르고 화면 크기를 바꾼다. 전체 노드 범위가 다시 들어오며 새 자식이 표시되어도 화면 경계 밖으로 벗어나지 않아야 한다.</li>
 </ol>
+</div></details><details class="artifact" id="doc-723bd4f526b3b134"><summary>직접 클릭 작업과 자동화 강화<small>46-click-work-and-automation.md</small></summary><div class="markdown"><a class="source" href="46-click-work-and-automation.md">Markdown 원본 열기 ↗</a><h3 id="doc-723bd4f526b3b134--직접-클릭-작업과-자동화-강화">직접 클릭 작업과 자동화 강화</h3>
+<h4 id="doc-723bd4f526b3b134--사용자-확정-규칙">사용자 확정 규칙</h4>
+<p>초반에는 플레이어가 직접 클릭하여 작업하고, 이후 자동화 강화를 얻으면 마우스를 올려두는 주기 작업으로 전환한다. 적용 대상은 <strong>모든 커서 상호작용</strong>이다: 나무/바위 채집, 건설 지원, 이전 지원, 수리, 커서 공격, 상자 작업 및 귀중품 획득.</p>
+<p>수동 단계에서는 클릭한 한 대상에 1회 작업한다. 버튼을 누른 채 유지하거나 마우스를 올려두기만 해서는 반복 작업하지 않는다. 드래그 선택/이동, 건물 배치, UI 조작은 작업 클릭에서 제외한다. 손상/미완성 건물은 클릭 작업을 우선하고, 완성·정상 건물의 기존 기능 창은 유지한다.</p>
+<p>자동화 해금 후에는 기존 커서 원형 범위의 유효 대상 전체에 설정된 주기마다 기여한다. 수동 작업을 추가 중첩하지 않는다. 주민의 작업 효율/반경, 치명타, 작업량 강화는 기존 계산을 공유한다. 병력·타워 자동 전투, 건물 자동 건설·생산, 능동 스킬은 커서 작업과 별개로 유지한다.</p>
+<h4 id="doc-723bd4f526b3b134--현재-프로토타입-구현안">현재 프로토타입 구현안</h4>
+<ul>
+<li>연구 트리 R8을 <strong>커서 자동화</strong>로 변경했다. 첫 레벨부터 모든 커서 호버 작업을 해금한다. 기존 부모 R2/R3·비용·주기 감소 수치는 유지했다. 접근 시점/가격/밸런스는 이번 사용자 확정 사항이 아니며 체감 후 조정한다.</li>
+<li>호환 경로인 기존 Upgrade.Pulse 첫 구매도 자동화를 해금한다. 새 플레이/환생/판 초기화 때 연구와 해당 일반 강화가 초기화되어 수동으로 돌아온다.</li>
+<li>유효한 클릭을 놓으면 0.12초 준비 동작 후 실제 작업·채집량·자국·반동을 함께 적용한다. 수동 클릭 쿨타임은 자동화 주기의 절반인 <code>Interval × 0.5</code>이다. 승인된 클릭의 준비 동작 시작부터 계산하며, 대상 종류와 무관한 공통 쿨타임이다. 쿨타임 중 클릭은 큐에 쌓지 않는다. 접촉 전 대상 소멸/작업 불가로 취소되면 쿨타임도 되돌린다. 주기 변경은 남은 시간 계산에 즉시 반영하고 게임 일시정지 중에는 시간이 흐르지 않는다.</li>
+<li>도끼·곡괭이는 실제 메시 접촉점을 사용한다. 수동 작업은 클릭한 표면 좌표를 기억하고, 자동화 작업은 도구 접근 방향의 교차점을 사용한다. Day01 공용 타이밍으로 접촉 정지(0.045초), 방향성 흔들림/회전, 짧은 밝은 섬광, 누적 표면 자국을 적용한다. 작은 파편은 공용 풀에서 재사용하고 시야와 일시정지를 따른다.</li>
+<li>자원 소진 후 완전한 나무 쓰러짐/바위 분해/디졸브는 별도 파괴 묶음이며 아직 이관하지 않았다. 이번에는 살아 있는 자원 타격 피드백과 소진 순간의 같은 타격 반응까지 적용했다.</li>
+</ul>
+<h4 id="doc-723bd4f526b3b134--이전-규칙과-기록-해석">이전 규칙과 기록 해석</h4>
+<p>기존 문서의 ‘시작부터 주기 기여’, ‘클릭 없이 마우스만 올리기’, ‘기여 주기 강화만 존재’ 설명은 이 결정으로 대체한다. 1/2/3초 수치는 과거 버전 또는 설정값이며 초반 자동화가 활성화되어 있다는 의미가 아니다. 과거 QA 성공 결과는 새 클릭 규칙의 검증 증거가 아니다.</p>
+<h4 id="doc-723bd4f526b3b134--검증과-체감-확인">검증과 체감 확인</h4>
+<p>C# 빌드 통과. 프로젝트 지침에 따라 Unity Play/Test Runner/HLSL 실행 검증은 하지 않았다.</p>
+<ol>
+<li>새 판에서 호버만 하면 채집/공격/수리가 일어나지 않아야 한다. 클릭하면 한 대상에 한 번 동작하며 도구 접촉 순간 수치가 바뀌어야 한다.</li>
+<li>나무/바위를 반복 타격하면 흔들림·섬광·파편·누적 자국이 보이고, 호버 색이나 시야 전환에도 일관되어야 한다.</li>
+<li>공사/수리/상자/적 클릭, UI 클릭·드래그와의 충돌을 확인한다. 작업 불가 건물의 기능 창은 기존처럼 열려야 한다.</li>
+<li>R8 첫 구매 후 호버 자동 작업이 시작되고 이후 단계는 간격을 줄여야 한다. 환생/새 판은 다시 수동이다.</li>
+<li>메뉴 일시정지/대상 소멸/빠른 연타/재시작 후 잔여 모션·파편·자국·중복 기여가 없어야 한다.</li>
+</ol>
+<p>도구 모션 보정: 무작위 등장 방향과 추정 날 좌표를 제거했다. Day01의 카메라 기준 방향/접근 벡터, FBX ImpactPoint 정렬, 제곱 가속·접촉 정지·회수 궤적을 적용한다. 카메라 회전 후 클릭해도 화면 기준 같은 쪽에서 나타나야 한다. 원본 FBX의 축과 크기를 보존한다.</p>
+<p>추가 확인: 설정의 작업 주기를 1초/2초로 바꿔 서로 다른 대상에 연타해도 각각 0.5초/1초보다 빠르게 다음 동작을 시작할 수 없는지 확인한다. 빈 곳/UI/드래그 입력은 작업 쿨타임을 소모하지 않아야 한다.</p>
+<h4 id="doc-723bd4f526b3b134--상호작용별-모션피드백">상호작용별 모션·피드백</h4>
+<ul>
+<li>공격: 검 휘두르기는 우상단 대각 베기, 좌상단 대각 베기, 위에서 내려베기 3종 중 무작위 선택이다. 같은 스윙 도중 모션이 바뀌지 않으며, 카메라 기준 궤적과 대상 표면 접촉점을 사용한다. 접촉 후 잠깐 정지하고 베는 방향으로 빠져나온다.</li>
+<li>망치 작업: 건설·수리·이전 지원은 채집 도구와 같은 카메라 기준 접근/접촉/회수와 날 끝 정렬을 사용한다. 기존 검/망치 FBX에 ImpactPoint가 없으면 보존된 축 기준 메시 경계로 런타임 마커를 만든다.</li>
+<li>채집: 도끼·곡괭이의 Day01 궤적, 방향성 반동, 섬광, 파편, 자국을 유지한다.</li>
+<li>공격 대상: 접촉 시 섬광과 방향성 피격 반동·밝은 타격 입자. 같은 프레임의 작업/피해 이벤트가 피격 방향을 덮어쓰지 않도록 유지한다.</li>
+<li>건설·수리·이전 지원: 작업 반동과 녹색 입자. <strong>피격 플래시와 파괴 자국은 적용하지 않는다.</strong> 별도로 실제 피해를 받는 이벤트는 피격 반응을 사용할 수 있다.</li>
+<li>보물 상자: 손 도구 없이 클릭 지점 반대 방향의 이동/기울기 반동과 타격 플래시, 금색 입자를 사용한다. 소진 시 기존 열림을 유지한다. 귀중품은 기존 손 동작·금색 입자·획득 반응을 유지한다.</li>
+</ul>
+<p>수동과 자동 모두 준비 .12초 → 접촉 정지 .045초 → 회수, 총 .285초의 타이밍을 공유한다. 접촉 프레임은 최소 한 번 표시한다. 실제 작업/피해는 접촉 이벤트에서 한 번만 적용하며, 수동 쿨타임은 자동화 Interval의 절반이다. 게임 규칙과 타격 자국의 대상 범위(나무·바위)는 변경하지 않는다.</p>
+<p>나무·바위 이외에도 읽기 가능한 메시 표면을 선택에 사용한다. 메시를 읽을 수 없는 대상은 기존 콜라이더/기준 접촉점으로 처리한다. 단위 개체의 움직임은 클릭한 표면의 로컬 좌표를 따라간다.</p>
+<p>확인 절차: 적을 여러 번 클릭하여 3종 궤적·접촉 순간 피해·섬광·반동을 확인한다. 손상된 건물 수리/미완성 건물 공사에서는 작업량 증가와 망치 반동·녹색 입자만 보이고 밝은 피격 섬광은 없어야 한다. 상자 작업·귀중품 획득, 카메라 회전, 자동화 전후, 일시정지/재시작도 확인한다. C# 빌드 통과, Unity/HLSL/체감 검증은 미실행이다.</p>
+<p>검 모션 후속 보정: 3종 모두 칼끝 이동 보정을 제거하고 손잡이 지점을 축으로 회전한다. 준비 후 접촉 직전 삼차 가속, .045초 접촉 정지, 관성 마무리 베기를 사용한다. 좌/우 대각 베기와 전후 축 내려베기의 회전면을 구분한다. 클릭한 표면이 움직이면 손잡이 기준점도 그 표면을 따른다. 칼날의 중상단이 접촉 시 타격점에 닿는다. 상자는 손 모델 생성 없이 마우스로 맞은 지점 반대 방향으로 튕기고 플래시한다. 건설/수리 무플래시는 유지한다. C# 빌드 통과, Unity 모션 확인 대기.</p>
+<p>상자 반동 방향 보정: 화면에 보이는 메시 경계 중심의 수평면에 클릭 광선을 투영하고 중심에서 클릭 반대 방향을 구한다. 시작 시 방향을 고정하며 중앙 클릭은 카메라에서 멀어지는 지면 방향으로 처리한다. 최대 0.14m 이동 후 약 0.265초에 원위치로 돌아오고 반대편으로 재진동하지 않는다. 플래시/기울기/상자 열림은 유지한다. Unity에서 상자 왼쪽·오른쪽·위·아래를 클릭해 반대쪽 반동이 보이는지 확인한다. C# 빌드 통과, 화면 확인 대기.</p>
 </div></details></div></details><details class="stage" id="stage-release"><summary><span class="stage-number">출시</span><span>출시 준비</span><span class="badge">미시작</span></summary><div class="stage-body"><p class="stage-description">아직 작성된 산출물이 없습니다.</p></div></details><details class="stage" id="stage-operations"><summary><span class="stage-number">운영</span><span>출시·운영</span><span class="badge">미시작</span></summary><div class="stage-body"><p class="stage-description">아직 작성된 산출물이 없습니다.</p></div></details><details class="stage" id="stage-records"><summary><span class="stage-number">기록</span><span>진행·결정 기록</span><span class="badge">기록 있음 · 상태 미지정</span></summary><div class="stage-body"><p class="stage-description">문서를 펼쳐 세부 내용과 근거를 확인하세요.</p><details class="artifact" id="doc-1d5e3c1b753c04b4"><summary>Afterlife 재기획 진행<small>status.md</small></summary><div class="markdown"><a class="source" href="status.md">Markdown 원본 열기 ↗</a><h3 id="doc-1d5e3c1b753c04b4--afterlife-재기획-진행">Afterlife 재기획 진행</h3>
+<p>공격 모션 3종·망치 표면 타격·상호작용별 피드백 적용. 건설/수리는 피격 플래시 없이 작업 반동을 사용한다. C# 빌드 통과, 화면 확인 대기. <a href="#doc-723bd4f526b3b134">상세</a>.</p>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <blockquote>
 <p>최신 UI · 2026-09-19: <a href="#doc-3d17deb6d506cc16">강화 트리 아이콘·툴팁·전체 보기</a>. 고정 사이드 패널 제거, 아이콘 노드/호버 툴팁/3단계 상태 표시, 전체 화면 및 전체 노드 자동 맞춤. imagegen 20개를 48px로 축소하고 32px 표시까지 검사해 승인본만 적용. 빌드 오류·경고 0, Unity 실제 화면 확인 대기.</p>
 </blockquote>
@@ -4748,7 +4937,7 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <ul>
 <li><a href="../../impls/unity/Afterlife/Documents/idle_survival_defense_game_design.md">기존 생존 디펜스 기획</a></li>
 <li><a href="../../impls/unity/Afterlife/Documents/IdleVillageDefenseDesign.md">기존 마을 운영 방향</a></li>
-<li><a href="../../impls/unity/Afterlife/Assets/_EmberVillage/Documentation/EmberVillage_Development_Plan.md">기존 Demo 개발 현황</a></li>
+<li>기존 Demo 개발 현황: 레거시 개발 계획 파일은 현재 작업 폴더에 없음(2026-09-20 확인).</li>
 </ul>
 <p>기존 문서는 참고 자료다. 모닥불, 방치형, 베이스캠프 등은 새 기획에 자동 승계하지 않는다.</p>
 <ul>
@@ -4920,6 +5109,9 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <h4 id="doc-1d5e3c1b753c04b4--현재-재개-위치-전투-ai와-성장">현재 재개 위치 · 전투 AI와 성장</h4>
 <p><a href="#doc-74f10c8f7a2465f1">15 전투·성장 개선</a>을 우선한다. 쏠림 원인을 확인하고 담당 지점/표적 분담을 구현했으나 실제 개선 체감은 아직 확인하지 않았다. 일반 강화는 최대 5단계, 타워 동시 공격은 기본 1단계~최대 5단계, 공전 에너지 볼은 사용자 피드백으로 제거했다. UI는 현재 기능 가독성을 다듬고 M5 후반~M6에서 최종 시각 체계를 완성한다.</p>
 </div></details><details class="artifact" id="doc-80a4cf760a0fa2bf"><summary>결정 기록<small>decisions.md</small></summary><div class="markdown"><a class="source" href="decisions.md">Markdown 원본 열기 ↗</a><h3 id="doc-80a4cf760a0fa2bf--결정-기록">결정 기록</h3>
+<blockquote>
+<p>최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. <a href="#doc-723bd4f526b3b134">최신 규칙·구현·검증</a>.</p>
+</blockquote>
 <h4 id="doc-80a4cf760a0fa2bf--2026-09-13-재기획-시작">2026-09-13 · 재기획 시작</h4>
 <ul>
 <li>상태: 사용자 채택</li>
