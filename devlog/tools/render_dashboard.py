@@ -18,6 +18,7 @@ DOCS.insert(3,('records/movie-sequence.md','영상 연출 · 자막'))
 DOCS.insert(4,('records/continuous-terrain.md','연속 지형'))
 DOCS.insert(5,('records/runtime-optimization.md','런타임 최적화'))
 DOCS.insert(6,('records/prototype-terrain.md','프로토타입 지형'))
+DOCS.insert(7,('records/prototype-water.md','프로토타입 해안 · 수면'))
 IDS={str((ROOT/p).resolve()):'doc-'+str(i) for i,(p,_) in enumerate(DOCS)}
 class Renderer(mistune.HTMLRenderer):
     def __init__(self,source):super().__init__(escape=True);self.source=source

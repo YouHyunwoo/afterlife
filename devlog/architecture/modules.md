@@ -22,13 +22,16 @@ Day01은 입력·카메라·촬영 UI와 모듈 조합을 담당한다. 공용 �
 |Audio|음원 데이터, 타격/파괴 채널과 순환|없음|
 |AmbientAudio.Core|환경음 페이드·간헐음 간격, 순수 C#|없음, noEngineReferences|
 |AmbientAudio|풀 접촉음·간헐적 새 울음 채널, 주입된 설정/음원 재생|AmbientAudio.Core|
-|Rendering / Water|공통 표면/물 셰이더|기능별 HLSL include, C# 어셈블리 없음|
+|Rendering|공통 표면 셰이더|기능별 HLSL include, C# 어셈블리 없음|
+|Water|주입된 맵의 수면 청크·외곽 수벽·재질 수명, 공유 물 셰이더|C# 독립, HLSL Lighting/Hover 포함|
 |Cinematics.Core|누적 시간·컷 경계·재생/일시정지, 순수 C#|없음, noEngineReferences|
 |Cinematics|시퀀스 데이터·카메라·TMP 자막·뷰 수명|Cinematics.Core, TMP, UI|
 |Day01 Runtime|씬 참조와 실행 순서, 타깃 어댑터|위 모듈, Input System, URP|
 |Day01 Editor|씬/메시 제작, 마이그레이션·프리팹 저장|Runtime 및 제작에 필요한 모듈, Editor 전용|
 
 ## 재사용 방법
+
+프로토타입 해안·수면은 Terrain의 순수 `CoastField` → TerrainView의 선택적 `CoastalTerrain` 설정으로 조립한다. WaterSurface는 물 판별 함수와 Shader·높이만 주입받으며 시야/입력을 소유하지 않는다. Day01과 프로토타입은 공유 수면 HLSL을 사용하고 각각 조명/출력 훅을 선택한다. [상세](../records/prototype-water.md).
 
 클릭 대상은 IPickTarget을 구현한다. 눈이 필요한 대상은 ISnowTarget에서 Visual, HasSnow, SnowRemaining과 표면의 눈 표시 여부를 제공한다. ShowcasePickSurface는 MonoBehaviour 참조를 직렬화하고 인터페이스로 소비한다. 기존 Target 필드 이름은 FormerlySerializedAs로 호환한다.
 
