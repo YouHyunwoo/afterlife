@@ -51,6 +51,7 @@ namespace Afterlife.Prototype
             _camera.transform.LookAt(new Vector3(0,0,0));
             _camera.clearFlags=CameraClearFlags.SolidColor; _camera.backgroundColor=new Color(.075f,.115f,.12f);
             _camera.nearClipPlane=.1f; _camera.farClipPlane=80; _camera.allowHDR=false; _camera.allowMSAA=false;
+            ApplyCameraGroundDistance();
             var cameraData=cameraObject.AddComponent<UnityEngine.Rendering.Universal.UniversalAdditionalCameraData>();
             cameraData.requiresDepthTexture=true;cameraData.requiresColorTexture=true;
             _audio=gameObject.AddComponent<PrototypeAudio>();_audio.Initialize(_model,_settings,_camera);

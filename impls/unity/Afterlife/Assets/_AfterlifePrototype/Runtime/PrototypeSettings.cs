@@ -33,6 +33,9 @@ namespace Afterlife.Prototype
         public int RockLimit = 160;
         public int MapRadius = 45;
         [Range(3,15)] public int PrototypeDays = 6;
+        [Header("카메라 거리")]
+        [Tooltip("카메라 위치에서 forward 방향으로 지형 기준 평면(y=0)까지의 거리. 플레이 중 변경 가능. 거리에 비례해 직교 표시 범위도 변경합니다(클수록 축소, 작을수록 확대).")]
+        [Min(1f)] public float CameraGroundDistance = 22.825424f;
         [Header("화면 가장자리 거리별 카메라 속도 (픽셀)")]
         public float CameraEdgeBand = 160;
         public float CameraFastBand = 35;

@@ -107,6 +107,23 @@ namespace Afterlife.Prototype
             }
             _camera.transform.position+=movement;
         }
+        private float _appliedCameraGroundDistance = -1;
+        private void ApplyCameraGroundDistance()
+        {
+            float distance = _settings.CameraGroundDistance;
+            if (float.IsNaN(distance) || float.IsInfinity(distance)) return;
+            distance = Mathf.Max(1f, distance);
+            if (Mathf.Approximately(distance, _appliedCameraGroundDistance)) return;
+            var cameraTransform = _camera.transform;
+            var ray = new Ray(cameraTransform.position, cameraTransform.forward);
+            if (!new Plane(Vector3.up, Vector3.zero).Raycast(ray, out float currentDistance)) return;
+            Vector3 center = ray.GetPoint(currentDistance);
+            cameraTransform.position = center - cameraTransform.forward * distance;
+            // 직교 투영에서도 거리 조정이 화면 확대/축소로 보이도록 초기 구도의 비율을 유지한다.
+            _camera.orthographicSize = 8.7f * distance / 22.825424f;
+            _camera.farClipPlane = Mathf.Max(80f, distance + _settings.MapRadius * 2f);
+            _appliedCameraGroundDistance = distance;
+        }
         private bool CameraGroundCenter(out Vector3 point)
         {
             var ray=_camera.ViewportPointToRay(new Vector3(.5f,.5f,0));
@@ -129,6 +146,7 @@ namespace Afterlife.Prototype
         private void Update()
         {
             if(!_ready)return;Resize();
+            ApplyCameraGroundDistance();
             if(_gameFlow==null||!_gameFlow.IsPlaying)return;
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             if(Keyboard.current!=null&&Keyboard.current.f4Key.wasPressedThisFrame)_showDebugPanel=!_showDebugPanel;
@@ -173,7 +191,7 @@ namespace Afterlife.Prototype
                     _tileHoverValid=true;
                     Physics.SyncTransforms();
                     var ray=_camera.ViewportPointToRay(new Vector3(screen.x/Screen.width,screen.y/Screen.height,0));
-                    int hitCount=Physics.RaycastNonAlloc(ray,_pickHits,200);float nearest=float.MaxValue;
+                    int hitCount=Physics.RaycastNonAlloc(ray,_pickHits,_camera.farClipPlane);float nearest=float.MaxValue;
                     for(int hi=0;hi<hitCount;hi++)
                     {
                         var hit=_pickHits[hi];var pick=hit.collider.GetComponentInParent<PrototypePick>();var body=pick!=null?_model.Find(pick.Id):null;
