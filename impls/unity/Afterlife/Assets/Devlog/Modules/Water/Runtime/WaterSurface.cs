@@ -20,6 +20,7 @@ namespace Afterlife.Devlog.Water
             for(int z=-radius;z<=radius;z+=8)for(int x=-radius;x<=radius;x+=8)
                 Build(x,z,Math.Min(x+7,radius),Math.Min(z+7,radius),radius,water,height,bottom);
         }
+        public void SetHoverRipples(bool enabled)=>_material.SetFloat("_HoverRipples",enabled?1:0);
         private void Build(int minX,int minZ,int maxX,int maxZ,int radius,Func<int,int,bool> water,float height,float bottom)
         {
             var vertices=new List<Vector3>();var normals=new List<Vector3>();var uv=new List<Vector2>();

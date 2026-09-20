@@ -25,6 +25,8 @@ namespace Afterlife.Devlog.TerrainView
             public Mesh Mesh;
             public Vector3[] Vertices;
             public int[] Indices;
+            public Vector3[] Deformed;
+            public Color[] Colors;
         }
         public TerrainSurface(Transform parent,int radius,Func<int,int,ShowcaseBiome> biome,Material material,Color[] palette,CoastalTerrain coast=null)
         {
@@ -113,10 +115,10 @@ namespace Afterlife.Devlog.TerrainView
             mesh.SetVertices(vertices);mesh.SetNormals(normals);mesh.SetColors(colors);mesh.SetTriangles(indices,0);mesh.RecalculateBounds();
             var go=new GameObject(mesh.name);go.transform.SetParent(_root,false);
             go.AddComponent<MeshFilter>().sharedMesh=mesh;go.AddComponent<MeshRenderer>().sharedMaterial=_material;
-            _chunks.Add(new Chunk { Mesh=mesh,Vertices=vertices.ToArray(),Indices=indices.ToArray() });
+            _chunks.Add(new Chunk { Mesh=mesh,Vertices=vertices.ToArray(),Indices=indices.ToArray(),Colors=colors.ToArray() });
         }
         // 물리 월드에 지형 Collider를 추가하지 않고 렌더링과 같은 삼각형을 선택한다.
-        public bool Raycast(Ray worldRay,out Vector3 point)
+        public bool Raycast(Ray worldRay,out Vector3 point,Func<Vector3,float> heightOffset=null)
         {
             var ray=new Ray(_root.InverseTransformPoint(worldRay.origin),_root.InverseTransformVector(worldRay.direction));
             float nearest=float.PositiveInfinity;
@@ -127,11 +129,26 @@ namespace Afterlife.Devlog.TerrainView
             }
             foreach(var chunk in _chunks)
             {
-                if(!chunk.Mesh.bounds.IntersectRay(ray,out float entry) || entry>nearest) continue;
+                var bounds=chunk.Mesh.bounds;
+                if(heightOffset!=null)bounds.Expand(.22f);
+                if(!bounds.IntersectRay(ray,out float entry) || entry>nearest) continue;
+                var vertices=chunk.Vertices;
+                if(heightOffset!=null)
+                {
+                    if(chunk.Deformed==null)chunk.Deformed=new Vector3[vertices.Length];
+                    for(int j=0;j<vertices.Length;j++)
+                    {
+                        var vertex=vertices[j];
+                        if(chunk.Colors[j].a>=0 && chunk.Colors[j].a<.5f)
+                            vertex.y+=heightOffset(_root.TransformPoint(vertex));
+                        chunk.Deformed[j]=vertex;
+                    }
+                    vertices=chunk.Deformed;
+                }
                 for(int i=0;i<chunk.Indices.Length;i+=3)
                 {
-                    var a=chunk.Vertices[chunk.Indices[i]];
-                    var ab=chunk.Vertices[chunk.Indices[i+1]]-a;var ac=chunk.Vertices[chunk.Indices[i+2]]-a;
+                    var a=vertices[chunk.Indices[i]];
+                    var ab=vertices[chunk.Indices[i+1]]-a;var ac=vertices[chunk.Indices[i+2]]-a;
                     var p=Vector3.Cross(ray.direction,ac);float det=Vector3.Dot(ab,p);
                     if(Mathf.Abs(det)<1e-8f) continue;
                     var offset=ray.origin-a;float u=Vector3.Dot(offset,p)/det;

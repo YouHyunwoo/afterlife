@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Afterlife.Devlog.Terrain;
 using UnityEngine;
 
@@ -8,6 +9,27 @@ namespace Afterlife.Devlog.Hover
 
     public sealed class ShowcaseTileHover : IDisposable
     {
+        public sealed class Map
+        {
+            public int MinX=-6, MinZ=-5, Width=12, Depth=10;
+            public Vector3 OriginOffset;
+            public Func<int,int,ShowcaseBiome> Biome=ShowcaseBiomeMap.At;
+            public Shader DustShader;
+        }
+        private readonly Map _map;
+        public bool HasTerrainStamps => _terrainCount>0;
+        private readonly Dictionary<string,Vector4> _previousVectors=new Dictionary<string,Vector4>();
+        private readonly Dictionary<string,int> _previousCounts=new Dictionary<string,int>();
+        private readonly Dictionary<string,Vector4[]> _previousArrays=new Dictionary<string,Vector4[]>();
+        private readonly Dictionary<string,float[]> _previousWeights=new Dictionary<string,float[]>();
+        private readonly Texture _previousBiomes;
+        private readonly float _previousTime;
+
+        public void SetPaused(bool paused)
+        {
+            if (_dust==null) return;
+            if (paused) _dust.Pause(); else if (_dust.isPaused) _dust.Play();
+        }
         public GrassHoverMode GrassMode { get; set; }
         public event Action WaterRippleCreated;
         private readonly Vector4[] _stamps=new Vector4[128];
@@ -33,14 +55,21 @@ namespace Afterlife.Devlog.Hover
         private Vector3 _last,_grassPoint;
         private ShowcaseBiome _biome;
         private bool _hasLast;
-        public ShowcaseTileHover(Transform stage)
+        public ShowcaseTileHover(Transform stage, Map map=null)
         {
-            _origin=stage.position;
-            _biomes=new Texture2D(12,10,TextureFormat.RGBA32,false,true) { name="HoverBiomeMap",filterMode=FilterMode.Point,wrapMode=TextureWrapMode.Clamp };
-            for (int z=0;z<10;z++) for (int x=0;x<12;x++)
-                _biomes.SetPixel(x,z,new Color(Kind(ShowcaseBiomeMap.At(x-6,z-5))/3f,0,0,1));
+            _previousBiomes=Shader.GetGlobalTexture("_DevlogHoverBiomes");
+            _previousTime=Shader.GetGlobalFloat("_DevlogHoverTime");
+            foreach(var name in new[]{"_DevlogHoverOrigin","_DevlogHoverBounds","_DevlogGrassCursor"})_previousVectors[name]=Shader.GetGlobalVector(name);
+            foreach(var name in new[]{"_DevlogGrassStampCountV3","_DevlogTerrainStampCountV3","_DevlogWaveCount"})_previousCounts[name]=Shader.GetGlobalInt(name);
+            foreach(var name in new[]{"_DevlogGrassStampsV3","_DevlogTerrainStampsV3","_DevlogWaves"})_previousArrays[name]=Shader.GetGlobalVectorArray(name);
+            foreach(var name in new[]{"_DevlogTerrainWeightsV3","_DevlogRingFades"})_previousWeights[name]=Shader.GetGlobalFloatArray(name);
+            _map=map ?? new Map();
+            _origin=stage.position+_map.OriginOffset;
+            _biomes=new Texture2D(_map.Width,_map.Depth,TextureFormat.RGBA32,false,true) { name="HoverBiomeMap",filterMode=FilterMode.Point,wrapMode=TextureWrapMode.Clamp };
+            for (int z=0;z<_map.Depth;z++) for (int x=0;x<_map.Width;x++)
+                _biomes.SetPixel(x,z,new Color(Kind(_map.Biome(x+_map.MinX,z+_map.MinZ))/3f,0,0,1));
             _biomes.Apply();
-            var shader=Shader.Find("Afterlife/Devlog/HoverDust");
+            var shader=_map.DustShader!=null ? _map.DustShader : Shader.Find("Afterlife/Devlog/HoverDust");
             if (shader!=null)
             {
                 _dustMaterial=new Material(shader);
@@ -150,6 +179,7 @@ namespace Afterlife.Devlog.Hover
             Shader.SetGlobalVector("_DevlogHoverOrigin",_origin);
             Shader.SetGlobalVector("_DevlogGrassCursor",new Vector4(_grassPoint.x,_grassPoint.z,_strength,(int)GrassMode));
             Shader.SetGlobalTexture("_DevlogHoverBiomes",_biomes);
+            Shader.SetGlobalVector("_DevlogHoverBounds",new Vector4(_map.MinX,_map.MinZ,_map.Width,_map.Depth));
         }
         private void UploadActiveStamps()
         {
@@ -194,13 +224,13 @@ namespace Afterlife.Devlog.Hover
             if (_terrainCount==0) return 0;
             Vector3 p=world-_origin;
             int x=Mathf.FloorToInt(p.x),z=Mathf.FloorToInt(p.z);
-            int kind=Kind(ShowcaseBiomeMap.At(x,z));
-            if (kind==0 || x< -6 || x>=6 || z< -5 || z>=5) return 0;
+            int kind=Kind(_map.Biome(x,z));
+            if (kind==0 || x<_map.MinX || x>=_map.MinX+_map.Width || z<_map.MinZ || z>=_map.MinZ+_map.Depth) return 0;
             float mask=1,u=p.x-x,v=p.z-z;
-            if (Kind(ShowcaseBiomeMap.At(x-1,z))!=kind) mask=Mathf.Min(mask,Mathf.SmoothStep(0,1,u/.10f));
-            if (Kind(ShowcaseBiomeMap.At(x+1,z))!=kind) mask=Mathf.Min(mask,Mathf.SmoothStep(0,1,(1-u)/.10f));
-            if (Kind(ShowcaseBiomeMap.At(x,z-1))!=kind) mask=Mathf.Min(mask,Mathf.SmoothStep(0,1,v/.10f));
-            if (Kind(ShowcaseBiomeMap.At(x,z+1))!=kind) mask=Mathf.Min(mask,Mathf.SmoothStep(0,1,(1-v)/.10f));
+            if (Kind(_map.Biome(x-1,z))!=kind) mask=Mathf.Min(mask,Mathf.SmoothStep(0,1,u/.10f));
+            if (Kind(_map.Biome(x+1,z))!=kind) mask=Mathf.Min(mask,Mathf.SmoothStep(0,1,(1-u)/.10f));
+            if (Kind(_map.Biome(x,z-1))!=kind) mask=Mathf.Min(mask,Mathf.SmoothStep(0,1,v/.10f));
+            if (Kind(_map.Biome(x,z+1))!=kind) mask=Mathf.Min(mask,Mathf.SmoothStep(0,1,(1-v)/.10f));
             float depression=0,ridge=0;
             for (int i=0;i<_terrainCount;i++)
             {
@@ -234,7 +264,12 @@ namespace Afterlife.Devlog.Hover
             Reset();
             if (_dust!=null) UnityEngine.Object.Destroy(_dust.gameObject);
             if (_dustMaterial!=null) UnityEngine.Object.Destroy(_dustMaterial);
-            Shader.SetGlobalTexture("_DevlogHoverBiomes",Texture2D.blackTexture);
+            Shader.SetGlobalTexture("_DevlogHoverBiomes",_previousBiomes);
+            Shader.SetGlobalFloat("_DevlogHoverTime",_previousTime);
+            foreach(var pair in _previousVectors)Shader.SetGlobalVector(pair.Key,pair.Value);
+            foreach(var pair in _previousCounts)Shader.SetGlobalInt(pair.Key,pair.Value);
+            foreach(var pair in _previousArrays)if(pair.Value!=null && pair.Value.Length>0)Shader.SetGlobalVectorArray(pair.Key,pair.Value);
+            foreach(var pair in _previousWeights)if(pair.Value!=null && pair.Value.Length>0)Shader.SetGlobalFloatArray(pair.Key,pair.Value);
             UnityEngine.Object.Destroy(_biomes);
         }
     }

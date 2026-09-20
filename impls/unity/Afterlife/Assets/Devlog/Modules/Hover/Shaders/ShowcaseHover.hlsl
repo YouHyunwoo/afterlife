@@ -1,21 +1,21 @@
 #ifndef SHOWCASE_HOVER_INCLUDED
 #define SHOWCASE_HOVER_INCLUDED
 float _DevlogHoverTime;
-float4 _DevlogHoverOrigin, _DevlogGrassCursor;
+float4 _DevlogHoverOrigin, _DevlogGrassCursor, _DevlogHoverBounds;
 int _DevlogGrassStampCountV3, _DevlogTerrainStampCountV3;
 float4 _DevlogGrassStampsV3[96], _DevlogTerrainStampsV3[96];
 float _DevlogTerrainWeightsV3[96];
 TEXTURE2D(_DevlogHoverBiomes); SAMPLER(sampler_DevlogHoverBiomes);
 float HoverKind(float2 cell)
 {
-    return round(SAMPLE_TEXTURE2D_LOD(_DevlogHoverBiomes,sampler_DevlogHoverBiomes,(cell+float2(6.5,5.5))/float2(12,10),0).r*3);
+    return round(SAMPLE_TEXTURE2D_LOD(_DevlogHoverBiomes,sampler_DevlogHoverBiomes,(cell-_DevlogHoverBounds.xy+.5)/max(_DevlogHoverBounds.zw,1),0).r*3);
 }
 float HoverHeight(float3 world)
 {
     if (_DevlogTerrainStampCountV3==0) return 0;
     float3 p=world-_DevlogHoverOrigin.xyz;
     float2 cell=floor(p.xz),f=frac(p.xz);
-    if (p.x< -6 || p.x>=6 || p.z< -5 || p.z>=5) return 0;
+    if (any(p.xz<_DevlogHoverBounds.xy) || any(p.xz>=_DevlogHoverBounds.xy+_DevlogHoverBounds.zw)) return 0;
     float kind=HoverKind(cell);
     if (kind<1.5) return 0;
     float mask=1;
