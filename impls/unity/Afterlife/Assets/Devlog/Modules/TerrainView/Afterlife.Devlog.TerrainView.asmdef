@@ -1,0 +1,6 @@
+{
+  "name": "Afterlife.Devlog.TerrainView",
+  "rootNamespace": "Afterlife.Devlog.TerrainView",
+  "references": ["Afterlife.Devlog.Terrain"],
+  "autoReferenced": true
+}
