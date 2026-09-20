@@ -31,6 +31,8 @@ Day01은 입력·카메라·촬영 UI와 모듈 조합을 담당한다. 공용 �
 
 ## 재사용 방법
 
+프로토타입 식생은 `ShowcaseGrass.Map`에 바이옴/높이/색을 주입하고, `ShowcaseLeafCards`에 읽기 가능한 수관 데이터와 Shader/카드 상한/속성 변환을 주입한다. 풀·잎 HLSL은 출력/조명 훅을 제공한다. PrototypeVegetation이 모델 수명·풀 가림 마스크·색 변경 버전을 조립하며 Wind의 시간을 갱신한다. [상세](../records/prototype-vegetation.md).
+
 프로토타입 해안·수면은 Terrain의 순수 `CoastField` → TerrainView의 선택적 `CoastalTerrain` 설정으로 조립한다. WaterSurface는 물 판별 함수와 Shader·높이만 주입받으며 시야/입력을 소유하지 않는다. Day01과 프로토타입은 공유 수면 HLSL을 사용하고 각각 조명/출력 훅을 선택한다. [상세](../records/prototype-water.md).
 
 클릭 대상은 IPickTarget을 구현한다. 눈이 필요한 대상은 ISnowTarget에서 Visual, HasSnow, SnowRemaining과 표면의 눈 표시 여부를 제공한다. ShowcasePickSurface는 MonoBehaviour 참조를 직렬화하고 인터페이스로 소비한다. 기존 Target 필드 이름은 FormerlySerializedAs로 호환한다.
@@ -70,3 +72,5 @@ Day01의 PresentationStages가 6개 공간을 소유한다. 기존 Stages[2]는 
 ## 연속 지형 높이장
 
 Terrain의 ShowcaseTerrainField가 맵 전체 좌표의 gradient Perlin과 실제 0.25m 삼각형 표면 높이를 제공한다. ShowcaseTileVariants.Height는 이 필드로 위임하고 기존 높이는 LegacyHeight로 이관 시에만 사용한다. Day01ContinuousTerrainSetup은 3~6단계를 같은 좌표별 메시로 갱신하고 경계 높이를 확인한다. Vegetation과 타깃 지면 조회도 같은 표면 보간을 사용한다. 쇼케이스 공간 이동 오프셋은 제외하여 전후 비교 구도를 유지한다. [상세 기록](../records/continuous-terrain.md).
+
+프로토타입 지면 색은 PrototypeGroundAppearance HLSL과 런타임 색/법선 텍스처를 지형·풀·식물 장식이 공유한다. TerrainSurface는 원본 맵의 색/높이를 제공하고, 프로토타입 어댑터가 텍스처 생성·소유·전역값 복원을 담당한다. Grass 출력 훅은 Day01과 프로토타입 표현을 분리한다.

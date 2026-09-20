@@ -1,6 +1,15 @@
 <!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Afterlife · Devlog 제작 관리</title><style>
 :root{color-scheme:dark;--bg:#101a20;--panel:#19262e;--line:#33454e;--ink:#eef3ee;--muted:#acbec4;--accent:#b7dfa5}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:24px}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.8 'Segoe UI','Malgun Gothic',sans-serif}aside{position:fixed;inset:0 auto 0 0;width:238px;padding:32px 22px;background:#152129;border-right:1px solid var(--line);overflow:auto}.brand{font-size:22px;letter-spacing:3px;font-weight:700}.subtitle{font-size:12px;color:var(--muted);margin-bottom:28px}nav a{display:flex;gap:14px;padding:10px 8px;color:var(--muted);text-decoration:none;border-radius:6px}nav a:hover,nav a:focus{background:#2a3b42;color:white}nav span{font-size:11px;color:var(--accent);padding-top:4px}main{margin-left:238px;max-width:1330px;padding:45px 5vw}.eyebrow{color:var(--accent);letter-spacing:3px;font-size:12px}header h1{font-size:clamp(30px,4vw,50px);line-height:1.25;margin:18px 0}.lead{color:var(--muted);max-width:650px}header{padding:0 0 34px}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}.card{padding:17px;background:var(--panel);border-top:2px solid var(--accent)}.card small{display:block;color:var(--muted)}.card strong{font-size:19px}input{width:100%;padding:13px 16px;background:#0e171c;color:white;border:1px solid var(--line);border-radius:7px;font:inherit}.document{background:var(--panel);padding:30px;margin:24px 0;border:1px solid var(--line);border-radius:10px;overflow-wrap:anywhere}.section-label{color:var(--accent);font-size:11px;letter-spacing:1px}.document h1{font-size:27px;margin:8px 0 20px}.document h2{font-size:20px;margin-top:30px}p,li{max-width:88ch}a{color:#b8e4d2}table{border-collapse:collapse;width:100%;font-size:14px;margin:18px 0;display:block;overflow:auto}th,td{text-align:left;vertical-align:top;padding:12px;border-bottom:1px solid var(--line);min-width:95px}th{color:var(--accent);background:#21313a}pre{overflow:auto;background:#101a20;padding:18px}code{font-size:13px;color:#c6e4c2}blockquote{border-left:3px solid var(--accent);margin-left:0;padding-left:20px;color:var(--muted)}footer{font-size:12px;color:var(--muted)}[hidden]{display:none!important}@media(max-width:800px){aside{position:static;width:auto;padding:20px}nav{display:flex;gap:5px;overflow:auto}nav a{white-space:nowrap}nav span{display:none}.subtitle{margin-bottom:8px}main{margin:0;padding:24px 16px}.document{padding:20px 16px}.cards{grid-template-columns:1fr}.card{padding:10px 16px}}@media print{aside,input,.lead{display:none}main{margin:0;padding:0;max-width:none}body{background:white;color:black}.document{display:block!important;background:white;border:0;padding:8px;break-before:page}th{background:#eee;color:black}a,code{color:black}.cards{display:none}table{display:table;font-size:11px}.section-label{color:#333}}
-.document img{display:block;max-width:100%;height:auto;border-radius:8px;margin:20px 0}</style><aside><div class="brand">AFTERLIFE</div><div class="subtitle">DEVLOG / PRODUCTION NOTES</div><nav><a href="#doc-0"><span>01</span>현재 상태</a><a href="#doc-1"><span>02</span>목표 · 촬영</a><a href="#doc-2"><span>03</span>6단계 촬영 구성</a><a href="#doc-3"><span>04</span>영상 연출 · 자막</a><a href="#doc-4"><span>05</span>연속 지형</a><a href="#doc-5"><span>06</span>런타임 최적화</a><a href="#doc-6"><span>07</span>프로토타입 지형</a><a href="#doc-7"><span>08</span>프로토타입 해안 · 수면</a><a href="#doc-8"><span>09</span>기능 · 조작</a><a href="#doc-9"><span>10</span>모듈 안내</a><a href="#doc-10"><span>11</span>에셋 · 프리팹</a><a href="#doc-11"><span>12</span>구조 개편</a><a href="#doc-12"><span>13</span>검증</a><a href="#doc-13"><span>14</span>호버 피드백</a><a href="#doc-14"><span>15</span>나뭇잎 비교</a><a href="#doc-15"><span>16</span>제단 모델 제작</a><a href="#doc-16"><span>17</span>밀도 · 타격 리듬</a><a href="#doc-17"><span>18</span>접지 · 바람 · 밤</a><a href="#doc-18"><span>19</span>잎 디졸브</a><a href="#doc-19"><span>20</span>타격 자국 비교</a><a href="#doc-20"><span>21</span>자연 환경음</a><a href="#doc-21"><span>22</span>변경 기록</a><a href="#doc-22"><span>23</span>누적 기록</a><a href="#doc-23"><span>24</span>관리 방법</a></nav></aside><main><header><div class="eyebrow">DAY 01 · 3D PIXEL WORLD</div><h1>작은 세계를,<br>만지고 싶게.</h1><p class="lead">기본 도형에서 생동감 있는 중세 판타지 환경까지.<br>목표, 표현 기능, 재사용 모듈과 촬영 준비를 한곳에서 관리합니다.</p><div class="cards"><div class="card"><small>현재 제작</small><strong>6단계 구성 완료</strong></div><div class="card"><small>공간</small><strong>Before → 4단계 → After</strong></div><div class="card"><small>다음 결정</small><strong>단계별 화면 확인</strong></div></div><label for="search">문서 찾기</label><input id="search" type="search" placeholder="예: 눈, 프리팹, 크레딧" autocomplete="off"><p id="count" role="status"></p></header><section id="doc-0" class="document"><div class="section-label">status.md</div><h1>현재 상태</h1>
+.document img{display:block;max-width:100%;height:auto;border-radius:8px;margin:20px 0}</style><aside><div class="brand">AFTERLIFE</div><div class="subtitle">DEVLOG / PRODUCTION NOTES</div><nav><a href="#doc-0"><span>01</span>현재 상태</a><a href="#doc-1"><span>02</span>목표 · 촬영</a><a href="#doc-2"><span>03</span>6단계 촬영 구성</a><a href="#doc-3"><span>04</span>영상 연출 · 자막</a><a href="#doc-4"><span>05</span>연속 지형</a><a href="#doc-5"><span>06</span>런타임 최적화</a><a href="#doc-6"><span>07</span>프로토타입 지형</a><a href="#doc-7"><span>08</span>프로토타입 해안 · 수면</a><a href="#doc-8"><span>09</span>프로토타입 식생 · 바람</a><a href="#doc-9"><span>10</span>기능 · 조작</a><a href="#doc-10"><span>11</span>모듈 안내</a><a href="#doc-11"><span>12</span>에셋 · 프리팹</a><a href="#doc-12"><span>13</span>구조 개편</a><a href="#doc-13"><span>14</span>검증</a><a href="#doc-14"><span>15</span>호버 피드백</a><a href="#doc-15"><span>16</span>나뭇잎 비교</a><a href="#doc-16"><span>17</span>제단 모델 제작</a><a href="#doc-17"><span>18</span>밀도 · 타격 리듬</a><a href="#doc-18"><span>19</span>접지 · 바람 · 밤</a><a href="#doc-19"><span>20</span>잎 디졸브</a><a href="#doc-20"><span>21</span>타격 자국 비교</a><a href="#doc-21"><span>22</span>자연 환경음</a><a href="#doc-22"><span>23</span>변경 기록</a><a href="#doc-23"><span>24</span>누적 기록</a><a href="#doc-24"><span>25</span>관리 방법</a></nav></aside><main><header><div class="eyebrow">DAY 01 · 3D PIXEL WORLD</div><h1>작은 세계를,<br>만지고 싶게.</h1><p class="lead">기본 도형에서 생동감 있는 중세 판타지 환경까지.<br>목표, 표현 기능, 재사용 모듈과 촬영 준비를 한곳에서 관리합니다.</p><div class="cards"><div class="card"><small>현재 제작</small><strong>6단계 구성 완료</strong></div><div class="card"><small>공간</small><strong>Before → 4단계 → After</strong></div><div class="card"><small>다음 결정</small><strong>단계별 화면 확인</strong></div></div><label for="search">문서 찾기</label><input id="search" type="search" placeholder="예: 눈, 프리팹, 크레딧" autocomplete="off"><p id="count" role="status"></p></header><section id="doc-0" class="document"><div class="section-label">status.md</div><h1>현재 상태</h1>
+<p>프로토타입 Day01 시야 적용: 공통 시야/낮밤 감쇠 HLSL, 지형 유지·오브젝트 숨김, 최대 32개 마우스 잔상과 유지/감쇠 곡선을 연결했다. Day01 단일 방식으로 확정하고 디더/알파 구현과 F4 비교 버튼을 제거했다. 아래 페이드 비교 항목은 과거 개발 기록이다. Devlog 21개 및 프로토타입 C# 빌드 통과, Unity 화면 확인 대기. <a href="#doc-8">범위/검증</a>.</p>
+<p>Day01 시야 잔상: 마우스 이동 경로에 최대 32개 흔적을 남기고 기본 1.4초 동안 유지/감쇠한다. 빠른 이동 보간·정지 시 갱신·단계/토글/R 초기화를 연결했다. C# 빌드 통과, Unity 화면 확인 대기. <a href="#doc-9">사용법</a>.</p>
+<p>Day01 시야 표시 분리: 테스트 ON에서 지형/수면은 시야 밖에도 유지하고 풀·잎·오브젝트는 제거한다. 밤의 지형도 최소 밝기를 유지한다. C# 빌드 통과, Unity 화면 확인 대기. <a href="#doc-9">사용법</a>.</p>
+<p>Day01 마우스 시야 테스트: 패널 토글/V 키, 마우스 원형 시야, 이탈 시 0.8초 감쇠를 추가했다. 낮/밤의 지형·풀·장식 색 비교용이며 기본 OFF, 영상 모드에서는 일시 해제한다. Devlog 21개 C# 빌드 통과, Unity 화면 확인 대기. <a href="#doc-9">사용법</a>.</p>
+<p>지형·식생 색 통합: Day01 육지 팔레트와 공통 바이옴 색/법선 맵을 적용했다. 일반 풀과 식물 장식이 지형의 최종 기준색·명암을 공유하고 어두운 풀 색 변종은 제외했다. Devlog 21개 및 프로토타입 C# 빌드 통과. Unity 새 Play 화면 확인 대기. <a href="#doc-8">변경과 확인 절차</a>.</p>
+<p>풀 우선 보정: 프로토타입 꽃·풀 끝 고정색의 색 공간 변환과 뿌리 기준 시야/조명 계산을 적용했다. 알파 합성은 유지하며 화면 비교는 대기 중이다. C# 빌드 통과. <a href="#doc-8">확인 절차</a>.</p>
+<p>식생 밝기 보정: 지형·풀/잎·수면의 낮/밤 시야 밝기 감쇠 함수를 공유하도록 수정했다. 디더/알파 선택은 유지하며 시야 경계에서 풀만 밝게 남던 원인을 보정했다. Unity 화면 확인 대기. <a href="#doc-8">기록</a>.</p>
+<p>식생 시야 페이드 비교: 검은 RGB 감쇠를 제거하고 F4 디버그 패널에 디더/알파 선택 그룹을 추가했다. 기존/신규 풀·잎에 즉시 적용한다. C# 빌드 통과, 화면 비교 대기. <a href="#doc-8">사용법</a>.</p>
+<p>프로토타입 풀·나뭇잎·바람 연결: 주입형 풀 군락/꽃/숲 변종, 수관 잎 카드, 공통 바람을 적용했다. 지형 높이·색, 시야·밤·호버 색, 건설/자원 풀 가림과 제거/재시작 수명을 연결했다. 큰 맵용 4×4 배치 후보·청크/거리 밀도·나무당 384장 상한·변경 시 속성/마스크 갱신을 사용한다. C# 빌드 통과, Unity/HLSL/Play 확인 대기. <a href="#doc-8">범위와 확인 절차</a>.</p>
 <p>프로토타입 해안·수면 연결: 순수 해안 거리장, Rounded 가장자리, 분리된 해저/수면, 수심 색·투명도·거품·지속 물결·굴절을 적용했다. Day01 수면 계산을 공유하고 프로토타입 시야·밤·커서와 연결했다. Devlog 21개 및 프로토타입 C# 빌드 통과. Unity 임포트·HLSL·Play 확인 대기. <a href="#doc-7">적용 범위와 확인 절차</a>.</p>
 <p>프로토타입 지형·바이옴 연결: 기존 TerrainMap을 유지하고 Day01 연속 높이장과 색 혼합을 독립 TerrainView로 연결했다. 모델/장식/풀/테두리/효과 높이와 실제 지형 커서 선택을 반영했다. Devlog 20개 및 프로토타입 C# 빌드 통과. Unity 임포트·Play·셰이더 확인 대기. <a href="#doc-6">적용 범위와 확인 절차</a>.</p>
 <p>Day01 런타임 최적화 5단계 구현: 선택 공간 트리·최종 표면색 조회, 자원/잎 변경 시 갱신, 작은 타격 파편 풀, 활성 호버 흔적 압축, 풀 청크와 식생 거리별 밀도를 적용했다. 19개 모듈 C# 빌드 통과. 실제 성능·HLSL·Play 확인은 대기하며 프로토타입 연결은 별도다. <a href="#doc-5">변경 전후와 검증 절차</a>.</p>
@@ -11,20 +20,20 @@
 <p>시간 기반 영상 모드 구현: 기본 1~6 쇼케이스 유지, F8로 카메라·단계·TMP 자막 재생(초기 구성 165초/15컷, 이후 사용자 편집 시간 유지). Space·방향키·Home·Esc 지원. 19개 모듈 빌드 통과, Unity 시퀀스·TMP 폰트·씬·구성 프리팹 저장 완료. TMP 직접 참조 누락을 수정하고 참조 검증도 보완했다. 실제 MP4 인코딩은 별도이며 Play 확인은 미실행. <a href="#doc-3">시간표·사용법</a>.</p>
 <p>After 기본값 확정: Pixels ON, 잎 생성·랜덤 회전 ON, 낮, Dissolve, Rounded, 풀 Sway, 피해 마크 ON. After 진입 시 적용하고 R은 비교 설정을 유지한다. Day01 빌드 통과, Play 확인은 사용자 확인 대상.</p>
 <p>After 기준 6단계 재구성 완료: 0/20/40/60/80/100 공간, 1~6 전환, 단계별 효과 수명 분리. 현재 After 및 기존 공간 보존. 17개 모듈 빌드 통과, Unity 씬·프리팹 저장 및 공간마다 자원 17개 확인. 새 구성 8개 에셋 외부 GUID 누락 0개. Play 체감 확인은 사용자 확인 대상. <a href="#doc-2">단계와 촬영 절차</a>.</p>
-<p>풀 스침 2·3·4번 선택 적용: 1번 제외, 세 발췌본 랜덤 재생. 0.60~0.70초의 짧은 구간을 추출하고 피크·페이드·음량 조정. 실제 풀 접촉 이동 중만 랜덤 재생, 직전 반복/중첩 방지, 정지 후 짧은 여운 보존. 새 울음 유지. <a href="#doc-20">미리듣기·기록</a>.</p>
-<p>환경음 조정: 바람 재생 제거. 풀 소리는 After의 실제 풀 배치 위치에서 마우스가 움직일 때만 재생하고 정지/이탈 시 0.12초 페이드 아웃한다. 간헐적 새 울음과 밤 억제 유지. 17개 모듈 빌드 통과, Unity 환경음 어셈블리 생성 확인. 실제 청취는 사용자 확인 대기. <a href="#doc-20">설정·확인 절차</a>.</p>
-<p>타격 자국 비교 구현: 나무 줄기의 목질 자국과 바위의 깨진 면·짧은 균열을 타격 위치에 누적한다. 패널 하단 Damage marks ON/OFF로 같은 상태 비교, R 초기화. DamageMarks.Core/Runtime 분리 및 15개 모듈 빌드 통과. 실제 메시 절삭은 없으며 Play/GPU 체감 확인 대기. <a href="#doc-19">비교 방법</a>.</p>
+<p>풀 스침 2·3·4번 선택 적용: 1번 제외, 세 발췌본 랜덤 재생. 0.60~0.70초의 짧은 구간을 추출하고 피크·페이드·음량 조정. 실제 풀 접촉 이동 중만 랜덤 재생, 직전 반복/중첩 방지, 정지 후 짧은 여운 보존. 새 울음 유지. <a href="#doc-21">미리듣기·기록</a>.</p>
+<p>환경음 조정: 바람 재생 제거. 풀 소리는 After의 실제 풀 배치 위치에서 마우스가 움직일 때만 재생하고 정지/이탈 시 0.12초 페이드 아웃한다. 간헐적 새 울음과 밤 억제 유지. 17개 모듈 빌드 통과, Unity 환경음 어셈블리 생성 확인. 실제 청취는 사용자 확인 대기. <a href="#doc-21">설정·확인 절차</a>.</p>
+<p>타격 자국 비교 구현: 나무 줄기의 목질 자국과 바위의 깨진 면·짧은 균열을 타격 위치에 누적한다. 패널 하단 Damage marks ON/OFF로 같은 상태 비교, R 초기화. DamageMarks.Core/Runtime 분리 및 15개 모듈 빌드 통과. 실제 메시 절삭은 없으며 Play/GPU 체감 확인 대기. <a href="#doc-20">비교 방법</a>.</p>
 <p>IMGUI 확대 완료: 패널·글자·버튼 1.5배(825×339px), 좌상단 여백 16px 유지. 월드 클릭 차단 영역도 확대 크기로 맞추고 게임 화면 출력은 유지한다. Day01 C# 빌드 오류 0개, 기존 ShowcaseTarget.cs 참조 비교 경고 1개. Play 화면 검증은 미실행: 확대 버튼 클릭 시 뒤의 월드 오브젝트가 함께 클릭되지 않는지 확인한다.</p>
 <p>Git 루트 마이그레이션 완료: Unity 변경사항을 기능별 15개 커밋으로 정리하고 프로젝트 루트에서 문서·리소스·구현을 함께 관리한다. main은 기존 게임의 경로 변경만, dev는 신규 개발 내용을 포함한다. 관련 C# 프로젝트 25개 빌드 통과, 원격 푸시와 Unity Play는 실행하지 않았다. <a href="records/git-root-migration.md">이전 기록</a>, <a href="../docs/git-workflow.md">브랜치 운영</a>.</p>
 <p>동심원 발생 지점의 거품 소멸·복원 추가: 중심 반경 0.16은 두 층 모두 제거, 0.38까지 부드럽게 감쇠. 0.08초 소멸·0.30초까지 유지·1.20초까지 복원하며 해안 접촉선도 함께 적용. GPU 화면 확인 대기. <a href="records/water-swell.md">확인 절차</a>.</p>
 <p>수면 상시 일렁임 추가: 월드 좌표 파형을 명암·굴절·거품에 연결하고 해안의 흰 거품과 하늘색 밑층이 시차를 두고 확장·수축하도록 변경. 메시 높이는 유지하며 GPU 화면 확인 대기. <a href="records/water-swell.md">변경 및 확인 절차</a>.</p>
 <p>Picking 런타임 생성 전환 완료: 원본 Mesh별 공유 캐시와 해제 수명 적용, 프리팹 23개 참조 정리, 저장 에셋 72개 및 Picking 폴더 제거, 원본 모델 12개 Read/Write 활성화. 13개 모듈 빌드 통과, Play 확인 대기. <a href="records/runtime-picking.md">변경 및 확인 절차</a>.</p>
 <p>Picking 생성 비용 실측: 72개 메시 전체의 메모리 생성 첫 회 2.87ms, 후속 31회 중앙값 1.034ms, 에셋 저장·임포트 2.51초. 원본 12개는 Read/Write 비활성으로 런타임 전환 전 접근 설정과 메모리 영향 검토가 필요하다. 기존 런타임/참조는 유지했다. <a href="records/picking-benchmark.md">측정 기록</a>.</p>
-<p>수관 디졸브와 잎 제거 동기화: 원본 수관 부착점의 같은 Perlin 필드로 잎을 제거하고 재질 스케일도 상속한다. 눈 덮인 잎에도 적용, R 초기화 및 Sink 바닥 클립 연결. 13개 모듈 빌드 통과, GPU 체감 확인 대기. <a href="#doc-18">수정 기록</a>.</p>
+<p>수관 디졸브와 잎 제거 동기화: 원본 수관 부착점의 같은 Perlin 필드로 잎을 제거하고 재질 스케일도 상속한다. 눈 덮인 잎에도 적용, R 초기화 및 Sink 바닥 클립 연결. 13개 모듈 빌드 통과, GPU 체감 확인 대기. <a href="#doc-19">수정 기록</a>.</p>
 <p>리소스 구조 정리 완료: 제작 원본은 res/art-source, Kenney 검토 자료는 res/audio/kenney-review로 통합했다. <a href="records/resource-layout.md">폴더 검증 기록</a>.</p>
 <p>후속 시야/바람 조정: 시야 밖을 직전 대비 약 1/4 밝기로 낮추고 집 반경을 4.2m→3m로 축소하는 프리팹 갱신 준비. 풀·잎의 휘날림과 돌풍 강약 확대. 13개 모듈 빌드 통과, Refresh 및 화면 체감 확인 대기. 바닥 접점은 기존 소품 28개와 기단 높이 2곳 보정이다.</p>
-<p>접지·공통 바람·밤 대비 조정 완료: 기존 작은 돌/고사리 28개와 집·제단 기단 2곳 보정, Wind 독립 모듈, 밤 실루엣 및 작은 광원 강조. 13개 모듈 빌드 통과. 에디터에서 접점 프리팹과 After 씬 저장 확인. Play 체감 확인 대기. <a href="#doc-17">상세 기록</a>.</p>
-<p>화면 밀도/타격 리듬 보완: 해안 중심 거품, After 풀·꽃 군집과 여백, 45ms 접촉 유지·빠른 반동 복귀·표면 방향 파편 적용. 12개 모듈 빌드 통과, Play/GPU 체감 확인 대기. <a href="#doc-16">변경과 확인 절차</a>.</p>
+<p>접지·공통 바람·밤 대비 조정 완료: 기존 작은 돌/고사리 28개와 집·제단 기단 2곳 보정, Wind 독립 모듈, 밤 실루엣 및 작은 광원 강조. 13개 모듈 빌드 통과. 에디터에서 접점 프리팹과 After 씬 저장 확인. Play 체감 확인 대기. <a href="#doc-18">상세 기록</a>.</p>
+<p>화면 밀도/타격 리듬 보완: 해안 중심 거품, After 풀·꽃 군집과 여백, 45ms 접촉 유지·빠른 반동 복귀·표면 방향 파편 적용. 12개 모듈 빌드 통과, Play/GPU 체감 확인 대기. <a href="#doc-17">변경과 확인 절차</a>.</p>
 <p>최신 소품 배치: 기존 SwordTool을 봉헌된 검처럼 제단 상판 중앙에 대각선으로 눕혀 배치. 원본 모델 생성/수정 없이 재사용했으며 클릭 표면 연결과 프리팹 저장 완료. Play 시각 확인 대기.</p>
 <ul>
 <li>갱신일: 2026-09-20</li>
@@ -49,10 +58,10 @@
 </ol>
 <p>중간 단계는 현재 After를 기준으로 6단계 구성을 완료했다. Unity 씬·프리팹 저장 확인 완료, 화면 확인은 사용자 확인 대상이다. 새 게임 규칙은 추가하지 않고, 완성 단계에서 표현 개선과 개별 모델 보강을 진행한다.</p>
 <h2>최신 호버 피드백 반영</h2>
-<p>풀 반응 강도 감소, 흙먼지 가시성 강화, 모래/눈의 위치 고정 및 2.5초 복원, 물의 이동 시작 보장 및 0.45 이동 거리 기준 생성을 반영했다. 상세 기록은 <a href="#doc-13">호버 조정</a>. Play 시각 검증은 사용자 확인 대기다.</p>
+<p>풀 반응 강도 감소, 흙먼지 가시성 강화, 모래/눈의 위치 고정 및 2.5초 복원, 물의 이동 시작 보장 및 0.45 이동 거리 기준 생성을 반영했다. 상세 기록은 <a href="#doc-14">호버 조정</a>. Play 시각 검증은 사용자 확인 대기다.</p>
 <p>최종 파일 확인: 프리팹 30개, 직렬화 에셋 305개의 외부 GUID 미해결 0개. 비활성 음원의 Archive 이동 후속 정리만 다음 에디터 임포트에 실행된다.</p>
 <p>최신 조정: 풀/먼지 최초 강도 복원(먼지는 이동 시에만), 배열 크기 경고 대응 V2 전역 배열, 물 전용 슬롯 및 실제 수면 변위 적용. 사용자 화면 검증 대기.</p>
-<p>나무 한 그루 잎 카드 비교 구현: After의 눈 없는 첫 나무, L 전환, 기존 Grass2 PNG 재사용. <a href="#doc-14">실험 기록</a>. 화면 검증 대기.</p>
+<p>나무 한 그루 잎 카드 비교 구현: After의 눈 없는 첫 나무, L 전환, 기존 Grass2 PNG 재사용. <a href="#doc-15">실험 기록</a>. 화면 검증 대기.</p>
 <p>잎 카드 추가 조정: 밀도 약 2.46배, 최대 1,800개, 완전 카메라 빌보드로 변경. 화면 체감 확인 대기.</p>
 <p>최신 잎 비교: 최대 2,000개/면적당 200개, 부분 겹침 허용·동일 부착점만 제외, 회전 통일, 바람 유지, 호버·피격 플래시 동기화. 실제 수는 화면 안내에 표시.</p>
 <p>회전 비교 대상 정정: 바닥 풀 회전 실험 제거·원래 표현 복구. G는 나뭇잎 동일 방향/고정 랜덤 0~360도 전환, L은 잎 표시 전환. GPU 체감 확인 대기.</p>
@@ -70,7 +79,7 @@
 <p>창문 Bloom 강화: 원래 창문 색조 기반 HDR 3.4, 수정 설정 유지.</p>
 <p>흙먼지 최신값: 크기 0.27~0.54, 시작 알파 0.30. 더 크고 옅게 조정.</p>
 <p>숲 추가 배치 준비: After 숲 타일의 빈자리에 기존 프리팹 최대 3그루, 80% 크기로 배치하는 일회성 에디터 코드 작성. 구조물/기존 자원 간격 확인, 미저장 씬은 보존하고 저장 후 재시도. Refresh 이후 씬 저장 결과 확인 대기.</p>
-<p>버려진 제단 교체 완료: ImageGen 6방향 시안 → Blender 편집 원본과 FBX 제작 → Unity 프리팹 생성 및 After 씬 저장까지 실제 반영. 1,338개 삼각형/렌더러 1개, 기존 제단은 비활성 자식으로 보존. <a href="#doc-15">시안·모델·검증 기록</a>. 추가 숲 나무 3그루도 현재 씬 저장에서 확인했다. Play 화면 체감은 사용자 확인 대기.</p>
+<p>버려진 제단 교체 완료: ImageGen 6방향 시안 → Blender 편집 원본과 FBX 제작 → Unity 프리팹 생성 및 After 씬 저장까지 실제 반영. 1,338개 삼각형/렌더러 1개, 기존 제단은 비활성 자식으로 보존. <a href="#doc-16">시안·모델·검증 기록</a>. 추가 숲 나무 3그루도 현재 씬 저장에서 확인했다. Play 화면 체감은 사용자 확인 대기.</p>
 </section><section id="doc-1" class="document"><div class="section-label">day-01/production.md</div><h1>Day01 제작 목표와 촬영 계획</h1>
 <h2>확정한 방향</h2>
 <p>마케팅 목적의 Devlog다. 개발량을 나열하기보다 화면의 변화와 클릭 반응으로 게임의 품질을 전달한다. 기존 중세 판타지 모델을 사용하며 새 모델링은 하지 않는다. 녹화는 사용자가 필요한 부분을 선택해서 진행한다.</p>
@@ -575,7 +584,88 @@
 <li>재시작과 Play 종료/재진입을 확인한다. 중복 지형·수면, 해제된 메시 참조, MaterialPropertyBlock 생성자 예외가 없어야 한다. Day01에서도 기존 물 효과가 유지되어야 한다.</li>
 </ol>
 <p>해안 세분화와 깊이/색 복사, 거품 계산이 추가되므로 실제 CPU/GPU 비용은 같은 카메라·해상도에서 확인해야 한다. 이번 C# 빌드만으로 프레임 성능이나 최종 화면을 검증한 것은 아니다.</p>
-</section><section id="doc-8" class="document"><div class="section-label">day-01/features.md</div><h1>기능 목록과 조작법</h1>
+</section><section id="doc-8" class="document"><div class="section-label">records/prototype-vegetation.md</div><h1>프로토타입 풀·나뭇잎·바람 적용</h1>
+<h2>작업 목록</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>기존 풀/나무/바람 모듈과 프로토타입 수명 확인</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>풀 생성기에 맵·높이·색·셰이더 주입 경로 추가</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>프로토타입 나무 수관에 잎 카드와 공통 바람 연결</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>시야·밤·호버 색, 건물/자원 풀 가림, 제거/재시작 수명 연결</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>관련 C# 빌드와 문서 갱신</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>Unity 임포트·셰이더·Play 화면 확인</li>
+</ul>
+<h2>변경 전후</h2>
+<p>기존 풀은 맵 전체를 한 메시로 합친 삼각형과 단순 사인 흔들림이었다. 이제 Day01의 PNG 빌보드, 군락 밀도, 꽃과 숲 전용 변종, 지면 색·법선에 따른 표현을 사용한다. 프로토타입의 TerrainMap을 읽어 초원/숲에만 생성하고 TerrainSurface의 실제 높이와 혼합색을 주입한다.</p>
+<p>기존 나무 모델·충돌체는 유지한다. 읽기 가능한 수관 메시의 초록색 면에 잎 카드를 추가하며, 접지 그림자와 갈색 줄기는 제외한다. 기본 회전 변주와 표면 부착, 카메라 빌보드를 사용한다. 원본 수관과 잎·풀은 Wind의 같은 방향/시간/공간 돌풍 계산을 공유한다.</p>
+<p>풀·잎 셰이더 계산은 공용 HLSL로 분리하고, 프로토타입 셰이더가 조명·시야 출력을 주입한다. Day01의 기존 생성 경로와 기본 셰이더 동작은 보존한다. 프로토타입은 기존 시야 배열과 밤/마을 조명을 사용하고 시야 밖 카드는 숨긴다. 잎은 원본 나무의 호버 색 변화와 위치 흔들림을 따른다.</p>
+<h2>모듈과 성능 범위</h2>
+<ul>
+<li>Vegetation <code>ShowcaseGrass.Map</code>: 지도 반경·바이옴·높이·색·샘플 수를 주입한다. 주입 경로에서는 Day01의 고정 지도나 Hierarchy 이름을 조회하지 않는다. 기존 Day01은 타일당 7×7 후보를 유지하고 큰 프로토타입은 4×4 후보를 사용한다.</li>
+<li>풀은 4×4 공간 청크로 묶고 기존 30/45 거리 기준의 전체/절반/1/4 밀도 조절을 사용한다. 매 프레임 정점 배열을 재생성하지 않는다.</li>
+<li><code>ShowcaseLeafCards</code>: 기존 API에 선택적 Shader·최대 카드 수·속성 변환 함수를 추가한다. 프로토타입은 나무당 최대 384장과 기존 거리별 밀도 조절을 사용한다. 원본 Mesh 배열은 프로토타입에서 Mesh별로 재사용하고, 원본 색이 변경될 때만 속성 버전을 올려 잎에 복사한다. Day01 기본 상한은 2,000장 그대로다.</li>
+<li><code>PrototypeVegetation</code>: 모델/시야와 모듈 사이의 조립 코드. 풀 가림은 타일당 4×4 픽셀 마스크로 처리한다. 건물·나무·바위의 ID/위치/크기 상태 해시가 바뀔 때만 업로드하며, 건설/이동/철거/자원 재생성 때 메시를 다시 만들지 않는다. 기존 개체 목록을 순회하는 비용은 매 프레임 남는다.</li>
+<li><code>ShowcaseWind</code>: 기존 모듈을 재사용한다. 프로토타입 효과 시간을 전달하여 메뉴 일시정지와 함께 멈추고, 종료 시 이전 바람 전역값을 복원한다.</li>
+</ul>
+<p>기존보다 표현량이 늘어나는 변경이다. 실제 CPU/GPU·메모리·드로콜 개선을 측정하거나 보장한 것은 아니다. 큰 맵의 생성 비용과 알파 카드 오버드로는 사용자 확인 대상이다.</p>
+<h2>수명 및 적용 범위</h2>
+<p>나무 생성 시 카드 모듈을 만들고, 기존 제거 반응이 끝나 나무 뷰를 삭제할 때 카드/메시/재질을 함께 해제한다. 재시작/환생 시 나무 카드를 해제·재생성하고, 같은 지도의 풀 청크는 유지하면서 가림 마스크를 갱신한다. 씬 종료 때 풀·카드·마스크·공유 나무 재질을 정리하고 바람 전역값을 복원한다. MonoBehaviour 필드 초기화에서는 Unity 리소스를 만들지 않는다.</p>
+<p>신규 물리 충돌체는 추가하지 않는다. Day01의 호버 풀 눌림, 눈, 타격 디졸브, 환경음/연기는 이 묶음에 포함하지 않았다. 기존 정적 지형 장식은 유지한다. Wind 셰이더 전역값은 기존처럼 단일 활성 장면 소유를 전제로 한다.</p>
+<h2>검증과 사용자 확인</h2>
+<p>Devlog 21개 모듈 및 프로토타입에 <code>dotnet build --no-restore</code> 검증. 프로토타입 오류/경고 0개, Day01 기존 CS0252 경고 1개. Unity Play/Test Runner 및 GPU/HLSL 검증은 프로젝트 지침에 따라 실행하지 않았다. 새 <code>.meta</code>는 Unity 자동 임포트에 맡긴다.</p>
+<ol>
+<li>Unity 임포트 후 <code>Afterlife_PixelPrototype</code>을 실행한다. 분홍색 셰이더 오류 없이 초원/숲에 PNG 풀·꽃이 보이고, 물/모래/눈에는 풀이 새로 생성되지 않아야 한다. 뿌리가 지형에 붙어 있어야 한다.</li>
+<li>카메라를 이동·회전한다. 풀과 잎이 카메라를 향하고, 가까운 나무에 잎 카드가 보이며 바람에 풀·수관·잎이 같은 큰 방향으로 흔들려야 한다. 멀리서 밀도가 줄어도 군락 전체가 갑자기 사라지지 않아야 한다.</li>
+<li>나무에 마우스를 올리고 벌목한다. 기존 호버 색·타격 흔들림을 잎이 따르고, 제거 후 떠 있는 잎이나 해제된 메시 오류가 없어야 한다.</li>
+<li>풀 위에 건설 후 이동/철거한다. 건물 밑 풀은 숨고, 비워진 자리에 기존 군락이 다시 보여야 한다. 나무/바위 재생성 시에도 밑동 주변 풀이 가려져야 한다.</li>
+<li>밤과 시야 경계를 확인한다. 잎·풀이 시야 밖에서 밝게 남지 않고, 메뉴 일시정지 시 바람도 멈춰야 한다.</li>
+<li>재시작/환생, Play 종료·재진입 후 중복 식생이나 생성자 예외가 없어야 한다. Day01의 기존 풀·잎·바람 표현도 확인한다.</li>
+</ol>
+<p>재검증 명령: <code>python devlog/tools/build_modules.py</code>, <code>python devlog/tools/build_prototype.py</code>.</p>
+<h2>시야 페이드 비교 옵션 (과거 구현, 현재 제거)</h2>
+<p>아래 비교·보정 기록은 개발 당시 내용이다. 현재 사용법과 검증 기준은 마지막 Day01 시야 절을 따른다.</p>
+<p>검은 식생 문제는 시야 계수를 RGB에 곱하면서 알파를 1로 유지한 처리에서 발생했다. 색 감쇠를 제거하고 F4 디버그 패널의 <strong>식생 · 시야 페이드</strong> 그룹에 두 방식을 추가했다.</p>
+<ul>
+<li>디더 페이드(기본): 렌더 타깃 픽셀 기준 4×4 Bayer 패턴으로 점차 제거한다. 깊이 기록을 유지한다.</li>
+<li>알파 페이드: 원래 색과 시야 계수 알파로 합성한다. 깊이 기록을 끄고 기존 투명 오브젝트 이후에 그린다. 청크/잎이 겹치는 곳의 정렬 차이는 비교 대상이다.</li>
+</ul>
+<p>선택은 즉시 기존 풀/잎 전체에 적용하고 새 나무와 재시작에도 현재 선택을 유지한다. Play를 새로 시작하면 디더로 돌아간다. 기존 나무 본체의 시야 방식은 유지하며 비교 대상은 풀/잎 카드다.</p>
+<p>Unity에서 F4 → 식생 · 시야 페이드의 두 버튼을 번갈아 선택하고 커서를 움직여 같은 시야 경계를 비교한다. 두 방식 모두 검은 잔상이 없어야 하며, 디더는 픽셀이 줄어들고 알파는 부드럽게 투명해져야 한다. 나무가 겹치는 곳, 해안, 밤, 재시작 후 새 나무도 확인한다. C# 빌드는 통과했으며 HLSL/Play 화면 검증은 미실행이다.</p>
+<h3>낮·밤 밝기 일치 보정</h3>
+<p>페이드만 적용하면 시야 경계에서 지형은 어두워지지만 남은 풀/잎 픽셀은 밝게 유지됐다. 지형·식생·수면이 공통 <code>PrototypeGroundBrightness</code>를 사용하도록 정리했다. 시야가 줄면 낮에는 지형과 같은 0.48 기준, 밤에는 0 기준으로 감쇠하며, 디더/알파 페이드는 별도로 유지한다. 기존 바이옴/꽃/잎의 고유 색은 유지하고 같은 밝기 비율을 적용한다.</p>
+<p>Unity에서 낮과 밤 각각 동일 위치의 시야를 줄이면서 두 페이드 옵션을 비교한다. 어두운 지형 위에 밝은 풀 점이 남지 않고 함께 어두워져야 한다. C# 빌드만 검증했으며 셰이더 임포트·화면 확인은 사용자 확인 대상이다.</p>
+<h3>우선 보정: 색 공간과 풀의 시야 기준점</h3>
+<ul>
+<li>프로토타입의 꽃/갈색·검정·흰 풀 끝 고정색을 Linear 프로젝트에서 sRGB→Linear 변환한 뒤 혼합하도록 수정했다. 이미 변환된 기본색이나 숲 변종의 상대 색 배율은 다시 변환하지 않는다. Gamma 프로젝트는 원래 값을 사용한다.</li>
+<li>풀의 시야·마을 조명 계산은 바람/빌보드 변위 이전 뿌리 위치를 사용한다. 디더 패턴은 실제 화면 픽셀을 계속 사용하고, 잎은 기존 기준을 유지한다.</li>
+<li>공유 Grass HLSL에 선택적 출력/고정색 변환 훅을 추가했다. Day01은 기존 기본 경로를 유지한다. 알파 블렌딩·깊이 기록·정렬·카드 밀도는 변경하지 않았다.</li>
+</ul>
+<p>프로토타입 C# 빌드 통과. 이 빌드는 HLSL 검증을 포함하지 않는다. Unity에서 F4→알파 페이드를 선택하고 낮/밤에 꽃과 풀 끝의 밝기, 시야 경계에서 바람에 따른 깜빡임을 비교한다. 고정색만 과하게 밝은 현상과 한 포기 안에서 시야값이 갈리던 현상이 줄어야 한다. 뿌리 위치와 화면 뒤 지형 위치는 원근/높이 때문에 여전히 다르며, 알파 중첩과 지형의 최종 무늬/영역 색 차이는 이번 보정으로 해결되지 않는다.</p>
+<h3>색 변환 include 오류 수정</h3>
+<p>사용자 Unity 임포트에서 <code>SRGBToLinear</code> 미선언 오류를 확인했다. PrototypeVegetationLighting이 색 변환 함수를 사용하면서 Color.hlsl을 직접 포함하지 않아 발생했다. 설치된 Core 패키지의 함수 선언을 확인하고 해당 헤더를 사용 전에 명시적으로 포함했다. C# 빌드로는 이 HLSL 오류를 검출할 수 없으며, 수정 후 Unity 재임포트 확인이 필요하다.</p>
+<h3>지형·풀·식물 장식의 기준색 통합</h3>
+<p>사용자 화면 비교에서 일반 풀이 여전히 검은 점처럼 보였다. 페이드 조정만으로 해결할 범위를 넘어, 지형과 풀의 서로 다른 최종 색 처리 및 어두운 변종을 함께 수정했다.</p>
+<ul>
+<li>프로토타입 육지 팔레트를 Day01TerrainVariants의 초원/흙/모래/눈/숲/바위 값으로 맞췄다. 수면 색은 기존 별도 셰이더가 담당한다.</li>
+<li>실제 맵으로 0.25m 간격 바이옴 색·지면 법선 텍스처를 한 번 생성한다. 색 텍스처는 sRGB, 법선 텍스처는 Linear로 설정하고 경계 텍셀 중심까지 좌표를 맞춘다. 기본 반경 45에서 각각 365×365 RGBA32이며 밉맵은 없다. 생성 후 CPU 복사본을 해제하고 종료 시 텍스처 해제/이전 전역값 복원을 수행한다.</li>
+<li>PrototypeGroundAppearance가 지형·풀·식물 장식의 공통 색 샘플, 명암, 영역 색과 약한 단계화를 담당한다. 지형의 별도 흙 노이즈/강한 단계화 대신 이 경로를 사용한다. 조명은 Day01의 연속 명암/약한 단계화 방식을 참고한 고정 방향광 표현이며, Day01 씬의 실제 광원/그림자를 복제한 것은 아니다.</li>
+<li>프로토타입 일반 풀은 뿌리 위치의 공통 최종 기준색을 그대로 사용한다. 검정/흰색/갈색 끝 색, 숲 끝 색 및 톤 변주는 색 출력에서 제외하고 형태 변주는 유지한다. 꽃잎만 색을 남긴다. Day01 기존 풀 출력은 그대로 보존한다.</li>
+<li>결합 장식 메시의 초록 식물 정점에 UV 마스크를 저장해 양치류/갈대/꽃 줄기를 같은 지면색에 연결한다. 돌·통나무·꽃잎은 원래 색을 유지한다. 원본 FBX 및 메타데이터는 수정하지 않는다.</li>
+</ul>
+<p>검증: Devlog 21개와 프로토타입 C# 빌드 통과. HLSL/실제 화면은 미검증이며 Unity 임포트 후 새 Play에서 확인해야 한다. 생성 시 만든 팔레트/텍스처/장식 마스크가 있으므로 기존 Play를 계속한 화면만으로 비교하지 않는다.</p>
+<p>확인 절차: 낮에 F4→알파 페이드로 일반 풀 군락과 주변 타일의 색이 연결되는지 확인하고, 시야를 이동시켜 검은 점 대비가 줄었는지 비교한다. 밤, 바이옴 경계, 건설/철거, 재시작을 확인한다. 꽃잎·돌·통나무의 고유 색은 남아야 한다. 디더 옵션도 정상이어야 한다. 같은 뿌리 좌표에서 지형과 풀의 기준색은 같지만 화면에서 풀 뒤에 비치는 다른 좌표의 지형, 알파 중첩, 꽃잎 대비까지 동일해지는 것은 아니다.</p>
+<h2>Day01 시야 방식의 프로토타입 적용</h2>
+<p>현재 시야는 <strong>Day01 단일 방식</strong>이다. 디더/알파 전환 코드, 재질의 비교용 속성, F4의 식생 시야 비교 그룹을 제거했다. 디버그 패널 크기와 입력 차단 영역도 남은 항목에 맞췄다.</p>
+<ul>
+<li>Day01/프로토타입이 <code>ShowcaseVision.hlsl</code>의 평면 원형 시야(경계 폭 0.65)와 낮/밤 밝기 감쇠 함수를 공유한다. 지형·수면은 시야 밖에서도 낮 0.48, 밤 0.15 밝기로 남는다.</li>
+<li>오브젝트는 같은 밝기 감쇠를 받은 뒤 시야 밖에서 clip된다. 기존 visibility 알파 곱은 기본 오브젝트 경로에서 제거했다. 풀/잎의 Day01 모드도 알파 중첩이나 디더 없이 같은 방식으로 처리한다. 기존 재질 고유 알파는 보존한다.</li>
+<li>마우스 잔상은 최대 32개, 0.06초/0.35 거리 생성 기준, 정지 시 최신 위치 갱신, 빠른 이동 최대 8점 보간을 적용한다. 기본 1.4초 중 처음 20%는 유지하고 나머지는 SmoothStep으로 사라진다. 실제 지속 시간은 기존 Settings.VisionTrailSeconds를 사용한다.</li>
+<li>모델 Visibility와 GPU 업로드가 VisionEcho.Strength의 같은 잔상 강도를 사용한다. 집·유닛·마우스의 기존 시야 반경과 시야 제공 규칙은 유지한다. 재시작/환생 시 기존 Echoes 초기화 경로를 따른다.</li>
+<li>풀/잎은 깊이 기록과 불투명 출력을 고정 사용하며 신규 나무에도 동일하게 적용한다. Day01 테스트 토글과 프로토타입의 항상 켜진 게임 시야는 서로 다른 전역 상태를 유지한다.</li>
+</ul>
+<p>검증: Devlog 21개와 프로토타입 C# 빌드 통과. 프로토타입 오류/경고 0개. 기존 기여 간격 변경은 유지했다. HLSL/Play 화면 검증은 실행하지 않았다.</p>
+<p>사용자 확인: 새 Play에서 F4에 시야 비교 버튼이 없는지 확인하고 마우스로 맵을 훑는다. 경로가 잠시 남았다가 오래된 곳부터 어두워지고 시야가 완전히 사라진 곳에는 지형/수면만 남아야 한다. 집/유닛 주변은 해당 시야가 유지되어야 한다. 밤·해안 수직면·신규 나무·재시작도 확인한다.</p>
+<p>공통 시야 HLSL 수정: 사용자 D3D11 컴파일 오류에서 <code>point</code> 예약어 충돌을 확인했다. ShowcaseVisionCircle 매개변수를 <code>positionXZ</code>로 변경했다. 공통 include를 사용하는 연기/지형/식생 모두에 반영되며, Unity 재임포트 확인은 필요하다.</p>
+</section><section id="doc-9" class="document"><div class="section-label">day-01/features.md</div><h1>기능 목록과 조작법</h1>
 <p>아래는 구현된 기능 목록이다. 이번 폴더/프리팹 변경 후의 시각·청취 검증 완료를 뜻하지 않는다.</p>
 <table>
 <thead>
@@ -728,7 +818,7 @@
 </tr>
 </tbody>
 </table>
-<p>씬을 단독으로 열고 Game 뷰에 포커스를 둔다. 자세한 과거 변경 배경은 <a href="#doc-22">누적 개발 기록</a>에 보존했다. 과거 기록의 경로와 이전 수치는 최신 구조보다 우선하지 않는다.</p>
+<p>씬을 단독으로 열고 Game 뷰에 포커스를 둔다. 자세한 과거 변경 배경은 <a href="#doc-23">누적 개발 기록</a>에 보존했다. 과거 기록의 경로와 이전 수치는 최신 구조보다 우선하지 않는다.</p>
 <p>After 모든 나무에 잎 스프라이트를 적용하며 기본은 랜덤 회전이다. G로 각 잎의 고정 랜덤 0~360도 회전을 전환한다. L은 잎 스프라이트 표시 여부를 바꾼다. 바닥 풀 회전 실험은 제거했고 기존 바람/호버 표현으로 복구했다.</p>
 <h2>폐허 중앙 수정 발광</h2>
 <p>After의 Ruins_Pivot에만 청록색 정점 팔레트 기반 HDR 발광을 적용한다. 발광 강도 3.5, 약한 주기 변화 ±4%. URP Bloom threshold 1.15, intensity 0.45, scatter 0.6. 전용 런타임 Volume과 HDR 픽셀 렌더 텍스처를 사용한다. 원래 메시/재질은 보존하고 종료 시 카메라와 PropertyBlock 상태를 복원한다. Bloom은 수정 주변의 화면상 빛 번짐이며 주변 돌을 비추는 실제 광원은 아니다.</p>
@@ -738,7 +828,21 @@
 <p>창문 추가 조정: 고정 크림색 대신 창문 정점색×재질 Tint의 색조를 사용하며 최대 HDR 채널 강도를 1.8→3.4로 높였다. 공용 Bloom 강도/범위와 수정 발광은 유지한다. 밤에만 적용하며 셰이더 GPU 확인 대기.</p>
 <h2>After 시작 프리셋</h2>
 <p>6번 After 진입 시 Pixels ON, 나뭇잎 ON·랜덤 회전, 낮, Dissolve, Rounded 해안, 풀 Sway, 피해 마크 ON을 적용한다. 이후 키/버튼으로 비교할 수 있으며 다른 단계에서 After로 돌아오면 기본 조합으로 복원한다. R은 현재 설정을 유지하고 촬영 상태만 초기화한다.</p>
-</section><section id="doc-9" class="document"><div class="section-label">architecture/modules.md</div><h1>모듈 안내</h1>
+<h2>마우스 시야 테스트</h2>
+<p>안내 패널의 <code>Mouse vision test</code> 또는 <code>V</code> 키로 전환한다. 기본 OFF이며 OFF에서는 기존 Day01 조명을 사용한다. ON에서는 마우스를 가리킨 지면을 중심으로 원형 시야를 적용하고, 집의 고정 시야를 제외한다. 반경은 기존 Inspector의 CursorVisionRadius(기본 3.2)를 사용한다.</p>
+<p>시야 밖에서는 지형/수면만 남기고 풀·잎·오브젝트·연기/먼지는 제거한다. 지형의 시야 밖 밝기는 낮 0.48, 밤 0.15로 유지한다. 일반 오브젝트의 깊이/그림자 패스에도 시야 제거를 적용한다. 맵/패널 밖으로 마우스를 빼거나 앱 포커스를 잃으면 마지막 시야가 0.8초에 걸쳐 사라지고, 다시 들어오면 0.15초에 켜진다. 이동 경로에는 최대 32개 시야 흔적을 남긴다. 기본 1.4초 동안 유지/감쇠하며 Inspector의 VisionTrailSeconds로 조절한다. 처음 20% 시간은 유지하고 이후 부드럽게 사라진다. 빠른 이동은 중간 위치를 보간하고, 정지 상태에서는 최신 흔적을 갱신한다. 조명 테스트이며 알파/디더 비교 기능은 추가하지 않았다.</p>
+<ol>
+<li>Day01 씬을 실행하고 4번(Life) 또는 6번(After)으로 이동한다.</li>
+<li>V를 눌러 켜고 마우스를 풀/꽃/장식 주변에서 움직인다. 마우스 중심 원형 시야가 따라야 한다.</li>
+<li>패널 위로 마우스를 옮긴다. 마지막 시야가 부드럽게 어두워질 때 풀·타일·장식 대비를 비교한다.</li>
+<li>6번 단계에서 N으로 밤을 켜 같은 절차를 반복한다.</li>
+<li>V를 끄면 기존 조명으로 복귀한다. F8 영상 모드에서는 테스트를 일시 해제하며, 영상 모드 종료 후 선택을 다시 적용한다. 단계 전환 시 마지막 마우스 시야는 초기화한다.</li>
+</ol>
+<p>Devlog 21개 C# 모듈 빌드 통과. Unity Play/HLSL 화면 검증은 미실행이다. 씬 재진입 시 중복 시야 오브젝트나 이전 테스트 전역값 잔류가 없어야 한다.</p>
+<p>시야 밖 표시 확인: V를 켜고 마우스를 패널 위에 둔 뒤 VisionTrailSeconds 이상 기다린다. 지형/수면은 남고 풀·나무·집·장식은 보이지 않아야 한다. 마우스를 맵으로 옮기면 시야 안 대상만 다시 보이고, V를 끄면 기존 표시로 돌아와야 한다. C# 빌드 통과, HLSL/Play 화면 확인 대기.</p>
+<p>잔상 확인: V를 켜고 마우스로 맵을 길게 훑은 뒤 패널로 이동한다. 지나간 경로가 잠시 밝게 남고 오래된 위치부터 어두워져야 한다. 최종적으로 지형/수면만 남고 오브젝트는 숨겨져야 한다. R 초기화·단계 전환·V OFF·영상 모드 진입 시 흔적을 비우며 씬 종료 시 셰이더 전역값을 복원한다. Devlog C# 빌드 통과, Unity/HLSL 화면 검증은 미실행이다.</p>
+<p>해안 단면 보정: BlockSoil/BlockSand/BlockRock은 <code>_Ground=0</code>인 측면 재질이어서 시야 밖에서 일반 오브젝트처럼 제거되고 있었다. 전용 <code>_VisionGround</code> 속성으로 지형 표시를 분리해 색/깊이/그림자 패스에서 단면을 유지한다. 재질 생성 경로에도 반영했다. Unity에서 V를 켜고 시야를 해안 밖으로 이동했을 때 윗면에서 수면으로 내려가는 단면이 남아 있어야 한다. C# 빌드와 별개로 실제 HLSL/화면 확인은 미실행이다.</p>
+</section><section id="doc-10" class="document"><div class="section-label">architecture/modules.md</div><h1>모듈 안내</h1>
 <h2>의존성 방향</h2>
 <p>Day01은 입력·카메라·촬영 UI와 모듈 조합을 담당한다. 공용 모듈은 Day01 어셈블리를 참조하지 않는다. 기존 MonoBehaviour 직렬화 참조를 보존하기 위해 일부 네임스페이스의 Day01 표기는 유지했다. 폴더명만으로 재사용 가능성을 판단하지 않고 asmdef 참조를 기준으로 본다.</p>
 <table>
@@ -863,13 +967,14 @@
 </tbody>
 </table>
 <h2>재사용 방법</h2>
+<p>프로토타입 식생은 <code>ShowcaseGrass.Map</code>에 바이옴/높이/색을 주입하고, <code>ShowcaseLeafCards</code>에 읽기 가능한 수관 데이터와 Shader/카드 상한/속성 변환을 주입한다. 풀·잎 HLSL은 출력/조명 훅을 제공한다. PrototypeVegetation이 모델 수명·풀 가림 마스크·색 변경 버전을 조립하며 Wind의 시간을 갱신한다. <a href="#doc-8">상세</a>.</p>
 <p>프로토타입 해안·수면은 Terrain의 순수 <code>CoastField</code> → TerrainView의 선택적 <code>CoastalTerrain</code> 설정으로 조립한다. WaterSurface는 물 판별 함수와 Shader·높이만 주입받으며 시야/입력을 소유하지 않는다. Day01과 프로토타입은 공유 수면 HLSL을 사용하고 각각 조명/출력 훅을 선택한다. <a href="#doc-7">상세</a>.</p>
 <p>클릭 대상은 IPickTarget을 구현한다. 눈이 필요한 대상은 ISnowTarget에서 Visual, HasSnow, SnowRemaining과 표면의 눈 표시 여부를 제공한다. ShowcasePickSurface는 MonoBehaviour 참조를 직렬화하고 인터페이스로 소비한다. 기존 Target 필드 이름은 FormerlySerializedAs로 호환한다.</p>
 <p>ShowcaseAudio는 부모 Transform과 ShowcaseAudioBank를 주입한다. Play에 나무 여부·파괴 여부·현재 시간을 전달하고, Reset은 순환 상태와 재생을 초기화한다. Dispose는 생성한 오디오 오브젝트를 정리한다. 나무 쓰러짐과 타격은 별도 채널이다.</p>
 <p>물 호버음은 Hover의 WaterRippleCreated 이벤트를 Day01에서 ShowcaseAudio.PlayWaterRipple에 연결한다. Day01은 기본 변형 5개를 주입하며 뱅크의 WaterRippleVariants 및 기존 단일 WaterRipple 설정을 지원한다. 독립 채널 3개, 0.25~0.40초 간격, 연속 이동 볼륨 55%, 피치 ±2%로 여운을 유지한다. Reset은 모든 채널·간격·직전 선택을 초기화하고 OnDisable에서 구독을 해제한다.</p>
 <p>DestructionProfile은 타격 횟수, 나무 넘어지는 시간/각도, 대기 시간, 바위 조각 수/굴림 시간, 제거 시간을 보관한다. 기존 장면과 동일한 기본값으로 생성한다. 프리팹별로 다른 프로파일을 사용할 수 있다.</p>
 <h2>수명과 초기화</h2>
-<p>환경음은 Day01이 AmbientAudio에 클립·풀 접촉 여부·낮/밤·활성 공간을 주입한다. Vegetation.HasGrassAt은 실제 생성된 After 풀의 위치와 폭으로 지면 접촉 영역을 확인한다. Day01은 유효한 지면 선택과 실제 마우스 이동을 함께 요구한다. 풀 접촉음은 선택한 2·3·4번 발췌본을 직전 반복 없이 랜덤 재생한다. 정지 시 추가 재생만 막고 여운은 보존하며, 공간 이탈은 0.12초 페이드한다. 바람 재생은 제거했다. 새 울음은 기존 2초 공간 페이드와 밤 억제를 유지한다. R은 두 채널과 타이머를 초기화한다. Dispose는 모든 채널과 재생 요청 구독을 해제한다. <a href="#doc-20">설정과 확인 절차</a>.</p>
+<p>환경음은 Day01이 AmbientAudio에 클립·풀 접촉 여부·낮/밤·활성 공간을 주입한다. Vegetation.HasGrassAt은 실제 생성된 After 풀의 위치와 폭으로 지면 접촉 영역을 확인한다. Day01은 유효한 지면 선택과 실제 마우스 이동을 함께 요구한다. 풀 접촉음은 선택한 2·3·4번 발췌본을 직전 반복 없이 랜덤 재생한다. 정지 시 추가 재생만 막고 여운은 보존하며, 공간 이탈은 0.12초 페이드한다. 바람 재생은 제거했다. 새 울음은 기존 2초 공간 페이드와 밤 억제를 유지한다. R은 두 채널과 타이머를 초기화한다. Dispose는 모든 채널과 재생 요청 구독을 해제한다. <a href="#doc-21">설정과 확인 절차</a>.</p>
 <p>Picking 데이터는 원본 Mesh별로 최초 접근 시 생성하며 파일로 저장하지 않는다. Surface가 사용을 등록하고 마지막 사용자 파괴 시 해제한다. 비활성 풀 객체는 재사용을 위해 유지하고 씬 언로드 시 파괴된 사용자를 정리한다. 플레이 진입/종료와 어셈블리 리로드에서 캐시를 초기화한다. 외부 주입된 눈/변형 지형의 데이터는 해당 모듈이 해제한다. 원본 모델은 Read/Write가 필요하다. <a href="records/runtime-picking.md">전환 기록</a>.</p>
 <p>Day01Showcase의 OnEnable에서 모듈을 구성하고 OnDisable에서 Dispose/복원을 호출한다. 생성한 메시·재질·파티클의 해제 책임은 생성 모듈에 있다. R과 공간 전환은 타깃/흔적/효과의 촬영 상태를 초기화한다. 셰이더 전역값과 전용 렌더 파이프라인은 종료 시 복원한다.</p>
 <h2>현재 일반화의 범위</h2>
@@ -883,7 +988,8 @@
 <p>촬영 입력은 Day01FilmDirector에서 받고 Cinematics에 IFilmStageView를 주입한다. 기본 쇼케이스는 유지하고 F8로 명시적으로 시작한다. Dispose는 자막 캔버스·카메라 상태·쇼케이스 모드를 복원한다. 픽셀 프레임은 Overlay RawImage로 합성하여 TMP 자막 아래에 표시한다. <a href="#doc-3">연출 시간표와 조작</a>.</p>
 <h2>연속 지형 높이장</h2>
 <p>Terrain의 ShowcaseTerrainField가 맵 전체 좌표의 gradient Perlin과 실제 0.25m 삼각형 표면 높이를 제공한다. ShowcaseTileVariants.Height는 이 필드로 위임하고 기존 높이는 LegacyHeight로 이관 시에만 사용한다. Day01ContinuousTerrainSetup은 3~6단계를 같은 좌표별 메시로 갱신하고 경계 높이를 확인한다. Vegetation과 타깃 지면 조회도 같은 표면 보간을 사용한다. 쇼케이스 공간 이동 오프셋은 제외하여 전후 비교 구도를 유지한다. <a href="#doc-4">상세 기록</a>.</p>
-</section><section id="doc-10" class="document"><div class="section-label">architecture/assets.md</div><h1>에셋과 프리팹</h1>
+<p>프로토타입 지면 색은 PrototypeGroundAppearance HLSL과 런타임 색/법선 텍스처를 지형·풀·식물 장식이 공유한다. TerrainSurface는 원본 맵의 색/높이를 제공하고, 프로토타입 어댑터가 텍스처 생성·소유·전역값 복원을 담당한다. Grass 출력 훅은 Day01과 프로토타입 표현을 분리한다.</p>
+</section><section id="doc-11" class="document"><div class="section-label">architecture/assets.md</div><h1>에셋과 프리팹</h1>
 <h2>원본 → 임포트 → 장면</h2>
 <table>
 <thead>
@@ -989,7 +1095,7 @@
 <h2>설정</h2>
 <p>ShowcaseAudioBank.asset에서 실제 음원과 볼륨을 바꾼다. Day01Destruction.asset에서 파괴 수치를 바꾼다. HitChip은 파편의 원형이다. 변경한 에셋이 여러 프리팹에서 공유되면 모든 소비자에 반영되므로 에피소드별 차이는 복제한 설정 에셋으로 연결한다.</p>
 <p>Resources에는 사용 중인 음원 4개를 두는 구조다. 이전 후보의 Audio/Archive 이동은 후속 정리 코드가 다음 에디터 임포트에 수행한다. 실제 공개용 크레딧 지침은 <a href="../docs/audio-credits.md">audio-credits</a>다.</p>
-</section><section id="doc-11" class="document"><div class="section-label">architecture/organization.md</div><h1>Devlog 구조 개편 계약</h1>
+</section><section id="doc-12" class="document"><div class="section-label">architecture/organization.md</div><h1>Devlog 구조 개편 계약</h1>
 <h2>이번 작업 목록</h2>
 <ul>
 <li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>공용 모듈과 Day01 구성 코드 분리</li>
@@ -1058,7 +1164,7 @@
 <li>local-backups/: 기존 복구용 백업. 활성 리소스와 구분한다.</li>
 </ul>
 <p><a href="records/resource-layout.md">이동 및 검증 기록</a>.</p>
-</section><section id="doc-12" class="document"><div class="section-label">records/validation.md</div><h1>검증 기록과 확인 절차</h1>
+</section><section id="doc-13" class="document"><div class="section-label">records/validation.md</div><h1>검증 기록과 확인 절차</h1>
 <h2>자동 확인</h2>
 <p>프로젝트 루트에서 <code>python devlog/tools/build_modules.py</code>를 실행한다. asmdef 의존 순서로 검증용 csproj를 만들고 <code>dotnet build --no-restore</code>를 실행한다. 결과는 build-report.json, 개별 출력은 build-logs에 저장한다. Unity 실행과 Test Runner는 호출하지 않는다.</p>
 <p>에셋 이동/프리팹 저장은 열린 Unity 에디터의 AssetDatabase와 PrefabUtility로 수행한다. unity-organization.json의 status=complete와 실제 파일을 함께 확인한다. 이 작업은 Play 검증이 아니다. GUID는 Unity가 이동한 메타데이터에서 읽어 보존 여부를 확인하며 .meta를 수작업 수정하지 않는다.</p>
@@ -1085,7 +1191,7 @@
 <h2>Refresh 이후 최종 확인</h2>
 <p>프리팹 30개 실파일, 설정 에셋, 씬 저장 완료 보고서를 확인했다. Devlog 직렬화 에셋 305개의 외부 GUID 참조를 Assets 및 설치된 PackageCache와 대조해 미해결 참조 0개를 확인했다. 이 검사는 GUID 대상의 존재 확인이며 개별 fileID/런타임 동작을 보장하지 않는다. 12개 어셈블리 빌드를 다시 통과했다.</p>
 <p>이전 음원 후보의 Archive 이동은 배치 경로 갱신 지연으로 누락되어, 다음 에디터 임포트에 재확인하는 후속 정리 코드를 추가했다. 현재 사용 음원 설정과 프리팹 생성에는 영향이 없다.</p>
-</section><section id="doc-13" class="document"><div class="section-label">records/hover-feedback.md</div><h1>타일 호버 피드백 반영</h1>
+</section><section id="doc-14" class="document"><div class="section-label">records/hover-feedback.md</div><h1>타일 호버 피드백 반영</h1>
 <h2>작업 목록</h2>
 <ul>
 <li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>풀의 방사형 기울기와 흔들림 축소</li>
@@ -1125,7 +1231,7 @@
 <h2>먼지 크기·투명도 추가 조정</h2>
 <p>크기 0.09~0.18 → 0.135~0.27(1.5배), 시작 알파 0.45→0.30으로 낮춰 더 투명하게 했다. 수명/색/이동 중 방출은 유지한다.</p>
 <p>먼지 크기를 현재 값의 2배인 0.27~0.54로 확대했다. 시작 알파 0.30 및 기존 방출 조건은 유지한다.</p>
-</section><section id="doc-14" class="document"><div class="section-label">records/leaf-card-comparison.md</div><h1>나무 한 그루 잎 카드 비교</h1>
+</section><section id="doc-15" class="document"><div class="section-label">records/leaf-card-comparison.md</div><h1>나무 한 그루 잎 카드 비교</h1>
 <h2>구현</h2>
 <p>After 공간에서 눈이 없는 첫 나무 한 그루에만 적용한다. 기본은 기존 메시+스프라이트, L 키로 기존 메시만 보기와 전환한다. 화면에 대상 이름, Console에 생성 카드 수를 표시한다.</p>
 <p>새 원본 이미지를 만들지 않고 Grass2 PNG의 알파 형태를 비교용 잎 카드로 재사용한다. 표면의 초록색 정점색으로 줄기와 수관을 구분하고 월드 삼각형 면적에 비례해 고정 시드로 분포시킨다. 면적당 약 65개, 한 그루 최대 700개다. 표면색은 무게중심 보간으로 받는다. 크기·회전·바람 위상은 개별적으로 달라진다.</p>
@@ -1157,7 +1263,7 @@
 <p>사용자 요청대로 직전 카드 픽셀 높이 제한과 법선 범위 축소를 되돌렸다. 대신 원본 임포트 법선과 삼각형 외적으로 계산한 방향을 대조해 면 방향을 보정한다. 이 표면 법선으로 초기 하향면에 붙은 잎은 눈 노출 0으로 유지한다. 눈 덮개 선택에도 동일한 방향 보정을 적용한다. 표시한 아랫면에 해당하는지 화면 검증은 대기이며, 쓰러진 뒤 현재 월드 방향으로 적설을 다시 계산하지 않는다.</p>
 <h2>윗면 전체 적설 복원</h2>
 <p>사용자 요청으로 최근 추가한 수직 가림 검사와 연속 노출도 감쇠를 적설 생성에서 제거했다. 눈 덮개는 기존 위쪽 면 선택과 0.085 두께를 유지한다. 잎 카드는 초기 표면 법선 y&gt;0.05이면 노출 1, 그 외는 0으로 저장한다. 소나무 윗면 카드는 다시 완전 흰색이며 타격 침식은 유지한다. 아랫면 제외와 호버/플래시/랜덤 회전은 유지한다. 화면 검증 대기.</p>
-</section><section id="doc-15" class="document"><div class="section-label">records/abandoned-altar-v2.md</div><h1>버려진 제단 모델 교체</h1>
+</section><section id="doc-16" class="document"><div class="section-label">records/abandoned-altar-v2.md</div><h1>버려진 제단 모델 교체</h1>
 <h2>기존 소품 추가 작업</h2>
 <ul>
 <li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>기존 에셋 목록과 모델 카탈로그 확인: SwordTool 선택</li>
@@ -1243,7 +1349,7 @@
 <h2>검증 상태</h2>
 <p>2026-09-20: 12개 Devlog 모듈의 <code>dotnet build --no-restore</code> 통과. Blender 6방향 렌더를 생성했고 정면·상면·사선에서 형태를 확인했다. Unity 실제 임포트에서 축/단위, 정점색, 1,338개 삼각형을 확인하고 프리팹 및 씬 저장이 완료됐다. <a href="records/altar-v2-unity.json">Unity 저장 결과</a>, <a href="../res/art-source/world/abandoned-altar-v2/manifest.json">모델 제작 수치</a>.</p>
 <p>Unity Play/GPU 화면 검증은 실행하지 않았다. 실제 플레이 화면의 미적 체감과 클릭 피드백은 위 절차로 사용자 확인이 남아 있다.</p>
-</section><section id="doc-16" class="document"><div class="section-label">records/visual-rhythm.md</div><h1>화면 밀도와 타격 타이밍 보완</h1>
+</section><section id="doc-17" class="document"><div class="section-label">records/visual-rhythm.md</div><h1>화면 밀도와 타격 타이밍 보완</h1>
 <h2>작업 목록</h2>
 <ul>
 <li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>해안 중심 거품과 물 중앙 여백</li>
@@ -1321,7 +1427,7 @@
 <li>나무와 바위에 타격 시 실제 날이 표면에 도착할 때 소리·플래시·파편이 시작하고, 짧은 접촉 유지 후 회수되는지 확인한다.</li>
 <li>눈 나무와 파괴 타격, R 초기화 및 1/2/3 공간 전환의 기존 동작을 확인한다.</li>
 </ol>
-</section><section id="doc-17" class="document"><div class="section-label">records/ground-wind-night.md</div><h1>접지·바람·밤 장면 보완</h1>
+</section><section id="doc-18" class="document"><div class="section-label">records/ground-wind-night.md</div><h1>접지·바람·밤 장면 보완</h1>
 <h2>후속 피드백 작업</h2>
 <ul>
 <li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>시야 밖을 게임 의도에 맞게 다시 어둡게 조정</li>
@@ -1391,7 +1497,7 @@
 <p>13개 독립 Devlog 모듈의 dotnet build --no-restore 통과. 실제 Play/Shader GPU 검증은 실행하지 않았다. 에디터 배치 저장은 <code>ground-contact-unity.json</code>으로 확인한다.</p>
 <p>2026-09-20 에디터 저장 확인: 접점 장식 28개, 집·제단 기단 2곳 보정. <a href="records/ground-contact-unity.json">저장 결과</a>. GroundContactDetails 프리팹과 연결된 After 씬 저장 완료.</p>
 <p>사용자 확인: Refresh 후 Play → 3번 After. 집·제단 기단이 뜨지 않는지, 나무/바위 밑 장식이 길을 막지 않는지 확인한다. 풀·잎·연기를 15초 정도 관찰하면 같은 방향으로 바람이 지나가야 한다. N으로 밤을 켜 창문과 수정이 먼저 보이면서 집 시야 반경과 밖의 실루엣이 유지되는지 확인한다. R 초기화와 1/2/3 전환 후에도 동작해야 한다.</p>
-</section><section id="doc-18" class="document"><div class="section-label">records/leaf-dissolve.md</div><h1>수관과 나뭇잎 디졸브 동기화</h1>
+</section><section id="doc-19" class="document"><div class="section-label">records/leaf-dissolve.md</div><h1>수관과 나뭇잎 디졸브 동기화</h1>
 <h2>작업 목록</h2>
 <ul>
 <li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>원인 확인: 잎 셰이더에 제거 마스크가 없었음</li>
@@ -1403,7 +1509,7 @@
 <p>기존에는 원본 렌더러가 완전히 꺼질 때까지 잎이 남았다. 이제 ShowcaseDissolve.hlsl의 공통 판정 함수를 표면 셰이더와 잎 셰이더가 함께 사용한다. 잎은 꼭짓점 단계에서 부착점 판정값을 계산해 픽셀마다 3D 노이즈를 다시 계산하지 않는다. 원본 PropertyBlock의 진행도와 초기화 값을 계속 복사하며, 별도 블록 설정이 없으면 원본 재질의 노이즈 스케일도 상속한다. Sink 모드에서는 잎도 같은 바닥 높이로 잘린다.</p>
 <h2>사용자 확인</h2>
 <p>Play를 멈추고 Refresh 후 다시 Play → 3번 After → Dissolve + reset 선택 → 나무를 쓰러뜨린다. 녹색 잎과 눈 덮인 잎 모두 수관이 사라진 자리에 남지 않아야 한다. R을 누르면 잎이 전부 복원되고, G/L 전환과 바람도 유지되어야 한다. Unity Play/GPU 검증은 실행하지 않았으며 C# 빌드는 셰이더 화면 검증을 대신하지 않는다.</p>
-</section><section id="doc-19" class="document"><div class="section-label">records/damage-marks.md</div><h1>타격 자국 비교</h1>
+</section><section id="doc-20" class="document"><div class="section-label">records/damage-marks.md</div><h1>타격 자국 비교</h1>
 <h2>작업 목록</h2>
 <ul>
 <li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>고정 크기 자국 이력과 표면 좌표 연결</li>
@@ -1427,7 +1533,7 @@
 <p>DamageMarks.Core는 Unity 참조 없는 순수 C# 이력 모델이다. DamageMarks 런타임 어댑터가 좌표 변환·고정 길이 PropertyBlock 배열을 담당하며 Day01은 접촉 이벤트와 표시 토글만 연결한다. 셰이더는 조명과 눈 합성 전에 자국 색을 적용한다.</p>
 <p>15개 모듈 dotnet build --no-restore 통과. Unity Play/GPU 화면 검증은 실행하지 않았다. 이번 단계는 표면 표현 비교용이며 실제 패임, 파괴 조각의 균열 방향 정렬, 목질색 파편의 단계별 혼합은 포함하지 않는다.</p>
 <p>사용자 Refresh 이후 Unity의 DamageMarks Core/Runtime 및 표면 셰이더 임포트 로그를 확인했다. 마지막 Day01 빌드 오류 0개, 기존 참조 비교 경고(CS0252) 1개. 표면 셰이더의 혼합 줄바꿈 경고도 LF로 통일했다.</p>
-</section><section id="doc-20" class="document"><div class="section-label">records/nature-ambience.md</div><h1>풀 접촉음·간헐적 새 소리</h1>
+</section><section id="doc-21" class="document"><div class="section-label">records/nature-ambience.md</div><h1>풀 접촉음·간헐적 새 소리</h1>
 <ul>
 <li>작업일: 2026-09-20</li>
 <li>변경 전: After에서 바람과 풀 소리가 상시 반복됐다.</li>
@@ -1459,7 +1565,7 @@
 <li>N으로 밤 전환: 새 울음이 사라지되 풀 접촉음은 작동해야 한다.</li>
 <li>1/2번 공간 전환·R 초기화·Play 종료/재진입: 풀 소리가 남거나 중복되지 않아야 한다. 기존 타격/물 효과음도 확인한다.</li>
 </ol>
-</section><section id="doc-21" class="document"><div class="section-label">records/organization-change.md</div><h1>2026-09-19 구조 개편 기록</h1>
+</section><section id="doc-22" class="document"><div class="section-label">records/organization-change.md</div><h1>2026-09-19 구조 개편 기록</h1>
 <h2>변경 전</h2>
 <p>대부분의 표현 코드·셰이더·음원은 Day01 아래에 있었다. 일부 기능별 asmdef는 존재했지만 클릭과 눈은 구체적인 ShowcaseTarget과 결합돼 있었다. 음원 선택은 런타임 코드에 직접 들어 있었고 긴 README 하나에 개발 변경 내역이 쌓여 있었다.</p>
 <h2>변경 후</h2>
@@ -1470,7 +1576,7 @@
 <p>초기 에셋 이동에서 배치 중 새 폴더 등록 지연과 AssetDatabase 경로 조회 지연을 확인했다. 목적지 폴더를 먼저 등록하고 실제 이동된 .meta의 GUID를 읽어 비교하도록 수정했다. 중간 이동 상태에서도 다시 실행할 수 있으며, 이미 이동한 소스는 건너뛴다. 이 기록은 최종 성공 보고서를 대신하지 않는다.</p>
 <h2>검증 범위</h2>
 <p>관련 C# 모듈 빌드와 실제 Unity 생성 보고서를 별도로 보관한다. Play/GPU/청취 검증은 실행하지 않았다. HTML 로컬 파일의 브라우저 열기는 도구 URL 보안 정책으로 거부되어 브라우저 시각 검증을 수행하지 못했다. 우회 실행하지 않고 파일/링크 구조를 확인한다.</p>
-</section><section id="doc-22" class="document"><div class="section-label">records/day-01-history.md</div><h1>Devlog 1일차 — 3D 픽셀 숲 쇼케이스</h1>
+</section><section id="doc-23" class="document"><div class="section-label">records/day-01-history.md</div><h1>Devlog 1일차 — 3D 픽셀 숲 쇼케이스</h1>
 <p>독립 씬: <code>Assets/Devlog/Day01/Scenes/Devlog_Day01.unity</code></p>
 <p>기존 프로토타입에는 전후 비교 전용 공간이 없었다. 이 씬은 같은 배치의 평평한 작은 맵 세 개를 만들고, 기존 FBX를 재사용해 기본 도형 → 모델 배치 → 픽셀 표현과 타격 반응을 보여준다. 새 모델은 제작하지 않았다.</p>
 <h2>공간</h2>
@@ -1751,17 +1857,17 @@
 <p>흙먼지는 이동 없이 호버해도 0.1초마다 2개씩 소량 생성하며 입자는 약 0.65초 지속된다. 물은 커서 이동 또는 약 0.32초 간격으로 위치를 기록하고 그 위치에서 동심원을 확장한다. 수면 색/불투명도를 변화시키는 물결이며 수면 높이를 변형하지 않는다. 암석은 효과 없음. 자원/집/장식이 지형을 가리면 뒤 지형의 효과를 발생시키지 않는다.</p>
 <p>최근 위치는 고정 크기 32개 기록을 재사용하므로 매우 빠르고 긴 이동에서는 가장 오래된 흔적부터 교체된다. UI 영역/게임 밖에서는 새 효과를 멈춘다. R, 단계 전환, 풀 모드 전환은 흔적과 먼지를 지운다. 해안 모드 전환은 변형 메시와 클릭 데이터를 안전하게 복구/재연결한다. 종료 시 생성 메시/재질/텍스처/파티클과 셰이더 전역 상태를 정리한다.</p>
 <p>직접 확인: Play 중지 → Assets &gt; Refresh → 컴파일 완료 → Play → 3번 키. 두 Grass 버튼을 번갈아 눌러 초원과 숲을 쓸어보고, 흙의 먼지/모래·눈의 홈과 복원/물의 확장하는 원을 확인한다. 물결이 커서를 따라 끌려가지 않고 지난 위치에 남는지, 홈 위 클릭 파편 위치, R 복구, 해안 세 모드와 조합했을 때 틈이 없는지도 확인한다. C# 빌드는 성공했지만 Unity 실행 및 GPU 셰이더 컴파일/화면 검증은 수행하지 않았다.</p>
-</section><section id="doc-23" class="document"><div class="section-label">README.md</div><h1>Devlog 제작 관리</h1>
+</section><section id="doc-24" class="document"><div class="section-label">README.md</div><h1>Devlog 제작 관리</h1>
 <p>게임의 매력을 짧은 영상으로 보여주고 관심 있는 사람들을 모으는 것이 목표다. Day01은 같은 작은 맵이 기본 도형에서 3D 픽셀 환경으로 바뀌는 과정과 직접 만지는 반응을 보여준다.</p>
 <p><a href="index.html">관리 화면</a>을 열면 목표, 진행 현황, 기능, 모듈, 촬영 계획을 한 페이지에서 볼 수 있다. 내용 원본은 이 폴더의 Markdown이며 HTML은 생성 결과다.</p>
 <h2>읽는 순서</h2>
 <ol>
 <li><a href="#doc-0">현재 상태</a>: 완료와 미검증, 다음 작업</li>
 <li><a href="#doc-1">Day01 목표와 촬영</a>: 확정 범위와 다음 단계 제안</li>
-<li><a href="#doc-8">기능 목록</a>: 지금 구현한 표현과 조작법</li>
-<li><a href="#doc-9">모듈 안내</a>: 책임, 의존성, 재사용 방법</li>
-<li><a href="#doc-10">에셋과 프리팹</a>: 편집 위치와 리소스 흐름</li>
-<li><a href="#doc-12">검증 방법</a>: 빌드 증거와 사용자 확인 항목</li>
+<li><a href="#doc-9">기능 목록</a>: 지금 구현한 표현과 조작법</li>
+<li><a href="#doc-10">모듈 안내</a>: 책임, 의존성, 재사용 방법</li>
+<li><a href="#doc-11">에셋과 프리팹</a>: 편집 위치와 리소스 흐름</li>
+<li><a href="#doc-13">검증 방법</a>: 빌드 증거와 사용자 확인 항목</li>
 </ol>
 <h2>갱신 방법</h2>
 <p>프로젝트 루트에서 <code>python devlog/tools/render_dashboard.py</code>를 실행한다. 변경한 기능 문서와 status.md를 먼저 고치고 HTML을 다시 만든다. HTML에서 직접 편집한 내용은 다음 생성 때 보존되지 않는다.</p>
