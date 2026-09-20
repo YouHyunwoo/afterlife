@@ -326,7 +326,8 @@ namespace Afterlife.Prototype
 
         private void Sync()
         {
-            foreach(int id in _objects.Keys.ToArray())if(_model.Find(id)==null&&!ReactionAlive(id)){_resourceSurfaces.Remove(id);RemoveTreeLeaves(id);Destroy(_objects[id]);_objects.Remove(id);_renderCache.Remove(id);_lightCache.Remove(id);_modelPositions.Remove(id);_displayPositions.Remove(id);_weapons.Remove(id);_animals.Remove(id);_worldRigs.Remove(id);_connectionMasks.Remove(id);}
+            PrepareResourceDestruction();
+            foreach(int id in _objects.Keys.ToArray())if(_model.Find(id)==null&&!ReactionAlive(id)){RemoveResourceDestruction(id);_resourceSurfaces.Remove(id);RemoveTreeLeaves(id);Destroy(_objects[id]);_objects.Remove(id);_renderCache.Remove(id);_lightCache.Remove(id);_modelPositions.Remove(id);_displayPositions.Remove(id);_weapons.Remove(id);_animals.Remove(id);_worldRigs.Remove(id);_connectionMasks.Remove(id);}
             foreach(var b in _model.Bodies)
             {
                 if(!b.Alive)continue;

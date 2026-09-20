@@ -64,11 +64,12 @@ namespace Afterlife.Devlog.Destruction
         private bool _removing;
         public bool Completed { get; private set; }
         private readonly DestructionProfile _profile;
+        private readonly Func<MeshFilter,bool> _fragmentSource;
 
         public ShowcaseDestruction(Transform visual,Renderer[] renderers,bool wood,DisappearMode mode,
-            Func<Vector3,float> ground,Vector3 away,DestructionProfile profile=null)
+            Func<Vector3,float> ground,Vector3 away,DestructionProfile profile=null,Func<MeshFilter,bool> fragmentSource=null)
         {
-            _visual=visual; _renderers=renderers; _wood=wood; _mode=mode; _ground=ground; _start=visual.position; _profile=profile;
+            _visual=visual; _renderers=renderers; _wood=wood; _mode=mode; _ground=ground; _start=visual.position; _profile=profile; _fragmentSource=fragmentSource;
             if (!wood) SpawnFragments(away);
         }
 
@@ -76,7 +77,7 @@ namespace Afterlife.Devlog.Destruction
         {
             MeshFilter source=null;
             foreach (var filter in _visual.GetComponentsInChildren<MeshFilter>())
-                if (filter.name!="SnowCap" && filter.sharedMesh!=null &&
+                if (filter.name!="SnowCap" && filter.sharedMesh!=null && (_fragmentSource==null || _fragmentSource(filter)) &&
                     (source==null || filter.sharedMesh.bounds.size.sqrMagnitude>source.sharedMesh.bounds.size.sqrMagnitude)) source=filter;
             if (source==null) return;
             var sourceRenderer=source.GetComponent<Renderer>();
@@ -102,7 +103,10 @@ namespace Afterlife.Devlog.Destruction
                 model.position-=model.TransformVector(source.sharedMesh.bounds.center);
                 model.gameObject.AddComponent<MeshFilter>().sharedMesh=source.sharedMesh;
                 var renderer=model.gameObject.AddComponent<MeshRenderer>(); renderer.sharedMaterials=sourceRenderer.sharedMaterials;
-                _properties.Clear();
+                sourceRenderer.GetPropertyBlock(_properties);
+                _properties.SetFloat("_Flash",0);
+                _properties.SetInt("_DamageMarkCountV1",0);
+                _properties.SetFloat("_Dissolve",0);
                 _properties.SetFloat("_DissolveScale",dissolveScale);
                 renderer.SetPropertyBlock(_properties);
                 float radius=Mathf.Max(.06f,renderer.bounds.extents.y);

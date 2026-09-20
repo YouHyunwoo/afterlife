@@ -145,7 +145,7 @@ namespace Afterlife.Prototype
             ResetGoldFeedback();
             if(_model.BannerUnlocked){PlayerPrefs.SetInt("AfterlifePrototype.Unlock.TealBanner.v1",1);PlayerPrefs.Save();}
         }
-        private bool ReactionAlive(int id)=>_reactions.TryGetValue(id,out var reaction)&&_effectTime-reaction.Time<(reaction.Kind==Kind.Chest?1.4f:(reaction.Kind==Kind.Tree||reaction.Kind==Kind.Rock)?1.25f:.38f);
+        private bool ReactionAlive(int id)=>_resourceDestructions.TryGetValue(id,out var destruction)?!destruction.Effect.Completed:_reactions.TryGetValue(id,out var reaction)&&_effectTime-reaction.Time<(reaction.Kind==Kind.Chest?1.4f:(reaction.Kind==Kind.Tree||reaction.Kind==Kind.Rock)?1.25f:.38f);
         private void UpdatePresentation()
         {
             if(_modal!=Modal.Menu)_effectTime+=Time.deltaTime;
@@ -175,6 +175,7 @@ namespace Afterlife.Prototype
             _expiredReactions.Clear();
             foreach(var pair in _reactions)
             {
+                if(_resourceDestructions.ContainsKey(pair.Key))continue;
                 float age=_effectTime-pair.Value.Time,t=Mathf.Clamp01(age/(pair.Value.Kind==Kind.Chest?1.4f:.38f));
                 bool resource=pair.Value.Kind==Kind.Tree || pair.Value.Kind==Kind.Rock;
                 bool chest=pair.Value.Kind==Kind.Chest;
@@ -218,11 +219,11 @@ namespace Afterlife.Prototype
                 }
             }
             foreach(int id in _expiredReactions)_reactions.Remove(id);
-            UpdateContentEffects();UpdateGrowthEffects();UpdateVegetation();UpdateHover();UpdateResourceMarks();
+            UpdateResourceDestruction();UpdateContentEffects();UpdateGrowthEffects();UpdateVegetation();UpdateHover();UpdateResourceMarks();
         }
         private void ResetPresentation()
         {
-            ResetImpactChips();_pendingManualId=0;_model.CancelManualWork();ResetResourceSurfaces();ResetHover();ResetVegetation();ResetGoldFeedback();ResetContentEffects();ResetGrowthEffects();_reactions.Clear();foreach(var tool in _tools){tool.Body=0;tool.Root.SetActive(false);}
+            ResetResourceDestruction();ResetImpactChips();_pendingManualId=0;_model.CancelManualWork();ResetResourceSurfaces();ResetHover();ResetVegetation();ResetGoldFeedback();ResetContentEffects();ResetGrowthEffects();_reactions.Clear();foreach(var tool in _tools){tool.Body=0;tool.Root.SetActive(false);}
             _renderCache.Clear();_lightCache.Clear();_modelPositions.Clear();_displayPositions.Clear();_fogTerritoryRevision=-1;
         }
         private void UploadTerrainTiles()
@@ -234,6 +235,6 @@ namespace Afterlife.Prototype
             _terrainTiles.SetPixels32(pixels);_terrainTiles.Apply(false,true);
             Shader.SetGlobalTexture("_TerrainTiles",_terrainTiles);Shader.SetGlobalFloat("_TerrainSize",map.Size);Shader.SetGlobalFloat("_TerrainRadius",map.Radius);
         }
-        private void DisposePresentation(){ResetImpactChips();_impactPool?.Dispose();_impactPool=null;ResetResourceSurfaces();DisposeHover();DisposeVegetation();DisposeContent();if(_terrainTiles!=null)Destroy(_terrainTiles);Shader.SetGlobalVector("_CursorCircle",Vector4.zero);Shader.SetGlobalInt("_VisionCount",0);}
+        private void DisposePresentation(){ResetResourceDestruction();ResetImpactChips();_impactPool?.Dispose();_impactPool=null;ResetResourceSurfaces();DisposeHover();DisposeVegetation();DisposeContent();if(_terrainTiles!=null)Destroy(_terrainTiles);Shader.SetGlobalVector("_CursorCircle",Vector4.zero);Shader.SetGlobalInt("_VisionCount",0);}
     }
 }
