@@ -195,7 +195,12 @@ namespace Afterlife.Prototype
                     for(int hi=0;hi<hitCount;hi++)
                     {
                         var hit=_pickHits[hi];var pick=hit.collider.GetComponentInParent<PrototypePick>();var body=pick!=null?_model.Find(pick.Id):null;
-                        if(body!=null&&hit.distance<nearest&&_model.Visibility(body.Position)>.12f){_hovered=body.Id;nearest=hit.distance;}
+                        if(body!=null&&_model.Visibility(body.Position)>.12f)
+                        {
+                            float distance=hit.distance;
+                            if(_resourceSurfaces.ContainsKey(body.Id) && !TryResourceSurface(body.Id,ray,out _,out distance))continue;
+                            if(distance<nearest){_hovered=body.Id;nearest=distance;}
+                        }
                     }
                     if(mouse.leftButton.wasPressedThisFrame)
                     {
@@ -244,6 +249,7 @@ namespace Afterlife.Prototype
             }
             if(_pressBody==0){_model.ClearMode();_inspected=0;OpenTileBuildMenu(screen);return;}
             var body=_model.Find(_pressBody);_inspected=_pressBody;
+            if(body!=null && _model.CanManualWork(body.Id)){BeginManualWork(body);return;}
             if(body!=null&&body.Friendly){_model.Select(new[]{body.Id});return;}
             _model.Select(System.Array.Empty<int>());
             if(body==null||!body.Complete||body.MovingOut)return;
@@ -320,11 +326,11 @@ namespace Afterlife.Prototype
 
         private void Sync()
         {
-            foreach(int id in _objects.Keys.ToArray())if(_model.Find(id)==null&&!ReactionAlive(id)){RemoveTreeLeaves(id);Destroy(_objects[id]);_objects.Remove(id);_renderCache.Remove(id);_lightCache.Remove(id);_modelPositions.Remove(id);_displayPositions.Remove(id);_weapons.Remove(id);_animals.Remove(id);_worldRigs.Remove(id);_connectionMasks.Remove(id);}
+            foreach(int id in _objects.Keys.ToArray())if(_model.Find(id)==null&&!ReactionAlive(id)){_resourceSurfaces.Remove(id);RemoveTreeLeaves(id);Destroy(_objects[id]);_objects.Remove(id);_renderCache.Remove(id);_lightCache.Remove(id);_modelPositions.Remove(id);_displayPositions.Remove(id);_weapons.Remove(id);_animals.Remove(id);_worldRigs.Remove(id);_connectionMasks.Remove(id);}
             foreach(var b in _model.Bodies)
             {
                 if(!b.Alive)continue;
-                if(!_objects.TryGetValue(b.Id,out var go)){go=CreateBody(b);_objects.Add(b.Id,go);_renderCache[b.Id]=go.GetComponentsInChildren<Renderer>();_lightCache[b.Id]=go.GetComponentInChildren<Light>();_weapons[b.Id]=go.GetComponent<PrototypeWeapon>();_animals[b.Id]=go.GetComponent<PrototypeAnimalRig>();AttachTreeLeaves(b,_renderCache[b.Id]);}
+                if(!_objects.TryGetValue(b.Id,out var go)){go=CreateBody(b);_objects.Add(b.Id,go);_renderCache[b.Id]=go.GetComponentsInChildren<Renderer>();_lightCache[b.Id]=go.GetComponentInChildren<Light>();_weapons[b.Id]=go.GetComponent<PrototypeWeapon>();_animals[b.Id]=go.GetComponent<PrototypeAnimalRig>();AttachResourceSurfaces(b,_renderCache[b.Id]);AttachTreeLeaves(b,_renderCache[b.Id]);}
                 Vector3 targetPosition=V(b.Position);
                 if(!_modelPositions.TryGetValue(b.Id,out var previous))previous=targetPosition;
                 Vector3 movement=targetPosition-previous;_modelPositions[b.Id]=targetPosition;

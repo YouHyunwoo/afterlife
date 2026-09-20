@@ -24,7 +24,7 @@ namespace Afterlife.Prototype
         private float _simulationTime;
         private int _hovered, _inspected, _screenWidth, _screenHeight;
         private Point _pointer;
-        private string _notice = "마우스를 자원 근처에 두세요. 2초마다 자동으로 기여합니다.";
+        private string _notice = "대상을 클릭해 작업하세요. 커서 자동화 강화 후에는 마우스만 올려도 작업합니다.";
         private readonly Color _cream = new Color(.93f,.88f,.72f);
         private readonly Color _cyan = new Color(.34f,.96f,.85f);
         private readonly Color _gold = new Color(1,.78f,.25f);
@@ -87,7 +87,7 @@ namespace Afterlife.Prototype
             return go;
         }
         private void Tint(Renderer renderer,Color color)
-        { NotifyVegetationTint(renderer,color);_block.Clear(); _block.SetColor("_BaseColor",color); if(renderer is LineRenderer)_block.SetFloat("_Overlay",1); renderer.SetPropertyBlock(_block); }
+        { NotifyVegetationTint(renderer,color);renderer.GetPropertyBlock(_block); _block.SetColor("_BaseColor",color); if(renderer is LineRenderer)_block.SetFloat("_Overlay",1); renderer.SetPropertyBlock(_block); }
         private GameObject CreateBody(Body body)
         {
             var root=new GameObject(body.Kind + "." + body.Id); root.transform.SetParent(transform,false);

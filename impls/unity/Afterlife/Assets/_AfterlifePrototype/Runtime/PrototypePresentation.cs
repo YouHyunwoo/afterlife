@@ -13,15 +13,54 @@ namespace Afterlife.Prototype
             public int Body;
             public float Impact=-100;
             public float Angle;
-            public Vector3 AxeEdge=new Vector3(.30f,.48f,0);
+            public int SwingVariant;
+            public bool ContactPending;
+            public Transform ImpactPoint;
+            public Quaternion SwingBasis;
+            public Vector3 Approach;
+            public Vector3 ClickAway;
+            public Vector3 SwordGrip=new Vector3(0,.075f,0),SwordBlade=new Vector3(0,.60f,0);
             public bool Used;
+            public Afterlife.Devlog.Day01.ShowcasePickSurface HitSurface;
+            public Vector3 HitPosition,HitNormal,ManualLocalPoint,ManualLocalNormal;
+            public Afterlife.Devlog.Day01.ShowcasePickSurface ManualSurface;
         }
-        private sealed class Reaction { public bool Damage; public float Time; public Kind Kind; public Vector3 Position; }
+        private sealed class Reaction { public bool Damage; public float Time; public Kind Kind; public Vector3 Position, Away; public Quaternion Rotation; }
         private readonly List<ToolEffect> _tools=new List<ToolEffect>();
         private readonly Dictionary<int,Reaction> _reactions=new Dictionary<int,Reaction>();
         private readonly List<int> _expiredReactions=new List<int>();
         private Texture2D _terrainTiles;
         private float _effectTime;
+        private int _pendingManualId;
+        private float _manualStart;
+        private void BeginManualWork(Body body)
+        {
+            if(_pendingManualId!=0 || !_model.TryBeginManualWork(body.Id))return;
+            _pendingManualId=body.Id;_manualStart=_effectTime;
+            var tool=GetTool(body);
+            var mouse=UnityEngine.InputSystem.Mouse.current;
+            if(mouse!=null)
+            {
+                Vector2 screen=mouse.position.ReadValue();
+                var ray=_camera.ViewportPointToRay(new Vector3(screen.x/Screen.width,screen.y/Screen.height,0));
+                if(TryResourceSurface(body.Id,ray,out var surface,out float distance))
+                {
+                    tool.ManualSurface=surface;
+                    tool.ManualLocalPoint=surface.transform.InverseTransformPoint(ray.GetPoint(distance));
+                    tool.ManualLocalNormal=surface.transform.localToWorldMatrix.transpose.MultiplyVector(surface.HitNormal).normalized;
+                }
+            }
+        }
+        private void UpdateManualWork()
+        {
+            if(_pendingManualId==0)return;
+            if(_modal!=Modal.None || !Application.isFocused){_model.CancelManualWork();_pendingManualId=0;return;}
+            var body=_model.Find(_pendingManualId);
+            if(body==null || !_model.CanManualWork(body.Id)){_model.CancelManualWork();_pendingManualId=0;return;}
+            float age=_effectTime-_manualStart;
+            if(age>=.12f){int id=_pendingManualId;_pendingManualId=0;_model.ManualWork(id);return;}
+            var tool=GetTool(body);tool.Used=true;PoseTool(tool,body.Position,age/.12f);
+        }
 
         private void InitializePresentation()
         {
@@ -40,7 +79,7 @@ namespace Afterlife.Prototype
                 effect.Root.transform.SetParent(transform,false);var pivot=new GameObject("Swing pivot");pivot.transform.SetParent(effect.Root.transform,false);effect.Pivot=pivot.transform;
                 var brown=new Color(.48f,.28f,.13f);var metal=new Color(.77f,.82f,.83f);
                 string artTool=b.Kind==Kind.Tree?"AxeTool":b.Kind==Kind.Rock?"PickTool":b.Kind==Kind.Treasure||b.Kind==Kind.Chest?"HandTool":b.Hostile||b.Kind==Kind.Animal?"SwordTool":"HammerTool";
-                if(BuildWorldConnection(effect.Pivot,artTool,Vector3.forward)) { }
+                if(BuildResourceTool(effect,artTool)) { }
                 else if(b.Kind==Kind.Treasure||b.Kind==Kind.Chest)
                 {
                     Part(effect.Pivot,"Palm",PrimitiveType.Cube,Vector3.zero,new Vector3(.23f,.1f,.2f),new Color(.93f,.72f,.52f),false);
@@ -68,74 +107,37 @@ namespace Afterlife.Prototype
                     }
                     else Part(effect.Pivot,"Hammer head",PrimitiveType.Cube,new Vector3(0,.5f,0),new Vector3(.34f,.22f,.22f),metal,false);
                 }
-                if(b.Kind==Kind.Tree)
-                {
-                    // FBX는 날/손잡이가 한 메시로 병합된다. 렌더러 이름 대신 실제 메시 경계를 변환한다.
-                    var min=new Vector3(float.MaxValue,float.MaxValue,float.MaxValue);var max=-min;bool found=false;
-                    foreach(var filter in effect.Pivot.GetComponentsInChildren<MeshFilter>())
-                    {
-                        if(filter.sharedMesh==null)continue;var bounds=filter.sharedMesh.bounds;
-                        for(int corner=0;corner<8;corner++)
-                        {
-                            var local=bounds.center+Vector3.Scale(bounds.extents,new Vector3((corner&1)==0?-1:1,(corner&2)==0?-1:1,(corner&4)==0?-1:1));
-                            var point=effect.Pivot.InverseTransformPoint(filter.transform.TransformPoint(local));
-                            min=Vector3.Min(min,point);max=Vector3.Max(max,point);found=true;
-                        }
-                    }
-                    if(found){float tip=Mathf.Abs(min.x)>Mathf.Abs(max.x)?min.x:max.x;effect.AxeEdge=new Vector3(tip*.96f,min.y+(max.y-min.y)*.77f,(min.z+max.z)*.5f);}
-                }
                 _tools.Add(effect);
             }
-            effect.Body=b.Id;effect.Angle=UnityEngine.Random.Range(0,360);effect.Impact=-100;effect.Root.SetActive(true);return effect;
+            effect.SwingVariant=UnityEngine.Random.Range(0,3);
+            effect.ClickAway=b.Kind==Kind.Chest?ChestClickAway(b):Vector3.zero;
+            effect.ManualSurface=null;
+            effect.SwingBasis=_camera.transform.rotation;
+            effect.Approach=_camera.transform.right*.45f+_camera.transform.up*.55f-_camera.transform.forward*.25f;
+            effect.Body=b.Id;effect.Angle=_camera.transform.eulerAngles.y;effect.Impact=-100;effect.Root.SetActive(true);return effect;
         }
         private void PoseTool(ToolEffect tool,Point point,float swing)
         {
-            // 모든 도구 모델은 손잡이 아래끝이 원점이다. 이 grip은 휘두르는 동안 고정된다.
-            // 타격 때 날의 로컬 접촉점이 대상 표면에 정확히 도달하도록 grip 위치를 역산한다.
-            Quaternion facing=Quaternion.Euler(0,tool.Angle,0);
-            Quaternion impact,pose;Vector3 edge;float height;
-            float motion=swing<=1?Mathf.SmoothStep(0,1,swing):swing;
-            if(tool.Kind==Kind.Tree)
-            {
-                Quaternion horizontal=Quaternion.Euler(90,0,0);
-                // FBX 전방 보정 후 날이 -X에 있을 수도 있다. 실제 날이 진행 방향을 향하도록 부호를 맞춘다.
-                float bladeSide=tool.AxeEdge.x>=0?1:-1;
-                impact=Quaternion.AngleAxis(25*bladeSide,Vector3.up)*horizontal;
-                pose=Quaternion.AngleAxis(Mathf.LerpUnclamped(-80,25,motion)*bladeSide,Vector3.up)*horizontal;
-                edge=tool.AxeEdge;height=.62f;
-            }
-            else if((tool.Kind==Kind.Treasure||tool.Kind==Kind.Chest))
-            {
-                tool.Root.transform.position=GroundPosition(point,.34f);tool.Root.transform.rotation=facing;
-                tool.Pivot.localRotation=Quaternion.Euler(Mathf.Lerp(-65,10,Mathf.Clamp01(swing)),0,0);
-                tool.Pivot.localScale=new Vector3(1,1,Mathf.Lerp(1,.45f,Mathf.Clamp01(swing)));return;
-            }
-            else
-            {
-                // +X 날 방향으로 내려벤다. X축 회전(칼의 평면 밖 회전)을 사용하지 않는다.
-                impact=Quaternion.AngleAxis(-115,Vector3.forward);
-                pose=Quaternion.AngleAxis(Mathf.LerpUnclamped(-10,-115,motion),Vector3.forward);
-                edge=(VillageModel.IsHostile(tool.Kind)||tool.Kind==Kind.Animal)?new Vector3(.055f,.82f,0):tool.Kind==Kind.Rock?new Vector3(.265f,.40f,0):new Vector3(.17f,.48f,0);
-                height=tool.Kind==Kind.Rock?.42f:(VillageModel.IsHostile(tool.Kind)||tool.Kind==Kind.Animal)?.3f:.85f;
-            }
-            Vector3 strikeOffset=facing*(impact*edge);
-            Vector3 approach=new Vector3(strikeOffset.x,0,strikeOffset.z).normalized;
-            float surface=tool.Kind==Kind.Tree?.10f:tool.Kind==Kind.Rock?.25f:(VillageModel.IsHostile(tool.Kind)||tool.Kind==Kind.Animal)?.24f:.42f;
-            Vector3 contact=GroundPosition(point,height)-approach*surface;
-            tool.Root.transform.rotation=facing;
-            tool.Root.transform.position=contact-facing*(impact*edge);
-            tool.Pivot.localPosition=Vector3.zero;tool.Pivot.localScale=Vector3.one;tool.Pivot.localRotation=pose;
+            PoseResourceTool(tool,point,Mathf.Clamp01(swing)*.12f);
         }
 
         private void OnContributed(Body body)
         {
             // 모델의 자원/체력 변경 이벤트와 타격 포즈를 같은 틱에 적용한다.
-            var tool=GetTool(body);tool.Impact=_effectTime;tool.Used=true;PoseTool(tool,body.Position,1);
-            _reactions[body.Id]=new Reaction{Time=_effectTime,Kind=body.Kind,Position=GroundPosition(body.Position)};
+            var tool=GetTool(body);tool.Impact=_effectTime;tool.ContactPending=true;tool.Used=true;PoseTool(tool,body.Position,1);AddResourceMark(tool);EmitImpactChips(tool);
+            Quaternion rest=_reactions.TryGetValue(body.Id,out var previousReaction)?previousReaction.Rotation:
+                (_objects.TryGetValue(body.Id,out var target)?target.transform.rotation:Quaternion.identity);
+            Vector3 away=Vector3.ProjectOnPlane(GroundPosition(body.Position)-tool.HitPosition,Vector3.up).normalized;
+            if(away.sqrMagnitude<.001f)away=Vector3.ProjectOnPlane(-tool.HitNormal,Vector3.up).normalized;
+            if(body.Kind==Kind.Chest)away=tool.ClickAway;
+            if(away.sqrMagnitude<.001f)away=Vector3.forward;
+            _reactions[body.Id]=new Reaction{Damage=body.Hostile||body.Kind==Kind.Animal,Time=_effectTime,Kind=body.Kind,Position=GroundPosition(body.Position),Away=away,Rotation=rest};
         }
         private void OnDamaged(Body body)
         {
-            _reactions[body.Id]=new Reaction{Damage=true,Time=_effectTime,Kind=body.Kind,Position=GroundPosition(body.Position)};
+            if(_reactions.TryGetValue(body.Id,out var reaction) && Mathf.Approximately(reaction.Time,_effectTime))
+            {reaction.Damage=true;return;}
+            _reactions[body.Id]=new Reaction{Damage=true,Time=_effectTime,Kind=body.Kind,Position=GroundPosition(body.Position),Away=-_camera.transform.forward,Rotation=Quaternion.identity};
         }
         private void OnRunEnded()
         {
@@ -143,7 +145,7 @@ namespace Afterlife.Prototype
             ResetGoldFeedback();
             if(_model.BannerUnlocked){PlayerPrefs.SetInt("AfterlifePrototype.Unlock.TealBanner.v1",1);PlayerPrefs.Save();}
         }
-        private bool ReactionAlive(int id)=>_reactions.TryGetValue(id,out var reaction)&&_effectTime-reaction.Time<(reaction.Kind==Kind.Chest?1.4f:.38f);
+        private bool ReactionAlive(int id)=>_reactions.TryGetValue(id,out var reaction)&&_effectTime-reaction.Time<(reaction.Kind==Kind.Chest?1.4f:(reaction.Kind==Kind.Tree||reaction.Kind==Kind.Rock)?1.25f:.38f);
         private void UpdatePresentation()
         {
             if(_modal!=Modal.Menu)_effectTime+=Time.deltaTime;
@@ -151,40 +153,76 @@ namespace Afterlife.Prototype
             Shader.SetGlobalColor("_CursorColor",_cyan);
             Vector3 forward=_camera.transform.forward;Shader.SetGlobalFloat("_CursorAngle",Mathf.Atan2(forward.x,forward.z));
             foreach(var tool in _tools)tool.Used=false;
+            UpdateManualWork();
             float until=_model.Interval*(1-_model.PulseFraction);
-            if(_model.Working&&until<.32f)
+            if(_model.CursorAutomationUnlocked&&_model.Working&&until<.12f)
             foreach(var body in _model.Bodies)if(CanContribute(body)&&body.DistanceTo(_model.WorkCenter)<=_model.Radius)
             {
-                var tool=GetTool(body);tool.Used=true;PoseTool(tool,body.Position,Mathf.Clamp01(1-until/.32f));
+                var tool=GetTool(body);tool.Used=true;PoseTool(tool,body.Position,Mathf.Clamp01(1-until/.12f));
             }
             foreach(var tool in _tools)
             {
+                if(tool.ContactPending){tool.Impact=_effectTime;tool.ContactPending=false;}
                 float age=_effectTime-tool.Impact;
-                if(age<.22f&&tool.Body!=0){tool.Used=true;var body=_model.Find(tool.Body);if(body!=null)PoseTool(tool,body.Position,1+Mathf.Clamp01((age-.035f)/.185f)*.16f);}
+                if(age<.165f&&tool.Body!=0)
+                {
+                    tool.Used=true;var body=_model.Find(tool.Body);
+                    PoseResourceTool(tool,body!=null?body.Position:new Point(tool.HitPosition.x,tool.HitPosition.z),.12f+Mathf.Max(0,age));
+                }
                 if(!tool.Used){tool.Body=0;tool.Root.SetActive(false);}
             }
+            UpdateImpactChips();
             _expiredReactions.Clear();
             foreach(var pair in _reactions)
             {
                 float age=_effectTime-pair.Value.Time,t=Mathf.Clamp01(age/(pair.Value.Kind==Kind.Chest?1.4f:.38f));
-                if(t>=1){_expiredReactions.Add(pair.Key);continue;}
+                bool resource=pair.Value.Kind==Kind.Tree || pair.Value.Kind==Kind.Rock;
+                bool chest=pair.Value.Kind==Kind.Chest;
+                if(resource)t=Mathf.Clamp01(age/1.25f);
+                if(t>=1)
+                {
+                    if((resource||chest) && _objects.TryGetValue(pair.Key,out var restored))
+                    {restored.transform.rotation=pair.Value.Rotation;ResourceFlash(pair.Key,0);}
+                    ResourceFlash(pair.Key,0);
+                    _expiredReactions.Add(pair.Key);continue;
+                }
                 if(!_objects.TryGetValue(pair.Key,out var go))continue;
                 var reaction=pair.Value;var body=_model.Find(pair.Key);
                 if(body==null){foreach(var collider in go.GetComponentsInChildren<Collider>())collider.enabled=false;go.transform.position=reaction.Position;}
-                if(reaction.Kind==Kind.Chest&&body==null)
-                {OpenWorldChest(go,age);}
+                ResourceFlash(pair.Key,resource||chest||reaction.Damage?Afterlife.Devlog.Destruction.ShowcaseImpactTiming.Flash(age):0);
+                if(resource)
+                {
+                    bool wood=reaction.Kind==Kind.Tree;
+                    float recoil=Afterlife.Devlog.Destruction.ShowcaseImpactTiming.Recoil(age,wood);
+                    go.transform.position+=reaction.Away*(wood?.04f:.085f)*recoil;
+                    go.transform.rotation=Quaternion.AngleAxis(recoil*(wood?9:4),Vector3.Cross(Vector3.up,reaction.Away))*reaction.Rotation;
+                    ResourceFlash(pair.Key,Afterlife.Devlog.Destruction.ShowcaseImpactTiming.Flash(age));
+                }
+                else if(chest)
+                {
+                    // 처음부터 클릭 반대쪽으로 밀린 뒤 원위치까지만 복귀한다.
+                    float recoil=Mathf.SmoothStep(0,1,age/.045f)*(1-Mathf.SmoothStep(0,1,(age-.045f)/.22f));
+                    go.transform.position+=reaction.Away*.14f*recoil;
+                    go.transform.rotation=Quaternion.AngleAxis(recoil*6,Vector3.Cross(Vector3.up,reaction.Away))*reaction.Rotation;
+                    if(body==null)OpenWorldChest(go,age);
+                }
                 else if(reaction.Kind==Kind.Treasure)
                 {go.transform.position=reaction.Position+Vector3.up*Mathf.Sin(t*Mathf.PI)*.45f;go.transform.localScale=Vector3.one*(1-t);}
                 else if(VillageModel.IsBuildingKind(reaction.Kind)&&!reaction.Damage)
                 {float bounce=Mathf.Sin(t*Mathf.PI*2)*(1-t)*.13f;go.transform.localScale=Vector3.Scale(go.transform.localScale,new Vector3(1-bounce*.5f,1+bounce,1-bounce*.5f));}
-                else go.transform.position+=new Vector3(Mathf.Sin(t*35),0,Mathf.Cos(t*29))*(1-t)*.065f;
+                else
+                {
+                    Vector3 away=Vector3.ProjectOnPlane(reaction.Away,Vector3.up).normalized;
+                    go.transform.position+=away*Afterlife.Devlog.Destruction.ShowcaseImpactTiming.Recoil(age,false)*.07f;
+                    if(!reaction.Damage)go.transform.localScale*=1+Mathf.Sin(t*Mathf.PI)*.045f;
+                }
             }
             foreach(int id in _expiredReactions)_reactions.Remove(id);
-            UpdateContentEffects();UpdateGrowthEffects();UpdateVegetation();UpdateHover();
+            UpdateContentEffects();UpdateGrowthEffects();UpdateVegetation();UpdateHover();UpdateResourceMarks();
         }
         private void ResetPresentation()
         {
-            ResetHover();ResetVegetation();ResetGoldFeedback();ResetContentEffects();ResetGrowthEffects();_reactions.Clear();foreach(var tool in _tools){tool.Body=0;tool.Root.SetActive(false);}
+            ResetImpactChips();_pendingManualId=0;_model.CancelManualWork();ResetResourceSurfaces();ResetHover();ResetVegetation();ResetGoldFeedback();ResetContentEffects();ResetGrowthEffects();_reactions.Clear();foreach(var tool in _tools){tool.Body=0;tool.Root.SetActive(false);}
             _renderCache.Clear();_lightCache.Clear();_modelPositions.Clear();_displayPositions.Clear();_fogTerritoryRevision=-1;
         }
         private void UploadTerrainTiles()
@@ -196,6 +234,6 @@ namespace Afterlife.Prototype
             _terrainTiles.SetPixels32(pixels);_terrainTiles.Apply(false,true);
             Shader.SetGlobalTexture("_TerrainTiles",_terrainTiles);Shader.SetGlobalFloat("_TerrainSize",map.Size);Shader.SetGlobalFloat("_TerrainRadius",map.Radius);
         }
-        private void DisposePresentation(){DisposeHover();DisposeVegetation();DisposeContent();if(_terrainTiles!=null)Destroy(_terrainTiles);Shader.SetGlobalVector("_CursorCircle",Vector4.zero);Shader.SetGlobalInt("_VisionCount",0);}
+        private void DisposePresentation(){ResetImpactChips();_impactPool?.Dispose();_impactPool=null;ResetResourceSurfaces();DisposeHover();DisposeVegetation();DisposeContent();if(_terrainTiles!=null)Destroy(_terrainTiles);Shader.SetGlobalVector("_CursorCircle",Vector4.zero);Shader.SetGlobalInt("_VisionCount",0);}
     }
 }

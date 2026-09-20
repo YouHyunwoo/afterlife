@@ -1,6 +1,6 @@
 Shader "Afterlife/Prototype/PixelSurface"
 {
-    Properties { _BaseColor("Color", Color) = (1,1,1,1) _Ground("Ground", Float) = 0 _TerrainRelief("Continuous biome terrain", Float) = 0 _Overlay("Overlay", Float) = 0 _Grass("Grass", Float) = 0 _FoliageWind("Tree foliage wind",Float)=0 _GroundDecoration("Ground-linked decoration",Float)=0 _VertexPalette("Blender vertex colours", Float) = 0 _SrcBlend("Source blend", Float) = 5 _DstBlend("Destination blend", Float) = 10 _ZWrite("Depth write", Float) = 0 }
+    Properties { _BaseColor("Color", Color) = (1,1,1,1) _Ground("Ground", Float) = 0 _TerrainRelief("Continuous biome terrain", Float) = 0 _Overlay("Overlay", Float) = 0 _Grass("Grass", Float) = 0 _FoliageWind("Tree foliage wind",Float)=0 _GroundDecoration("Ground-linked decoration",Float)=0 _Flash("Hit flash",Float)=0 _VertexPalette("Blender vertex colours", Float) = 0 _SrcBlend("Source blend", Float) = 5 _DstBlend("Destination blend", Float) = 10 _ZWrite("Depth write", Float) = 0 }
     SubShader
     {
         Tags { "RenderPipeline"="UniversalPipeline" "RenderType"="Transparent" "Queue"="Transparent" }
@@ -23,8 +23,14 @@ Shader "Afterlife/Prototype/PixelSurface"
             struct Varyings { float4 positionCS : SV_POSITION; float3 normalWS : TEXCOORD0; float3 world : TEXCOORD1; half4 color : COLOR; float ground : TEXCOORD3; };
             CBUFFER_START(UnityPerMaterial)
             half4 _BaseColor;
+            float _Flash;
             float _Ground, _TerrainRelief, _Overlay, _Grass, _VertexPalette, _FoliageWind, _GroundDecoration;
             CBUFFER_END
+            int _DamageMarkCountV1;
+            float _DamageWood;
+            float4 _DamageMarksV1[8],_DamageNormalsV1[8];
+            float4x4 _DamageWorldToLocal;
+            #include "Assets/Devlog/Modules/DamageMarks/Shaders/ShowcaseDamageMarks.hlsl"
             float _PrototypeNight;
             float4 _VisionSources[128], _VillageLamps[32];
             int _VisionCount, _LampCount;
@@ -96,6 +102,8 @@ Shader "Afterlife/Prototype/PixelSurface"
                 bool linkedGround=(_Ground>.5 && _TerrainRelief>.5 && input.color.a>=0 && input.color.a<.5 && input.normalWS.y>.5)
                     || (_GroundDecoration>.5 && input.ground>.5);
                 half3 baseColor=_BaseColor.rgb*input.color.rgb;
+                if(_DamageMarkCountV1>0)baseColor=DamageSurface(baseColor,mul(_DamageWorldToLocal,float4(input.world,1)).xyz);
+                baseColor=lerp(baseColor,half3(1,.94,.78),saturate(_Flash));
                 if(_Ground>.5 && !linkedGround)
                 {
                     float2 p=input.world.xz;
