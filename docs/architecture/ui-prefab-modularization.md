@@ -21,7 +21,7 @@
 
 `UpgradeTreeScreen`은 Assets 내 C# 검색에서 외부 호출처를 발견하지 못했고, 해당 `.cs.meta`도 없다. 생성 코드의 존재는 확인했지만 현재 씬에 연결된 기능이라고 보지는 않는다.
 
-분석 방법: 프로젝트 자체 코드의 `new GameObject`, `AddComponent`, `Instantiate`, `OnGUI`, 커스텀 UI 메시 생성 검색, 호출부·씬·프리팹·asmdef 대조. 외부 에셋 패키지는 전환 대상에서 제외했다. Graphify는 Prototype Runtime 47개 코드 파일만 AST 추출했다(722 노드, 1,820 엣지, 의미 추출 없음). 그래프는 관계 탐색 보조로 사용하고 구체적인 동작은 소스로 재확인했다. 분석 캐시는 Unity 프로젝트의 `Workspace/UIAudit/graphify-out`에 있다. 이 수치는 전체 프로젝트 그래프 수치가 아니다. Graphify 의미 추출 LLM 토큰 비용은 0이며 대화 분석 토큰은 포함하지 않는다.
+분석 방법: 프로젝트 자체 코드의 `new GameObject`, `AddComponent`, `Instantiate`, `OnGUI`, 커스텀 UI 메시 생성 검색, 호출부·씬·프리팹·asmdef 대조. 외부 에셋 패키지는 전환 대상에서 제외했다. Graphify는 Prototype Runtime 47개 코드 파일만 AST 추출했다(722 노드, 1,820 엣지, 의미 추출 없음). 그래프는 관계 탐색 보조로 사용하고 구체적인 동작은 소스로 재확인했다. 분석 캐시는 저장소 루트의 `res/analysis/ui-audit/graphify-out`에 있다. 이 수치는 전체 프로젝트 그래프 수치가 아니다. Graphify 의미 추출 LLM 토큰 비용은 0이며 대화 분석 토큰은 포함하지 않는다.
 
 ## 2. 동적으로 작성되는 UI 목록
 
