@@ -153,9 +153,9 @@ MonoBehaviour:
       - Cost: 275
         Value: 0.5
     - Id: R8
-      Title: "\uC791\uC5C5 \uB3D9\uC120 \uCD5C\uC801\uD654"
+      Title: "커서 자동화"
       Icon: {fileID: 21300000, guid: b688820f4e1633f4791c91149fc826f1, type: 3}
-      Description: "커서의 작업 간격이 줄어 더 자주 작업합니다."
+      Description: "첫 단계부터 모든 커서 작업을 호버로 자동 실행합니다. 이후 단계는 작업 간격을 줄입니다."
       Grid: {x: 2, y: 4}
       Parents:
       - R2

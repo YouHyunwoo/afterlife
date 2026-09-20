@@ -144,6 +144,7 @@ namespace Afterlife.Prototype
         public float Efficiency=>1+.09f*Math.Max(0,Population-1)*(1+Effect("education"));
         public float Radius=>Settings.CursorRadius*(1+.04f*Math.Max(0,Population-1))*(1+Effect("radius"));
         public float Interval=>Math.Max(.75f,Settings.PulseSeconds*(float)Math.Pow(.84,PulseLevel)*Math.Max(.1f,1-Effect("interval")))/DebugCursorSpeedMultiplier;
+        public bool CursorAutomationUnlocked=>PulseLevel>0 || Effect("interval")>0;
         public float PulseFraction=>_pulseClock/Interval;
         public float AutoBuildMultiplier=>Settings.AutoConstruction*(1+.5f*ConstructionLevel)*MemoryWorkMultiplier*(ActiveShrine?1.25f:1);
         public int ResidentsPerHouse=>1+ResidentLevel+(int)Effect("housing");
@@ -185,6 +186,7 @@ namespace Afterlife.Prototype
         }
         private void ResetAttempt()
         {
+            ResetManualWork();
             SoundReset?.Invoke();
             ResetProgression();ResetCombatGrowth();ResetExploration();Bodies.Clear();Projectiles.Clear();_obstaclesDirty=true;_nextShotId=0;Territory.Clear();Selected.Clear();Echoes.Clear();_nextId=0;_random=new Random(7919);
             Money=0;_goldRemainder=0;Population=0;Working=PointerVisible=false;Mode=InputMode.Work;
@@ -196,7 +198,7 @@ namespace Afterlife.Prototype
             AddResource(Kind.Tree,3,2);AddResource(Kind.Tree,4,2);AddResource(Kind.Rock,-4,3);
             SeedDiscoveries();SeedBiomes();
             for(int i=0;i<55;i++)SpawnNature(i%6==0?Kind.Treasure:i%5==0?Kind.Animal:i%3==0?Kind.Rock:Kind.Tree,6);
-            InitializeResourceLimits();Recalculate();TopologyRevision++;Say("마우스가 2초마다 주변에 기여합니다. 낮에 준비하고 밤의 침공을 막으세요.");
+            InitializeResourceLimits();Recalculate();TopologyRevision++;Say("초반에는 대상을 클릭해 작업합니다. 연구 R8 커서 자동화로 호버 작업을 해금하세요.");
         }
         private Body Add(Kind k,Point p,float hp)
         {var b=new Body{Id=++_nextId,Kind=k,Position=p,Rally=p,Destination=p,Health=hp,MaxHealth=hp};Bodies.Add(b);if(!b.Unit)_obstaclesDirty=true;return b;}
@@ -305,9 +307,10 @@ namespace Afterlife.Prototype
         public void Tick(float dt)
         {
             if(Frozen||dt<=0)return;dt=Math.Min(dt,.05f);
+            if(_manualWorkElapsed<float.MaxValue)_manualWorkElapsed+=dt;
             _combatTime+=dt;TickProgression(dt);_pathBudget=3; UpdateEchoes(dt);ProcessConstruction(dt);
             _pulseClock+=dt;
-            while(_pulseClock>=Interval){_pulseClock-=Interval;if(Working){Pulse();PulseCount++;}}
+            while(_pulseClock>=Interval){_pulseClock-=Interval;if(Working&&CursorAutomationUnlocked){Pulse();PulseCount++;}}
             ProcessProduction(dt);UpdateTactics(dt);ProcessUnits(dt);ProcessTowers(dt);ProcessProjectiles(dt);ProcessBurns(dt);ProcessExploration(dt);ProcessResourceRegrowth(dt*ProductionSpeed);Cleanup();
             if(!Bodies.Any(b=>b.Alive&&b.Kind==Kind.House)){End(Phase.Defeat);return;}
             Remaining=Math.Max(0,Remaining-dt);
@@ -329,7 +332,7 @@ namespace Afterlife.Prototype
         {
             LastResult=new RunResult{Victory=p==Phase.Victory,BestCleared=RunBestCleared,Rebirths=RebirthCount,Kills=RunKills};
             if(RunBestCleared>=2)BannerUnlocked=true;
-            ClearRunProgress();ResetProgression();ResetCombatGrowth();ResetExploration(); Money=0;_goldRemainder=0;PulseLevel=ResidentLevel=ConstructionLevel=CriticalChanceLevel=CriticalPowerLevel=0;
+            ResetManualWork();ClearRunProgress();ResetProgression();ResetCombatGrowth();ResetExploration(); Money=0;_goldRemainder=0;PulseLevel=ResidentLevel=ConstructionLevel=CriticalChanceLevel=CriticalPowerLevel=0;
             Valuables=LastValuables=LastSettlement=0;Bodies.Clear();Projectiles.Clear();_obstaclesDirty=true;Territory.Clear();TerritoryRevision++;Selected.Clear();Echoes.Clear();Population=Capacity=0;
             Phase=p;Working=PointerVisible=false;Mode=InputMode.Work;Remaining=0;Wave=1;SegmentCleared=SegmentKills=0;
             Say(p==Phase.Victory?$"{Settings.Days}번의 밤을 지켰습니다. 판 종료 · 영구 해금만 유지됩니다.":"마지막 집이 파괴되었습니다. 판 종료 · 영구 해금만 유지됩니다.");
