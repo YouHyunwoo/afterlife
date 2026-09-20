@@ -28,7 +28,6 @@ Shader "Afterlife/Prototype/Grass"
             #define VEGETATION_SHADE(color,normal,world) PrototypeVegetationShade(color,normal)
             #define GRASS_OUTPUT(color,world,anchor,kind,flower) PrototypeGrassOutput(color,world,anchor,kind,flower)
             #define GRASS_AUTHORED_COLOR(color) PrototypeGrassAuthoredColor(color)
-            #define GRASS_NO_HOVER
             #define GRASS_CLIP(anchor) PrototypeGrassClip(anchor)
             #include "Assets/Devlog/Modules/Vegetation/Shaders/ShowcaseGrassPass.hlsl"
             ENDHLSL

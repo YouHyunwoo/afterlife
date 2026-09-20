@@ -26,7 +26,7 @@ namespace Afterlife.Prototype
         private void InitializePresentation()
         {
             UploadTerrainTiles();BuildTerrainDetails();
-            InitializeVegetation();
+            InitializeVegetation();InitializeHover();
         }
         private bool CanContribute(Body b)=>b.Alive&&(b.Kind==Kind.Tree||b.Kind==Kind.Rock||b.Hostile||b.Kind==Kind.Animal||b.Kind==Kind.Chest||b.Kind==Kind.Treasure||b.Building&&(b.MovingOut||b.MoveSource!=0||!b.Complete||b.Health<b.MaxHealth&&_model.Money>0));
         private ToolEffect GetTool(Body b)
@@ -180,11 +180,11 @@ namespace Afterlife.Prototype
                 else go.transform.position+=new Vector3(Mathf.Sin(t*35),0,Mathf.Cos(t*29))*(1-t)*.065f;
             }
             foreach(int id in _expiredReactions)_reactions.Remove(id);
-            UpdateContentEffects();UpdateGrowthEffects();UpdateVegetation();
+            UpdateContentEffects();UpdateGrowthEffects();UpdateVegetation();UpdateHover();
         }
         private void ResetPresentation()
         {
-            ResetVegetation();ResetGoldFeedback();ResetContentEffects();ResetGrowthEffects();_reactions.Clear();foreach(var tool in _tools){tool.Body=0;tool.Root.SetActive(false);}
+            ResetHover();ResetVegetation();ResetGoldFeedback();ResetContentEffects();ResetGrowthEffects();_reactions.Clear();foreach(var tool in _tools){tool.Body=0;tool.Root.SetActive(false);}
             _renderCache.Clear();_lightCache.Clear();_modelPositions.Clear();_displayPositions.Clear();_fogTerritoryRevision=-1;
         }
         private void UploadTerrainTiles()
@@ -196,6 +196,6 @@ namespace Afterlife.Prototype
             _terrainTiles.SetPixels32(pixels);_terrainTiles.Apply(false,true);
             Shader.SetGlobalTexture("_TerrainTiles",_terrainTiles);Shader.SetGlobalFloat("_TerrainSize",map.Size);Shader.SetGlobalFloat("_TerrainRadius",map.Radius);
         }
-        private void DisposePresentation(){DisposeVegetation();DisposeContent();if(_terrainTiles!=null)Destroy(_terrainTiles);Shader.SetGlobalVector("_CursorCircle",Vector4.zero);Shader.SetGlobalInt("_VisionCount",0);}
+        private void DisposePresentation(){DisposeHover();DisposeVegetation();DisposeContent();if(_terrainTiles!=null)Destroy(_terrainTiles);Shader.SetGlobalVector("_CursorCircle",Vector4.zero);Shader.SetGlobalInt("_VisionCount",0);}
     }
 }

@@ -18,6 +18,7 @@ Shader "Afterlife/Prototype/PixelSurface"
             #include "Assets/Devlog/Modules/Wind/Shaders/ShowcaseWind.hlsl"
             #include "Assets/_AfterlifePrototype/Shaders/PrototypeGroundVisibility.hlsl"
             #include "Assets/_AfterlifePrototype/Shaders/PrototypeGroundAppearance.hlsl"
+            #include "Assets/Devlog/Modules/Hover/Shaders/ShowcaseHover.hlsl"
             struct Attributes { float4 positionOS : POSITION; float3 normalOS : NORMAL; half4 color : COLOR; float2 ground : TEXCOORD2; };
             struct Varyings { float4 positionCS : SV_POSITION; float3 normalWS : TEXCOORD0; float3 world : TEXCOORD1; half4 color : COLOR; float ground : TEXCOORD3; };
             CBUFFER_START(UnityPerMaterial)
@@ -65,6 +66,8 @@ Shader "Afterlife/Prototype/PixelSurface"
                 Varyings output;
                 output.ground=input.ground.x;
                 output.world = TransformObjectToWorld(input.positionOS.xyz);
+                if(_Ground>.5 && _TerrainRelief>.5 && input.color.a>=0 && input.color.a<.5)
+                    output.world.y+=HoverHeight(output.world);
                 if(_Grass>.5)output.world.x+=sin(_Time.y*2+output.world.z*1.7+output.world.x)*.08*saturate(input.positionOS.y+.5);
                 half3 foliageColor=_BaseColor.rgb*lerp(half3(1,1,1),input.color.rgb,saturate(_VertexPalette));
                 if(_FoliageWind>.5 && foliageColor.g>foliageColor.r*1.08 && foliageColor.g>foliageColor.b*1.05)

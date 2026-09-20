@@ -7,6 +7,7 @@
     "Afterlife.Devlog.Water",
     "Afterlife.Devlog.Vegetation",
     "Afterlife.Devlog.Wind",
+    "Afterlife.Devlog.Hover",
     "Reusable.Flow",
     "Unity.InputSystem",
     "Unity.RenderPipelines.Core.Runtime",

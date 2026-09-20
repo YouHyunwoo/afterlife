@@ -77,7 +77,7 @@ namespace Afterlife.Prototype
         private bool MouseWorld(Vector2 screen,out Point point)
         {
             var ray=_camera.ViewportPointToRay(new Vector3(screen.x/Screen.width,screen.y/Screen.height,0));
-            if(_terrainSurface!=null && _terrainSurface.Raycast(ray,out var world))
+            if(_terrainSurface!=null && _terrainSurface.Raycast(ray,out var world,_tileHover!=null && _tileHover.HasTerrainStamps ? _hoverHeightOffset : null))
             {point=new Point(world.x,world.z);return Mathf.Abs(world.x)<_settings.MapRadius&&Mathf.Abs(world.z)<_settings.MapRadius;}
             point=default;return false;
         }
@@ -147,7 +147,7 @@ namespace Afterlife.Prototype
         {
             if(!_ready)return;Resize();
             ApplyCameraGroundDistance();
-            if(_gameFlow==null||!_gameFlow.IsPlaying)return;
+            if(_gameFlow==null||!_gameFlow.IsPlaying){_tileHover?.SetPaused(true);return;}
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             if(Keyboard.current!=null&&Keyboard.current.f4Key.wasPressedThisFrame)_showDebugPanel=!_showDebugPanel;
 #endif
