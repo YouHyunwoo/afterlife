@@ -48,7 +48,16 @@ namespace Afterlife.Devlog.Day01
         public System.Func<Vector3,float> HeightOffset;
         private Vector3[] _deformed;
 
+        private ShowcasePickMesh _hitMesh;
+        private int _hitTriangle;
+        private Vector3 _hitWeights;
+        private readonly System.Collections.Generic.List<Material> _sampleMaterials=new System.Collections.Generic.List<Material>();
+        public Color SampleHitColor(Vector3 point) => SampleColor(_hitMesh,_hitTriangle,_hitWeights,point);
+
         public bool Intersect(Ray worldRay, out float distance, out Color surfaceColor)
+            => Intersect(worldRay,out distance,out surfaceColor,true);
+
+        public bool Intersect(Ray worldRay, out float distance, out Color surfaceColor,bool sampleColor)
         {
             distance = float.PositiveInfinity;
             surfaceColor = Color.white;
@@ -109,15 +118,17 @@ namespace Afterlife.Devlog.Day01
                 vertices[triangles[nearestTriangle+2]]-vertices[triangles[nearestTriangle]]).normalized;
             HitNormal=transform.worldToLocalMatrix.transpose.MultiplyVector(normal).normalized;
             if (Vector3.Dot(HitNormal,worldRay.direction)>0) HitNormal=-HitNormal;
-            surfaceColor = SampleColor(mesh, nearestTriangle, weights,worldRay.GetPoint(distance));
+            _hitMesh=mesh; _hitTriangle=nearestTriangle; _hitWeights=weights;
+            if (sampleColor) surfaceColor = SampleHitColor(worldRay.GetPoint(distance));
             return true;
         }
 
         private Color SampleColor(ShowcasePickMesh mesh, int triangle, Vector3 weights,Vector3 worldPoint)
         {
-            var materials = VisibleRenderer.sharedMaterials;
+            VisibleRenderer.GetSharedMaterials(_sampleMaterials);
+            var materials = _sampleMaterials;
             int slot = mesh.TriangleMaterials != null && triangle/3 < mesh.TriangleMaterials.Length ? mesh.TriangleMaterials[triangle/3] : 0;
-            var material = materials.Length == 0 ? null : materials[Mathf.Clamp(slot,0,materials.Length-1)];
+            var material = materials.Count == 0 ? null : materials[Mathf.Clamp(slot,0,materials.Count-1)];
             Color tint = material != null && material.HasProperty("_BaseColor") ? material.GetColor("_BaseColor")
                 : material != null && material.HasProperty("_ShallowColor") ? material.GetColor("_ShallowColor") : Color.white;
             bool linear = QualitySettings.activeColorSpace == ColorSpace.Linear;
@@ -144,6 +155,74 @@ namespace Afterlife.Devlog.Day01
             Color color = tint * Color.Lerp(Color.white,palette,Mathf.Clamp01(usePalette));
             color.a = 1;
             return color;
+        }
+    }
+
+    // 정적 표면은 공간 트리로 좁히고 움직이는 타깃은 현재 경계로 확인한다.
+    // 정적 배치/메시가 변경되면 소유자가 Rebuild를 호출한다. Unity 에셋을 소유하지 않는다.
+    public sealed class ShowcasePickIndex
+    {
+        private sealed class Node
+        {
+            public Bounds Bounds;
+            public Node Left,Right;
+            public ShowcasePickSurface Surface;
+        }
+        private readonly System.Collections.Generic.List<ShowcasePickSurface> _moving=new System.Collections.Generic.List<ShowcasePickSurface>();
+        private Node _root;
+        public void Clear() { _root=null; _moving.Clear(); }
+        private static Bounds Expanded(ShowcasePickSurface surface)
+        {
+            var bounds=surface.VisibleRenderer.bounds;
+            bounds.Expand(1f); // 바람·호버·해안 변형의 최대 오프셋보다 넉넉한 경계.
+            return bounds;
+        }
+        public void Rebuild(ShowcasePickSurface[] surfaces)
+        {
+            _moving.Clear();
+            var nodes=new System.Collections.Generic.List<Node>();
+            foreach (var surface in surfaces)
+            {
+                if (surface==null || surface.VisibleRenderer==null) continue;
+                if (surface.Target!=null) _moving.Add(surface);
+                else nodes.Add(new Node { Bounds=Expanded(surface),Surface=surface });
+            }
+            _root=Build(nodes.ToArray(),0,nodes.Count);
+        }
+        private static Node Build(Node[] nodes,int start,int count)
+        {
+            if (count==0) return null;
+            if (count==1) return nodes[start];
+            var bounds=nodes[start].Bounds;
+            for (int i=start+1;i<start+count;i++) bounds.Encapsulate(nodes[i].Bounds);
+            int axis=bounds.size.x>=bounds.size.z ? 0 : 2;
+            System.Array.Sort(nodes,start,count,System.Collections.Generic.Comparer<Node>.Create((a,b)=>a.Bounds.center[axis].CompareTo(b.Bounds.center[axis])));
+            int half=count/2;
+            return new Node { Bounds=bounds,Left=Build(nodes,start,half),Right=Build(nodes,start+half,count-half) };
+        }
+        public bool Pick(Ray ray,float maximum,out ShowcasePickSurface nearest,out Vector3 point,out Color color)
+        {
+            nearest=null;
+            Search(_root,ray,ref maximum,ref nearest);
+            foreach (var surface in _moving)
+                if (surface!=null && surface.isActiveAndEnabled && surface.VisibleRenderer!=null && surface.VisibleRenderer.enabled
+                    && (surface.Target==null || !surface.Target.IsBroken) && Expanded(surface).IntersectRay(ray,out float entry) && entry<=maximum)
+                    Test(surface,ray,ref maximum,ref nearest);
+            point=ray.GetPoint(maximum);
+            color=nearest!=null ? nearest.SampleHitColor(point) : Color.white;
+            return nearest!=null;
+        }
+        private static void Search(Node node,Ray ray,ref float closest,ref ShowcasePickSurface nearest)
+        {
+            if (node==null || !node.Bounds.IntersectRay(ray,out float entry) || entry>closest) return;
+            if (node.Surface!=null) { Test(node.Surface,ray,ref closest,ref nearest); return; }
+            Search(node.Left,ray,ref closest,ref nearest);
+            Search(node.Right,ray,ref closest,ref nearest);
+        }
+        private static void Test(ShowcasePickSurface surface,Ray ray,ref float closest,ref ShowcasePickSurface nearest)
+        {
+            if (surface.Intersect(ray,out float distance,out _,false) && distance<closest)
+            { closest=distance; nearest=surface; }
         }
     }
 }

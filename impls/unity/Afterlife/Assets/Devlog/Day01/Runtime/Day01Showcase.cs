@@ -22,6 +22,7 @@ namespace Afterlife.Devlog.Day01
                 _hoverTerrain?.Dispose(); _hoverTerrain=null;
                 _shoreline.Select(Afterlife.Devlog.Shoreline.ShorelineMode.Rounded);
                 if (_tileHover != null) _hoverTerrain=new ShowcaseHoverTerrain(CurrentStage,_tileHover);
+                if (_pickSurfaces!=null) _pickIndex.Rebuild(_pickSurfaces);
             }
             if (_tileHover != null) _tileHover.GrassMode=Afterlife.Devlog.Hover.GrassHoverMode.Sway;
             _removalMode=Afterlife.Devlog.Destruction.DisappearMode.Dissolve;
@@ -73,6 +74,7 @@ namespace Afterlife.Devlog.Day01
         private ShowcaseTarget _hover;
         private ShowcaseTarget[] _targets;
         private ShowcasePickSurface[] _pickSurfaces;
+        private readonly ShowcasePickIndex _pickIndex=new ShowcasePickIndex();
         private readonly List<Chip> _chips = new List<Chip>();
         public Afterlife.Devlog.Audio.ShowcaseAudioBank AudioBank;
         public Afterlife.Devlog.AmbientAudio.AmbientAudioSettings Ambience = new Afterlife.Devlog.AmbientAudio.AmbientAudioSettings();
@@ -211,6 +213,7 @@ namespace Afterlife.Devlog.Day01
             }
             CreateStageEffects();
             _pickSurfaces = CurrentStage.GetComponentsInChildren<ShowcasePickSurface>(true);
+            _pickIndex.Rebuild(_pickSurfaces);
             ConfigureOutput();
             PositionCamera();
         }
@@ -253,6 +256,7 @@ namespace Afterlife.Devlog.Day01
 
         private void DisposeStageEffects()
         {
+            _pickIndex.Clear(); _pickSurfaces=null;
             if (_tileHover != null) _tileHover.WaterRippleCreated -= PlayWaterRipple;
             _hoverTerrain?.Dispose(); _hoverTerrain = null;
             _tileHover?.Dispose(); _tileHover = null;
@@ -495,14 +499,7 @@ namespace Afterlife.Devlog.Day01
 
         private bool PickSurface(Ray ray, out ShowcasePickSurface nearest, out Vector3 point, out Color color)
         {
-            nearest = null;
-            color = Color.white;
-            float closest = ShowcaseCamera.farClipPlane;
-            foreach (var surface in _pickSurfaces)
-                if (surface != null && surface.Intersect(ray, out float distance, out Color sample) && distance < closest)
-                { closest = distance; nearest = surface; color = sample; }
-            point = ray.GetPoint(closest);
-            return nearest != null;
+            return _pickIndex.Pick(ray,ShowcaseCamera.farClipPlane,out nearest,out point,out color);
         }
 
         private void AnimateTool()
@@ -618,6 +615,7 @@ namespace Afterlife.Devlog.Day01
                     _hoverTerrain?.Dispose(); _hoverTerrain=null;
                     _shoreline?.Select(mode);
                     if (_tileHover!=null) { _tileHover.Reset(); _hoverTerrain=new ShowcaseHoverTerrain(CurrentStage,_tileHover); }
+                    if (_pickSurfaces!=null) _pickIndex.Rebuild(_pickSurfaces);
                 }
             }
             GUI.enabled = Phase >= 4;
