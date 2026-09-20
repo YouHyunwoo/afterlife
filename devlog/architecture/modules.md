@@ -82,3 +82,5 @@ Terrain의 ShowcaseTerrainField가 맵 전체 좌표의 gradient Perlin과 실�
 프로토타입 직접 작업은 PrototypeManualWork(모델의 작업 가능/단일 대상 기여)와 Presentation의 준비/접촉 타이밍으로 나눈다. 모든 커서 자동 반복은 CursorAutomationUnlocked로 제한한다. PrototypeImpactFeedback은 Destruction의 타격 타이밍/작은 파편 풀을 재사용하며 게임 피해량이나 자동화 해금을 결정하지 않는다. [최신 규칙](../../docs/game-process/46-click-work-and-automation.md).
 
 PrototypeDestruction은 소진된 자원의 뷰를 보존하고 공용 ShowcaseDestruction을 조립한다. 원본 메시 선택 필터와 지형 높이를 주입하고 생성 조각/제거 상태를 소유한다. 나무 회전은 어댑터에서 수행하며 잎 속성 버전은 원본 디졸브와 함께 갱신한다.
+
+프로토타입 음향 어댑터: PrototypeEnvironmentAudio가 AudioBank 및 ShowcaseAudio/ShowcaseAmbience를 소비한다. 모델은 Stone/TreeFall/StoneBreak 사건만 발행하며 Resources/AudioSource를 참조하지 않는다. 물 생성 사건은 Hover 어댑터에서 구독/해제한다.
