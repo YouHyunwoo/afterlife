@@ -1,0 +1,247 @@
+[
+  {
+    "name": "House",
+    "meshes": 1,
+    "triangles": 866
+  },
+  {
+    "name": "Market",
+    "meshes": 1,
+    "triangles": 1066
+  },
+  {
+    "name": "Barracks",
+    "meshes": 4,
+    "triangles": 989
+  },
+  {
+    "name": "Research",
+    "meshes": 1,
+    "triangles": 994
+  },
+  {
+    "name": "Farm",
+    "meshes": 1,
+    "triangles": 788
+  },
+  {
+    "name": "LargeTest",
+    "meshes": 2,
+    "triangles": 1146
+  },
+  {
+    "name": "Altar",
+    "meshes": 1,
+    "triangles": 288
+  },
+  {
+    "name": "AbandonedAltar",
+    "meshes": 1,
+    "triangles": 408
+  },
+  {
+    "name": "Ruins",
+    "meshes": 1,
+    "triangles": 724
+  },
+  {
+    "name": "ArrowTower",
+    "meshes": 2,
+    "triangles": 760
+  },
+  {
+    "name": "MagicTower",
+    "meshes": 3,
+    "triangles": 680
+  },
+  {
+    "name": "Wall",
+    "meshes": 1,
+    "triangles": 44
+  },
+  {
+    "name": "WallPost",
+    "meshes": 1,
+    "triangles": 352
+  },
+  {
+    "name": "WallCorner",
+    "meshes": 1,
+    "triangles": 528
+  },
+  {
+    "name": "WallArm",
+    "meshes": 1,
+    "triangles": 528
+  },
+  {
+    "name": "HouseBridge",
+    "meshes": 1,
+    "triangles": 80
+  },
+  {
+    "name": "AltarPath",
+    "meshes": 1,
+    "triangles": 132
+  },
+  {
+    "name": "Tree0",
+    "meshes": 1,
+    "triangles": 424
+  },
+  {
+    "name": "Tree1",
+    "meshes": 1,
+    "triangles": 232
+  },
+  {
+    "name": "Tree2",
+    "meshes": 1,
+    "triangles": 484
+  },
+  {
+    "name": "Tree3",
+    "meshes": 1,
+    "triangles": 544
+  },
+  {
+    "name": "Rock0",
+    "meshes": 1,
+    "triangles": 60
+  },
+  {
+    "name": "Rock1",
+    "meshes": 1,
+    "triangles": 176
+  },
+  {
+    "name": "Rock2",
+    "meshes": 1,
+    "triangles": 72
+  },
+  {
+    "name": "Rock3",
+    "meshes": 1,
+    "triangles": 140
+  },
+  {
+    "name": "Chest0",
+    "meshes": 3,
+    "triangles": 1020
+  },
+  {
+    "name": "Chest1",
+    "meshes": 3,
+    "triangles": 1040
+  },
+  {
+    "name": "Chest2",
+    "meshes": 3,
+    "triangles": 1040
+  },
+  {
+    "name": "Warrior",
+    "meshes": 7,
+    "triangles": 835
+  },
+  {
+    "name": "Archer",
+    "meshes": 8,
+    "triangles": 776
+  },
+  {
+    "name": "Mage",
+    "meshes": 7,
+    "triangles": 668
+  },
+  {
+    "name": "Knight",
+    "meshes": 7,
+    "triangles": 995
+  },
+  {
+    "name": "Goblin",
+    "meshes": 7,
+    "triangles": 494
+  },
+  {
+    "name": "GoblinWarrior",
+    "meshes": 7,
+    "triangles": 841
+  },
+  {
+    "name": "GoblinShaman",
+    "meshes": 7,
+    "triangles": 698
+  },
+  {
+    "name": "Orc",
+    "meshes": 7,
+    "triangles": 544
+  },
+  {
+    "name": "Lizard",
+    "meshes": 9,
+    "triangles": 914
+  },
+  {
+    "name": "Slime",
+    "meshes": 1,
+    "triangles": 340
+  },
+  {
+    "name": "Treasure",
+    "meshes": 1,
+    "triangles": 140
+  },
+  {
+    "name": "AxeTool",
+    "meshes": 1,
+    "triangles": 144
+  },
+  {
+    "name": "PickTool",
+    "meshes": 1,
+    "triangles": 196
+  },
+  {
+    "name": "HammerTool",
+    "meshes": 1,
+    "triangles": 244
+  },
+  {
+    "name": "SwordTool",
+    "meshes": 1,
+    "triangles": 90
+  },
+  {
+    "name": "HandTool",
+    "meshes": 1,
+    "triangles": 440
+  },
+  {
+    "name": "Fern",
+    "meshes": 1,
+    "triangles": 126
+  },
+  {
+    "name": "Reeds",
+    "meshes": 1,
+    "triangles": 160
+  },
+  {
+    "name": "Pebbles",
+    "meshes": 1,
+    "triangles": 100
+  },
+  {
+    "name": "FallenLog",
+    "meshes": 1,
+    "triangles": 112
+  },
+  {
+    "name": "Flowers",
+    "meshes": 1,
+    "triangles": 128
+  }
+]

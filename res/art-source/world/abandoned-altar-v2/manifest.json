@@ -1,0 +1,35 @@
+{
+  "name": "AbandonedAltarV2",
+  "seed": 20260920,
+  "sourceConcept": "res/concepts/abandoned-altar-v2/turnaround.png",
+  "editableMeshes": 48,
+  "exportedMeshes": 1,
+  "triangles": 1338,
+  "blenderBoundsMin": [
+    -1.3096308708190918,
+    -0.6944621801376343,
+    0.0
+  ],
+  "blenderBoundsMax": [
+    0.9601998329162598,
+    0.6939902305603027,
+    1.5299999713897705
+  ],
+  "sizeXYZ": [
+    2.2698307037353516,
+    1.388452410697937,
+    1.5299999713897705
+  ],
+  "vertexColor": "Color / CORNER / BYTE_COLOR",
+  "renderViews": [
+    "front",
+    "right",
+    "back",
+    "left",
+    "top",
+    "three-quarter"
+  ],
+  "fbxAxisForward": "-Z",
+  "fbxAxisUp": "Y",
+  "notes": "Geometry and palette only; no baked lighting. Studio is not exported."
+}

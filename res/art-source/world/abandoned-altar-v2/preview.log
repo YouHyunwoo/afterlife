@@ -1,0 +1,16 @@
+00:01.047  blend            | Read blend: "D:\area\dev\alone\Afterlife\art-source\world\abandoned-altar-v2\AbandonedAltarV2.blend"
+00:03.407  render           | Saved: 'D:\area\dev\alone\Afterlife\res\previews\abandoned-altar-v2\front.png'
+00:05.532  render           | Saved: 'D:\area\dev\alone\Afterlife\res\previews\abandoned-altar-v2\right.png'
+00:07.766  render           | Saved: 'D:\area\dev\alone\Afterlife\res\previews\abandoned-altar-v2\back.png'
+00:09.922  render           | Saved: 'D:\area\dev\alone\Afterlife\res\previews\abandoned-altar-v2\left.png'
+00:14.610  render           | Saved: 'D:\area\dev\alone\Afterlife\res\previews\abandoned-altar-v2\top.png'
+00:19.141  render           | Saved: 'D:\area\dev\alone\Afterlife\res\previews\abandoned-altar-v2\three-quarter.png'
+BlenderMCP: cannot start server in background mode (blender -b) - commands would never execute
+BlenderMCP: run Blender with a GUI, or use a virtual display: xvfb-run -a blender
+BlenderMCP addon registered
+Info: Saved as "AbandonedAltarV2.blend"
+BlenderMCP server stopped
+BlenderMCP addon unregistered
+Blender 5.0.1 (hash a3db93c5b259 built 2025-12-16 01:32:30)
+
+Blender quit

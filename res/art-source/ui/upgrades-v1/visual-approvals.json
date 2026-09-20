@@ -1,0 +1,122 @@
+{
+  "R1": {
+    "status": "pass",
+    "sha256": "63cd45cffdc271f351d421536a4581f2c6ea8a75047e0f2ce6893b1e31998269",
+    "reviewed": "review-sheet.png: 48px, 32px and nearest-neighbor enlargement",
+    "notes": "집, 지붕, 상승 화살표 식별. R9와 A9의 영역/결계 형상과 구분됨."
+  },
+  "R2": {
+    "status": "pass",
+    "sha256": "0201cab2eff1cf2245f71fa5151826ec6da503af2da9f27a5b18d2ed45a579e5",
+    "reviewed": "review-sheet.png: 48px, 32px and nearest-neighbor enlargement",
+    "notes": "망치와 곡괭이의 다른 도구 머리·손잡이가 32px에서도 분리됨."
+  },
+  "R3": {
+    "status": "pass",
+    "sha256": "e8c30276069d2200d0571ef9956ca4b32deaf57d2e49342b0ec0326e8cb6ac6f",
+    "reviewed": "review-sheet.png: 48px, 32px and nearest-neighbor enlargement",
+    "notes": "커서와 원형 반경 식별. R8 속도 화살표와 구분됨."
+  },
+  "R4": {
+    "status": "pass",
+    "sha256": "8300b18c9ebeb9ba9b78475b9d24927c3ed5f219ee999c6a7570c46451f32bcc",
+    "reviewed": "review-sheet.png: 48px, 32px and nearest-neighbor enlargement",
+    "notes": "책과 주민 머리 실루엣 식별. 글자 없이 교육 의미 유지."
+  },
+  "R5": {
+    "status": "pass",
+    "sha256": "a856c8bde4be41fb2d90a538c3f05f467b44072cb4e3ef04aa40e8d38a9891c2",
+    "reviewed": "review-sheet.png: 48px, 32px and nearest-neighbor enlargement",
+    "notes": "설계도 집 선과 직각자 식별. 바깥 경계 잘림 없음."
+  },
+  "R6": {
+    "status": "pass",
+    "sha256": "bce2c58b3136f1128bc7cebbc6deb4dbdbf452300a6d727e7972a36110f892f3",
+    "reviewed": "review-sheet.png: 48px, 32px and nearest-neighbor enlargement",
+    "notes": "기둥과 금속 보강띠 식별. 좁은 가로폭에도 세로 실루엣 유지."
+  },
+  "R7": {
+    "status": "pass",
+    "sha256": "5dee09ac79d04c4b91009c2db7c1fb04faa59524201db178d5e72afdd47dec32",
+    "reviewed": "review-sheet.png: 48px, 32px and nearest-neighbor enlargement",
+    "notes": "도끼 날과 충격 형상 식별. R2의 작업 도구와 구분됨."
+  },
+  "R8": {
+    "status": "pass",
+    "sha256": "08b20c2cfa6d04a23e285e3c4e7634a2a8db29b313025891b3bb9aae19bc1cc6",
+    "reviewed": "review-sheet.png: 48px, 32px and nearest-neighbor enlargement",
+    "notes": "커서, 이중 화살표, 이동 곡선 식별. 반경 아이콘과 구분됨."
+  },
+  "R9": {
+    "status": "pass",
+    "sha256": "423591bf58c85a17a9e5eadcb2183ba99eb7928604a61f226cbd103fdf380c4f",
+    "reviewed": "review-sheet.png: 48px, 32px and nearest-neighbor enlargement",
+    "notes": "마을 격자와 작은 집 식별. 집 단독 아이콘과 구분됨."
+  },
+  "R10": {
+    "status": "pass",
+    "sha256": "2c60fd1aa611b7cb02288401139983cb686ce578f756da5208b5b9b700566a53",
+    "reviewed": "review-sheet.png: 48px, 32px and nearest-neighbor enlargement",
+    "notes": "맞잡은 두 손과 양쪽 소매 식별. 협동 의미 유지."
+  },
+  "A1": {
+    "status": "pass",
+    "sha256": "ad6301068e8dc37ea20031a32f3adb95625be621a1f3496c00b21a1883ef3909",
+    "reviewed": "review-sheet.png: 48px, 32px and nearest-neighbor enlargement",
+    "notes": "구름 아래 단일 번개 식별. 연쇄·감전·의식과 구분됨."
+  },
+  "A2": {
+    "status": "pass",
+    "sha256": "9127851e915c5006e91a16173323b274523b87a2c11ea71a8cd61153bde48f64",
+    "reviewed": "review-sheet.png: 48px, 32px and nearest-neighbor enlargement",
+    "notes": "밀 이삭과 축복 고리 식별. 작은 크기에서도 생산 상징 유지."
+  },
+  "A3": {
+    "status": "pass",
+    "sha256": "3ee5930ec445b6b14fac7f9497bd80d98521c400d7ea0376c5c4772db87fd1dd",
+    "reviewed": "review-sheet.png: 48px, 32px and nearest-neighbor enlargement",
+    "notes": "방패와 중앙 불꽃 식별. A9의 집 결계와 구분됨."
+  },
+  "A4": {
+    "status": "pass",
+    "sha256": "c6c8d283039af70382b1dccc7c872e7ac82c67ac3870038fde0961671eb8b078",
+    "reviewed": "review-sheet.png: 48px, 32px and nearest-neighbor enlargement",
+    "notes": "갈라진 번개 두 갈래와 대상 불꽃 식별."
+  },
+  "A5": {
+    "status": "pass",
+    "sha256": "fe69d1726df58e352fc576b1776c6d54b07dbf9f26875d20bfdb772a5f7a3777",
+    "reviewed": "review-sheet.png: 48px, 32px and nearest-neighbor enlargement",
+    "notes": "원형 낙인 안의 번개 식별. 단일 낙뢰와 구분됨."
+  },
+  "A6": {
+    "status": "pass",
+    "sha256": "015926840bdbe05da6504e6c722633e0584a643537dca5664e97e4afd0ab9e4d",
+    "reviewed": "review-sheet.png: 48px, 32px and nearest-neighbor enlargement",
+    "notes": "동심 잔향과 위쪽 빛 식별. 외곽 잘림 없음."
+  },
+  "A7": {
+    "status": "pass",
+    "sha256": "74a8ee8a03ffb4e95e58d00dc0236f8ca357c303a3c2c458804e861cfd934034",
+    "reviewed": "review-sheet.png: 48px, 32px and nearest-neighbor enlargement",
+    "notes": "감싼 양손과 중앙 영혼 불꽃 식별. 협동 손 아이콘과 구분됨."
+  },
+  "A8": {
+    "status": "pass",
+    "sha256": "7808a1b782c08bf480bac869b607ce7416cd159c188f2f4e138411edaae89489",
+    "reviewed": "review-sheet.png: 48px, 32px and nearest-neighbor enlargement",
+    "notes": "낫과 영혼 식별. 밝은 얼굴·곡선 날 경계 유지."
+  },
+  "A9": {
+    "status": "pass",
+    "sha256": "9f10ffbb2bfe827c412dbd0df252760cdebed52e07a43ae426c2c9866f18874e",
+    "reviewed": "review-sheet.png: 48px, 32px and nearest-neighbor enlargement",
+    "notes": "집과 반구형 결계, 별 식별. 주거/구획 아이콘과 구분됨."
+  },
+  "A10": {
+    "status": "pass",
+    "sha256": "03a73a345311fd4bfe2a9743e6c27df279edd86b09cee83c0f91fd11e8f9e5b2",
+    "reviewed": "review-sheet.png: 48px, 32px and nearest-neighbor enlargement",
+    "notes": "제단과 세 번개 식별. 의식 상징 및 연쇄 번개 차이 유지."
+  }
+}
