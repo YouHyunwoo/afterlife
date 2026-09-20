@@ -1,4 +1,4 @@
 namespace Afterlife.Dev.Field
 {
-    public class ObjectRepository : Moonstone.Ore.Repository<Object> { }
+    public class ObjectRepository : Afterlife.Modules.Storage.EntityStore<Object> { }
 }

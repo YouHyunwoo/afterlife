@@ -1,0 +1,8 @@
+{
+  "name": "Afterlife.Storage",
+  "references": [
+    "Moonstone.D3.Domain"
+  ],
+  "noEngineReferences": true,
+  "autoReferenced": true
+}

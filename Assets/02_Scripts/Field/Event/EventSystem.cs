@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 namespace Afterlife.Dev.Field
 {
-    public class EventSystem : Moonstone.Ore.Local.System
+    public class EventSystem : Afterlife.Modules.Lifecycle.SceneSystem
     {
-        private TimeSystem _timeSystem;
+        [Moonstone.Arc.DependencyInjection.Inject] private TimeSystem _timeSystem;
 
         private readonly List<Event> _pendingEvents = new();
         private readonly List<Event> _activeEvents = new();

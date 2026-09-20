@@ -36,8 +36,13 @@ namespace Afterlife.Dev.Field
         private int _spawnIndex;
         private float _nextSpawnTime;
 
-        public WaveEvent(float triggerTime, WaveDefinition definition) : base(triggerTime)
+        public WaveEvent(float triggerTime, WaveDefinition definition, WorldRepository worldRepository,
+            ObjectSpawnSystem objectSpawnSystem, ObjectSystem objectSystem, Player player) : base(triggerTime)
         {
+            _worldRepository = worldRepository;
+            _objectSpawnSystem = objectSpawnSystem;
+            _objectSystem = objectSystem;
+            _player = player;
             _definition = definition;
         }
 

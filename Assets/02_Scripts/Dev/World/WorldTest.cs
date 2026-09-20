@@ -5,8 +5,8 @@ namespace Afterlife.Dev
 {
     public class WorldTest : MonoBehaviour
     {
-        [Header("Container")]
-        [SerializeField] private Moonstone.Ore.Container _container;
+        private readonly Moonstone.Arc.DependencyInjection.ServiceResolver _resolver = new();
+        private void OnDestroy() => _resolver.Dispose();
 
         [Header("World Map Generation")]
         [SerializeField] private WorldMapGenerationParameter _generationParameter;
@@ -28,12 +28,9 @@ namespace Afterlife.Dev
             _worldSystem = new();
             _worldRepository = new();
 
-            _container.Register(
-                _worldSystem,
-                _worldRepository
-            );
-            _container.AddInjectee();
-            _container.Bind();
+            _resolver.Register(_worldSystem);
+            _resolver.Register(_worldRepository);
+            _resolver.BindEachOther();
 
             GenerateWorldMap();
         }

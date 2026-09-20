@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Afterlife.Dev.Field
 {
-    public class GameResultSystem : Moonstone.Ore.Local.System
+    public class GameResultSystem : Afterlife.Modules.Lifecycle.SceneSystem
     {
         readonly HashSet<Object> houses = new();
         Object boss;

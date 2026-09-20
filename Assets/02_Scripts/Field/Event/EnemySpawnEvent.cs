@@ -2,17 +2,15 @@ using System.Collections.Generic;
 using System.Linq;
 using Afterlife.Dev.Game;
 using Afterlife.Dev.World;
-using Moonstone.Ore;
 using UnityEngine;
 
 namespace Afterlife.Dev.Field
 {
     public class EnemySpawnEvent : Event
     {
-        private Player _player;
+        [Moonstone.Arc.DependencyInjection.Inject] private Player _player;
         private EnemyVisible _enemyVisiblePrefab;
-        private Container _container;
-        private WorldRepository _worldRepository;
+        [Moonstone.Arc.DependencyInjection.Inject] private WorldRepository _worldRepository;
         private World.World _world;
 
         private float _duration = 10f;
@@ -51,7 +49,6 @@ namespace Afterlife.Dev.Field
             var passablePositions = _world.WorldMap.GetPassablePositions(Vector2Int.one);
             // var enemyPosition = SamplePassablePosition(passablePositions);
             // var enemyVisible = GameObject.Instantiate(_enemyVisiblePrefab, (Vector2)enemyPosition, Quaternion.identity);
-            // _container.Inject(enemyVisible);
             // enemyVisible.GetAllInfluencedPositions += _world.WorldMap.GetAllInfluencedPositions;
             // enemyVisible.OnDied += (attacker, ov, sender) =>
             // {

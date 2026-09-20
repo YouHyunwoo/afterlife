@@ -6,13 +6,13 @@ using UnityEngine;
 
 namespace Afterlife.Dev.Field
 {
-    public class ObjectSpawnSystem : Moonstone.Ore.Local.System
+    public class ObjectSpawnSystem : Afterlife.Modules.Lifecycle.SceneSystem
     {
         private readonly Dictionary<string, ObjectVisible> _idToVisible = new();
-        private WorldRepository _worldRepository;
+        [Moonstone.Arc.DependencyInjection.Inject] private WorldRepository _worldRepository;
         private World.World _world;
-        private ObjectRepository _objectRepository;
-        private ObjectSystem _objectSystem;
+        [Moonstone.Arc.DependencyInjection.Inject] private ObjectRepository _objectRepository;
+        [Moonstone.Arc.DependencyInjection.Inject] private ObjectSystem _objectSystem;
 
         public event Action<ObjectVisible, bool, ObjectSpawnSystem, object> OnBuilt;
         public event Action<ObjectVisible, bool, ObjectSpawnSystem, object> OnDemolished;
@@ -34,7 +34,7 @@ namespace Afterlife.Dev.Field
 
             if (!CanBuild(position, data.Size)) return false;
 
-            var objectId = Moonstone.Ore.Model.NewId();
+            var objectId = System.Guid.NewGuid().ToString();
             @object = factory(objectId);
             @object.Initialize(data);
             _objectRepository.Save(@object);

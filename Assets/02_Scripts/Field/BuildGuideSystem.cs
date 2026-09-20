@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Afterlife.Dev.Field
 {
-    public class BuildGuideSystem : Moonstone.Ore.Local.System
+    public class BuildGuideSystem : Afterlife.Modules.Lifecycle.SceneSystem
     {
         [SerializeField] private SpriteRenderer _guideSpriteRendererPrefab;
 

@@ -21,8 +21,10 @@
       "version": "https://github.com/material-stone-games/moonstone.git",
       "depth": 0,
       "source": "git",
-      "dependencies": {},
-      "hash": "071b937c07f1950e6fb027b865276fde5a15c008"
+      "dependencies": {
+        "com.unity.textmeshpro": "3.0.6"
+      },
+      "hash": "9ed4ad67f3b7875a7b488480b20bb00406fa9506"
     },
     "com.unity.2d.animation": {
       "version": "10.2.2",
@@ -303,6 +305,14 @@
         "com.unity.modules.jsonserialize": "1.0.0"
       },
       "url": "https://packages.unity.com"
+    },
+    "com.unity.textmeshpro": {
+      "version": "5.0.0",
+      "depth": 1,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.ugui": "2.0.0"
+      }
     },
     "com.unity.timeline": {
       "version": "1.8.10",

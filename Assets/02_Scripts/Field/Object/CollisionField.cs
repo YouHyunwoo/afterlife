@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Afterlife.Dev.Field
 {
-    public class CollisionField : Moonstone.Ore.Local.Entity
+    public class CollisionField : Afterlife.Modules.Lifecycle.SceneBehaviour
     {
         private Collider2D _collider;
 

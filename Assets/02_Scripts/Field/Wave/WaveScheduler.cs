@@ -1,4 +1,4 @@
-using Moonstone.Ore;
+using Moonstone.Arc.DependencyInjection;
 
 namespace Afterlife.Dev.Field
 {
@@ -19,14 +19,15 @@ namespace Afterlife.Dev.Field
         // → Wave 4: 257s (~20s 진행) → Wave 5: 337s
         private static readonly float[] TriggerTimes = { 30f, 106f, 180f, 257f, 337f };
 
-        public static void Schedule(EventSystem eventSystem, Container container, WaveSchedulerConfig config)
+        public static void Schedule(EventSystem eventSystem, IResolver resolver, WaveSchedulerConfig config)
         {
             var definitions = BuildWaveDefinitions(config);
 
             for (var i = 0; i < definitions.Length; i++)
             {
-                var waveEvent = new WaveEvent(TriggerTimes[i], definitions[i]);
-                container.Inject(waveEvent);
+                var waveEvent = new WaveEvent(TriggerTimes[i], definitions[i],
+                    resolver.Resolve<World.WorldRepository>(), resolver.Resolve<ObjectSpawnSystem>(),
+                    resolver.Resolve<ObjectSystem>(), resolver.Resolve<Game.Player>());
                 eventSystem.Register(waveEvent);
             }
         }

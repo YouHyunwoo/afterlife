@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Afterlife.Dev.Mode
 {
-    public class ModeSystem : Moonstone.Ore.Local.System
+    public class ModeSystem : Afterlife.Modules.Lifecycle.SceneSystem
     {
         [SerializeField] private Mode[] _modes;
 

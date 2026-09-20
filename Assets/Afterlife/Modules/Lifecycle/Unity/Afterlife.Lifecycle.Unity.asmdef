@@ -1,0 +1,7 @@
+{
+  "name": "Afterlife.Lifecycle.Unity",
+  "references": [
+    "Moonstone.Core"
+  ],
+  "autoReferenced": true
+}

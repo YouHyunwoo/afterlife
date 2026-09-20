@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Afterlife.Dev.Field
 {
     [RequireComponent(typeof(Animator))]
-    public class ObjectVisible : Moonstone.Ore.Local.Visible
+    public class ObjectVisible : Afterlife.Modules.Lifecycle.SceneVisible
     {
         [Header("Sight")]
         [SerializeField] protected Model.Light _sight;

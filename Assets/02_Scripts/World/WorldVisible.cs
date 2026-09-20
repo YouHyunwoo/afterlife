@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 
 namespace Afterlife.Dev.World
 {
-    public class WorldVisible : Moonstone.Ore.Local.Visible
+    public class WorldVisible : Afterlife.Modules.Lifecycle.SceneVisible
     {
         [Header("Tilemap")]
         [SerializeField] private Tilemap _terrainObstacleTilemap;

@@ -1,6 +1,6 @@
 namespace Afterlife.Dev.Mode
 {
-    public abstract class Mode : Moonstone.Ore.Local.Entity
+    public abstract class Mode : Afterlife.Modules.Lifecycle.SceneBehaviour
     {
         public void Enter<TParam>(TParam param = null) where TParam : ModeParam
         {

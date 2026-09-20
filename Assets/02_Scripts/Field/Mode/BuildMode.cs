@@ -15,7 +15,13 @@ namespace Afterlife.Dev.Field
     {
         [SerializeField] private BuildGuideSystem _buildGuideSystem;
 
-        private WorldRepository _worldRepository;
+        [Moonstone.Arc.DependencyInjection.Inject]
+        private BuildGuideSystem DefaultBuildGuide
+        {
+            set { if (_buildGuideSystem == null) _buildGuideSystem = value; }
+        }
+
+        [Moonstone.Arc.DependencyInjection.Inject] private WorldRepository _worldRepository;
         private World.World _world;
 
         private BuildModeParam _param;

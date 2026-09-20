@@ -17,7 +17,7 @@ namespace Afterlife.Dev.World
             if (!generator.Generate(@params, out var worldMap))
                 return false;
 
-            var worldId = Moonstone.Ore.Model.NewId();
+            var worldId = System.Guid.NewGuid().ToString();
             world = new World(worldId, worldMap);
 
             OnWorldGenerated?.Invoke(world);
@@ -31,7 +31,7 @@ namespace Afterlife.Dev.World
             if (!generator.Generate(@params, out var worldMap))
                 return null;
 
-            var worldId = Moonstone.Ore.Model.NewId();
+            var worldId = System.Guid.NewGuid().ToString();
             var world = new World(worldId, worldMap);
 
             if (OnWorldGeneratedAsync != null)

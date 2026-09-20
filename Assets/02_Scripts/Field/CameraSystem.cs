@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Afterlife.Dev.Field
 {
-    public class CameraSystem : Moonstone.Ore.Local.System
+    public class CameraSystem : Afterlife.Modules.Lifecycle.SceneSystem
     {
         [Header("Settings")]
         [SerializeField] Camera _camera;
@@ -14,7 +14,7 @@ namespace Afterlife.Dev.Field
         [SerializeField] float _minOrthographicSize = 7f;
         [SerializeField] float _maxOrthographicSize = 15f;
 
-        WorldRepository _worldRepository;
+        [Moonstone.Arc.DependencyInjection.Inject] WorldRepository _worldRepository;
         Vector2Int _mapSize;
 
         protected override void OnInitialize()

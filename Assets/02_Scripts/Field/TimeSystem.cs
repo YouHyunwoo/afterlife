@@ -1,6 +1,6 @@
 namespace Afterlife.Dev.Field
 {
-    public class TimeSystem : Moonstone.Ore.Local.System
+    public class TimeSystem : Afterlife.Modules.Lifecycle.SceneSystem
     {
         public float ElapsedTime { get; private set; }
         public float TimeScale { get; set; } = 1f;

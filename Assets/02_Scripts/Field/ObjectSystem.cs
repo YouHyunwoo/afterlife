@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 namespace Afterlife.Dev.Field
 {
-    public class ObjectSystem : Moonstone.Ore.Local.System
+    public class ObjectSystem : Afterlife.Modules.Lifecycle.SceneSystem
     {
         private readonly List<(Object obj, ObjectVisible visible)> _objects = new();
         private readonly List<CharacterEntry> _characters = new();

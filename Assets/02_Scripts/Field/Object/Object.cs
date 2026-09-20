@@ -5,7 +5,7 @@ namespace Afterlife.Dev.Field
 {
     public record struct DamagedInfo(float ActualDamage, float Damage, Object Attacker);
 
-    public class Object : Moonstone.Ore.Model, IDamageable
+    public class Object : Moonstone.D3.Domain.Entity, IDamageable
     {
         public Vector3 Position { get; set; }
         public MovementComponent Movement { get; } = new();

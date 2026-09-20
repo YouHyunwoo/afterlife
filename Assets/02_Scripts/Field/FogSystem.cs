@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Afterlife.Dev.Field
 {
-    public class FogSystem : Moonstone.Ore.Local.System
+    public class FogSystem : Afterlife.Modules.Lifecycle.SceneSystem
     {
         [Header("Fog")]
         [SerializeField] private Sprite _fogSprite;

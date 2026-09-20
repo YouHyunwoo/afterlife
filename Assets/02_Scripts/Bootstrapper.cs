@@ -8,10 +8,19 @@ using System.Linq;
 
 namespace Afterlife.Dev
 {
-    public class Bootstrapper : Moonstone.Ore.Bootstrapper
+    public class Bootstrapper : MonoBehaviour
     {
-        [Header("Container")]
-        [SerializeField] private Moonstone.Ore.Container _container;
+        private readonly Moonstone.Arc.DependencyInjection.ServiceResolver _resolver = new();
+
+        private void Awake()
+        {
+            CreateObjects();
+            BindObjects();
+            InitializeObjects();
+        }
+
+        private void Start() => PrepareObjects();
+        private void OnDestroy() => _resolver.Dispose();
 
         #region Models
         [Header("Models")]
@@ -69,7 +78,7 @@ namespace Afterlife.Dev
         private readonly Dictionary<string, Citizen> _houseCitizenPairs = new();
         private bool isReady;
 
-        protected override void CreateObjects()
+        private void CreateObjects()
         {
             _worldSystem = new();
             _worldRepository = new();
@@ -77,35 +86,30 @@ namespace Afterlife.Dev
             _objectRepository = new();
         }
 
-        protected override void InitializeObjects()
+        private void InitializeObjects()
         {
             _modeSystem.Initialize();
             _modeSystem.Select<SelectionMode>();
         }
 
-        protected override void BindObjects()
+        private void BindObjects()
         {
-            _container.Register(
-                _container,
-                _player,
-                _modeSystem,
-                _selectionMode,
-                _buildMode,
-                _worldSystem,
-                _worldRepository,
-                _cameraSystem,
-                _objectSpawnSystem,
-                _objectRepository,
-                _buildGuideSystem,
-                _timeSystem,
-                _eventSystem,
-                _gameResultSystem,
-                _objectSystem,
-                _fogSystem
-            );
-            _container.AddInjectee(
-            );
-            _container.Bind();
+            _resolver.Register(_player);
+            _resolver.Register(_modeSystem);
+            _resolver.Register(_selectionMode);
+            _resolver.Register(_buildMode);
+            _resolver.Register(_worldSystem);
+            _resolver.Register(_worldRepository);
+            _resolver.Register(_cameraSystem);
+            _resolver.Register(_objectSpawnSystem);
+            _resolver.Register(_objectRepository);
+            _resolver.Register(_buildGuideSystem);
+            _resolver.Register(_timeSystem);
+            _resolver.Register(_eventSystem);
+            _resolver.Register(_gameResultSystem);
+            _resolver.Register(_objectSystem);
+            _resolver.Register(_fogSystem);
+            _resolver.BindEachOther();
 
             _buildMode.OnConfirmed += (position, buildParam, mode, sender) =>
             {
@@ -156,7 +160,7 @@ namespace Afterlife.Dev
             _gameResultSystem.OnGameOverEvent += () => Debug.Log("게임 오버");
         }
 
-        protected override async void PrepareObjects()
+        private async void PrepareObjects()
         {
             _world = await GenerateWorld();
 
@@ -165,7 +169,7 @@ namespace Afterlife.Dev
             _objectSpawnSystem.SetUp();
 
             // * 웨이브 스케줄 등록
-            WaveScheduler.Schedule(_eventSystem, _container, new WaveSchedulerConfig
+            WaveScheduler.Schedule(_eventSystem, _resolver, new WaveSchedulerConfig
             {
                 GoblinData = _goblinData, GoblinPrefab = _goblinVisiblePrefab,
                 OrcData    = _orcData,    OrcPrefab    = _orcVisiblePrefab,

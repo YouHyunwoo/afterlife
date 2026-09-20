@@ -492,7 +492,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 744160659}
-  - component: {fileID: 744160660}
   m_Layer: 0
   m_Name: Container
   m_TagString: Untagged
@@ -515,18 +514,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 890077926}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &744160660
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 744160658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41759a3d97c61884da864361ff34bf25, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &755773689
 GameObject:
   m_ObjectHideFlags: 0
@@ -1196,7 +1183,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5745d38aee42974f8e83a8789a884cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _container: {fileID: 744160660}
   _generationParameter: {fileID: 11400000, guid: 457418baa38c53a49951fa245dd8de3c, type: 2}
   _gizmosElevationEnabled: 0
   _gizmosTemperatureEnabled: 0
