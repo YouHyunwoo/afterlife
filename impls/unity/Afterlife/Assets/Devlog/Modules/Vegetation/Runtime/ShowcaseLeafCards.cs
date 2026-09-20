@@ -17,6 +17,9 @@ namespace Afterlife.Devlog.Day01
         private readonly List<Renderer> _renderers=new List<Renderer>();
         private readonly Func<int> _version;
         private int _lastVersion=int.MinValue;
+        private readonly List<ShowcaseVegetationDensity> _densities=new List<ShowcaseVegetationDensity>();
+        public float FullDensityDistance { get; set; }=30;
+        public float HalfDensityDistance { get; set; }=45;
         public bool Enabled { get; private set; }=true;
         public int Count { get; private set; }
         public bool RotationVariation { get; private set; }=true;
@@ -104,17 +107,20 @@ namespace Afterlife.Devlog.Day01
                 }
                 if (positions.Count==0) continue;
                 var mesh=new Mesh { name="SurfaceLeafCards" };
+                ShowcaseVegetationDensity.ShuffleCards(indices,91823);
                 mesh.SetVertices(positions); mesh.SetNormals(normals); mesh.SetColors(colors); mesh.SetUVs(0,uv); mesh.SetUVs(1,sizes); mesh.SetTriangles(indices,0);
                 var bounds=mesh.bounds; bounds.Expand(1); mesh.bounds=bounds;
                 var go=new GameObject("SurfaceLeafCards"); go.transform.SetParent(source.Transform,false);
                 go.AddComponent<MeshFilter>().sharedMesh=mesh;
                 var renderer=go.AddComponent<MeshRenderer>(); renderer.sharedMaterial=_material; renderer.shadowCastingMode=ShadowCastingMode.Off;
                 _objects.Add(go); _meshes.Add(mesh); _sources.Add(source.Renderer); _renderers.Add(renderer);
+                _densities.Add(new ShowcaseVegetationDensity(mesh,renderer,indices.Count));
             }
         }
         public void Toggle() { Enabled=!Enabled; _lastVersion=int.MinValue; Tick(); }
-        public void Tick()
+        public void Tick(Camera camera=null)
         {
+            if (camera!=null) foreach (var density in _densities) density.Tick(camera,FullDensityDistance,HalfDensityDistance);
             int version=_version!=null ? _version() : 0;
             if (_version!=null && version==_lastVersion) return;
             _lastVersion=version;
@@ -138,6 +144,41 @@ namespace Afterlife.Devlog.Day01
             foreach (var go in _objects) UnityEngine.Object.Destroy(go);
             foreach (var mesh in _meshes) UnityEngine.Object.Destroy(mesh);
             if (_material!=null) UnityEngine.Object.Destroy(_material);
+        }
+    }
+
+    // 고정 셔플의 접두 구간을 그려 밀도를 바꾼다. 거리 전환 때 정점/인덱스 배열을 재생성하지 않는다.
+    public sealed class ShowcaseVegetationDensity
+    {
+        private readonly Mesh _mesh;
+        private readonly Renderer _renderer;
+        private readonly int _indexCount;
+        private int _level;
+        public ShowcaseVegetationDensity(Mesh mesh,Renderer renderer,int indexCount)
+        { _mesh=mesh; _renderer=renderer; _indexCount=indexCount; }
+        public static void ShuffleCards(List<int> indices,int seed)
+        {
+            var random=new System.Random(seed);
+            for (int card=indices.Count/6-1;card>0;card--)
+            {
+                int other=random.Next(card+1);
+                for (int k=0;k<6;k++)
+                { int value=indices[card*6+k]; indices[card*6+k]=indices[other*6+k]; indices[other*6+k]=value; }
+            }
+        }
+        public void Tick(Camera camera,float fullDistance,float halfDistance)
+        {
+            if (_renderer==null || !_renderer.gameObject.activeInHierarchy) return;
+            float distance=Vector3.Distance(camera.transform.position,_renderer.bounds.center);
+            // 경계에서 카메라가 흔들려도 밀도가 매 프레임 전환되지 않게 한다.
+            int next=distance>halfDistance+(_level<2 ? 1 : -1) ? 2
+                : distance>fullDistance+(_level==0 ? 1 : -1) ? 1 : 0;
+            if (_level==next) return;
+            _level=next;
+            int count=(_indexCount/6 >> next)*6;
+            var submesh=new SubMeshDescriptor(0,count,MeshTopology.Triangles)
+            { bounds=_mesh.bounds,firstVertex=0,vertexCount=_mesh.vertexCount };
+            _mesh.SetSubMesh(0,submesh,MeshUpdateFlags.DontRecalculateBounds);
         }
     }
 }

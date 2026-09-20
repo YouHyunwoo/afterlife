@@ -378,7 +378,12 @@ namespace Afterlife.Devlog.Day01
         }
 
         // 자원 흔들림의 Update 이후 실제 표면 위치와 날 위치를 맞춘다.
-        private void LateUpdate() { AnimateTool(); foreach (var leaves in _treeLeaves) leaves.Tick(); }
+        private void LateUpdate()
+        {
+            AnimateTool();
+            foreach (var leaves in _treeLeaves) leaves.Tick(ShowcaseCamera);
+            _grass?.Tick(ShowcaseCamera);
+        }
 
         private void PositionCamera()
         {

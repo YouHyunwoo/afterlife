@@ -11,7 +11,17 @@ namespace Afterlife.Devlog.Day01
     {
         private readonly List<GameObject> _objects=new List<GameObject>();
         private readonly List<Mesh> _meshes=new List<Mesh>();
-        private readonly List<Vector3> _afterGrassContacts=new List<Vector3>();
+        private readonly Dictionary<Vector2Int,List<Vector3>> _afterGrassContacts=new Dictionary<Vector2Int,List<Vector3>>();
+        private readonly List<ShowcaseVegetationDensity> _densities=new List<ShowcaseVegetationDensity>();
+        public float FullDensityDistance { get; set; }=30;
+        public float HalfDensityDistance { get; set; }=45;
+        private sealed class Chunk
+        {
+            public readonly List<Vector3> Positions=new List<Vector3>(),Types=new List<Vector3>(),Normals=new List<Vector3>();
+            public readonly List<Vector2> Uv=new List<Vector2>(),Sizes=new List<Vector2>();
+            public readonly List<Color> Colors=new List<Color>();
+            public readonly List<int> Indices=new List<int>();
+        }
         private readonly List<GameObject> _suppressedDecorations=new List<GameObject>();
         private readonly Material _material;
 
@@ -40,9 +50,7 @@ namespace Afterlife.Devlog.Day01
         private void Build(Transform stage,bool forestEnabled)
         {
             var grassRandom=new System.Random(70421);
-            var positions=new List<Vector3>(); var uv=new List<Vector2>();
-            var sizes=new List<Vector2>(); var indices=new List<int>();
-            var colors=new List<Color>(); var types=new List<Vector3>(); var normals=new List<Vector3>();
+            var chunks=new Dictionary<Vector2Int,Chunk>();
             var obstacles=new List<Bounds>();
             var environment=stage.Find("Environment");
             if (environment!=null)
@@ -118,7 +126,13 @@ namespace Afterlife.Devlog.Day01
                     if (kind==1) height*=1.55f;
                     if (kind==2 || kind==3) { height*=.55f; width*=.85f; }
                     // 실제 생성된 After 풀의 위치/폭만 접촉 대상으로 보관한다. 빈 군락과 장애물은 제외된다.
-                    if (forestEnabled) _afterGrassContacts.Add(new Vector3(world.x,world.z,width*.5f+.04f));
+                    if (forestEnabled)
+                    {
+                        var contactCell=new Vector2Int(Mathf.FloorToInt(world.x),Mathf.FloorToInt(world.z));
+                        if (!_afterGrassContacts.TryGetValue(contactCell,out var contacts))
+                        { contacts=new List<Vector3>(); _afterGrassContacts.Add(contactCell,contacts); }
+                        contacts.Add(new Vector3(world.x,world.z,width*.5f+.04f));
+                    }
                     float toneNoise=Mathf.PerlinNoise(px*.8f+47.2f,pz*.8f+13.7f);
                     float tone=toneNoise<.42f ? .88f : toneNoise<.58f ? 1 : 1.12f;
                     Color ground=tileColors.TryGetValue(new Vector2Int(x,z),out var tint) ? tint : new Color(.30f,.40f,.23f);
@@ -132,6 +146,10 @@ namespace Afterlife.Devlog.Day01
                         float dz=(float)(ShowcaseTileVariants.Height(x,z,px-x,pz-z+.005)-ShowcaseTileVariants.Height(x,z,px-x,pz-z-.005))/.01f;
                         normal=new Vector3(-dx,1,-dz).normalized;
                     }
+                    var chunkCell=new Vector2Int(Mathf.FloorToInt(px/4),Mathf.FloorToInt(pz/4));
+                    if (!chunks.TryGetValue(chunkCell,out var chunk)) { chunk=new Chunk(); chunks.Add(chunkCell,chunk); }
+                    var positions=chunk.Positions; var uv=chunk.Uv; var sizes=chunk.Sizes;
+                    var colors=chunk.Colors; var types=chunk.Types; var normals=chunk.Normals; var indices=chunk.Indices;
                     int first=positions.Count;
                     for (int corner=0;corner<4;corner++)
                     {
@@ -144,15 +162,21 @@ namespace Afterlife.Devlog.Day01
                     indices.Add(first); indices.Add(first+3); indices.Add(first+2);
                 }
             }
-            var mesh=new Mesh { name="Batched Grass Quads", indexFormat=IndexFormat.UInt32 };
-            mesh.SetVertices(positions); mesh.SetUVs(0,uv); mesh.SetUVs(1,sizes); mesh.SetUVs(2,types);
-            mesh.SetColors(colors); mesh.SetNormals(normals); mesh.SetTriangles(indices,0);
-            mesh.bounds=new Bounds(new Vector3(0,.4f,0),new Vector3(13,2,11));
-            var go=new GameObject("BillboardGrass"); go.transform.SetParent(stage,false);
-            go.AddComponent<MeshFilter>().sharedMesh=mesh;
-            var rendererOut=go.AddComponent<MeshRenderer>(); rendererOut.sharedMaterial=_material;
-            rendererOut.shadowCastingMode=ShadowCastingMode.Off;
-            _objects.Add(go); _meshes.Add(mesh);
+            foreach (var entry in chunks)
+            {
+                var chunk=entry.Value;
+                ShowcaseVegetationDensity.ShuffleCards(chunk.Indices,70421);
+                var mesh=new Mesh { name="Batched Grass Chunk", indexFormat=IndexFormat.UInt32 };
+                mesh.SetVertices(chunk.Positions); mesh.SetUVs(0,chunk.Uv); mesh.SetUVs(1,chunk.Sizes); mesh.SetUVs(2,chunk.Types);
+                mesh.SetColors(chunk.Colors); mesh.SetNormals(chunk.Normals); mesh.SetTriangles(chunk.Indices,0);
+                var bounds=mesh.bounds; bounds.Expand(2f); mesh.bounds=bounds;
+                var go=new GameObject("BillboardGrass_"+entry.Key.x+"_"+entry.Key.y); go.transform.SetParent(stage,false);
+                go.AddComponent<MeshFilter>().sharedMesh=mesh;
+                var rendererOut=go.AddComponent<MeshRenderer>(); rendererOut.sharedMaterial=_material;
+                rendererOut.shadowCastingMode=ShadowCastingMode.Off;
+                _objects.Add(go); _meshes.Add(mesh);
+                _densities.Add(new ShowcaseVegetationDensity(mesh,rendererOut,chunk.Indices.Count));
+            }
             if (forestEnabled)
                 foreach (var decoration in stage.GetComponentsInChildren<Transform>(true))
                 {
@@ -168,12 +192,23 @@ namespace Afterlife.Devlog.Day01
 
         public bool HasGrassAt(Vector3 worldPoint)
         {
-            foreach (var contact in _afterGrassContacts)
+            int x=Mathf.FloorToInt(worldPoint.x),z=Mathf.FloorToInt(worldPoint.z);
+            for (int dzCell=-1;dzCell<=1;dzCell++)
+            for (int dxCell=-1;dxCell<=1;dxCell++)
             {
-                float dx=worldPoint.x-contact.x, dz=worldPoint.z-contact.y;
-                if (dx*dx+dz*dz<=contact.z*contact.z) return true;
+                if (!_afterGrassContacts.TryGetValue(new Vector2Int(x+dxCell,z+dzCell),out var contacts)) continue;
+                foreach (var contact in contacts)
+                {
+                    float dx=worldPoint.x-contact.x, dz=worldPoint.z-contact.y;
+                    if (dx*dx+dz*dz<=contact.z*contact.z) return true;
+                }
             }
             return false;
+        }
+
+        public void Tick(Camera camera)
+        {
+            if (camera!=null) foreach (var density in _densities) density.Tick(camera,FullDensityDistance,HalfDensityDistance);
         }
 
         public void Dispose()
@@ -184,6 +219,7 @@ namespace Afterlife.Devlog.Day01
             foreach (var mesh in _meshes) UnityEngine.Object.Destroy(mesh);
             if (_material!=null) UnityEngine.Object.Destroy(_material);
             _objects.Clear(); _meshes.Clear();
+            _densities.Clear();
             _afterGrassContacts.Clear();
         }
     }
