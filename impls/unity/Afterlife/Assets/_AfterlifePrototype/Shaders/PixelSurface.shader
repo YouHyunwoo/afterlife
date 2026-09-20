@@ -92,7 +92,7 @@ Shader "Afterlife/Prototype/PixelSurface"
                     float water=0;
                     if(_TerrainRelief>.5)
                     {
-                        water=input.color.a;
+                        water=max(0,input.color.a);
                         // 육지 색은 주입된 맵으로 생성한 경계 혼합색, 물은 기존 표현을 유지한다.
                         baseColor=water>.5 ? TileColor(3,p) : input.color.rgb;
                     }
@@ -119,8 +119,9 @@ Shader "Afterlife/Prototype/PixelSurface"
                     baseColor=lerp(baseColor,baseColor*half3(1.035,.99,.96),soil*(1-water)*.45);
                     float2 edge=abs(frac(input.world.xz+.5)-.5);
                     float tileLine=smoothstep(.455,.485,max(edge.x,edge.y));
-                    baseColor=lerp(baseColor,baseColor*1.12+half3(.015,.045,.035),sight.g);
-                    baseColor=lerp(baseColor,half3(.20,.55,.43),sight.g*tileLine*.65);
+                    float territory=(_TerrainRelief>.5 && input.color.a<0)?0:sight.g;
+                    baseColor=lerp(baseColor,baseColor*1.12+half3(.015,.045,.035),territory);
+                    baseColor=lerp(baseColor,half3(.20,.55,.43),territory*tileLine*.65);
                 }
                 half3 color = baseColor * shade;
                 // Quantize authored colours in display space; linear-space quantization erases dark wood detail.
@@ -135,7 +136,7 @@ Shader "Afterlife/Prototype/PixelSurface"
                 float warm=0;
                 for(int j=0;j<_LampCount;j++)warm=max(warm,saturate(1-distance(input.world.xz,_VillageLamps[j].xy)/_VillageLamps[j].z));
                 color+=half3(.10,.055,.01)*warm*_PrototypeNight*visibility;
-                if(_Ground>.5&&_CursorCircle.z>0)
+                if(_Ground>.5&&_CursorCircle.z>0&&(_TerrainRelief<.5||input.color.a>=0))
                 {
                     float2 delta=input.world.xz-_CursorCircle.xy;
                     float distanceToCursor=length(delta);

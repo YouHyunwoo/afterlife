@@ -4,6 +4,7 @@
   "references": [
     "Afterlife.Devlog.Terrain",
     "Afterlife.Devlog.TerrainView",
+    "Afterlife.Devlog.Water",
     "Reusable.Flow",
     "Unity.InputSystem",
     "Unity.RenderPipelines.Core.Runtime",

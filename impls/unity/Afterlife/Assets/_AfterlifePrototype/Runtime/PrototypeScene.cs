@@ -55,6 +55,7 @@ namespace Afterlife.Prototype
             }
             _pipeline.msaaSampleCount = 1;
             _pipeline.supportsHDR = false;
+            ConfigureWaterRendering();
             _previousGraphics = GraphicsSettings.defaultRenderPipeline;
             _previousQuality = QualitySettings.renderPipeline;
             GraphicsSettings.defaultRenderPipeline = _pipeline;
@@ -93,6 +94,24 @@ namespace Afterlife.Prototype
             _resolver.Register(gameFlow);
             _resolver.BindEachOther();
             view.SetUp();
+        }
+        private void ConfigureWaterRendering()
+        {
+            _pipeline.supportsCameraDepthTexture = true;
+            _pipeline.supportsCameraOpaqueTexture = true;
+            if (_renderer == null)
+            {
+                // URP 17은 런타임 renderer 목록 교체 API가 없다. 저장 에셋 대신 복사본만 수정한다.
+                var field = typeof(UniversalRenderPipelineAsset).GetField("m_RendererDataList",
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+                var renderers = field?.GetValue(_pipeline) as ScriptableRendererData[];
+                if (renderers == null || renderers.Length != 1 || !(renderers[0] is UniversalRendererData source))
+                    throw new System.InvalidOperationException("Prototype water requires one UniversalRendererData (URP 17).");
+                _renderer = Instantiate(source);
+                field.SetValue(_pipeline, new ScriptableRendererData[] { _renderer });
+            }
+            _renderer.copyDepthMode = CopyDepthMode.AfterOpaques;
+            _renderer.depthPrimingMode = DepthPrimingMode.Disabled;
         }
         private void OnDestroy()
         {

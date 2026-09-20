@@ -30,6 +30,7 @@ namespace Afterlife.Prototype
         private readonly Color _gold = new Color(1,.78f,.25f);
         private MaterialPropertyBlock _block;
         private Afterlife.Devlog.TerrainView.TerrainSurface _terrainSurface;
+        private Afterlife.Devlog.Water.WaterSurface _waterSurface;
         private float GroundLift(float x,float z) => _terrainSurface==null ? 0 : _terrainSurface.Height(x,z)-Afterlife.Devlog.TerrainView.TerrainSurface.BaseHeight;
         private Vector3 GroundPosition(Point p,float y=0) => V(p,y+GroundLift(p.X,p.Z));
         private static Vector3 V(Point p,float y=0) => new Vector3(p.X,y,p.Z);
@@ -50,6 +51,8 @@ namespace Afterlife.Prototype
             _camera.transform.LookAt(new Vector3(0,0,0));
             _camera.clearFlags=CameraClearFlags.SolidColor; _camera.backgroundColor=new Color(.075f,.115f,.12f);
             _camera.nearClipPlane=.1f; _camera.farClipPlane=80; _camera.allowHDR=false; _camera.allowMSAA=false;
+            var cameraData=cameraObject.AddComponent<UnityEngine.Rendering.Universal.UniversalAdditionalCameraData>();
+            cameraData.requiresDepthTexture=true;cameraData.requiresColorTexture=true;
             _audio=gameObject.AddComponent<PrototypeAudio>();_audio.Initialize(_model,_settings,_camera);
             BuildGround(); InitializeInteraction(); InitializePresentation();
             _workRing=Line("WorkRange",_cyan,.055f);
@@ -66,8 +69,12 @@ namespace Afterlife.Prototype
         {
             var palette=new[]{new Color(.24f,.39f,.19f),new Color(.42f,.30f,.19f),new Color(.72f,.64f,.40f),
                 new Color(.055f,.25f,.32f),new Color(.83f,.87f,.86f),new Color(.16f,.28f,.12f),new Color(.37f,.39f,.38f)};
+            var coast=new Afterlife.Devlog.Terrain.CoastalTerrain(Afterlife.Devlog.Terrain.CoastShape.Rounded,-.46f,-.82f);
+            var waterShader=Resources.Load<Shader>("PrototypeWater");
             _terrainSurface=new Afterlife.Devlog.TerrainView.TerrainSurface(transform,_model.Terrain.Radius,
-                (x,z)=>(Afterlife.Devlog.Terrain.ShowcaseBiome)(int)_model.Terrain.At(x,z),_surface,palette);
+                (x,z)=>(Afterlife.Devlog.Terrain.ShowcaseBiome)(int)_model.Terrain.At(x,z),_surface,palette,coast);
+            _waterSurface=new Afterlife.Devlog.Water.WaterSurface(transform,_model.Terrain.Radius,
+                (x,z)=>_model.Terrain.At(x,z)==TerrainKind.Water,waterShader,coast.WaterHeight,coast.FloorHeight);
         }
         private GameObject Part(Transform parent,string name,PrimitiveType type,Vector3 position,Vector3 scale,Color color,bool collider=true)
         {

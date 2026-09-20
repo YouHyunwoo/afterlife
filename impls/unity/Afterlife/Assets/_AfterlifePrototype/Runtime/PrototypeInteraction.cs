@@ -368,6 +368,7 @@ namespace Afterlife.Prototype
         private void OnDestroy()
         {
             _terrainSurface?.Dispose();_terrainSurface=null;
+            _waterSurface?.Dispose();_waterSurface=null;
             DisposeGameFlow();
             ClearSkillPresentation();
             if(_model!=null)_model.LightningStruck-=ShowSkillLightning;
