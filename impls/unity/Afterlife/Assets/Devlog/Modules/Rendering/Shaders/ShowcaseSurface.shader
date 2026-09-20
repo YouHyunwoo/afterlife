@@ -34,6 +34,7 @@ Shader "Afterlife/Devlog/ShowcaseSurface"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
             #include "Assets/Devlog/Modules/Lighting/Shaders/ShowcaseLighting.hlsl"
             #include "Assets/Devlog/Modules/Snow/Shaders/ShowcaseSnowErosion.hlsl"
+            #include "Assets/Devlog/Modules/Lighting/Shaders/ShowcaseEmission.hlsl"
             #include "Assets/Devlog/Modules/Destruction/Shaders/ShowcaseDissolve.hlsl"
             #include "Assets/Devlog/Modules/Hover/Shaders/ShowcaseHover.hlsl"
             #include "Assets/Devlog/Modules/Wind/Shaders/ShowcaseWind.hlsl"
@@ -137,20 +138,7 @@ Shader "Afterlife/Devlog/ShowcaseSurface"
                 #endif
                 color=lerp(color,color*1.18+half3(.025,.018,.004),_Hover);
                 color=DevlogLighting(lerp(color,half3(1,.9,.65),_Flash),i.world,max(_VisionGround,max(_Ground,max(_TerrainBlend,_Water))));
-                // 집 FBX에 합쳐진 금색 유리만 발광시켜 벽/목재는 원래 재질을 유지한다.
-                half3 palette=i.color.rgb;
-                #if !defined(UNITY_COLORSPACE_GAMMA)
-                palette=LinearToSRGB(palette);
-                #endif
-                // Ruins에만 켠 플래그와 청록 정점색으로 수정만 분리한다.
-                float crystal=step(palette.r+.12,min(palette.g,palette.b))*step(.35,min(palette.g,palette.b));
-                color+=half3(.12,1,.78)*_CrystalGlow*lerp(1,.78,_DevlogNight)*crystal*(.96+.04*sin(_Time.y*1.5));
-                float glazing=_HouseWindows*step(.85,palette.r)*step(.6,palette.g)*(1-step(.4,palette.b));
-                // 원래 창문 정점색/재질 색조를 유지한 채 HDR 강도만 높인다.
-                // 공용 Bloom 설정은 유지해 수정의 번짐에는 영향을 주지 않는다.
-                half3 windowTint=max(half3(0,0,0),i.color.rgb*_BaseColor.rgb);
-                windowTint/=max(.001,max(windowTint.r,max(windowTint.g,windowTint.b)));
-                color=lerp(color,windowTint*2.8*(.985+.015*sin(_Time.y*2.3)),glazing*_DevlogNight);
+                color=ShowcaseEmission(color,i.color.rgb,_BaseColor.rgb,_CrystalGlow,_HouseWindows,_DevlogNight,_Time.y);
                 return half4(color,1);
             }
 

@@ -15,7 +15,7 @@ namespace Afterlife.Devlog.Day01
         private readonly VolumeProfile _profile;
         private readonly List<Renderer> _renderers=new List<Renderer>();
         private readonly List<MaterialPropertyBlock> _original=new List<MaterialPropertyBlock>();
-        public ShowcaseCrystalGlow(Transform stage,Camera camera)
+        public ShowcaseCrystalGlow(Transform stage,Camera camera,IEnumerable<Renderer> targets=null)
         {
             _camera=camera; _data=camera.GetUniversalAdditionalCameraData();
             _hdr=camera.allowHDR; _post=_data.renderPostProcessing; _mask=_data.volumeLayerMask;
@@ -27,9 +27,13 @@ namespace Afterlife.Devlog.Day01
             var bloom=_profile.Add<Bloom>(true); bloom.threshold.Override(1.15f); bloom.intensity.Override(.48f);
             bloom.scatter.Override(.52f); bloom.tint.Override(Color.white);
             volume.sharedProfile=_profile;
-            var ruins=stage.Find("Environment/Ruins_Pivot");
-            if (ruins==null) { Debug.LogWarning("Crystal ruins not found."); return; }
-            foreach (var renderer in ruins.GetComponentsInChildren<Renderer>(true))
+            if(targets==null)
+            {
+                var ruins=stage.Find("Environment/Ruins_Pivot");
+                if (ruins==null) { Debug.LogWarning("Crystal ruins not found."); return; }
+                targets=ruins.GetComponentsInChildren<Renderer>(true);
+            }
+            foreach (var renderer in targets)
             {
                 var previous=new MaterialPropertyBlock(); renderer.GetPropertyBlock(previous);
                 _renderers.Add(renderer); _original.Add(previous);
