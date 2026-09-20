@@ -12,6 +12,9 @@ namespace Afterlife.Devlog.Hover
         public event Action WaterRippleCreated;
         private readonly Vector4[] _stamps=new Vector4[128];
         private readonly float[] _weights=new float[128];
+        private readonly Vector4[] _grassStamps=new Vector4[96],_terrainStamps=new Vector4[96];
+        private readonly float[] _terrainWeights=new float[96];
+        private int _terrainCount;
         // xy: 중심, z: 전파 반경, w: 높이 감쇠. 살아 있는 물결만 GPU에 전달한다.
         private readonly Vector4[] _waves=new Vector4[32];
         private readonly float[] _ringFades=new float[32];
@@ -142,12 +145,31 @@ namespace Afterlife.Devlog.Hover
                 if (age>=lifetime) _stamps[i].w=-1;
             }
             UploadWaves();
-            Shader.SetGlobalFloatArray("_DevlogHoverWeightsV2",_weights);
+            UploadActiveStamps();
             Shader.SetGlobalFloat("_DevlogHoverTime",_time);
             Shader.SetGlobalVector("_DevlogHoverOrigin",_origin);
             Shader.SetGlobalVector("_DevlogGrassCursor",new Vector4(_grassPoint.x,_grassPoint.z,_strength,(int)GrassMode));
             Shader.SetGlobalTexture("_DevlogHoverBiomes",_biomes);
-            Shader.SetGlobalVectorArray("_DevlogHoverStampsV2",_stamps);
+        }
+        private void UploadActiveStamps()
+        {
+            int grassCount=0; _terrainCount=0;
+            for (int i=32;i<_stamps.Length;i++)
+            {
+                var stamp=_stamps[i];
+                if (stamp.w==0) _grassStamps[grassCount++]=stamp;
+                else if (stamp.w>=2)
+                { _terrainStamps[_terrainCount]=stamp; _terrainWeights[_terrainCount++]=_weights[i]; }
+            }
+            Shader.SetGlobalInt("_DevlogGrassStampCountV3",grassCount);
+            Shader.SetGlobalInt("_DevlogTerrainStampCountV3",_terrainCount);
+            // 배열 용량은 고정하고 실제 반복 횟수만 바꾼다.
+            if (grassCount>0) Shader.SetGlobalVectorArray("_DevlogGrassStampsV3",_grassStamps);
+            if (_terrainCount>0)
+            {
+                Shader.SetGlobalVectorArray("_DevlogTerrainStampsV3",_terrainStamps);
+                Shader.SetGlobalFloatArray("_DevlogTerrainWeightsV3",_terrainWeights);
+            }
         }
         private void UploadWaves()
         {
@@ -169,6 +191,7 @@ namespace Afterlife.Devlog.Hover
         }
         public float HeightOffset(Vector3 world)
         {
+            if (_terrainCount==0) return 0;
             Vector3 p=world-_origin;
             int x=Mathf.FloorToInt(p.x),z=Mathf.FloorToInt(p.z);
             int kind=Kind(ShowcaseBiomeMap.At(x,z));
@@ -179,8 +202,9 @@ namespace Afterlife.Devlog.Hover
             if (Kind(ShowcaseBiomeMap.At(x,z-1))!=kind) mask=Mathf.Min(mask,Mathf.SmoothStep(0,1,v/.10f));
             if (Kind(ShowcaseBiomeMap.At(x,z+1))!=kind) mask=Mathf.Min(mask,Mathf.SmoothStep(0,1,(1-v)/.10f));
             float depression=0,ridge=0;
-            foreach (var stamp in _stamps)
+            for (int i=0;i<_terrainCount;i++)
             {
+                var stamp=_terrainStamps[i];
                 float age=_time-stamp.z;
                 if ((int)stamp.w!=kind || age<0 || age>2.5f) continue;
                 float dx=world.x-stamp.x,dz=world.z-stamp.y;
@@ -200,10 +224,9 @@ namespace Afterlife.Devlog.Hover
             _lastWaterMotion=-10; _waterDistance=0; _lastKind=-1; _lastDust=-10;
             for (int i=0;i<_stamps.Length;i++) { _stamps[i]=new Vector4(0,0,-100,-1); _weights[i]=0; }
             UploadWaves();
-            Shader.SetGlobalFloatArray("_DevlogHoverWeightsV2",_weights);
+            UploadActiveStamps();
             if (_dust!=null) _dust.Clear();
             Shader.SetGlobalVector("_DevlogGrassCursor",Vector4.zero);
-            Shader.SetGlobalVectorArray("_DevlogHoverStampsV2",_stamps);
         }
         public void Dispose()
         {

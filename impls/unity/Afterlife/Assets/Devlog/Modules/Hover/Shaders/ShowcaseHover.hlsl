@@ -2,8 +2,9 @@
 #define SHOWCASE_HOVER_INCLUDED
 float _DevlogHoverTime;
 float4 _DevlogHoverOrigin, _DevlogGrassCursor;
-float4 _DevlogHoverStampsV2[128];
-float _DevlogHoverWeightsV2[128];
+int _DevlogGrassStampCountV3, _DevlogTerrainStampCountV3;
+float4 _DevlogGrassStampsV3[96], _DevlogTerrainStampsV3[96];
+float _DevlogTerrainWeightsV3[96];
 TEXTURE2D(_DevlogHoverBiomes); SAMPLER(sampler_DevlogHoverBiomes);
 float HoverKind(float2 cell)
 {
@@ -11,6 +12,7 @@ float HoverKind(float2 cell)
 }
 float HoverHeight(float3 world)
 {
+    if (_DevlogTerrainStampCountV3==0) return 0;
     float3 p=world-_DevlogHoverOrigin.xyz;
     float2 cell=floor(p.xz),f=frac(p.xz);
     if (p.x< -6 || p.x>=6 || p.z< -5 || p.z>=5) return 0;
@@ -22,15 +24,15 @@ float HoverHeight(float3 world)
     if (HoverKind(cell-float2(0,1))!=kind) mask=min(mask,smoothstep(0,.10,f.y));
     if (HoverKind(cell+float2(0,1))!=kind) mask=min(mask,smoothstep(0,.10,1-f.y));
     float depression=0,ridge=0;
-    [loop] for (int i=0;i<128;i++)
+    [loop] for (int i=0;i<_DevlogTerrainStampCountV3;i++)
     {
-        float4 stamp=_DevlogHoverStampsV2[i];
+        float4 stamp=_DevlogTerrainStampsV3[i];
         float age=_DevlogHoverTime-stamp.z;
         if (stamp.w!=kind || age<0 || age>2.5) continue;
         float2 delta=world.xz-stamp.xy;
         if (dot(delta,delta)>.25) continue;
         float r=length(delta)/.28;
-        float fade=_DevlogHoverWeightsV2[i];
+        float fade=_DevlogTerrainWeightsV3[i];
         depression=max(depression,exp(-r*r*4)*fade);
         ridge=max(ridge,exp(-(r-.9)*(r-.9)*25)*fade);
     }
@@ -46,9 +48,9 @@ float3 HoverGrass(float3 anchor,float height,float tip)
     if (_DevlogGrassCursor.w<.5) bend=direction*strength;
     else
     {
-        [loop] for (int i=0;i<128;i++)
+        [loop] for (int i=0;i<_DevlogGrassStampCountV3;i++)
         {
-            float4 stamp=_DevlogHoverStampsV2[i]; float age=_DevlogHoverTime-stamp.z;
+            float4 stamp=_DevlogGrassStampsV3[i]; float age=_DevlogHoverTime-stamp.z;
             if (stamp.w!=0 || age<0 || age>1.2) continue;
             float2 delta=anchor.xz-stamp.xy;
             float weight=1-smoothstep(.05,.65,length(delta));
