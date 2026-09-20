@@ -11,21 +11,8 @@ namespace Afterlife.Devlog.Shoreline
         public const float Width=.22f;
         public static float Offset(Vector3 stagePoint,ShorelineMode mode)
         {
-            if (mode==ShorelineMode.Square) return 0;
-            float distance=Width;
-            int cx=Mathf.FloorToInt(stagePoint.x),cz=Mathf.FloorToInt(stagePoint.z);
-            // 물 타일 영역까지의 거리. 모서리와 인접 타일도 같은 좌표장을 쓴다.
-            for (int z=cz-1;z<=cz+1;z++)
-            for (int x=cx-1;x<=cx+1;x++)
-            {
-                if (x< -6 || x>=6 || z< -5 || z>=5 || ShowcaseBiomeMap.At(x,z)!=ShowcaseBiome.Water) continue;
-                float dx=Mathf.Max(x-stagePoint.x,0,stagePoint.x-(x+1));
-                float dz=Mathf.Max(z-stagePoint.z,0,stagePoint.z-(z+1));
-                distance=Mathf.Min(distance,Mathf.Sqrt(dx*dx+dz*dz));
-            }
-            if (mode==ShorelineMode.Bevel) return distance-Width;
-            float horizontal=Width-distance;
-            return Mathf.Sqrt(Mathf.Max(0,Width*Width-horizontal*horizontal))-Width;
+            return (float)CoastField.Offset(stagePoint.x,stagePoint.z,
+                (x,z)=>x>=-6 && x<6 && z>=-5 && z<5 && ShowcaseBiomeMap.At(x,z)==ShowcaseBiome.Water,(CoastShape)mode);
         }
 
         public static Mesh Build(Mesh source,Matrix4x4 toStage,ShorelineMode mode,int cuts=8)

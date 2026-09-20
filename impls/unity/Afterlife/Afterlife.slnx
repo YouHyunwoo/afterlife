@@ -28,6 +28,7 @@
   <Project Path="Afterlife.Devlog.Vegetation.csproj" />
   <Project Path="Afterlife.Devlog.Wind.csproj" />
   <Project Path="Afterlife.Devlog.Hover.csproj" />
+  <Project Path="Afterlife.Devlog.Water.csproj" />
   <Project Path="Afterlife.Devlog.Contracts.csproj" />
   <Project Path="Afterlife.Storage.csproj" />
   <Project Path="Afterlife.Devlog.DamageMarks.csproj" />
