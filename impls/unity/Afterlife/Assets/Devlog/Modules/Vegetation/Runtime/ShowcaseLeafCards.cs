@@ -15,6 +15,8 @@ namespace Afterlife.Devlog.Day01
         private readonly Material _material;
         private readonly MaterialPropertyBlock _properties=new MaterialPropertyBlock();
         private readonly List<Renderer> _renderers=new List<Renderer>();
+        private readonly Func<int> _version;
+        private int _lastVersion=int.MinValue;
         public bool Enabled { get; private set; }=true;
         public int Count { get; private set; }
         public bool RotationVariation { get; private set; }=true;
@@ -23,8 +25,9 @@ namespace Afterlife.Devlog.Day01
             RotationVariation=!RotationVariation;
             if (_material!=null) _material.SetFloat("_LeafRotationVariation",RotationVariation ? 1 : 0);
         }
-        public ShowcaseLeafCards(IEnumerable<Surface> surfaces)
+        public ShowcaseLeafCards(IEnumerable<Surface> surfaces,Func<int> version=null)
         {
+            _version=version;
             var shader=Shader.Find("Afterlife/Devlog/LeafCards");
             if (shader==null) { Debug.LogError("Leaf card shader missing."); return; }
             _material=new Material(shader);
@@ -109,9 +112,12 @@ namespace Afterlife.Devlog.Day01
                 _objects.Add(go); _meshes.Add(mesh); _sources.Add(source.Renderer); _renderers.Add(renderer);
             }
         }
-        public void Toggle() { Enabled=!Enabled; Tick(); }
+        public void Toggle() { Enabled=!Enabled; _lastVersion=int.MinValue; Tick(); }
         public void Tick()
         {
+            int version=_version!=null ? _version() : 0;
+            if (_version!=null && version==_lastVersion) return;
+            _lastVersion=version;
             for (int i=0;i<_objects.Count;i++)
             {
                 _objects[i].SetActive(Enabled && _sources[i]!=null && _sources[i].enabled);

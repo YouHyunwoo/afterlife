@@ -26,6 +26,7 @@ namespace Afterlife.Devlog.Destruction
         private readonly Vector3 _start;
         private float _age, _sinkDistance;
         private bool _removing;
+        public bool Completed { get; private set; }
         private readonly DestructionProfile _profile;
 
         public ShowcaseDestruction(Transform visual,Renderer[] renderers,bool wood,DisappearMode mode,
@@ -78,6 +79,7 @@ namespace Afterlife.Devlog.Destruction
 
         public void Tick(float delta)
         {
+            if (Completed) return;
             _age+=delta;
             // 나무는 먼저 1.1초 동안 넘어지고 잠깐 머문 뒤 제거한다.
             float delay=_wood ? (_profile!=null ? _profile.TreeFallSeconds+_profile.TreeHoldSeconds : 1.65f)
@@ -125,6 +127,7 @@ namespace Afterlife.Devlog.Destruction
                     }
                 }
             }
+            Completed=progress>=1;
         }
 
         private void Apply(Renderer renderer,float progress,float floor)

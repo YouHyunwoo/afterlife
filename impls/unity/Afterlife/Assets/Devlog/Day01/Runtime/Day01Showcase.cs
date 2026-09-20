@@ -234,7 +234,7 @@ namespace Afterlife.Devlog.Day01
                         surfaces.Add(new ShowcaseLeafCards.Surface { Transform=surface.transform, Vertices=surface.Mesh.Vertices,
                             Triangles=surface.Mesh.Triangles,Normals=surface.Mesh.Normals,Colors=surface.Mesh.Colors,Renderer=surface.VisibleRenderer });
                     }
-                    var leaves=new ShowcaseLeafCards(surfaces);
+                    var leaves=new ShowcaseLeafCards(surfaces,()=>target.RenderVersion);
                     _treeLeaves.Add(leaves);
                     Debug.Log("Leaf sprites: "+target.name+" / "+leaves.Count+" cards.",target);
                 }

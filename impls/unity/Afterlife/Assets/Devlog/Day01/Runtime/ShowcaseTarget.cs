@@ -26,6 +26,11 @@ namespace Afterlife.Devlog.Day01
         private Vector3 _restPosition, _recoilTranslation, _recoilAxis;
         private float _age = 10;
         private bool _hover;
+        private bool _propertiesDirty=true;
+        private float _lastFlash=-1;
+        private bool _lastHover,_lastSnow,_lastMarks,_lastJuicy,_lastWood;
+        private Matrix4x4 _lastVisualMatrix;
+        public int RenderVersion { get; private set; }
         private readonly Vector4[] _snowHits = new Vector4[32];
         private int _snowHitCount;
         private readonly List<ShowcaseSnowCap> _snowCaps = new List<ShowcaseSnowCap>();
@@ -38,6 +43,7 @@ namespace Afterlife.Devlog.Day01
             if (!Juicy || !CanHit) return;
             if (Wood && surfaceColor.g>surfaceColor.r*1.08f && surfaceColor.g>surfaceColor.b*1.05f) return;
             _damageMarks.Add(Visual,point,normal);
+            _propertiesDirty=true;
         }
         public bool IsBroken { get; private set; }
         public float FallSoundDuration { get; set; } = 2.94f;
@@ -110,6 +116,7 @@ namespace Afterlife.Devlog.Day01
                 total-=candidates[selected].Weight; candidates.RemoveAt(selected);
             }
             foreach (var cap in _snowCaps) cap.Refresh();
+            _propertiesDirty=true;
             ApplyProperties(.72f);
             return particles;
         }
@@ -187,6 +194,7 @@ namespace Afterlife.Devlog.Day01
             _age = 10;
             _hover = false;
             _snowHitCount = 0;
+            _propertiesDirty=true;
             System.Array.Clear(_snowHits,0,_snowHits.Length);
             if (Visual == null || _properties == null) return;
             Visual.localScale = _restScale;
@@ -200,6 +208,7 @@ namespace Afterlife.Devlog.Day01
         {
             if (IsBroken)
             {
+                if (_destruction!=null && _destruction.Completed) return;
                 if (Wood)
                 {
                     _age+=Time.unscaledDeltaTime;
@@ -209,11 +218,13 @@ namespace Afterlife.Devlog.Day01
                     ApplyProperties(ShowcaseImpactTiming.Flash(_age));
                 }
                 _destruction?.Tick(Time.unscaledDeltaTime);
+                RenderVersion++;
                 return;
             }
             RefreshBiome();
+            if (_age>=1.25f) { ApplyProperties(0); return; }
             _age += Time.unscaledDeltaTime;
-            float pulse = Juicy ? ShowcaseImpactTiming.Recoil(_age,Wood) : 0;
+            float pulse = Juicy && _age<1.25f ? ShowcaseImpactTiming.Recoil(_age,Wood) : 0;
             Visual.localScale = _restScale;
             Visual.localPosition = _restPosition + _recoilTranslation*pulse;
             Visual.localRotation = Quaternion.AngleAxis(pulse*(Wood ? 9 : 4),_recoilAxis.sqrMagnitude>.001f ? _recoilAxis : Vector3.right)*_restRotation;
@@ -222,6 +233,12 @@ namespace Afterlife.Devlog.Day01
 
         private void ApplyProperties(float flash)
         {
+            var matrix=Visual.worldToLocalMatrix;
+            if (!_propertiesDirty && _lastFlash==flash && _lastHover==_hover && _lastSnow==HasSnow
+                && _lastMarks==DamageMarksEnabled && _lastJuicy==Juicy && _lastWood==Wood && _lastVisualMatrix==matrix) return;
+            _propertiesDirty=false; _lastFlash=flash; _lastHover=_hover; _lastSnow=HasSnow;
+            _lastMarks=DamageMarksEnabled; _lastJuicy=Juicy; _lastWood=Wood; _lastVisualMatrix=matrix;
+            RenderVersion++;
             foreach (var renderer in _renderers)
             {
                 renderer.GetPropertyBlock(_properties);
