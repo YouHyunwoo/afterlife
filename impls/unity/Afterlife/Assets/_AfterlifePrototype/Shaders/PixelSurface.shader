@@ -1,6 +1,6 @@
 Shader "Afterlife/Prototype/PixelSurface"
 {
-    Properties { _BaseColor("Color", Color) = (1,1,1,1) _Ground("Ground", Float) = 0 _Overlay("Overlay", Float) = 0 _Grass("Grass", Float) = 0 _VertexPalette("Blender vertex colours", Float) = 0 _SrcBlend("Source blend", Float) = 5 _DstBlend("Destination blend", Float) = 10 _ZWrite("Depth write", Float) = 0 }
+    Properties { _BaseColor("Color", Color) = (1,1,1,1) _Ground("Ground", Float) = 0 _TerrainRelief("Continuous biome terrain", Float) = 0 _Overlay("Overlay", Float) = 0 _Grass("Grass", Float) = 0 _VertexPalette("Blender vertex colours", Float) = 0 _SrcBlend("Source blend", Float) = 5 _DstBlend("Destination blend", Float) = 10 _ZWrite("Depth write", Float) = 0 }
     SubShader
     {
         Tags { "RenderPipeline"="UniversalPipeline" "RenderType"="Transparent" "Queue"="Transparent" }
@@ -19,7 +19,7 @@ Shader "Afterlife/Prototype/PixelSurface"
             struct Varyings { float4 positionCS : SV_POSITION; float3 normalWS : TEXCOORD0; float3 world : TEXCOORD1; half4 color : COLOR; };
             CBUFFER_START(UnityPerMaterial)
             half4 _BaseColor;
-            float _Ground, _Overlay, _Grass, _VertexPalette;
+            float _Ground, _TerrainRelief, _Overlay, _Grass, _VertexPalette;
             CBUFFER_END
             TEXTURE2D(_PrototypeVision); SAMPLER(sampler_PrototypeVision);
             float _PrototypeMapRadius, _PrototypeNight;
@@ -89,14 +89,24 @@ Shader "Afterlife/Prototype/PixelSurface"
                 if(_Ground>.5)
                 {
                     float2 p=input.world.xz;
+                    float water=0;
+                    if(_TerrainRelief>.5)
+                    {
+                        water=input.color.a;
+                        // 육지 색은 주입된 맵으로 생성한 경계 혼합색, 물은 기존 표현을 유지한다.
+                        baseColor=water>.5 ? TileColor(3,p) : input.color.rgb;
+                    }
+                    else
+                    {
                     // 정수 좌표가 타일 중심. 경계 근처만 이웃 타일 ID의 색을 섞는다.
                     float2 cell=floor(p),f=frac(p);
                     float2 blend=smoothstep(.32,.68,f);
                     float a=TileType(cell),b=TileType(cell+float2(1,0)),c=TileType(cell+float2(0,1)),d=TileType(cell+1);
                     baseColor=lerp(lerp(TileColor(a,p),TileColor(b,p),blend.x),lerp(TileColor(c,p),TileColor(d,p),blend.x),blend.y);
-                    float water=lerp(lerp(IsWater(a),IsWater(b),blend.x),lerp(IsWater(c),IsWater(d),blend.x),blend.y);
+                    water=lerp(lerp(IsWater(a),IsWater(b),blend.x),lerp(IsWater(c),IsWater(d),blend.x),blend.y);
                     float shore=water*(1-water)*4;
                     baseColor+=shore*.085*smoothstep(.1,.8,sin(p.y*2+p.x+_Time.y*.7));
+                    }
                     // 큰 색 군집과 작은 흙 결을 겹쳐 반복 줄무늬/격자 점을 피한다.
                     float2 warp=float2(TerrainNoise(p*.13+19),TerrainNoise(p*.13-31))*2-1;
                     float2 organic=p+warp*1.8;

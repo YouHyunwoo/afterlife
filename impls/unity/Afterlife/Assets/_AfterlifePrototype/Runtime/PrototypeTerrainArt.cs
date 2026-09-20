@@ -31,6 +31,7 @@ namespace Afterlife.Prototype
                 var coord=new Vector2Int(Mathf.FloorToInt(x/8f),Mathf.FloorToInt(z/8f));
                 if(!chunks.TryGetValue(coord,out var list)){list=new List<CombineInstance>();chunks.Add(coord,list);}
                 var pos=new Vector3(x+(float)random.NextDouble()*.9f-.45f,-.045f,z+(float)random.NextDouble()*.9f-.45f);
+                pos.y+=GroundLift(pos.x,pos.z);
                 var matrix=Matrix4x4.TRS(pos,Quaternion.Euler(0,(float)random.NextDouble()*360,0),Vector3.one*(.8f+(float)random.NextDouble()*.35f));
                 foreach(var filter in sample.GetComponentsInChildren<MeshFilter>(true))list.Add(new CombineInstance{mesh=filter.sharedMesh,transform=matrix*filter.transform.localToWorldMatrix});
             }

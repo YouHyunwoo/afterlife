@@ -2,6 +2,8 @@
   "name": "Afterlife.Prototype",
   "rootNamespace": "Afterlife.Prototype",
   "references": [
+    "Afterlife.Devlog.Terrain",
+    "Afterlife.Devlog.TerrainView",
     "Reusable.Flow",
     "Unity.InputSystem",
     "Unity.RenderPipelines.Core.Runtime",

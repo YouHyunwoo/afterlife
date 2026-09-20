@@ -50,7 +50,7 @@ namespace Afterlife.Prototype
         {
             var ui=_sceneUi;
             if(ui==null||ui.CollectionLayer==null||ui.GoldTarget==null||_collectionFlights==null||gold<=0)return;
-            var view=_camera.WorldToViewportPoint(V(point,.65f));
+            var view=_camera.WorldToViewportPoint(GroundPosition(point,.65f));
             if(view.z<=0||view.x<0||view.x>1||view.y<0||view.y>1)return;
             var worldRect=ui.WorldDisplay.rectTransform;
             var world=worldRect.TransformPoint(new Vector3(Mathf.Lerp(worldRect.rect.xMin,worldRect.rect.xMax,view.x),Mathf.Lerp(worldRect.rect.yMin,worldRect.rect.yMax,view.y),0));

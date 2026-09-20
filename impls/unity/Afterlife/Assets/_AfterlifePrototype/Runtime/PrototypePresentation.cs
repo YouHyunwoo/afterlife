@@ -37,7 +37,8 @@ namespace Afterlife.Prototype
                 for(int blade=0;blade<3;blade++)
                 {
                     float xx=x+blade*.09f,zz=z+blade*.07f;int n=vertices.Count;
-                    vertices.Add(new Vector3(xx-.04f,-.04f,zz));vertices.Add(new Vector3(xx+.04f,-.04f,zz));vertices.Add(new Vector3(xx+.02f,.16f+(i%3)*.035f,zz));
+                    float lift=GroundLift(xx,zz);
+                    vertices.Add(new Vector3(xx-.04f,-.04f+lift,zz));vertices.Add(new Vector3(xx+.04f,-.04f+lift,zz));vertices.Add(new Vector3(xx+.02f,.16f+(i%3)*.035f+lift,zz));
                     triangles.Add(n);triangles.Add(n+1);triangles.Add(n+2);
                 }
             }
@@ -124,7 +125,7 @@ namespace Afterlife.Prototype
             }
             else if((tool.Kind==Kind.Treasure||tool.Kind==Kind.Chest))
             {
-                tool.Root.transform.position=V(point,.34f);tool.Root.transform.rotation=facing;
+                tool.Root.transform.position=GroundPosition(point,.34f);tool.Root.transform.rotation=facing;
                 tool.Pivot.localRotation=Quaternion.Euler(Mathf.Lerp(-65,10,Mathf.Clamp01(swing)),0,0);
                 tool.Pivot.localScale=new Vector3(1,1,Mathf.Lerp(1,.45f,Mathf.Clamp01(swing)));return;
             }
@@ -139,7 +140,7 @@ namespace Afterlife.Prototype
             Vector3 strikeOffset=facing*(impact*edge);
             Vector3 approach=new Vector3(strikeOffset.x,0,strikeOffset.z).normalized;
             float surface=tool.Kind==Kind.Tree?.10f:tool.Kind==Kind.Rock?.25f:(VillageModel.IsHostile(tool.Kind)||tool.Kind==Kind.Animal)?.24f:.42f;
-            Vector3 contact=V(point,height)-approach*surface;
+            Vector3 contact=GroundPosition(point,height)-approach*surface;
             tool.Root.transform.rotation=facing;
             tool.Root.transform.position=contact-facing*(impact*edge);
             tool.Pivot.localPosition=Vector3.zero;tool.Pivot.localScale=Vector3.one;tool.Pivot.localRotation=pose;
@@ -149,11 +150,11 @@ namespace Afterlife.Prototype
         {
             // 모델의 자원/체력 변경 이벤트와 타격 포즈를 같은 틱에 적용한다.
             var tool=GetTool(body);tool.Impact=_effectTime;tool.Used=true;PoseTool(tool,body.Position,1);
-            _reactions[body.Id]=new Reaction{Time=_effectTime,Kind=body.Kind,Position=V(body.Position)};
+            _reactions[body.Id]=new Reaction{Time=_effectTime,Kind=body.Kind,Position=GroundPosition(body.Position)};
         }
         private void OnDamaged(Body body)
         {
-            _reactions[body.Id]=new Reaction{Damage=true,Time=_effectTime,Kind=body.Kind,Position=V(body.Position)};
+            _reactions[body.Id]=new Reaction{Damage=true,Time=_effectTime,Kind=body.Kind,Position=GroundPosition(body.Position)};
         }
         private void OnRunEnded()
         {

@@ -77,8 +77,8 @@ namespace Afterlife.Prototype
         private bool MouseWorld(Vector2 screen,out Point point)
         {
             var ray=_camera.ViewportPointToRay(new Vector3(screen.x/Screen.width,screen.y/Screen.height,0));
-            if(new Plane(Vector3.up,Vector3.zero).Raycast(ray,out float distance))
-            {var world=ray.GetPoint(distance);point=new Point(world.x,world.z);return Mathf.Abs(world.x)<_settings.MapRadius&&Mathf.Abs(world.z)<_settings.MapRadius;}
+            if(_terrainSurface!=null && _terrainSurface.Raycast(ray,out var world))
+            {point=new Point(world.x,world.z);return Mathf.Abs(world.x)<_settings.MapRadius&&Mathf.Abs(world.z)<_settings.MapRadius;}
             point=default;return false;
         }
         private bool CameraUiGuard(Vector2 screen)=>_sceneUi!=null&&_sceneUi.Guards(screen);
@@ -222,7 +222,7 @@ namespace Afterlife.Prototype
             {
                 var rect=Rect.MinMaxRect(Mathf.Min(_pressScreen.x,screen.x),Mathf.Min(_pressScreen.y,screen.y),Mathf.Max(_pressScreen.x,screen.x),Mathf.Max(_pressScreen.y,screen.y));
                 _model.Select(_model.Bodies.Where(b=>b.Friendly&&_model.Visibility(b.Position)>.12f).Where(b=>
-                {var p=_camera.WorldToViewportPoint(V(b.Position,.3f));return p.z>0&&rect.Contains(new Vector2(p.x*Screen.width,p.y*Screen.height));}).Select(b=>b.Id));return;
+                {var p=_camera.WorldToViewportPoint(GroundPosition(b.Position,.3f));return p.z>0&&rect.Contains(new Vector2(p.x*Screen.width,p.y*Screen.height));}).Select(b=>b.Id));return;
             }
             if(_pressBody==0){_model.ClearMode();_inspected=0;OpenTileBuildMenu(screen);return;}
             var body=_model.Find(_pressBody);_inspected=_pressBody;
@@ -318,6 +318,7 @@ namespace Afterlife.Prototype
                 if(!_displayPositions.TryGetValue(b.Id,out var displayed))displayed=targetPosition;
                 displayed=b.Unit&&b.StunRemaining<=0?Vector3.Lerp(displayed,targetPosition,1-Mathf.Exp(-22*Time.deltaTime)):targetPosition;
                 _displayPositions[b.Id]=displayed;go.transform.position=displayed;go.transform.localScale=b.Building&&(!b.Complete||b.MovingOut)?new Vector3(1,.25f+.75f*b.Construction,1):Vector3.one;
+                go.transform.position+=Vector3.up*GroundLift(displayed.x,displayed.z);
                 AnimateWorldBody(b,go,movement);
                 if(b.Kind==Kind.Slime&&!_worldRigs.ContainsKey(b.Id))
                 {
@@ -359,13 +360,14 @@ namespace Afterlife.Prototype
             _commandLine.enabled=_arrowHead.enabled=_pressActive&&_dragging&&_commandDrag&&_pointerValid&&_modal==Modal.None;
             if(_commandLine.enabled)
             {
-                _commandLine.positionCount=2;_commandLine.SetPositions(new[]{V(_pressWorld,.2f),V(_pointer,.2f)});
-                Vector3 end=V(_pointer,.2f),dir=(end-V(_pressWorld,.2f)).normalized,side=Vector3.Cross(dir,Vector3.up)*.3f;
+                _commandLine.positionCount=2;_commandLine.SetPositions(new[]{GroundPosition(_pressWorld,.2f),GroundPosition(_pointer,.2f)});
+                Vector3 end=GroundPosition(_pointer,.2f),dir=(end-GroundPosition(_pressWorld,.2f)).normalized,side=Vector3.Cross(dir,Vector3.up)*.3f;
                 _arrowHead.positionCount=3;_arrowHead.SetPositions(new[]{end-dir*.6f+side,end,end-dir*.6f-side});
             }
         }
         private void OnDestroy()
         {
+            _terrainSurface?.Dispose();_terrainSurface=null;
             DisposeGameFlow();
             ClearSkillPresentation();
             if(_model!=null)_model.LightningStruck-=ShowSkillLightning;

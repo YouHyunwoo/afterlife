@@ -157,7 +157,7 @@ namespace Afterlife.Prototype
         {
             if(_model.Visibility(body.Position)<=0)return;
             if(_amounts.Count>=96)_amounts.RemoveAt(0);
-            _amounts.Add(new FloatingAmount{Position=V(body.Position,body.Kind==Kind.Tree?1.35f:.85f),Text=message,Kind=kind,Born=_effectTime,Offset=(body.Id%3-1)*10+(kind==FeedbackKind.Fire?32:kind==FeedbackKind.Burn?-32:0)});
+            _amounts.Add(new FloatingAmount{Position=GroundPosition(body.Position,body.Kind==Kind.Tree?1.35f:.85f),Text=message,Kind=kind,Born=_effectTime,Offset=(body.Id%3-1)*10+(kind==FeedbackKind.Fire?32:kind==FeedbackKind.Burn?-32:0)});
         }
         private ShotView MakeShotView(int style)
         {
@@ -188,15 +188,15 @@ namespace Afterlife.Prototype
             {
                 int style=shot.Lightning?4:(shot.Magic?2:0)+(shot.Enemy?1:0);ShotView view=null;
                 foreach(var item in _shotViews)if(item.Id==shot.Id){view=item;break;}
-                if(view==null){foreach(var item in _shotViews)if(item.Id==0&&item.Style==style){view=item;break;}if(view==null)view=MakeShotView(style);view.Id=shot.Id;view.Previous=V(shot.Start,shot.StartHeight);}
+                if(view==null){foreach(var item in _shotViews)if(item.Id==0&&item.Style==style){view=item;break;}if(view==null)view=MakeShotView(style);view.Id=shot.Id;view.Previous=GroundPosition(shot.Start,shot.StartHeight);}
                 view.Used=true;view.Root.SetActive(true);
                 if(shot.Lightning)
                 {
-                    Vector3 from=V(shot.Start,2.5f),to=V(shot.Position,.55f),side=Vector3.Cross((to-from).normalized,Vector3.up);
+                    Vector3 from=GroundPosition(shot.Start,2.5f),to=GroundPosition(shot.Position,.55f),side=Vector3.Cross((to-from).normalized,Vector3.up);
                     for(int k=0;k<9;k++){float t=k/8f;Vector3 point=Vector3.Lerp(from,to,t);if(k>0&&k<8)point+=side*Mathf.Sin(k*13.1f+shot.Id*2.8f)*.22f+Vector3.up*Mathf.Sin(k*7.7f)*.12f;view.Bolt.SetPosition(k,point);}
                     view.Bolt.widthMultiplier=.035f+.08f*Mathf.Clamp01(shot.Life/.2f);continue;
                 }
-                Vector3 position=V(shot.Position,shot.Height),direction=position-view.Previous;
+                Vector3 position=GroundPosition(shot.Position,shot.Height),direction=position-view.Previous;
                 view.Root.transform.position=position;
                 if(direction.sqrMagnitude>.00001f)view.Root.transform.rotation=Quaternion.LookRotation(direction,Vector3.up);
                 view.Previous=position;view.Root.transform.localScale=Vector3.one*(shot.Magic?1+.1f*Mathf.Sin(_effectTime*18):1);

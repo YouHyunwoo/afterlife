@@ -14,7 +14,7 @@ namespace Afterlife.Prototype
         private float ToolsBottom=>Mathf.Min(626,HudHeight-96);
         private bool ArrowBlocked(Body source,Body target)
         {
-            Vector3 start=V(source.Position,2.4f),end=V(target.Position,.65f),delta=end-start;
+            Vector3 start=GroundPosition(source.Position,2.4f),end=GroundPosition(target.Position,.65f),delta=end-start;
             int count=Physics.RaycastNonAlloc(start,delta.normalized,_arrowHits,delta.magnitude);
             for(int i=0;i<count;i++)
             {

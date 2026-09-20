@@ -24,7 +24,7 @@ namespace Afterlife.Prototype
                     }
                     view.Body=body.Id;
                 }
-                view.Used=true;view.Root.SetActive(true);view.Root.transform.position=V(body.Position);
+                view.Used=true;view.Root.SetActive(true);view.Root.transform.position=GroundPosition(body.Position);
                 for(int f=0;f<view.Flames.Length;f++)view.Flames[f].localScale=new Vector3(.20f,.45f+Mathf.Sin(_effectTime*14+f*2+body.Id)*.16f,.20f);
             }
             foreach(var effect in _burnViews)if(!effect.Used){effect.Body=0;effect.Root.SetActive(false);}

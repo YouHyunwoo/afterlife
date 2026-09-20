@@ -29,6 +29,9 @@ namespace Afterlife.Prototype
         private readonly Color _cyan = new Color(.34f,.96f,.85f);
         private readonly Color _gold = new Color(1,.78f,.25f);
         private MaterialPropertyBlock _block;
+        private Afterlife.Devlog.TerrainView.TerrainSurface _terrainSurface;
+        private float GroundLift(float x,float z) => _terrainSurface==null ? 0 : _terrainSurface.Height(x,z)-Afterlife.Devlog.TerrainView.TerrainSurface.BaseHeight;
+        private Vector3 GroundPosition(Point p,float y=0) => V(p,y+GroundLift(p.X,p.Z));
         private static Vector3 V(Point p,float y=0) => new Vector3(p.X,y,p.Z);
 
         public void SetUp()
@@ -61,8 +64,10 @@ namespace Afterlife.Prototype
         private void OnNotice(string message) { _notice=message;_noticeTime=Time.unscaledTime; }
         private void BuildGround()
         {
-            var ground=Part(transform,"Ground",PrimitiveType.Cube,new Vector3(0,-.16f,0),new Vector3(_settings.MapRadius*2+1,.2f,_settings.MapRadius*2+1),new Color(.27f,.36f,.25f),false);
-            var renderer=ground.GetComponent<Renderer>(); var groundMaterial=new Material(_surface);groundMaterial.SetInt("_SrcBlend",1);groundMaterial.SetInt("_DstBlend",0);groundMaterial.SetInt("_ZWrite",1);groundMaterial.renderQueue=2000;_materials.Add(groundMaterial);renderer.sharedMaterial=groundMaterial; renderer.GetPropertyBlock(_block);_block.SetFloat("_Ground",1);renderer.SetPropertyBlock(_block);
+            var palette=new[]{new Color(.24f,.39f,.19f),new Color(.42f,.30f,.19f),new Color(.72f,.64f,.40f),
+                new Color(.055f,.25f,.32f),new Color(.83f,.87f,.86f),new Color(.16f,.28f,.12f),new Color(.37f,.39f,.38f)};
+            _terrainSurface=new Afterlife.Devlog.TerrainView.TerrainSurface(transform,_model.Terrain.Radius,
+                (x,z)=>(Afterlife.Devlog.Terrain.ShowcaseBiome)(int)_model.Terrain.At(x,z),_surface,palette);
         }
         private GameObject Part(Transform parent,string name,PrimitiveType type,Vector3 position,Vector3 scale,Color color,bool collider=true)
         {
@@ -157,15 +162,27 @@ namespace Afterlife.Prototype
             line.useWorldSpace=true; line.loop=true; line.widthMultiplier=width;
             Tint(line,color); line.enabled=false; return line;
         }
-        private static void Circle(LineRenderer line,Point center,float radius)
+        private void Circle(LineRenderer line,Point center,float radius)
         {
             line.enabled=true; line.positionCount=80;
-            for(int i=0;i<80;i++) { float a=i*Mathf.PI*2/80; line.SetPosition(i,new Vector3(center.X+Mathf.Cos(a)*radius,.09f,center.Z+Mathf.Sin(a)*radius)); }
+            for(int i=0;i<80;i++) { float a=i*Mathf.PI*2/80; var p=new Point(center.X+Mathf.Cos(a)*radius,center.Z+Mathf.Sin(a)*radius); line.SetPosition(i,GroundPosition(p,.09f)); }
         }
-        private static void Box(LineRenderer line,Point p,float width,float depth)
+        private void Box(LineRenderer line,Point p,float width,float depth)
         {
-            line.enabled=true; line.positionCount=4;
-            line.SetPositions(new[]{new Vector3(p.X-width/2,.08f,p.Z-depth/2),new Vector3(p.X-width/2,.08f,p.Z+depth/2),new Vector3(p.X+width/2,.08f,p.Z+depth/2),new Vector3(p.X+width/2,.08f,p.Z-depth/2)});
+            line.enabled=true;
+            int nx=Mathf.Max(1,Mathf.CeilToInt(width*4)),nz=Mathf.Max(1,Mathf.CeilToInt(depth*4));
+            line.positionCount=2*(nx+nz);int index=0;
+            for(int side=0;side<4;side++)
+            {
+                int count=side%2==0?nz:nx;
+                for(int i=0;i<count;i++)
+                {
+                    float t=i/(float)count;
+                    float x=p.X+(side==0?-.5f:side==1?t-.5f:side==2?.5f:.5f-t)*width;
+                    float z=p.Z+(side==0?t-.5f:side==1?.5f:side==2?.5f-t:-.5f)*depth;
+                    line.SetPosition(index++,GroundPosition(new Point(x,z),.08f));
+                }
+            }
         }
         private void Resize()
         {
