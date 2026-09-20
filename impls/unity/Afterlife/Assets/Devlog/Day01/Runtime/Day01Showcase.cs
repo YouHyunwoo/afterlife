@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 using UnityEngine.Rendering.Universal;
 
 namespace Afterlife.Devlog.Day01
@@ -9,6 +10,26 @@ namespace Afterlife.Devlog.Day01
     public sealed class Day01Showcase : MonoBehaviour
     {
         public Camera ShowcaseCamera;
+        public bool FilmMode { get; set; }
+        public bool FilmInteraction { get; set; }
+        public int CurrentStageIndex => _stage;
+        public Vector3 StageOrigin => CurrentStage.position;
+        public void SetFilmNight(bool night, bool immediate) => _lighting?.SetNight(night, immediate);
+        public void SetFilmLook()
+        {
+            if (_shoreline != null && _shoreline.Mode != Afterlife.Devlog.Shoreline.ShorelineMode.Rounded)
+            {
+                _hoverTerrain?.Dispose(); _hoverTerrain=null;
+                _shoreline.Select(Afterlife.Devlog.Shoreline.ShorelineMode.Rounded);
+                if (_tileHover != null) _hoverTerrain=new ShowcaseHoverTerrain(CurrentStage,_tileHover);
+            }
+            if (_tileHover != null) _tileHover.GrassMode=Afterlife.Devlog.Hover.GrassHoverMode.Sway;
+            _removalMode=Afterlife.Devlog.Destruction.DisappearMode.Dissolve;
+            _damageMarksEnabled=true;
+            foreach(var target in _targets) { target.RemovalMode=_removalMode; target.DamageMarksEnabled=true; }
+        }
+        private Canvas _pixelCanvas;
+        private RawImage _pixelImage;
         // 기존 에디터 업그레이드의 After 인덱스(2)는 보존한다.
         public Transform[] Stages;
         public Transform[] PresentationStages;
@@ -42,6 +63,7 @@ namespace Afterlife.Devlog.Day01
         private Afterlife.Devlog.Hover.ShowcaseTileHover _tileHover;
         private ShowcaseHoverTerrain _hoverTerrain;
         [HideInInspector] public int LayoutVersion;
+        [HideInInspector] public int ContinuousTerrainVersion;
         private RenderPipelineAsset _previousGraphics, _previousQuality;
         private UniversalRenderPipelineAsset _ownedPipeline;
         private RenderTexture _texture;
@@ -244,6 +266,8 @@ namespace Afterlife.Devlog.Day01
 
         private void ConfigureOutput()
         {
+            if (_pixelImage != null) _pixelImage.texture = null;
+            if (_pixelCanvas != null) _pixelCanvas.gameObject.SetActive(false);
             if (_texture != null) { ShowcaseCamera.targetTexture = null; _texture.Release(); Destroy(_texture); _texture = null; }
             bool pixelated = _pixels && Phase >= 1;
             if (pixelated && _displayCamera == null)
@@ -277,12 +301,28 @@ namespace Afterlife.Devlog.Day01
             _texture = new RenderTexture(Mathf.RoundToInt(h * Aspect), h, 24, RenderTextureFormat.DefaultHDR) { name = "Day01 Pixel Frame", filterMode = FilterMode.Point, antiAliasing = 1 };
             _texture.Create();
             ShowcaseCamera.targetTexture = _texture;
+            if (_pixelCanvas == null)
+            {
+                var go = new GameObject("PixelPresentation", typeof(RectTransform), typeof(Canvas));
+                go.transform.SetParent(transform,false);
+                _pixelCanvas = go.GetComponent<Canvas>();
+                _pixelCanvas.renderMode = RenderMode.ScreenSpaceOverlay; _pixelCanvas.sortingOrder = -1000;
+                var frame = new GameObject("PixelFrame", typeof(RectTransform), typeof(RawImage));
+                frame.transform.SetParent(go.transform,false);
+                _pixelImage = frame.GetComponent<RawImage>(); _pixelImage.raycastTarget = false;
+            }
+            _pixelCanvas.targetDisplay = ShowcaseCamera.targetDisplay;
+            _pixelImage.texture = _texture;
+            _pixelImage.rectTransform.anchorMin = _pixelImage.rectTransform.anchorMax = Vector2.one*.5f;
+            _pixelImage.rectTransform.anchoredPosition = Vector2.zero;
+            _pixelImage.rectTransform.sizeDelta = _display.size;
+            _pixelCanvas.gameObject.SetActive(true);
         }
 
         private void Update()
         {
             var keyboard = Keyboard.current;
-            if (keyboard != null)
+            if (keyboard != null && !FilmMode)
             {
                 if (keyboard.digit1Key.wasPressedThisFrame) SetStage(0);
                 if (keyboard.digit2Key.wasPressedThisFrame) SetStage(1);
@@ -332,6 +372,7 @@ namespace Afterlife.Devlog.Day01
 
         private void PositionCamera()
         {
+            if (FilmMode) return;
             Vector3 focus = CurrentStage.position + Vector3.up * .5f;
             ShowcaseCamera.transform.SetPositionAndRotation(focus + _cameraOffset, Quaternion.LookRotation(-_cameraOffset));
             if (CameraShake && _shake > 0) ShowcaseCamera.transform.position += ShowcaseCamera.transform.right * Mathf.Sin(_shake * 160) * _shake * .2f;
@@ -344,7 +385,7 @@ namespace Afterlife.Devlog.Day01
             _lighting?.UpdateCursor(null);
             if (_hover != null) _hover.SetHover(false);
             _hover = null;
-            if (Phase < 4) return;
+            if (Phase < 4 || (FilmMode && !FilmInteraction)) return;
             var mouse = Mouse.current;
             if (mouse == null || !Application.isFocused) return;
             Vector2 point = mouse.position.ReadValue();
@@ -534,8 +575,7 @@ namespace Afterlife.Devlog.Day01
             if (ShowcaseCamera == null) return;
             GUI.depth = 100;
             GUI.color = Color.black;
-            if (_texture != null) GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), Texture2D.whiteTexture);
-            else
+            if (_texture == null)
             {
                 GUI.DrawTexture(new Rect(0, 0, Screen.width, _display.y), Texture2D.whiteTexture);
                 GUI.DrawTexture(new Rect(0, Screen.height - _display.y, Screen.width, _display.y), Texture2D.whiteTexture);
@@ -543,8 +583,7 @@ namespace Afterlife.Devlog.Day01
                 GUI.DrawTexture(new Rect(Screen.width - _display.x, 0, _display.x, Screen.height), Texture2D.whiteTexture);
             }
             GUI.color = Color.white;
-            if (_texture != null) GUI.DrawTexture(_display, _texture, ScaleMode.StretchToFill, false);
-            if (!ShowGuide) return;
+            if (!ShowGuide || FilmMode) return;
             var previousMatrix = GUI.matrix;
             try
             {
@@ -561,7 +600,7 @@ namespace Afterlife.Devlog.Day01
             GUI.Box(new Rect(16,16,550,305), "");
             string[] names = PhaseNames;
             GUI.Label(new Rect(28, 23, 520, 22), "DAY 01   /   " + names[Phase]);
-            GUI.Label(new Rect(28, 48, 520, 22), HasPresentationStages ? "1 Before  2 Shape  3 Terrain  4 Life  5 Hits  6 After | H Hide" : "1 Before  2 Process  3 After | H Hide");
+            GUI.Label(new Rect(28, 48, 520, 22), HasPresentationStages ? "1~6 Stages | H Hide guide | F8 Film mode" : "1 Before  2 Process  3 After | H Hide");
             GUI.Label(new Rect(28, 73, 520, 22), "P Pixels   R Reset   G Leaf rotation: "+(LeafRotation ? "Random 360" : "Uniform"));
             GUI.Label(new Rect(28, 98, 520, 22), (Phase == 5 ? "N Day/Night" : "Day/Night: stage 6")+" | L Leaves: " + (LeavesEnabled ? "ON " : "OFF ")+_treeLeaves.Count+" trees / "+LeafCount+" cards");
             GUI.enabled = Phase >= 4;
@@ -599,6 +638,7 @@ namespace Afterlife.Devlog.Day01
 
         private void OnDisable()
         {
+            if (_pixelCanvas != null) { _pixelCanvas.gameObject.SetActive(false); Destroy(_pixelCanvas.gameObject); _pixelCanvas=null; _pixelImage=null; }
             if (_tileHover!=null) _tileHover.WaterRippleCreated-=PlayWaterRipple;
             _sound?.Dispose(); _sound=null;
             _ambience?.Dispose(); _ambience=null;

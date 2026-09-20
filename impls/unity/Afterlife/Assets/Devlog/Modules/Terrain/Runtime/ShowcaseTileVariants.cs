@@ -43,7 +43,9 @@ namespace Afterlife.Devlog.Terrain
         public static double NodeV(int shape,int x,int z) => z/(double)Segments+
             (x==0 || z==0 || x==Segments || z==Segments ? 0 : ((Seed(x+73,z+shape*19)%1000)/999.0-.5)*.13);
         public static bool AlternateDiagonal(int shape,int x,int z) => Seed(x+shape*5,z+39)%2==0;
-        public static double Height(int x,int z,double u,double v)
+        public static double Height(int x,int z,double u,double v) => ShowcaseTerrainField.Height(x+u,z+v);
+        // 보관된 이전 메시를 새 높이장으로 이관할 때만 사용한다.
+        public static double LegacyHeight(int x,int z,double u,double v)
         {
             // 월드 좌표에서 90도 단위 타일 회전을 역변환한다.
             double px=u-.5,pz=v-.5;

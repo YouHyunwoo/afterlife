@@ -1,7 +1,8 @@
 {
   "name": "Afterlife.Devlog.Day01",
   "rootNamespace": "Afterlife.Devlog.Day01",
-  "references": ["Afterlife.Devlog.Snow",
+  "references": [
+    "Afterlife.Devlog.Snow",
     "Afterlife.Devlog.Wind",
     "Afterlife.Devlog.DamageMarks",
     "Afterlife.Devlog.Hover",
@@ -16,7 +17,10 @@
     "Afterlife.Devlog.Contracts",
     "Afterlife.Devlog.Audio",
     "Afterlife.Devlog.AmbientAudio",
-    "Afterlife.Devlog.Interaction"
+    "Afterlife.Devlog.Interaction",
+    "Afterlife.Devlog.Cinematics",
+    "UnityEngine.UI",
+    "Unity.TextMeshPro"
   ],
   "autoReferenced": true
 }
