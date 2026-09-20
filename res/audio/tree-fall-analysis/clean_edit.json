@@ -1,0 +1,14 @@
+{
+  "output": "03_tree_fall_clean_crack_thud.wav",
+  "duration": 1.5,
+  "crack_source_original_seconds": [
+    0.72,
+    1.04
+  ],
+  "crack_duration": 0.34913832199546485,
+  "thud_start": 1.1,
+  "thud_duration": 0.38,
+  "peak_dbfs": -3.349821745875273,
+  "reverb": false,
+  "spectral_denoising": false
+}

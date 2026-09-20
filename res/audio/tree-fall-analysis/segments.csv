@@ -1,0 +1,6 @@
+﻿파일,원본 시작 초,원본 끝 초,길이 초,용도 후보
+01_tree_fall_full.wav,0,4.46,4.46,전체 흐름 보존
+02_tree_fall_short.wav,0.48,3.42,2.94,짧은 게임용 후보
+03_tree_fall_strong.wav,0.7,1.98,1.28,강한 소리 구간 후보
+04_tree_fall_tail.wav,1.94,4.46,2.52,후반 잔향 구간 후보
+05_tree_fall_start.wav,0,0.74,0.74,초반 구간 후보
