@@ -16,5 +16,11 @@
 - audio/kenney-review/: 외부 음원 원본·출처·선정 자료와 전용 검토 도구
 - models/, textures/, images/: 엔진 비의존 사용 리소스
 - concepts/, previews/: 제작 시안과 렌더 미리보기
+- art-source/pixel-art/: 기존 Unity Workspace의 Aseprite 편집 원본 58개
+- images/pixel-art/: 해당 픽셀 아트 PNG 출력본 68개
+- audio/legacy-effects/: 기존 효과음 원본 및 잘라낸 MP3 4개. 출처·라이선스 미확인
+- analysis/ui-audit/: UI 구조 분석 Graphify 자료와 기존 캐시
+
+Unity 프로젝트의 Workspace 자료는 위 경로로 분리했다. 문자열 정리 스크립트는 `tools/localization/arrange-strings.py`에 있다. 스크립트는 실행 위치와 무관하게 Unity의 `Assets/Resources`를 기준으로 동작하며, 실행하려면 `Localization/en.json` 입력 파일이 필요하다(이동 시점에는 없음).
 
 원본과 같은 폴더를 기준으로 동작하는 전용 검토 도구는 자료와 함께 둔다. 공통 제작·가공 도구는 루트 tools/에서 관리한다. manifest.json은 하위 제작 manifest도 포함한다. 자기 자신, Python 캐시·로컬 분석 도구 설치본, Blender 자동 백업, 운영체제의 폴더 설정 파일은 목록에서 제외한다.

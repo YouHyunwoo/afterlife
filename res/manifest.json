@@ -1,12 +1,6 @@
 {
   "files": [
     {
-      "path": "res/README.md",
-      "bytes": 1693,
-      "sha256": "297831ef7099c9ae95bdc923e6fa0343ecda23beb250e63835cb53614345a9c9",
-      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
-    },
-    {
       "path": "res/analysis/ui-audit/graphify-out/.graphify_root",
       "bytes": 84,
       "sha256": "9f53b5c4b091437ed7885188a88650e737cc781aa23774aeb4d6c3d93a0ec85d",
@@ -331,6 +325,354 @@
       "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
     },
     {
+      "path": "res/art-source/pixel-art/aetheron.aseprite",
+      "bytes": 480,
+      "sha256": "f1cbe25a1e2e28d9adb210458e2e4289191aa0722408d48dc4653adce5625846",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/bag-icon.aseprite",
+      "bytes": 386,
+      "sha256": "8e80fd82553017e6cbc64d8168cac45053297c09a776b70f09d01c3e39b9af1c",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/blue-portal.aseprite",
+      "bytes": 432,
+      "sha256": "51a8766938f6c1b3b835c91f1cf13e8abad15b469eaec95fc2ac525017cb6058",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/circle.aseprite",
+      "bytes": 1462,
+      "sha256": "b23c9cff3c6632bbf4dc2704cadfb4ee4efeca7f1f1029e04448a78e62a648c7",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/cursor.aseprite",
+      "bytes": 1003,
+      "sha256": "bac424556392338565aae9ed41d021c0b8b22dc077c42ca985063fb12dd9d06e",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/cut-effect.aseprite",
+      "bytes": 582,
+      "sha256": "dbb81e6270abb2d7325f36437b09f052263af2fe8bc394a0aa05db0466686c12",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/dagger.aseprite",
+      "bytes": 435,
+      "sha256": "213e3286e53e04d5eed05b505debf979a63cbf57c28bbb394b4c17bf0b80c7cf",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/day.aseprite",
+      "bytes": 409,
+      "sha256": "7b64b2471c530ceb26b473e4fcc7a1d134e3b5ce849995e8f46ab60fd8deee3b",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/delegate-head.aseprite",
+      "bytes": 624,
+      "sha256": "9d0e599eb64847d0f812d41b7d1a077de42f851c043fa6a7a69e6775b1208ccb",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/delegate.aseprite",
+      "bytes": 5279,
+      "sha256": "f5a3ab6ec7a3d805d76bcec7e1d2c8c433d1c571fc88de10c665084f8fefd626",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/dirt-tileset.aseprite",
+      "bytes": 14848,
+      "sha256": "269c03ae6f32b9f81305d2b2e05dc97e65c0c286d779ea8ea24c76d0ebf3cdee",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/empty-heart-icon.aseprite",
+      "bytes": 409,
+      "sha256": "2bb0cb499866d6d18afd6072c6aa5b524755cfaee38ad8b286734ac8a60052b9",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/energy-bolt.aseprite",
+      "bytes": 965,
+      "sha256": "4cd582b757441101653e44aac0e1b2490a7587e94d155c617e03ae7543f9d093",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/energy.aseprite",
+      "bytes": 691,
+      "sha256": "a3abd35c3ee75227bebc609373c8a5447a59f8060b38a8560e44b5f97c58e88c",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/equipped-icon.aseprite",
+      "bytes": 352,
+      "sha256": "5d67879463b20fcc012db321d7b688bad2e899a44c5cf3e5d929698f851210a4",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/fill-heart-icon.aseprite",
+      "bytes": 401,
+      "sha256": "45334f098e7dfbba5105ab14dc6e4b53e2f7ef23dd64cf4d0a623e61cf78e57a",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/fire-altar.aseprite",
+      "bytes": 435,
+      "sha256": "9f30c9e4f14c6164d30404419e9fa8d8d8f201291379f06e9f26f8380334733c",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/fire-ball.aseprite",
+      "bytes": 952,
+      "sha256": "a8a601ad649ad8471aa5497503e7524e826210bea98c242eea69316bcd79a7ba",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/flow-line.aseprite",
+      "bytes": 663,
+      "sha256": "60372832a67f5daa59087722d059780098839b61e55ee32b7577904e883efb27",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/fog.aseprite",
+      "bytes": 562,
+      "sha256": "59799eb4699a61dd764b13778e8e6129170f834eb36f5d04e62734b3e2afaf43",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/frame.aseprite",
+      "bytes": 370,
+      "sha256": "de94a2450c5374a46c9b18b04fd669e78893f5fda6bf2fe3920c213fb993e26b",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/goblin-shaman.aseprite",
+      "bytes": 1217,
+      "sha256": "fcbbba25933619901f67698cc3d6d6828600bff5dd90082652bf5dca91a6a1fb",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/goblin-warrior.aseprite",
+      "bytes": 1300,
+      "sha256": "3b38df78aec1cddeed2f8ed7c87dc5d9bcbc87be4ce277d228b93c852507f93f",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/goblin.aseprite",
+      "bytes": 897,
+      "sha256": "2638001e33c1b4b4c849e013fb19cbe446151c740d852b5fd77d5ff5dbae2455",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/gradient.aseprite",
+      "bytes": 734,
+      "sha256": "289bf56e16b3d46e0aae68da0dd21b64af175bccbd20e95b5964e5b5ec802874",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/hamburger-icon.aseprite",
+      "bytes": 349,
+      "sha256": "2bee23c769eb0ef2916458b3feb0d080bf9f1f7ea2f528806f52dba8f9ab9256",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/heal-effect.aseprite",
+      "bytes": 796,
+      "sha256": "8a35a407177b7d443a5b7fd3601723e57b288f5259aece9985be23a2ffe2698e",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/house.aseprite",
+      "bytes": 595,
+      "sha256": "ba7ee8fd22c414a0866467f0a7b74108f5f171fe8d149e5c9aa390b9751ff03f",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/indicator.aseprite",
+      "bytes": 353,
+      "sha256": "9326e359280d29e26a766d2636bcd0e7826ffda96d92989be95673294c745243",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/iron-axe.aseprite",
+      "bytes": 446,
+      "sha256": "152f7f05401fa20c859d416051c259129122975156079daef3952da19ed3f03b",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/iron.aseprite",
+      "bytes": 507,
+      "sha256": "198bf8848eff59b111f2988074a33b940df88301706a0ee6e006bab808755e15",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/keys.aseprite",
+      "bytes": 517,
+      "sha256": "2a2a0e8b1073e5d5d929aedc5c70b083e3e86865e31d31d8ef161135335623dd",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/night.aseprite",
+      "bytes": 380,
+      "sha256": "5d8a17f01393bbafcce7a0f6964feb0b4f98b34baf39c9e8587ff410572fb248",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/node-empty.aseprite",
+      "bytes": 463,
+      "sha256": "4a9bbf56bf20929eeb15696e5d8e74ca382b25a10bab046afdd0575556384288",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/node-fill.aseprite",
+      "bytes": 440,
+      "sha256": "25a65ef0126b7bb8dbfd5aed5fa09a9a13fa129e0b2be3d6beadeafbf5a10dd6",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/node-select.aseprite",
+      "bytes": 485,
+      "sha256": "d7f0d22d003cd9c21b886e64554bdb5b6087fe5889878ed5daefddf7e23ebe74",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/orb.aseprite",
+      "bytes": 1847,
+      "sha256": "4947d0ebbf76639f900a40ac512733a078be3a8328314b1d9270d61b5c4c6424",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/piece.aseprite",
+      "bytes": 3849,
+      "sha256": "adbcc9dc892cacacdc9cc66afa1473e4ee1e374a956f9d031ec2671f0143ab48",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/pointer-indicator.aseprite",
+      "bytes": 371,
+      "sha256": "4722e7f06a50c3b1bfc9a582f5beea4b432a6ae018b369eb146c33fcef8a6204",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/purple-portal.aseprite",
+      "bytes": 431,
+      "sha256": "03cd45d18ad2e6d7c46956c6dba8ff480754fb6ae048e8877466a5c739a70573",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/red-portal.aseprite",
+      "bytes": 432,
+      "sha256": "0946f1dfe86ac4a4fee842e9c791fbfe962c7d4f700dffd70e576c741237ef91",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/rock.aseprite",
+      "bytes": 503,
+      "sha256": "d0a8bc1466ee7695b33279662d64d30a9c92859d37716c10abeee845ac53bc31",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/slime.aseprite",
+      "bytes": 912,
+      "sha256": "263ba49e5c2d2cab1a4571d91af83396b4d86d25f6656de73a071fb39ed24c42",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/soul.aseprite",
+      "bytes": 458,
+      "sha256": "ce3a66001f670031b62c13194294aaaef479d67e838872aef7198d9a135eaf75",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/stone-axe.aseprite",
+      "bytes": 445,
+      "sha256": "ff7095ccd2e6b74e09962c041889a915b2b6eb8b6b68bb73a62b545b8dca96a3",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/stone.aseprite",
+      "bytes": 387,
+      "sha256": "6abd110b3aa01758b30cec7b99f082b47779f1f1eebd346620f056f15eda047e",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/thunder-altar.aseprite",
+      "bytes": 422,
+      "sha256": "f8dbe36afdb7c9214ee646721c1bd87d4fc93825fca385cde7f7d7cbc6e6f0da",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/thunder-effect.aseprite",
+      "bytes": 634,
+      "sha256": "fb1274cdee02f99d622cdfb596c4afba42bc5a8959c1513b0d99b3edb4a88c4e",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/tile.aseprite",
+      "bytes": 355,
+      "sha256": "a4d3307369f30176186694e126ada3c1ed2265cc81930b647217943744877b63",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/tileset.aseprite",
+      "bytes": 696,
+      "sha256": "4bcd1055584f69ebbe2fd234ce64285fb0de7370c5d7c530a7d8e9556e6ae83d",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/tool-icon.aseprite",
+      "bytes": 389,
+      "sha256": "2039c892d75f553bdef52f8a3848c66a52ef1275ac96355f31c35afade9d8779",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/torchlight.aseprite",
+      "bytes": 459,
+      "sha256": "b5ea2a0340a7169a22b1e3e504152c3ac163cb53291d0bd4438240faa100c343",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/tree.aseprite",
+      "bytes": 739,
+      "sha256": "3944ad215ac73876efd76a47d6a926e8dbe5af5d7cc271dc7ab918139249c820",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/ui.aseprite",
+      "bytes": 698,
+      "sha256": "56b9507abbf0296d639dd3fbdeb1f002225c105eaeb19bc77e2a962919b57323",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/village.aseprite",
+      "bytes": 415,
+      "sha256": "0968ea2beae7f14cca407ad99179d5773ab8e5445349ffbea4beff8b38497cb2",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/wall.aseprite",
+      "bytes": 386,
+      "sha256": "e66c88308ab2be366f45f2acfc892eb1529d67af936d2a0b0181f40058f1683a",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/wood.aseprite",
+      "bytes": 424,
+      "sha256": "0a3bcb023f405a0f7f3c3a8bfbdb0c99472b5a2e961349d1b3ea166b5ed01f7a",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/pixel-art/wooden-axe.aseprite",
+      "bytes": 439,
+      "sha256": "b99a571d14c2ab4bb55967494502454aed50b995529bac1c8031bc835d7b79d0",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
       "path": "res/art-source/tilesets/tileset.aseprite",
       "bytes": 1661,
       "sha256": "bc230f485491741837f1f7e22bfb165c6c55ef6d1de37e2d67e044f57c08359f",
@@ -637,12 +979,6 @@
       "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
     },
     {
-      "path": "res/art-source/world/AfterlifeWorld.blend",
-      "bytes": 399565,
-      "sha256": "c46c0074772ab56236ca4a577ec17f69e695504de1607e58d0c2d696d42f9d2c",
-      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
-    },
-    {
       "path": "res/art-source/world/abandoned-altar-v2/AbandonedAltarV2.blend",
       "bytes": 128423,
       "sha256": "01b63ea15d9076f2b18242d2ec3b38e91ddf8b12d0813a36aca62201000da6f0",
@@ -664,6 +1000,12 @@
       "path": "res/art-source/world/abandoned-altar-v2/preview.log",
       "bytes": 1180,
       "sha256": "d5476151721055fe9431b5c8211fa156002f4d537cfb1ef04bef31d99630cc70",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/art-source/world/AfterlifeWorld.blend",
+      "bytes": 399565,
+      "sha256": "c46c0074772ab56236ca4a577ec17f69e695504de1607e58d0c2d696d42f9d2c",
       "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
     },
     {
@@ -703,12 +1045,6 @@
       "provenance": "프리소리 tistory.com/17 / 사용자 무료 이용 확인에 따라 적용 / 라이선스 원문 미확인 / docs/audio-credits.md"
     },
     {
-      "path": "res/audio/freesori-water/variants-analysis.json",
-      "bytes": 2050,
-      "sha256": "598563dc0b7825196e7699e2d6109e4bf7436f5519a60733991e015c5fde748a",
-      "provenance": "프리소리 tistory.com/17 / 사용자 무료 이용 확인에 따라 적용 / 라이선스 원문 미확인 / docs/audio-credits.md"
-    },
-    {
       "path": "res/audio/freesori-water/variants/freesori_water_ripple_01.wav",
       "bytes": 84716,
       "sha256": "7fecce2bd3bad3646d999b83691125cf1b34b04a1cfd3aca9a7cf251e88c01cf",
@@ -739,6 +1075,12 @@
       "provenance": "프리소리 tistory.com/17 / 사용자 무료 이용 확인에 따라 적용 / 라이선스 원문 미확인 / docs/audio-credits.md"
     },
     {
+      "path": "res/audio/freesori-water/variants-analysis.json",
+      "bytes": 2050,
+      "sha256": "598563dc0b7825196e7699e2d6109e4bf7436f5519a60733991e015c5fde748a",
+      "provenance": "프리소리 tistory.com/17 / 사용자 무료 이용 확인에 따라 적용 / 라이선스 원문 미확인 / docs/audio-credits.md"
+    },
+    {
       "path": "res/audio/gongu-tree-fall/gongu_13220749_tree_fall.mp3",
       "bytes": 186139,
       "sha256": "9c465801e5143629497a6d181ba00a3ed7014bfb0cf91b1317225fc0efea0e30",
@@ -749,18 +1091,6 @@
       "bytes": 1086,
       "sha256": "7dff7e7d3742998070c9af78ce5a82132502b7479634c9d061baebc5a0603865",
       "provenance": "한국저작권위원회 / 공유마당 13220749 / CC BY / docs/audio-credits.md"
-    },
-    {
-      "path": "res/audio/kenney-review/Open-Review.ps1",
-      "bytes": 687,
-      "sha256": "394e7a8d8e41dcf81145be7fe01bbecd13976565c50fab9089038f1b84f578d4",
-      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
-    },
-    {
-      "path": "res/audio/kenney-review/README.md",
-      "bytes": 14417,
-      "sha256": "59b159fb4a3f104f87accb4cefeb32f5367d4b275062ad611a64a99017f580ea",
-      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
     },
     {
       "path": "res/audio/kenney-review/approved-selections.json",
@@ -1726,6 +2056,12 @@
       "path": "res/audio/kenney-review/index.html",
       "bytes": 240590,
       "sha256": "c67fbe125e049937b55cf7d2b1ece913e979ee54ea29bbe1f9043cadc1482a51",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/kenney-review/Open-Review.ps1",
+      "bytes": 687,
+      "sha256": "394e7a8d8e41dcf81145be7fe01bbecd13976565c50fab9089038f1b84f578d4",
       "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
     },
     {
@@ -5047,6 +5383,30 @@
       "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
     },
     {
+      "path": "res/audio/kenney-review/originals/sci-fi-sounds/Audio/spaceEngine_000.ogg",
+      "bytes": 109059,
+      "sha256": "c06e84fb6734ddd0ce7242351e0952d560b3b3e47430172e8944f761d7bb1fc8",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/kenney-review/originals/sci-fi-sounds/Audio/spaceEngine_001.ogg",
+      "bytes": 121385,
+      "sha256": "ee53af299758b664c086d9ca99efecb41168596ea9fb1c5c24ac4389f94aea6b",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/kenney-review/originals/sci-fi-sounds/Audio/spaceEngine_002.ogg",
+      "bytes": 111072,
+      "sha256": "5a1b1cc6d335944dd9ef94578b6bad939195d3020f61780c19425d2f6b3583db",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/kenney-review/originals/sci-fi-sounds/Audio/spaceEngine_003.ogg",
+      "bytes": 67503,
+      "sha256": "e100065a0c2ddc2c4aa301fe5b002e251fb31a07bad674a51183964a6b6a0e6a",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
       "path": "res/audio/kenney-review/originals/sci-fi-sounds/Audio/spaceEngineLarge_000.ogg",
       "bytes": 189900,
       "sha256": "885aeda16116b715be5e8fd03d0d77959761015e1ca5823fd3b53d4fd965107f",
@@ -5134,30 +5494,6 @@
       "path": "res/audio/kenney-review/originals/sci-fi-sounds/Audio/spaceEngineSmall_004.ogg",
       "bytes": 130520,
       "sha256": "009ef3beadec605ab0e60cd64c73b6ca42590058e8491e72b4bc813ba0e3ab57",
-      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
-    },
-    {
-      "path": "res/audio/kenney-review/originals/sci-fi-sounds/Audio/spaceEngine_000.ogg",
-      "bytes": 109059,
-      "sha256": "c06e84fb6734ddd0ce7242351e0952d560b3b3e47430172e8944f761d7bb1fc8",
-      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
-    },
-    {
-      "path": "res/audio/kenney-review/originals/sci-fi-sounds/Audio/spaceEngine_001.ogg",
-      "bytes": 121385,
-      "sha256": "ee53af299758b664c086d9ca99efecb41168596ea9fb1c5c24ac4389f94aea6b",
-      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
-    },
-    {
-      "path": "res/audio/kenney-review/originals/sci-fi-sounds/Audio/spaceEngine_002.ogg",
-      "bytes": 111072,
-      "sha256": "5a1b1cc6d335944dd9ef94578b6bad939195d3020f61780c19425d2f6b3583db",
-      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
-    },
-    {
-      "path": "res/audio/kenney-review/originals/sci-fi-sounds/Audio/spaceEngine_003.ogg",
-      "bytes": 67503,
-      "sha256": "e100065a0c2ddc2c4aa301fe5b002e251fb31a07bad674a51183964a6b6a0e6a",
       "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
     },
     {
@@ -5539,6 +5875,12 @@
       "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
     },
     {
+      "path": "res/audio/kenney-review/README.md",
+      "bytes": 14417,
+      "sha256": "59b159fb4a3f104f87accb4cefeb32f5367d4b275062ad611a64a99017f580ea",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
       "path": "res/audio/kenney-review/review-template.html",
       "bytes": 13814,
       "sha256": "997794f95ba50a9d5aec665d89ed14ef9108f91a9a0116d3c9fe2c703818e537",
@@ -5557,10 +5899,28 @@
       "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
     },
     {
-      "path": "res/audio/stone-analysis/README.md",
-      "bytes": 2039,
-      "sha256": "27d6c8d910758629a98ff1172586fa237308b2019b375b54d977a68a0a239b91",
-      "provenance": "iwanPlays / Freesound 567250, 567251; 분석 폴더 출처 기록 확인"
+      "path": "res/audio/legacy-effects/critical-cropped.mp3",
+      "bytes": 7523,
+      "sha256": "82556db987c9dfc4a502faa6abf9bbf3bb474f192dd5ca993f7f7812ae1e589d",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/legacy-effects/critical.mp3",
+      "bytes": 86652,
+      "sha256": "5d0ec106f0ca5fcde21458800a89de289e254ae0abe5d4d7169ea7aac1bf97fe",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/legacy-effects/thunder.mp3",
+      "bytes": 113664,
+      "sha256": "c332d3a97a9e80c8cb2fb9a57665f3667312684355b0a1e6309be46f7ec09b8c",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/legacy-effects/thunder_cropped.mp3",
+      "bytes": 98880,
+      "sha256": "e4e940982d48b22e18250fe85df69fd6f254a90c3ac8f5ddd0c2fea0677f492a",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
     },
     {
       "path": "res/audio/stone-analysis/dropping_rocks/debris/dropping_rocks_debris_01.wav",
@@ -5692,6 +6052,12 @@
       "path": "res/audio/stone-analysis/preview_recommended.wav",
       "bytes": 1135356,
       "sha256": "b82a73a3c7c773df3c4dd07864566c9f6f6eb43cb5156bce07e4dd37a27137eb",
+      "provenance": "iwanPlays / Freesound 567250, 567251; 분석 폴더 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/stone-analysis/README.md",
+      "bytes": 2039,
+      "sha256": "27d6c8d910758629a98ff1172586fa237308b2019b375b54d977a68a0a239b91",
       "provenance": "iwanPlays / Freesound 567250, 567251; 분석 폴더 출처 기록 확인"
     },
     {
@@ -5953,12 +6319,6 @@
       "provenance": "ecfike / Freesound 139952; 이전 후보, 현재 미사용"
     },
     {
-      "path": "res/audio/tree-fall-analysis/README.md",
-      "bytes": 3141,
-      "sha256": "266f79a374d87df9c834c6c94fdee54138a535193e7502e8fd5d81bee8f7500b",
-      "provenance": "ecfike / Freesound 139952; 이전 후보, 현재 미사용"
-    },
-    {
       "path": "res/audio/tree-fall-analysis/clean_edit.json",
       "bytes": 316,
       "sha256": "78bde2543fbd7b7efaa1d559cad76f9924917bc0ae5a7faebf1289782bfb3ab3",
@@ -5995,6 +6355,12 @@
       "provenance": "ecfike / Freesound 139952; 이전 후보, 현재 미사용"
     },
     {
+      "path": "res/audio/tree-fall-analysis/README.md",
+      "bytes": 3141,
+      "sha256": "266f79a374d87df9c834c6c94fdee54138a535193e7502e8fd5d81bee8f7500b",
+      "provenance": "ecfike / Freesound 139952; 이전 후보, 현재 미사용"
+    },
+    {
       "path": "res/audio/tree-fall-analysis/segments.csv",
       "bytes": 378,
       "sha256": "7de6ae09430ce25334ba928a2c6fcf3ecb8e927c02eeb52ef285c9b59f720130",
@@ -6017,6 +6383,414 @@
       "bytes": 1828976,
       "sha256": "5f03c6029b4e9667a3cfed0c552033e023404807e596cc47ae4e07341704f694",
       "provenance": "프로젝트용 내장 ImageGen 생성 시안 / prompt.txt"
+    },
+    {
+      "path": "res/images/pixel-art/aetheron.png",
+      "bytes": 358,
+      "sha256": "ba7d182ba5a39ef99816c8155f7fc8bf85b2d5b03aab6cd3c11064d11b52ba18",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/bag-icon.png",
+      "bytes": 147,
+      "sha256": "1eed2be9cb832788650334124fae4d5e2ca232bc29a440f815846092d5510c59",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/blue-portal.png",
+      "bytes": 171,
+      "sha256": "c8c501323e633249528d182a691b1e6a21f32ad20604f3d7ea145814ee0218f7",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/campfire.png",
+      "bytes": 402,
+      "sha256": "368a975b87af840cafe76d1841c320953c46124d8e0612df96be2c292d8ead0f",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/circle.png",
+      "bytes": 492,
+      "sha256": "b1256755bebef7e05ffb4d22cbec77230eff438886015a60413730d76ede7037",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/cursor.png",
+      "bytes": 886,
+      "sha256": "ce5413dc810c2db267d901070eab80ca8f83924be2c0ba8534298348dc4c85f0",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/cut-effect.png",
+      "bytes": 131,
+      "sha256": "7d4f3a4710390ba3becf146885852191db770abc736249fc0604c38f102fcac2",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/dagger.png",
+      "bytes": 182,
+      "sha256": "0afa27e4d0b480e2712f348b98408254cf0cc377367ebf966210f72e44a226d8",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/day.png",
+      "bytes": 181,
+      "sha256": "9a8cba34b395380ab7826dbdcf282821ee3af4d2dcdb0a0bc9dff23f1bd0fbc1",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/delegate-character.png",
+      "bytes": 1578,
+      "sha256": "2a525d6b0dda42513a01522bbfdc346bf4f064e20742cdae2f4dddc97e15c8ea",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/delegate-effect.png",
+      "bytes": 854,
+      "sha256": "6879313ac6f6c9ece00719b48bd2ced7edf550e2141904b66e8b9214f395724b",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/delegate-head.png",
+      "bytes": 267,
+      "sha256": "9563da2266756a9773b9d3dffb2cf6a9c58d476bde3ed1ab91fa7807062c67a2",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/dirt-tileset-dirt.png",
+      "bytes": 2013,
+      "sha256": "ead1aec243fbb070a304cea9d5a12689f6f2d988ea89e52da6d8e7835a54f37f",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/dirt-tileset-water.png",
+      "bytes": 7714,
+      "sha256": "469e1a4a6f5a7be5469a8fae9571477cfbdbe65ccb1eb34a3a219619a6299dfe",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/empty-heart-icon.png",
+      "bytes": 182,
+      "sha256": "261926073bb411063d534925586e86df63cf9473ef35ae9f1b5f39d38ace8310",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/energy-bolt.png",
+      "bytes": 671,
+      "sha256": "4aa6897501c6f9eafc986f82c30a3d6133707b92e1c95a82ca5ef7cb53e77017",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/energy.png",
+      "bytes": 605,
+      "sha256": "895dd2a6705e90c8fea3d4d8afa872209320893bea7eae7f779b4c91c1cd2c49",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/equipped-icon.png",
+      "bytes": 116,
+      "sha256": "3de362b2cb4c0fcf0a824db4976e9a00e174347bdf21fcf20680873e93c418a4",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/farm.png",
+      "bytes": 240,
+      "sha256": "9fec28beab3be6f774018850c4e67f96d6358d9cfd967eeac83edf9765fb97d5",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/fill-heart-icon.png",
+      "bytes": 174,
+      "sha256": "a608a27f0b38707441ea49acf1966763d8c6fd075e966e3973eee6df966557a2",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/fire-altar.png",
+      "bytes": 257,
+      "sha256": "26da07b2f6d788be3f5df521da2f97b3a728e29c2774178384a3419b9dfab3bc",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/fire-ball.png",
+      "bytes": 655,
+      "sha256": "992566037d0fe432ea07dbba183b74ade0a6fb32521149078434c85db70264e9",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/flow-line.png",
+      "bytes": 95,
+      "sha256": "081e70eef14c641c6a70b144dfdf8cab363def785c88301a3ac9493dc45f1d6c",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/fog.png",
+      "bytes": 236,
+      "sha256": "8cbbf3ea86578db61c83137ed9147d6d204c02204d4470fe18f3afdf3c179f5f",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/frame.png",
+      "bytes": 124,
+      "sha256": "cb437430e8122c0f791d9834491e7cee11b3c514b25e809ae7f9578879be1e84",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/goblin-post.png",
+      "bytes": 192,
+      "sha256": "adf24d21bf2c631ab4d9a96b1371c5250030f1fc1b969965cfffd727a65771ff",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/goblin-shaman.png",
+      "bytes": 488,
+      "sha256": "8cf426bd6964326fce3ab739b6868570005fa1f8af024ab5e1c337dc2d42e61d",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/goblin-warrior.png",
+      "bytes": 457,
+      "sha256": "dee30d075fe44ce90da5802c51e6ea717405436340a2709b73c897c529dbd3fd",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/goblin.png",
+      "bytes": 367,
+      "sha256": "58804c3d847fbc54eeae9be18efbd33bcaceaea95e9205e4862cf91ce0a48d82",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/gradient.png",
+      "bytes": 99,
+      "sha256": "bc2482497f636bad057feec0e323bc11f22797681a279c35573059d90ccf6fb1",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/hamburger-icon.png",
+      "bytes": 108,
+      "sha256": "6bc0ac81733ce79de039e3102cd3f40d64543c060101521083f7e427413a4429",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/heal-effect.png",
+      "bytes": 170,
+      "sha256": "90acf572f8f990d1a2b16f43cf4b202b751c58b40f366a8edba9eb1c8b12665f",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/house.png",
+      "bytes": 375,
+      "sha256": "535b57b11743b69f32893c1be0e5d94ef1614736ba5501cbcfd10cbcac1134d9",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/indicator.png",
+      "bytes": 109,
+      "sha256": "d0f24dbef50d4802c4b2be7e5a0765c153fe0678949edf7f0820f89cf3d2cc3a",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/iron-axe.png",
+      "bytes": 217,
+      "sha256": "4c0854f188c1b9b05379e31753f0b55fc409b64f0de98e14d4d52ac05cfdcfd4",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/iron.png",
+      "bytes": 187,
+      "sha256": "0fc92dc4fbdb85a651c480e21e34f537143c1a033c8a9b759de9b5e9257daf9e",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/keys.png",
+      "bytes": 306,
+      "sha256": "c1e7ab9e8fafaf2109a564315840d1d0bc4dc851c575aec9e1d0986927861160",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/night.png",
+      "bytes": 160,
+      "sha256": "22a4ce8cc185560dc51910424904c608322c48d2a193fb97996147393d56ce4f",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/node-empty.png",
+      "bytes": 276,
+      "sha256": "4d6b0703e1d148ed033b8b264fa645c3b1eeb42bd6082c7e847f6ca8db8415aa",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/node-fill.png",
+      "bytes": 221,
+      "sha256": "c4f1b4a38e067e1ca1b5379b503d29ae37bc4f274d87aba2d11ce46d00d3fe3f",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/node-select.png",
+      "bytes": 294,
+      "sha256": "e449b49116b5905428de2bd56fd8471232d94b45651721445a1c3bbe51690af6",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/orb.png",
+      "bytes": 514,
+      "sha256": "0f77de3ae530021dfc3c0f0c5b0d42c8b8eb7c272aaf3eb2fb37b4435a1ccf12",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/piece.png",
+      "bytes": 3157,
+      "sha256": "ecbe53aa0902edc0499b52f266c9d9b0b6b09d1a6bbc0deccb40ae1f4ffd682d",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/pointer-indicator.png",
+      "bytes": 135,
+      "sha256": "5332cb58cd59bf3605e2a67e2766586c42e19344755cf1e8935ba74ac9c14cb8",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/purple-portal.png",
+      "bytes": 172,
+      "sha256": "f40315aeb72acbe3758ca5ba8e86250ec6f1db33a58c904c6579fd786b6e5f52",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/red-portal.png",
+      "bytes": 172,
+      "sha256": "9973a3506722a536a3be20fe097c4a151c37cabb1c89b305ff4dfd76ee2c24b7",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/rock.png",
+      "bytes": 400,
+      "sha256": "7744ce3042ce6c18a10031d9a060a76629ee08d13cff99df4e1a28fe39d46bff",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/slime.png",
+      "bytes": 344,
+      "sha256": "e3c8c7689e29916f7fac063d49da9da514f93679b8cc7fcdb8ad4c93a63c0528",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/soul.png",
+      "bytes": 109,
+      "sha256": "1ba53675ca8192ea427d895e890fd6d1099f6542cf966a558148bc122097a9a7",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/stone-axe.png",
+      "bytes": 208,
+      "sha256": "7a5b397e9e931eb27924b9ec3c1a19779175962179e98fb8ba3373e891cc509e",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/stone.png",
+      "bytes": 178,
+      "sha256": "74e380fee808047dfb3be1e29ec5b88a15cd007919a8bb07d0f6273ef5d1f39e",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/thunder-altar.png",
+      "bytes": 242,
+      "sha256": "1ab628d8ace8ec348dfcea4a14115c0feecc1d92ceb5c8c783d331f79b456fdd",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/thunder-effect.png",
+      "bytes": 250,
+      "sha256": "cdda2967aa86767fb8aba9f501db712fd4a152f06a69776abe836af715f40312",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/tile.png",
+      "bytes": 117,
+      "sha256": "59de8e785a68b99d020408ee90eee92f3600facf9809ab3c3355a9dbbc8f616d",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/tileset-grass.png",
+      "bytes": 692,
+      "sha256": "6ca87bf6c7ef9169ff1396404aeb5e17e27e50331b86a3c4d2e664007cfd074c",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/tool-icon.png",
+      "bytes": 134,
+      "sha256": "5ea0a4ca71f0dc5a7e4341babc4bc6d792c220db6448ea77ae5ed4cd721b3b42",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/torchlight.png",
+      "bytes": 245,
+      "sha256": "7e2a99e4274089a5c00a179d22db47b115a35239379a639f7c8d34089b2c5c81",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/tree.png",
+      "bytes": 147,
+      "sha256": "43e9ea5d58f8a1c317fde8ad28775f92dbefe7dd00b18537bb0e6c89f42ebc8d",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/tree2.png",
+      "bytes": 457,
+      "sha256": "6727a03bb222d1c511794cf82a7e20a274f347b3679ecbfd0c41ad626b3518f3",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/ui-background.png",
+      "bytes": 128,
+      "sha256": "64291643f7541d767dda68cec0a533bdad616c79fa24c7d315074c8635710c1e",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/ui-border-thin.png",
+      "bytes": 144,
+      "sha256": "f351d602df9946c3c5de3bcaf6ea09998dd63659ed02fe5d6afd1d3411ee3853",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/ui-border.png",
+      "bytes": 171,
+      "sha256": "e4c0cc56ebb23287d60380b63350eeab93f14f99673fd04fce041a4b15d4fc7e",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/village.png",
+      "bytes": 186,
+      "sha256": "087af2899bb5f437def41ec36e1d925930fda689e13ee9a25b62313c1246d4bc",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/wall.png",
+      "bytes": 156,
+      "sha256": "adb35f348b7fa60a7526647b4d7ea3a16a2c2b32f1e45559387fed493f8b54a7",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/warrior.png",
+      "bytes": 222,
+      "sha256": "72893b3da261b0c07088e515424de5b629c3a05063266a8fa86551c4d1717b13",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/wood.png",
+      "bytes": 220,
+      "sha256": "696dcb92681bf285c118ed2d66afbc27c09053f22e1662d1621f95a416ef2875",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/wooden-axe.png",
+      "bytes": 193,
+      "sha256": "f45dfc989ff316d592f0173714ecc379e0be802341d77ad7cbf32f9bebb8469f",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/images/pixel-art/worker.png",
+      "bytes": 231,
+      "sha256": "990c38d73f93d02e224a36a0343f70d1fd9be40d962a254c448338371b10670d",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
     },
     {
       "path": "res/images/tilesets/tileset-grass.png",
@@ -6173,6 +6947,12 @@
       "bytes": 753379,
       "sha256": "9aca6faded1ac7f01b700a220699aca08dc180e9dd6fcd8c4ef6314d71403f4c",
       "provenance": "프로젝트 자체 제작 Blender 제단 / tools/art/build_abandoned_altar_v2.py"
+    },
+    {
+      "path": "res/README.md",
+      "bytes": 2367,
+      "sha256": "58e8209a93e968e5c4f50fc43677b14d78d5d2011c0b9ecd936eb36b5d30d67e",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
     },
     {
       "path": "res/textures/vegetation/Grass0.png",
