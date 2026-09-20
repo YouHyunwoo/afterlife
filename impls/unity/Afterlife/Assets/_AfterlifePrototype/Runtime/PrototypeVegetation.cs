@@ -39,6 +39,16 @@ namespace Afterlife.Prototype
             // 경계 격자점까지 텍셀 중심에 대응시킨다.
             Shader.SetGlobalVector("_PrototypeGroundBounds",new Vector4(min-.5f/resolution,min-.5f/resolution,size/(float)resolution,size/(float)resolution));
         }
+        private System.Func<Vector3,bool> _grassContactVisible;
+        private bool IsGrassContactVisible(Vector3 anchor)
+        {
+            if(_vegetationMask==null || _vegetationMaskPixels==null)return true;
+            int size=_vegetationMask.width;
+            float min=-_model.Terrain.Radius-.5f;
+            int x=Mathf.Clamp(Mathf.FloorToInt((anchor.x-min)*4),0,size-1);
+            int z=Mathf.Clamp(Mathf.FloorToInt((anchor.z-min)*4),0,size-1);
+            return _vegetationMaskPixels[z*size+x].r<128;
+        }
         private ShowcaseGrass _vegetationGrass;
         private ShowcaseWind _vegetationWind;
         private Shader _leafShader;
@@ -64,9 +74,10 @@ namespace Afterlife.Prototype
         {
             _leafShader=Resources.Load<Shader>("PrototypeLeaves");
             if(_leafShader==null)throw new System.InvalidOperationException("PrototypeLeaves shader missing.");
+            _grassContactVisible=IsGrassContactVisible;
             _vegetationWind=new ShowcaseWind();
             _vegetationGrass=new ShowcaseGrass(transform,new ShowcaseGrass.Map {
-                Radius=_model.Terrain.Radius,
+                Radius=_model.Terrain.Radius,SamplesPerAxis=7,AccentFraction=.25f,
                 Biome=(x,z)=>(ShowcaseBiome)(int)_model.Terrain.At(x,z),
                 Height=(x,z)=>_terrainSurface.Height(x,z),
                 Color=(x,z)=>_terrainSurface.SurfaceColor(x,z)
@@ -77,6 +88,11 @@ namespace Afterlife.Prototype
             _vegetationMaskPixels=new Color32[size*size];
             float min=-_model.Terrain.Radius-.5f;
             _vegetationGrass.SetExclusionMask(_vegetationMask,new Vector4(min,min,_model.Terrain.Size,_model.Terrain.Size));
+            if(_decorationMaterial!=null)
+            {
+                _decorationMaterial.SetTexture("_VegetationMask",_vegetationMask);
+                _decorationMaterial.SetVector("_VegetationBounds",new Vector4(min,min,_model.Terrain.Size,_model.Terrain.Size));
+            }
             RefreshVegetationMask();
         }
 
@@ -134,9 +150,25 @@ namespace Afterlife.Prototype
             if(!_treeLeaves.TryGetValue(id,out var tree))return;
             tree.Cards.Dispose();foreach(var source in tree.Sources)_leafTints.Remove(source);_treeLeaves.Remove(id);
         }
+        private void UpdateGrassPalette()
+        {
+            if(_vegetationGrass==null)return;
+            _vegetationGrass.SetSizeScale(_settings.GrassSizeScale);
+            _vegetationGrass.SetFloat("_GrassUsesTerrainColor",_settings.GrassUsesTerrainColor?1:0);
+            _vegetationGrass.SetColor("_GrassBaseColor",_settings.GrassBaseColor);
+            _vegetationGrass.SetColor("_GrassBeigeColor",_settings.GrassBeigeColor);
+            _vegetationGrass.SetColor("_GrassDarkColor",_settings.GrassDarkColor);
+            _vegetationGrass.SetColor("_GrassPaleColor",_settings.GrassPaleColor);
+            _vegetationGrass.SetColor("_GrassTealColor",_settings.GrassTealColor);
+            _vegetationGrass.SetColor("_GrassMossColor",_settings.GrassMossColor);
+            _vegetationGrass.SetColor("_GrassPurpleColor",_settings.GrassPurpleColor);
+            _vegetationGrass.SetColor("_GrassFlowerPink",_settings.GrassFlowerPink);
+            _vegetationGrass.SetColor("_GrassFlowerYellow",_settings.GrassFlowerYellow);
+        }
         private void UpdateVegetation()
         {
             _vegetationWind?.Tick(_effectTime);
+            UpdateGrassPalette();
             _vegetationGrass?.Tick(_camera);
             foreach(var tree in _treeLeaves.Values)tree.Cards.Tick(_camera);
             RefreshVegetationMask();
@@ -172,13 +204,14 @@ namespace Afterlife.Prototype
             ResetVegetation();_vegetationGrass?.Dispose();_vegetationGrass=null;
             _vegetationWind?.Dispose();_vegetationWind=null;
             if(_vegetationMask!=null)Destroy(_vegetationMask);
+            foreach(var material in _treeWindMaterials.Values){_materials.Remove(material);Destroy(material);}
             _leafMeshes.Clear();_treeWindMaterials.Clear();
             if(_groundColors!=null)
             {
                 Shader.SetGlobalTexture("_PrototypeGroundColors",_previousGroundColors);
                 Shader.SetGlobalTexture("_PrototypeGroundNormals",_previousGroundNormals);
                 Shader.SetGlobalVector("_PrototypeGroundBounds",_previousGroundBounds);
-                Destroy(_groundColors);Destroy(_groundNormals);
+                Destroy(_groundColors);Destroy(_groundNormals);_groundColors=null;_groundNormals=null;
             }
         }
     }

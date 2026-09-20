@@ -1,54 +1,83 @@
 using System.Collections.Generic;
+using Afterlife.Devlog.Day01;
+using Afterlife.Devlog.Terrain;
 using UnityEngine;
 namespace Afterlife.Prototype
 {
     public sealed partial class PrototypeView
     {
-        // Decoration derives from the authoritative tile map. Per-chunk combined meshes avoid thousands of objects.
+        private Material _decorationMaterial;
+        private readonly List<Mesh> _decorationMeshes=new List<Mesh>();
+        private sealed class DecorationChunk
+        {
+            public readonly List<Vector3> Vertices=new List<Vector3>(),Normals=new List<Vector3>();
+            public readonly List<Color> Colors=new List<Color>();
+            public readonly List<Vector2> Ground=new List<Vector2>(),Anchors=new List<Vector2>();
+            public readonly List<int> Triangles=new List<int>();
+        }
         private void BuildTerrainDetails()
         {
             var samples=new Dictionary<string,GameObject>();
-            foreach(string name in new[]{"Fern","Reeds","Pebbles","FallenLog","Flowers"})
+            foreach(string name in new[]{"Fern","Pebbles","Rock0","Flowers"})
             {
                 var source=Resources.Load<GameObject>("AfterlifePrototype/World/"+name);
-                if(source==null)continue;var sample=Instantiate(source);sample.transform.position=Vector3.zero;samples[name]=sample;sample.SetActive(false);
+                if(source==null){Debug.LogWarning("Missing terrain decoration: "+name);continue;}
+                var sample=Instantiate(source);sample.transform.position=Vector3.zero;sample.SetActive(false);samples[name]=sample;
             }
-            var random=new System.Random(1786);
-            var chunks=new Dictionary<Vector2Int,List<CombineInstance>>();
-            for(int z=-_settings.MapRadius+1;z<_settings.MapRadius;z++)for(int x=-_settings.MapRadius+1;x<_settings.MapRadius;x++)
+            var chunks=new Dictionary<Vector2Int,DecorationChunk>();
+            for(int z=-_model.Terrain.Radius;z<=_model.Terrain.Radius;z++)
+            for(int x=-_model.Terrain.Radius;x<=_model.Terrain.Radius;x++)
             {
-                if(Mathf.Abs(x)<4&&Mathf.Abs(z)<4)continue;
-                var kind=_model.Terrain.At(x,z);if(kind==TerrainKind.Water)continue;
-                // 타일마다 같은 밀도로 흩뿌리지 않고 넓은 군집과 빈 공간을 만든다.
-                float cluster=Mathf.PerlinNoise(x*.19f+51,z*.19f+73);
-                string key=null;double chance=random.NextDouble()/Mathf.Lerp(.45f,1.4f,cluster);
-                bool shore=_model.Terrain.At(x+1,z)==TerrainKind.Water||_model.Terrain.At(x-1,z)==TerrainKind.Water||_model.Terrain.At(x,z+1)==TerrainKind.Water||_model.Terrain.At(x,z-1)==TerrainKind.Water;
-                if(shore&&chance<.42)key="Reeds";
-                else if(kind==TerrainKind.Forest&&chance<.52)key=chance<.035?"FallenLog":"Fern";
-                else if(kind==TerrainKind.Rocky&&chance<.58||kind==TerrainKind.Sand&&chance<.18||kind==TerrainKind.Dirt&&chance<.12)key="Pebbles";
-                else if(kind==TerrainKind.Grass&&chance<.065)key="Flowers";
-                if(key==null||!samples.TryGetValue(key,out var sample))continue;
-                var coord=new Vector2Int(Mathf.FloorToInt(x/8f),Mathf.FloorToInt(z/8f));
-                if(!chunks.TryGetValue(coord,out var list)){list=new List<CombineInstance>();chunks.Add(coord,list);}
-                var pos=new Vector3(x+(float)random.NextDouble()*.9f-.45f,-.045f,z+(float)random.NextDouble()*.9f-.45f);
-                pos.y+=GroundLift(pos.x,pos.z);
-                var matrix=Matrix4x4.TRS(pos,Quaternion.Euler(0,(float)random.NextDouble()*360,0),Vector3.one*(.8f+(float)random.NextDouble()*.35f));
-                foreach(var filter in sample.GetComponentsInChildren<MeshFilter>(true))list.Add(new CombineInstance{mesh=filter.sharedMesh,transform=matrix*filter.transform.localToWorldMatrix});
+                var biome=(ShowcaseBiome)(int)_model.Terrain.At(x,z);
+                var variant=ShowcaseTileVariants.Decoration(biome,x,z);
+                if(variant==TileDecoration.Empty)continue;
+                // 장식은 1/4만 유지한다. 초원/숲의 바탕 풀은 별도 생성되어 그대로 남는다.
+                if(ShowcaseTileVariants.Seed(x+137,z-271)%4!=0)continue;
+                string[] assets=variant==TileDecoration.MossyRock?new[]{"Rock0","Fern"}:
+                    variant==TileDecoration.Flowers?new[]{"Flowers","Flowers"}:variant==TileDecoration.Ferns?new[]{"Fern","Fern"}:new[]{"Pebbles"};
+                var random=new System.Random(ShowcaseTileVariants.Seed(x,z));
+                foreach(string asset in assets)
+                {
+                    float px=x-.25f+(float)random.NextDouble()*.5f,pz=z-.25f+(float)random.NextDouble()*.5f;
+                    float yaw=(float)random.NextDouble()*360;
+                    float scale=asset=="Rock0"?.42f:.45f+(float)random.NextDouble()*.2f;
+                    if((variant==TileDecoration.Flowers || variant==TileDecoration.Ferns)
+                        && !ShowcaseGrass.DecorationVisible(variant==TileDecoration.Flowers,px,pz))continue;
+                    if(!samples.TryGetValue(asset,out var sample))continue;
+                    var coord=new Vector2Int(Mathf.FloorToInt(x/8f),Mathf.FloorToInt(z/8f));
+                    if(!chunks.TryGetValue(coord,out var chunk)){chunk=new DecorationChunk();chunks.Add(coord,chunk);}
+                    // 타일 중심 규약과 현재 지형 높이를 사용한다. FBX의 원래 축/스케일은 보존한다.
+                    var anchor=new Vector3(px,_terrainSurface.Height(px,pz)+.007f,pz);
+                    var placement=Matrix4x4.TRS(anchor,Quaternion.Euler(0,yaw,0),variant==TileDecoration.DirtClods?new Vector3(.8f,.55f,.7f):Vector3.one*scale);
+                    foreach(var filter in sample.GetComponentsInChildren<MeshFilter>(true))
+                    {
+                        var mesh=filter.sharedMesh;if(mesh==null || !mesh.isReadable)continue;
+                        var matrix=placement*filter.transform.localToWorldMatrix;
+                        var normalMatrix=matrix.inverse.transpose;
+                        var vertices=mesh.vertices;var normals=mesh.normals;var colors=mesh.colors;
+                        int first=chunk.Vertices.Count;
+                        for(int i=0;i<vertices.Length;i++)
+                        {
+                            var color=i<colors.Length?colors[i]:Color.white;
+                            if(variant==TileDecoration.DirtClods)color=new Color(.34f,.255f,.18f);
+                            bool plant=color.g>color.r*1.08f && color.g>color.b*1.05f;
+                            chunk.Vertices.Add(matrix.MultiplyPoint3x4(vertices[i]));
+                            chunk.Normals.Add(normalMatrix.MultiplyVector(i<normals.Length?normals[i]:Vector3.up).normalized);
+                            chunk.Colors.Add(color);chunk.Ground.Add(new Vector2(plant?1:0,0));chunk.Anchors.Add(new Vector2(px,pz));
+                        }
+                        foreach(int index in mesh.triangles)chunk.Triangles.Add(first+index);
+                    }
+                }
             }
-            var material=new Material(_surface){name="Batched biome palette"};material.SetFloat("_VertexPalette",1);material.SetFloat("_GroundDecoration",1);material.SetFloat("_ZWrite",1);_materials.Add(material);
+            _decorationMaterial=new Material(_surface){name="Day01 biome decorations"};
+            _decorationMaterial.SetFloat("_VertexPalette",1);_decorationMaterial.SetFloat("_GroundDecoration",1);_decorationMaterial.SetFloat("_ZWrite",1);_materials.Add(_decorationMaterial);
             foreach(var pair in chunks)
             {
-                var mesh=new Mesh{name="Biome patch "+pair.Key,indexFormat=UnityEngine.Rendering.IndexFormat.UInt32};mesh.CombineMeshes(pair.Value.ToArray(),true,true);_environmentMeshes.Add(mesh);
-                var colors=mesh.colors;var markers=new List<Vector2>(mesh.vertexCount);
-                for(int i=0;i<mesh.vertexCount;i++)
-                {
-                    var color=i<colors.Length?colors[i]:Color.white;
-                    bool plant=color.g>color.r*1.08f && color.g>color.b*1.05f;
-                    markers.Add(new Vector2(plant?1:0,0));
-                }
-                mesh.SetUVs(2,markers);
+                var chunk=pair.Value;var mesh=new Mesh{name="Biome decorations "+pair.Key,indexFormat=UnityEngine.Rendering.IndexFormat.UInt32};
+                mesh.SetVertices(chunk.Vertices);mesh.SetNormals(chunk.Normals);mesh.SetColors(chunk.Colors);
+                mesh.SetUVs(2,chunk.Ground);mesh.SetUVs(3,chunk.Anchors);mesh.SetTriangles(chunk.Triangles,0);mesh.RecalculateBounds();_environmentMeshes.Add(mesh);_decorationMeshes.Add(mesh);
                 var go=new GameObject(mesh.name);go.transform.SetParent(transform,false);go.AddComponent<MeshFilter>().sharedMesh=mesh;
-                var renderer=go.AddComponent<MeshRenderer>();renderer.sharedMaterial=material;Tint(renderer,Color.white);
+                var renderer=go.AddComponent<MeshRenderer>();renderer.sharedMaterial=_decorationMaterial;Tint(renderer,Color.white);
             }
             foreach(var sample in samples.Values)Destroy(sample);
         }

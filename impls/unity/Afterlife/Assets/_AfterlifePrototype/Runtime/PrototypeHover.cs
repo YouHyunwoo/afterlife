@@ -41,7 +41,7 @@ namespace Afterlife.Prototype
             Vector3? position=active ? new Vector3(_pointer.X,_terrainSurface.Height(_pointer.X,_pointer.Z),_pointer.Z) : (Vector3?)null;
             var biome=active ? (ShowcaseBiome)(int)_model.Terrain.At(_pointer) : ShowcaseBiome.Rocky;
             _audio?.TickEnvironment(!paused && !_model.Frozen && _camera.enabled,
-                active && moved && position.HasValue && _vegetationGrass!=null && _vegetationGrass.HasGrassAt(position.Value));
+                active && moved && position.HasValue && _vegetationGrass!=null && _vegetationGrass.HasGrassAt(position.Value,_grassContactVisible));
             _tileHover.SetPointer(position,biome,moved);
             _tileHover.Tick(paused?0:Time.deltaTime);
             _hoverPreviousScreen=screen;_hoverHadPointer=active;

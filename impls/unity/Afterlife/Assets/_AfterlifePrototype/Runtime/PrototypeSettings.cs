@@ -45,6 +45,19 @@ namespace Afterlife.Prototype
         public float CameraMaxSpeed = 20;
         [Header("표시")]
         [Range(180, 720)] public int PixelHeight = 360;
+        [Header("풀 색상 · 플레이 중 변경 가능")]
+        [Tooltip("풀의 폭/높이 배율. 0.556은 Day01의 집 1.8배 배치에 대한 상대 크기 보정입니다.")]
+        [Range(.1f,1.5f)] public float GrassSizeScale = 1f/1.8f;
+        public bool GrassUsesTerrainColor = true;
+        public Color GrassBaseColor = new Color(.30f,.40f,.23f);
+        public Color GrassBeigeColor = new Color(.65f,.57f,.41f);
+        public Color GrassDarkColor = new Color(.14f,.17f,.15f);
+        public Color GrassPaleColor = new Color(.91f,.93f,.89f);
+        public Color GrassTealColor = new Color(.24f,.48f,.42f);
+        public Color GrassMossColor = new Color(.36f,.43f,.20f);
+        public Color GrassPurpleColor = new Color(.47f,.30f,.48f);
+        public Color GrassFlowerPink = new Color(.82f,.66f,.78f);
+        public Color GrassFlowerYellow = new Color(.95f,.92f,.78f);
         [Header("효과음")]
         [Range(0, 1)] public float SoundVolume = .7f;
         public Balance ToBalance() => new Balance

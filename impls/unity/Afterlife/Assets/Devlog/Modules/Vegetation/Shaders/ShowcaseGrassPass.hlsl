@@ -14,6 +14,12 @@
 #ifndef GRASS_AUTHORED_COLOR
 #define GRASS_AUTHORED_COLOR(color) (color)
 #endif
+#ifndef GRASS_VARIANT_OUTPUT
+#define GRASS_VARIANT_OUTPUT(color,world,anchor,kind,flower,tips,normal,flowerChoice) GRASS_OUTPUT(color,world,anchor,kind,flower)
+#endif
+#ifndef GRASS_SIZE_SCALE
+#define GRASS_SIZE_SCALE 1
+#endif
             TEXTURE2D(_Grass0); SAMPLER(sampler_Grass0);
             TEXTURE2D(_Grass1); SAMPLER(sampler_Grass1);
             TEXTURE2D(_Grass2); SAMPLER(sampler_Grass2);
@@ -42,6 +48,7 @@
             }
             Varyings Vert(Attributes i)
             {
+                i.size*=GRASS_SIZE_SCALE;
                 Varyings o;
                 float3 anchor=TransformObjectToWorld(i.positionOS.xyz);
                 o.anchor=anchor;
@@ -116,6 +123,6 @@
                 #else
                 color=lerp(color,floor(color*31+.5)/31,.25);
                 #endif
-                return GRASS_OUTPUT(color,i.world,i.anchor,i.type.y,flower);
+                return GRASS_VARIANT_OUTPUT(color,i.world,i.anchor,i.type.y,flower,tips,i.normal,step(0,Perlin(i.seed*3+23)));
             }
 #endif

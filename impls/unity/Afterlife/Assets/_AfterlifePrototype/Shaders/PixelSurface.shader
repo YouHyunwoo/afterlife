@@ -1,6 +1,6 @@
 Shader "Afterlife/Prototype/PixelSurface"
 {
-    Properties { _CrystalGlow("Crystal emission",Float)=0 _HouseWindows("Window emission",Float)=0  _Snow("Snow cover",Float)=0 _SnowShell("Snow shell",Float)=0 _SnowPine("Pine snow",Float)=0  _BaseColor("Color", Color) = (1,1,1,1) _Ground("Ground", Float) = 0 _TerrainRelief("Continuous biome terrain", Float) = 0 _Overlay("Overlay", Float) = 0 _Grass("Grass", Float) = 0 _FoliageWind("Tree foliage wind",Float)=0 _GroundDecoration("Ground-linked decoration",Float)=0 _Flash("Hit flash",Float)=0 _Dissolve("Removal",Range(0,1))=0 _DissolveScale("Removal scale",Float)=3.5 _SinkClip("Sink clip",Float)=0 _RemovalFloor("Removal floor",Float)=0 _VertexPalette("Blender vertex colours", Float) = 0 _SrcBlend("Source blend", Float) = 5 _DstBlend("Destination blend", Float) = 10 _ZWrite("Depth write", Float) = 0 }
+    Properties { _VegetationMask("Decoration exclusion",2D)="black" {} _VegetationBounds("Decoration bounds",Vector)=(0,0,1,1)  _CrystalGlow("Crystal emission",Float)=0 _HouseWindows("Window emission",Float)=0  _Snow("Snow cover",Float)=0 _SnowShell("Snow shell",Float)=0 _SnowPine("Pine snow",Float)=0  _BaseColor("Color", Color) = (1,1,1,1) _Ground("Ground", Float) = 0 _TerrainRelief("Continuous biome terrain", Float) = 0 _Overlay("Overlay", Float) = 0 _Grass("Grass", Float) = 0 _FoliageWind("Tree foliage wind",Float)=0 _GroundDecoration("Ground-linked decoration",Float)=0 _Flash("Hit flash",Float)=0 _Dissolve("Removal",Range(0,1))=0 _DissolveScale("Removal scale",Float)=3.5 _SinkClip("Sink clip",Float)=0 _RemovalFloor("Removal floor",Float)=0 _VertexPalette("Blender vertex colours", Float) = 0 _SrcBlend("Source blend", Float) = 5 _DstBlend("Destination blend", Float) = 10 _ZWrite("Depth write", Float) = 0 }
     SubShader
     {
         Tags { "RenderPipeline"="UniversalPipeline" "RenderType"="Transparent" "Queue"="Transparent" }
@@ -26,8 +26,8 @@ Shader "Afterlife/Prototype/PixelSurface"
             int _SnowHitCount;
             float4 _SnowHits[32];
             float4x4 _SnowWorldToLocal;
-            struct Attributes { float4 positionOS : POSITION; float3 normalOS : NORMAL; half4 color : COLOR; float2 ground : TEXCOORD2; };
-            struct Varyings { float4 positionCS : SV_POSITION; float3 normalWS : TEXCOORD0; float3 world : TEXCOORD1; half4 color : COLOR; float ground : TEXCOORD3; float3 removalLocal : TEXCOORD4; };
+            struct Attributes { float4 positionOS : POSITION; float3 normalOS : NORMAL; half4 color : COLOR; float2 ground : TEXCOORD2; float2 decorationAnchor : TEXCOORD3; };
+            struct Varyings { float4 positionCS : SV_POSITION; float3 normalWS : TEXCOORD0; float3 world : TEXCOORD1; half4 color : COLOR; float ground : TEXCOORD3; float3 removalLocal : TEXCOORD4; float2 decorationAnchor : TEXCOORD5; };
             CBUFFER_START(UnityPerMaterial)
             half4 _BaseColor;
             float _CrystalGlow, _HouseWindows;
@@ -39,6 +39,8 @@ Shader "Afterlife/Prototype/PixelSurface"
             float4 _DamageMarksV1[8],_DamageNormalsV1[8];
             float4x4 _DamageWorldToLocal;
             #include "Assets/Devlog/Modules/DamageMarks/Shaders/ShowcaseDamageMarks.hlsl"
+            TEXTURE2D(_VegetationMask); SAMPLER(sampler_VegetationMask);
+            float4 _VegetationBounds;
             float _PrototypeNight;
             float4 _VisionSources[128], _VillageLamps[32];
             int _VisionCount, _LampCount;
@@ -78,7 +80,7 @@ Shader "Afterlife/Prototype/PixelSurface"
             Varyings Vert(Attributes input)
             {
                 Varyings output;
-                output.ground=input.ground.x;output.removalLocal=input.positionOS.xyz;
+                output.decorationAnchor=input.decorationAnchor;output.ground=input.ground.x;output.removalLocal=input.positionOS.xyz;
                 output.world = TransformObjectToWorld(input.positionOS.xyz);
                 if(_Ground>.5 && _TerrainRelief>.5 && input.color.a>=0 && input.color.a<.5)
                     output.world.y+=HoverHeight(output.world);
@@ -96,6 +98,8 @@ Shader "Afterlife/Prototype/PixelSurface"
             }
             half4 Frag(Varyings input) : SV_Target
             {
+                if(_GroundDecoration>.5)
+                    clip(.5-SAMPLE_TEXTURE2D(_VegetationMask,sampler_VegetationMask,(input.decorationAnchor-_VegetationBounds.xy)/_VegetationBounds.zw).r);
                 if(_SinkClip>.5)clip(input.world.y-_RemovalFloor);
                 if(_Dissolve>0)clip(DissolveVisibility(input.removalLocal,_DissolveScale,_Dissolve));
                 float2 uv = (input.world.xz + _PrototypeMapRadius) / max(.01,2*_PrototypeMapRadius);

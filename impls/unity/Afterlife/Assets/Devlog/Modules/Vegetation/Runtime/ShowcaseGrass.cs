@@ -30,6 +30,9 @@ namespace Afterlife.Devlog.Day01
         private static float FlowerCluster(float x,float z) => Mathf.SmoothStep(0,1,
             Mathf.InverseLerp(.48f,.67f,Mathf.PerlinNoise(x*.91f+73.1f,z*.91f+8.6f)));
 
+        public static bool DecorationVisible(bool flowers,float x,float z)
+            => (flowers?FlowerCluster(x,z):Cluster(x,z))>=.3f;
+
         public ShowcaseGrass(Transform stage) : this(new[] { stage }, true) { }
         public ShowcaseGrass(Transform[] stages) : this(stages, false) { }
         private ShowcaseGrass(Transform[] stages, bool singleStage)
@@ -52,6 +55,7 @@ namespace Afterlife.Devlog.Day01
         {
             public int Radius;
             public int SamplesPerAxis=4;
+            public float AccentFraction=1;
             public Func<int,int,ShowcaseBiome> Biome;
             public Func<float,float,float> Height;
             public Func<float,float,Color> Color;
@@ -64,6 +68,16 @@ namespace Afterlife.Devlog.Day01
             for(int i=0;i<4;i++)_material.SetTexture("_Grass"+i,Resources.Load<Texture2D>("GrassSprites/Grass"+i));
             Build(parent,true,map);
         }
+        private float _sizeScale=1;
+        public void SetSizeScale(float value)
+        {
+            _sizeScale=Mathf.Clamp(value,.1f,1.5f);
+            SetFloat("_GrassSizeScale",_sizeScale);
+        }
+        public void SetColor(string property,Color value)
+        { if(_material!=null && _material.GetColor(property)!=value)_material.SetColor(property,value); }
+        public void SetFloat(string property,float value)
+        { if(_material!=null && _material.GetFloat(property)!=value)_material.SetFloat(property,value); }
         public void SetExclusionMask(Texture texture,Vector4 bounds)
         { _material.SetTexture("_VegetationMask",texture);_material.SetVector("_VegetationBounds",bounds); }
 
@@ -136,6 +150,8 @@ namespace Afterlife.Devlog.Day01
                     float height=(sprite==0 ? 9 : sprite==1 ? 4 : sprite==2 ? 9 : 14)*pixelSize;
                     // 기본 풀 94%, 키 큰 풀 2%, 검은 풀 1%, 흰 풀 1%, 꽃 2%.
                     float rare=(float)random.NextDouble();
+                    // 배치/스프라이트 난수는 유지하고 변종만 기본 풀로 전환한다.
+                    if(map!=null)rare=map.AccentFraction<=0?2:rare/Mathf.Clamp01(map.AccentFraction);
                     int kind=rare<.02f ? 1 : rare<.03f ? 2 : rare<.04f ? 3 : rare<.06f ? 4 : 0;
                     if (forestEnabled && !forest)
                         kind=rare<.02f ? 1 : rare<.03f ? 2 : rare<.04f ? 3
@@ -212,13 +228,13 @@ namespace Afterlife.Devlog.Day01
                     bool ferns=decoration.name=="Fern_Pivot" || decoration.name.StartsWith("TileDecoration_Ferns_");
                     if ((!flowers && !ferns) || !decoration.gameObject.activeSelf) continue;
                     var point=stage.InverseTransformPoint(decoration.position);
-                    if ((flowers ? FlowerCluster(point.x,point.z) : Cluster(point.x,point.z))>=.3f) continue;
+                    if (DecorationVisible(flowers,point.x,point.z)) continue;
                     _suppressedDecorations.Add(decoration.gameObject);
                     decoration.gameObject.SetActive(false);
                 }
         }
 
-        public bool HasGrassAt(Vector3 worldPoint)
+        public bool HasGrassAt(Vector3 worldPoint,Func<Vector3,bool> visible=null)
         {
             int x=Mathf.FloorToInt(worldPoint.x),z=Mathf.FloorToInt(worldPoint.z);
             for (int dzCell=-1;dzCell<=1;dzCell++)
@@ -228,7 +244,8 @@ namespace Afterlife.Devlog.Day01
                 foreach (var contact in contacts)
                 {
                     float dx=worldPoint.x-contact.x, dz=worldPoint.z-contact.y;
-                    if (dx*dx+dz*dz<=contact.z*contact.z) return true;
+                    float radius=(contact.z-.04f)*_sizeScale+.04f;
+                    if (dx*dx+dz*dz<=radius*radius && (visible==null || visible(new Vector3(contact.x,worldPoint.y,contact.y)))) return true;
                 }
             }
             return false;
