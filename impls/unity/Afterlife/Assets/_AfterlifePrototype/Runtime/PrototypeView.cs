@@ -199,7 +199,7 @@ namespace Afterlife.Prototype
             _screenWidth=Screen.width; _screenHeight=Screen.height;
             if(_pixels!=null) { _camera.targetTexture=null; _pixels.Release(); Destroy(_pixels); }
             int h=Mathf.Clamp(_settings.PixelHeight,180,720), w=Mathf.RoundToInt(h*(float)Screen.width/Mathf.Max(1,Screen.height));
-            _pixels=new RenderTexture(Mathf.Max(1,w),h,24,RenderTextureFormat.ARGB32) {filterMode=FilterMode.Point,antiAliasing=1,name="Prototype Point Pixels"};
+            _pixels=new RenderTexture(Mathf.Max(1,w),h,24,RenderTextureFormat.DefaultHDR) {filterMode=FilterMode.Point,antiAliasing=1,name="Prototype Point Pixels"};
             _pixels.Create(); _camera.targetTexture=_pixels; _camera.aspect=(float)w/h;
         }
     }

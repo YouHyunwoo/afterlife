@@ -54,7 +54,7 @@ namespace Afterlife.Prototype
                 enabled = false; return;
             }
             _pipeline.msaaSampleCount = 1;
-            _pipeline.supportsHDR = false;
+            _pipeline.supportsHDR = true;
             ConfigureWaterRendering();
             _previousGraphics = GraphicsSettings.defaultRenderPipeline;
             _previousQuality = QualitySettings.renderPipeline;

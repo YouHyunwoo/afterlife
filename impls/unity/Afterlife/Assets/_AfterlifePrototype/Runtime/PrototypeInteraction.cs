@@ -353,6 +353,7 @@ namespace Afterlife.Prototype
                 }
                 if(b.Id==_hovered||b.Id==_previousHovered)foreach(var renderer in _renderCache[b.Id])
                 {var tint=renderer.GetComponent<PrototypeTint>();Tint(renderer,b.Id==_hovered?Color.Lerp(tint.Original,Color.white,.4f):tint.Original);}
+                UpdateGlow(b);
                 var light=_lightCache[b.Id];if(light!=null)light.intensity=b.Complete?1.1f*_model.NightBlend:0;
             }
             RefreshConnections();_previousHovered=_hovered;

@@ -65,7 +65,7 @@ namespace Afterlife.Prototype
         private void InitializePresentation()
         {
             UploadTerrainTiles();BuildTerrainDetails();
-            InitializeVegetation();InitializeHover();
+            InitializeVegetation();InitializeHover();InitializeGlow();
         }
         private bool CanContribute(Body b)=>b.Alive&&(b.Kind==Kind.Tree||b.Kind==Kind.Rock||b.Hostile||b.Kind==Kind.Animal||b.Kind==Kind.Chest||b.Kind==Kind.Treasure||b.Building&&(b.MovingOut||b.MoveSource!=0||!b.Complete||b.Health<b.MaxHealth&&_model.Money>0));
         private ToolEffect GetTool(Body b)
@@ -235,6 +235,6 @@ namespace Afterlife.Prototype
             _terrainTiles.SetPixels32(pixels);_terrainTiles.Apply(false,true);
             Shader.SetGlobalTexture("_TerrainTiles",_terrainTiles);Shader.SetGlobalFloat("_TerrainSize",map.Size);Shader.SetGlobalFloat("_TerrainRadius",map.Radius);
         }
-        private void DisposePresentation(){ResetHouseSmoke();ResetResourceDestruction();ResetSnow();ResetImpactChips();_impactPool?.Dispose();_impactPool=null;ResetResourceSurfaces();DisposeHover();DisposeVegetation();DisposeContent();if(_terrainTiles!=null)Destroy(_terrainTiles);Shader.SetGlobalVector("_CursorCircle",Vector4.zero);Shader.SetGlobalInt("_VisionCount",0);}
+        private void DisposePresentation(){DisposeGlow();ResetHouseSmoke();ResetResourceDestruction();ResetSnow();ResetImpactChips();_impactPool?.Dispose();_impactPool=null;ResetResourceSurfaces();DisposeHover();DisposeVegetation();DisposeContent();if(_terrainTiles!=null)Destroy(_terrainTiles);Shader.SetGlobalVector("_CursorCircle",Vector4.zero);Shader.SetGlobalInt("_VisionCount",0);}
     }
 }

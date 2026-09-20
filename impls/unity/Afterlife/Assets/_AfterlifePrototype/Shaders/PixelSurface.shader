@@ -1,6 +1,6 @@
 Shader "Afterlife/Prototype/PixelSurface"
 {
-    Properties { _Snow("Snow cover",Float)=0 _SnowShell("Snow shell",Float)=0 _SnowPine("Pine snow",Float)=0  _BaseColor("Color", Color) = (1,1,1,1) _Ground("Ground", Float) = 0 _TerrainRelief("Continuous biome terrain", Float) = 0 _Overlay("Overlay", Float) = 0 _Grass("Grass", Float) = 0 _FoliageWind("Tree foliage wind",Float)=0 _GroundDecoration("Ground-linked decoration",Float)=0 _Flash("Hit flash",Float)=0 _Dissolve("Removal",Range(0,1))=0 _DissolveScale("Removal scale",Float)=3.5 _SinkClip("Sink clip",Float)=0 _RemovalFloor("Removal floor",Float)=0 _VertexPalette("Blender vertex colours", Float) = 0 _SrcBlend("Source blend", Float) = 5 _DstBlend("Destination blend", Float) = 10 _ZWrite("Depth write", Float) = 0 }
+    Properties { _CrystalGlow("Crystal emission",Float)=0 _HouseWindows("Window emission",Float)=0  _Snow("Snow cover",Float)=0 _SnowShell("Snow shell",Float)=0 _SnowPine("Pine snow",Float)=0  _BaseColor("Color", Color) = (1,1,1,1) _Ground("Ground", Float) = 0 _TerrainRelief("Continuous biome terrain", Float) = 0 _Overlay("Overlay", Float) = 0 _Grass("Grass", Float) = 0 _FoliageWind("Tree foliage wind",Float)=0 _GroundDecoration("Ground-linked decoration",Float)=0 _Flash("Hit flash",Float)=0 _Dissolve("Removal",Range(0,1))=0 _DissolveScale("Removal scale",Float)=3.5 _SinkClip("Sink clip",Float)=0 _RemovalFloor("Removal floor",Float)=0 _VertexPalette("Blender vertex colours", Float) = 0 _SrcBlend("Source blend", Float) = 5 _DstBlend("Destination blend", Float) = 10 _ZWrite("Depth write", Float) = 0 }
     SubShader
     {
         Tags { "RenderPipeline"="UniversalPipeline" "RenderType"="Transparent" "Queue"="Transparent" }
@@ -16,6 +16,7 @@ Shader "Afterlife/Prototype/PixelSurface"
             #pragma fragment Frag
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Assets/Devlog/Modules/Wind/Shaders/ShowcaseWind.hlsl"
+            #include "Assets/Devlog/Modules/Lighting/Shaders/ShowcaseEmission.hlsl"
             #include "Assets/_AfterlifePrototype/Shaders/PrototypeGroundVisibility.hlsl"
             #include "Assets/_AfterlifePrototype/Shaders/PrototypeGroundAppearance.hlsl"
             #include "Assets/Devlog/Modules/Hover/Shaders/ShowcaseHover.hlsl"
@@ -29,6 +30,7 @@ Shader "Afterlife/Prototype/PixelSurface"
             struct Varyings { float4 positionCS : SV_POSITION; float3 normalWS : TEXCOORD0; float3 world : TEXCOORD1; half4 color : COLOR; float ground : TEXCOORD3; float3 removalLocal : TEXCOORD4; };
             CBUFFER_START(UnityPerMaterial)
             half4 _BaseColor;
+            float _CrystalGlow, _HouseWindows;
             float _Flash, _Dissolve, _DissolveScale, _SinkClip, _RemovalFloor;
             float _Ground, _TerrainRelief, _Overlay, _Grass, _VertexPalette, _FoliageWind, _GroundDecoration;
             CBUFFER_END
@@ -181,6 +183,8 @@ Shader "Afterlife/Prototype/PixelSurface"
                     float ring=edge*(angle<=_CursorCircle.w?.72:.22);
                     color=lerp(color,_CursorColor.rgb,max(fill,ring));
                 }
+                if(_Overlay<.5 && _Ground<.5 && _SnowShell<.5)
+                    color=ShowcaseEmission(color,input.color.rgb,_BaseColor.rgb,_CrystalGlow,_HouseWindows,_PrototypeNight,_Time.y);
                 return half4(lerp(color,_BaseColor.rgb,saturate(_Overlay)),(_Ground>.5||_Overlay>.5)?_BaseColor.a:_BaseColor.a*input.color.a);
             }
             ENDHLSL
