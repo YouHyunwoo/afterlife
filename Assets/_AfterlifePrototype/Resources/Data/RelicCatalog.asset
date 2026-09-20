@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d176bba591e25248bd54d90d001153b, type: 3}
+  m_Name: RelicCatalog
+  m_EditorClassIdentifier: 
+  ListItemPrefab: {fileID: 7790412668169479443, guid: 02be799d2266bbf4986a8dbd46825a8f, type: 3}
+  Entries:
+  - Id: 0
+    DisplayName: "\uC232\uC758 \uB3C4\uB07C"
+    Icon: {fileID: 21300000, guid: 98276b6d4cc3822479285bfdfbaa5e05, type: 2}
+    TooltipTemplate: "{name} \xB7 {level}\uB2E8\uACC4\n{effect}"
+  - Id: 1
+    DisplayName: "\uAD11\uBD80\uC758 \uBD80\uC801"
+    Icon: {fileID: 21300000, guid: 56d5ed17e6d37784c84c09be8cdc4c0e, type: 2}
+    TooltipTemplate: "{name} \xB7 {level}\uB2E8\uACC4\n{effect}"
+  - Id: 2
+    DisplayName: "\uB9E4\uC758 \uB208"
+    Icon: {fileID: 21300000, guid: d09fb97be6a35d748a14cea0293de6ec, type: 2}
+    TooltipTemplate: "{name} \xB7 {level}\uB2E8\uACC4\n{effect}"
+  - Id: 3
+    DisplayName: "\uC218\uC120\uC758 \uB9DD\uCE58"
+    Icon: {fileID: 21300000, guid: a5583dc96a3d1da48903e98acfe3ce09, type: 2}
+    TooltipTemplate: "{name} \xB7 {level}\uB2E8\uACC4\n{effect}"
+  - Id: 4
+    DisplayName: "\uC0C1\uC778\uC758 \uC800\uC6B8"
+    Icon: {fileID: 21300000, guid: 7f2ddc705453b224ca7f97cee6a1522c, type: 2}
+    TooltipTemplate: "{name} \xB7 {level}\uB2E8\uACC4\n{effect}"
+  - Id: 5
+    DisplayName: "\uD48D\uC694\uC758 \uC528\uC557"
+    Icon: {fileID: 21300000, guid: 256c7bd874daf1e4a891ffce2f3cfc1a, type: 2}
+    TooltipTemplate: "{name} \xB7 {level}\uB2E8\uACC4\n{effect}"
+  - Id: 6
+    DisplayName: "\uC21C\uD658\uC758 \uBAA8\uB798\uC2DC\uACC4"
+    Icon: {fileID: 21300000, guid: d5f4f4e1cb614e14d88feb2621a41b86, type: 2}
+    TooltipTemplate: "{name} \xB7 {level}\uB2E8\uACC4\n{effect}"

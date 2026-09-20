@@ -1,0 +1,17 @@
+{
+  "name": "Afterlife.Prototype",
+  "rootNamespace": "Afterlife.Prototype",
+  "references": [
+    "Reusable.Flow",
+    "Unity.InputSystem",
+    "Unity.RenderPipelines.Core.Runtime",
+    "Unity.RenderPipelines.Universal.Runtime",
+    "UnityEngine.UI",
+    "Unity.TextMeshPro",
+    "Afterlife.Upgrades",
+    "Afterlife.Skills",
+    "Afterlife.Progression.Unity",
+    "Moonstone.Arc"
+  ],
+  "autoReferenced": true
+}
