@@ -1,0 +1,20 @@
+{
+  "name": "Afterlife.Devlog.Day01.Editor",
+  "rootNamespace": "Afterlife.Devlog.Day01.Editor",
+  "references": ["Afterlife.Devlog.Snow",
+    "Afterlife.Devlog.Day01",
+    "Afterlife.Devlog.Terrain",
+    "Unity.RenderPipelines.Core.Runtime",
+    "Unity.RenderPipelines.Universal.Runtime",
+    "Afterlife.Devlog.Audio",
+    "Afterlife.Devlog.Contracts",
+    "Afterlife.Devlog.Destruction",
+    "Afterlife.Devlog.Lighting",
+    "Afterlife.Devlog.Hover",
+    "Afterlife.Devlog.Interaction"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "autoReferenced": true
+}
