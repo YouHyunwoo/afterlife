@@ -32,6 +32,8 @@ namespace Afterlife.Prototype
             if(asset==null){Debug.LogWarning("Missing authored world asset: "+key);return false;}
             if(_worldPalette==null){_worldPalette=new Material(_surface){name="Blender palette / shared vision"};_worldPalette.SetFloat("_VertexPalette",1);_worldPalette.SetFloat("_ZWrite",1);_materials.Add(_worldPalette);}
             var art=Instantiate(asset,root.transform,false);art.name="Blender "+key;
+            if(body.Kind==Kind.Tree)art.transform.localScale*=Mathf.Max(.1f,_settings.TreeModelScale)*(1.15f+body.Variant%3*.13f)/1.28f;
+            else if(body.Kind==Kind.Rock)art.transform.localScale*=Mathf.Max(.1f,_settings.RockModelScale)*(1.05f+body.Variant%3*.15f)/1.20f;
             var nodes=art.GetComponentsInChildren<Transform>();
             var marker=nodes.FirstOrDefault(n=>n.name.Split('.')[0]=="FrontMarker");
             if(marker!=null)
@@ -50,6 +52,15 @@ namespace Afterlife.Prototype
             var box=root.AddComponent<BoxCollider>();
             float height=body.Kind==Kind.Tree?1.6f:VillageModel.IsTower(body.Kind)?2.5f:body.Building?1.4f:body.Kind==Kind.Rock?.65f:body.Kind==Kind.Chest?.62f:body.Kind==Kind.Slime?.60f:body.Kind==Kind.Treasure?.35f:1.2f;
             box.center=new Vector3(0,height*.5f,0);box.size=new Vector3(body.Building?body.Width*.9f:body.Kind==Kind.Tree?.68f:.64f,height,body.Building?body.Depth*.9f:.64f);
+            if(body.Kind==Kind.Tree||body.Kind==Kind.Rock)
+            {
+                var renderers=art.GetComponentsInChildren<Renderer>();
+                if(renderers.Length>0)
+                {
+                    var bounds=renderers[0].bounds;foreach(var renderer in renderers)bounds.Encapsulate(renderer.bounds);
+                    box.center=root.transform.InverseTransformPoint(bounds.center);box.size=bounds.size;
+                }
+            }
             if(body.Kind==Kind.Farm||body.Kind==Kind.LargeTest){box.center=Vector3.up*.3f;box.size=new Vector3(body.Width*.95f,.6f,.95f);}
             AddContactShadow(root.transform,body.Building?body.Width*.46f:body.Kind==Kind.Tree?.41f:.30f,body.Building?body.Depth*.45f:.27f);
             return true;

@@ -27,6 +27,9 @@ namespace Afterlife.Prototype
         public float VillageVision = 9;
         public float VisionTrailSeconds = 1.4f;
         public float AutoConstruction = .25f;
+        [Header("자원 모델 크기 · 새 플레이에 적용")]
+        [Min(.1f)] public float TreeModelScale = 1.28f/1.8f;
+        [Min(.1f)] public float RockModelScale = 1.20f/1.8f;
         [Header("자원 재생성")]
         public float ResourceSpawnSeconds = 12;
         public int TreeLimit = 260;
