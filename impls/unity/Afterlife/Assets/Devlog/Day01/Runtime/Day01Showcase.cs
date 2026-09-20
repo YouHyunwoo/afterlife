@@ -51,7 +51,9 @@ namespace Afterlife.Devlog.Day01
         [Min(.1f)] public float VisionHeight = .8f;
         [Min(1)] public float CursorVisionRadius = 3.2f;
         [Min(1)] public float HouseVisionRadius = 3f;
+        [Min(.1f)] public float VisionTrailSeconds=1.4f;
         private ShowcaseLighting _lighting;
+        private bool _visionTest;
         private ShowcaseSmoke _smoke;
         private Afterlife.Devlog.Wind.ShowcaseWind _wind;
         private ShowcaseCrystalGlow _crystalGlow;
@@ -152,7 +154,7 @@ namespace Afterlife.Devlog.Day01
             _axeImpactPoint = FindImpactPoint(Axe);
             _pickImpactPoint = FindImpactPoint(Pick);
             _lighting = new ShowcaseLighting(transform,ShowcaseCamera)
-            { Height = VisionHeight, CursorRadius = CursorVisionRadius, HouseRadius = HouseVisionRadius };
+            { Height = VisionHeight, CursorRadius = CursorVisionRadius, HouseRadius = HouseVisionRadius, TrailSeconds = VisionTrailSeconds };
             _wind = new Afterlife.Devlog.Wind.ShowcaseWind();
             SetStage(StartStage);
         }
@@ -342,10 +344,12 @@ namespace Afterlife.Devlog.Day01
                 if (keyboard.hKey.wasPressedThisFrame) ShowGuide = !ShowGuide;
                 if (keyboard.pKey.wasPressedThisFrame) { _pixels = !_pixels; ConfigureOutput(); }
                 if (keyboard.rKey.wasPressedThisFrame) ResetTake();
+                if (keyboard.vKey.wasPressedThisFrame) _visionTest=!_visionTest;
                 if (keyboard.nKey.wasPressedThisFrame && Phase == 5) _lighting?.Toggle();
                 if (keyboard.lKey.wasPressedThisFrame) foreach (var leaves in _treeLeaves) leaves.Toggle();
                 if (keyboard.gKey.wasPressedThisFrame) foreach (var leaves in _treeLeaves) leaves.ToggleRotation();
             }
+            _lighting?.SetVisionTest(_visionTest && !FilmMode);
             _lighting?.Tick(Time.unscaledDeltaTime);
             _wind?.Tick(Time.unscaledTime, Phase >= 3 ? 1 : 0);
             _smoke?.TickWind();
@@ -400,7 +404,7 @@ namespace Afterlife.Devlog.Day01
             _lighting?.UpdateCursor(null);
             if (_hover != null) _hover.SetHover(false);
             _hover = null;
-            if (Phase < 4 || (FilmMode && !FilmInteraction)) return;
+            if ((Phase < 4 && !_visionTest) || (FilmMode && !FilmInteraction)) return;
             var mouse = Mouse.current;
             if (mouse == null || !Application.isFocused) return;
             Vector2 point = mouse.position.ReadValue();
@@ -415,6 +419,7 @@ namespace Afterlife.Devlog.Day01
             }
             Ray ray = ShowcaseCamera.ViewportPointToRay(viewport);
             _lighting?.UpdateCursor(ray);
+            if(Phase<4)return;
             if (!PickSurface(ray, out var surface, out var hitPoint, out var surfaceColor)) return;
             if (Phase>=4 && surface.Target==null && surface.HitNormal.y>.35f
                 && (surface.name.StartsWith("Tile_") || surface.name=="OceanBlocks_HalfHeight"))
@@ -554,6 +559,7 @@ namespace Afterlife.Devlog.Day01
 
         private void ResetTake(bool resetAmbience)
         {
+            _lighting?.ResetVisionTrail();
             _tileHover?.Reset();
             _sound?.Reset();
             if (resetAmbience) _ambience?.Reset();
@@ -580,7 +586,7 @@ namespace Afterlife.Devlog.Day01
         }
         private const float GuideScale = 1.5f;
         private bool _damageMarksEnabled=true;
-        private Rect GuideRect() => new Rect(16, 16, 550 * GuideScale, 305 * GuideScale);
+        private Rect GuideRect() => new Rect(16, 16, 550 * GuideScale, 342 * GuideScale);
         private void OnGUI()
         {
             if (ShowcaseCamera == null) return;
@@ -608,7 +614,7 @@ namespace Afterlife.Devlog.Day01
 
         private void DrawGuide()
         {
-            GUI.Box(new Rect(16,16,550,305), "");
+            GUI.Box(new Rect(16,16,550,342), "");
             string[] names = PhaseNames;
             GUI.Label(new Rect(28, 23, 520, 22), "DAY 01   /   " + names[Phase]);
             GUI.Label(new Rect(28, 48, 520, 22), HasPresentationStages ? "1~6 Stages | H Hide guide | F8 Film mode" : "1 Before  2 Process  3 After | H Hide");
@@ -643,6 +649,7 @@ namespace Afterlife.Devlog.Day01
                 foreach (var target in _targets) target.DamageMarksEnabled=_damageMarksEnabled;
             }
             GUI.enabled = true;
+            _visionTest=GUI.Toggle(new Rect(28,307,500,27),_visionTest,"V Mouse vision test: "+(_visionTest?"ON":"OFF"));
             string[] buttons = HasPresentationStages ? new[] { "1 Before", "2 Shape", "3 Terrain", "4 Life", "5 Hits", "6 After" } : new[] { "1 Before", "2 Process", "3 After" };
             for (int i = 0; i < buttons.Length; i++)
                 if (GUI.Button(new Rect(28 + i * 86, 270, 82, 27), (_stage == i ? "* " : "") + buttons[i])) SetStage(i);

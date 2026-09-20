@@ -1,7 +1,7 @@
 #ifndef AFTERLIFE_WATER_PASS_INCLUDED
 #define AFTERLIFE_WATER_PASS_INCLUDED
 #ifndef WATER_LIGHTING
-#define WATER_LIGHTING(color,world) DevlogLighting(color,world)
+#define WATER_LIGHTING(color,world) DevlogLighting(color,world,1)
 #endif
 #ifndef WATER_OUTPUT
 #define WATER_OUTPUT(color,opacity,world) half4(color,opacity)

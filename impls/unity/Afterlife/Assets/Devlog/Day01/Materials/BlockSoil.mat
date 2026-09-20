@@ -28,6 +28,7 @@ Material:
     - _Flash: 0
     - _Grid: 0
     - _Ground: 0
+    - _VisionGround: 1
     - _Hover: 0
     - _Stylized: 1
     - _VertexPalette: 0

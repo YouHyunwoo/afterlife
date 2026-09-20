@@ -6,6 +6,7 @@ Shader "Afterlife/Devlog/ShowcaseSurface"
         _VertexPalette("Use existing model colors", Float) = 1
         _Stylized("Stepped lighting", Float) = 1
         _Ground("Ground texture", Float) = 0
+        _VisionGround("Keep terrain outside vision",Float)=0
         _Grid("Tile grid", Float) = 0
         _TerrainBlend("Continuous terrain color", Float) = 0
         _TerrainColorMap("Terrain color map", 2D) = "white" {}
@@ -45,7 +46,7 @@ Shader "Afterlife/Devlog/ShowcaseSurface"
             float _Dissolve, _SinkClip, _RemovalFloor;
             float _DissolveScale;
             float _HoverTerrain;
-            float _TerrainBlend;
+            float _TerrainBlend, _VisionGround;
             float4 _TerrainMapBounds;
             float4 _SnowHits[32];
             float4x4 _SnowWorldToLocal;
@@ -135,7 +136,7 @@ Shader "Afterlife/Devlog/ShowcaseSurface"
                 color=lerp(color,floor(color*31+.5)/31,_Stylized);
                 #endif
                 color=lerp(color,color*1.18+half3(.025,.018,.004),_Hover);
-                color=DevlogLighting(lerp(color,half3(1,.9,.65),_Flash),i.world);
+                color=DevlogLighting(lerp(color,half3(1,.9,.65),_Flash),i.world,max(_VisionGround,max(_Ground,max(_TerrainBlend,_Water))));
                 // 집 FBX에 합쳐진 금색 유리만 발광시켜 벽/목재는 원래 재질을 유지한다.
                 half3 palette=i.color.rgb;
                 #if !defined(UNITY_COLORSPACE_GAMMA)
@@ -155,6 +156,7 @@ Shader "Afterlife/Devlog/ShowcaseSurface"
 
             half4 DepthFrag(Varyings i):SV_Target
             {
+                DevlogClipVision(i.world,max(_VisionGround,max(_Ground,max(_TerrainBlend,_Water))));
                 ClipRemoval(i.world,i.dissolveLocal);
                 if (_SnowShell>.5) ClipSnow(i.snowLocal,SnowMask(i.snowLocal,normalize(i.normal),1));
                 return 0;

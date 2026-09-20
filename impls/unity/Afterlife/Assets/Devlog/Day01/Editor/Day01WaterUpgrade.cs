@@ -188,10 +188,10 @@ namespace Afterlife.Devlog.Day01.Editor
         {
             string path = Root+"/Materials/"+name+".mat";
             var material = AssetDatabase.LoadAssetAtPath<Material>(path);
-            if (material != null) return material;
+            if (material != null) { material.SetFloat("_VisionGround",1); EditorUtility.SetDirty(material); return material; }
             material = new Material(Shader.Find("Afterlife/Devlog/ShowcaseSurface")) { name = name };
             material.SetColor("_BaseColor",color); material.SetFloat("_VertexPalette",0);
-            material.SetFloat("_Stylized",1);
+            material.SetFloat("_Stylized",1); material.SetFloat("_VisionGround",1);
             AssetDatabase.CreateAsset(material,path); return material;
         }
 
