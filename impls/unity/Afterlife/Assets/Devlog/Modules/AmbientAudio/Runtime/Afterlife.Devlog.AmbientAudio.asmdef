@@ -1,0 +1,6 @@
+{
+  "name": "Afterlife.Devlog.AmbientAudio",
+  "rootNamespace": "Afterlife.Devlog.AmbientAudio",
+  "references": ["Afterlife.Devlog.AmbientAudio.Core"],
+  "autoReferenced": true
+}

@@ -1,0 +1,55 @@
+{
+  "sample_rate": 44100,
+  "channels": 2,
+  "listening_verified": false,
+  "outputs": [
+    {
+      "file": "wind.wav",
+      "source": "wind_181250_hq.mp3",
+      "selection_seconds": [
+        12,
+        52
+      ],
+      "duration_seconds": 38.0,
+      "highpass_hz": 90,
+      "crossfade_seconds": 2,
+      "gain": 10.583276823613824,
+      "transient_softening": "none",
+      "rms_dbfs": -26.8809494388795,
+      "peak_dbfs": -10.0,
+      "sha256": "d507b9b5e292597378f96ac91d97137245298100d467e8d92cb75e70bd7562d1"
+    },
+    {
+      "file": "grass.wav",
+      "source": "grass_525268_hq.mp3",
+      "selection_seconds": [
+        0.3,
+        10
+      ],
+      "duration_seconds": 8.7,
+      "highpass_hz": 240,
+      "crossfade_seconds": 1,
+      "gain": 12.037465312746905,
+      "transient_softening": "tanh at 4x RMS",
+      "rms_dbfs": -26.0,
+      "peak_dbfs": -11.68031967065824,
+      "sha256": "a9caef7193a671c5fd0df7eeba90216acbb22ce47249bbcb60723ef09e3512b6"
+    },
+    {
+      "file": "bird.wav",
+      "source": "bird_182507_hq.mp3",
+      "selection_seconds": [
+        0,
+        4.727
+      ],
+      "duration_seconds": 4.727006802721088,
+      "highpass_hz": 600,
+      "crossfade_seconds": 0,
+      "gain": 5.068627479499453,
+      "transient_softening": "none",
+      "rms_dbfs": -30.580901538187657,
+      "peak_dbfs": -10.0,
+      "sha256": "c83e8aac32bbf4c6e94822e66526c8d308a0e49d9720446b2797324ff556593f"
+    }
+  ]
+}

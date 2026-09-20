@@ -5923,6 +5923,102 @@
       "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
     },
     {
+      "path": "res/audio/nature-ambience/analysis.json",
+      "bytes": 1506,
+      "sha256": "5365d9c55a808eed8036fd69a4e44fcd6946b6222c6b93a03728992b8d7ac987",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/nature-ambience/bird.wav",
+      "bytes": 833888,
+      "sha256": "c83e8aac32bbf4c6e94822e66526c8d308a0e49d9720446b2797324ff556593f",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/nature-ambience/bird_182507_hq.mp3",
+      "bytes": 108144,
+      "sha256": "3a33bbf0d629384f106950413138ba45a50d94f82f5c87b797345a2509b5fb1a",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/nature-ambience/extract_grass_variants.py",
+      "bytes": 3091,
+      "sha256": "1ad108789030b66317fa871338eb62465c209445de4c08d9f4f8bec91f6254eb",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/nature-ambience/grass-variants/grass_rustle_01.wav",
+      "bytes": 97064,
+      "sha256": "342644349fe0c76b9af9df8d1215f2c27942cfbd810a3749ff8a306a805438f5",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/nature-ambience/grass-variants/grass_rustle_02.wav",
+      "bytes": 105884,
+      "sha256": "6a0b3faf01c8ddd42803f361efe778d1e0aa9fd80c6a83ac1114cdda05e7d813",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/nature-ambience/grass-variants/grass_rustle_03.wav",
+      "bytes": 123524,
+      "sha256": "81862619e132ac2081117b3d4114b7964bc66cb7e03025c2b923f82c854d733c",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/nature-ambience/grass-variants/grass_rustle_04.wav",
+      "bytes": 123524,
+      "sha256": "237e79b3e4d9019050e62e418d758a177c58b06714113a222b952a3b1dee9009",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/nature-ambience/grass-variants-analysis.json",
+      "bytes": 1954,
+      "sha256": "a06209b00fa758f98d0c44c43a23b6175c8edd06809f3d11e5407a52d0a323e4",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/nature-ambience/grass.wav",
+      "bytes": 1534724,
+      "sha256": "a9caef7193a671c5fd0df7eeba90216acbb22ce47249bbcb60723ef09e3512b6",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/nature-ambience/grass_525268_hq.mp3",
+      "bytes": 258616,
+      "sha256": "fa6089575b6f98df5f16ee68f6c79320516c0ba61f6cfe07db88a644c40159c6",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/nature-ambience/grass_variants_preview.wav",
+      "bytes": 908504,
+      "sha256": "bb46fde6f9d7233038da164da8621525c25b4fc4a9573ce92b56e36263fd15fb",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/nature-ambience/prepare.py",
+      "bytes": 3113,
+      "sha256": "304b750e74f39eca173978563d64ac6097e0c2d7b1eba1dee2e0ca59a07923e0",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/nature-ambience/sources.json",
+      "bytes": 1559,
+      "sha256": "069dfcd9b1553da2ed8390421cdd0296b4e2e3c1630f2c371036325d148b47db",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/nature-ambience/wind.wav",
+      "bytes": 6703244,
+      "sha256": "d507b9b5e292597378f96ac91d97137245298100d467e8d92cb75e70bd7562d1",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/nature-ambience/wind_181250_hq.mp3",
+      "bytes": 2834400,
+      "sha256": "374de47c58d371a7c8a34558adb9845c596277759019336cce53a050bac7088d",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
       "path": "res/audio/stone-analysis/dropping_rocks/debris/dropping_rocks_debris_01.wav",
       "bytes": 132344,
       "sha256": "34084d39b9c5c7b6de6c10d50f750c46776fa7081185e3d0b21db03c2d9678b4",

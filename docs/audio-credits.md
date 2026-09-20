@@ -1,5 +1,22 @@
 # 외부 음원 크레딧 지침
 
+## Freesound — 자연 환경음 (2026-09-20)
+
+|용도|저작물 / 저작자|원 배포 페이지|확인한 이용조건|
+|---|---|---|---|
+|바람 (현재 미사용)|a gentle breeze, wind 1 / mario1298|https://freesound.org/people/mario1298/sounds/181250/|CC0 1.0|
+|풀 스침|Dry Grass Rustle.wav / TheSupremeMuffinPooter|https://freesound.org/people/TheSupremeMuffinPooter/sounds/525268/|CC0 1.0|
+|새 울음|Bird Chirp / swiftoid|https://freesound.org/people/swiftoid/sounds/182507/|CC0 1.0|
+
+- 라이선스: https://creativecommons.org/publicdomain/zero/1.0/ . 세 배포 페이지의 CC0 표시와 링크를 확인했다. 상업 이용·편집 가능하며 저작자 표시는 필수 조건이 아니다. 추적 가능한 내부 출처로 보존한다.
+- 원 자료: `res/audio/nature-ambience/*_hq.mp3`. Freesound 공개 HQ MP3 미리듣기를 내려받았으며 원본 WAV 다운로드가 아니다. 실제 다운로드 URL·저작자·SHA-256은 `sources.json`에 기록했다.
+- 풀 스침은 실제 마른 밀풀을 손으로 가볍게 스친 녹음이다. 바람이 풀을 흔드는 현장 녹음으로 오기하지 않는다.
+- 편집: 바람 12~52초 발췌/2초 교차 연결, 풀 0.3~10초 발췌/1초 교차 연결/짧은 피크 완화, 새 0~4.727초/80ms 시작·250ms 끝 페이드. 공통 DC 제거·고역통과 필터·음량 조정·44.1kHz/16bit 스테레오 WAV 변환. 상세 수치는 `analysis.json`, 재현은 `prepare.py`.
+- Unity: `Assets/Devlog/Modules/AmbientAudio/Resources/DevlogAmbience/{wind,grass,bird}.wav`. 현재 Day01 After에서는 grass(마우스 풀 접촉 중)와 bird(간헐적)만 사용한다. wind는 참조/로딩/재생을 제거했으며 기존 파일은 출처 추적용으로 보관한다. 실제 청취 검증은 대기 중이다.
+- 기존 공유마당 CC BY 음원의 공개 표기 의무는 별도로 유지한다.
+
+- 풀 스침 추가 편집: 기존 grass.wav에서 0.10~0.65 / 1.55~2.15 / 4.15~4.85 / 6.45~7.15초를 발췌. 원 MP3 기준 1.40~1.95 / 2.85~3.45 / 5.45~6.15 / 7.75~8.45초. tanh 피크 완화, 35ms/140ms 페이드, RMS -25dBFS·피크 -13dBFS 상한. 현재 풀 재생은 사용자 선택에 따라 `GrassRustles/grass_rustle_02~04.wav`만 사용한다. 01은 미사용 후보로 보관한다. 원래 grass.wav는 편집 원본으로 보존한다. 재현/분석은 `extract_grass_variants.py`, `grass-variants-analysis.json`.
+
 ## 프리소리 — 물 호버 효과음
 
 - 배포 페이지: https://freesori.tistory.com/17 (물소리, 비소리 20개)
