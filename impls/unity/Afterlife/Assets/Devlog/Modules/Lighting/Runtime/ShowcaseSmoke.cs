@@ -12,14 +12,14 @@ namespace Afterlife.Devlog.Day01
         private readonly List<Material> _materials = new List<Material>();
         private readonly Func<Vector3,Vector3> _wind;
 
-        public ShowcaseSmoke(Transform root, Func<Transform,Vector3?> chimneyPosition, ParticleSystem template=null, Func<Vector3,Vector3> wind=null)
+        public ShowcaseSmoke(Transform root, Func<Transform,Vector3?> chimneyPosition, ParticleSystem template=null, Func<Vector3,Vector3> wind=null, Shader shader=null, Predicate<Transform> isEmitter=null)
         {
             _wind=wind;
-            var shader = Shader.Find("Afterlife/Devlog/ShowcaseSmoke");
+            if(shader==null)shader = Shader.Find("Afterlife/Devlog/ShowcaseSmoke");
             if (shader == null) { Debug.LogError("Devlog smoke shader is missing."); return; }
             foreach (var house in root.GetComponentsInChildren<Transform>(true))
             {
-                if (house.name != "House_Pivot") continue;
+                if (isEmitter!=null ? !isEmitter(house) : house.name != "House_Pivot") continue;
                 Vector3? outlet = chimneyPosition(house);
                 if (!outlet.HasValue) { Debug.LogError("Devlog: chimney mesh position unavailable.",house); continue; }
                 var go = template!=null ? UnityEngine.Object.Instantiate(template.gameObject) : new GameObject("ChimneySmoke");
@@ -95,6 +95,16 @@ namespace Afterlife.Devlog.Day01
             }
         }
 
+        public void SetPaused(bool paused)
+        {
+            foreach(var system in _systems)
+            {
+                if(system==null)continue;
+                if(paused && !system.isPaused)system.Pause();
+                else if(!paused && system.isPaused)system.Play();
+            }
+        }
+
         public void ResetTake()
         {
             foreach (var system in _systems)
@@ -103,7 +113,7 @@ namespace Afterlife.Devlog.Day01
 
         public void Dispose()
         {
-            foreach (var system in _systems) if (system != null) UnityEngine.Object.Destroy(system.gameObject);
+            foreach (var system in _systems) if (system != null) { system.Stop(true,ParticleSystemStopBehavior.StopEmittingAndClear); UnityEngine.Object.Destroy(system.gameObject); }
             foreach (var material in _materials) UnityEngine.Object.Destroy(material);
             _systems.Clear(); _materials.Clear();
         }
