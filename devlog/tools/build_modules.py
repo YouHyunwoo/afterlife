@@ -30,6 +30,7 @@ def main():
         for group in tree.findall('ItemGroup'):
             for item in list(group):
                 if item.tag=='Compile' or (item.tag=='Reference' and item.attrib.get('Include','').startswith('Afterlife.Devlog.')):group.remove(item)
+                elif item.tag=='Reference' and item.attrib.get('Include','') in {'Unity.TextMeshPro','UnityEngine.UI'}:group.remove(item)
         group=ET.SubElement(tree,'ItemGroup')
         for source in sorted(path.parent.rglob('*.cs')):
             owner=max((p for p,d in assemblies.values() if p.parent==source.parent or p.parent in source.parents),key=lambda p:len(p.parts))
@@ -37,6 +38,8 @@ def main():
         for ref in data.get('references',[]):
             if ref in assemblies:
                 item=ET.SubElement(group,'Reference',{'Include':ref});ET.SubElement(item,'HintPath').text='Temp/bin/Devlog/'+ref+'.dll'
+            elif ref in {'Unity.TextMeshPro','UnityEngine.UI'}:
+                item=ET.SubElement(group,'Reference',{'Include':ref});ET.SubElement(item,'HintPath').text='Library/ScriptAssemblies/'+ref+'.dll'
         if data.get('noEngineReferences'):
             for group_ in tree.findall('ItemGroup'):
                 for item in list(group_):

@@ -1,0 +1,11 @@
+{
+    "savedAtUtc": "2026-09-20T07:53:45.0968681Z",
+    "stages": 4,
+    "tiles": 456,
+    "placements": 584,
+    "sharedBoundaryNodes": 3748,
+    "maximumBoundaryError": 0.0,
+    "minimumHeight": -0.04017936438322067,
+    "maximumHeight": 0.20085957646369935,
+    "note": "Map coordinates are shared across showcase copies; Before/Shape, water and original mesh assets preserved."
+}

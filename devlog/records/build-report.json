@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-09-20T12:42:13.437951",
+  "timestamp": "2026-09-20T16:34:40.220303",
   "method": "dotnet build --no-restore",
   "unity_play_tests": false,
   "assemblies": [
@@ -17,6 +17,16 @@
       "assembly": "Afterlife.Devlog.Audio",
       "exit_code": 0,
       "log": "devlog\\records\\build-logs\\Afterlife.Devlog.Audio.txt"
+    },
+    {
+      "assembly": "Afterlife.Devlog.Cinematics.Core",
+      "exit_code": 0,
+      "log": "devlog\\records\\build-logs\\Afterlife.Devlog.Cinematics.Core.txt"
+    },
+    {
+      "assembly": "Afterlife.Devlog.Cinematics",
+      "exit_code": 0,
+      "log": "devlog\\records\\build-logs\\Afterlife.Devlog.Cinematics.txt"
     },
     {
       "assembly": "Afterlife.Devlog.Contracts",

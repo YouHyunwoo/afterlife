@@ -44,3 +44,7 @@ AbandonedAltar는 버려진 제단이라는 뜻이다. 구조물 모양을 알�
 - [Bridgepin — Fantasy Altar](https://sketchfab.com/3d-models/fantasy-altar-db2752b430be4d02b65f45e86548e54f)
 
 웹 예시 열람용 링크이며 프로젝트 에셋으로 다운로드/적용하지 않았다.
+
+## 시간 기반 연출
+
+165초·15컷 초안과 한국어 TMP 자막을 구현했다. 기본은 1~6 수동 쇼케이스이며 F8에서만 영상 모드를 시작한다. 컷별 카메라와 자막은 시퀀스 에셋에서 편집한다. [시간표·조작·구도 저장](../records/movie-sequence.md). 영상 파일 인코딩은 별도이며 현재는 Unity 내 연출 재생을 구현한 상태다.

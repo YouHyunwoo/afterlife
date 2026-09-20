@@ -14,6 +14,8 @@ DOCS.insert(12,('records/leaf-dissolve.md','잎 디졸브'))
 DOCS.insert(13,('records/damage-marks.md','타격 자국 비교'))
 DOCS.insert(14,('records/nature-ambience.md','자연 환경음'))
 DOCS.insert(2,('records/stage-progression.md','6단계 촬영 구성'))
+DOCS.insert(3,('records/movie-sequence.md','영상 연출 · 자막'))
+DOCS.insert(4,('records/continuous-terrain.md','연속 지형'))
 IDS={str((ROOT/p).resolve()):'doc-'+str(i) for i,(p,_) in enumerate(DOCS)}
 class Renderer(mistune.HTMLRenderer):
     def __init__(self,source):super().__init__(escape=True);self.source=source

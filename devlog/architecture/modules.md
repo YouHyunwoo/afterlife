@@ -22,6 +22,8 @@ Day01은 입력·카메라·촬영 UI와 모듈 조합을 담당한다. 공용 �
 |AmbientAudio.Core|환경음 페이드·간헐음 간격, 순수 C#|없음, noEngineReferences|
 |AmbientAudio|풀 접촉음·간헐적 새 울음 채널, 주입된 설정/음원 재생|AmbientAudio.Core|
 |Rendering / Water|공통 표면/물 셰이더|기능별 HLSL include, C# 어셈블리 없음|
+|Cinematics.Core|누적 시간·컷 경계·재생/일시정지, 순수 C#|없음, noEngineReferences|
+|Cinematics|시퀀스 데이터·카메라·TMP 자막·뷰 수명|Cinematics.Core, TMP, UI|
 |Day01 Runtime|씬 참조와 실행 순서, 타깃 어댑터|위 모듈, Input System, URP|
 |Day01 Editor|씬/메시 제작, 마이그레이션·프리팹 저장|Runtime 및 제작에 필요한 모듈, Editor 전용|
 
@@ -54,3 +56,9 @@ Terrain은 엔진과 분리됐지만 고정 Day01 지도 데이터가 함께 있
 ## 6단계 촬영 구성
 
 Day01의 PresentationStages가 6개 공간을 소유한다. 기존 Stages[2]는 After 업그레이드 호환을 유지한다. 공간 전환에서 기존 효과를 해제한 뒤 해당 단계 모듈을 재생성한다. Vegetation의 단일 공간 생성과 Lighting의 즉시 낮/밤 설정, Wind의 강도 인자는 기존 호출을 보존하는 선택 API다. [상세 단계 계약](../records/stage-progression.md).
+
+촬영 입력은 Day01FilmDirector에서 받고 Cinematics에 IFilmStageView를 주입한다. 기본 쇼케이스는 유지하고 F8로 명시적으로 시작한다. Dispose는 자막 캔버스·카메라 상태·쇼케이스 모드를 복원한다. 픽셀 프레임은 Overlay RawImage로 합성하여 TMP 자막 아래에 표시한다. [연출 시간표와 조작](../records/movie-sequence.md).
+
+## 연속 지형 높이장
+
+Terrain의 ShowcaseTerrainField가 맵 전체 좌표의 gradient Perlin과 실제 0.25m 삼각형 표면 높이를 제공한다. ShowcaseTileVariants.Height는 이 필드로 위임하고 기존 높이는 LegacyHeight로 이관 시에만 사용한다. Day01ContinuousTerrainSetup은 3~6단계를 같은 좌표별 메시로 갱신하고 경계 높이를 확인한다. Vegetation과 타깃 지면 조회도 같은 표면 보간을 사용한다. 쇼케이스 공간 이동 오프셋은 제외하여 전후 비교 구도를 유지한다. [상세 기록](../records/continuous-terrain.md).
