@@ -47,21 +47,41 @@ namespace Afterlife.Devlog.Day01
             else for (int phase=1;phase<stages.Length;phase++) Build(stages[phase],phase==2);
         }
 
-        private void Build(Transform stage,bool forestEnabled)
+        // 게임 맵을 주입하는 경로는 Day01 계층 이름과 고정 지도에 의존하지 않는다.
+        public sealed class Map
+        {
+            public int Radius;
+            public int SamplesPerAxis=4;
+            public Func<int,int,ShowcaseBiome> Biome;
+            public Func<float,float,float> Height;
+            public Func<float,float,Color> Color;
+        }
+        public ShowcaseGrass(Transform parent,Map map,Shader shader)
+        {
+            if(map==null || map.Biome==null || map.Height==null || map.Color==null)throw new ArgumentNullException(nameof(map));
+            if(shader==null)throw new ArgumentNullException(nameof(shader));
+            _material=new Material(shader){name="Injected biome grass"};
+            for(int i=0;i<4;i++)_material.SetTexture("_Grass"+i,Resources.Load<Texture2D>("GrassSprites/Grass"+i));
+            Build(parent,true,map);
+        }
+        public void SetExclusionMask(Texture texture,Vector4 bounds)
+        { _material.SetTexture("_VegetationMask",texture);_material.SetVector("_VegetationBounds",bounds); }
+
+        private void Build(Transform stage,bool forestEnabled,Map map=null)
         {
             var grassRandom=new System.Random(70421);
             var chunks=new Dictionary<Vector2Int,Chunk>();
             var obstacles=new List<Bounds>();
-            var environment=stage.Find("Environment");
+            var environment=map==null?stage.Find("Environment"):null;
             if (environment!=null)
                 foreach (var renderer in environment.GetComponentsInChildren<MeshRenderer>())
                 { var bounds=renderer.bounds; bounds.Expand(.28f); obstacles.Add(bounds); }
-            var resources=stage.Find("ClickableResources");
+            var resources=map==null?stage.Find("ClickableResources"):null;
             var flatCells=new HashSet<Vector2Int>();
             var tileColors=new Dictionary<Vector2Int,Color>();
             Texture2D blendMap=null;
             Vector4 blendBounds=Vector4.zero;
-            var grid=stage.Find("Terrain_Flat/BiomeGrid_12x10");
+            var grid=map==null?stage.Find("Terrain_Flat/BiomeGrid_12x10"):null;
             if (grid!=null)
                 foreach (Transform tile in grid)
                 {
@@ -78,23 +98,26 @@ namespace Afterlife.Devlog.Day01
                     if (filter!=null && filter.sharedMesh!=null && filter.sharedMesh.name.EndsWith("_Flat"))
                         flatCells.Add(new Vector2Int(Mathf.FloorToInt(tile.localPosition.x),Mathf.FloorToInt(tile.localPosition.z)));
                 }
-            for (int z=-5;z<5;z++)
-            for (int x=-6;x<6;x++)
+            for (int z=map==null?-5:-map.Radius;z<(map==null?5:map.Radius+1);z++)
+            for (int x=map==null?-6:-map.Radius;x<(map==null?6:map.Radius+1);x++)
             {
-                var biome=ShowcaseBiomeMap.At(x,z);
+                var biome=map==null?ShowcaseBiomeMap.At(x,z):map.Biome(x,z);
                 bool forest=forestEnabled && biome==ShowcaseBiome.Forest;
                 if (biome!=ShowcaseBiome.Grass && !forest) continue;
                 var random=forest ? new System.Random(ShowcaseTileVariants.Seed(x,z)) : grassRandom;
-                for (int j=0;j<7;j++)
-                for (int i=0;i<7;i++)
+                int samples=map==null?7:Mathf.Clamp(map.SamplesPerAxis,1,7);
+                float spacing=map==null?.128f:.896f/samples;
+                for (int j=0;j<samples;j++)
+                for (int i=0;i<samples;i++)
                 {
-                    float px=x+.055f+(i+(float)random.NextDouble()*.8f)*.128f;
-                    float pz=z+.055f+(j+(float)random.NextDouble()*.8f)*.128f;
+                    float px=x+.055f+(i+(float)random.NextDouble()*.8f)*spacing;
+                    float pz=z+.055f+(j+(float)random.NextDouble()*.8f)*spacing;
+                    if(map!=null){px-=.5f;pz-=.5f;}
                     float density=Mathf.PerlinNoise(px*.65f+19.4f,pz*.65f+31.8f);
                     float probability=forestEnabled ? Mathf.Lerp(.035f,forest ? .94f : .88f,Cluster(px,pz))
                         : Mathf.Lerp(.35f,.95f,density);
                     if (random.NextDouble()>probability) continue;
-                    float terrainHeight=flatCells.Contains(new Vector2Int(x,z)) ? 0 : (float)ShowcaseTileVariants.Height(x,z,px-x,pz-z);
+                    float terrainHeight=map!=null?map.Height(px,pz):flatCells.Contains(new Vector2Int(x,z)) ? 0 : (float)ShowcaseTileVariants.Height(x,z,px-x,pz-z);
                     Vector3 local=new Vector3(px,terrainHeight+.007f,pz), world=stage.TransformPoint(local);
                     bool blocked=false;
                     foreach (var bounds in obstacles)
@@ -126,7 +149,7 @@ namespace Afterlife.Devlog.Day01
                     if (kind==1) height*=1.55f;
                     if (kind==2 || kind==3) { height*=.55f; width*=.85f; }
                     // 실제 생성된 After 풀의 위치/폭만 접촉 대상으로 보관한다. 빈 군락과 장애물은 제외된다.
-                    if (forestEnabled)
+                    if (forestEnabled && map==null)
                     {
                         var contactCell=new Vector2Int(Mathf.FloorToInt(world.x),Mathf.FloorToInt(world.z));
                         if (!_afterGrassContacts.TryGetValue(contactCell,out var contacts))
@@ -139,8 +162,13 @@ namespace Afterlife.Devlog.Day01
                     if (blendMap!=null && blendMap.isReadable)
                         ground=blendMap.GetPixel(Mathf.Clamp(Mathf.FloorToInt((world.x-blendBounds.x)/blendBounds.z*blendMap.width),0,blendMap.width-1),
                             Mathf.Clamp(Mathf.FloorToInt((world.z-blendBounds.y)/blendBounds.w*blendMap.height),0,blendMap.height-1));
+                    if(map!=null)ground=map.Color(px,pz);
                     Vector3 normal=Vector3.up;
-                    if (!flatCells.Contains(new Vector2Int(x,z)))
+                    if (map!=null)
+                    {
+                        normal=new Vector3(map.Height(px-.005f,pz)-map.Height(px+.005f,pz),.01f,map.Height(px,pz-.005f)-map.Height(px,pz+.005f)).normalized;
+                    }
+                    else if (!flatCells.Contains(new Vector2Int(x,z)))
                     {
                         float dx=(float)(ShowcaseTileVariants.Height(x,z,px-x+.005,pz-z)-ShowcaseTileVariants.Height(x,z,px-x-.005,pz-z))/.01f;
                         float dz=(float)(ShowcaseTileVariants.Height(x,z,px-x,pz-z+.005)-ShowcaseTileVariants.Height(x,z,px-x,pz-z-.005))/.01f;
@@ -177,7 +205,7 @@ namespace Afterlife.Devlog.Day01
                 _objects.Add(go); _meshes.Add(mesh);
                 _densities.Add(new ShowcaseVegetationDensity(mesh,rendererOut,chunk.Indices.Count));
             }
-            if (forestEnabled)
+            if (forestEnabled && map==null)
                 foreach (var decoration in stage.GetComponentsInChildren<Transform>(true))
                 {
                     bool flowers=decoration.name=="Flowers_Pivot" || decoration.name.StartsWith("TileDecoration_Flowers_");

@@ -59,6 +59,7 @@ namespace Afterlife.Devlog.TerrainView
             if(ShowcaseTerrainField.Alternate(ix,iz))return u+v<=1?a+(c-a)*u+(b-a)*v:d+(b-d)*(1-u)+(c-d)*(1-v);
             return v>=u?a+(d-b)*u+(b-a)*v:a+(c-a)*u+(d-c)*v;
         }
+        public Color SurfaceColor(float x,float z)=>Tint(x,z,false);
         private Color Tint(float x,float z,bool water)
         {
             if(water) { var waterColor=_palette[(int)(_coast==null?ShowcaseBiome.Water:ShowcaseBiome.Sand)]*(_coast==null?1:.65f); waterColor.a=_coast==null?1:-1; return waterColor; }

@@ -16,6 +16,7 @@ namespace Afterlife.Devlog.Day01
         private readonly MaterialPropertyBlock _properties=new MaterialPropertyBlock();
         private readonly List<Renderer> _renderers=new List<Renderer>();
         private readonly Func<int> _version;
+        private readonly Action<Renderer,MaterialPropertyBlock> _adaptProperties;
         private int _lastVersion=int.MinValue;
         private readonly List<ShowcaseVegetationDensity> _densities=new List<ShowcaseVegetationDensity>();
         public float FullDensityDistance { get; set; }=30;
@@ -28,10 +29,11 @@ namespace Afterlife.Devlog.Day01
             RotationVariation=!RotationVariation;
             if (_material!=null) _material.SetFloat("_LeafRotationVariation",RotationVariation ? 1 : 0);
         }
-        public ShowcaseLeafCards(IEnumerable<Surface> surfaces,Func<int> version=null)
+        public ShowcaseLeafCards(IEnumerable<Surface> surfaces,Func<int> version=null,Shader shader=null,int maxCards=2000,Action<Renderer,MaterialPropertyBlock> adaptProperties=null)
         {
             _version=version;
-            var shader=Shader.Find("Afterlife/Devlog/LeafCards");
+            _adaptProperties=adaptProperties;
+            if(shader==null)shader=Shader.Find("Afterlife/Devlog/LeafCards");
             if (shader==null) { Debug.LogError("Leaf card shader missing."); return; }
             _material=new Material(shader);
             _material.SetFloat("_LeafRotationVariation",1);
@@ -53,7 +55,7 @@ namespace Afterlife.Devlog.Day01
                         source.Transform.TransformVector(source.Vertices[c]-source.Vertices[a])).magnitude*.5f;
                 }
             }
-            int budget=Math.Min(2000,(int)Math.Round(totalArea*200));
+            int budget=Math.Min(Math.Max(0,maxCards),(int)Math.Round(totalArea*200));
             double cumulativeArea=0;
             int allocated=0;
             foreach (var source in sourceList)
@@ -136,6 +138,7 @@ namespace Afterlife.Devlog.Day01
                     _properties.SetFloat("_DissolveScale",sourceMaterial!=null && sourceMaterial.HasProperty("_DissolveScale")
                         ? sourceMaterial.GetFloat("_DissolveScale") : 3.5f);
                 }
+                _adaptProperties?.Invoke(_sources[i],_properties);
                 _renderers[i].SetPropertyBlock(_properties);
             }
         }
