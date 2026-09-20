@@ -1,0 +1,6 @@
+Result: Succeeded
+Errors: 0
+Warnings: 0
+Bytes: 200194229
+Duration: 00:00:09.9101258
+Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeWindows\AfterlifePrototype.exe

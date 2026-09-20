@@ -1,0 +1,22 @@
+[
+  {
+    "File": "ProjectSettings/GraphicsSettings.asset",
+    "Restored": true
+  },
+  {
+    "File": "ProjectSettings/QualitySettings.asset",
+    "Restored": true
+  },
+  {
+    "File": "ProjectSettings/ProjectSettings.asset",
+    "Restored": true
+  },
+  {
+    "File": "ProjectSettings/EditorBuildSettings.asset",
+    "Restored": true
+  },
+  {
+    "File": "Assets/Settings/UniversalRenderPipelineGlobalSettings.asset",
+    "Restored": true
+  }
+]
