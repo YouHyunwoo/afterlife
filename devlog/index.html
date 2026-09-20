@@ -1,0 +1,1227 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Afterlife · Devlog 제작 관리</title><style>
+:root{color-scheme:dark;--bg:#101a20;--panel:#19262e;--line:#33454e;--ink:#eef3ee;--muted:#acbec4;--accent:#b7dfa5}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:24px}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.8 'Segoe UI','Malgun Gothic',sans-serif}aside{position:fixed;inset:0 auto 0 0;width:238px;padding:32px 22px;background:#152129;border-right:1px solid var(--line);overflow:auto}.brand{font-size:22px;letter-spacing:3px;font-weight:700}.subtitle{font-size:12px;color:var(--muted);margin-bottom:28px}nav a{display:flex;gap:14px;padding:10px 8px;color:var(--muted);text-decoration:none;border-radius:6px}nav a:hover,nav a:focus{background:#2a3b42;color:white}nav span{font-size:11px;color:var(--accent);padding-top:4px}main{margin-left:238px;max-width:1330px;padding:45px 5vw}.eyebrow{color:var(--accent);letter-spacing:3px;font-size:12px}header h1{font-size:clamp(30px,4vw,50px);line-height:1.25;margin:18px 0}.lead{color:var(--muted);max-width:650px}header{padding:0 0 34px}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}.card{padding:17px;background:var(--panel);border-top:2px solid var(--accent)}.card small{display:block;color:var(--muted)}.card strong{font-size:19px}input{width:100%;padding:13px 16px;background:#0e171c;color:white;border:1px solid var(--line);border-radius:7px;font:inherit}.document{background:var(--panel);padding:30px;margin:24px 0;border:1px solid var(--line);border-radius:10px;overflow-wrap:anywhere}.section-label{color:var(--accent);font-size:11px;letter-spacing:1px}.document h1{font-size:27px;margin:8px 0 20px}.document h2{font-size:20px;margin-top:30px}p,li{max-width:88ch}a{color:#b8e4d2}table{border-collapse:collapse;width:100%;font-size:14px;margin:18px 0;display:block;overflow:auto}th,td{text-align:left;vertical-align:top;padding:12px;border-bottom:1px solid var(--line);min-width:95px}th{color:var(--accent);background:#21313a}pre{overflow:auto;background:#101a20;padding:18px}code{font-size:13px;color:#c6e4c2}blockquote{border-left:3px solid var(--accent);margin-left:0;padding-left:20px;color:var(--muted)}footer{font-size:12px;color:var(--muted)}[hidden]{display:none!important}@media(max-width:800px){aside{position:static;width:auto;padding:20px}nav{display:flex;gap:5px;overflow:auto}nav a{white-space:nowrap}nav span{display:none}.subtitle{margin-bottom:8px}main{margin:0;padding:24px 16px}.document{padding:20px 16px}.cards{grid-template-columns:1fr}.card{padding:10px 16px}}@media print{aside,input,.lead{display:none}main{margin:0;padding:0;max-width:none}body{background:white;color:black}.document{display:block!important;background:white;border:0;padding:8px;break-before:page}th{background:#eee;color:black}a,code{color:black}.cards{display:none}table{display:table;font-size:11px}.section-label{color:#333}}
+.document img{display:block;max-width:100%;height:auto;border-radius:8px;margin:20px 0}</style><aside><div class="brand">AFTERLIFE</div><div class="subtitle">DEVLOG / PRODUCTION NOTES</div><nav><a href="#doc-0"><span>01</span>현재 상태</a><a href="#doc-1"><span>02</span>목표 · 촬영</a><a href="#doc-2"><span>03</span>기능 · 조작</a><a href="#doc-3"><span>04</span>모듈 안내</a><a href="#doc-4"><span>05</span>에셋 · 프리팹</a><a href="#doc-5"><span>06</span>구조 개편</a><a href="#doc-6"><span>07</span>검증</a><a href="#doc-7"><span>08</span>호버 피드백</a><a href="#doc-8"><span>09</span>나뭇잎 비교</a><a href="#doc-9"><span>10</span>제단 모델 제작</a><a href="#doc-10"><span>11</span>밀도 · 타격 리듬</a><a href="#doc-11"><span>12</span>접지 · 바람 · 밤</a><a href="#doc-12"><span>13</span>잎 디졸브</a><a href="#doc-13"><span>14</span>변경 기록</a><a href="#doc-14"><span>15</span>누적 기록</a><a href="#doc-15"><span>16</span>관리 방법</a></nav></aside><main><header><div class="eyebrow">DAY 01 · 3D PIXEL WORLD</div><h1>작은 세계를,<br>만지고 싶게.</h1><p class="lead">기본 도형에서 생동감 있는 중세 판타지 환경까지.<br>목표, 표현 기능, 재사용 모듈과 촬영 준비를 한곳에서 관리합니다.</p><div class="cards"><div class="card"><small>현재 제작</small><strong>완성본 정리 · 모듈화</strong></div><div class="card"><small>공간</small><strong>Before → Process → After</strong></div><div class="card"><small>다음 결정</small><strong>중간 단계 세분화</strong></div></div><label for="search">문서 찾기</label><input id="search" type="search" placeholder="예: 눈, 프리팹, 크레딧" autocomplete="off"><p id="count" role="status"></p></header><section id="doc-0" class="document"><div class="section-label">status.md</div><h1>현재 상태</h1>
+<p>Git 루트 마이그레이션 완료: Unity 변경사항을 기능별 15개 커밋으로 정리하고 프로젝트 루트에서 문서·리소스·구현을 함께 관리한다. main은 기존 게임의 경로 변경만, dev는 신규 개발 내용을 포함한다. 관련 C# 프로젝트 25개 빌드 통과, 원격 푸시와 Unity Play는 실행하지 않았다. <a href="records/git-root-migration.md">이전 기록</a>, <a href="../docs/git-workflow.md">브랜치 운영</a>.</p>
+<p>동심원 발생 지점의 거품 소멸·복원 추가: 중심 반경 0.16은 두 층 모두 제거, 0.38까지 부드럽게 감쇠. 0.08초 소멸·0.30초까지 유지·1.20초까지 복원하며 해안 접촉선도 함께 적용. GPU 화면 확인 대기. <a href="records/water-swell.md">확인 절차</a>.</p>
+<p>수면 상시 일렁임 추가: 월드 좌표 파형을 명암·굴절·거품에 연결하고 해안의 흰 거품과 하늘색 밑층이 시차를 두고 확장·수축하도록 변경. 메시 높이는 유지하며 GPU 화면 확인 대기. <a href="records/water-swell.md">변경 및 확인 절차</a>.</p>
+<p>Picking 런타임 생성 전환 완료: 원본 Mesh별 공유 캐시와 해제 수명 적용, 프리팹 23개 참조 정리, 저장 에셋 72개 및 Picking 폴더 제거, 원본 모델 12개 Read/Write 활성화. 13개 모듈 빌드 통과, Play 확인 대기. <a href="records/runtime-picking.md">변경 및 확인 절차</a>.</p>
+<p>Picking 생성 비용 실측: 72개 메시 전체의 메모리 생성 첫 회 2.87ms, 후속 31회 중앙값 1.034ms, 에셋 저장·임포트 2.51초. 원본 12개는 Read/Write 비활성으로 런타임 전환 전 접근 설정과 메모리 영향 검토가 필요하다. 기존 런타임/참조는 유지했다. <a href="records/picking-benchmark.md">측정 기록</a>.</p>
+<p>수관 디졸브와 잎 제거 동기화: 원본 수관 부착점의 같은 Perlin 필드로 잎을 제거하고 재질 스케일도 상속한다. 눈 덮인 잎에도 적용, R 초기화 및 Sink 바닥 클립 연결. 13개 모듈 빌드 통과, GPU 체감 확인 대기. <a href="#doc-12">수정 기록</a>.</p>
+<p>리소스 구조 정리 완료: 제작 원본은 res/art-source, Kenney 검토 자료는 res/audio/kenney-review로 통합했다. <a href="records/resource-layout.md">폴더 검증 기록</a>.</p>
+<p>후속 시야/바람 조정: 시야 밖을 직전 대비 약 1/4 밝기로 낮추고 집 반경을 4.2m→3m로 축소하는 프리팹 갱신 준비. 풀·잎의 휘날림과 돌풍 강약 확대. 13개 모듈 빌드 통과, Refresh 및 화면 체감 확인 대기. 바닥 접점은 기존 소품 28개와 기단 높이 2곳 보정이다.</p>
+<p>접지·공통 바람·밤 대비 조정 완료: 기존 작은 돌/고사리 28개와 집·제단 기단 2곳 보정, Wind 독립 모듈, 밤 실루엣 및 작은 광원 강조. 13개 모듈 빌드 통과. 에디터에서 접점 프리팹과 After 씬 저장 확인. Play 체감 확인 대기. <a href="#doc-11">상세 기록</a>.</p>
+<p>화면 밀도/타격 리듬 보완: 해안 중심 거품, After 풀·꽃 군집과 여백, 45ms 접촉 유지·빠른 반동 복귀·표면 방향 파편 적용. 12개 모듈 빌드 통과, Play/GPU 체감 확인 대기. <a href="#doc-10">변경과 확인 절차</a>.</p>
+<p>최신 소품 배치: 기존 SwordTool을 봉헌된 검처럼 제단 상판 중앙에 대각선으로 눕혀 배치. 원본 모델 생성/수정 없이 재사용했으며 클릭 표면 연결과 프리팹 저장 완료. Play 시각 확인 대기.</p>
+<ul>
+<li>갱신일: 2026-09-20</li>
+<li>현재 단계: Day01 기능 정리 및 모듈화</li>
+<li>제작 목표: 기존 모델과 필요한 개별 모델 개선으로 작은 중세 판타지 맵을 아름답고 반응감 있게 표현</li>
+<li>기술 상태: 표현 기능 구현, 모듈 분리 코드 작성 및 C# 빌드 통과. Unity 에셋 이동 및 프리팹 30개 저장 완료. 분리된 12개 어셈블리 빌드 통과.</li>
+<li>경험 검증: 이전 대화에서 반복 조정. 이번 구조 변경 후 화면·소리 검증은 아직 하지 않음.</li>
+<li>공개 상태: 미공개. 공유마당 음원 크레딧 실제 영상 설명란 반영 필요.</li>
+</ul>
+<h2>이번 변경</h2>
+<p>물소리 연속 재생 자연화: 5개 구간 변형, 0.25~0.40초 간격, 연속 이동 볼륨 55%, 미세 피치 변형 및 여운 보존 적용. Audio/Day01 빌드 통과, 사용자 청취 확인 대기.</p>
+<p>물소리 시작 어택 제거: 첫 100ms 삭제, 0.30초 길이·30ms 페이드 인·기존 게인 유지로 음원 교체. 사용자 청취 확인 대기.</p>
+<p>물 호버 무음 원인 수정: 기존 음원 정리 코드가 신규 물소리를 Archive로 이동한 것을 확인. 정리를 이전 후보에 한정하고 다음 Unity 리로드 시 GUID 보존 자동 복구하도록 수정. Audio/Editor 빌드 통과, 재생 확인 대기.</p>
+<p>물 호버 동심원 효과음 연결: 사용자 제공 WAV에서 0.4초 구간 추출, 별도 채널·0.10초 최소 간격·초기화/해제 연결. <a href="records/water-hover-audio.md">작업 및 사용자 청취 확인 절차</a>.</p>
+<p>클릭과 눈 효과가 구체적인 Day01 타깃에 묶이지 않도록 인터페이스를 분리했다. 효과음 선택과 파괴 수치를 설정 에셋으로 옮겼다. 공용 기능은 Modules, 장면 조립은 Day01에 배치한다. 음원 분석·선정 파일과 PNG·FBX 보관본은 루트 res에 모았다.</p>
+<h2>다음 순서</h2>
+<ol>
+<li>최신 호버 조정의 화면 체감 확인</li>
+<li>구조 변경 후 기존 효과와 참조를 사용자 화면에서 확인</li>
+<li>완성본의 표현을 확정한 다음 중간 공간을 여러 단계로 나누기</li>
+<li>필요한 제작 장면만 녹화하고 짧은 전후 비교 편집</li>
+</ol>
+<p>중간 단계 확대는 아직 구현하지 않았다. 사용자와 단계 구성을 다시 결정하기로 한 상태다. 새 게임 규칙은 추가하지 않고, 완성 단계에서 표현 개선과 개별 모델 보강을 진행한다.</p>
+<h2>최신 호버 피드백 반영</h2>
+<p>풀 반응 강도 감소, 흙먼지 가시성 강화, 모래/눈의 위치 고정 및 2.5초 복원, 물의 이동 시작 보장 및 0.45 이동 거리 기준 생성을 반영했다. 상세 기록은 <a href="#doc-7">호버 조정</a>. Play 시각 검증은 사용자 확인 대기다.</p>
+<p>최종 파일 확인: 프리팹 30개, 직렬화 에셋 305개의 외부 GUID 미해결 0개. 비활성 음원의 Archive 이동 후속 정리만 다음 에디터 임포트에 실행된다.</p>
+<p>최신 조정: 풀/먼지 최초 강도 복원(먼지는 이동 시에만), 배열 크기 경고 대응 V2 전역 배열, 물 전용 슬롯 및 실제 수면 변위 적용. 사용자 화면 검증 대기.</p>
+<p>나무 한 그루 잎 카드 비교 구현: After의 눈 없는 첫 나무, L 전환, 기존 Grass2 PNG 재사용. <a href="#doc-8">실험 기록</a>. 화면 검증 대기.</p>
+<p>잎 카드 추가 조정: 밀도 약 2.46배, 최대 1,800개, 완전 카메라 빌보드로 변경. 화면 체감 확인 대기.</p>
+<p>최신 잎 비교: 최대 2,000개/면적당 200개, 부분 겹침 허용·동일 부착점만 제외, 회전 통일, 바람 유지, 호버·피격 플래시 동기화. 실제 수는 화면 안내에 표시.</p>
+<p>회전 비교 대상 정정: 바닥 풀 회전 실험 제거·원래 표현 복구. G는 나뭇잎 동일 방향/고정 랜덤 0~360도 전환, L은 잎 표시 전환. GPU 체감 확인 대기.</p>
+<p>랜덤 회전 채택: After 모든 나무에 잎 카드 적용, 기본 랜덤 회전 ON. G/L 전체 전환 및 총 개수 표시. 시각/성능 검증 대기.</p>
+<p>수관 일부 누락 수정: 2,000개 상한을 앞쪽 삼각형이 독점하지 않도록 전체 표면 면적 비례 분배 적용.</p>
+<p>눈 표현 보완: 수관 눈 덮개 두께 약 1.9배, 잎 스프라이트에도 눈 색/두꺼운 테두리 및 타격 침식 연동.</p>
+<p>적설 보완: 나뭇잎 및 눈 덮개의 하향면·위쪽 수관에 가려진 영역 제외, 쓰러짐에도 초기 적설 위치 유지.</p>
+<p>잎 적설 경계 보완: 부착점 아래로 내려오는 빌보드 픽셀은 녹색 유지, 눈 덮개와 위쪽 법선 기준 통일.</p>
+<p>최신 적설 변경: 직전 픽셀 높이 제한 복구. 원본 임포트 법선 기준으로 아랫면 방향을 확인해 부착 잎의 원래 색을 유지하도록 보정. 사용자 화면 검증 대기.</p>
+<p>최신 요청 반영: 윗면 전체 흰 적설 복원. 수관 가림/노출도 감쇠 제거, 아랫면 제외 및 타격 침식 유지.</p>
+<p>폐허 중앙 수정: 청록 HDR 발광 및 After 전용 Bloom 구현. 화면 강도/픽셀 렌더 체감 확인 대기.</p>
+<p>수정 Bloom 미표시 원인 확인: 전용 렌더러의 PostProcessData 연결 누락. 자동 연결 코드 추가, Refresh 반영 및 화면 검증 대기.</p>
+<p>Bloom 조정: 수정 번짐 강도/범위 소폭 감소, 집 창문은 밤에 약한 따뜻한 HDR 발광으로 같은 Bloom에 참여.</p>
+<p>흙 호버 먼지 크기 2배 확대(0.09~0.18). 이동 중 방출과 기존 색/투명도 유지.</p>
+<p>창문 Bloom 강화: 원래 창문 색조 기반 HDR 3.4, 수정 설정 유지.</p>
+<p>흙먼지 최신값: 크기 0.27~0.54, 시작 알파 0.30. 더 크고 옅게 조정.</p>
+<p>숲 추가 배치 준비: After 숲 타일의 빈자리에 기존 프리팹 최대 3그루, 80% 크기로 배치하는 일회성 에디터 코드 작성. 구조물/기존 자원 간격 확인, 미저장 씬은 보존하고 저장 후 재시도. Refresh 이후 씬 저장 결과 확인 대기.</p>
+<p>버려진 제단 교체 완료: ImageGen 6방향 시안 → Blender 편집 원본과 FBX 제작 → Unity 프리팹 생성 및 After 씬 저장까지 실제 반영. 1,338개 삼각형/렌더러 1개, 기존 제단은 비활성 자식으로 보존. <a href="#doc-9">시안·모델·검증 기록</a>. 추가 숲 나무 3그루도 현재 씬 저장에서 확인했다. Play 화면 체감은 사용자 확인 대기.</p>
+</section><section id="doc-1" class="document"><div class="section-label">day-01/production.md</div><h1>Day01 제작 목표와 촬영 계획</h1>
+<h2>확정한 방향</h2>
+<p>마케팅 목적의 Devlog다. 개발량을 나열하기보다 화면의 변화와 클릭 반응으로 게임의 품질을 전달한다. 기존 중세 판타지 모델을 사용하며 새 모델링은 하지 않는다. 녹화는 사용자가 필요한 부분을 선택해서 진행한다.</p>
+<p>게임의 기본 지형은 평지다. 표현용 타일 내부 굴곡은 있으며 이동 규칙에 고저차를 추가한 것은 아니다. 완성본을 먼저 다듬은 다음 중간 단계를 더 나눈다.</p>
+<h2>현재 공간</h2>
+<table>
+<thead>
+<tr>
+  <th>키</th>
+  <th>공간</th>
+  <th>위치</th>
+  <th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td>Before_Primitives</td>
+  <td>(0, 0, 0)</td>
+  <td>기본 도형과 단순 지형</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td>Process_ModelPlacement</td>
+  <td>(50, 0, 0)</td>
+  <td>기존 모델과 색상 배치</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td>After_PixelForest</td>
+  <td>(100, 0, 0)</td>
+  <td>블록·바이옴·픽셀·물·식생·상호작용</td>
+</tr>
+</tbody>
+</table>
+<p>각 공간은 12×10 타일이다. 같은 카메라 구도로 차이를 비교한다. 위치 사이의 빈 공간과 AdditionalTakeSpace는 추가 촬영에 사용할 수 있다.</p>
+<h2>촬영 구성 제안 — 아직 채택/구현하지 않음</h2>
+<table>
+<thead>
+<tr>
+  <th>순서</th>
+  <th>보여줄 변화</th>
+  <th>시청자가 느낄 핵심</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>도입</td>
+  <td>완성 맵에서 나무·돌을 한 번씩 타격</td>
+  <td>만지고 싶은 환경</td>
+</tr>
+<tr>
+  <td>기본 형태</td>
+  <td>Before → 모델 배치</td>
+  <td>익숙한 도형이 세계가 되는 과정</td>
+</tr>
+<tr>
+  <td>지형 표현</td>
+  <td>색 → 블록·굴곡·바이옴 혼합</td>
+  <td>작은 맵의 밀도</td>
+</tr>
+<tr>
+  <td>환경 표현</td>
+  <td>풀·물·눈·집 연기</td>
+  <td>정적인 모델이 살아나는 변화</td>
+</tr>
+<tr>
+  <td>반응</td>
+  <td>호버·타격·파괴·소리</td>
+  <td>클릭의 즐거움</td>
+</tr>
+<tr>
+  <td>마무리</td>
+  <td>낮/밤, 동일 구도 Before/After</td>
+  <td>짧고 명확한 전후 비교</td>
+</tr>
+</tbody>
+</table>
+<p>각 효과를 별도 공간으로 복제할지, 같은 공간의 토글로 촬영할지는 다음 결정 사항이다. 영상 길이와 컷 수는 아직 확정하지 않았다.</p>
+<h2>공개 전</h2>
+<p>게임/영상 크레딧은 <a href="../docs/audio-credits.md">음원 크레딧 지침</a>을 따른다. 개발 문서에 출처를 적은 것과 영상 설명란 반영 완료는 별개다.</p>
+<h2>버려진 제단 형태 참고</h2>
+<p>AbandonedAltar는 버려진 제단이라는 뜻이다. 구조물 모양을 알아보기 쉽게 하려면 평평한 돌 상판과 낮은 받침대를 중심으로, 깨진 기둥/이끼 등 폐허 단서를 붙이는 방향을 제안한다. 이번 작업에서는 제단 모델을 변경하지 않았다.</p>
+<ul>
+<li><a href="https://sketchfab.com/3d-models/altar-46ee38bf149d40f79a38e42c4cff0796">Josue Ortigoza Ramos — Altar</a></li>
+<li><a href="https://sketchfab.com/3d-models/altar-b626b4d7831944bbb97563d588035a44">PizzaPossum — Altar</a></li>
+<li><a href="https://sketchfab.com/3d-models/fantasy-altar-db2752b430be4d02b65f45e86548e54f">Bridgepin — Fantasy Altar</a></li>
+</ul>
+<p>웹 예시 열람용 링크이며 프로젝트 에셋으로 다운로드/적용하지 않았다.</p>
+</section><section id="doc-2" class="document"><div class="section-label">day-01/features.md</div><h1>기능 목록과 조작법</h1>
+<p>아래는 구현된 기능 목록이다. 이번 폴더/프리팹 변경 후의 시각·청취 검증 완료를 뜻하지 않는다.</p>
+<table>
+<thead>
+<tr>
+  <th>기능</th>
+  <th>현재 동작</th>
+  <th>조정 위치 / 한계</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>지형</td>
+  <td>7종 바이옴, 타일 변형·장식·회전, 내부 굴곡, 경계 색 혼합</td>
+  <td>Terrain 규칙 + Day01 생성기. 고정된 샘플 지도</td>
+</tr>
+<tr>
+  <td>수면</td>
+  <td>깊이에 따른 반투명 파랑, 서로 다른 노이즈의 흰색/하늘색 거품, 접촉 하이라이트</td>
+  <td>After_OceanDepth 재질. 호버 파도는 실제 정점 변위</td>
+</tr>
+<tr>
+  <td>물/해저</td>
+  <td>해저 5%, 그 위 물 45%, 서로 겹치지 않음</td>
+  <td>육지 0.8 기준 해저 0.04, 물 0.36</td>
+</tr>
+<tr>
+  <td>해안</td>
+  <td>Square / Bevel / Rounded 비교, 단면 측벽 채움</td>
+  <td>Shoreline. 기본 Square</td>
+</tr>
+<tr>
+  <td>풀</td>
+  <td>PNG 풀잎 빌보드, 타일색 기반 3단계 명도, 바람·앞뒤 흔들림</td>
+  <td>Vegetation. 풀/숲의 드문 특이 풀과 장식</td>
+</tr>
+<tr>
+  <td>눈</td>
+  <td>별도 눈 덮개 메시, 소나무 잎 전체 덮음, 타격 영역 침식과 하강 눈 파편</td>
+  <td>Snow. 원본 정점을 분리해 부푸는 방식에서 교체</td>
+</tr>
+<tr>
+  <td>표면 선택</td>
+  <td>삼각형 교차점·표면색, 변형된 표면 대응</td>
+  <td>Interaction. 일반 물리 Collider만 사용하는 방식이 아님</td>
+</tr>
+<tr>
+  <td>타격</td>
+  <td>도끼 날/곡괭이 끝이 교차점에 도달, 반대 방향 반동</td>
+  <td>Day01 타깃 어댑터</td>
+</tr>
+<tr>
+  <td>일반 클릭</td>
+  <td>비상호작용 표면도 표면색의 작은 파편</td>
+  <td>HitChip 프리팹</td>
+</tr>
+<tr>
+  <td>파괴</td>
+  <td>나무 쓰러짐, 바위 여러 조각 굴림, Sink / Perlin Dissolve 선택</td>
+  <td>DestructionProfile. 바위는 진짜 절단 메시가 아닌 축소 조각</td>
+</tr>
+<tr>
+  <td>효과음</td>
+  <td>돌 타격 2종 순환, 파괴음, 나무 타격/쓰러짐</td>
+  <td>ShowcaseAudioBank. 채널 분리</td>
+</tr>
+<tr>
+  <td>낮/밤</td>
+  <td>어두운 밤, 위로 띄운 커서 시야, 집 주변 시야 유지</td>
+  <td>Lighting. 전역 셰이더 값 사용</td>
+</tr>
+<tr>
+  <td>집</td>
+  <td>약한 따뜻한 창문, 굴뚝 노이즈 연기</td>
+  <td>Lighting. 실제 메시 굴뚝 위치 사용</td>
+</tr>
+<tr>
+  <td>풀 호버</td>
+  <td>최초 강도의 방사형 기울임 / 흔들림 비교</td>
+  <td>Hover. 뿌리 고정</td>
+</tr>
+<tr>
+  <td>흙 호버</td>
+  <td>이동할 때만 생성되는 황토색 흙먼지</td>
+  <td>Hover 파티클</td>
+</tr>
+<tr>
+  <td>모래/눈 호버</td>
+  <td>지나간 경로의 얕은 골과 가장자리, 커서 정지 중에도 2.5초 내 복원</td>
+  <td>Hover. 장식물은 변형을 따라 움직이지 않음</td>
+</tr>
+<tr>
+  <td>물 호버</td>
+  <td>이동 시작 시 동심원 보장, 0.45 이동 거리마다 생성·소멸</td>
+  <td>Hover + Water. 실제 높이 변위와 경사 명암</td>
+</tr>
+</tbody>
+</table>
+<h2>조작</h2>
+<table>
+<thead>
+<tr>
+  <th>입력</th>
+  <th>기능</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>1 / 2 / 3</td>
+  <td>Before / Process / After</td>
+</tr>
+<tr>
+  <td>마우스 이동</td>
+  <td>호버 효과</td>
+</tr>
+<tr>
+  <td>좌클릭</td>
+  <td>타격 또는 클릭 피드백</td>
+</tr>
+<tr>
+  <td>N</td>
+  <td>낮 / 밤</td>
+</tr>
+<tr>
+  <td>G</td>
+  <td>나무 잎: 동일 방향 / 고정 랜덤 0~360도 비교</td>
+</tr>
+<tr>
+  <td>P</td>
+  <td>픽셀 표현 전환</td>
+</tr>
+<tr>
+  <td>H</td>
+  <td>촬영용 GUI 숨기기/표시</td>
+</tr>
+<tr>
+  <td>R</td>
+  <td>촬영 상태 초기화</td>
+</tr>
+<tr>
+  <td>화면 비교 버튼</td>
+  <td>풀 반응, 해안, 파괴 방식 선택</td>
+</tr>
+</tbody>
+</table>
+<p>씬을 단독으로 열고 Game 뷰에 포커스를 둔다. 자세한 과거 변경 배경은 <a href="#doc-14">누적 개발 기록</a>에 보존했다. 과거 기록의 경로와 이전 수치는 최신 구조보다 우선하지 않는다.</p>
+<p>After 모든 나무에 잎 스프라이트를 적용하며 기본은 랜덤 회전이다. G로 각 잎의 고정 랜덤 0~360도 회전을 전환한다. L은 잎 스프라이트 표시 여부를 바꾼다. 바닥 풀 회전 실험은 제거했고 기존 바람/호버 표현으로 복구했다.</p>
+<h2>폐허 중앙 수정 발광</h2>
+<p>After의 Ruins_Pivot에만 청록색 정점 팔레트 기반 HDR 발광을 적용한다. 발광 강도 3.5, 약한 주기 변화 ±4%. URP Bloom threshold 1.15, intensity 0.45, scatter 0.6. 전용 런타임 Volume과 HDR 픽셀 렌더 텍스처를 사용한다. 원래 메시/재질은 보존하고 종료 시 카메라와 PropertyBlock 상태를 복원한다. Bloom은 수정 주변의 화면상 빛 번짐이며 주변 돌을 비추는 실제 광원은 아니다.</p>
+<p>검증: C# 12개 어셈블리 빌드 통과. Play 중지/Refresh 후 After에서 수정의 청록 발광과 주변 번짐, N 낮/밤, P 픽셀 전환을 확인한다. GPU/Play 검증은 미실행.</p>
+<p>Bloom 연결 보완: 전용 ShowcaseDepthRenderer의 postProcessData가 비어 있었음을 확인했다. Day01BloomSetup이 에디터 임포트 후 URP 기본 PostProcessData를 연결한다. Bloom intensity 0.7, scatter 0.7로 조정했다. 반영 후 실제 빛 번짐 확인 대기.</p>
+<p>창문 Bloom 적용: After 공용 Bloom intensity 0.7→0.55, scatter 0.7→0.6으로 낮췄다. 수정 발광량은 유지한다. 창문 팔레트 영역만 밤에 HDR (1.8,1.55,1.25)로 전환해 수정보다 약한 따뜻한 빛 번짐을 만든다. 집 주변 시야 반경과 벽/목재 표현은 유지한다. 낮에는 기존 색이다. Play/GPU 확인 대기.</p>
+<p>창문 추가 조정: 고정 크림색 대신 창문 정점색×재질 Tint의 색조를 사용하며 최대 HDR 채널 강도를 1.8→3.4로 높였다. 공용 Bloom 강도/범위와 수정 발광은 유지한다. 밤에만 적용하며 셰이더 GPU 확인 대기.</p>
+</section><section id="doc-3" class="document"><div class="section-label">architecture/modules.md</div><h1>모듈 안내</h1>
+<h2>의존성 방향</h2>
+<p>Day01은 입력·카메라·촬영 UI와 모듈 조합을 담당한다. 공용 모듈은 Day01 어셈블리를 참조하지 않는다. 기존 MonoBehaviour 직렬화 참조를 보존하기 위해 일부 네임스페이스의 Day01 표기는 유지했다. 폴더명만으로 재사용 가능성을 판단하지 않고 asmdef 참조를 기준으로 본다.</p>
+<table>
+<thead>
+<tr>
+  <th>모듈</th>
+  <th>책임</th>
+  <th>Devlog 내부 의존성</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Contracts</td>
+  <td>IPickTarget, ISnowTarget 최소 계약</td>
+  <td>없음</td>
+</tr>
+<tr>
+  <td>Terrain</td>
+  <td>바이옴·타일 변형·색 혼합 규칙, 순수 C#</td>
+  <td>없음, noEngineReferences</td>
+</tr>
+<tr>
+  <td>Interaction</td>
+  <td>삼각형 선택, 표면 색, 런타임 선택 메시 생성·공유 캐시</td>
+  <td>Contracts</td>
+</tr>
+<tr>
+  <td>Snow</td>
+  <td>눈 덮개 생성과 타격 침식</td>
+  <td>Contracts, Interaction</td>
+</tr>
+<tr>
+  <td>Vegetation</td>
+  <td>풀/잎 빌보드·바람·색상 배치·적설 노출</td>
+  <td>Terrain, Interaction</td>
+</tr>
+<tr>
+  <td>Lighting</td>
+  <td>낮/밤·집/커서 시야·연기</td>
+  <td>없음</td>
+</tr>
+<tr>
+  <td>Wind</td>
+  <td>CPU/GPU 공통 방향·공간 돌풍, 전역값 발행·복원</td>
+  <td>없음</td>
+</tr>
+<tr>
+  <td>Destruction</td>
+  <td>쓰러짐 후 제거, 바위 조각, 설정</td>
+  <td>없음</td>
+</tr>
+<tr>
+  <td>Hover</td>
+  <td>커서 흔적·먼지·풀 반응</td>
+  <td>Terrain</td>
+</tr>
+<tr>
+  <td>Shoreline</td>
+  <td>해안 모서리 메시 변형과 단면</td>
+  <td>Terrain</td>
+</tr>
+<tr>
+  <td>Audio</td>
+  <td>음원 데이터, 타격/파괴 채널과 순환</td>
+  <td>없음</td>
+</tr>
+<tr>
+  <td>Rendering / Water</td>
+  <td>공통 표면/물 셰이더</td>
+  <td>기능별 HLSL include, C# 어셈블리 없음</td>
+</tr>
+<tr>
+  <td>Day01 Runtime</td>
+  <td>씬 참조와 실행 순서, 타깃 어댑터</td>
+  <td>위 모듈, Input System, URP</td>
+</tr>
+<tr>
+  <td>Day01 Editor</td>
+  <td>씬/메시 제작, 마이그레이션·프리팹 저장</td>
+  <td>Runtime 및 제작에 필요한 모듈, Editor 전용</td>
+</tr>
+</tbody>
+</table>
+<h2>재사용 방법</h2>
+<p>클릭 대상은 IPickTarget을 구현한다. 눈이 필요한 대상은 ISnowTarget에서 Visual, HasSnow, SnowRemaining과 표면의 눈 표시 여부를 제공한다. ShowcasePickSurface는 MonoBehaviour 참조를 직렬화하고 인터페이스로 소비한다. 기존 Target 필드 이름은 FormerlySerializedAs로 호환한다.</p>
+<p>ShowcaseAudio는 부모 Transform과 ShowcaseAudioBank를 주입한다. Play에 나무 여부·파괴 여부·현재 시간을 전달하고, Reset은 순환 상태와 재생을 초기화한다. Dispose는 생성한 오디오 오브젝트를 정리한다. 나무 쓰러짐과 타격은 별도 채널이다.</p>
+<p>물 호버음은 Hover의 WaterRippleCreated 이벤트를 Day01에서 ShowcaseAudio.PlayWaterRipple에 연결한다. Day01은 기본 변형 5개를 주입하며 뱅크의 WaterRippleVariants 및 기존 단일 WaterRipple 설정을 지원한다. 독립 채널 3개, 0.25~0.40초 간격, 연속 이동 볼륨 55%, 피치 ±2%로 여운을 유지한다. Reset은 모든 채널·간격·직전 선택을 초기화하고 OnDisable에서 구독을 해제한다.</p>
+<p>DestructionProfile은 타격 횟수, 나무 넘어지는 시간/각도, 대기 시간, 바위 조각 수/굴림 시간, 제거 시간을 보관한다. 기존 장면과 동일한 기본값으로 생성한다. 프리팹별로 다른 프로파일을 사용할 수 있다.</p>
+<h2>수명과 초기화</h2>
+<p>Picking 데이터는 원본 Mesh별로 최초 접근 시 생성하며 파일로 저장하지 않는다. Surface가 사용을 등록하고 마지막 사용자 파괴 시 해제한다. 비활성 풀 객체는 재사용을 위해 유지하고 씬 언로드 시 파괴된 사용자를 정리한다. 플레이 진입/종료와 어셈블리 리로드에서 캐시를 초기화한다. 외부 주입된 눈/변형 지형의 데이터는 해당 모듈이 해제한다. 원본 모델은 Read/Write가 필요하다. <a href="records/runtime-picking.md">전환 기록</a>.</p>
+<p>Day01Showcase의 OnEnable에서 모듈을 구성하고 OnDisable에서 Dispose/복원을 호출한다. 생성한 메시·재질·파티클의 해제 책임은 생성 모듈에 있다. R과 공간 전환은 타깃/흔적/효과의 촬영 상태를 초기화한다. 셰이더 전역값과 전용 렌더 파이프라인은 종료 시 복원한다.</p>
+<h2>현재 일반화의 범위</h2>
+<p>Wind는 씬의 식생/집을 직접 찾지 않는다. Day01이 바람 샘플 함수를 Smoke에 주입하고, GPU 식생은 같은 수식의 HLSL을 사용한다. Dispose에서 기존 셰이더 전역값을 복원한다. Lighting과 Vegetation C# 어셈블리는 Wind 어셈블리를 직접 참조하지 않는다.</p>
+<p>Terrain은 엔진과 분리됐지만 고정 Day01 지도 데이터가 함께 있는 샘플 모듈이다. Day01의 메시 생성기·배치·도구 애니메이션은 에피소드 전용으로 남겼다. 모든 기능을 게임플레이 프레임워크로 재작성한 것은 아니다.</p>
+<p>시야·호버·침식은 셰이더 전역 배열을 공유한다. 여러 쇼케이스 인스턴스를 동시에 실행하는 것은 지원하지 않는다. 큰 맵 적용 전에는 공간별 상태 주입, 파티클/파편 풀링, 선택 메시 가속 구조를 별도로 설계해야 한다.</p>
+</section><section id="doc-4" class="document"><div class="section-label">architecture/assets.md</div><h1>에셋과 프리팹</h1>
+<h2>원본 → 임포트 → 장면</h2>
+<table>
+<thead>
+<tr>
+  <th>경로</th>
+  <th>소유하는 것</th>
+  <th>수정 원칙</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>res/art-source/</td>
+  <td>Blender 등 제작 원본</td>
+  <td>모델 제작 작업</td>
+</tr>
+<tr>
+  <td>res/audio/</td>
+  <td>선정·분석 음원과 출처</td>
+  <td>원본/편집본 구분, 출처 보존</td>
+</tr>
+<tr>
+  <td>res/textures/vegetation/</td>
+  <td>사용자 제공 4종 풀 PNG 보관본</td>
+  <td>알파 유지, 픽셀 텍스처</td>
+</tr>
+<tr>
+  <td>res/models/world/</td>
+  <td>기존 공유 FBX 17종 보관본</td>
+  <td>Unity 공유 원본과 동기화 필요</td>
+</tr>
+<tr>
+  <td>Assets/Devlog/Modules/</td>
+  <td>공용 코드·셰이더·런타임 리소스</td>
+  <td>특정 에피소드 참조 금지</td>
+</tr>
+<tr>
+  <td>Assets/Devlog/Day01/</td>
+  <td>씬·배치·생성 메시·재질·프리팹</td>
+  <td>촬영 구도와 구성</td>
+</tr>
+<tr>
+  <td>Assets/_AfterlifePrototype/</td>
+  <td>게임과 공유하는 모델/기존 음원</td>
+  <td>기존 소비자를 깨뜨리지 않도록 현재 위치 유지</td>
+</tr>
+</tbody>
+</table>
+<p>Unity는 루트 res를 직접 임포트하지 않는다. res는 엔진 비의존 보관본이며 실제 장면은 Assets의 GUID를 참조한다. 복사본 수정이 자동 전파되지는 않는다. 에셋 이동은 AssetDatabase.MoveAsset, 프리팹 저장은 PrefabUtility를 사용한다.</p>
+<h2>프리팹 구성</h2>
+<table>
+<thead>
+<tr>
+  <th>위치</th>
+  <th>내용</th>
+  <th>재사용 범위</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Modules/Lighting/Prefabs/ChimneySmoke</td>
+  <td>수명·크기·노이즈가 설정된 연기 emitter</td>
+  <td>모듈이 굴뚝 위치/재질을 연결</td>
+</tr>
+<tr>
+  <td>Modules/Interaction/Prefabs/HitChip</td>
+  <td>표면 파편 기본 큐브</td>
+  <td>독립 효과 템플릿</td>
+</tr>
+<tr>
+  <td>Day01/Prefabs/Resources</td>
+  <td>완성 공간의 나무·바위 자원</td>
+  <td>자원 배치와 설정</td>
+</tr>
+<tr>
+  <td>Day01/Prefabs/Environment</td>
+  <td>집·폐허 등 환경 구성</td>
+  <td>환경 배치</td>
+</tr>
+<tr>
+  <td>Day01/Prefabs/Terrain</td>
+  <td>단계별 지형 묶음</td>
+  <td>고정 지도 스냅샷</td>
+</tr>
+<tr>
+  <td>Day01/Prefabs/Stages</td>
+  <td>Before / Process / After</td>
+  <td>촬영 공간 단위</td>
+</tr>
+<tr>
+  <td>Day01/Prefabs/Tools, Camera</td>
+  <td>도구와 카메라</td>
+  <td>조립 참조를 다시 연결하는 템플릿</td>
+</tr>
+<tr>
+  <td>Day01/Prefabs/Composition</td>
+  <td>전체 Day01Showcase</td>
+  <td>씬 구성 재사용의 기준</td>
+</tr>
+</tbody>
+</table>
+<p>실제 생성 완료 여부와 경로 목록은 <a href="records/unity-organization.json">Unity 처리 보고서</a>를 확인한다. 단독 카메라/도구 프리팹은 완성 씬 전체의 연결을 보장하지 않는다. 전체 구성 프리팹을 우선 사용한다.</p>
+<p>동적인 눈 덮개, 침식된 메시, 호버 흔적, 해안 선택 결과는 런타임에 생성한다. 이를 고정 프리팹으로 저장하면 현재 지형/타깃과 맞지 않으므로 생성 코드를 모듈로 유지했다. 연기 emitter는 프리팹 설정을 사용하고 모듈이 위치·재질을 연결한다. 흙먼지는 실행 중 모듈이 구성하고 정리한다.</p>
+<h2>설정</h2>
+<p>ShowcaseAudioBank.asset에서 실제 음원과 볼륨을 바꾼다. Day01Destruction.asset에서 파괴 수치를 바꾼다. HitChip은 파편의 원형이다. 변경한 에셋이 여러 프리팹에서 공유되면 모든 소비자에 반영되므로 에피소드별 차이는 복제한 설정 에셋으로 연결한다.</p>
+<p>Resources에는 사용 중인 음원 4개를 두는 구조다. 이전 후보의 Audio/Archive 이동은 후속 정리 코드가 다음 에디터 임포트에 수행한다. 실제 공개용 크레딧 지침은 <a href="../docs/audio-credits.md">audio-credits</a>다.</p>
+</section><section id="doc-5" class="document"><div class="section-label">architecture/organization.md</div><h1>Devlog 구조 개편 계약</h1>
+<h2>이번 작업 목록</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>공용 모듈과 Day01 구성 코드 분리</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>클릭/눈 효과의 구체 타깃 의존성 제거</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>음원 설정과 파괴 효과 설정 에셋화</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>GUID 보존 에셋 이동 및 프리팹 생성</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>res 리소스 원본/임포트 관계와 라이선스 기록</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>HTML 관리 화면 및 기록 정리</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>모듈 빌드와 실제 에디터 반영 증거 기록</li>
+</ul>
+<h2>경로와 소유권</h2>
+<table>
+<thead>
+<tr>
+  <th>경로</th>
+  <th>역할</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>devlog/</td>
+  <td>목표, 상태, 촬영 계획, 기술 문서, 변경 기록과 HTML</td>
+</tr>
+<tr>
+  <td>res/</td>
+  <td>사용할 음원·PNG·모델 등 엔진 비의존 리소스와 출처</td>
+</tr>
+<tr>
+  <td>res/art-source/</td>
+  <td>Blender 등 편집 원본과 제작 작업물</td>
+</tr>
+<tr>
+  <td>impls/unity/Afterlife/Assets/Devlog/Modules/</td>
+  <td>공용 표현 모듈별 코드·셰이더·필수 리소스</td>
+</tr>
+<tr>
+  <td>impls/unity/Afterlife/Assets/Devlog/Day01/</td>
+  <td>씬, 배치 데이터, 재질, 생성 메시, 프리팹, Day01 조립 코드</td>
+</tr>
+</tbody>
+</table>
+<p>Unity는 Assets 밖의 파일을 직접 임포트하지 않으므로 res는 배포/선정 리소스 보관소, Assets의 파일은 Unity 임포트본이다. GUID가 필요한 에셋은 AssetDatabase.MoveAsset으로 이동하고 .meta를 수작업 생성/수정하지 않는다. 공유 프로토타입의 FBX/URP 에셋은 기존 소비자가 있으므로 이동하지 않는다.</p>
+<h2>모듈 경계</h2>
+<ul>
+<li>Contracts: 클릭/눈 타깃의 최소 인터페이스. 에피소드를 참조하지 않는다.</li>
+<li>Terrain: 순수 C# 바이옴/변형/혼합 규칙. 현재 Day01 지도는 샘플 규칙으로 남긴다.</li>
+<li>Interaction: 정확한 삼각형 레이캐스트와 표면색 조회. Contracts만 참조한다.</li>
+<li>Snow: 눈 덮개 메시/침식. Contracts와 Interaction을 참조한다.</li>
+<li>Vegetation, Lighting, Destruction, Hover, Shoreline: 기존 독립 어셈블리를 기능별 폴더로 이동한다.</li>
+<li>Audio: 설정 에셋 기반 타격/파괴음 선택과 재생, 순환 상태 초기화.</li>
+<li>Rendering: 공통 URP 셰이더 및 include. 렌더링은 현재 전역 셰이더 상태를 사용하므로 동시에 여러 쇼케이스를 실행하는 것은 아직 지원하지 않는다.</li>
+<li>Day01 Runtime: 입력, 카메라, 촬영 UI, 모듈 생성/해제와 씬 어댑터만 소유한다.</li>
+<li>Day01 Editor: 기존 씬/메시 생성과 버전 마이그레이션. 재실행으로 사용자 씬을 덮어쓰지 않는다.</li>
+</ul>
+<h2>보존 조건</h2>
+<p>기존 장면 위치, 오브젝트 이름, 직렬화된 MonoBehaviour GUID, 음원 선택, 효과 기본값, 게임 프로토타입을 유지한다. 프리팹은 Unity PrefabUtility로 생성한다. GUI 키와 효과 전환은 그대로 유지한다. Play/Unity TestRunner는 실행하지 않고 dotnet build --no-restore를 수행한다. 에셋 이동/프리팹 저장은 실행 테스트가 아닌 에디터 저작 작업이다.</p>
+<p>진행 상황: Unity 이동 및 프리팹 30개 저장 완료. 최종 구성 12개 어셈블리 빌드 통과. Play/GPU 확인은 별도 대기.</p>
+<h2>루트 폴더 검증 (2026-09-20)</h2>
+<ul>
+<li>res/: 제작 원본부터 엔진 비의존 리소스까지 통합 보관한다.</li>
+<li>tools/: 공통 아트·음원 제작 도구. 자료 전용 도구는 해당 res 하위 폴더와 함께 유지한다.</li>
+<li>docs/: 게임 기획·설계·출처와 과거 제작 기록. qa/reference 및 steam 배포·홍보 작업 묶음은 문서 부속 자료로 유지한다.</li>
+<li>devlog/: Day01 제작 현황·아키텍처·검증 기록 및 문서 생성 도구.</li>
+<li>impls/: 엔진별 구현과 임포트 에셋.</li>
+<li>logs/: 제작 도구의 과거 실행 로그. 과거 경로는 실행 당시 증거로 보존한다.</li>
+<li>local-backups/: 기존 복구용 백업. 활성 리소스와 구분한다.</li>
+</ul>
+<p><a href="records/resource-layout.md">이동 및 검증 기록</a>.</p>
+</section><section id="doc-6" class="document"><div class="section-label">records/validation.md</div><h1>검증 기록과 확인 절차</h1>
+<h2>자동 확인</h2>
+<p>프로젝트 루트에서 <code>python devlog/tools/build_modules.py</code>를 실행한다. asmdef 의존 순서로 검증용 csproj를 만들고 <code>dotnet build --no-restore</code>를 실행한다. 결과는 build-report.json, 개별 출력은 build-logs에 저장한다. Unity 실행과 Test Runner는 호출하지 않는다.</p>
+<p>에셋 이동/프리팹 저장은 열린 Unity 에디터의 AssetDatabase와 PrefabUtility로 수행한다. unity-organization.json의 status=complete와 실제 파일을 함께 확인한다. 이 작업은 Play 검증이 아니다. GUID는 Unity가 이동한 메타데이터에서 읽어 보존 여부를 확인하며 .meta를 수작업 수정하지 않는다.</p>
+<h2>사용자가 확인할 화면</h2>
+<p>프로젝트 AGENTS.md에 따라 에이전트는 Play/EditMode 테스트를 실행하지 않는다. 구조 변경 이후 다음을 직접 확인하면 된다.</p>
+<ol>
+<li>Devlog_Day01 씬을 단독으로 열고 Console에 컴파일/셰이더 오류가 없는지 확인한다.</li>
+<li>Play 후 1, 2, 3을 눌러 카메라가 유지되고 각 공간이 나오는지 본다.</li>
+<li>After에서 나무/바위를 때려 교차점 타격·표면색 파편·반동·소리·눈 제거를 확인한다.</li>
+<li>네 번 타격 후 나무 쓰러짐과 돌 파편, Sink/Dissolve 비교를 확인한다.</li>
+<li>풀 반응 두 모드, 흙먼지, 모래/눈 흔적, 물 동심원과 해안 모서리를 확인한다.</li>
+<li>N으로 집 시야·창문·연기를 보고 R로 초기화한 뒤 재타격한다.</li>
+<li>Play 종료 후 씬 참조 Missing이 없는지, 원래 렌더 설정으로 복원되는지 확인한다.</li>
+</ol>
+<p>C# 빌드 성공은 셰이더 GPU 렌더링, 소리의 느낌, 프리팹을 새 씬에 배치했을 때의 모든 연결을 검증하지 않는다.</p>
+<h2>이번 결과</h2>
+<ul>
+<li>최종 모듈 구성 12개 어셈블리 빌드 성공. 최신 호버 C# 조정 포함.</li>
+<li>HTML 11개 문서 생성, 내부 링크 누락 0개, 공용 모듈의 Day01 역참조 0개.</li>
+<li>리소스 102개 파일 경로/크기/SHA-256 기록.</li>
+<li>Unity 이동 보고서 complete 및 프리팹 30개 실제 파일 존재 확인.</li>
+<li>브라우저 로컬 URL 접근이 보안 정책으로 거부되어 시각 검증은 미실행.</li>
+</ul>
+<h2>Refresh 이후 최종 확인</h2>
+<p>프리팹 30개 실파일, 설정 에셋, 씬 저장 완료 보고서를 확인했다. Devlog 직렬화 에셋 305개의 외부 GUID 참조를 Assets 및 설치된 PackageCache와 대조해 미해결 참조 0개를 확인했다. 이 검사는 GUID 대상의 존재 확인이며 개별 fileID/런타임 동작을 보장하지 않는다. 12개 어셈블리 빌드를 다시 통과했다.</p>
+<p>이전 음원 후보의 Archive 이동은 배치 경로 갱신 지연으로 누락되어, 다음 에디터 임포트에 재확인하는 후속 정리 코드를 추가했다. 현재 사용 음원 설정과 프리팹 생성에는 영향이 없다.</p>
+</section><section id="doc-7" class="document"><div class="section-label">records/hover-feedback.md</div><h1>타일 호버 피드백 반영</h1>
+<h2>작업 목록</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>풀의 방사형 기울기와 흔들림 축소</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>흙먼지 크기·불투명도·색 대비 강화</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>모래/눈의 실제 입력과 시간 감쇠 분리</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>물의 이동 시작 보장과 확률 생성</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>C# 빌드 및 문서 갱신</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>사용자 화면 체감 확인</li>
+</ul>
+<h2>변경</h2>
+<p>풀 방사형 계수 1 → 0.28, 흔들림 계수 0.65 → 0.18. 중첩된 기울기 길이는 0.32로 제한하며 수직 처짐도 0.35 → 0.16으로 줄였다. 기존 기본 바람은 유지한다.</p>
+<p>먼지 크기는 0.045~0.09 → 0.12~0.20, 수명은 0.7~1초다. 밝은 황토색과 최대 알파 약 0.72를 사용한다. 0.12초마다 3개를 지면보다 0.07 위에서 생성한다.</p>
+<p>모래/눈은 실제 마우스 화면 이동이 있어야 새 흔적을 찍는다. 표면 복원에 의해 레이 교차점이 움직여도 흔적을 다시 찍지 않는다. 각 흔적은 입력과 독립적으로 감쇠하며 3.5초 후 만료된다. CPU 표면 선택과 GPU 높이 감쇠는 같은 SmoothStep 수명을 사용한다.</p>
+<p>물은 0.15초 이상 정지했다가 이동하면 반드시 하나 생성한다. 연속 이동에서는 0.22~0.42초 간격으로 45% 확률로 생성한다. 정지 중 반복 생성은 제거했다. 다른 지형/화면 밖에서 물로 들어와 움직일 때도 첫 생성은 보장한다.</p>
+<h2>확인 절차</h2>
+<p>After에서 두 풀 모드를 비교하고, 흙에서 작은 먼지 구름이 보이는지 확인한다. 모래/눈 위를 지나간 뒤 커서를 멈춰 3.5초 이상 기다리면 모든 흔적이 복원돼야 한다. 물에서 정지 후 이동하면 첫 동심원이 반드시 나오고 계속 이동하면 간헐적으로 나와야 한다.</p>
+<p>관련 12개 어셈블리 dotnet build --no-restore 성공. 프로젝트 지침에 따라 Play/GPU 테스트는 실행하지 않았다.</p>
+<h2>2026-09-20 추가 조정 — 최신 기준</h2>
+<ul>
+<li>풀/숲: 직전 조정값에서 최종 변위에 0.9를 곱해 기울기·흔들림을 10% 더 줄였다.</li>
+<li>흙: 실제 마우스 이동 중에만 생성한다. 크기는 10% 증가(0.132~0.22), 색과 불투명도는 소폭 높였다. 정지 후 이미 나온 먼지는 수명이 끝나면 사라진다.</li>
+<li>모래/눈: 월드 위치와 생성 시간을 고정하고 2.5초 동안 복원한다. 32칸 순환 덮어쓰기 대신 128칸 중 만료된 슬롯만 재사용한다. 용량이 모두 찼으면 기존 흔적을 지우지 않고 새 샘플을 생략한다. 다른 바이옴으로 전환할 때 이전 경로와 보간 연결하지 않는다.</li>
+<li>물: 확률 제거. 이동 시작 시 한 번, 이후 누적 XZ 이동 거리 0.45마다 동심원을 생성한다. 빠른 이동은 경로를 보간해 간격을 유지한다. 정지 0.15초 후 다시 움직일 때 첫 생성 보장은 유지한다.</li>
+</ul>
+<p>12개 C# 어셈블리 빌드 통과. Play/GPU 체감은 미검증. 모래/눈을 빠르게 길게 훑은 뒤 멈춰 흔적 위치가 고정되고 2.5초 내 복원되는지, 물의 느린/빠른 이동에서 공간 간격이 일정한지 확인한다. 저장 슬롯 증가에 따른 GPU 비용도 화면에서 확인이 필요하다.</p>
+<h2>2026-09-20 최초 강도 복원 및 실제 수면 파도</h2>
+<ul>
+<li>풀: 최초 방사형 계수 1, 흔들림 0.65, 최대 변위 1, 수직 처짐 0.35, 최종 배율 0.85로 복원.</li>
+<li>먼지: 최초 크기 0.045~0.09, 수명 0.65초, 원래 황토색/알파 및 방출량(0.1초당 2개) 복원. 이동 중에만 방출하는 조건은 유지.</li>
+<li>Unity 글로벌 배열 크기는 최초 할당 크기로 고정되므로 32→128 확장 경고가 발생했다. StampsV2/WeightsV2로 C#과 셰이더 이름을 함께 교체해 기존 할당과 분리. Unity 재시작 대신 재임포트 후 새 실행에서 전체 128개 전달.</li>
+<li>물 전용 32슬롯과 나머지 흔적 96슬롯을 분리. 수명이 남은 흔적은 덮어쓰지 않는다. 모래/눈은 고정된 월드 위치에서 생성 후 2.5초에 복원되며 길이로 지우지 않는다. 공간이 모두 차면 새 샘플을 생략하는 유한 용량 제한은 남아 있다.</li>
+<li>물은 이동 거리 0.45 기준 유지. 파도 높이 진폭 0.035, 중첩 최대 ±0.06. 2초간 확산/감쇠하는 사인파를 정점에 적용하고 CPU 표면 선택에도 같은 높이 함수를 적용한다. 수면·옆면 삼각형을 12분할하고 UV/해안 데이터는 보존한다. 원형 색 강조는 0.65→0.16으로 낮추고 파도 경사 명암을 추가했다.</li>
+</ul>
+<p>확인: Play를 멈추고 Refresh 후 재생한다. 배열 크기 경고가 새로 발생하지 않는지, 물 위를 5초 이상 계속 움직여도 파도가 이어지는지, 모래/눈 흔적이 각 생성 시각 기준 2.5초 후 제자리에서 복원되는지 확인한다. GPU/Play 검증은 프로젝트 지침에 따라 실행하지 않았다.</p>
+<h2>흙먼지 크기 확대</h2>
+<p>사용자 요청으로 먼지 크기를 0.045~0.09에서 0.09~0.18로 2배 확대했다. 이동 중에만 생성하는 조건, 색/알파, 방출량, 수명은 유지한다. 화면 체감 확인 대기.</p>
+<h2>먼지 크기·투명도 추가 조정</h2>
+<p>크기 0.09~0.18 → 0.135~0.27(1.5배), 시작 알파 0.45→0.30으로 낮춰 더 투명하게 했다. 수명/색/이동 중 방출은 유지한다.</p>
+<p>먼지 크기를 현재 값의 2배인 0.27~0.54로 확대했다. 시작 알파 0.30 및 기존 방출 조건은 유지한다.</p>
+</section><section id="doc-8" class="document"><div class="section-label">records/leaf-card-comparison.md</div><h1>나무 한 그루 잎 카드 비교</h1>
+<h2>구현</h2>
+<p>After 공간에서 눈이 없는 첫 나무 한 그루에만 적용한다. 기본은 기존 메시+스프라이트, L 키로 기존 메시만 보기와 전환한다. 화면에 대상 이름, Console에 생성 카드 수를 표시한다.</p>
+<p>새 원본 이미지를 만들지 않고 Grass2 PNG의 알파 형태를 비교용 잎 카드로 재사용한다. 표면의 초록색 정점색으로 줄기와 수관을 구분하고 월드 삼각형 면적에 비례해 고정 시드로 분포시킨다. 면적당 약 65개, 한 그루 최대 700개다. 표면색은 무게중심 보간으로 받는다. 크기·회전·바람 위상은 개별적으로 달라진다.</p>
+<p>표면 법선을 기본으로 카메라 방향을 약하게 섞어 카드 방향을 정한다. 뿌리 위치는 표면에 고정하고 끝부분을 흔든다. 카드 메시를 원본 모델 Transform 자식으로 배치하므로 나무의 이동/회전을 따라간다. 원본 Renderer가 꺼지면 카드도 숨긴다. 원본 메시, 선택 표면, 다른 나무는 변경하지 않는다.</p>
+<h2>범위와 한계</h2>
+<p>실험용 카드이며 별도 잎 PNG 제작은 하지 않았다. 자체 그림자 캐스팅과 눈 덮개, 타격 색상/디졸브 셰이더 동기화는 이번 비교 범위에 포함하지 않았다. 나무가 움직일 때 표면의 기존 정점 바람과 카드 뿌리의 세부 변형까지 동일하지는 않다. 대량 나무 적용 전에 외관과 성능을 먼저 판단한다.</p>
+<h2>확인</h2>
+<p>Play 중지 → Refresh → Play → 3 After. 화면에 표시된 나무를 보며 L로 켜고 끈다. 실루엣·잎 밀도·흔들림을 비교한다. H는 안내 숨기기, R은 촬영 초기화다. 모듈 12개 C# 빌드는 통과했다. 프로젝트 지침에 따라 Play/GPU 검증은 실행하지 않았다.</p>
+<h2>추가 비교: 밀도 증가·완전 빌보드</h2>
+<p>면적당 65→160개(약 2.46배), 최대 700→1,800개로 늘렸다. 카메라의 right/up 축으로 카드 면을 구성해 항상 화면을 정면으로 보게 한다. 랜덤 회전과 바람은 화면 평면 안에서 적용하고, 원본 표면 법선은 부착 오프셋과 조명에 사용한다. 한 그루 적용 및 L 전환은 유지한다.</p>
+<h2>밀도 축소와 반응 동기화</h2>
+<p>직전 Unity 로그의 실제 생성 수는 Tree0_00의 1,446개였다. 밀도를 160→45, 상한을 1,800→300으로 낮췄다. 사용자 요청에 따라 최소 간격/겹침 방지는 적용하지 않는다. 화면 안내에 실제 생성 수를 표시한다. 랜덤 회전은 제거해 모두 같은 방향의 카메라 빌보드로 표시하며, 바람 위상만 개별적으로 유지한다. 원본 Renderer의 MaterialPropertyBlock을 LateUpdate에 복사하고 같은 호버/플래시 색상식을 적용한다.</p>
+<h2>밀도 요청 정정 — 최종값</h2>
+<p>300개 제한은 취소했다. 사용자는 1,800개가 실제 생성 수라고 이해했던 것이며 밀도 증가를 원했다. 이전 면적당 160개에서 200개로 25% 증가, 상한 2,000개로 설정한다. 실제 생성 수는 실행 시 표시하며 미리 확정하지 않는다. 최소 간격 없음, 회전 통일, 바람/호버/플래시 동기화는 유지한다.</p>
+<p>최종 겹침 조건: 일반적인 부분 겹침은 허용한다. 잎 부착점의 월드 거리 0.001 미만인 사실상 동일 위치만 중복으로 제외한다. 잎 크기 기준의 최소 간격은 적용하지 않는다. 서로 다른 깊이의 잎이 특정 카메라에서 겹쳐 보이는 것은 허용한다.</p>
+<h2>회전 비교 대상 정정</h2>
+<p>사용자가 말한 풀 스프라이트는 나무 잎 카드였다. 바닥 풀 회전 실험은 제거했다. G 키는 나뭇잎의 동일 방향/고정 랜덤 0~360도 회전을 전환한다. 기본 동일 방향, L 표시 전환 유지. 생성 위치·개수·바람 위상은 전환해도 바뀌지 않는다.</p>
+<h2>전체 After 나무에 적용</h2>
+<p>사용자 채택: 랜덤 회전을 기본으로 설정하고 After의 모든 나무에 적용한다(설원 포함). 나무마다 독립 생성하며 면적당 200개/최대 2,000개 설정을 유지한다. G는 전체 잎 회전 비교, L은 전체 표시 전환이다. 화면에 나무 수와 총 카드 수, Console에 나무별 수를 표시한다. Before/Process는 전후 비교용 기존 상태를 유지한다. 기존 눈 덮개는 유지하며 카드 자체의 별도 눈 표현은 아직 없다.</p>
+<h2>수관 일부 누락 수정</h2>
+<p>로그에서 다수의 나무가 2,000개 상한에 도달했다. 이전 구현은 삼각형 순서대로 생성하다 상한에 도달하면 나머지 면을 비워두었다. 모든 적격 수관 삼각형의 월드 면적을 먼저 합산한 후 전체 예산(면적×200, 최대 2,000)을 누적 면적 비례로 분배하도록 수정했다. 랜덤 위치·회전·동일 위치 중복 제외는 유지한다. 상한이 작은 나무의 일부 면을 잘라내는 대신 전체 밀도를 균등하게 낮추는 방식이다. 화면 재확인은 대기 상태다.</p>
+<h2>잎 카드 눈 표현과 두께</h2>
+<p>기존 눈 덮개의 월드 두께를 0.045→0.085로 증가했다. 잎 카드에 별도 LeafSnow/LeafSnowPine 상태를 전달하고, 원본 타깃의 SnowHits/WorldToLocal을 공유해 타격 위치의 눈 색과 확장 알파를 함께 줄인다. 일반 수관은 잎 끝쪽, 소나무는 잎 전체에 눈을 표현한다. 잎 알파를 카드 위쪽으로 10% 확장해 흰 테두리 두께를 더했다. 이는 잎마다 3D 눈 메시를 추가한 것이 아니라 카드 셰이더의 색/알파 표현이다. 기존 닫힌 눈 메시와 병행한다. C# 빌드 통과, GPU 표현과 타격 후 눈 복원은 사용자 검증 대기.</p>
+<h2>적설 방향과 수관 가림</h2>
+<p>아래를 향하는 면과 위쪽 수관에 가려진 잎은 눈을 받지 않도록 수정했다. 초기 형상의 월드 위쪽 법선 및 수직 방향 삼각형 교차로 노출도를 계산하고 카드 UV에 저장한다. 눈 덮개도 원본 표면 중심의 위쪽 가림을 확인한다. 초기 적설 영역은 쓰러짐 중 다시 계산하지 않으므로 기존 눈이 나무와 함께 회전한다. 다른 오브젝트의 가림은 포함하지 않으며, 눈 덮개는 면 중심 기준이라 부분 가림은 근사한다.</p>
+<h2>눈 아래로 뻗은 카드 영역 제외</h2>
+<p>잎 노출 판정의 법선 기준을 눈 덮개와 동일하게 위쪽 성분 0.25 이상으로 좁혔다. 카드마다 초기 월드 위쪽 방향을 로컬 데이터로 저장하고, 셰이더에서 실제 카드 픽셀의 부착점 대비 높이를 보간한다. 부착점보다 아래로 뻗은 부분은 눈 색/눈 알파 확장에서 제외하며 위로 0.015~0.055 구간에서 부드럽게 전환한다. 회전된 스프라이트의 UV 위쪽을 적설 위쪽으로 간주하던 방식을 제거했다. 눈 면적 확대보다 원래 눈 아래 잎의 녹색 보존을 우선한다. Play/GPU 검증 대기.</p>
+<h2>픽셀 높이 제한 되돌림 및 아랫면 판정</h2>
+<p>사용자 요청대로 직전 카드 픽셀 높이 제한과 법선 범위 축소를 되돌렸다. 대신 원본 임포트 법선과 삼각형 외적으로 계산한 방향을 대조해 면 방향을 보정한다. 이 표면 법선으로 초기 하향면에 붙은 잎은 눈 노출 0으로 유지한다. 눈 덮개 선택에도 동일한 방향 보정을 적용한다. 표시한 아랫면에 해당하는지 화면 검증은 대기이며, 쓰러진 뒤 현재 월드 방향으로 적설을 다시 계산하지 않는다.</p>
+<h2>윗면 전체 적설 복원</h2>
+<p>사용자 요청으로 최근 추가한 수직 가림 검사와 연속 노출도 감쇠를 적설 생성에서 제거했다. 눈 덮개는 기존 위쪽 면 선택과 0.085 두께를 유지한다. 잎 카드는 초기 표면 법선 y&gt;0.05이면 노출 1, 그 외는 0으로 저장한다. 소나무 윗면 카드는 다시 완전 흰색이며 타격 침식은 유지한다. 아랫면 제외와 호버/플래시/랜덤 회전은 유지한다. 화면 검증 대기.</p>
+</section><section id="doc-9" class="document"><div class="section-label">records/abandoned-altar-v2.md</div><h1>버려진 제단 모델 교체</h1>
+<h2>기존 소품 추가 작업</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>기존 에셋 목록과 모델 카탈로그 확인: SwordTool 선택</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>기존 검을 상판 위에 눕혀 배치하고 클릭 표면 연결</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>프리팹 저장 및 C# 빌드 확인</li>
+</ul>
+<p>새 모델 생성 없이 기존 <code>SwordTool.fbx</code>를 봉헌된 검 소품으로 재사용한다.</p>
+<p>검의 은색 칼날과 황동 장식을 유지하며 상판 중앙에 대각선으로 눕힌다. 검의 실제 정점 최저점을 상판 높이에 맞추고 기존 표면 클릭 피드백을 연결한다. 위치·회전 변경은 새 제단 프리팹의 <code>OfferingSword</code> 자식에서 관리한다. 검 원본 FBX와 Blender 모델은 수정하지 않는다. 앞서 제작한 Blender 미리보기에는 이 Unity 배치 소품이 포함되지 않는다.</p>
+<p>배치 코드 C# 빌드 통과. 2026-09-20 에디터에서 프리팹 저장 완료를 <a href="records/altar-offering-unity.json">배치 결과</a>와 실제 프리팹의 OfferingSword 자식으로 확인했다. After의 연결된 프리팹에 반영된다. Play 시각 검증은 실행하지 않았다.</p>
+<h2>작업 목록</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>ImageGen으로 동일 제단의 정면·좌우·후면·상면·사선 시안 생성</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>시안을 기준으로 편집 가능한 Blender 모델 제작</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>정면·측면·사선 렌더로 실루엣과 표면 확인</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>FBX 내보내기와 Unity 재질·클릭 표면·프리팹 연결</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>After 제단 교체 및 기존 모델 비교 보존</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>C# 빌드와 제작/리소스 기록 갱신</li>
+</ul>
+<h2>방향</h2>
+<p>넓은 돌 상판, 두 개의 낮은 받침, 두 단의 기단, 한쪽의 부서진 사각 기둥으로 작은 화면에서도 제단이 읽히도록 만든다. 청회색 돌과 드문 이끼, 작은 청록 마름모 장식으로 기존 숲에 맞춘다. 큰 수정이 있는 아치형 Ruins는 별개 구조물이며 이번 교체 대상이 아니다.</p>
+<p>원본 모델과 공유 프로토타입 소비자를 보존하고 After 공간의 AbandonedAltar만 새 모델을 사용한다. Before/Process는 유지한다.</p>
+<h2>경로</h2>
+<ul>
+<li><a href="../res/concepts/abandoned-altar-v2/turnaround.png">6방향 생성 시안</a></li>
+<li><a href="../res/concepts/abandoned-altar-v2/prompt.txt">실제 사용한 ImageGen 프롬프트</a>: 내장 ImageGen 도구 사용</li>
+<li><a href="../res/art-source/world/abandoned-altar-v2/AbandonedAltarV2.blend">Blender 원본</a></li>
+<li><a href="../tools/art/build_abandoned_altar_v2.py">제작 코드</a>, <a href="../tools/art/render_altar_views.py">렌더 전용 코드</a></li>
+<li><a href="../res/models/world/AbandonedAltarV2.fbx">엔진 비의존 FBX</a></li>
+<li><a href="../impls/unity/Afterlife/Assets/Devlog/Day01/Models/AbandonedAltarV2.fbx">Unity FBX</a></li>
+<li><a href="../impls/unity/Afterlife/Assets/Devlog/Day01/Prefabs/Environment/AbandonedAltarV2.prefab">Unity 프리팹</a></li>
+</ul>
+<h2>시안과 실제 모델</h2>
+<p><img src="../res/concepts/abandoned-altar-v2/turnaround.png" alt="ImageGen 6방향 시안" /></p>
+<p><img src="../res/previews/abandoned-altar-v2/three-quarter.png" alt="Blender에서 실제 제작한 제단 사선 렌더" /></p>
+<p>생성 이미지는 형태 참고용이며 모델 자체는 Blender 메시로 제작했다. 작은 게임 화면에 맞춰 표면의 잔무늬는 단순화했다. Blender의 스튜디오 조명과 게임 조명은 다르므로 실제 게임의 색·그림자 체감은 Unity에서 확인한다.</p>
+<h2>제작 사양</h2>
+<table>
+<thead>
+<tr>
+  <th>항목</th>
+  <th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>원본 편집 부품</td>
+  <td>48개 메시, 부품별 이름 유지</td>
+</tr>
+<tr>
+  <td>Unity 내보내기</td>
+  <td>통합 메시 1개 / 렌더러 1개 / 재질 1개</td>
+</tr>
+<tr>
+  <td>삼각형</td>
+  <td>1,338개</td>
+</tr>
+<tr>
+  <td>원본 크기</td>
+  <td>너비 2.270m × 깊이 1.388m × 높이 1.530m</td>
+</tr>
+<tr>
+  <td>After 배치</td>
+  <td>기존 제단 피벗 (0.1, 0, 2.1), 새 모델 배율 0.84</td>
+</tr>
+<tr>
+  <td>색상</td>
+  <td>정점색 팔레트, 청회색 돌과 이끼, 비발광 청록 상감</td>
+</tr>
+<tr>
+  <td>그림자</td>
+  <td>기존 실시간 조명 사용, 그림자 텍스처 베이크 없음</td>
+</tr>
+<tr>
+  <td>선택</td>
+  <td>전용 표면 데이터와 ShowcasePickSurface로 클릭·교차점 색 피드백 연결</td>
+</tr>
+</tbody>
+</table>
+<p>FBX에 스튜디오 카메라·조명·바닥은 넣지 않는다. Blender 원본의 <code>Altar_EditableParts</code>에 실제 부품, <code>PreviewStudio_NotExported</code>에 렌더 환경을 분리했다.</p>
+<h2>확인 및 비교</h2>
+<p><code>Devlog_Day01</code> 씬의 After → Environment → AbandonedAltar_Pivot 아래 새 <code>AbandonedAltarV2</code>가 활성화되어 있다. 예전 <code>AbandonedAltar</code> 자식은 비활성으로 보존했다. Inspector에서 두 자식의 활성 상태를 서로 바꾸면 비교할 수 있다. Before/Process, 공유 프로토타입의 FBX, 수정 아치 Ruins는 이번 교체 대상에 포함하지 않았다.</p>
+<p>사용자 확인 절차: 해당 씬에서 Play 후 3번으로 After를 보고, 제단의 상판·기둥을 클릭한다. 모델이 바르게 서 있고, 작은 교차점 색 파편이 표면에서 나오는지 확인한다. 낮/밤에는 기존 조명으로 돌과 이끼가 읽히는지도 확인한다.</p>
+<h2>검증 상태</h2>
+<p>2026-09-20: 12개 Devlog 모듈의 <code>dotnet build --no-restore</code> 통과. Blender 6방향 렌더를 생성했고 정면·상면·사선에서 형태를 확인했다. Unity 실제 임포트에서 축/단위, 정점색, 1,338개 삼각형을 확인하고 프리팹 및 씬 저장이 완료됐다. <a href="records/altar-v2-unity.json">Unity 저장 결과</a>, <a href="../res/art-source/world/abandoned-altar-v2/manifest.json">모델 제작 수치</a>.</p>
+<p>Unity Play/GPU 화면 검증은 실행하지 않았다. 실제 플레이 화면의 미적 체감과 클릭 피드백은 위 절차로 사용자 확인이 남아 있다.</p>
+</section><section id="doc-10" class="document"><div class="section-label">records/visual-rhythm.md</div><h1>화면 밀도와 타격 타이밍 보완</h1>
+<h2>작업 목록</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>해안 중심 거품과 물 중앙 여백</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>After 풀·꽃 군집과 빈 공간, 기존 장식 재사용</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>접촉 시 짧은 정지·빠른 복귀·방향성 파편</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>C# 빌드와 변경 기록</li>
+</ul>
+<p>기존 거품 레이어·색·시드와 표면 접촉 위치를 유지한다. 새 모델은 만들지 않는다. Before/Process의 풀 분포는 유지하고 After에서만 군집을 적용한다. Play/GPU 테스트는 실행하지 않는다.</p>
+<h2>변경 전후</h2>
+<table>
+<thead>
+<tr>
+  <th>대상</th>
+  <th>이전</th>
+  <th>변경</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>거품</td>
+  <td>흰색 하한이 물 중앙까지 강하게 적용</td>
+  <td>해안 0.48m 이내 집중, 중앙은 큰 노이즈 군집과 옅은 잔여 거품</td>
+</tr>
+<tr>
+  <td>기본 풀</td>
+  <td>대부분 위치에서 중간 이상의 생성 확률</td>
+  <td>After 고정 좌표 노이즈에 따라 약 3.5~88%(숲 최대 94%) 확률</td>
+</tr>
+<tr>
+  <td>꽃</td>
+  <td>풀마다 2% 독립 추첨</td>
+  <td>별도 꽃 군집 안에서 모여 피고 밖에서는 기본 풀 유지</td>
+</tr>
+<tr>
+  <td>기존 꽃·고사리 장식</td>
+  <td>타일별 분산</td>
+  <td>군집 밖 일부만 실행 중 숨기고 Dispose에서 원래 활성 상태 복원</td>
+</tr>
+<tr>
+  <td>도구</td>
+  <td>접촉 직전 감속, 0.05초 접촉 후 회수</td>
+  <td>접촉 직전까지 가속, 0.045초 접촉, 전체 동작 0.285초</td>
+</tr>
+<tr>
+  <td>피격 반응</td>
+  <td>바로 시작하는 감쇠 진동</td>
+  <td>동일 정지 구간 뒤 반대 방향 반동, 감쇠를 높여 빠르게 안정</td>
+</tr>
+<tr>
+  <td>플래시</td>
+  <td>Update 순서에 따라 시작</td>
+  <td>Hit에서 즉시 적용, 짧은 유지 후 부드럽게 종료</td>
+</tr>
+<tr>
+  <td>파편</td>
+  <td>월드 수평 방사형</td>
+  <td>표면 바깥 방향 원뿔로 방출, 교차점 색 유지</td>
+</tr>
+</tbody>
+</table>
+<p>타격음과 파편은 기존 단일 접촉 이벤트에서 함께 시작한다. 전역 timeScale이나 다른 오브젝트의 애니메이션은 멈추지 않는다. 파괴 타격의 기존 효과음·바위 조각 동작과 눈 파편의 하강은 유지한다.</p>
+<h2>파일과 수명</h2>
+<ul>
+<li>Water의 ShowcaseWater.shader: 거품 공간 분포</li>
+<li>Vegetation의 ShowcaseGrass.cs: 고정 군집, 런타임 장식 숨김/복원</li>
+<li>Destruction의 ShowcaseImpactTiming.cs: 도구와 타깃이 공유하는 정지·반동·플래시 수치</li>
+<li>Day01Showcase/ShowcaseTarget: 접촉 이벤트와 시각 반응 조합</li>
+</ul>
+<h2>검증 및 사용자 확인</h2>
+<p>2026-09-20: 12개 Devlog 모듈 dotnet build --no-restore 통과. Unity TestRunner/Play/GPU 테스트는 실행하지 않았다.</p>
+<p>Play를 멈추고 최신 코드가 임포트된 뒤 다시 Play → 3번 After에서 확인한다.</p>
+<ol>
+<li>물 중앙의 반복 거품은 옅고 해안 거품과 접촉선이 더 또렷한지 확인한다.</li>
+<li>풀·꽃이 군집을 이루고 바닥이 드러나는 여백이 있는지 확인한다. 재실행해도 위치가 바뀌지 않아야 한다.</li>
+<li>나무와 바위에 타격 시 실제 날이 표면에 도착할 때 소리·플래시·파편이 시작하고, 짧은 접촉 유지 후 회수되는지 확인한다.</li>
+<li>눈 나무와 파괴 타격, R 초기화 및 1/2/3 공간 전환의 기존 동작을 확인한다.</li>
+</ol>
+</section><section id="doc-11" class="document"><div class="section-label">records/ground-wind-night.md</div><h1>접지·바람·밤 장면 보완</h1>
+<h2>후속 피드백 작업</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>시야 밖을 게임 의도에 맞게 다시 어둡게 조정</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>집 시야 4.2m → 3m, 저장된 프리팹 갱신 코드 작성</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>풀·잎 진폭과 공통 돌풍 강화</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>13개 모듈 빌드 확인</li>
+</ul>
+<p>최신값: 시야 밖 RGB 배율 0.018/0.025/0.045, 집 반경 3m. 커서 반경과 시야 안 밝기는 유지한다. 바람의 일반 변동폭 0.16→0.32, 돌풍 가산 0.4→0.65, 풀 좌우 계수 0.085→0.11, 잎 끝 계수 0.032→0.06으로 늘렸다. 아래 표는 이전 조정 기록이며 현재값은 이 문단이 우선한다. 시각 검증은 사용자 확인 대기.</p>
+<h2>작업 목록</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>기존 돌·고사리로 접점 보강, 구조물 기단 접지</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>독립 바람 모듈과 풀·잎·연기 공통 방향</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>밤 실루엣과 창문·수정 밝기 우선순위</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>빌드 및 에디터 반영 기록</li>
+</ul>
+<p>새 모델을 만들지 않고 기존 소품을 재사용한다. 집 주변 시야 반경, 눈과 타격 효과, Before/Process 구성을 보존한다.</p>
+<h2>접지</h2>
+<p>After 나무/바위 밑에 기존 Pebbles와 Fern FBX를 최대 두 군집씩 배치한다. Grass/Forest/Rocky만 허용하고 Rocky의 고사리는 제외한다. 물·길·모래·눈에는 새 장식을 배치하지 않는다. 이 장식은 나무가 쓰러져도 남는 바닥 장식이며 <code>GroundContactDetails</code> 프리팹으로 관리한다.</p>
+<p>집과 제단 기단은 실제 타일 표면을 조회해 최저점이 표면보다 약 1.5cm 아래에 오게 한다. 한 번의 보정량은 최대 8cm로 제한한다. Before/Process와 원본 모델 프리팹을 움직이지 않고 After의 배치 피벗만 조정한다. 기존 장식은 지우지 않는다.</p>
+<h2>공통 바람</h2>
+<p>Wind 독립 모듈은 공통 방향 X +0.84 / Z -0.54와 공간 위상의 완만한 돌풍을 제공한다. 풀은 뿌리를 고정하고 빌보드 좌우·앞뒤 투영으로 기울어진다. 나뭇잎은 수관의 이동을 따라간 뒤 끝부분에 작은 잔떨림을 더한다. 연기는 같은 바람을 수평 속도로 사용하고 작은 노이즈만 남긴다.</p>
+<p>Day01이 CPU 바람 조회 함수를 Smoke에 주입한다. 셰이더와 CPU는 같은 공통 시간·방향·돌풍 수식을 사용하며 전역 timeScale은 변경하지 않는다. 종료 시 Wind 전역값을 복원한다. 바람은 기존 Process 식생에도 동일한 모듈로 적용되지만 모델 배치/군집은 바꾸지 않는다.</p>
+<h2>밤의 밝기</h2>
+<table>
+<thead>
+<tr>
+  <th>항목</th>
+  <th>이전</th>
+  <th>변경</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>시야 밖 RGB 배율</td>
+  <td>0.025 / 0.035 / 0.07</td>
+  <td>0.085 / 0.11 / 0.18: 어두운 달빛 윤곽</td>
+</tr>
+<tr>
+  <td>시야 안 RGB 배율</td>
+  <td>0.64 / 0.72 / 0.92</td>
+  <td>0.56 / 0.64 / 0.80: 국소 광원 대비</td>
+</tr>
+<tr>
+  <td>밤 주광</td>
+  <td>낮의 22%</td>
+  <td>낮의 28%</td>
+</tr>
+<tr>
+  <td>창문 HDR</td>
+  <td>3.4</td>
+  <td>2.8, 기존 창문 색 유지</td>
+</tr>
+<tr>
+  <td>수정 HDR</td>
+  <td>낮/밤 동일</td>
+  <td>낮 유지, 밤은 78%</td>
+</tr>
+<tr>
+  <td>Bloom 강도/범위</td>
+  <td>0.55 / 0.60</td>
+  <td>0.48 / 0.52</td>
+</tr>
+</tbody>
+</table>
+<p>집 반경 4.2m와 커서 반경 3.2m, 안쪽으로 1.8m 감쇠하는 구간은 유지한다. 발광하는 작은 면이 주변보다 밝고, 시야 밖은 지형과 수목의 윤곽을 읽을 정도로 남기는 방향이다.</p>
+<h2>검증</h2>
+<p>13개 독립 Devlog 모듈의 dotnet build --no-restore 통과. 실제 Play/Shader GPU 검증은 실행하지 않았다. 에디터 배치 저장은 <code>ground-contact-unity.json</code>으로 확인한다.</p>
+<p>2026-09-20 에디터 저장 확인: 접점 장식 28개, 집·제단 기단 2곳 보정. <a href="records/ground-contact-unity.json">저장 결과</a>. GroundContactDetails 프리팹과 연결된 After 씬 저장 완료.</p>
+<p>사용자 확인: Refresh 후 Play → 3번 After. 집·제단 기단이 뜨지 않는지, 나무/바위 밑 장식이 길을 막지 않는지 확인한다. 풀·잎·연기를 15초 정도 관찰하면 같은 방향으로 바람이 지나가야 한다. N으로 밤을 켜 창문과 수정이 먼저 보이면서 집 시야 반경과 밖의 실루엣이 유지되는지 확인한다. R 초기화와 1/2/3 전환 후에도 동작해야 한다.</p>
+</section><section id="doc-12" class="document"><div class="section-label">records/leaf-dissolve.md</div><h1>수관과 나뭇잎 디졸브 동기화</h1>
+<h2>작업 목록</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>원인 확인: 잎 셰이더에 제거 마스크가 없었음</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>수관과 같은 Perlin 필드·진행도·스케일로 잎 부착점 판정</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>원본 재질 스케일 상속 및 초기화 코드 확인</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>13개 모듈 C# 빌드와 문서 갱신</li>
+</ul>
+<p>잎 카드의 네 꼭짓점은 동일한 원본 수관 부착점을 보관한다. 이 좌표로 판정하여, 해당 수관 표면이 사라지는 순간 그곳에 붙은 잎 전체도 제거한다. 카메라 회전과 바람 때문에 제거 위치가 달라지지 않게 한다.</p>
+<p>기존에는 원본 렌더러가 완전히 꺼질 때까지 잎이 남았다. 이제 ShowcaseDissolve.hlsl의 공통 판정 함수를 표면 셰이더와 잎 셰이더가 함께 사용한다. 잎은 꼭짓점 단계에서 부착점 판정값을 계산해 픽셀마다 3D 노이즈를 다시 계산하지 않는다. 원본 PropertyBlock의 진행도와 초기화 값을 계속 복사하며, 별도 블록 설정이 없으면 원본 재질의 노이즈 스케일도 상속한다. Sink 모드에서는 잎도 같은 바닥 높이로 잘린다.</p>
+<h2>사용자 확인</h2>
+<p>Play를 멈추고 Refresh 후 다시 Play → 3번 After → Dissolve + reset 선택 → 나무를 쓰러뜨린다. 녹색 잎과 눈 덮인 잎 모두 수관이 사라진 자리에 남지 않아야 한다. R을 누르면 잎이 전부 복원되고, G/L 전환과 바람도 유지되어야 한다. Unity Play/GPU 검증은 실행하지 않았으며 C# 빌드는 셰이더 화면 검증을 대신하지 않는다.</p>
+</section><section id="doc-13" class="document"><div class="section-label">records/organization-change.md</div><h1>2026-09-19 구조 개편 기록</h1>
+<h2>변경 전</h2>
+<p>대부분의 표현 코드·셰이더·음원은 Day01 아래에 있었다. 일부 기능별 asmdef는 존재했지만 클릭과 눈은 구체적인 ShowcaseTarget과 결합돼 있었다. 음원 선택은 런타임 코드에 직접 들어 있었고 긴 README 하나에 개발 변경 내역이 쌓여 있었다.</p>
+<h2>변경 후</h2>
+<p>공용 기능을 Modules로 분리하고 Day01에는 장면 제작/조립을 남긴다. 클릭/눈 타깃의 작은 인터페이스를 Contracts로 분리했다. 음원 설정과 파괴 설정을 ScriptableObject로 주입하고, 효과음은 별도 모듈이 재생한다. 파편 원형과 완성 공간의 재사용 가능한 구성은 프리팹으로 저장한다.</p>
+<p>루트 devlog는 현재 상태/기능/기술 안내/촬영 계획과 과거 기록을 분리한다. HTML은 Markdown에서 생성하며 검색과 목차를 제공한다. 음원 분석 파일은 art-source/audio에서 res/audio로 이동했고 관련 처리 도구의 경로를 수정했다. 모델/풀 PNG는 기존 임포트본을 보관용으로 복사했다.</p>
+<h2>보존과 복구</h2>
+<p>기존 MonoBehaviour 타입명과 네임스페이스를 보존한다. Unity 이동 API는 GUID를 유지한다. 사용자가 저장하지 않은 씬은 마이그레이션이 저장하지 않고 대기한다. 이미 생성된 프리팹은 자동으로 덮어쓰지 않는다.</p>
+<p>초기 에셋 이동에서 배치 중 새 폴더 등록 지연과 AssetDatabase 경로 조회 지연을 확인했다. 목적지 폴더를 먼저 등록하고 실제 이동된 .meta의 GUID를 읽어 비교하도록 수정했다. 중간 이동 상태에서도 다시 실행할 수 있으며, 이미 이동한 소스는 건너뛴다. 이 기록은 최종 성공 보고서를 대신하지 않는다.</p>
+<h2>검증 범위</h2>
+<p>관련 C# 모듈 빌드와 실제 Unity 생성 보고서를 별도로 보관한다. Play/GPU/청취 검증은 실행하지 않았다. HTML 로컬 파일의 브라우저 열기는 도구 URL 보안 정책으로 거부되어 브라우저 시각 검증을 수행하지 못했다. 우회 실행하지 않고 파일/링크 구조를 확인한다.</p>
+</section><section id="doc-14" class="document"><div class="section-label">records/day-01-history.md</div><h1>Devlog 1일차 — 3D 픽셀 숲 쇼케이스</h1>
+<p>독립 씬: <code>Assets/Devlog/Day01/Scenes/Devlog_Day01.unity</code></p>
+<p>기존 프로토타입에는 전후 비교 전용 공간이 없었다. 이 씬은 같은 배치의 평평한 작은 맵 세 개를 만들고, 기존 FBX를 재사용해 기본 도형 → 모델 배치 → 픽셀 표현과 타격 반응을 보여준다. 새 모델은 제작하지 않았다.</p>
+<h2>공간</h2>
+<table>
+<thead>
+<tr>
+  <th>루트</th>
+  <th>위치</th>
+  <th>구성</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Before_Primitives</td>
+  <td>(0, 0, 0)</td>
+  <td>회색 primitive 지형·나무·바위·건물·장식</td>
+</tr>
+<tr>
+  <td>Process_ModelPlacement</td>
+  <td>(50, 0, 0)</td>
+  <td>기존 모델과 색상, 연속적인 명암, 원본 화면 해상도</td>
+</tr>
+<tr>
+  <td>After_PixelForest</td>
+  <td>(100, 0, 0)</td>
+  <td>두께 있는 블록 지형, 깊이 기반 반투명 바다·거품, 픽셀 표현·바람·타격 반응</td>
+</tr>
+</tbody>
+</table>
+<p>각 맵은 1×1 크기 타일 12×10개로 구성된다. Before는 얇은 primitive Cube, 중간 단계는 Plane 타일이다. After의 육지는 두께 0.8의 블록이며 윗면 y=0, 밑면 y=-0.8이다. 흙길과 육지 윗면은 같은 높이라 기존 모델 배치를 유지한다. 세 단계는 같은 바이옴 데이터를 사용하며 격자 선이 표시된다. 공간 사이에 38 단위 이상의 빈 영역이 남아 있어 중간 결과를 추가할 수 있다. 각 공간 뒤쪽에는 <code>AdditionalTakeSpace</code> 빈 Transform도 두었다.</p>
+<p>바이옴은 프로토타입의 일곱 종류와 색을 사용한다: 초원·흙·모래·물·눈·숲·암석. 큰 프로토타입 지도를 그대로 축소하지 않고, 작은 쇼케이스에서 읽히도록 숲·설원·바위 군집·모래 해안·수면을 고정 배치했다. After의 물은 평평한 상태로 물결 색상이 움직인다. 숲에는 Fern, 초원에는 Flowers, 돌/흙/눈에는 Pebbles, 해안에는 Reeds를 배치한다. 물 위에 걸리는 기존 자원은 가까운 빈 육지 타일로 이동한다.</p>
+<p>After의 해저 블록은 y=-0.8부터 -0.76까지 높이 0.04(육지 높이 0.8의 5%)이며, 물 블록은 그 위 y=-0.76부터 -0.4까지 높이 0.36(45%)이다. 땅과 물의 부피는 겹치지 않고 경계면만 맞닿는다. 합계 높이 0.4와 수면 높이는 유지한다. <code>OceanBlocks_HalfHeight</code>는 물 셀의 수면과 노출 옆면을 합친 메시다. 물끼리 맞닿는 내부 면은 없어서 반투명 면이 중복되지 않는다. 이전 Plane 물 타일은 비활성 상태로 보존한다. <code>OceanFloor</code>에는 동일한 0.04 높이의 해저 블록과 그 윗면에 기존 Pebbles 모델을 배치했다. 수심 셰이더의 바닥 좌표도 -0.76으로 맞춘다.</p>
+<p><code>After_OceanDepth.mat</code>은 뒤쪽 불투명 지형의 카메라 깊이를 월드 위치로 복원해 수면부터 뒤쪽 표면까지 물을 통과하는 거리를 구한다. 얕은 곳은 밝은 바다색과 낮은 불투명도, 깊은 곳은 진한 파랑과 높은 불투명도다. 해저/자갈은 물을 통해 보이고 수면보다 앞에 있는 육지는 깊이 검사로 가리지 않는다. 거품은 육지와 맞닿은 가장자리, 수면과 물체가 가까운 부분, 흩어진 흰 물결에 나타난다. 물 표면의 실제 높이는 움직이지 않는다.</p>
+<p>수면 재질의 <code>Shallow ocean</code>, <code>Deep ocean</code>, <code>Depth darkening distance</code>, <code>Shallow opacity</code>, <code>Deep opacity</code>, <code>Shore foam width</code>로 색·깊이 대비·투명도·거품 폭을 조절한다. <code>Rendering/ShowcaseDepthPipeline.asset</code>과 <code>ShowcaseDepthRenderer.asset</code>은 Devlog 전용 복제본이며 불투명 물체 렌더링 직후 깊이를 복사한다. 프로젝트 공용 렌더러는 수정하지 않는다. After의 투명 물은 이 씬을 Play하여 전용 파이프라인이 활성화된 Game 뷰에서 확인한다.</p>
+<p>Hierarchy의 <code>Terrain_Flat/BiomeGrid_12x10</code>, <code>Environment</code>, <code>ClickableResources</code>, <code>BiomeDetails</code>에서 배치를 수정한다. 이전 바닥과 <code>GroundDetails</code>는 비활성 상태로 보존한다. 배치는 런타임 생성이 아니라 씬에 직렬화되어 있다. 재생을 멈춘 뒤 수정하고 저장해야 유지된다. 나무·바위·Fern·Flowers·Pebbles·Reeds·House·Ruins·AbandonedAltar·FallenLog 및 도구 FBX는 기존 <code>_AfterlifePrototype</code> 에셋을 참조한다.</p>
+<p>모델 방향과 크기는 <code>모델명_Pivot</code> 부모에서 조절한다. 자식 FBX 루트의 축 보정 회전은 유지해야 한다. 초기 버전에서 모델이 눕는 문제는 <code>Day01AxisMigration</code>이 한 번 보정하며 클릭 영역과 타격 도구 참조도 갱신한다. 열려 있는 씬에 미저장 편집이 있으면 자동 저장하지 않으므로 보정 후 씬을 직접 저장한다.</p>
+<h2>촬영 조작</h2>
+<p>씬을 단독으로 열고 Play를 누른 뒤 Game 뷰에 포커스를 둔다. 기본 시작 공간은 After다.</p>
+<table>
+<thead>
+<tr>
+  <th>입력</th>
+  <th>기능</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>1 / 2 / 3</td>
+  <td>Before / 중간 단계 / After로 즉시 이동</td>
+</tr>
+<tr>
+  <td>마우스 올리기</td>
+  <td>클릭 가능한 나무·바위 강조</td>
+</tr>
+<tr>
+  <td>왼쪽 클릭</td>
+  <td>타격. After에서는 흔들림·섬광·파편·도구 모션·효과음</td>
+</tr>
+<tr>
+  <td>H</td>
+  <td>촬영 안내 숨기기 / 표시</td>
+</tr>
+<tr>
+  <td>P</td>
+  <td>After의 저해상도 픽셀 출력 켜기 / 끄기</td>
+</tr>
+<tr>
+  <td>R</td>
+  <td>타격 반응·파편·효과음 초기화</td>
+</tr>
+</tbody>
+</table>
+<p>카메라 각도·줌과 16:9 비율은 단계마다 동일하다. 다른 화면 비율에서는 여백을 둔다. 1920×1080 Game 뷰를 권장한다. <code>DevlogDay01</code> Inspector의 <code>PixelHeight</code> 기본값은 360이며 화면 크기에 맞는 정수 배율에 가까운 저해상도로 렌더링한다. <code>CameraShake</code>를 끄면 흔들림 없는 비교 컷을 찍을 수 있다. <code>StartStage</code>로 시작 공간을 바꿀 수 있다. <code>P</code>는 화면 해상도만 바꾸며 명암 단계나 팔레트는 유지한다.</p>
+<p>타격 대상은 소모되거나 파괴되지 않는다. 연속 클릭에는 0.24초 간격 제한이 있다. 게임의 경제·채집·전투 상태와 연결되지 않은 반복 촬영용 반응이다. 나무와 바위 이외의 환경 장식은 클릭 대상이 아니다.</p>
+<p>After의 도구는 클릭 순간의 표면 교차점을 목표로 삼는다. 도끼 날 또는 곡괭이 끝이 0.12초 후 해당 점에 닿으며, 그 순간 대상 반응·파편·효과음을 실행한다. 짧게 접촉한 뒤 총 0.30초에 회수한다. 진행 중인 타격을 다른 클릭이 덮어쓰지 않으며, 마우스 이동으로 목표가 바뀌지 않는다. 교차점은 대상 메시의 로컬 좌표로 보관하여 대상이 흔들려도 같은 표면 지점을 따라간다. 단계 전환이나 R은 대기 중 타격도 취소한다.</p>
+<p>접촉 좌표를 피벗 기준 숫자로 추정하지 않는다. Blender의 실제 메시 표면에 광선을 쏘아 도끼 날과 곡괭이 끝에 <code>ImpactPoint</code> 마커를 만들었으며, FBX 안에 함께 저장했다. Unity에서는 대상 모션 갱신 후 LateUpdate에서 도구 전체를 <code>목표점 - ImpactPoint.position</code>만큼 이동한다. 따라서 FBX 축 보정, 중간 부모, 크기를 포함한 실제 날 마커의 월드 위치가 목표점에 맞는다. 도구 모델 교체 시에도 실제 날 표면에 <code>ImpactPoint</code>를 둔다.</p>
+<p>클릭은 Physics.Raycast나 큰 BoxCollider 대신, 에디터에서 저장한 실제 메시 삼각형과 현재 Transform을 사용한다. 화면 여백을 제외한 뷰포트 좌표를 사용하고 픽셀 출력 중에는 표시된 픽셀 중심으로 맞춘다. 나무·바위와 건물·폐허 중 가장 가까운 표면이 판정을 결정하므로 건물 뒤의 자원을 선택하지 않는다. 안내 문구는 비상호작용 표시이므로 해당 화면 영역의 클릭을 차단하지 않는다. 기존 BoxCollider는 클릭 판정에 사용하지 않는다.</p>
+<p><code>Picking</code>의 표면 데이터는 모델별로 공유하며 FBX Read/Write 설정을 변경하지 않는다. 모델 형태를 이후 변경하거나 자원을 추가할 때에는 해당 모델의 표면 데이터를 다시 생성/연결해야 한다. 위치·회전·크기 수정과 타격 모션은 별도 재생성 없이 반영된다.</p>
+<p>파편은 나무/돌 종류별 고정 색 대신, 클릭한 삼각형의 정점 색을 교차점의 무게중심 좌표로 보간한 뒤 해당 재질의 색을 곱해 만든다. 잎은 초록색, 줄기는 갈색, 광석은 해당 결정의 색으로 나온다. 색은 클릭 시점에 저장하므로 도구가 내려오는 동안 마우스를 옮겨도 바뀌지 않는다. 타격 섬광이나 hover 강조색은 섞지 않으며 파편의 조명은 각 파편 면 방향에 따라 적용된다. 기존 클릭 데이터에는 에디터 임포트 시 정점 색이 자동 추가된다.</p>
+<h2>낮·밤과 시야</h2>
+<p>시야 가장자리의 감쇠 폭은 0.85에서 1.8로 확대했다. 바깥 반경은 유지하며 마우스 시야는 중심에서 거리 1.4~3.2, 집 시야는 2.4~4.2 구간에서 서서히 어두워진다. 밤에 기존과 같은 바깥 경계 안쪽으로 그라데이션이 넓어졌는지 확인한다.</p>
+<p><code>N</code> 키로 약 0.5초에 걸쳐 낮·밤을 전환한다. 낮에는 기존 밝기를 유지하고 밤에는 시야 밖의 지형·오브젝트·물·거품을 푸른 어둠으로 낮춘다. 마우스 광선과 바닥 평면의 교차점 위 0.8에 <code>CursorVisionPoint</code>를 배치한다. 마우스 시야 반경은 3.2, 집의 <code>HouseVisionPoint</code> 반경은 4.2이고 집의 시야점도 바닥 위 0.8에 있다. 두 시야는 높이를 포함한 3D 거리로 합쳐진다. 프로토타입처럼 벽에 의한 시야 차폐는 하지 않는다. 마우스가 Game 표시 영역이나 맵 밖으로 나가면 마우스 시야만 사라진다. 집의 금색 창 유리는 밤에 약한 흰색에 가까운 빛으로 발광하고 주변 표면에도 낮은 강도의 빛이 남는다. 블룸 대신 픽셀 색으로 표현한다.</p>
+<p><code>Day01Showcase</code> Inspector의 Vision Height / Cursor Vision Radius / House Vision Radius를 Play 전에 조절할 수 있다. 독립 <code>Afterlife.Devlog.Lighting</code> 표현 모듈에 메인 쇼케이스가 입력과 단계 선택을 전달한다. 단계 전환은 낮·밤 상태를 유지하고 현재 공간으로 집 시야를 옮긴다. 종료 시 전용 셰이더 전역값, 태양과 카메라 배경을 복원하고 임시 시야점을 제거한다.</p>
+<p>확인: Refresh → Play → Game 클릭 → 3 → N. 밤에 집 창이 빛나고 주변이 어두워지는지, 빈 바닥에 마우스를 움직여도 시야가 따라오는지 확인한다. Game 밖으로 마우스를 옮겨도 집 주변 시야는 남아야 한다. 다시 N을 누르면 낮으로 돌아오고 1/2/3 전환 시 현재 공간에 시야가 있어야 한다. 조명·런타임·에디터 C# 빌드는 통과했으며 실제 화면은 직접 확인하지 않았다.</p>
+<h2>굴뚝 연기와 창문 불빛</h2>
+<p>집 주변 고정 시야 반경 4.2는 유지한다. 주변 표면에 더하던 조명 색만 제거하고 금색 창 유리에만 약한 따뜻한 발광을 적용한다. <code>ShowcaseSmoke</code>는 모델 단계와 After의 House의 저장된 클릭 메시를 월드 좌표로 변환한 뒤 최고 높이 면의 고유 정점 중심에 ParticleSystem을 생성한다. 현재 House의 최고 면은 굴뚝 입구이며, 하드코딩된 제작 좌표 대신 실제 FBX 축/회전/크기를 반영한다. 집 모델을 교체해 지붕이 굴뚝보다 높아지면 전용 입구 마커로 바꿔야 한다. Billboard 렌더러의 quad에 3단계 노이즈/왜곡과 원형 가장자리 마스크를 적용한다. 초당 8개의 연기가 올라가며 크기가 퍼지고 수명이 끝날 때 투명해진다. 굴뚝 위 1.1~2.2 높이에서도 투명도를 줄여 윗부분이 자연스럽게 사라진다. R 또는 단계 전환 시 기존 연기를 지우고 다시 방출하며 종료 시 시스템과 임시 머티리얼을 해제한다. Before에는 굴뚝 모델이 없어 연기를 추가하지 않는다.</p>
+<p>확인: Refresh → Play → 3에서 굴뚝의 연기가 위로 올라가며 퍼지고 사라지는지 확인한다. N으로 밤을 켜 창문만 약한 따뜻한 색으로 빛나는지 확인하고, 마우스를 Game 밖으로 옮겨도 집 주변 시야가 남는지 확인한다. C# 모듈 빌드는 확인하며 실제 셰이더 화면은 직접 검증하지 않는다.</p>
+<h2>현관 길과 빌보드 풀</h2>
+<p>레이아웃 버전 7은 길을 남쪽 입구 → 중앙 굽이 → 집 현관 앞 방향으로 바꾼다. 세 단계의 타일 데이터를 갱신하며 길 위 작은 장식은 비활성화한다. 육지 높이와 수면 구성은 유지한다.</p>
+<p>독립 <code>Afterlife.Devlog.Vegetation</code> 모듈은 Process/After의 Grass 타일에만 풀 quad를 배치한다. Perlin 밀도와 고정 시드로 분포·크기를 정하고 건물과 자원 밑은 제외한다. 단계별로 한 메시로 묶고 셰이더에서 카메라 방향의 수직 빌보드로 만든다. quad 안 풀잎 다섯 개는 gradient Perlin 노이즈로 길이·굽힘·가장자리·색이 달라진다. 두 주파수의 Perlin 바람으로 윗변 두 점을 같은 거리만큼 좌우 이동한다. 별도 Perlin 흐름으로 앞뒤 기울임을 만들고, 밑변 중앙은 고정한 채 가상 깊이에 따른 원근 배율로 윗변의 폭과 높이를 바꾼다. 직교 카메라에서도 원근 효과가 보인다. 풀은 낮·밤/시야 조명을 공유하며 클릭 대상은 아니다. 종료 시 생성 메시·머티리얼을 해제한다.</p>
+<p>확인: Play 정지 → Refresh → Play → 3. 현관까지 이어진 길, 풀 타일의 군락, 고정된 밑변과 좌우/앞뒤로 흔들리는 윗부분을 확인한다. P로 픽셀 표현을 끄면 기울임 차이를 더 쉽게 볼 수 있다. N으로 밤의 풀과 시야 감쇠도 확인한다. 코어/식생/런타임/에디터 C# 빌드는 경고·오류 없이 통과했고 실제 화면은 직접 확인하지 않았다.</p>
+<h2>입체 지형과 타일별 장식 변형</h2>
+<p>레이아웃 버전 8은 Process/After의 육지 타일을 4×4 구획의 낮은 굴곡 메시로 교체한다. 모든 타일 테두리는 y=0으로 맞추고 안쪽 높이만 바이옴별로 달리한다. 높이 기준은 흙길 0.018, 모래 0.035, 풀/숲 0.055, 눈 0.085, 암석 0.12이며 형태·정점 변화에 따라 달라진다. 건물/환경 모델이 걸친 타일은 평평한 버전으로 유지한다. Before와 기존 물/5% 해저 구성은 바꾸지 않는다. 블록 바닥은 기존 높이를 유지한다.</p>
+<p><code>ShowcaseTileVariants</code>는 Unity 참조 없는 지형 코어에서 좌표별 고정 시드로 4종 높이 형태, 0/90/180/270도 회전, 바이옴별 장식 유형을 고른다. 암석은 빈 타일·자갈·돌+고사리, 초원은 빈 타일·꽃·자갈·고사리, 숲은 빈 타일·고사리·돌+고사리, 눈/모래는 빈 타일·드문 자갈로 구성한다. 흙길에는 장식을 놓지 않는다. 장식은 <code>TileDecoration_*</code> 자식으로 타일에 종속되며 타일과 함께 회전한다. 기존 FBX를 재사용하고 건물/자원에 겹치는 배치는 제외한다. 기존 BiomeDetails는 비활성 상태로 보존한다.</p>
+<p>색을 잘게 찍던 지형 셰이더 노이즈를 제거하고 절제된 바이옴 색·넓은 정점색 영역·실제 삼각형 면의 명암으로 표현한다. 풀 군락과 자원 밑동도 회전된 타일의 삼각형 표면 높이에 맞춘다. 생성 메시와 머티리얼은 Geometry/Materials에서 유형별로 재사용한다.</p>
+<p>확인: Play 정지 → Refresh → Play → 2/3. 타일 경계에 틈이 없는지, 내부 면의 굴곡과 명암이 보이는지, 같은 바이옴에 빈 타일과 장식 타일이 섞이는지 확인한다. 풀/꽃/돌이 떠 있거나 땅에 깊게 묻히지 않아야 하고 현관 길과 물/해저 높이는 유지돼야 한다. 코어·식생·런타임·에디터 C# 빌드는 경고/오류 없이 통과했으며 실제 화면은 직접 확인하지 않았다.</p>
+<h2>설치와 수명</h2>
+<h3>완성 단계의 일반 클릭 피드백</h3>
+<p>레이아웃 버전 10은 After의 활성 지형·장식 메시에도 표면 클릭 데이터를 연결한다. 자원이 아닌 표면을 클릭하면 교차점에서 크기 0.03의 파편 4개가 표면 바깥으로 짧게 튀고 0.32초 안에 사라진다. 색은 기존처럼 교차 삼각형의 정점색과 해당 서브메시 머티리얼색을 곱해 구하며, 물은 얕은 물의 기본색을 쓴다. 조명/그림자/거품까지 포함한 화면 픽셀을 읽는 방식은 아니다. 도구 모션·화면 흔들림·타격음은 발생하지 않는다. 기존 나무/바위 타격과 눈 파편은 유지하고 도구 타격 중에는 일반 클릭을 추가하지 않는다. Before/Process에는 적용하지 않는다.</p>
+<p>확인: Refresh → Play → 3에서 흙·풀·암석 타일과 집 벽을 클릭해 작은 파편과 색 차이를 확인한다. 지형에 가려진 자원이 선택되지 않는지, 나무/바위의 기존 타격이 유지되는지 확인한다. 런타임/에디터 C# 빌드는 통과했으며 실제 화면은 직접 확인하지 않았다.</p>
+<h3>사용자 제공 풀 PNG</h3>
+<p>현재 기본 풀 실루엣은 사용자 제공 16×16 PNG 네 장을 <code>Resources/GrassSprites/Grass0~3.png</code>에 원본 그대로 저장해 사용한다. 셰이더로 만들던 잎 모양은 제거했다. 각 quad에 한 이미지를 고정 시드로 선택하며, 투명 여백을 제외한 UV와 원본 비율을 사용해 밑부분을 지면에 맞춘다. 에디터 임포터는 Point 필터·Clamp·무압축·mipmap 없음으로 설정한다. PNG 알파로 모양을 정하고 흰 영역은 타일색으로 착색한다. 3단계 명도, 희귀 풀/꽃, 좌우·앞뒤 바람은 유지한다. Refresh → Play → 3에서 네 종류 픽셀 실루엣과 지면 접촉을 확인한다. 식생/에디터 C# 빌드는 통과했고 실제 화면은 직접 검증하지 않았다.</p>
+<p>수면 거품 크기는 <code>Foam pattern size</code> 1.7로 확대했다. 흰 거품은 <code>White foam minimum strength</code> 0.8로 노이즈/해안 거리 감쇠 하한을 올리고 선 폭도 넓혀 선이 완전히 사라지는 구간을 줄였다. 셀 내부의 물 공간은 유지한다. 두 값은 After_OceanDepth 머티리얼에서 조절할 수 있다. Refresh 후 Play → 3에서 큰 거품 무늬와 지속되는 흰 거품 선을 확인한다. 이번 변경은 셰이더/머티리얼 조정이며 실제 GPU 렌더링은 직접 확인하지 않았다.</p>
+<h3>풀 색 일치와 희귀 군락</h3>
+<p>기본 풀의 기준색은 해당 타일의 <code>_BaseColor</code>에서 가져온다. 뿌리는 그 색을 유지하고, 지면 법선과 같은 명암/그림자 계산을 적용한다. Perlin 값 0.42 미만은 0.88배, 0.42~0.58은 1배, 0.58 이상은 1.12배 명도로 분류해 군락의 윗부분에 반영한다. 잎마다 무작위 얼룩을 추가하지 않는다.</p>
+<p>고정 시드로 일반 풀 94%, 1.55배 키의 황갈색 풀 2%, 0.55배 높이의 검은 풀 1%, 같은 높이의 흰 풀 1%, 작은 꽃 2%를 배치한다. 꽃도 billboard quad에 줄기와 다섯 꽃잎을 절차적으로 그리며 기존 타일 꽃 장식은 유지한다. 낮은 풀은 흔들림 폭도 작다. Refresh 후 Play → 3에서 기본 풀 뿌리가 바닥과 자연스럽게 이어지는지, 어두움/기본/밝음 군락과 드문 특이 풀·꽃이 섞이는지 확인한다. 식생/런타임 C# 빌드는 통과했고 실제 화면은 직접 확인하지 않았다.</p>
+<h3>사분면 패턴 제거 — 버전 9</h3>
+<p>이전의 2×2 영역별 정점색 분할을 제거해 모든 지형 정점색을 흰색으로 통일했다. 내부 꼭짓점의 X/Z 위치와 높이를 고정 시드로 불규칙하게 배치하고 삼각형 대각선 방향도 바꾼다. 높이 형태는 16종으로 늘렸으며 테두리 좌표와 높이는 고정한다. 명암 단계 강도도 0.6에서 0.25로 낮춰 넓은 사각형 밴딩을 줄였다. 풀/장식/자원 높이는 새 불규칙 삼각형의 무게중심 보간으로 맞춘다.</p>
+<p>흙길에는 빈 타일과 DirtClods 타일이 섞인다. 흙 덩어리는 기존 Pebbles 메시를 낮게 눌러 흙색 머티리얼로 표현하며 타일 자식으로 배치한다. 기존 생성 장식은 Undo를 지원하는 방식으로 교체해 중복을 방지한다. Refresh → Play → 3에서 사분면 색 분할이 없어졌는지, 불규칙한 면의 명암과 낮은 흙 덩어리가 보이는지 확인한다. 관련 C# 모듈 네 개의 빌드는 경고/오류 없이 통과했으며 실제 화면은 직접 검증하지 않았다.</p>
+<h3>타격 방향 반동</h3>
+<p>기존 크기 변형과 고정 Z축 흔들림을 제거했다. 표면 교차점에서 밑동 중심으로 향하는 수평 방향으로 밀리고 기울어진 뒤 감쇠 진동으로 복귀한다. 중심 바로 위의 타격은 도구의 진행 방향을 사용한다. 나무는 크게 기울고 약하게 이동하며, 바위는 작게 기울고 짧게 밀린다. 원본 크기는 항상 유지하고 R/비활성화 시 원래 위치·회전을 복원한다. Refresh → Play → 3에서 같은 자원의 좌우 표면을 각각 때려 첫 반동 방향이 반대로 바뀌는지, 크기가 변하지 않는지, 반동 후 제자리에 돌아오는지 확인한다.</p>
+<h3>눈 제거 경계와 파편 발생 영역</h3>
+<p>눈 타격의 원형 거리 감쇠에 모델 로컬 좌표의 3D 노이즈 두 주파수를 섞어 경계를 불규칙하게 만든다. 남은 눈이 적으면 원재질 색으로 부드럽게 섞이고 고정된 미세 노이즈 마스크로 잘게 사라진다. CPU와 HLSL에서 같은 정수 해시·보간·감쇠식을 사용해 눈 메시 두께, 화면, 깊이·그림자, 클릭 판정의 경계를 맞춘다. 노이즈는 시간에 따라 변하지 않아 경계가 반짝이지 않는다.</p>
+<p>타격 전 눈 윗면의 삼각형에서 면적 표본을 모으고 타격 후 남은 눈을 비교한다. 실제 눈 감소가 있는 표본만 대상으로 면적×감소량에 비례해 최대 20개의 방출 위치를 선택한다. 이미 벗겨졌거나 영향받지 않은 부위, 눈 덩어리 밑면에서는 방출하지 않는다. 기존 한 점 주위의 임의 위치 생성은 제거했고 눈 파편의 아래 방향 속도와 중력은 유지했다. Refresh → Play → 3에서 경계가 원형으로 잘리지 않는지, 파편이 눈이 털린 표면 범위에서 떨어지는지, 눈 없는 곳을 계속 때려도 눈 파편이 나오지 않는지 확인한다.</p>
+<p>나무와 돌은 각 단계의 로컬 좌표를 <code>ShowcaseBiomeMap</code>에 조회해 바이옴을 판정한다. Play 중 모델 단계와 After의 눈 바이옴에서는 월드 법선이 위를 향하는 면에 눈을 덮고 줄기 옆면과 아랫면은 원색을 유지한다. 공유 머티리얼을 변경하지 않고 오브젝트별 프로퍼티 블록으로 적용한다. 다른 바이옴으로 이동하면 눈 표현도 해제된다. After에서 눈 덮인 자원을 때리면 기존 표면색 파편 9개를 유지하면서 눈 파편 20개를 추가한다. 눈 파편은 더 작고 납작하며 아래 방향 초기 속도와 중력 7.5로 최대 1.05초 동안 우수수 떨어지고, 바닥에 닿으면 0.16초 이내에 사라진다. R/단계 전환/비활성화 시 기존 파편과 함께 정리된다. 눈은 원본을 변형하는 대신 별도 SnowCap 메시로 생성한다. 위를 향하는 면과 콘형 나무의 초록 잎 면을 선택하고, 면을 분할한 뒤 같은 위치의 정점을 공유한다. 공유 법선으로 두께 0.045의 윗면을 만들고 테두리 옆면과 밑면을 연결해 면 사이가 벌어지지 않도록 한다. 원본 메시/FBX는 그대로 유지한다. 타격 지점의 눈 두께를 CPU에서 줄이고 눈/깊이/그림자 셰이더와 클릭 판정에서 완전히 벗겨진 부분을 제외한다. 생성한 눈 메시도 독립적인 클릭 표면으로 등록한다. 클릭 메시에도 같은 변형과 바람을 적용하며 깊이/그림자 패스도 변형을 공유한다. 콘형 Tree1은 정점 팔레트로 잎과 줄기를 구분해 잎 전체를 눈으로 덮는다. 타격 지점은 모델 로컬 좌표로 보관하고 주변 눈 색과 두께를 함께 줄인다. 한 지점의 제거 강도는 타격마다 0.55 증가한다. 한 테이크에 최대 32개 영역을 기억하며 이후 타격은 가장 가까운 기록에 누적한다. R/단계 전환 시 눈이 복원된다.</p>
+<p>레이아웃 버전 4에서는 세 단계의 마지막 돌 하나를 로컬 (-4.6, 0, 4.2)로 옮겨 눈 덮인 나무와 돌을 함께 비교할 수 있게 한다. Before는 눈 표현을 적용하지 않는다. 확인 절차는 Refresh → Play → Game 클릭 → 3이며, 뒤쪽 왼편 눈 타일의 나무/돌을 때릴 때 흰색·옅은 파란색 눈 파편과 원래 재질색 파편이 함께 보여야 한다. 일반 바이옴의 자원에는 눈 덮임과 눈 파편이 없어야 한다.</p>
+<p><code>Day01SceneBuilder</code>는 처음 임포트될 때 씬이 없으면 새 씬을 별도로 생성하고 닫는다. 이미 존재하는 Devlog 씬과 사용자가 열어 둔 씬은 덮어쓰지 않는다. Tools 메뉴와 Build Settings 항목은 추가하지 않는다. <code>.meta</code>는 Unity가 생성한다.</p>
+<p>런타임·에디터는 각각 독립 asmdef다. 이 모듈은 촬영용 Unity 표현 계층이며 게임 로직/전역 서비스에 의존하지 않는다. 게임 프로토타입의 렌더 파이프라인 에셋을 복제해 실행 중에만 사용하고, 비활성화 시 이전 파이프라인을 복구한다. 임시 RenderTexture·파편·파이프라인 인스턴스도 해제한다. 다른 게임 씬과 동시에 Additive 재생하는 용도로 설계하지 않았다.</p>
+<h2>검증과 직접 확인</h2>
+<p>바이옴 배치는 Unity 참조가 없는 <code>Afterlife.Devlog.Terrain</code> 코어 모듈이다. 코어·런타임·에디터 모듈을 각각 <code>dotnet build --no-restore</code>로 컴파일했고 경고 0개, 오류 0개였다.</p>
+<p>House 지붕 네 면의 winding을 바로잡았다. Blender 원본과 House FBX를 갱신했고 <code>tools/art/build_world.py</code>의 roof 생성 함수도 수정해 재생성 시 문제가 반복되지 않게 했다. 원본 House를 공유하는 프로토타입에도 지붕 수정이 반영된다.</p>
+<p>저장소 AGENTS.md 규칙에 따라 Unity EditMode/PlayMode 테스트와 플레이 스모크 테스트는 실행하지 않았다. 셰이더의 실제 렌더링, 화면 구도, 효과음과 타격 재생은 아래 순서로 직접 확인해야 한다.</p>
+<ol>
+<li>씬을 단독으로 열고 Play → 집 지붕의 겉면과 12×10 바이옴 격자를 확인한다. After의 육지는 두께 0.8의 블록, 물은 높이 0.04의 해저 위에 0.36 높이로 쌓여 합계 0.4여야 한다. Before/중간 단계는 기존 얇은 바닥을 유지해야 한다.</li>
+<li>1 → 2 → 3을 눌러 같은 구도의 primitive → 모델 → 픽셀 화면으로 전환되는지 확인한다.</li>
+<li>After에서 앞쪽 바위와 양옆 나무의 보이는 표면에 마우스를 올리고 클릭한다. 대상 강조, 타격 섬광·흔들림·파편·도구와 소리가 나오고 자원은 남아 있어야 한다. 빈 공간, 수면, 집 지붕을 클릭하면 뒤쪽 자원은 반응하지 않아야 한다.</li>
+<li>H로 안내를 숨기고 P로 픽셀 크기 차이를 비교한다. 화면 구도와 클릭 위치는 유지되어야 한다.</li>
+<li>R 또는 단계 전환 직후 진행 중인 타격 반응이 정리되는지 확인한다. 재생 종료 후 일반 게임 씬을 열었을 때 기존 렌더 설정이 유지되어야 한다.</li>
+<li>After에서 나무와 바위의 서로 다른 높이/좌우 표면을 클릭한다. 도끼 날/곡괭이 끝과 파편 시작점이 클릭한 교차점에서 만나야 한다. 클릭 직후 마우스를 다른 곳으로 옮겨도 최초 목표를 때려야 한다.</li>
+<li>나뭇잎과 줄기, 일반 돌과 수정 부분을 각각 때려 파편의 색이 클릭한 부분의 색에 따라 바뀌는지 확인한다.</li>
+<li>After 바다에서 흰 거품 위층과 하늘색 거품 아래층, 물 아래 해저·자갈을 확인한다. 거품은 보로노이 셀에 연속 노이즈 왜곡을 적용하며 각 층의 시드(17.3 / 83.7)와 이동 방향이 달라 독립적으로 움직여야 한다. 얕은 물 불투명도는 0.60, 깊은 물은 0.95로 이전보다 덜 비치고, 깊을수록 어두워져야 한다. P를 켜고 꺼도 깊이와 해저의 위치가 일치하고, 물끼리의 경계에 어두운 겹침 줄이나 해안 거품이 생기지 않아야 한다. 거품 두 층은 별도 메시가 아닌 수면 셰이더 안에서 하늘색 → 흰색 순으로 합성한다. 머티리얼의 Lower foam / Surface foam 색과 Blue foam seed / White foam seed로 각각 조정할 수 있다.</li>
+</ol>
+<h2>눈 두께·해변 배치 추가 확인</h2>
+<p>레이아웃 버전 5는 모래/물 위의 나무를 자원과 간격을 둔 가까운 초원·숲·눈 타일로 옮긴다. 세 단계에 같은 규칙을 적용한다. 물의 육지 접촉 가장자리에는 거품과 별개로 밝은 하늘색 선을 합성한다.</p>
+<p>Refresh 후 Play → Game 클릭 → 3에서 눈 구역의 콘형 나무 잎 전체가 흰색인지, 돌/나무의 같은 부위를 두 번 때리면 그 주변 눈이 줄고 다른 부위는 남는지 확인한다. R로 눈이 복원되어야 한다. 물과 육지 경계에는 밝은 선이 있어야 하고 물끼리 경계에는 없어야 한다. 모래 타일 위에 나무가 남지 않아야 한다. 셰이더 시각 결과는 에디터 테스트 금지 규칙에 따라 직접 확인하지 않았다.</p>
+<p>레이아웃 버전 6은 기존 해저/수면 메시를 5%+45% 구성으로 갱신한다. Refresh 후 After 옆면에서 해저와 물이 겹치지 않는지 확인하고, N으로 밤을 켜 집 창문과 주변 빛이 이전보다 약하고 흰색에 가까운지 확인한다. C# 에디터 빌드는 경고/오류 없이 통과했고 실제 화면은 직접 확인하지 않았다.</p>
+<p>눈 표현 변경 확인: Refresh → Play → 3에서 눈 없는 줄기 옆면은 유지되고 눈 덮인 면만 부푸는지 확인한다. 눈을 때리면 기존 재질 파편 9개는 그대로 튀고 눈 조각 20개는 좁게 흩어져 아래로 떨어져야 한다. 같은 부위 반복 타격 시 눈 색과 두께가 함께 줄고 R로 복원되어야 한다. 런타임/에디터 C# 빌드 경고 0, 오류 0. 실제 GPU 셰이더 화면은 직접 검증하지 않았다.</p>
+<p>별도 눈 메시 확인: Refresh → Play → 3에서 SnowCap 자식 메시가 생성되고 나무/돌의 원본 형태는 유지되는지 확인한다. 눈의 면 경계와 테두리에 틈이 없는지, 같은 부위를 두 번 때리면 원래 재질이 드러나는지, R로 눈 덩어리가 복원되는지 확인한다. 아래로 떨어지는 눈 파편은 이번 변경에서 수정하지 않았다. 생성 메시·머티리얼·클릭 데이터는 오브젝트 파괴 시 해제한다.</p>
+<p>풀 표현 변경: 한 quad에 다섯 잎을 그리던 묶음을 제거하고, quad 하나당 매끈한 2D 풀잎 실루엣 하나만 표현한다. 외부 이미지 텍스처 대신 셰이더 알파 마스크로 그린 단일 잎이다. 타일당 7×7 후보에서 고정 시드/Perlin 밀도로 고르고 개별 폭·높이·굽힘·바람 위상을 다르게 적용한다. 세 단계 명도와 드문 특이 풀·꽃은 유지한다. Refresh → Play → 3에서 판 모양의 묶음 대신 개별 풀잎이 보이는지 확인한다. 식생 C# 빌드는 통과했고 실제 화면은 직접 확인하지 않았다.</p>
+<h2>육지 바이옴 경계 혼합 (LayoutVersion 11)</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>타일 전체가 공유하는 노이즈 좌표장과 육지 색상 혼합 구현</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>After 윗면에 적용하고 실제 높낮이, 그림자, 물과 블록 옆면 유지</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>경계의 풀 색상과 클릭 파편 색상을 동일한 색상 맵에서 조회</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>Terrain / Vegetation / Day01 / Editor 관련 프로젝트 빌드 확인</li>
+</ul>
+<p>기존에는 각 타일의 단색 재질과 격자선이 바이옴 경계를 직선으로 강조했다. 이제 After 육지 윗면은 <code>AfterBiomeBlend.asset</code> 색상 맵을 공유한다. 타일당 32픽셀, Point 샘플링으로 작은 픽셀 덩어리 형태의 전환을 만들고, 서로 다른 두 크기의 고정 시드 노이즈로 경계를 일그러뜨린다. 기본 혼합 폭은 약 0.6타일이며 타일 중심의 원래 색은 유지한다. 물은 혼합 가중치에서 제외한다. 색상 맵에는 명암을 굽지 않으며 기존 메시 굴곡과 조명이 실제 그림자를 만든다.</p>
+<p>색상 맵은 현재 고정된 After 배치의 월드 위치를 기준으로 생성한다. After 전체를 이동할 경우 <code>AfterBlendedTerrain</code> 재질의 <code>Terrain map origin and size</code>도 함께 갱신해야 한다. Before/Process는 이전 표현을 유지한다. 기존 장식과 풀의 배치 위치는 유지하고 풀 색상만 혼합 지면에 맞춘다.</p>
+<p>검증: 관련 4개 C# 프로젝트 빌드 성공(경고/오류 0). Unity 실행 및 GPU 셰이더 검증은 수행하지 않았다. Play 중지 → Assets &gt; Refresh → 컴파일/씬 마이그레이션 완료 후 Play → 3번 키로 After 확인. 풀/흙, 풀/눈, 암석/모래 경계가 불규칙하게 이어지고, 육지 격자선은 사라지며 높낮이 그림자는 남는지 확인한다. 경계 양쪽을 클릭하면 해당 지면의 혼합 색상으로 파편이 생성되어야 한다.</p>
+<h2>선택한 돌 효과음 연결</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>선택한 WAV 두 개를 Resources/DevlogAudio에 원본 그대로 복사</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>돌 타격에는 dropping_rocks_impact_12, 파괴에는 dropping_rocks_debris_03 연결</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>After 돌을 4회 타격하면 숨기고 파편 24개 생성, R로 돌/눈/타격 횟수 복구</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>관련 런타임 C# 빌드 통과(경고/오류 0)</li>
+</ul>
+<p>기존에는 모든 돌 타격에서 09C를 재생했고 파괴 상태가 없었다. 이제 일반 타격은 선택한 impact, After의 4번째 타격은 debris를 대신 재생한다. 돌은 피치 1, 재생 볼륨 배율 0.65로 고정하여 후보 소리를 비교한다. 나무의 기존 소리는 유지한다. 촬영용 파괴는 실제 게임의 자원 보상/채굴 상태에 영향을 주지 않는다. R 또는 단계 전환은 재생 중인 효과음을 중지하고 돌을 복구한다.</p>
+<p>직접 확인: Play 중지 → Assets &gt; Refresh → Play → 3번 키 → 같은 돌을 4회 클릭. 1~3회는 짧은 타격음, 4회는 덜그럭 소리와 함께 돌이 사라지고 파편이 늘어나야 한다. R을 누르면 돌이 다시 나타나 반복 비교할 수 있다. 에디터 실행 및 청취 검증은 수행하지 않았다.</p>
+<h2>돌 타격음 4종 순환</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>stones_falling_impact_12/13/14/15 원본 WAV 복사</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>일반 돌 타격 시 12 → 13 → 14 → 15 반복 재생</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>기존 파괴음 유지 및 R/단계 전환 시 순환 인덱스 초기화</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>런타임 C# 빌드 통과(경고/오류 0)</li>
+</ul>
+<p>일반 돌 타격의 dropping_rocks_impact_12 단일 재생을 선택한 stones_falling 4종 순환으로 교체했다. 순서는 돌 사이에 공유되며 나무 타격과 돌 파괴는 순환 인덱스를 소비하지 않는다. 돌 효과음 피치 1과 볼륨 배율 0.65는 유지한다.</p>
+<p>직접 확인: Play 중지 → Assets &gt; Refresh → Play → 3번 키. 한 돌에서 3회 타격 후 다른 돌을 때리면 12/13/14/15를 모두 비교할 수 있다. 같은 돌의 4번째 타격은 기존 debris 파괴음이다. R은 돌을 복구하고 다음 타격음을 12로 되돌린다. 실제 청취 검증은 수행하지 않았다.</p>
+<h2>돌 타격음 후보 교체 (2종)</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>추천 후보 10_dropping_rocks_impact_17 / 11_dropping_rocks_impact_15 WAV 복사</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>기존 4종 목록을 첨부 순서의 2종 교대 재생으로 교체</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>런타임 C# 빌드 확인</li>
+</ul>
+<p>일반 돌 타격은 17 → 15 → 17 → 15 순서로 재생한다. 파괴음, 피치 1, 볼륨 배율 0.65는 유지한다. R 또는 단계 전환 시 17부터 다시 시작한다. 기존 후보 파일은 보존하지만 재생 목록에서 제외했다.
+직접 확인: Play 중지 → Assets &gt; Refresh → Play → 3번 키에서 돌을 연속 타격하면 두 소리가 번갈아 나와야 한다. 같은 돌의 4번째 타격은 기존 파괴음이다. 실제 청취 검증은 수행하지 않았다.</p>
+<h2>나무 쓰러짐 효과음 적용</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>선택한 02_tree_fall_short.wav를 Resources에 복사하고 파괴음으로 연결</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>After 나무는 4번째 타격에서 맞은 반대 방향으로 넘어지고 재타격 차단</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>R로 회전/표시/횟수 복구, 관련 런타임 빌드 확인</li>
+</ul>
+<p>기존 나무는 계속 흔들리기만 했다. 이제 4번째 타격에 2.94초 효과음을 피치 1, 볼륨 배율 0.65로 재생한다. 넘어지는 회전은 1.1초 동안 가속하며 88도까지 진행하고, 2.94초 뒤 모델을 숨긴다. 기존 일반 도끼 타격음과 돌 효과음은 유지한다. 촬영용 회전이며 지형/주변 오브젝트 충돌 시뮬레이션은 하지 않는다.</p>
+<p>직접 확인: Play 중지 → Assets &gt; Refresh → Play → 3번 키에서 같은 나무를 4회 타격. 마지막 타격에 나무가 반대 방향으로 쓰러지며 선택한 소리가 재생되고, R로 다시 서야 한다. 실제 Unity 실행/청취는 수행하지 않았다.</p>
+<h2>나무 쓰러짐 음원 후처리 적용</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>잡음 억제, 약 -1.51반음, 고음 완화 및 약한 저역 보강</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>처리본을 Resources에 복사하고 나무 쓰러짐 재생 경로 교체</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>모델 숨김 시점을 실제 AudioClip 길이(약 3.208초)에 연결</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>관련 런타임 빌드 확인</li>
+</ul>
+<p>원본 WAV/기존 선택본은 보존한다. 처리 설정/비교 음원은 res/audio/tree-fall-analysis에 있다. 게임 내 재생 피치는 1로 유지하여 이중 피치 변경을 방지했다. 일반 도끼 타격과 돌 효과음은 유지한다.
+직접 확인: Play 중지 → Assets &gt; Refresh → Play → 3번 키 → 나무 4회 타격. 처리된 쓰러짐 소리가 재생되고 약 3.21초 뒤 모델이 숨겨져야 한다. R로 반복 가능. 직접 Unity 실행과 청취 검증은 수행하지 않았다.</p>
+<h2>나무 쓰러짐 소리 재편집 적용</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>짧은 파열 후보와 잔향 없는 합성 저역 착지음 제작</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>1.1초 착지 타이밍에 맞춰 배치하고 1.50초 WAV를 게임에 연결</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>런타임 빌드 성공(경고/오류 0)</li>
+</ul>
+<p>이전 3.21초 후처리본 대신 03_tree_fall_clean_crack_thud를 재생한다. 파열 후보 약 0.35초 후 1.1초 지점에서 짧은 착지음이 나고 1.5초에 모델을 숨긴다. Play 중지 → Assets &gt; Refresh → Play → 3번 키 → 나무 4회 타격으로 확인한다. R로 반복 가능. 실제 청취/Unity 실행 검증은 하지 않았다.</p>
+<h2>착지음 제거 및 원본 구간 확장</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>합성 쿵 제거, 원본 사용 구간 0.72~1.04초에서 0.72~1.36초로 확장</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>기존 피치/대역 필터 유지하여 쓰러짐 소리 약 0.35초 → 0.70초</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>04_tree_fall_extended_no_thud.wav 게임 연결, 런타임 빌드 통과(경고/오류 0)</li>
+</ul>
+<p>전체 이전 파일의 무음/착지음을 늘린 것이 아니라 원본 쓰러짐 구간을 두 배 사용했다. 넘어짐 모션이 중간에 사라지지 않도록 모델 숨김은 최소 1.3초로 보장한다. 제작 스크립트: Tools/Audio/build_extended_tree_fall.py. 이전 후보들은 보존했다.
+직접 확인: Play 중지 → Assets &gt; Refresh → Play → After 나무 4회 타격. 합성 착지음 없이 길어진 원본 소리가 나오고 모션이 완료되어야 한다. 실제 청취/Unity 실행 검증은 수행하지 않았다.</p>
+<p>쓰러짐 소리 길이를 정확히 1.00초(44,100 샘플)로 확장했다. 기존 피치와 필터, 합성 착지음 제외는 유지한다. 같은 리소스 파일을 교체해 게임에 반영한다. Assets &gt; Refresh 후 After 나무를 4회 타격하여 확인한다.</p>
+<h2>공유마당 나무 쓰러짐 음원 사용</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>사용자 ZIP의 MP3를 원본 보관 폴더와 Resources에 그대로 복사</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>나무 쓰러짐 재생 경로를 gongu_13220749_tree_fall로 교체</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>docs/audio-credits.md를 사용 중으로 갱신, 관련 C# 빌드 확인</li>
+</ul>
+<p>후처리 없이 원본 재생(피치 1, 볼륨 배율 0.65). 모델 숨김은 실제 임포트된 클립 길이를 따른다. 공개 시 게임 크레딧/영상 설명란에 CC BY 출처 표기가 필요하다.
+직접 확인: Play 중지 → Assets &gt; Refresh → 임포트 완료 → Play → 3번 키에서 나무 4회 타격. 마지막 타격에 공유마당 원본 소리가 재생되어야 한다. R로 반복 가능. Unity 실행과 실제 청취 검증은 수행하지 않았다.</p>
+<h2>파괴 후 제거 연출 비교</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>독립 Afterlife.Devlog.Destruction 어셈블리에 조각 운동/제거 효과 분리</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>나무는 넘어짐 후 가라앉기 또는 디졸브</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>돌은 기존 메시로 만든 작은 덩어리 6개가 튀고 구른 뒤 가라앉기 또는 디졸브</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>화면 Sink / Dissolve 버튼 및 선택 시 자동 리셋, 안내 UI 클릭의 월드 타격 차단</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>Destruction / Day01 / Editor 빌드 성공(경고/오류 0)</li>
+</ul>
+<p>이전에는 파괴한 돌을 즉시 숨기고 나무는 음원 길이 이후 즉시 숨겼다. 이제 After에서 4회 타격하면 나무는 1.1초 동안 넘어진 후 1.65초부터 1.15초 동안 제거된다. 돌은 6개 소형 덩어리로 대체되고 1.5초 동안 튀고 구른 뒤 1.15초 동안 제거된다. 기존 소형 파편/효과음도 유지한다. 소리 길이와 제거 타이밍은 분리되어 음원이 끝날 때까지 모델을 계속 남기지는 않는다.</p>
+<p>Sink는 실제 위치를 아래로 움직이고 지면 아래 부분을 클립한다. Dissolve는 오브젝트 좌표의 고정된 작은 노이즈 셀을 점진적으로 제거한다. 표면/깊이/그림자 패스가 같은 제거 함수를 사용한다. R, 단계 전환, 효과 선택, 비활성화 시 생성 조각을 정리하고 원본 렌더러/위치/재질 속성을 복구한다. 지면 높이는 기존 타일 높이 함수를 주입한다.</p>
+<p>작은 바위는 기존 원본 메시를 축소한 6개 덩어리이며 실제 절단면을 생성하는 메시 파쇄는 아니다. 운동은 촬영용 중력/반발/마찰 계산이며 다른 자원/집/조각과 충돌하지 않는다. 지면 높이 근사에 따라 굴곡이나 회전 중 약간의 틈/겹침이 있을 수 있다.</p>
+<p>직접 검증 절차: Play 중지 → Assets &gt; Refresh → 컴파일 완료 → Play → 3번 키. 좌측 상단 Sink + reset / Dissolve + reset 버튼으로 선택한다(선택 시 나무/돌 복구). 나무와 돌을 각각 4회 때려 두 효과를 비교한다. R로 같은 모드를 다시 촬영하고 H로 안내를 감추거나 다시 표시한다. 나무 넘어짐, 돌 6개 굴림, 두 제거 방식, 제거 후 그림자 잔류 여부, R 복구와 반복 시 조각 누적 여부를 확인한다. Unity 실행/셰이더 컴파일/시각 검증은 수행하지 않았다.</p>
+<h2>해안 모서리 비교</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>독립 Shoreline 어셈블리에 물 영역 거리 기반 모서리 가공 추가</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>After에서 Square / Bevel / Rounded 실시간 선택 UI 연결</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>실제 메시와 클릭용 삼각형 동시 갱신, 타일 장식 높이 보정, 종료 시 원본 복원</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>Shoreline / Day01 / Editor 관련 C# 빌드 확인</li>
+</ul>
+<p>물과 인접한 육지(대각선 포함)의 윗모서리만 폭/깊이 최대 0.22만큼 가공한다. Square는 원본, Bevel은 사선, Rounded는 원호 단면이다. 기존 삼각형을 8분할해 원래 굴곡을 유지하면서 실제 정점을 이동한다. 모서리는 타일 회전과 무관하게 동일한 스테이지 좌표에서 물 타일 영역까지 거리를 계산해 연결한다. 블록 바닥 -0.8, 수면 -0.4, 물 레이어 구조는 유지한다. 물가 전체의 평면 윤곽을 곡선으로 재배치하는 기능은 아니며 육지 윗모서리의 단면을 깎는다.</p>
+<p>효과는 런타임 비교용이고 기본값은 Square다. 선택은 R 리셋/단계 전환 동안 유지되지만 Play 종료 시 원본으로 돌아간다. 제작된 메시/클릭 데이터는 캐시하고 Dispose에서 원본 복원 및 정리한다. 지형 종속 장식도 같은 오프셋으로 낮춘다.</p>
+<p>직접 확인: Play 중지 → Assets &gt; Refresh → Play → 3번 키. 상단 Coast: Square / Bevel / Rounded 버튼을 눌러 물가 윗모서리와 실제 조명/그림자를 비교한다. H로 안내를 숨기거나 표시할 수 있다. 깎인 경계를 클릭했을 때 파편 위치가 보이는 표면과 일치하는지, 타일 연결부에 틈이 없는지도 확인한다. Unity 실행/시각 검증은 수행하지 않았다.</p>
+<h2>숲 전용 풀과 장식 (LayoutVersion 12)</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>After Forest 타일에도 기존 PNG 빌보드 풀 배치</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>실제 숲 지면 색(경계 혼합 포함)으로 기본 풀 뿌리색 설정</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>숲 전용 키 큰 청록풀 8%, 낮은 이끼빛 풀 6%, 자줏빛 끝 풀 3% 추가</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>기존 Fern/FallenLog 모델을 숲 전용 색상과 작은 크기로 배치, 클릭 표면 연결</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>Vegetation / Day01 / Editor 빌드 성공(경고/오류 0)</li>
+</ul>
+<p>일반 풀은 기존의 3단계 Perlin 명암과 바람/PNG 실루엣을 유지한다. 숲은 약간 더 조밀한 분포를 사용하고 별도 시드로 기존 초원 풀 배치를 바꾸지 않는다. 새 숲 변종은 After의 Forest에서만 생성한다. 장식은 건물/자원/기존 타일 장식 근처를 피하고 공간이 있는 숲 타일에 작은 통나무 또는 짙은 고사리를 추가한다. 모델링은 새로 하지 않는다. Before/Process는 유지한다.</p>
+<p>직접 확인: Play 중지 → Assets &gt; Refresh → 마이그레이션/컴파일 완료 → Play → 3번 키. 짙은 숲 바닥에도 같은 계열의 풀이 보이고 일부 키/색이 다른 풀이 섞여야 한다. 숲 전용 고사리와 작은 통나무, 건물/자원 간격과 클릭 파편도 확인한다. 실제 Unity 실행 및 GPU 셰이더 검증은 수행하지 않았다.</p>
+<h2>3D Perlin 디졸브</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>셀별 랜덤 제거를 실제 기울기 보간 3D Perlin 노이즈로 교체</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>큰 노이즈 80% + 약 2배 주파수 세부 노이즈 20% 혼합</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>원본 오브젝트 정점 좌표를 전달해 이동/회전/바람에도 패턴 고정</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>표면/깊이/그림자에 공통 마스크 적용, 관련 C# 빌드 확인</li>
+</ul>
+<p>ShowcaseDissolve.hlsl에서 8개 격자 꼭짓점의 기울기 내적과 5차 보간으로 연속 노이즈를 만든다. 디졸브 진행값을 임계값으로 올려 연결된 덩어리가 점차 제거된다. 재질의 Dissolve Perlin scale 기본값은 3.5이며 값이 작을수록 큰 덩어리다. 기존 Sink와 제거 시간, R 복구는 유지한다.</p>
+<p>직접 확인: Play 중지 → Assets &gt; Refresh → Play → 3번 키 → Dissolve + reset 선택 → 나무/바위 각각 4회 타격. 작은 사각 셀 대신 유기적인 노이즈 영역이 깎여 나가고 그림자도 함께 사라져야 한다. C# 빌드는 셰이더 컴파일을 검증하지 않으며 Unity/GPU 시각 검증은 수행하지 않았다.</p>
+<h2>해안 면처리 단면 틈 수정</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>윗면 32구간/옆면 8구간의 비일치 경계 원인 확인</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>변형된 윗면 위치 용접 및 공유 간선 집계로 실제 외곽 추출</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>같은 외곽 정점으로 옆면과 바닥 팬 생성, Bevel/Rounded 공통 적용</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>Shoreline / Day01 C# 빌드 확인</li>
+</ul>
+<p>이전 구현은 원본 윗면과 옆면을 각각 8분할했지만 원본 윗면의 경계는 이미 4분할되어 있어 모서리 변형 뒤 두 경계가 일치하지 않았다. 이제 옆면을 따로 변형하지 않고 완성된 윗면 외곽과 직접 연결한다. 외곽을 따라 바닥도 닫아 물에 투과되는 단면과 그림자가 같은 닫힌 형상을 사용한다. 클릭용 메시도 생성 결과를 그대로 따른다.</p>
+<p>직접 확인: Play 중지 → Assets &gt; Refresh → Play → 3번 키 → Coast: Bevel/Rounded 각각 선택. 해안 모서리와 옆면 사이에 보이던 틈이 없어야 하고, 특히 대각선 물 타일 부근 코너와 물 아래 단면을 확인한다. 실제 Unity 시각 검증은 수행하지 않았다.</p>
+<h2>타일별 마우스 호버 효과</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>After에서 가장 가까운 실제 지형 윗면을 호버할 때 바이옴별 효과 생성</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>풀/숲: 방사형 기울기 또는 감쇠 흔들림 선택 UI</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>흙: 낮게 떠오르며 사라지는 소량의 ParticleSystem 먼지</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>모래/눈: 얕은 홈과 가장자리 융기, 약 3.5초 복원</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>물: 과거 커서 위치에서 퍼지는 동심원, 약 2초 감쇠</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>독립 Hover 어셈블리 및 해안 전환/리셋/해제 처리, 관련 4개 C# 빌드 성공</li>
+</ul>
+<p>풀 반응은 상단 Grass: Radial bend / Grass: Sway + recover 버튼으로 선택한다. Radial은 커서 중심 약 0.7 반경에서 뿌리를 고정한 채 바깥으로 기울고 커서가 떠나면 복귀한다. Sway는 이동한 커서 위치 주변에 감쇠 진동을 더하며 멈추면 약 1.2초 안에 평소 바람으로 돌아간다. 초원/숲 모두 동일하게 적용한다.</p>
+<p>모래/눈은 깊이 최대 약 0.09, 가장자리 높이 약 0.018의 실제 정점 변위를 사용한다. 원본 지형을 보존한 런타임 세분 메시를 사용하며 깊이/그림자 패스도 동일하게 변형한다. CPU 레이캐스트에 같은 높이 함수를 주입해 클릭 표면을 맞춘다. 다른 바이옴 경계에는 감쇠 마스크를 적용해 틈을 방지한다. 이는 지형 모델만 변형하며 위에 놓인 장식/자원은 매 프레임 따라 내려가지 않는다.</p>
+<p>흙먼지는 이동 없이 호버해도 0.1초마다 2개씩 소량 생성하며 입자는 약 0.65초 지속된다. 물은 커서 이동 또는 약 0.32초 간격으로 위치를 기록하고 그 위치에서 동심원을 확장한다. 수면 색/불투명도를 변화시키는 물결이며 수면 높이를 변형하지 않는다. 암석은 효과 없음. 자원/집/장식이 지형을 가리면 뒤 지형의 효과를 발생시키지 않는다.</p>
+<p>최근 위치는 고정 크기 32개 기록을 재사용하므로 매우 빠르고 긴 이동에서는 가장 오래된 흔적부터 교체된다. UI 영역/게임 밖에서는 새 효과를 멈춘다. R, 단계 전환, 풀 모드 전환은 흔적과 먼지를 지운다. 해안 모드 전환은 변형 메시와 클릭 데이터를 안전하게 복구/재연결한다. 종료 시 생성 메시/재질/텍스처/파티클과 셰이더 전역 상태를 정리한다.</p>
+<p>직접 확인: Play 중지 → Assets &gt; Refresh → 컴파일 완료 → Play → 3번 키. 두 Grass 버튼을 번갈아 눌러 초원과 숲을 쓸어보고, 흙의 먼지/모래·눈의 홈과 복원/물의 확장하는 원을 확인한다. 물결이 커서를 따라 끌려가지 않고 지난 위치에 남는지, 홈 위 클릭 파편 위치, R 복구, 해안 세 모드와 조합했을 때 틈이 없는지도 확인한다. C# 빌드는 성공했지만 Unity 실행 및 GPU 셰이더 컴파일/화면 검증은 수행하지 않았다.</p>
+</section><section id="doc-15" class="document"><div class="section-label">README.md</div><h1>Devlog 제작 관리</h1>
+<p>게임의 매력을 짧은 영상으로 보여주고 관심 있는 사람들을 모으는 것이 목표다. Day01은 같은 작은 맵이 기본 도형에서 3D 픽셀 환경으로 바뀌는 과정과 직접 만지는 반응을 보여준다.</p>
+<p><a href="index.html">관리 화면</a>을 열면 목표, 진행 현황, 기능, 모듈, 촬영 계획을 한 페이지에서 볼 수 있다. 내용 원본은 이 폴더의 Markdown이며 HTML은 생성 결과다.</p>
+<h2>읽는 순서</h2>
+<ol>
+<li><a href="#doc-0">현재 상태</a>: 완료와 미검증, 다음 작업</li>
+<li><a href="#doc-1">Day01 목표와 촬영</a>: 확정 범위와 다음 단계 제안</li>
+<li><a href="#doc-2">기능 목록</a>: 지금 구현한 표현과 조작법</li>
+<li><a href="#doc-3">모듈 안내</a>: 책임, 의존성, 재사용 방법</li>
+<li><a href="#doc-4">에셋과 프리팹</a>: 편집 위치와 리소스 흐름</li>
+<li><a href="#doc-6">검증 방법</a>: 빌드 증거와 사용자 확인 항목</li>
+</ol>
+<h2>갱신 방법</h2>
+<p>프로젝트 루트에서 <code>python devlog/tools/render_dashboard.py</code>를 실행한다. 변경한 기능 문서와 status.md를 먼저 고치고 HTML을 다시 만든다. HTML에서 직접 편집한 내용은 다음 생성 때 보존되지 않는다.</p>
+<p>새 에피소드는 day-02처럼 추가한다. 재사용 코드는 Unity Modules에, 에피소드 배치와 입력 조합은 Day02에 둔다. 공통 모듈을 복사해서 따로 고치지 않는다.</p>
+</section><footer>Markdown 원본 → HTML 생성 · 오프라인 문서 · 공개/배포되지 않은 내부 제작 기록</footer></main><script>
+const input=document.querySelector('#search'), docs=[...document.querySelectorAll('.document')];input.addEventListener('input',()=>{const q=input.value.trim().toLowerCase();docs.forEach(d=>d.hidden=q&&!d.textContent.toLowerCase().includes(q));document.querySelector('#count').textContent=q?`${docs.filter(d=>!d.hidden).length}개 문서` : '';});document.querySelectorAll('a[href^="#doc-"]').forEach(a=>a.addEventListener('click',()=>{input.value='';docs.forEach(d=>d.hidden=false);document.querySelector('#count').textContent='';}));
+</script></html>

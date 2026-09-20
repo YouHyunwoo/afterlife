@@ -1,0 +1,14 @@
+{
+  "checked_serialized_assets": 305,
+  "unresolved_asset_guids": [],
+  "package_references_resolved": {
+    "a79441f348de89743a2939f4d699eac1": "impls\\unity\\Afterlife\\Library\\PackageCache\\com.unity.render-pipelines.universal@a1907d43fdff\\Runtime\\UniversalAdditionalCameraData.cs.meta",
+    "de640fe3d0db1804a85f9fc8f5cadab6": "impls\\unity\\Afterlife\\Library\\PackageCache\\com.unity.render-pipelines.universal@a1907d43fdff\\Runtime\\UniversalRendererData.cs.meta",
+    "f9ee4ed84c1d10c49aabb9b210b0fc44": "impls\\unity\\Afterlife\\Library\\PackageCache\\com.unity.render-pipelines.universal@a1907d43fdff\\Textures\\BayerMatrix.png.meta",
+    "e3d24661c1e055f45a7560c033dbb837": "impls\\unity\\Afterlife\\Library\\PackageCache\\com.unity.render-pipelines.universal@a1907d43fdff\\Textures\\BlueNoise64\\L\\LDR_LLL1_0.png.meta",
+    "cf852408f2e174538bcd9b7fda1c5ae7": "impls\\unity\\Afterlife\\Library\\PackageCache\\com.unity.render-pipelines.universal@a1907d43fdff\\Shaders\\Debug\\DebugReplacement.shader.meta",
+    "573620ae32aec764abd4d728906d2587": "impls\\unity\\Afterlife\\Library\\PackageCache\\com.unity.render-pipelines.universal@a1907d43fdff\\Shaders\\Debug\\HDRDebugView.shader.meta",
+    "53626a513ea68ce47b59dc1299fe3959": "impls\\unity\\Afterlife\\Library\\PackageCache\\com.unity.render-pipelines.universal@a1907d43fdff\\Shaders\\Debug\\ProbeVolumeSamplingDebugPositionNormal.compute.meta",
+    "bf2edee5c58d82540a51f03df9d42094": "impls\\unity\\Afterlife\\Library\\PackageCache\\com.unity.render-pipelines.universal@a1907d43fdff\\Runtime\\Data\\UniversalRenderPipelineAsset.cs.meta"
+  }
+}

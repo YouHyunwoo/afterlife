@@ -1,0 +1,46 @@
+# 모듈 안내
+
+## 의존성 방향
+
+Day01은 입력·카메라·촬영 UI와 모듈 조합을 담당한다. 공용 모듈은 Day01 어셈블리를 참조하지 않는다. 기존 MonoBehaviour 직렬화 참조를 보존하기 위해 일부 네임스페이스의 Day01 표기는 유지했다. 폴더명만으로 재사용 가능성을 판단하지 않고 asmdef 참조를 기준으로 본다.
+
+|모듈|책임|Devlog 내부 의존성|
+|---|---|---|
+|Contracts|IPickTarget, ISnowTarget 최소 계약|없음|
+|Terrain|바이옴·타일 변형·색 혼합 규칙, 순수 C#|없음, noEngineReferences|
+|Interaction|삼각형 선택, 표면 색, 런타임 선택 메시 생성·공유 캐시|Contracts|
+|Snow|눈 덮개 생성과 타격 침식|Contracts, Interaction|
+|Vegetation|풀/잎 빌보드·바람·색상 배치·적설 노출|Terrain, Interaction|
+|Lighting|낮/밤·집/커서 시야·연기|없음|
+|Wind|CPU/GPU 공통 방향·공간 돌풍, 전역값 발행·복원|없음|
+|Destruction|쓰러짐 후 제거, 바위 조각, 설정|없음|
+|Hover|커서 흔적·먼지·풀 반응|Terrain|
+|Shoreline|해안 모서리 메시 변형과 단면|Terrain|
+|Audio|음원 데이터, 타격/파괴 채널과 순환|없음|
+|Rendering / Water|공통 표면/물 셰이더|기능별 HLSL include, C# 어셈블리 없음|
+|Day01 Runtime|씬 참조와 실행 순서, 타깃 어댑터|위 모듈, Input System, URP|
+|Day01 Editor|씬/메시 제작, 마이그레이션·프리팹 저장|Runtime 및 제작에 필요한 모듈, Editor 전용|
+
+## 재사용 방법
+
+클릭 대상은 IPickTarget을 구현한다. 눈이 필요한 대상은 ISnowTarget에서 Visual, HasSnow, SnowRemaining과 표면의 눈 표시 여부를 제공한다. ShowcasePickSurface는 MonoBehaviour 참조를 직렬화하고 인터페이스로 소비한다. 기존 Target 필드 이름은 FormerlySerializedAs로 호환한다.
+
+ShowcaseAudio는 부모 Transform과 ShowcaseAudioBank를 주입한다. Play에 나무 여부·파괴 여부·현재 시간을 전달하고, Reset은 순환 상태와 재생을 초기화한다. Dispose는 생성한 오디오 오브젝트를 정리한다. 나무 쓰러짐과 타격은 별도 채널이다.
+
+물 호버음은 Hover의 WaterRippleCreated 이벤트를 Day01에서 ShowcaseAudio.PlayWaterRipple에 연결한다. Day01은 기본 변형 5개를 주입하며 뱅크의 WaterRippleVariants 및 기존 단일 WaterRipple 설정을 지원한다. 독립 채널 3개, 0.25~0.40초 간격, 연속 이동 볼륨 55%, 피치 ±2%로 여운을 유지한다. Reset은 모든 채널·간격·직전 선택을 초기화하고 OnDisable에서 구독을 해제한다.
+
+DestructionProfile은 타격 횟수, 나무 넘어지는 시간/각도, 대기 시간, 바위 조각 수/굴림 시간, 제거 시간을 보관한다. 기존 장면과 동일한 기본값으로 생성한다. 프리팹별로 다른 프로파일을 사용할 수 있다.
+
+## 수명과 초기화
+
+Picking 데이터는 원본 Mesh별로 최초 접근 시 생성하며 파일로 저장하지 않는다. Surface가 사용을 등록하고 마지막 사용자 파괴 시 해제한다. 비활성 풀 객체는 재사용을 위해 유지하고 씬 언로드 시 파괴된 사용자를 정리한다. 플레이 진입/종료와 어셈블리 리로드에서 캐시를 초기화한다. 외부 주입된 눈/변형 지형의 데이터는 해당 모듈이 해제한다. 원본 모델은 Read/Write가 필요하다. [전환 기록](../records/runtime-picking.md).
+
+Day01Showcase의 OnEnable에서 모듈을 구성하고 OnDisable에서 Dispose/복원을 호출한다. 생성한 메시·재질·파티클의 해제 책임은 생성 모듈에 있다. R과 공간 전환은 타깃/흔적/효과의 촬영 상태를 초기화한다. 셰이더 전역값과 전용 렌더 파이프라인은 종료 시 복원한다.
+
+## 현재 일반화의 범위
+
+Wind는 씬의 식생/집을 직접 찾지 않는다. Day01이 바람 샘플 함수를 Smoke에 주입하고, GPU 식생은 같은 수식의 HLSL을 사용한다. Dispose에서 기존 셰이더 전역값을 복원한다. Lighting과 Vegetation C# 어셈블리는 Wind 어셈블리를 직접 참조하지 않는다.
+
+Terrain은 엔진과 분리됐지만 고정 Day01 지도 데이터가 함께 있는 샘플 모듈이다. Day01의 메시 생성기·배치·도구 애니메이션은 에피소드 전용으로 남겼다. 모든 기능을 게임플레이 프레임워크로 재작성한 것은 아니다.
+
+시야·호버·침식은 셰이더 전역 배열을 공유한다. 여러 쇼케이스 인스턴스를 동시에 실행하는 것은 지원하지 않는다. 큰 맵 적용 전에는 공간별 상태 주입, 파티클/파편 풀링, 선택 메시 가속 구조를 별도로 설계해야 한다.
