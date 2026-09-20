@@ -1,6 +1,6 @@
 Shader "Afterlife/Prototype/PixelSurface"
 {
-    Properties { _BaseColor("Color", Color) = (1,1,1,1) _Ground("Ground", Float) = 0 _TerrainRelief("Continuous biome terrain", Float) = 0 _Overlay("Overlay", Float) = 0 _Grass("Grass", Float) = 0 _FoliageWind("Tree foliage wind",Float)=0 _GroundDecoration("Ground-linked decoration",Float)=0 _Flash("Hit flash",Float)=0 _Dissolve("Removal",Range(0,1))=0 _DissolveScale("Removal scale",Float)=3.5 _SinkClip("Sink clip",Float)=0 _RemovalFloor("Removal floor",Float)=0 _VertexPalette("Blender vertex colours", Float) = 0 _SrcBlend("Source blend", Float) = 5 _DstBlend("Destination blend", Float) = 10 _ZWrite("Depth write", Float) = 0 }
+    Properties { _Snow("Snow cover",Float)=0 _SnowShell("Snow shell",Float)=0 _SnowPine("Pine snow",Float)=0  _BaseColor("Color", Color) = (1,1,1,1) _Ground("Ground", Float) = 0 _TerrainRelief("Continuous biome terrain", Float) = 0 _Overlay("Overlay", Float) = 0 _Grass("Grass", Float) = 0 _FoliageWind("Tree foliage wind",Float)=0 _GroundDecoration("Ground-linked decoration",Float)=0 _Flash("Hit flash",Float)=0 _Dissolve("Removal",Range(0,1))=0 _DissolveScale("Removal scale",Float)=3.5 _SinkClip("Sink clip",Float)=0 _RemovalFloor("Removal floor",Float)=0 _VertexPalette("Blender vertex colours", Float) = 0 _SrcBlend("Source blend", Float) = 5 _DstBlend("Destination blend", Float) = 10 _ZWrite("Depth write", Float) = 0 }
     SubShader
     {
         Tags { "RenderPipeline"="UniversalPipeline" "RenderType"="Transparent" "Queue"="Transparent" }
@@ -20,6 +20,11 @@ Shader "Afterlife/Prototype/PixelSurface"
             #include "Assets/_AfterlifePrototype/Shaders/PrototypeGroundAppearance.hlsl"
             #include "Assets/Devlog/Modules/Hover/Shaders/ShowcaseHover.hlsl"
             #include "Assets/Devlog/Modules/Destruction/Shaders/ShowcaseDissolve.hlsl"
+            #include "Assets/Devlog/Modules/Snow/Shaders/ShowcaseSnowErosion.hlsl"
+            float _Snow, _SnowShell;
+            int _SnowHitCount;
+            float4 _SnowHits[32];
+            float4x4 _SnowWorldToLocal;
             struct Attributes { float4 positionOS : POSITION; float3 normalOS : NORMAL; half4 color : COLOR; float2 ground : TEXCOORD2; };
             struct Varyings { float4 positionCS : SV_POSITION; float3 normalWS : TEXCOORD0; float3 world : TEXCOORD1; half4 color : COLOR; float ground : TEXCOORD3; float3 removalLocal : TEXCOORD4; };
             CBUFFER_START(UnityPerMaterial)
@@ -106,6 +111,14 @@ Shader "Afterlife/Prototype/PixelSurface"
                     || (_GroundDecoration>.5 && input.ground>.5);
                 half3 baseColor=_BaseColor.rgb*input.color.rgb;
                 if(_DamageMarkCountV1>0)baseColor=DamageSurface(baseColor,mul(_DamageWorldToLocal,float4(input.world,1)).xyz);
+                if(_Snow>.5)
+                {
+                    float3 snowLocal=mul(_SnowWorldToLocal,float4(input.world,1)).xyz;
+                    float snowMask=lerp(smoothstep(.22,.66,normalize(input.normalWS).y),1,step(.5,_SnowShell));
+                    [loop] for(int snowHit=0;snowHit<_SnowHitCount;snowHit++)snowMask*=1-_SnowHits[snowHit].w*SnowInfluence(snowLocal,_SnowHits[snowHit].xyz);
+                    if(_SnowShell>.5){ClipSnow(snowLocal,snowMask);snowMask=smoothstep(.025,.5,snowMask);}
+                    baseColor=lerp(baseColor,half3(.87,.94,1)*(.94+TerrainHash(floor(input.world.xz*13))*.06),snowMask);
+                }
                 baseColor=lerp(baseColor,half3(1,.94,.78),saturate(_Flash));
                 if(_Ground>.5 && !linkedGround)
                 {

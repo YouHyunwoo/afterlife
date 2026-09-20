@@ -20,7 +20,9 @@
     "Afterlife.Upgrades",
     "Afterlife.Skills",
     "Afterlife.Progression.Unity",
-    "Moonstone.Arc"
+    "Moonstone.Arc",
+    "Afterlife.Devlog.Contracts",
+    "Afterlife.Devlog.Snow"
   ],
   "autoReferenced": true
 }

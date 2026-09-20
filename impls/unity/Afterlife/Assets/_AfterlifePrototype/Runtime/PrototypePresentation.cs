@@ -124,7 +124,7 @@ namespace Afterlife.Prototype
         private void OnContributed(Body body)
         {
             // 모델의 자원/체력 변경 이벤트와 타격 포즈를 같은 틱에 적용한다.
-            var tool=GetTool(body);tool.Impact=_effectTime;tool.ContactPending=true;tool.Used=true;PoseTool(tool,body.Position,1);AddResourceMark(tool);EmitImpactChips(tool);
+            var tool=GetTool(body);tool.Impact=_effectTime;tool.ContactPending=true;tool.Used=true;PoseTool(tool,body.Position,1);HitSnow(tool);AddResourceMark(tool);EmitImpactChips(tool);
             Quaternion rest=_reactions.TryGetValue(body.Id,out var previousReaction)?previousReaction.Rotation:
                 (_objects.TryGetValue(body.Id,out var target)?target.transform.rotation:Quaternion.identity);
             Vector3 away=Vector3.ProjectOnPlane(GroundPosition(body.Position)-tool.HitPosition,Vector3.up).normalized;
@@ -219,11 +219,11 @@ namespace Afterlife.Prototype
                 }
             }
             foreach(int id in _expiredReactions)_reactions.Remove(id);
-            UpdateResourceDestruction();UpdateContentEffects();UpdateGrowthEffects();UpdateVegetation();UpdateHover();UpdateResourceMarks();
+            UpdateResourceDestruction();UpdateContentEffects();UpdateGrowthEffects();UpdateSnow();UpdateVegetation();UpdateHover();UpdateResourceMarks();
         }
         private void ResetPresentation()
         {
-            ResetResourceDestruction();ResetImpactChips();_pendingManualId=0;_model.CancelManualWork();ResetResourceSurfaces();ResetHover();ResetVegetation();ResetGoldFeedback();ResetContentEffects();ResetGrowthEffects();_reactions.Clear();foreach(var tool in _tools){tool.Body=0;tool.Root.SetActive(false);}
+            ResetResourceDestruction();ResetSnow();ResetImpactChips();_pendingManualId=0;_model.CancelManualWork();ResetResourceSurfaces();ResetHover();ResetVegetation();ResetGoldFeedback();ResetContentEffects();ResetGrowthEffects();_reactions.Clear();foreach(var tool in _tools){tool.Body=0;tool.Root.SetActive(false);}
             _renderCache.Clear();_lightCache.Clear();_modelPositions.Clear();_displayPositions.Clear();_fogTerritoryRevision=-1;
         }
         private void UploadTerrainTiles()
@@ -235,6 +235,6 @@ namespace Afterlife.Prototype
             _terrainTiles.SetPixels32(pixels);_terrainTiles.Apply(false,true);
             Shader.SetGlobalTexture("_TerrainTiles",_terrainTiles);Shader.SetGlobalFloat("_TerrainSize",map.Size);Shader.SetGlobalFloat("_TerrainRadius",map.Radius);
         }
-        private void DisposePresentation(){ResetResourceDestruction();ResetImpactChips();_impactPool?.Dispose();_impactPool=null;ResetResourceSurfaces();DisposeHover();DisposeVegetation();DisposeContent();if(_terrainTiles!=null)Destroy(_terrainTiles);Shader.SetGlobalVector("_CursorCircle",Vector4.zero);Shader.SetGlobalInt("_VisionCount",0);}
+        private void DisposePresentation(){ResetResourceDestruction();ResetSnow();ResetImpactChips();_impactPool?.Dispose();_impactPool=null;ResetResourceSurfaces();DisposeHover();DisposeVegetation();DisposeContent();if(_terrainTiles!=null)Destroy(_terrainTiles);Shader.SetGlobalVector("_CursorCircle",Vector4.zero);Shader.SetGlobalInt("_VisionCount",0);}
     }
 }

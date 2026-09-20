@@ -28,7 +28,7 @@ namespace Afterlife.Prototype
                 Vector3 away=reaction.Away.sqrMagnitude>.001f?reaction.Away:Vector3.forward;
                 var effect=new ShowcaseDestruction(go.transform,renderers,wood,DisappearMode.Dissolve,
                     world=>_terrainSurface!=null?_terrainSurface.Height(world.x,world.z):0,away,null,
-                    filter=>filter.sharedMesh!=_contactMesh);
+                    filter=>filter.sharedMesh!=_contactMesh && (filter.GetComponent<Afterlife.Devlog.Day01.ShowcasePickSurface>()==null || !filter.GetComponent<Afterlife.Devlog.Day01.ShowcasePickSurface>().SnowCap));
                 if(!wood)foreach(var renderer in renderers)renderer.enabled=false;
                 _resourceDestructions.Add(pair.Key,new ResourceDestruction{Effect=effect,Root=go.transform,
                     Rotation=reaction.Rotation,Axis=Vector3.Cross(Vector3.up,away).normalized,Wood=wood});

@@ -40,7 +40,7 @@ namespace Afterlife.Prototype
         private void AddResourceMark(ToolEffect tool)
         {
             if(tool.Kind!=Kind.Tree && tool.Kind!=Kind.Rock)return;
-            if(tool.HitSurface==null || !_resourceSurfaces.TryGetValue(tool.Body,out var surfaces))return;
+            if(tool.HitSurface==null || tool.HitSurface.SnowCap || !_resourceSurfaces.TryGetValue(tool.Body,out var surfaces))return;
             foreach(var entry in surfaces)if(entry.Pick==tool.HitSurface)
             {
                 entry.Marks.Add(entry.Pick.transform,tool.HitPosition,tool.HitNormal);

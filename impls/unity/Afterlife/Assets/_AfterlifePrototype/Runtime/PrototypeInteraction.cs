@@ -327,11 +327,11 @@ namespace Afterlife.Prototype
         private void Sync()
         {
             PrepareResourceDestruction();
-            foreach(int id in _objects.Keys.ToArray())if(_model.Find(id)==null&&!ReactionAlive(id)){RemoveResourceDestruction(id);_resourceSurfaces.Remove(id);RemoveTreeLeaves(id);Destroy(_objects[id]);_objects.Remove(id);_renderCache.Remove(id);_lightCache.Remove(id);_modelPositions.Remove(id);_displayPositions.Remove(id);_weapons.Remove(id);_animals.Remove(id);_worldRigs.Remove(id);_connectionMasks.Remove(id);}
+            foreach(int id in _objects.Keys.ToArray())if(_model.Find(id)==null&&!ReactionAlive(id)){RemoveResourceDestruction(id);RemoveSnow(id);_resourceSurfaces.Remove(id);RemoveTreeLeaves(id);Destroy(_objects[id]);_objects.Remove(id);_renderCache.Remove(id);_lightCache.Remove(id);_modelPositions.Remove(id);_displayPositions.Remove(id);_weapons.Remove(id);_animals.Remove(id);_worldRigs.Remove(id);_connectionMasks.Remove(id);}
             foreach(var b in _model.Bodies)
             {
                 if(!b.Alive)continue;
-                if(!_objects.TryGetValue(b.Id,out var go)){go=CreateBody(b);_objects.Add(b.Id,go);_renderCache[b.Id]=go.GetComponentsInChildren<Renderer>();_lightCache[b.Id]=go.GetComponentInChildren<Light>();_weapons[b.Id]=go.GetComponent<PrototypeWeapon>();_animals[b.Id]=go.GetComponent<PrototypeAnimalRig>();AttachResourceSurfaces(b,_renderCache[b.Id]);AttachTreeLeaves(b,_renderCache[b.Id]);}
+                if(!_objects.TryGetValue(b.Id,out var go)){go=CreateBody(b);_objects.Add(b.Id,go);_renderCache[b.Id]=go.GetComponentsInChildren<Renderer>();_lightCache[b.Id]=go.GetComponentInChildren<Light>();_weapons[b.Id]=go.GetComponent<PrototypeWeapon>();_animals[b.Id]=go.GetComponent<PrototypeAnimalRig>();AttachResourceSurfaces(b,_renderCache[b.Id]);AttachTreeLeaves(b,_renderCache[b.Id]);AttachSnow(b,go);}
                 Vector3 targetPosition=V(b.Position);
                 if(!_modelPositions.TryGetValue(b.Id,out var previous))previous=targetPosition;
                 Vector3 movement=targetPosition-previous;_modelPositions[b.Id]=targetPosition;
