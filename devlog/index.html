@@ -1,7 +1,8 @@
 <!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Afterlife · Devlog 제작 관리</title><style>
 :root{color-scheme:dark;--bg:#101a20;--panel:#19262e;--line:#33454e;--ink:#eef3ee;--muted:#acbec4;--accent:#b7dfa5}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:24px}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.8 'Segoe UI','Malgun Gothic',sans-serif}aside{position:fixed;inset:0 auto 0 0;width:238px;padding:32px 22px;background:#152129;border-right:1px solid var(--line);overflow:auto}.brand{font-size:22px;letter-spacing:3px;font-weight:700}.subtitle{font-size:12px;color:var(--muted);margin-bottom:28px}nav a{display:flex;gap:14px;padding:10px 8px;color:var(--muted);text-decoration:none;border-radius:6px}nav a:hover,nav a:focus{background:#2a3b42;color:white}nav span{font-size:11px;color:var(--accent);padding-top:4px}main{margin-left:238px;max-width:1330px;padding:45px 5vw}.eyebrow{color:var(--accent);letter-spacing:3px;font-size:12px}header h1{font-size:clamp(30px,4vw,50px);line-height:1.25;margin:18px 0}.lead{color:var(--muted);max-width:650px}header{padding:0 0 34px}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}.card{padding:17px;background:var(--panel);border-top:2px solid var(--accent)}.card small{display:block;color:var(--muted)}.card strong{font-size:19px}input{width:100%;padding:13px 16px;background:#0e171c;color:white;border:1px solid var(--line);border-radius:7px;font:inherit}.document{background:var(--panel);padding:30px;margin:24px 0;border:1px solid var(--line);border-radius:10px;overflow-wrap:anywhere}.section-label{color:var(--accent);font-size:11px;letter-spacing:1px}.document h1{font-size:27px;margin:8px 0 20px}.document h2{font-size:20px;margin-top:30px}p,li{max-width:88ch}a{color:#b8e4d2}table{border-collapse:collapse;width:100%;font-size:14px;margin:18px 0;display:block;overflow:auto}th,td{text-align:left;vertical-align:top;padding:12px;border-bottom:1px solid var(--line);min-width:95px}th{color:var(--accent);background:#21313a}pre{overflow:auto;background:#101a20;padding:18px}code{font-size:13px;color:#c6e4c2}blockquote{border-left:3px solid var(--accent);margin-left:0;padding-left:20px;color:var(--muted)}footer{font-size:12px;color:var(--muted)}[hidden]{display:none!important}@media(max-width:800px){aside{position:static;width:auto;padding:20px}nav{display:flex;gap:5px;overflow:auto}nav a{white-space:nowrap}nav span{display:none}.subtitle{margin-bottom:8px}main{margin:0;padding:24px 16px}.document{padding:20px 16px}.cards{grid-template-columns:1fr}.card{padding:10px 16px}}@media print{aside,input,.lead{display:none}main{margin:0;padding:0;max-width:none}body{background:white;color:black}.document{display:block!important;background:white;border:0;padding:8px;break-before:page}th{background:#eee;color:black}a,code{color:black}.cards{display:none}table{display:table;font-size:11px}.section-label{color:#333}}
 .document img{display:block;max-width:100%;height:auto;border-radius:8px;margin:20px 0}</style><aside><div class="brand">AFTERLIFE</div><div class="subtitle">DEVLOG / PRODUCTION NOTES</div><nav><a href="#doc-0"><span>01</span>현재 상태</a><a href="#doc-1"><span>02</span>임시 · 프로토타입 이관</a><a href="#doc-2"><span>03</span>목표 · 촬영</a><a href="#doc-3"><span>04</span>6단계 촬영 구성</a><a href="#doc-4"><span>05</span>영상 연출 · 자막</a><a href="#doc-5"><span>06</span>연속 지형</a><a href="#doc-6"><span>07</span>런타임 최적화</a><a href="#doc-7"><span>08</span>프로토타입 지형</a><a href="#doc-8"><span>09</span>프로토타입 해안 · 수면</a><a href="#doc-9"><span>10</span>프로토타입 식생 · 바람</a><a href="#doc-10"><span>11</span>기능 · 조작</a><a href="#doc-11"><span>12</span>모듈 안내</a><a href="#doc-12"><span>13</span>에셋 · 프리팹</a><a href="#doc-13"><span>14</span>구조 개편</a><a href="#doc-14"><span>15</span>검증</a><a href="#doc-15"><span>16</span>호버 피드백</a><a href="#doc-16"><span>17</span>나뭇잎 비교</a><a href="#doc-17"><span>18</span>제단 모델 제작</a><a href="#doc-18"><span>19</span>밀도 · 타격 리듬</a><a href="#doc-19"><span>20</span>접지 · 바람 · 밤</a><a href="#doc-20"><span>21</span>잎 디졸브</a><a href="#doc-21"><span>22</span>타격 자국 비교</a><a href="#doc-22"><span>23</span>자연 환경음</a><a href="#doc-23"><span>24</span>변경 기록</a><a href="#doc-24"><span>25</span>누적 기록</a><a href="#doc-25"><span>26</span>관리 방법</a></nav></aside><main><header><div class="eyebrow">DAY 01 · 3D PIXEL WORLD</div><h1>작은 세계를,<br>만지고 싶게.</h1><p class="lead">기본 도형에서 생동감 있는 중세 판타지 환경까지.<br>목표, 표현 기능, 재사용 모듈과 촬영 준비를 한곳에서 관리합니다.</p><div class="cards"><div class="card"><small>현재 제작</small><strong>6단계 구성 완료</strong></div><div class="card"><small>공간</small><strong>Before → 4단계 → After</strong></div><div class="card"><small>다음 결정</small><strong>단계별 화면 확인</strong></div></div><label for="search">문서 찾기</label><input id="search" type="search" placeholder="예: 눈, 프리팹, 크레딧" autocomplete="off"><p id="count" role="status"></p></header><section id="doc-0" class="document"><div class="section-label">status.md</div><h1>현재 상태</h1>
-<p>집 굴뚝 연기 이관: 완공 집의 원본 메시 입구·공통 바람·시야·정지/제거 수명 연결 완료. C# 빌드 통과, Unity 화면 확인 대기. 남은 대조 항목은 폐허 수정 발광과 밤 창문 Bloom이다.</p>
+<p>프로토타입 이관 1~10번 코드 연결 완료: 폐허 수정·밤 창문 발광/Bloom을 마지막으로 연결했다. Devlog 21개 모듈 및 프로토타입 C# 빌드 통과. HLSL/실제 화면·청취 검증은 대기이며 임시 컨텍스트에서 추적한다.</p>
+<p>집 굴뚝 연기 이관: 완공 집의 원본 메시 입구·공통 바람·시야·정지/제거 수명 연결 완료. C# 빌드 통과, Unity 화면 확인 대기. 폐허 수정 발광과 밤 창문 Bloom도 이후 연결했다.</p>
 <p>프로토타입 음향 이관: Day01 자원 타격/파괴 음원·물 파문·풀 스침·낮 새 울음을 연결했다. 기존 오디오 채널 제한과 SoundVolume을 유지한다. C# 빌드 통과, 실제 청취 확인 대기.</p>
 <p>프로토타입 파괴 연출 연결: 나무 쓰러짐·잎 포함 디졸브, 바위 조각 튕김/구름·디졸브와 제거 수명을 연결했다. Devlog 21개 및 프로토타입 C# 빌드 통과, Unity 확인 대기. <a href="#doc-1">임시 이관 기록</a>.</p>
 <blockquote>
@@ -159,7 +160,7 @@
 <tr>
   <td>10</td>
   <td>집 연기 등 남은 환경 연출</td>
-  <td>집 연기 커밋 <code>489388d</code>, <code>a8c241e</code> / C# 빌드 통과, Unity 확인 대기. 수정·창문 발광/Bloom 대조 남음</td>
+  <td>집 연기 커밋 <code>489388d</code>, <code>a8c241e</code> / C# 빌드 통과, Unity 확인 대기. 수정·창문 발광/Bloom 적용, C# 빌드 통과 / 미커밋</td>
 </tr>
 </tbody>
 </table>
@@ -251,6 +252,17 @@
 </ul>
 <p>검증: Devlog 21개 모듈 및 프로토타입 dotnet build 통과. Unity/HLSL/플레이 미실행. 완공된 집 굴뚝에서 연기가 위로 올라가 바람에 흐르는지 확인한다. 밤/시야 이탈, 메뉴 정지/재개, 집 건설·이전·철거, 재시작에서 연기 중복이나 잔류가 없어야 한다. 메타데이터는 Unity 자동 생성 대상이다.</p>
 <p>기능 목록 대조: Day01의 폐허 수정 HDR 발광과 밤 창문 Bloom은 아직 별도 대조/이관이 남았다. 집 연기 구현만으로 전체 이관 완료를 선언하지 않는다. 기존 집 주변 광원은 유지했다. 임시 컨텍스트는 이 항목까지 처리한 뒤 영구 기록으로 전환한다.</p>
+<h2>폐허 수정·밤 창문 발광과 Bloom</h2>
+<ul>
+<li>최신 Day01 소스 기준으로 발광 본문을 공용 ShowcaseEmission.hlsl로 추출했다. 수정은 청록 정점 팔레트에 3.5, 밤에는 0.78배, 시간 변화 ±4%. 집 창문은 금색 정점 팔레트에 원래 색조를 보존하여 밤 HDR 2.8, 시간 변화 ±1.5%를 사용한다. 과거 문서의 중간 조정값보다 현재 소스값이 우선이다.</li>
+<li>PrototypeGlow가 Ruins와 완공/이전 중이 아닌 House 원본 표면에 플래그를 부여한다. 적설 덮개·접지·파티클에는 적용하지 않는다. 기존 MPB의 타격/적설 속성을 유지하며 게임 보상·시야 반경은 바꾸지 않는다.</li>
+<li>ShowcaseCrystalGlow에 선택적인 렌더러 목록 주입을 추가했다. 프로토타입은 동적 대상 플래그를 직접 관리하고 공용 모듈의 카메라/Volume 수명과 Bloom threshold 1.15, intensity 0.48, scatter 0.52를 재사용한다.</li>
+<li>런타임 URP 복사본 HDR과 카메라 후처리를 활성화하고 저해상도 Point 렌더 텍스처를 DefaultHDR로 변경했다. 기존 Renderer.asset의 비어 있던 PostProcessData 참조를 현재 URP 패키지의 실제 GUID로 연결했다. 새 메타데이터는 Unity 임포트가 생성한다.</li>
+<li>시야 밖 오브젝트 clip 이후에만 발광한다. 창문은 낮에 원래 색이며 밤에 켜진다. 씬 해제 시 Volume/Profile을 제거하고 카메라 상태를 복원한다. 픽셀 해상도 변경 시 HDR 텍스처를 재생성한다.</li>
+</ul>
+<p>검증: Devlog 21개 모듈과 프로토타입 C# 빌드 통과. Unity/HLSL/GPU 화면 검증 미실행. (1) 폐허의 수정만 청록색으로 번지는지 (2) 완공 집의 창문만 밤에 따뜻하게 발광하고 낮에 꺼지는지 (3) 시야 밖 대상 자체의 발광이 사라지는지 (4) 해상도 변경·집 이전/철거·재시작·씬 종료 후 오류나 Volume 중복이 없는지 확인한다. Bloom은 화면상 번짐이며 실제 광원/시야 반경 추가가 아니다.</p>
+<h2>이관 구현 완료 및 확인 대기</h2>
+<p>계획한 1~10번 게임플레이 기능 묶음의 코드 연결을 마쳤다. 실제 화면·청취 확인과 사용자 조정은 별도로 남아 있다. 임시 문서는 해당 확인과 마지막 커밋까지 추적한 후 영구 기록으로 정리한다. Day01 촬영 시퀀스/비교 버튼, 비상호작용 표면을 누르는 촬영용 파편, Sink 비교 모드는 프로토타입 게임 규칙의 이관 대상에서 제외한다. 공개 음원 크레딧은 공개 준비 때 실제 게임/영상에 반영해야 한다.</p>
 </section><section id="doc-2" class="document"><div class="section-label">day-01/production.md</div><h1>Day01 제작 목표와 촬영 계획</h1>
 <h2>확정한 방향</h2>
 <p>마케팅 목적의 Devlog다. 개발량을 나열하기보다 화면의 변화와 클릭 반응으로 게임의 품질을 전달한다. 기존 중세 판타지 모델을 사용하며 새 모델링은 하지 않는다. 녹화는 사용자가 필요한 부분을 선택해서 진행한다.</p>
@@ -1169,6 +1181,7 @@
 <p>PrototypeDestruction은 소진된 자원의 뷰를 보존하고 공용 ShowcaseDestruction을 조립한다. 원본 메시 선택 필터와 지형 높이를 주입하고 생성 조각/제거 상태를 소유한다. 나무 회전은 어댑터에서 수행하며 잎 속성 버전은 원본 디졸브와 함께 갱신한다.</p>
 <p>프로토타입 음향 어댑터: PrototypeEnvironmentAudio가 AudioBank 및 ShowcaseAudio/ShowcaseAmbience를 소비한다. 모델은 Stone/TreeFall/StoneBreak 사건만 발행하며 Resources/AudioSource를 참조하지 않는다. 물 생성 사건은 Hover 어댑터에서 구독/해제한다.</p>
 <p>집 연기: ShowcaseSmoke의 방출 대상/셰이더를 선택 인자로 주입한다. ShowcaseSmokePass는 노이즈/투명도 공용 본문이고 프로토타입 Resources 셰이더가 시야·조명 출력을 제공한다. PrototypeSmoke가 집의 완공/이전/제거와 모듈 수명을 조합한다.</p>
+<p>발광: ShowcaseEmission.hlsl은 Day01/프로토타입이 공유하는 정점 팔레트 기반 HDR 표현이다. ShowcaseCrystalGlow는 선택적인 대상 목록과 카메라/Volume 수명을 관리하며 PrototypeGlow가 동적 집/폐허 상태를 MPB에 연결한다. 프로토타입 URP 복사본·Point 렌더 텍스처의 HDR 및 저장 Renderer의 PostProcessData 참조가 Bloom 경로를 구성한다.</p>
 </section><section id="doc-12" class="document"><div class="section-label">architecture/assets.md</div><h1>에셋과 프리팹</h1>
 <h2>원본 → 임포트 → 장면</h2>
 <table>

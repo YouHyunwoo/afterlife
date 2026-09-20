@@ -86,3 +86,5 @@ PrototypeDestruction은 소진된 자원의 뷰를 보존하고 공용 ShowcaseD
 프로토타입 음향 어댑터: PrototypeEnvironmentAudio가 AudioBank 및 ShowcaseAudio/ShowcaseAmbience를 소비한다. 모델은 Stone/TreeFall/StoneBreak 사건만 발행하며 Resources/AudioSource를 참조하지 않는다. 물 생성 사건은 Hover 어댑터에서 구독/해제한다.
 
 집 연기: ShowcaseSmoke의 방출 대상/셰이더를 선택 인자로 주입한다. ShowcaseSmokePass는 노이즈/투명도 공용 본문이고 프로토타입 Resources 셰이더가 시야·조명 출력을 제공한다. PrototypeSmoke가 집의 완공/이전/제거와 모듈 수명을 조합한다.
+
+발광: ShowcaseEmission.hlsl은 Day01/프로토타입이 공유하는 정점 팔레트 기반 HDR 표현이다. ShowcaseCrystalGlow는 선택적인 대상 목록과 카메라/Volume 수명을 관리하며 PrototypeGlow가 동적 집/폐허 상태를 MPB에 연결한다. 프로토타입 URP 복사본·Point 렌더 텍스처의 HDR 및 저장 Renderer의 PostProcessData 참조가 Bloom 경로를 구성한다.
