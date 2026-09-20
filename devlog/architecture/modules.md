@@ -80,3 +80,5 @@ Terrain의 ShowcaseTerrainField가 맵 전체 좌표의 gradient Perlin과 실�
 `PrototypeSurfaceFeedback`은 나무·바위의 Renderer에 공용 ShowcasePickSurface를 붙여 원본 메시 선택 캐시를 재사용한다. 도구 접촉점으로 ShowcaseDamageMarks를 갱신하며 게임 규칙을 소유하지 않는다. 렌더러 틴트와 자국 MPB를 보존하고 제거/재시작 시 표면 등록을 해제한다.
 
 프로토타입 직접 작업은 PrototypeManualWork(모델의 작업 가능/단일 대상 기여)와 Presentation의 준비/접촉 타이밍으로 나눈다. 모든 커서 자동 반복은 CursorAutomationUnlocked로 제한한다. PrototypeImpactFeedback은 Destruction의 타격 타이밍/작은 파편 풀을 재사용하며 게임 피해량이나 자동화 해금을 결정하지 않는다. [최신 규칙](../../docs/game-process/46-click-work-and-automation.md).
+
+PrototypeDestruction은 소진된 자원의 뷰를 보존하고 공용 ShowcaseDestruction을 조립한다. 원본 메시 선택 필터와 지형 높이를 주입하고 생성 조각/제거 상태를 소유한다. 나무 회전은 어댑터에서 수행하며 잎 속성 버전은 원본 디졸브와 함께 갱신한다.

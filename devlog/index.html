@@ -1,6 +1,7 @@
 <!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Afterlife · Devlog 제작 관리</title><style>
 :root{color-scheme:dark;--bg:#101a20;--panel:#19262e;--line:#33454e;--ink:#eef3ee;--muted:#acbec4;--accent:#b7dfa5}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:24px}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.8 'Segoe UI','Malgun Gothic',sans-serif}aside{position:fixed;inset:0 auto 0 0;width:238px;padding:32px 22px;background:#152129;border-right:1px solid var(--line);overflow:auto}.brand{font-size:22px;letter-spacing:3px;font-weight:700}.subtitle{font-size:12px;color:var(--muted);margin-bottom:28px}nav a{display:flex;gap:14px;padding:10px 8px;color:var(--muted);text-decoration:none;border-radius:6px}nav a:hover,nav a:focus{background:#2a3b42;color:white}nav span{font-size:11px;color:var(--accent);padding-top:4px}main{margin-left:238px;max-width:1330px;padding:45px 5vw}.eyebrow{color:var(--accent);letter-spacing:3px;font-size:12px}header h1{font-size:clamp(30px,4vw,50px);line-height:1.25;margin:18px 0}.lead{color:var(--muted);max-width:650px}header{padding:0 0 34px}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}.card{padding:17px;background:var(--panel);border-top:2px solid var(--accent)}.card small{display:block;color:var(--muted)}.card strong{font-size:19px}input{width:100%;padding:13px 16px;background:#0e171c;color:white;border:1px solid var(--line);border-radius:7px;font:inherit}.document{background:var(--panel);padding:30px;margin:24px 0;border:1px solid var(--line);border-radius:10px;overflow-wrap:anywhere}.section-label{color:var(--accent);font-size:11px;letter-spacing:1px}.document h1{font-size:27px;margin:8px 0 20px}.document h2{font-size:20px;margin-top:30px}p,li{max-width:88ch}a{color:#b8e4d2}table{border-collapse:collapse;width:100%;font-size:14px;margin:18px 0;display:block;overflow:auto}th,td{text-align:left;vertical-align:top;padding:12px;border-bottom:1px solid var(--line);min-width:95px}th{color:var(--accent);background:#21313a}pre{overflow:auto;background:#101a20;padding:18px}code{font-size:13px;color:#c6e4c2}blockquote{border-left:3px solid var(--accent);margin-left:0;padding-left:20px;color:var(--muted)}footer{font-size:12px;color:var(--muted)}[hidden]{display:none!important}@media(max-width:800px){aside{position:static;width:auto;padding:20px}nav{display:flex;gap:5px;overflow:auto}nav a{white-space:nowrap}nav span{display:none}.subtitle{margin-bottom:8px}main{margin:0;padding:24px 16px}.document{padding:20px 16px}.cards{grid-template-columns:1fr}.card{padding:10px 16px}}@media print{aside,input,.lead{display:none}main{margin:0;padding:0;max-width:none}body{background:white;color:black}.document{display:block!important;background:white;border:0;padding:8px;break-before:page}th{background:#eee;color:black}a,code{color:black}.cards{display:none}table{display:table;font-size:11px}.section-label{color:#333}}
 .document img{display:block;max-width:100%;height:auto;border-radius:8px;margin:20px 0}</style><aside><div class="brand">AFTERLIFE</div><div class="subtitle">DEVLOG / PRODUCTION NOTES</div><nav><a href="#doc-0"><span>01</span>현재 상태</a><a href="#doc-1"><span>02</span>임시 · 프로토타입 이관</a><a href="#doc-2"><span>03</span>목표 · 촬영</a><a href="#doc-3"><span>04</span>6단계 촬영 구성</a><a href="#doc-4"><span>05</span>영상 연출 · 자막</a><a href="#doc-5"><span>06</span>연속 지형</a><a href="#doc-6"><span>07</span>런타임 최적화</a><a href="#doc-7"><span>08</span>프로토타입 지형</a><a href="#doc-8"><span>09</span>프로토타입 해안 · 수면</a><a href="#doc-9"><span>10</span>프로토타입 식생 · 바람</a><a href="#doc-10"><span>11</span>기능 · 조작</a><a href="#doc-11"><span>12</span>모듈 안내</a><a href="#doc-12"><span>13</span>에셋 · 프리팹</a><a href="#doc-13"><span>14</span>구조 개편</a><a href="#doc-14"><span>15</span>검증</a><a href="#doc-15"><span>16</span>호버 피드백</a><a href="#doc-16"><span>17</span>나뭇잎 비교</a><a href="#doc-17"><span>18</span>제단 모델 제작</a><a href="#doc-18"><span>19</span>밀도 · 타격 리듬</a><a href="#doc-19"><span>20</span>접지 · 바람 · 밤</a><a href="#doc-20"><span>21</span>잎 디졸브</a><a href="#doc-21"><span>22</span>타격 자국 비교</a><a href="#doc-22"><span>23</span>자연 환경음</a><a href="#doc-23"><span>24</span>변경 기록</a><a href="#doc-24"><span>25</span>누적 기록</a><a href="#doc-25"><span>26</span>관리 방법</a></nav></aside><main><header><div class="eyebrow">DAY 01 · 3D PIXEL WORLD</div><h1>작은 세계를,<br>만지고 싶게.</h1><p class="lead">기본 도형에서 생동감 있는 중세 판타지 환경까지.<br>목표, 표현 기능, 재사용 모듈과 촬영 준비를 한곳에서 관리합니다.</p><div class="cards"><div class="card"><small>현재 제작</small><strong>6단계 구성 완료</strong></div><div class="card"><small>공간</small><strong>Before → 4단계 → After</strong></div><div class="card"><small>다음 결정</small><strong>단계별 화면 확인</strong></div></div><label for="search">문서 찾기</label><input id="search" type="search" placeholder="예: 눈, 프리팹, 크레딧" autocomplete="off"><p id="count" role="status"></p></header><section id="doc-0" class="document"><div class="section-label">status.md</div><h1>현재 상태</h1>
+<p>프로토타입 파괴 연출 연결: 나무 쓰러짐·잎 포함 디졸브, 바위 조각 튕김/구름·디졸브와 제거 수명을 연결했다. Devlog 21개 및 프로토타입 C# 빌드 통과, Unity 확인 대기. <a href="#doc-1">임시 이관 기록</a>.</p>
 <blockquote>
 <p>프로토타입 입력 규칙 변경: 모든 커서 작업은 직접 클릭으로 시작하고 R8 커서 자동화 이후 호버 주기로 전환한다. 도구 모션·반동·섬광·파편을 연결했다. <a href="../docs/game-process/46-click-work-and-automation.md">최신 규칙</a>. 기존 자동 채집 확인 절차는 자동화 이후에 적용한다.</p>
 </blockquote>
@@ -84,6 +85,9 @@
 <p>흙먼지 최신값: 크기 0.27~0.54, 시작 알파 0.30. 더 크고 옅게 조정.</p>
 <p>숲 추가 배치 준비: After 숲 타일의 빈자리에 기존 프리팹 최대 3그루, 80% 크기로 배치하는 일회성 에디터 코드 작성. 구조물/기존 자원 간격 확인, 미저장 씬은 보존하고 저장 후 재시도. Refresh 이후 씬 저장 결과 확인 대기.</p>
 <p>버려진 제단 교체 완료: ImageGen 6방향 시안 → Blender 편집 원본과 FBX 제작 → Unity 프리팹 생성 및 After 씬 저장까지 실제 반영. 1,338개 삼각형/렌더러 1개, 기존 제단은 비활성 자식으로 보존. <a href="#doc-17">시안·모델·검증 기록</a>. 추가 숲 나무 3그루도 현재 씬 저장에서 확인했다. Play 화면 체감은 사용자 확인 대기.</p>
+<ul>
+<li>프로토타입 이관: 오브젝트 적설·눈 타격 침식 연결 완료. C# 빌드 통과, Unity 화면 확인 대기. 상세는 임시 이관 컨텍스트 참조.</li>
+</ul>
 </section><section id="doc-1" class="document"><div class="section-label">temp-prototype-migration-context.md</div><h1>임시 컨텍스트: Day01 → 프로토타입 이관</h1>
 <p>이관 완료까지 매 묶음 작업 후 갱신한다. 완료 시 영구 기록으로 정리하고 임시 문서를 종료한다.</p>
 <h2>확정된 방향</h2>
@@ -132,18 +136,18 @@
 </tr>
 <tr>
   <td>6</td>
-  <td>정밀 표면 선택·타격 자국</td>
-  <td>나무·바위 적용 완료, C# 빌드 통과, Unity 화면 확인 대기 / 미커밋</td>
+  <td>정밀 표면 선택·타격 자국 및 클릭 규칙/도구 피드백</td>
+  <td>커밋 완료 (<code>eb0e971</code>, <code>026b3d7</code>, <code>ea558b5</code>), Unity 확인 대기</td>
 </tr>
 <tr>
   <td>7</td>
   <td>나무/바위 파괴·파편·제거 연출</td>
-  <td>대기</td>
+  <td>커밋 <code>18cbb91</code>, C# 빌드 통과, Unity 확인 대기</td>
 </tr>
 <tr>
   <td>8</td>
   <td>오브젝트 적설·눈 타격 침식</td>
-  <td>대기</td>
+  <td>커밋 <code>1b17d45</code>, C# 빌드 통과, Unity 확인 대기</td>
 </tr>
 <tr>
   <td>9</td>
@@ -167,7 +171,7 @@
 <li>공용 <code>ShowcaseTileHover.Map</code>: Day01 기본값을 보존하며 임의 지도 범위와 바이옴을 받는다. 셰이더 전역값은 생성 시 보관/해제 시 복원한다.</li>
 <li>TerrainSurface.Raycast의 선택적 높이 함수는 흔적으로 변형된 삼각형 선택에 사용하며 활성 지형 흔적이 있을 때만 적용한다.</li>
 <li><code>PrototypeSurfaceFeedback.cs</code>: 나무·바위의 읽기 가능한 원본 메시만 ShowcasePickSurface로 등록한다. 원본 메시 캐시 수명은 Interaction 모듈이 담당하며 삭제/재시작 시 컴포넌트와 함께 해제한다.</li>
-<li>다음 시작점: 나무/바위 파괴·파편·제거 연출. 현재 ReactionAlive/OnContributed의 짧은 흔들림 및 제거 시점과 Destruction 모듈을 연결한다.</li>
+<li>다음 시작점: 오브젝트 적설·눈 타격 침식. Snow의 ISnowTarget 어댑터와 프로토타입 자원 수명 연결을 조사한다.</li>
 </ul>
 <h2>보존해야 할 미커밋 변경</h2>
 <p>기여 주기(2→1), UI 씬·프리팹, 폰트 변경은 기존 별도 작업이므로 덮어쓰거나 이관 커밋에 섞지 않는다.</p>
@@ -204,6 +208,25 @@
 <h2>검 손잡이 축·상자 타격 보정</h2>
 <p>검 3종은 칼끝을 이동시키는 방식에서 손잡이 축 회전으로 교체했다. 손잡이/칼날 접촉점은 모델 경계 기반이며 준비→가속→접촉 정지→관성 마무리로 이어진다. 상자는 손 도구를 생성하지 않고 맞은 위치 반대 방향으로 밀림/기울기 반동을 준다. 사용자 추가 요청에 따라 상자 타격 플래시도 적용했다. 건설/수리는 무플래시 유지. C# 빌드 통과, Unity 확인 대기.</p>
 <p>상자 반동 방향 보정: 화면에 보이는 메시 경계 중심의 수평면에 클릭 광선을 투영하고 중심에서 클릭 반대 방향을 구한다. 시작 시 방향을 고정하며 중앙 클릭은 카메라에서 멀어지는 지면 방향으로 처리한다. 최대 0.14m 이동 후 약 0.265초에 원위치로 돌아오고 반대편으로 재진동하지 않는다. 플래시/기울기/상자 열림은 유지한다. Unity에서 상자 왼쪽·오른쪽·위·아래를 클릭해 반대쪽 반동이 보이는지 확인한다. C# 빌드 통과, 화면 확인 대기.</p>
+<h2>파괴·파편·제거 연출 묶음</h2>
+<ul>
+<li>PrototypeDestruction 어댑터가 모델에서 소진된 나무/바위 뷰를 연출 완료까지 보존한다. 획득량/자원 제거 등 게임 규칙은 기존 모델이 결정하며 추가 보상은 없다.</li>
+<li>나무: 마지막 타격 반대 방향으로 기본 1.1초/88도 넘어짐, 약 0.55초 유지 후 1.15초 디졸브. 잎 카드에 원본 수관의 제거 속성과 버전을 전달한다.</li>
+<li>바위: 공용 ShowcaseDestruction에서 6개 조각을 생성하여 1.5초 튕김/구름 후 1.15초 디졸브. 원본 뷰는 즉시 숨기며, 접지용 메시가 파편으로 선택되지 않도록 필터를 주입한다. 원본 재질/색을 유지하고 타격 플래시·자국은 파편에 복사하지 않는다.</li>
+<li>프로토타입 PixelSurface도 공유 ShowcaseDissolve를 사용한다. 시야 감쇠·시야 밖 숨김은 유지한다.</li>
+<li>입력 콜라이더는 파괴 시작 때 끄고, 판 초기화/씬 종료/연출 완료 때 모듈 및 생성 조각을 정리한다. 메뉴 중에는 진행이 정지한다.</li>
+<li>공용 모듈 기존 호출은 선택 인자 추가로 보존한다. 새 메타데이터는 Unity 임포트가 생성한다.</li>
+</ul>
+<p>검증: Devlog 21개 모듈과 프로토타입 C# 빌드 통과. Unity/HLSL/Play 미실행. 나무/바위를 끝까지 채집해 위 순서대로 사라지는지, 잎만 남지 않는지, 시야 이탈·메뉴·재시작 후 파편/유령 콜라이더가 남지 않는지 확인한다. 실제 메시 절삭이나 물리 Rigidbody 파괴는 아니며 원본 바위 메시를 작게 복제한 시각 조각이다.</p>
+<h2>오브젝트 적설·눈 타격 침식 묶음</h2>
+<ul>
+<li>눈 바이옴의 읽기 가능한 고정 오브젝트 메시(나무·바위·건물·상자 등)에 Day01 ShowcaseSnowCap을 연결했다. 이동 유닛은 제외한다.</li>
+<li>PrototypeSnowTarget은 ISnowTarget 어댑터로서 32개 국소 타격 기록과 공용 침식 함수를 사용한다. 클릭/자동화의 실제 접촉 시 덮개 두께·면적이 감소하고 눈 조각이 떨어진다. 게임 보상과 쿨타임은 변경하지 않는다.</li>
+<li>눈 덮개도 정밀 표면 선택에 포함하며 이미 침식된 부분은 통과한다. 눈 표면에는 목재/돌 자국을 새기지 않는다. 원본 및 잎 카드에 적설/침식 속성을 전달한다.</li>
+<li>프로토타입 셰이더에 적설을 연결해 기존 시야/낮밤 감쇠와 파괴 디졸브를 따른다. 바위 파편의 원본 선택에서 별도 눈 메시를 제외한다.</li>
+<li>오브젝트 제거·재시작·씬 종료 시 눈 메시와 재질을 해제한다. 메타데이터는 Unity가 생성한다.</li>
+</ul>
+<p>검증: 프로토타입 C# 빌드 통과. Unity/HLSL/플레이 검증 미실행. 눈 지역의 나무/바위 상단을 반복 클릭해 눈이 국소적으로 벗겨지는지, 자동화에서도 동일한지 확인한다. 시야 이탈·파괴·재시작 후 눈만 남지 않는지와 건설/수리의 무플래시도 확인한다. 다음 묶음은 환경음·상호작용/파괴 음향이다.</p>
 </section><section id="doc-2" class="document"><div class="section-label">day-01/production.md</div><h1>Day01 제작 목표와 촬영 계획</h1>
 <h2>확정한 방향</h2>
 <p>마케팅 목적의 Devlog다. 개발량을 나열하기보다 화면의 변화와 클릭 반응으로 게임의 품질을 전달한다. 기존 중세 판타지 모델을 사용하며 새 모델링은 하지 않는다. 녹화는 사용자가 필요한 부분을 선택해서 진행한다.</p>
@@ -1119,6 +1142,7 @@
 <p>프로토타입 커서 반응은 <code>PrototypeHover</code>가 <code>ShowcaseTileHover.Map</code>으로 지도 범위·바이옴·흙먼지 셰이더를 주입한다. HoverDust 패스를 공유하고 출력 조명만 바꾼다. TerrainSurface는 선택적 높이 함수를 받아 변형 후 삼각형을 선택한다. WaterSurface는 파문 표시를 명시적으로 켜며 생성/초기화/메뉴 정지/해제는 프로토타입 어댑터가 조율한다. <a href="#doc-1">이관 상태와 확인 절차</a>.</p>
 <p><code>PrototypeSurfaceFeedback</code>은 나무·바위의 Renderer에 공용 ShowcasePickSurface를 붙여 원본 메시 선택 캐시를 재사용한다. 도구 접촉점으로 ShowcaseDamageMarks를 갱신하며 게임 규칙을 소유하지 않는다. 렌더러 틴트와 자국 MPB를 보존하고 제거/재시작 시 표면 등록을 해제한다.</p>
 <p>프로토타입 직접 작업은 PrototypeManualWork(모델의 작업 가능/단일 대상 기여)와 Presentation의 준비/접촉 타이밍으로 나눈다. 모든 커서 자동 반복은 CursorAutomationUnlocked로 제한한다. PrototypeImpactFeedback은 Destruction의 타격 타이밍/작은 파편 풀을 재사용하며 게임 피해량이나 자동화 해금을 결정하지 않는다. <a href="../docs/game-process/46-click-work-and-automation.md">최신 규칙</a>.</p>
+<p>PrototypeDestruction은 소진된 자원의 뷰를 보존하고 공용 ShowcaseDestruction을 조립한다. 원본 메시 선택 필터와 지형 높이를 주입하고 생성 조각/제거 상태를 소유한다. 나무 회전은 어댑터에서 수행하며 잎 속성 버전은 원본 디졸브와 함께 갱신한다.</p>
 </section><section id="doc-12" class="document"><div class="section-label">architecture/assets.md</div><h1>에셋과 프리팹</h1>
 <h2>원본 → 임포트 → 장면</h2>
 <table>
