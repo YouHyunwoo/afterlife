@@ -45,6 +45,10 @@ namespace Afterlife.Devlog.Destruction
             var sourceRenderer=source.GetComponent<Renderer>();
             if (sourceRenderer==null) return;
             Bounds bounds=sourceRenderer.bounds;
+            // FBX 원본 좌표 크기와 무관하게 조각 하나에 큰 Perlin 무늬가 생기도록 보정한다.
+            // 화면에서만 축소하면 원본 메시의 촘촘한 무늬가 픽셀 잡음처럼 보인다.
+            Vector3 meshSize=source.sharedMesh.bounds.size;
+            float dissolveScale=3.5f/Mathf.Max(.001f,Mathf.Max(meshSize.x,Mathf.Max(meshSize.y,meshSize.z)));
             for (int i=0;i<(_profile!=null ? Mathf.Clamp(_profile.RockFragmentCount,2,12) : 6);i++)
             {
                 float angle=i*2.39996f;
@@ -61,6 +65,9 @@ namespace Afterlife.Devlog.Destruction
                 model.position-=model.TransformVector(source.sharedMesh.bounds.center);
                 model.gameObject.AddComponent<MeshFilter>().sharedMesh=source.sharedMesh;
                 var renderer=model.gameObject.AddComponent<MeshRenderer>(); renderer.sharedMaterials=sourceRenderer.sharedMaterials;
+                _properties.Clear();
+                _properties.SetFloat("_DissolveScale",dissolveScale);
+                renderer.SetPropertyBlock(_properties);
                 float radius=Mathf.Max(.06f,renderer.bounds.extents.y);
                 root.position=new Vector3(root.position.x,Mathf.Max(root.position.y,_ground(root.position)+radius),root.position.z);
                 _fragments.Add(new Fragment { Root=root,Renderer=renderer,Radius=radius,Rest=root.position,
