@@ -9,11 +9,19 @@ namespace Afterlife.Devlog.Day01
     public sealed class Day01Showcase : MonoBehaviour
     {
         public Camera ShowcaseCamera;
+        // 기존 에디터 업그레이드의 After 인덱스(2)는 보존한다.
         public Transform[] Stages;
+        public Transform[] PresentationStages;
+        [HideInInspector] public Transform[] ArchivedStages;
+        public bool HasPresentationStages => PresentationStages != null && PresentationStages.Length == 6;
+        public Transform[] StageRoots => HasPresentationStages ? PresentationStages : Stages;
+        private Transform CurrentStage => StageRoots[_stage];
+        private int Phase => HasPresentationStages ? _stage : (_stage == 2 ? 5 : _stage);
+        private static readonly string[] PhaseNames = { "BEFORE / PRIMITIVES", "SHAPE / PIXEL STYLE", "TERRAIN / WATER", "LIVING ENVIRONMENT", "INTERACTION", "AFTER / ATMOSPHERE" };
         public UniversalRenderPipelineAsset Pipeline;
         public Material ParticleMaterial;
         public GameObject Axe, Pick;
-        [Range(0, 2)] public int StartStage = 2;
+        [Range(0, 5)] public int StartStage = 2;
         [Range(180, 720)] public int PixelHeight = 360;
         public bool ShowGuide = true;
         public bool CameraShake = true;
@@ -45,6 +53,9 @@ namespace Afterlife.Devlog.Day01
         private ShowcasePickSurface[] _pickSurfaces;
         private readonly List<Chip> _chips = new List<Chip>();
         public Afterlife.Devlog.Audio.ShowcaseAudioBank AudioBank;
+        public Afterlife.Devlog.AmbientAudio.AmbientAudioSettings Ambience = new Afterlife.Devlog.AmbientAudio.AmbientAudioSettings();
+        private Afterlife.Devlog.AmbientAudio.ShowcaseAmbience _ambience;
+        private bool _brushingGrass;
         public Afterlife.Devlog.Destruction.DestructionProfile DestructionSettings;
         public GameObject ChipPrefab;
         public ParticleSystem SmokePrefab;
@@ -84,8 +95,10 @@ namespace Afterlife.Devlog.Day01
             _refractionCameraData.requiresColorTexture = true;
             GraphicsSettings.defaultRenderPipeline = _ownedPipeline;
             QualitySettings.renderPipeline = _ownedPipeline;
-            _targets = GetComponentsInChildren<ShowcaseTarget>(true);
-            foreach (var target in _targets) target.Initialize();
+            var targets = new List<ShowcaseTarget>();
+            foreach (var stage in StageRoots) targets.AddRange(stage.GetComponentsInChildren<ShowcaseTarget>(true));
+            _targets = targets.ToArray();
+            foreach (var target in _targets) { target.Initialize(); target.DamageMarksEnabled=_damageMarksEnabled; }
             var bank=AudioBank!=null ? AudioBank : Resources.Load<Afterlife.Devlog.Audio.ShowcaseAudioBank>("DevlogAudio/ShowcaseAudioBank");
             if (bank==null)
             {
@@ -99,33 +112,19 @@ namespace Afterlife.Devlog.Day01
             _sound=new Afterlife.Devlog.Audio.ShowcaseAudio(transform,bank,
                 bank.WaterRipple!=null ? bank.WaterRipple : Resources.Load<AudioClip>("DevlogAudio/freesori_water_ripple"),
                 Resources.LoadAll<AudioClip>("DevlogAudio/WaterRipples"));
+            _ambience = new Afterlife.Devlog.AmbientAudio.ShowcaseAmbience(transform, Ambience,
+                new[] {
+                    Resources.Load<AudioClip>("DevlogAmbience/GrassRustles/grass_rustle_02"),
+                    Resources.Load<AudioClip>("DevlogAmbience/GrassRustles/grass_rustle_03"),
+                    Resources.Load<AudioClip>("DevlogAmbience/GrassRustles/grass_rustle_04")
+                },
+                Resources.Load<AudioClip>("DevlogAmbience/bird"));
             foreach (var target in _targets) if (DestructionSettings!=null) target.DestructionSettings=DestructionSettings;
             _axeImpactPoint = FindImpactPoint(Axe);
             _pickImpactPoint = FindImpactPoint(Pick);
             _lighting = new ShowcaseLighting(transform,ShowcaseCamera)
             { Height = VisionHeight, CursorRadius = CursorVisionRadius, HouseRadius = HouseVisionRadius };
             _wind = new Afterlife.Devlog.Wind.ShowcaseWind();
-            _smoke = new ShowcaseSmoke(transform,FindChimneyOutlet,SmokePrefab,_wind.Sample);
-            _crystalGlow=new ShowcaseCrystalGlow(Stages[2],ShowcaseCamera);
-            _grass = new ShowcaseGrass(Stages);
-            foreach (var target in _targets)
-            {
-                if (!target.Wood || !target.transform.IsChildOf(Stages[2])) continue;
-                var surfaces=new List<ShowcaseLeafCards.Surface>();
-                foreach (var surface in target.Visual.GetComponentsInChildren<ShowcasePickSurface>(true))
-                {
-                    if (surface.SnowCap || surface.Mesh==null) continue;
-                    surfaces.Add(new ShowcaseLeafCards.Surface { Transform=surface.transform, Vertices=surface.Mesh.Vertices,
-                        Triangles=surface.Mesh.Triangles,Normals=surface.Mesh.Normals,Colors=surface.Mesh.Colors,Renderer=surface.VisibleRenderer });
-                }
-                var leaves=new ShowcaseLeafCards(surfaces);
-                _treeLeaves.Add(leaves);
-                Debug.Log("Leaf sprites: "+target.name+" / "+leaves.Count+" cards.",target);
-            }
-            _shoreline = new ShowcaseShorelinePreview(Stages[2]);
-            _tileHover = new Afterlife.Devlog.Hover.ShowcaseTileHover(Stages[2]);
-            _tileHover.WaterRippleCreated+=PlayWaterRipple;
-            _hoverTerrain = new ShowcaseHoverTerrain(Stages[2],_tileHover);
             SetStage(StartStage);
         }
 
@@ -164,18 +163,89 @@ namespace Afterlife.Devlog.Day01
 
         public void SetStage(int stage)
         {
-            _stage = Mathf.Clamp(stage, 0, 2);
-            _lighting?.SetStage(Stages[_stage]);
-            _pickSurfaces = Stages[_stage].GetComponentsInChildren<ShowcasePickSurface>(true);
             ResetTake();
+            DisposeStageEffects();
+            _stage = Mathf.Clamp(stage, 0, StageRoots.Length - 1);
+            for (int i = 0; i < StageRoots.Length; i++) StageRoots[i].gameObject.SetActive(i == _stage);
+            _lighting?.SetStage(CurrentStage);
+            _lighting?.SetNight(false, true);
+            if (Phase == 5)
+            {
+                _pixels = true;
+                _damageMarksEnabled = true;
+                _removalMode = Afterlife.Devlog.Destruction.DisappearMode.Dissolve;
+                foreach (var target in _targets)
+                {
+                    target.DamageMarksEnabled = true;
+                    target.RemovalMode = _removalMode;
+                }
+            }
+            // 조명 모듈의 기존 창문 마스크는 최종 단계에서만 허용한다.
+            foreach (var renderer in CurrentStage.GetComponentsInChildren<MeshRenderer>(true))
+            {
+                if (!renderer.name.StartsWith("House_Mesh")) continue;
+                var properties = new MaterialPropertyBlock(); renderer.GetPropertyBlock(properties);
+                properties.SetFloat("_HouseWindows", Phase == 5 ? 1 : 0); renderer.SetPropertyBlock(properties);
+            }
+            CreateStageEffects();
+            _pickSurfaces = CurrentStage.GetComponentsInChildren<ShowcasePickSurface>(true);
             ConfigureOutput();
             PositionCamera();
+        }
+
+        private void CreateStageEffects()
+        {
+            if (Phase >= 3)
+            {
+                _smoke = new ShowcaseSmoke(CurrentStage,FindChimneyOutlet,SmokePrefab,_wind.Sample);
+                _grass = new ShowcaseGrass(CurrentStage);
+                foreach (var target in _targets)
+                {
+                    if (!target.Wood || !target.transform.IsChildOf(CurrentStage)) continue;
+                    var surfaces=new List<ShowcaseLeafCards.Surface>();
+                    foreach (var surface in target.Visual.GetComponentsInChildren<ShowcasePickSurface>(true))
+                    {
+                        if (surface.SnowCap || surface.Mesh==null) continue;
+                        surfaces.Add(new ShowcaseLeafCards.Surface { Transform=surface.transform, Vertices=surface.Mesh.Vertices,
+                            Triangles=surface.Mesh.Triangles,Normals=surface.Mesh.Normals,Colors=surface.Mesh.Colors,Renderer=surface.VisibleRenderer });
+                    }
+                    var leaves=new ShowcaseLeafCards(surfaces);
+                    _treeLeaves.Add(leaves);
+                    Debug.Log("Leaf sprites: "+target.name+" / "+leaves.Count+" cards.",target);
+                }
+            }
+            if (Phase >= 2)
+            {
+                _shoreline = new ShowcaseShorelinePreview(CurrentStage);
+                if (Phase == 5) _shoreline.Select(Afterlife.Devlog.Shoreline.ShorelineMode.Rounded);
+            }
+            if (Phase >= 4)
+            {
+                _tileHover = new Afterlife.Devlog.Hover.ShowcaseTileHover(CurrentStage);
+                if (Phase == 5) _tileHover.GrassMode = Afterlife.Devlog.Hover.GrassHoverMode.Sway;
+                _tileHover.WaterRippleCreated += PlayWaterRipple;
+                _hoverTerrain = new ShowcaseHoverTerrain(CurrentStage, _tileHover);
+            }
+            if (Phase == 5) _crystalGlow = new ShowcaseCrystalGlow(CurrentStage, ShowcaseCamera);
+        }
+
+        private void DisposeStageEffects()
+        {
+            if (_tileHover != null) _tileHover.WaterRippleCreated -= PlayWaterRipple;
+            _hoverTerrain?.Dispose(); _hoverTerrain = null;
+            _tileHover?.Dispose(); _tileHover = null;
+            _shoreline?.Dispose(); _shoreline = null;
+            foreach (var leaves in _treeLeaves) leaves.Dispose();
+            _treeLeaves.Clear();
+            _grass?.Dispose(); _grass = null;
+            _crystalGlow?.Dispose(); _crystalGlow = null;
+            _smoke?.Dispose(); _smoke = null;
         }
 
         private void ConfigureOutput()
         {
             if (_texture != null) { ShowcaseCamera.targetTexture = null; _texture.Release(); Destroy(_texture); _texture = null; }
-            bool pixelated = _pixels && _stage == 2;
+            bool pixelated = _pixels && Phase >= 1;
             if (pixelated && _displayCamera == null)
             {
                 var output = new GameObject("PixelDisplayCamera");
@@ -217,21 +287,25 @@ namespace Afterlife.Devlog.Day01
                 if (keyboard.digit1Key.wasPressedThisFrame) SetStage(0);
                 if (keyboard.digit2Key.wasPressedThisFrame) SetStage(1);
                 if (keyboard.digit3Key.wasPressedThisFrame) SetStage(2);
+                if (HasPresentationStages && keyboard.digit4Key.wasPressedThisFrame) SetStage(3);
+                if (HasPresentationStages && keyboard.digit5Key.wasPressedThisFrame) SetStage(4);
+                if (HasPresentationStages && keyboard.digit6Key.wasPressedThisFrame) SetStage(5);
                 if (keyboard.hKey.wasPressedThisFrame) ShowGuide = !ShowGuide;
                 if (keyboard.pKey.wasPressedThisFrame) { _pixels = !_pixels; ConfigureOutput(); }
                 if (keyboard.rKey.wasPressedThisFrame) ResetTake();
-                if (keyboard.nKey.wasPressedThisFrame) _lighting?.Toggle();
+                if (keyboard.nKey.wasPressedThisFrame && Phase == 5) _lighting?.Toggle();
                 if (keyboard.lKey.wasPressedThisFrame) foreach (var leaves in _treeLeaves) leaves.Toggle();
                 if (keyboard.gKey.wasPressedThisFrame) foreach (var leaves in _treeLeaves) leaves.ToggleRotation();
             }
             _lighting?.Tick(Time.unscaledDeltaTime);
-            _wind?.Tick(Time.unscaledTime);
+            _wind?.Tick(Time.unscaledTime, Phase >= 3 ? 1 : 0);
             _smoke?.TickWind();
             float height = Mathf.Min(Screen.height, Screen.width / Aspect);
             if (Mathf.Abs(_display.height - height) > 1 || Mathf.Abs(_display.center.x - Screen.width * .5f) > 1 || Mathf.Abs(_display.center.y - Screen.height * .5f) > 1) ConfigureOutput();
             _shake = Mathf.Max(0, _shake - Time.unscaledDeltaTime);
             PositionCamera();
             UpdatePointer();
+            _ambience?.Tick(Time.unscaledDeltaTime, Phase >= 3, _lighting == null || !_lighting.Night, _brushingGrass);
             _tileHover?.Tick(Time.unscaledDeltaTime);
             for (int i = _chips.Count - 1; i >= 0; i--)
             {
@@ -258,17 +332,19 @@ namespace Afterlife.Devlog.Day01
 
         private void PositionCamera()
         {
-            Vector3 focus = Stages[_stage].position + Vector3.up * .5f;
+            Vector3 focus = CurrentStage.position + Vector3.up * .5f;
             ShowcaseCamera.transform.SetPositionAndRotation(focus + _cameraOffset, Quaternion.LookRotation(-_cameraOffset));
             if (CameraShake && _shake > 0) ShowcaseCamera.transform.position += ShowcaseCamera.transform.right * Mathf.Sin(_shake * 160) * _shake * .2f;
         }
 
         private void UpdatePointer()
         {
+            _brushingGrass = false;
             _tileHover?.SetPointer(null);
             _lighting?.UpdateCursor(null);
             if (_hover != null) _hover.SetHover(false);
             _hover = null;
+            if (Phase < 4) return;
             var mouse = Mouse.current;
             if (mouse == null || !Application.isFocused) return;
             Vector2 point = mouse.position.ReadValue();
@@ -284,18 +360,20 @@ namespace Afterlife.Devlog.Day01
             Ray ray = ShowcaseCamera.ViewportPointToRay(viewport);
             _lighting?.UpdateCursor(ray);
             if (!PickSurface(ray, out var surface, out var hitPoint, out var surfaceColor)) return;
-            if (_stage==2 && surface.Target==null && surface.HitNormal.y>.35f
+            if (Phase>=4 && surface.Target==null && surface.HitNormal.y>.35f
                 && (surface.name.StartsWith("Tile_") || surface.name=="OceanBlocks_HalfHeight"))
             {
-                Vector3 local=Stages[2].InverseTransformPoint(hitPoint);
+                Vector3 local=CurrentStage.InverseTransformPoint(hitPoint);
                 var biome=Afterlife.Devlog.Terrain.ShowcaseBiomeMap.At(Mathf.FloorToInt(local.x),Mathf.FloorToInt(local.z));
                 _tileHover?.SetPointer(hitPoint,biome,mouse.delta.ReadValue().sqrMagnitude>.01f);
+                _brushingGrass = mouse.delta.ReadValue().sqrMagnitude>.01f
+                    && _grass!=null && _grass.HasGrassAt(hitPoint);
             }
             // 가장 가까운 표면이 건물/폐허면 뒤의 자원을 때리지 않는다.
             _hover = surface.Target as ShowcaseTarget;
             if (_hover == null || !_hover.isActiveAndEnabled)
             {
-                if (_stage==2 && mouse.leftButton.wasPressedThisFrame && _pendingTarget==null)
+                if (Phase>=4 && mouse.leftButton.wasPressedThisFrame && _pendingTarget==null)
                     TapFeedback(hitPoint,surface.HitNormal,surfaceColor);
                 return;
             }
@@ -344,6 +422,7 @@ namespace Afterlife.Devlog.Day01
             if (!target.CanHit) return;
             Vector3 incoming = _pendingTarget == target ? -_approach : ShowcaseCamera.transform.forward;
             var snowPositions = target.ShedSnow(hitPoint);
+            target.RecordDamageMark(hitPoint,_impactNormal,_impactColor);
             target.Hit(hitPoint,incoming);
             _sound?.Play(target.Wood,target.IsBroken,Time.unscaledTime);
             if (!target.Juicy) return;
@@ -418,8 +497,14 @@ namespace Afterlife.Devlog.Day01
 
         public void ResetTake()
         {
+            ResetTake(true);
+        }
+
+        private void ResetTake(bool resetAmbience)
+        {
             _tileHover?.Reset();
             _sound?.Reset();
+            if (resetAmbience) _ambience?.Reset();
             _smoke?.ResetTake();
             if (_targets != null) foreach (var target in _targets) target.ResetTake();
             foreach (var chip in _chips) if (chip.Transform != null) Destroy(chip.Transform.gameObject);
@@ -441,7 +526,9 @@ namespace Afterlife.Devlog.Day01
             ResetTake();
             foreach (var target in _targets) target.RemovalMode=mode;
         }
-        private Rect GuideRect() => new Rect(16, 16, Mathf.Min(550, Screen.width - 32), 226);
+        private const float GuideScale = 1.5f;
+        private bool _damageMarksEnabled=true;
+        private Rect GuideRect() => new Rect(16, 16, 550 * GuideScale, 305 * GuideScale);
         private void OnGUI()
         {
             if (ShowcaseCamera == null) return;
@@ -458,16 +545,31 @@ namespace Afterlife.Devlog.Day01
             GUI.color = Color.white;
             if (_texture != null) GUI.DrawTexture(_display, _texture, ScaleMode.StretchToFill, false);
             if (!ShowGuide) return;
-            GUI.Box(GuideRect(), "");
-            string[] names = { "BEFORE / PRIMITIVES", "PROCESS / EXISTING MODELS", "AFTER / PIXEL FOREST" };
-            GUI.Label(new Rect(28, 23, 520, 22), "DAY 01   /   " + names[_stage]);
-            GUI.Label(new Rect(28, 48, 520, 22), "1 Before     2 Process     3 After     H Hide guide");
+            var previousMatrix = GUI.matrix;
+            try
+            {
+                // 화면 출력은 그대로 두고 안내 패널만 좌상단 여백 16px 기준으로 확대한다.
+                GUI.matrix = previousMatrix * Matrix4x4.TRS(new Vector3(16*(1-GuideScale),16*(1-GuideScale),0),
+                    Quaternion.identity,new Vector3(GuideScale,GuideScale,1));
+                DrawGuide();
+            }
+            finally { GUI.matrix = previousMatrix; }
+        }
+
+        private void DrawGuide()
+        {
+            GUI.Box(new Rect(16,16,550,305), "");
+            string[] names = PhaseNames;
+            GUI.Label(new Rect(28, 23, 520, 22), "DAY 01   /   " + names[Phase]);
+            GUI.Label(new Rect(28, 48, 520, 22), HasPresentationStages ? "1 Before  2 Shape  3 Terrain  4 Life  5 Hits  6 After | H Hide" : "1 Before  2 Process  3 After | H Hide");
             GUI.Label(new Rect(28, 73, 520, 22), "P Pixels   R Reset   G Leaf rotation: "+(LeafRotation ? "Random 360" : "Uniform"));
-            GUI.Label(new Rect(28, 98, 520, 22), "N Day/Night | L Leaves: " + (LeavesEnabled ? "ON " : "OFF ")+_treeLeaves.Count+" trees / "+LeafCount+" cards");
+            GUI.Label(new Rect(28, 98, 520, 22), (Phase == 5 ? "N Day/Night" : "Day/Night: stage 6")+" | L Leaves: " + (LeavesEnabled ? "ON " : "OFF ")+_treeLeaves.Count+" trees / "+LeafCount+" cards");
+            GUI.enabled = Phase >= 4;
             if (GUI.Button(new Rect(28,126,180,27),(_removalMode==Afterlife.Devlog.Destruction.DisappearMode.Sink ? "[Selected] " : "")+"Sink + reset"))
                 SelectRemoval(Afterlife.Devlog.Destruction.DisappearMode.Sink);
             if (GUI.Button(new Rect(218,126,200,27),(_removalMode==Afterlife.Devlog.Destruction.DisappearMode.Dissolve ? "[Selected] " : "")+"Dissolve + reset"))
                 SelectRemoval(Afterlife.Devlog.Destruction.DisappearMode.Dissolve);
+            GUI.enabled = Phase >= 2;
             string[] shoreNames={"Square","Bevel","Rounded"};
             for (int i=0;i<3;i++)
             {
@@ -476,28 +578,32 @@ namespace Afterlife.Devlog.Day01
                 {
                     _hoverTerrain?.Dispose(); _hoverTerrain=null;
                     _shoreline?.Select(mode);
-                    if (_tileHover!=null) { _tileHover.Reset(); _hoverTerrain=new ShowcaseHoverTerrain(Stages[2],_tileHover); }
+                    if (_tileHover!=null) { _tileHover.Reset(); _hoverTerrain=new ShowcaseHoverTerrain(CurrentStage,_tileHover); }
                 }
             }
+            GUI.enabled = Phase >= 4;
             if (GUI.Button(new Rect(28,196,245,27),(_tileHover!=null && _tileHover.GrassMode==Afterlife.Devlog.Hover.GrassHoverMode.Radial ? "* " : "")+"Grass: Radial bend"))
             { _tileHover?.Reset(); if (_tileHover!=null) _tileHover.GrassMode=Afterlife.Devlog.Hover.GrassHoverMode.Radial; }
             if (GUI.Button(new Rect(283,196,245,27),(_tileHover!=null && _tileHover.GrassMode==Afterlife.Devlog.Hover.GrassHoverMode.Sway ? "* " : "")+"Grass: Sway + recover"))
             { _tileHover?.Reset(); if (_tileHover!=null) _tileHover.GrassMode=Afterlife.Devlog.Hover.GrassHoverMode.Sway; }
+            if (GUI.Button(new Rect(28,233,500,27),"Damage marks: "+(_damageMarksEnabled ? "ON" : "OFF")+"  / compare same hits"))
+            {
+                _damageMarksEnabled=!_damageMarksEnabled;
+                foreach (var target in _targets) target.DamageMarksEnabled=_damageMarksEnabled;
+            }
+            GUI.enabled = true;
+            string[] buttons = HasPresentationStages ? new[] { "1 Before", "2 Shape", "3 Terrain", "4 Life", "5 Hits", "6 After" } : new[] { "1 Before", "2 Process", "3 After" };
+            for (int i = 0; i < buttons.Length; i++)
+                if (GUI.Button(new Rect(28 + i * 86, 270, 82, 27), (_stage == i ? "* " : "") + buttons[i])) SetStage(i);
         }
 
         private void OnDisable()
         {
             if (_tileHover!=null) _tileHover.WaterRippleCreated-=PlayWaterRipple;
             _sound?.Dispose(); _sound=null;
+            _ambience?.Dispose(); _ambience=null;
             if (_fallbackAudioBank!=null) { Destroy(_fallbackAudioBank); _fallbackAudioBank=null; }
-            _hoverTerrain?.Dispose(); _hoverTerrain=null;
-            _tileHover?.Dispose(); _tileHover=null;
-            _shoreline?.Dispose(); _shoreline=null;
-            foreach (var leaves in _treeLeaves) leaves.Dispose();
-            _treeLeaves.Clear();
-            _grass?.Dispose(); _grass = null;
-            _crystalGlow?.Dispose(); _crystalGlow=null;
-            _smoke?.Dispose(); _smoke = null;
+            DisposeStageEffects();
             _wind?.Dispose(); _wind = null;
             _lighting?.Dispose(); _lighting = null;
             ResetTake();

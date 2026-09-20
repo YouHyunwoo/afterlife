@@ -11,6 +11,7 @@ namespace Afterlife.Devlog.Day01
     {
         private readonly List<GameObject> _objects=new List<GameObject>();
         private readonly List<Mesh> _meshes=new List<Mesh>();
+        private readonly List<Vector3> _afterGrassContacts=new List<Vector3>();
         private readonly List<GameObject> _suppressedDecorations=new List<GameObject>();
         private readonly Material _material;
 
@@ -19,7 +20,9 @@ namespace Afterlife.Devlog.Day01
         private static float FlowerCluster(float x,float z) => Mathf.SmoothStep(0,1,
             Mathf.InverseLerp(.48f,.67f,Mathf.PerlinNoise(x*.91f+73.1f,z*.91f+8.6f)));
 
-        public ShowcaseGrass(Transform[] stages)
+        public ShowcaseGrass(Transform stage) : this(new[] { stage }, true) { }
+        public ShowcaseGrass(Transform[] stages) : this(stages, false) { }
+        private ShowcaseGrass(Transform[] stages, bool singleStage)
         {
             var shader=Shader.Find("Afterlife/Devlog/ShowcaseGrass");
             if (shader==null) { Debug.LogError("Devlog grass shader is missing."); return; }
@@ -30,7 +33,8 @@ namespace Afterlife.Devlog.Day01
                 if (texture==null) { Debug.LogError("Devlog grass PNG missing: Grass"+i); return; }
                 _material.SetTexture("_Grass"+i,texture);
             }
-            for (int phase=1;phase<stages.Length;phase++) Build(stages[phase],phase==2);
+            if (singleStage) Build(stages[0],true);
+            else for (int phase=1;phase<stages.Length;phase++) Build(stages[phase],phase==2);
         }
 
         private void Build(Transform stage,bool forestEnabled)
@@ -113,6 +117,8 @@ namespace Afterlife.Devlog.Day01
                     if (kind==4) width=.20f;
                     if (kind==1) height*=1.55f;
                     if (kind==2 || kind==3) { height*=.55f; width*=.85f; }
+                    // 실제 생성된 After 풀의 위치/폭만 접촉 대상으로 보관한다. 빈 군락과 장애물은 제외된다.
+                    if (forestEnabled) _afterGrassContacts.Add(new Vector3(world.x,world.z,width*.5f+.04f));
                     float toneNoise=Mathf.PerlinNoise(px*.8f+47.2f,pz*.8f+13.7f);
                     float tone=toneNoise<.42f ? .88f : toneNoise<.58f ? 1 : 1.12f;
                     Color ground=tileColors.TryGetValue(new Vector2Int(x,z),out var tint) ? tint : new Color(.30f,.40f,.23f);
@@ -160,6 +166,16 @@ namespace Afterlife.Devlog.Day01
                 }
         }
 
+        public bool HasGrassAt(Vector3 worldPoint)
+        {
+            foreach (var contact in _afterGrassContacts)
+            {
+                float dx=worldPoint.x-contact.x, dz=worldPoint.z-contact.y;
+                if (dx*dx+dz*dz<=contact.z*contact.z) return true;
+            }
+            return false;
+        }
+
         public void Dispose()
         {
             foreach (var decoration in _suppressedDecorations) if (decoration!=null) decoration.SetActive(true);
@@ -168,6 +184,7 @@ namespace Afterlife.Devlog.Day01
             foreach (var mesh in _meshes) UnityEngine.Object.Destroy(mesh);
             if (_material!=null) UnityEngine.Object.Destroy(_material);
             _objects.Clear(); _meshes.Clear();
+            _afterGrassContacts.Clear();
         }
     }
 }

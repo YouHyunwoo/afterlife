@@ -56,6 +56,12 @@ namespace Afterlife.Devlog.Day01
             PublishHouse();
         }
 
+        public void SetNight(bool night, bool immediate = false)
+        {
+            Night = night;
+            if (immediate) { _blend = night ? 1 : 0; Tick(0); }
+        }
+
         public void Toggle() { Night = !Night; }
 
         public void Tick(float delta)

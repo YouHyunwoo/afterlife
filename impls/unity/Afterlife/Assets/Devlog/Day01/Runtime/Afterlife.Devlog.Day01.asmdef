@@ -3,6 +3,7 @@
   "rootNamespace": "Afterlife.Devlog.Day01",
   "references": ["Afterlife.Devlog.Snow",
     "Afterlife.Devlog.Wind",
+    "Afterlife.Devlog.DamageMarks",
     "Afterlife.Devlog.Hover",
     "Afterlife.Devlog.Shoreline",
     "Afterlife.Devlog.Destruction",
@@ -14,6 +15,7 @@
     "Unity.RenderPipelines.Universal.Runtime",
     "Afterlife.Devlog.Contracts",
     "Afterlife.Devlog.Audio",
+    "Afterlife.Devlog.AmbientAudio",
     "Afterlife.Devlog.Interaction"
   ],
   "autoReferenced": true

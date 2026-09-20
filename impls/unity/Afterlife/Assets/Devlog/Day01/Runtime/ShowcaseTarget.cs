@@ -13,9 +13,10 @@ namespace Afterlife.Devlog.Day01
         Transform ISnowTarget.Visual => Visual;
         public bool Juicy;
         public bool Wood;
+        public bool EnableSnow = true;
         public DestructionProfile DestructionSettings;
         public ShowcaseBiome Biome { get; private set; }
-        public bool HasSnow => _biomeStage != null && _modelStage && Biome == ShowcaseBiome.Snow;
+        public bool HasSnow => EnableSnow && _biomeStage != null && _modelStage && Biome == ShowcaseBiome.Snow;
         private Transform _biomeStage;
         private bool _modelStage;
         private Renderer[] _renderers;
@@ -30,6 +31,14 @@ namespace Afterlife.Devlog.Day01
         private readonly List<ShowcaseSnowCap> _snowCaps = new List<ShowcaseSnowCap>();
         private bool _initialized;
         private int _hits;
+        private readonly Afterlife.Devlog.DamageMarks.ShowcaseDamageMarks _damageMarks=new Afterlife.Devlog.DamageMarks.ShowcaseDamageMarks();
+        public bool DamageMarksEnabled { get; set; }=true;
+        public void RecordDamageMark(Vector3 point,Vector3 normal,Color surfaceColor)
+        {
+            if (!Juicy || !CanHit) return;
+            if (Wood && surfaceColor.g>surfaceColor.r*1.08f && surfaceColor.g>surfaceColor.b*1.05f) return;
+            _damageMarks.Add(Visual,point,normal);
+        }
         public bool IsBroken { get; private set; }
         public float FallSoundDuration { get; set; } = 2.94f;
         public DisappearMode RemovalMode { get; set; }
@@ -119,12 +128,12 @@ namespace Afterlife.Devlog.Day01
             _renderers = Visual.GetComponentsInChildren<Renderer>();
             _properties = new MaterialPropertyBlock();
             var showcase = GetComponentInParent<Day01Showcase>();
-            if (showcase != null && showcase.Stages != null)
-                for (int i = 0; i < showcase.Stages.Length; i++)
-                    if (showcase.Stages[i] != null && transform.IsChildOf(showcase.Stages[i]))
-                    { _biomeStage = showcase.Stages[i]; _modelStage = i > 0; break; }
+            if (showcase != null && showcase.StageRoots != null)
+                for (int i = 0; i < showcase.StageRoots.Length; i++)
+                    if (showcase.StageRoots[i] != null && transform.IsChildOf(showcase.StageRoots[i]))
+                    { _biomeStage = showcase.StageRoots[i]; _modelStage = i > 0; break; }
             RefreshBiome();
-            if (_modelStage)
+            if (_modelStage && EnableSnow)
                 foreach (var surface in Visual.GetComponentsInChildren<ShowcasePickSurface>(true))
                     if (surface.Target == this && !surface.SnowCap) _snowCaps.Add(new ShowcaseSnowCap(surface,this,IsPineCrown(surface.VisibleRenderer)));
             _renderers = Visual.GetComponentsInChildren<Renderer>();
@@ -174,6 +183,7 @@ namespace Afterlife.Devlog.Day01
                 foreach (var renderer in _renderers) renderer.enabled=true;
             IsBroken=false;
             _hits=0;
+            _damageMarks.Clear();
             _age = 10;
             _hover = false;
             _snowHitCount = 0;
@@ -218,6 +228,7 @@ namespace Afterlife.Devlog.Day01
                 _properties.SetFloat("_Flash", flash);
                 _properties.SetFloat("_Hover", _hover ? 1 : 0);
                 bool cap = renderer.name == "SnowCap";
+                _damageMarks.Write(_properties,Visual,Juicy && DamageMarksEnabled && !cap,Wood);
                 _properties.SetFloat("_Snow", cap && HasSnow ? 1 : 0);
                 _properties.SetFloat("_LeafSnow",HasSnow ? 1 : 0);
                 _properties.SetFloat("_LeafSnowPine",IsPineCrown(renderer) ? 1 : 0);

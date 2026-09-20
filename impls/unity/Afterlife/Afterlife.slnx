@@ -6,6 +6,7 @@
   <Project Path="Afterlife.Prototype.Editor.csproj" />
   <Project Path="Afterlife.Devlog.Snow.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
+  <Project Path="Afterlife.Devlog.DamageMarks.Core.csproj" />
   <Project Path="Afterlife.Devlog.Day01.Editor.csproj" />
   <Project Path="DOTween.Modules.csproj" />
   <Project Path="Afterlife.Devlog.Terrain.csproj" />
@@ -16,7 +17,9 @@
   <Project Path="Afterlife.Progression.Unity.csproj" />
   <Project Path="Reusable.Flow.csproj" />
   <Project Path="Afterlife.Devlog.Lighting.csproj" />
+  <Project Path="Afterlife.Devlog.AmbientAudio.csproj" />
   <Project Path="Afterlife.Devlog.Destruction.csproj" />
+  <Project Path="Afterlife.Devlog.AmbientAudio.Core.csproj" />
   <Project Path="Afterlife.Upgrades.csproj" />
   <Project Path="Afterlife.Skills.csproj" />
   <Project Path="Afterlife.Devlog.Vegetation.csproj" />
@@ -24,4 +27,5 @@
   <Project Path="Afterlife.Devlog.Hover.csproj" />
   <Project Path="Afterlife.Devlog.Contracts.csproj" />
   <Project Path="Afterlife.Storage.csproj" />
+  <Project Path="Afterlife.Devlog.DamageMarks.csproj" />
 </Solution>
