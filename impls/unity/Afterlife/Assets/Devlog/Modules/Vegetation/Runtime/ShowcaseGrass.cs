@@ -148,8 +148,8 @@ namespace Afterlife.Devlog.Day01
                     if (kind==4) width=.20f;
                     if (kind==1) height*=1.55f;
                     if (kind==2 || kind==3) { height*=.55f; width*=.85f; }
-                    // 실제 생성된 After 풀의 위치/폭만 접촉 대상으로 보관한다. 빈 군락과 장애물은 제외된다.
-                    if (forestEnabled && map==null)
+                    // Day01 After와 주입된 게임 맵 모두 생성된 풀의 위치/폭을 접촉 대상으로 보관한다.
+                    if (forestEnabled)
                     {
                         var contactCell=new Vector2Int(Mathf.FloorToInt(world.x),Mathf.FloorToInt(world.z));
                         if (!_afterGrassContacts.TryGetValue(contactCell,out var contacts))
