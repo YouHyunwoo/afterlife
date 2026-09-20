@@ -75,7 +75,7 @@ Terrain의 ShowcaseTerrainField가 맵 전체 좌표의 gradient Perlin과 실�
 
 프로토타입 지면 색은 PrototypeGroundAppearance HLSL과 런타임 색/법선 텍스처를 지형·풀·식물 장식이 공유한다. TerrainSurface는 원본 맵의 색/높이를 제공하고, 프로토타입 어댑터가 텍스처 생성·소유·전역값 복원을 담당한다. Grass 출력 훅은 Day01과 프로토타입 표현을 분리한다.
 
-프로토타입 커서 반응은 `PrototypeHover`가 `ShowcaseTileHover.Map`으로 지도 범위·바이옴·흙먼지 셰이더를 주입한다. HoverDust 패스를 공유하고 출력 조명만 바꾼다. TerrainSurface는 선택적 높이 함수를 받아 변형 후 삼각형을 선택한다. WaterSurface는 파문 표시를 명시적으로 켜며 생성/초기화/메뉴 정지/해제는 프로토타입 어댑터가 조율한다. [이관 상태와 확인 절차](../temp-prototype-migration-context.md).
+프로토타입 커서 반응은 `PrototypeHover`가 `ShowcaseTileHover.Map`으로 지도 범위·바이옴·흙먼지 셰이더를 주입한다. HoverDust 패스를 공유하고 출력 조명만 바꾼다. TerrainSurface는 선택적 높이 함수를 받아 변형 후 삼각형을 선택한다. WaterSurface는 파문 표시를 명시적으로 켜며 생성/초기화/메뉴 정지/해제는 프로토타입 어댑터가 조율한다. [이관 상태와 확인 절차](../records/prototype-migration.md).
 
 `PrototypeSurfaceFeedback`은 나무·바위의 Renderer에 공용 ShowcasePickSurface를 붙여 원본 메시 선택 캐시를 재사용한다. 도구 접촉점으로 ShowcaseDamageMarks를 갱신하며 게임 규칙을 소유하지 않는다. 렌더러 틴트와 자국 MPB를 보존하고 제거/재시작 시 표면 등록을 해제한다.
 
@@ -88,3 +88,7 @@ PrototypeDestruction은 소진된 자원의 뷰를 보존하고 공용 ShowcaseD
 집 연기: ShowcaseSmoke의 방출 대상/셰이더를 선택 인자로 주입한다. ShowcaseSmokePass는 노이즈/투명도 공용 본문이고 프로토타입 Resources 셰이더가 시야·조명 출력을 제공한다. PrototypeSmoke가 집의 완공/이전/제거와 모듈 수명을 조합한다.
 
 발광: ShowcaseEmission.hlsl은 Day01/프로토타입이 공유하는 정점 팔레트 기반 HDR 표현이다. ShowcaseCrystalGlow는 선택적인 대상 목록과 카메라/Volume 수명을 관리하며 PrototypeGlow가 동적 집/폐허 상태를 MPB에 연결한다. 프로토타입 URP 복사본·Point 렌더 텍스처의 HDR 및 저장 Renderer의 PostProcessData 참조가 Bloom 경로를 구성한다.
+
+자원 군집: Terrain의 ShowcaseResourceClusters는 Unity 참조 없는 좌표/바이옴 기반 분포 계산이다. PrototypeNatureLayout이 자원 한도·눈 우선 예산·개체 점유 검사와 조합한다. 초기 배치와 재생성이 같은 분포를 사용한다.
+
+랜덤 지도: Terrain.ShowcaseWorldMap이 시드 기반 타일/길/탐험 목적지를 생성하고 PrototypeTerrain이 게임 지도에 반영한다. PrototypeMapView가 지도 Revision 변경 시 표현을 재구성한다. 경로는 물을 제외한 가중 최단 경로이며 사용자 규칙에 따라 Dirt에는 자원이 생성되지 않는다.
