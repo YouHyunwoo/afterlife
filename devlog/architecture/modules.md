@@ -47,6 +47,8 @@ Day01Showcase의 OnEnable에서 모듈을 구성하고 OnDisable에서 Dispose/�
 
 ## 현재 일반화의 범위
 
+최적화 API: Interaction의 ShowcasePickIndex는 정적 공간 트리/동적 타깃 후보를 관리하며 정적 배치 변경 시 Rebuild가 필요하다. Destruction의 ShowcaseChipPool은 작은 파편을 소유·재사용하고 Day01이 최대 256개를 조율한다. Vegetation의 ShowcaseVegetationDensity는 거리별 카드 인덱스 수를 변경하고, 잎 속성은 선택적인 버전 함수로 동기화한다. Hover는 활성 풀/지형 흔적을 분리해 CPU/GPU 입력을 압축한다. [범위·수명·한계](../records/runtime-optimization.md).
+
 Wind는 씬의 식생/집을 직접 찾지 않는다. Day01이 바람 샘플 함수를 Smoke에 주입하고, GPU 식생은 같은 수식의 HLSL을 사용한다. Dispose에서 기존 셰이더 전역값을 복원한다. Lighting과 Vegetation C# 어셈블리는 Wind 어셈블리를 직접 참조하지 않는다.
 
 Terrain은 엔진과 분리됐지만 고정 Day01 지도 데이터가 함께 있는 샘플 모듈이다. Day01의 메시 생성기·배치·도구 애니메이션은 에피소드 전용으로 남겼다. 모든 기능을 게임플레이 프레임워크로 재작성한 것은 아니다.

@@ -1,7 +1,7 @@
-  Afterlife.Devlog.Wind.ModuleValidation -> D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Temp\bin\Devlog\Afterlife.Devlog.Wind.dll
-
-빌드했습니다.
-    경고 0개
-    오류 0개
-
-경과 시간: 00:00:00.53
+  Afterlife.Devlog.Wind.ModuleValidation -> D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Temp\bin\Devlog\Afterlife.Devlog.Wind.dll
+
+빌드했습니다.
+    경고 0개
+    오류 0개
+
+경과 시간: 00:00:00.51

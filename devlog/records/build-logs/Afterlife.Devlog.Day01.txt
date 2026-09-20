@@ -1,10 +1,10 @@
-D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Assets\Devlog\Day01\Runtime\ShowcaseTarget.cs(138,25): warning CS0252: 의도하지 않은 참조 비교가 있을 수 있습니다. 값 비교를 가져오려면 왼쪽을 'Object' 형식으로 캐스팅하세요. [D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Afterlife.Devlog.Day01.ModuleValidation.csproj]
-  Afterlife.Devlog.Day01.ModuleValidation -> D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Temp\bin\Devlog\Afterlife.Devlog.Day01.dll
-
-빌드했습니다.
-
-D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Assets\Devlog\Day01\Runtime\ShowcaseTarget.cs(138,25): warning CS0252: 의도하지 않은 참조 비교가 있을 수 있습니다. 값 비교를 가져오려면 왼쪽을 'Object' 형식으로 캐스팅하세요. [D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Afterlife.Devlog.Day01.ModuleValidation.csproj]
-    경고 1개
-    오류 0개
-
-경과 시간: 00:00:00.69
+D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Assets\Devlog\Day01\Runtime\ShowcaseTarget.cs(145,25): warning CS0252: 의도하지 않은 참조 비교가 있을 수 있습니다. 값 비교를 가져오려면 왼쪽을 'Object' 형식으로 캐스팅하세요. [D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Afterlife.Devlog.Day01.ModuleValidation.csproj]
+  Afterlife.Devlog.Day01.ModuleValidation -> D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Temp\bin\Devlog\Afterlife.Devlog.Day01.dll
+
+빌드했습니다.
+
+D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Assets\Devlog\Day01\Runtime\ShowcaseTarget.cs(145,25): warning CS0252: 의도하지 않은 참조 비교가 있을 수 있습니다. 값 비교를 가져오려면 왼쪽을 'Object' 형식으로 캐스팅하세요. [D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Afterlife.Devlog.Day01.ModuleValidation.csproj]
+    경고 1개
+    오류 0개
+
+경과 시간: 00:00:00.65

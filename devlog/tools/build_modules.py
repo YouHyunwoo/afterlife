@@ -47,7 +47,7 @@ def main():
         output=UNITY/(name+'.ModuleValidation.csproj')
         ET.indent(tree);ET.ElementTree(tree).write(output,encoding='utf-8',xml_declaration=False)
         result=subprocess.run(['dotnet','build',output.name,'--no-restore','--nologo','-v','minimal'],cwd=UNITY,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
-        log=result.stdout.decode('utf-8',errors='replace')
+        log=result.stdout.decode('utf-8',errors='replace').replace('\r\n','\n')
         logpath=ROOT/'devlog/records/build-logs'/(name+'.txt');logpath.parent.mkdir(parents=True,exist_ok=True);logpath.write_text(log,encoding='utf-8')
         records.append({'assembly':name,'exit_code':result.returncode,'log':str(logpath.relative_to(ROOT))})
         print(name, 'PASS' if result.returncode==0 else 'FAIL',flush=True)
