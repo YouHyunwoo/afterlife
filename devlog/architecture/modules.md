@@ -84,3 +84,5 @@ Terrain의 ShowcaseTerrainField가 맵 전체 좌표의 gradient Perlin과 실�
 PrototypeDestruction은 소진된 자원의 뷰를 보존하고 공용 ShowcaseDestruction을 조립한다. 원본 메시 선택 필터와 지형 높이를 주입하고 생성 조각/제거 상태를 소유한다. 나무 회전은 어댑터에서 수행하며 잎 속성 버전은 원본 디졸브와 함께 갱신한다.
 
 프로토타입 음향 어댑터: PrototypeEnvironmentAudio가 AudioBank 및 ShowcaseAudio/ShowcaseAmbience를 소비한다. 모델은 Stone/TreeFall/StoneBreak 사건만 발행하며 Resources/AudioSource를 참조하지 않는다. 물 생성 사건은 Hover 어댑터에서 구독/해제한다.
+
+집 연기: ShowcaseSmoke의 방출 대상/셰이더를 선택 인자로 주입한다. ShowcaseSmokePass는 노이즈/투명도 공용 본문이고 프로토타입 Resources 셰이더가 시야·조명 출력을 제공한다. PrototypeSmoke가 집의 완공/이전/제거와 모듈 수명을 조합한다.
