@@ -76,6 +76,9 @@ namespace Afterlife.Devlog.Day01
         private ShowcasePickSurface[] _pickSurfaces;
         private readonly ShowcasePickIndex _pickIndex=new ShowcasePickIndex();
         private readonly List<Chip> _chips = new List<Chip>();
+        private Afterlife.Devlog.Destruction.ShowcaseChipPool _chipPool;
+        private MaterialPropertyBlock _chipProperties;
+        private const int MaximumChips=256;
         public Afterlife.Devlog.Audio.ShowcaseAudioBank AudioBank;
         public Afterlife.Devlog.AmbientAudio.AmbientAudioSettings Ambience = new Afterlife.Devlog.AmbientAudio.AmbientAudioSettings();
         private Afterlife.Devlog.AmbientAudio.ShowcaseAmbience _ambience;
@@ -101,12 +104,14 @@ namespace Afterlife.Devlog.Day01
         private readonly Vector3 _cameraOffset = new Vector3(10, 13, -16);
         private Rect _display;
         private const float Aspect = 16f / 9;
-        private sealed class Chip { public Transform Transform; public Vector3 Velocity; public float Age; public bool Snow, Tap; public float FloorY; }
+        private struct Chip { public Transform Transform; public Vector3 Velocity; public float Age; public bool Snow, Tap; public float FloorY; }
 
         private void OnEnable()
         {
             if (ShowcaseCamera == null || Pipeline == null || Stages == null || Stages.Length != 3)
             { Debug.LogError("Day01: camera, pipeline or stage reference missing.", this); enabled = false; return; }
+            // Unity 네이티브 객체는 역직렬화 생성자가 아닌 메인 스레드 수명 콜백에서 생성한다.
+            if (_chipProperties==null) _chipProperties=new MaterialPropertyBlock();
             _previousGraphics = GraphicsSettings.defaultRenderPipeline;
             _previousQuality = QualitySettings.renderPipeline;
             _ownedPipeline = Instantiate(Pipeline);
@@ -356,7 +361,7 @@ namespace Afterlife.Devlog.Day01
                 var chip = _chips[i];
                 chip.Age += Time.unscaledDeltaTime;
                 float lifetime = chip.Tap ? .5f : chip.Snow ? 1.05f : .65f;
-                if (chip.Age > lifetime) { Destroy(chip.Transform.gameObject); _chips.RemoveAt(i); continue; }
+                if (chip.Age > lifetime) { _chipPool.Return(chip.Transform.gameObject); _chips.RemoveAt(i); continue; }
                 chip.Velocity += Vector3.down * (chip.Tap ? 3 : chip.Snow ? 7.5f : 9) * Time.unscaledDeltaTime;
                 chip.Transform.position += chip.Velocity * Time.unscaledDeltaTime;
                 if (chip.Snow && chip.Transform.position.y < chip.FloorY+.012f)
@@ -368,6 +373,7 @@ namespace Afterlife.Devlog.Day01
                 chip.Transform.Rotate(new Vector3(110, 160, 70) * Time.unscaledDeltaTime);
                 chip.Transform.localScale = (chip.Tap ? Vector3.one*.075f : chip.Snow ? new Vector3(.045f,.018f,.045f) : Vector3.one*.075f)
                     * Mathf.Clamp01((lifetime - chip.Age) / .2f);
+                _chips[i]=chip;
             }
         }
 
@@ -442,7 +448,12 @@ namespace Afterlife.Devlog.Day01
             _activeTool.SetActive(true);
         }
 
-        private GameObject CreateChip() => ChipPrefab!=null ? Instantiate(ChipPrefab) : GameObject.CreatePrimitive(PrimitiveType.Cube);
+        private GameObject CreateChip()
+        {
+            if (_chipPool==null) _chipPool=new Afterlife.Devlog.Destruction.ShowcaseChipPool(transform,ChipPrefab);
+            if (_chips.Count>=MaximumChips) { _chipPool.Return(_chips[0].Transform.gameObject); _chips.RemoveAt(0); }
+            return _chipPool.Rent();
+        }
 
         private void TapFeedback(Vector3 point,Vector3 normal,Color color)
         {
@@ -453,9 +464,8 @@ namespace Afterlife.Devlog.Day01
                 var go=CreateChip(); go.name="ClickChip";
                 go.transform.SetParent(transform,false); go.transform.position=point+normal*.012f;
                 go.transform.localScale=Vector3.one*.075f;
-                var collider=go.GetComponent<Collider>(); if (collider!=null) { collider.enabled=false; Destroy(collider); }
                 var renderer=go.GetComponent<Renderer>(); renderer.sharedMaterial=ParticleMaterial;
-                var properties=new MaterialPropertyBlock(); properties.SetVector("_BaseColor",(Vector4)color); renderer.SetPropertyBlock(properties);
+                _chipProperties.Clear(); _chipProperties.SetVector("_BaseColor",(Vector4)color); renderer.SetPropertyBlock(_chipProperties);
                 float angle=i*2.39996f;
                 _chips.Add(new Chip { Transform=go.transform,Tap=true,Velocity=normal*(.7f+i*.05f)+Vector3.up*.5f
                     +(tangent*Mathf.Cos(angle)+bitangent*Mathf.Sin(angle))*.48f });
@@ -484,9 +494,8 @@ namespace Afterlife.Devlog.Day01
                 go.transform.SetParent(transform, false);
                 go.transform.position = snow ? snowPositions[i-debrisCount] : hitPoint+outward*.012f;
                 go.transform.localScale = snow ? new Vector3(.045f,.018f,.045f) : Vector3.one*.075f;
-                var collider = go.GetComponent<Collider>(); if (collider!=null) { collider.enabled = false; Destroy(collider); }
                 var renderer = go.GetComponent<Renderer>(); renderer.sharedMaterial = ParticleMaterial;
-                var block = new MaterialPropertyBlock();
+                var block = _chipProperties; block.Clear();
                 // 색 공간 변환을 마친 표면색을 그대로 전달한다(이중 감마 변환 방지).
                 block.SetVector("_BaseColor",snow ? new Vector4(.87f,.94f,1,1) : (Vector4)_impactColor); renderer.SetPropertyBlock(block);
                 float a = i * 2.39996f;
@@ -545,7 +554,7 @@ namespace Afterlife.Devlog.Day01
             if (resetAmbience) _ambience?.Reset();
             _smoke?.ResetTake();
             if (_targets != null) foreach (var target in _targets) target.ResetTake();
-            foreach (var chip in _chips) if (chip.Transform != null) Destroy(chip.Transform.gameObject);
+            foreach (var chip in _chips) if (chip.Transform != null) _chipPool?.Return(chip.Transform.gameObject);
             _chips.Clear();
             if (Axe != null) Axe.SetActive(false);
             if (Pick != null) Pick.SetActive(false);
@@ -645,6 +654,7 @@ namespace Afterlife.Devlog.Day01
             _wind?.Dispose(); _wind = null;
             _lighting?.Dispose(); _lighting = null;
             ResetTake();
+            _chipPool?.Dispose(); _chipPool=null;
             if (_refractionCameraData != null)
             {
                 _refractionCameraData.requiresColorOption = _previousColorTextureOption;

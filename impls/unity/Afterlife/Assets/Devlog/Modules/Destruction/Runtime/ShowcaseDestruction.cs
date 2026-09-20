@@ -4,6 +4,42 @@ using UnityEngine;
 
 namespace Afterlife.Devlog.Destruction
 {
+    // 작은 시각 파편 전용 풀. 씬 소유자가 Dispose하며 게임 규칙과 입력을 알지 않는다.
+    public sealed class ShowcaseChipPool : IDisposable
+    {
+        private readonly Transform _parent;
+        private readonly GameObject _prefab;
+        private readonly Stack<GameObject> _free=new Stack<GameObject>();
+        private readonly Dictionary<GameObject,Quaternion> _owned=new Dictionary<GameObject,Quaternion>();
+        public ShowcaseChipPool(Transform parent,GameObject prefab) { _parent=parent; _prefab=prefab; }
+        public GameObject Rent()
+        {
+            GameObject go;
+            if (_free.Count>0) go=_free.Pop();
+            else
+            {
+                go=_prefab!=null ? UnityEngine.Object.Instantiate(_prefab) : GameObject.CreatePrimitive(PrimitiveType.Cube);
+                go.transform.SetParent(_parent,false);
+                var collider=go.GetComponent<Collider>();
+                if (collider!=null) { collider.enabled=false; UnityEngine.Object.Destroy(collider); }
+                _owned.Add(go,go.transform.localRotation);
+            }
+            go.transform.localRotation=_owned[go];
+            go.SetActive(true);
+            return go;
+        }
+        public void Return(GameObject go)
+        {
+            if (go==null) return;
+            go.SetActive(false); _free.Push(go);
+        }
+        public void Dispose()
+        {
+            foreach (var go in _owned.Keys) if (go!=null) UnityEngine.Object.Destroy(go);
+            _owned.Clear(); _free.Clear();
+        }
+    }
+
     public enum DisappearMode { Sink, Dissolve }
 
     // 촬영용 운동: 물리 월드를 변경하지 않고 지면 높이 조회만 주입받는다.
