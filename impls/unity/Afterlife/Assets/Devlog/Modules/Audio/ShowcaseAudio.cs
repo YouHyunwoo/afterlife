@@ -14,6 +14,14 @@ namespace Afterlife.Devlog.Audio
         private float _lastWaterRequest=float.NegativeInfinity, _nextWaterTime=float.NegativeInfinity;
         private int _lastWaterIndex=-1;
         private int _stoneIndex;
+        public float MasterVolume
+        {
+            set
+            {
+                float gain=Mathf.Clamp01(value);_impact.volume=gain;_break.volume=gain;
+                foreach(var source in _water)source.volume=gain;
+            }
+        }
         public ShowcaseAudio(Transform parent,ShowcaseAudioBank bank,AudioClip waterRipple=null,AudioClip[] waterVariants=null)
         {
             _bank=bank;

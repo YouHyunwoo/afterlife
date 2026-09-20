@@ -7,7 +7,7 @@ namespace Afterlife.Prototype
     {
         Wood, ResourceEmpty, Gold, Place, Work, Complete, Hit, Magic,
         Kill, Critical, BuildingHit, Collapse, Chest, Relic,
-        Select, Cancel, Open, Error, Warning, Day, Result, Rebirth
+        Select, Cancel, Open, Error, Warning, Day, Result, Rebirth, Stone, TreeFall, StoneBreak
     }
 
     public sealed partial class VillageModel

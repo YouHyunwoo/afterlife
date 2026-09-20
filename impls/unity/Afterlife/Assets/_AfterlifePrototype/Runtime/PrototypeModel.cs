@@ -409,12 +409,12 @@ namespace Afterlife.Prototype
             else if(b.Kind==Kind.Tree||b.Kind==Kind.Rock)
             {
                 Contributed?.Invoke(b);
-                if(b.Kind==Kind.Tree)Sound(SoundCue.Wood,b.Position);
+                Sound(b.Kind==Kind.Tree?SoundCue.Wood:SoundCue.Stone,b.Position);
                 float bonus=1+(b.Kind==Kind.Tree?.5f*RelicLevel(RelicKind.Wood):.3f*RelicLevel(RelicKind.Stone));
                 float amount=Math.Min(b.Health,(b.Kind==Kind.Tree?Settings.WoodRate:Settings.StoneRate)*effort*bonus*ProductionSpeed);
                 b.Health=Math.Max(0,b.Health-amount);
                 int gained=GatherGold(amount,b.Kind);Money+=gained;if(gained>0)HarvestGold?.Invoke(b.Position,b.Kind,gained);if(amount>0)EmitText(b,$"채집 {amount:0.#}",feedback);
-                if(b.Health<=.001f){b.Health=0;Sound(SoundCue.ResourceEmpty,b.Position);if(_random.NextDouble()<.4)Valuables++;}
+                if(b.Health<=.001f){b.Health=0;Sound(b.Kind==Kind.Tree?SoundCue.TreeFall:SoundCue.StoneBreak,b.Position);if(_random.NextDouble()<.4)Valuables++;}
             }
             else if(b.Kind==Kind.Treasure){Contributed?.Invoke(b);Sound(SoundCue.Gold,b.Position);Valuables++;EmitText(b,"귀중품 +1");b.Health=0;Say("귀중품 발견 · 다음 날 정산에서 골드으로 전환됩니다.");}
             else if(b.Building&&!b.Complete)

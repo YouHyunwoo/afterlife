@@ -25,6 +25,7 @@ namespace Afterlife.Prototype
                 DustShader=Resources.Load<Shader>("PrototypeHoverDust")
             }) { GrassMode=GrassHoverMode.Sway };
             _hoverHeightOffset=_tileHover.HeightOffset;
+            _tileHover.WaterRippleCreated+=OnWaterRippleAudio;
         }
         private void UpdateHover()
         {
@@ -39,11 +40,14 @@ namespace Afterlife.Prototype
             bool moved=active && _hoverHadPointer && (screen-_hoverPreviousScreen).sqrMagnitude>.01f;
             Vector3? position=active ? new Vector3(_pointer.X,_terrainSurface.Height(_pointer.X,_pointer.Z),_pointer.Z) : (Vector3?)null;
             var biome=active ? (ShowcaseBiome)(int)_model.Terrain.At(_pointer) : ShowcaseBiome.Rocky;
+            _audio?.TickEnvironment(!paused && !_model.Frozen && _camera.enabled,
+                active && moved && position.HasValue && _vegetationGrass!=null && _vegetationGrass.HasGrassAt(position.Value));
             _tileHover.SetPointer(position,biome,moved);
             _tileHover.Tick(paused?0:Time.deltaTime);
             _hoverPreviousScreen=screen;_hoverHadPointer=active;
         }
+        private void OnWaterRippleAudio()=>_audio?.PlayWaterRipple();
         private void ResetHover(){_tileHover?.Reset();_hoverHadPointer=false;}
-        private void DisposeHover(){_waterSurface?.SetHoverRipples(false);_tileHover?.Dispose();_tileHover=null;_hoverHeightOffset=null;_hoverHadPointer=false;}
+        private void DisposeHover(){_waterSurface?.SetHoverRipples(false);if(_tileHover!=null)_tileHover.WaterRippleCreated-=OnWaterRippleAudio;_tileHover?.Dispose();_tileHover=null;_hoverHeightOffset=null;_hoverHadPointer=false;}
     }
 }

@@ -147,7 +147,7 @@ namespace Afterlife.Prototype
         {
             if(!_ready)return;Resize();
             ApplyCameraGroundDistance();
-            if(_gameFlow==null||!_gameFlow.IsPlaying){_tileHover?.SetPaused(true);return;}
+            if(_gameFlow==null||!_gameFlow.IsPlaying){_tileHover?.SetPaused(true);_audio?.TickEnvironment(false,false);return;}
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             if(Keyboard.current!=null&&Keyboard.current.f4Key.wasPressedThisFrame)_showDebugPanel=!_showDebugPanel;
 #endif

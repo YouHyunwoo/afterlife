@@ -22,7 +22,9 @@
     "Afterlife.Progression.Unity",
     "Moonstone.Arc",
     "Afterlife.Devlog.Contracts",
-    "Afterlife.Devlog.Snow"
+    "Afterlife.Devlog.Snow",
+    "Afterlife.Devlog.Audio",
+    "Afterlife.Devlog.AmbientAudio"
   ],
   "autoReferenced": true
 }

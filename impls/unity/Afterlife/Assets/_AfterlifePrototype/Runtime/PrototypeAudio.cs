@@ -4,13 +4,16 @@ using UnityEngine;
 namespace Afterlife.Prototype
 {
     // 모델 이벤트만 구독하는 씬 수명 오디오 출력. 게임 난수와 오디오 난수를 분리한다.
-    public sealed class PrototypeAudio : MonoBehaviour
+    public sealed partial class PrototypeAudio : MonoBehaviour
     {
         private sealed class Cue
         {
             public AudioClip[] Clips;
             public float Volume, Cooldown, NextTime;
             public bool Important;
+            public float PitchVariation;
+            public bool Sequential;
+            public int NextClip;
         }
         private struct Request { public SoundCue Cue; public float Pan; }
         private readonly Dictionary<SoundCue, Cue> _cues = new Dictionary<SoundCue, Cue>();
@@ -60,6 +63,7 @@ namespace Afterlife.Prototype
             Add(SoundCue.Day, .70f, .50f, true, "24C");
             Add(SoundCue.Result, .80f, .50f, true, "25B");
             Add(SoundCue.Rebirth, .70f, .50f, true, "26C");
+            InitializeEnvironmentAudio();
             _model.SoundRequested += RequestSound;
             _model.SoundReset += ResetSounds;
             RequestSound(SoundCue.Day);
@@ -121,9 +125,9 @@ namespace Afterlife.Prototype
                     worldStarts++;
                 }
                 var source = _voices[slot];
-                source.Stop(); source.clip = cue.Clips[_random.Next(cue.Clips.Length)];
+                source.Stop(); source.clip = cue.Clips[cue.Sequential ? cue.NextClip++ % cue.Clips.Length : _random.Next(cue.Clips.Length)];
                 source.volume = Mathf.Clamp01(_settings.SoundVolume) * cue.Volume;
-                source.panStereo = request.Pan; source.pitch = 1; source.Play();
+                source.panStereo = request.Pan; source.pitch = 1 + Mathf.Sin(Time.unscaledTime*7)*cue.PitchVariation; source.Play();
                 cue.NextTime = Time.unscaledTime + cue.Cooldown;
             }
             _pending.Clear();
@@ -132,13 +136,16 @@ namespace Afterlife.Prototype
         private void ResetSounds()
         {
             _pending.Clear();
+            _environmentAmbience?.Reset();_environmentWater?.Reset();
             foreach (var source in _voices) if (source != null) source.Stop();
-            foreach (var cue in _cues.Values) cue.NextTime = 0;
+            foreach (var cue in _cues.Values){cue.NextTime = 0;cue.NextClip=0;}
         }
         private void OnDisable() => ResetSounds();
         private void OnDestroy()
         {
             if (_model != null) { _model.SoundRequested -= RequestSound; _model.SoundReset -= ResetSounds; }
+            _environmentAmbience?.Dispose();_environmentWater?.Dispose();
+            if (_ownedAudioBank != null) Destroy(_ownedAudioBank);
             if (_ownedListener != null) Destroy(_ownedListener);
             foreach (var source in _voices) if (source != null) Destroy(source);
         }
