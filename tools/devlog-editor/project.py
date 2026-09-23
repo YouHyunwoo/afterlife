@@ -109,6 +109,40 @@ def rebase(project, old, new):
     return p
 
 
+def portable_project(project, project_file):
+    """브라우저가 저장 위치를 숨겨도 다시 열 수 있도록 매체 경로를 절대 경로로 기록한다."""
+    p = copy.deepcopy(project)
+    for media in (p['video'], p['music']):
+        if media.get('path'):
+            media['path'] = str(resolve(project_file, media['path']))
+    if p.get('schemaVersion') == 2:
+        from timeline import clips
+        for asset in p.get('assets', []):
+            if asset.get('path'):
+                asset['path'] = str(resolve(project_file, asset['path']))
+        for track, clip in clips(p, enabled=False):
+            if track['kind'] != 'subtitle' and clip.get('path'):
+                clip['path'] = str(resolve(project_file, clip['path']))
+    else:
+        for shot in p['shots']:
+            for cue in shot['cues']:
+                if cue.get('path'):
+                    cue['path'] = str(resolve(project_file, cue['path']))
+    return p
+
+
+def has_relative_media(project):
+    paths = [project['video'].get('path'), project['music'].get('path')]
+    if project.get('schemaVersion') == 2:
+        from timeline import clips
+        paths.extend(asset.get('path') for asset in project.get('assets', []))
+        paths.extend(clip.get('path') for track, clip in clips(project, enabled=False)
+                     if track['kind'] != 'subtitle')
+    else:
+        paths.extend(cue.get('path') for shot in project['shots'] for cue in shot['cues'])
+    return any(path and not Path(path).is_absolute() for path in paths)
+
+
 def blank_project(name):
     name = name.strip()
     if not name or len(name) > 120 or re.search(r'[<>:"/\\|?*\x00-\x1f]', name) or name.endswith(('.', ' ')):
@@ -134,6 +168,26 @@ def create_project(folder, name, root=ROOT):
         raise FileExistsError('같은 이름의 프로젝트 파일이 이미 있습니다. 다른 이름을 선택하거나 기존 파일을 열어주세요.')
     save(path, project)
     return path, project
+
+
+def browse_projects(folder, root=ROOT):
+    root = root.resolve()
+    current = Path(folder).resolve() if folder else root
+    if not current.is_relative_to(root) or not current.is_dir():
+        raise ValueError('Afterlife 작업 폴더 안의 기존 폴더를 선택해주세요.')
+    entries = sorted(current.iterdir(), key=lambda item: item.name.casefold())
+    directories = []
+    files = []
+    for entry in entries:
+        resolved = entry.resolve()
+        if not resolved.is_relative_to(root):
+            continue
+        if entry.is_dir():
+            directories.append(dict(name=entry.name, path=str(resolved)))
+        elif entry.is_file() and entry.name.lower().endswith('.json'):
+            files.append(dict(name=entry.name, path=str(resolved)))
+    return dict(root=str(root), path=str(current), parent=str(current.parent) if current != root else None,
+                directories=directories, files=files)
 
 def from_day01(path=DEFAULT):
     import re
