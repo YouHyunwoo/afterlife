@@ -69,6 +69,23 @@ def validate(project, project_file, files=False):
         number(project['music'].get(key, 2), key)
     if project['export']['height'] not in (720, 1080) or project['export']['fps'] not in (24, 30, 60):
         raise ValueError('지원하지 않는 출력 해상도/프레임입니다.')
+    asset_ids=set()
+    for asset in project.get('assets', []):
+        if asset.get('kind') not in ('video', 'audio') or not isinstance(asset.get('path'), str) or not asset['path']:
+            raise ValueError('영상·음성 에셋에는 종류와 원본 경로가 필요합니다.')
+        if not isinstance(asset.get('name'), str) or not asset['name']:
+            raise ValueError('에셋 이름이 필요합니다.')
+        if asset.get('id') in asset_ids:
+            raise ValueError('에셋 ID가 중복됩니다.')
+        asset_ids.add(asset.get('id'))
+        if 'duration' in asset:
+            number(asset['duration'], '에셋 원본 길이', 0, 86400)
+        if 'defaultVolume' in asset:
+            number(asset['defaultVolume'], '에셋 기본 음량', 0, 2)
+        if asset['kind']=='audio' and asset.get('role','narration') not in ('narration','music','effect'):
+            raise ValueError('음원 종류가 올바르지 않습니다.')
+        if 'loop' in asset and not isinstance(asset['loop'], bool):
+            raise ValueError('에셋 반복 설정이 올바르지 않습니다.')
     ids=set(); count=0
     for track in tracks:
         if track['id'] in ids or track['kind'] not in ('video','audio','subtitle'):

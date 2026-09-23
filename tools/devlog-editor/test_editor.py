@@ -135,6 +135,26 @@ class EditorTests(unittest.TestCase):
         dest=self.root/'sub'/'project.json';q=rebase(p,self.file,dest)
         self.assertEqual(resolve(dest,q['assets'][0]['path']),resolve(self.file,a['path']))
 
+    def test_audio_asset_import_and_defaults_roundtrip(self):
+        import io
+        from unittest.mock import patch
+        import media_library
+        from timeline import migrate
+        library=self.root/'audio-imports';registry={}
+        raw=(self.root/'cue.wav').read_bytes()
+        with patch.object(media_library,'AUDIO_IMPORTS',library):
+            asset=media_library.import_stream(io.BytesIO(raw),len(raw),'voice.wav','audio',self.file,registry)
+        self.assertEqual(asset['kind'],'audio')
+        self.assertEqual(len(list(library.iterdir())),1)
+        self.assertAlmostEqual(asset['duration'],.25,delta=.02)
+        p=migrate(self.p,self.file)
+        p['assets']=[dict(id='audio-asset',name='차분한 음성',kind='audio',path=asset['path'],
+                          duration=asset['duration'],defaultVolume=.65,role='narration',loop=False)]
+        save(self.file,p)
+        self.assertEqual(load(self.file)['assets'],p['assets'])
+        bad=copy.deepcopy(p);bad['assets'][0]['defaultVolume']=3
+        with self.assertRaises(ValueError):validate(bad,self.file)
+
     def test_create_empty_project_and_reopen(self):
         path,p=create_project(self.root,'새 개발일지',root=self.root)
         self.assertEqual(path.name,'새 개발일지.devfilm.json')
