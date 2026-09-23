@@ -11,17 +11,14 @@ Git 저장소 루트는 이 폴더이며 Unity 프로젝트는 `impls/unity/Afte
 |res/|제작 원본, 엔진 비의존 리소스, 출처와 검토 자료|
 |tools/|공통 아트·음원 제작 도구|
 |impls/unity/Afterlife/|Unity 구현과 임포트 에셋|
-|devlog/|현재 제작 상태, 모듈 문서, 검증 기록|
+|devlog/|Git에서 제외하는 로컬 유튜브·DC 개발일지|
 |docs/|게임 기획·설계, 과거 기록, 배포·홍보 자료|
 |logs/|과거 제작 도구 실행 로그|
 |local-backups/|복구용 로컬 백업|
 
-`logs/`, `local-backups/`, 과거 배포 ZIP(`docs/steam/builds/`), 로컬 분석 도구 설치본은 Git에서 제외한다.
+`devlog/`, `logs/`, `local-backups/`, 과거 배포 ZIP(`docs/steam/builds/`), 로컬 분석 도구 설치본은 Git에서 제외한다. 로컬 개발일지는 `devlog/youtube/`와 `devlog/dc/`로 나눈다. Unity 구현은 `impls/unity/Afterlife/Assets/Devlog/Youtube/`와 `impls/unity/Afterlife/Assets/Devlog/DC/`로 나누어 추적한다.
 별도 실험 프로젝트 `impls/unity/Afterlife 3d Test/`도 이번 저장소 통합 대상에서 제외했다.
 
-제작 원본은 `res/art-source/`, 내보낸 리소스는 `res/models/`·`res/textures/` 등에 둔다. Unity는 `Assets/`의 임포트본을 사용한다.
+게임 제작 원본은 `res/art-source/`, 내보낸 리소스는 `res/models/`·`res/textures/` 등에 둔다. 유튜브 개발일지의 원본과 음성·영상·이미지는 로컬 `devlog/youtube/`에서 관리한다. Unity는 `Assets/`의 임포트본을 사용한다.
 
-- [현재 상태](devlog/status.md)
-- [폴더 구조와 소유권](devlog/architecture/organization.md)
 - [리소스 관리](res/README.md)
-- [폴더 검증 기록](devlog/records/resource-layout.md)

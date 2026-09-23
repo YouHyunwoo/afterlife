@@ -4,7 +4,7 @@
 
 - Git 루트: `Afterlife/`
 - Unity 프로젝트: `impls/unity/Afterlife/`
-- 문서와 제작 기록: `docs/`, `devlog/`
+- 공유 문서: `docs/`; 로컬 전용 유튜브·DC 개발일지: `devlog/youtube/`, `devlog/dc/`
 - 제작 원본과 엔진 비의존 리소스: `res/`
 - 공통 제작 도구: `tools/`
 
@@ -48,13 +48,13 @@ dev의 C# 컴파일과 사용자 플레이 확인을 마친 뒤 main으로 병�
 - 상호 의존하는 코드, 직렬화 참조, 프리팹과 필요한 설정은 함께 커밋한다.
 - 구현 설명, 출처, 검증 기록은 해당 기능 변경과 함께 갱신한다.
 - C# 검증은 관련 `.csproj`에 `dotnet build --no-restore`를 실행한다. 에이전트는 Unity 테스트나 Play를 실행하지 않는다.
-- Devlog Markdown을 바꾸면 `python devlog/tools/render_dashboard.py`로 HTML을 갱신한다.
-- 리소스를 바꾸면 `python devlog/tools/resource_manifest.py`로 목록을 갱신한다.
+- 로컬 유튜브 Devlog Markdown을 바꾸면 `python devlog/youtube/tools/render_dashboard.py`로 HTML을 갱신한다. `devlog/`는 Git에서 제외한다.
+- 리소스를 바꾸면 로컬 `python devlog/youtube/tools/resource_manifest.py`로 목록을 갱신한다.
 - 파일 크기와 제작 원본 필요성을 확인하고, 향후 큰 바이너리가 늘면 Git LFS 도입을 별도 변경으로 검토한다. 이번 이전은 LFS 이력 변환을 하지 않았다.
 
 ## 추적에서 제외하는 파일
 
-루트 `.gitignore`는 백업, 실행 로그, Python 캐시, 로컬 분석 도구 설치본, Blender 자동 백업과 과거 배포 ZIP을 제외한다. Unity의 Library, Temp, 빌드 산출물과 자동 생성 프로젝트 파일은 `impls/unity/Afterlife/.gitignore`에서 제외한다. Unity의 기존 `Afterlife.slnx`는 기존 정책대로 계속 추적한다.
+루트 `.gitignore`는 로컬 `devlog/` 전체, 백업, 실행 로그, Python 캐시, 로컬 분석 도구 설치본, Blender 자동 백업과 과거 배포 ZIP을 제외한다. Unity의 `Assets/Devlog/`는 구현 에셋이므로 제외하지 않는다. Unity의 Library, Temp, 빌드 산출물과 자동 생성 프로젝트 파일은 `impls/unity/Afterlife/.gitignore`에서 제외한다. Unity의 기존 `Afterlife.slnx`는 기존 정책대로 계속 추적한다.
 
 `AGENTS.md`, `CLAUDE.md`는 기존 Unity 저장소의 제외 정책을 유지한다. 로컬 지침 파일은 그대로 보존하며, 공유할 작업 규칙은 이 문서에 기록한다.
 

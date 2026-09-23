@@ -1,6 +1,6 @@
 # 리소스 보관소
 
-게임/Devlog에서 사용할 엔진 비의존 파일을 보관한다. 제작 원본은 res/art-source, Unity 임포트본은 impls/unity/Afterlife/Assets에 둔다. 폴더를 복사했다고 에셋이 자동 갱신되지는 않는다.
+게임에서 사용할 엔진 비의존 파일과 공용 제작 자료를 보관한다. 게임 제작 원본은 res/art-source, 유튜브 전용 원본·음원·영상·이미지는 로컬 devlog/youtube, Unity 임포트본은 impls/unity/Afterlife/Assets에 둔다. 폴더를 복사했다고 에셋이 자동 갱신되지는 않는다.
 
 - audio/stone-analysis: 두 돌 음원의 구간 분석·후보·선정 파일
 - audio/tree-fall-analysis: 이전 나무 쓰러짐 음원의 분석/후처리 후보, 현재 비활성
@@ -8,7 +8,7 @@
 - textures/vegetation: 사용자 제공 풀 PNG 4종
 - models/world: 프로젝트 기존 공유 FBX 17종의 보관본
 
-리소스 목록과 SHA-256은 manifest.json에 기록한다. `python devlog/tools/resource_manifest.py`로 갱신한다. 라이선스가 확인되지 않은 파일은 임의로 CC0/자체 제작으로 표시하지 않는다. 공유마당의 공개 크레딧은 [지침](../docs/audio-credits.md)을 따른다.
+리소스 목록과 SHA-256은 manifest.json에 기록한다. 로컬 도구 `python devlog/youtube/tools/resource_manifest.py`로 갱신한다. 이 도구가 있는 `devlog/`는 Git에서 제외한다. 라이선스가 확인되지 않은 파일은 임의로 CC0/자체 제작으로 표시하지 않는다. 공유마당의 공개 크레딧은 [지침](../docs/audio-credits.md)을 따른다.
 
 ## 폴더 구분
 
