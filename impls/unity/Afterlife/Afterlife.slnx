@@ -25,6 +25,7 @@
   <Project Path="Afterlife.Devlog.Shoreline.csproj" />
   <Project Path="Afterlife.Devlog.Vegetation.csproj" />
   <Project Path="Afterlife.Devlog.Water.csproj" />
+  <Project Path="Afterlife.DivineFields.csproj" />
   <Project Path="Afterlife.Devlog.Day01.csproj" />
   <Project Path="Afterlife.Devlog.DamageMarks.csproj" />
   <Project Path="Afterlife.Upgrades.csproj" />

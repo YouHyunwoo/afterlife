@@ -25,7 +25,8 @@
     "Afterlife.Devlog.Snow",
     "Afterlife.Devlog.Audio",
     "Afterlife.Devlog.AmbientAudio",
-    "Afterlife.Devlog.Lighting"
+    "Afterlife.Devlog.Lighting",
+    "Afterlife.DivineFields"
   ],
   "autoReferenced": true
 }

@@ -165,8 +165,10 @@ namespace Afterlife.Prototype
         {
             if (Effect("cooperation") <= 0) return 1;
             int count = 0;
+            Point center = _activeDivineFieldCenter ?? WorkCenter;
+            float radius = _activeDivineFieldCenter.HasValue ? _activeDivineFieldRadius : Radius;
             foreach (var body in Bodies)
-                if (body.Alive && body.DistanceTo(WorkCenter) <= Radius &&
+                if (body.Alive && body.DistanceTo(center) <= radius &&
                     (body.Kind == Kind.Tree || body.Kind == Kind.Rock || body.Building && (!body.Complete || body.Health < body.MaxHealth && Money > 0)))
                     if (++count >= 2) return 1 + Effect("cooperation");
             return 1;

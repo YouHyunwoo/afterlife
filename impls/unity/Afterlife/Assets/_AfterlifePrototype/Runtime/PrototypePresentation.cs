@@ -153,12 +153,13 @@ namespace Afterlife.Prototype
             Shader.SetGlobalColor("_CursorColor",_cyan);
             Vector3 forward=_camera.transform.forward;Shader.SetGlobalFloat("_CursorAngle",Mathf.Atan2(forward.x,forward.z));
             foreach(var tool in _tools)tool.Used=false;
-            UpdateManualWork();
-            float until=_model.Interval*(1-_model.PulseFraction);
-            if(_model.CursorAutomationUnlocked&&_model.Working&&until<.12f)
-            foreach(var body in _model.Bodies)if(CanContribute(body)&&body.DistanceTo(_model.WorkCenter)<=_model.Radius)
+            if(!IsGameplayPausedByModal())foreach(var field in _model.DivineFields.Fields)
             {
-                var tool=GetTool(body);tool.Used=true;PoseTool(tool,body.Position,Mathf.Clamp01(1-until/.12f));
+                float until=field.TimeUntilPulse(_model.Interval);
+                if(until>=.12f)continue;
+                var center=new Point(field.X,field.Z);
+                foreach(var body in _model.Bodies)if(CanContribute(body)&&body.DistanceTo(center)<=field.Radius)
+                {var tool=GetTool(body);tool.Used=true;PoseTool(tool,body.Position,Mathf.Clamp01(1-until/.12f));}
             }
             foreach(var tool in _tools)
             {

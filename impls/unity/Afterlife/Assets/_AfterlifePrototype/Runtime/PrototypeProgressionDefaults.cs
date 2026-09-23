@@ -33,14 +33,14 @@ namespace Afterlife.Prototype
             catalog.Trees = new List<UpgradeTreeData> { research, altar };
             Add(research, "R1", "주거 개선", "집 한 채에 살 수 있는 주민 수가 늘어납니다. 농장이 제공하는 인구 상한은 그대로입니다.", -2, 1, "housing", new[]{1f,2,3});
             Add(research, "R2", "작업 도구 개량", "채집·건설·수리의 작업 효율이 증가합니다.", 0, 2, "work", new[]{.08f,.16f,.24f,.32f,.4f});
-            Add(research, "R3", "작업 반경 확장", "커서 기본 반경이 증가합니다.", 2, 1, "radius", new[]{.05f,.1f,.15f});
+            Add(research, "R3", "작업 반경 확장", "신력 필드의 작업 반경이 증가합니다.", 2, 1, "radius", new[]{.05f,.1f,.15f});
             Add(research, "R4", "주민 숙련 교육", "주민의 작업 효율 보너스가 증가합니다.", -3, 3, "education", new[]{.1f,.2f,.3f,.4f,.5f}, "R1");
             Add(research, "R5", "표준 건축 공법", "건설에 필요한 작업량이 줄어듭니다.", -1, 4, "construction", new[]{.1f,.2f,.3f}, "R2");
             Add(research, "R6", "강화 골조", "건물의 최대 내구도가 증가합니다. 남아 있는 내구도의 비율은 유지됩니다.", -1, 6, "structure", new[]{.15f,.3f,.45f}, "R5");
-            Add(research, "R7", "타격 도구 강화", "커서의 물리 공격 피해가 증가합니다.", 4, 2, "physical", new[]{.1f,.2f,.3f,.4f,.5f}, "R3");
-            Add(research, "R8", "커서 자동화", "첫 단계부터 모든 커서 작업을 호버로 자동 실행합니다. 이후 단계는 작업 간격을 줄입니다.", 2, 4, "interval", new[]{.05f,.1f,.15f}, "R2", "R3");
+            Add(research, "R7", "타격 도구 강화", "신력 필드의 물리 공격 피해가 증가합니다.", 4, 2, "physical", new[]{.1f,.2f,.3f,.4f,.5f}, "R3");
+            Add(research, "R8", "필드 동조", "신력 필드의 자동 작업 간격을 줄입니다.", 2, 4, "interval", new[]{.05f,.1f,.15f}, "R2", "R3");
             Add(research, "R9", "마을 구획 정비", "집을 중심으로 펼쳐지는 마을 영역이 넓어집니다.", -4, 5, "territory", new[]{.05f,.1f,.15f}, "R1", "R5");
-            Add(research, "R10", "협동 작업 체계", "커서 안에 작업 대상이 2개 이상이면 채집·건설·수리 효율이 증가합니다.", 1, 7, "cooperation", new[]{.1f,.2f,.3f}, "R4", "R8");
+            Add(research, "R10", "협동 작업 체계", "필드 안에 작업 대상이 2개 이상이면 채집·건설·수리 효율이 증가합니다.", 1, 7, "cooperation", new[]{.1f,.2f,.3f}, "R4", "R8");
             Add(altar, "A1", "낙뢰", "[Q] 커서 안의 무작위 적 하나에게 번개를 내립니다. 수치는 기본 주문 피해에 곱하는 배율입니다.", -2, 1, "lightning", new[]{1f,1.5f,2});
             Add(altar, "A2", "풍요의 기도", "[W] 10초 동안 채집과 자원 재생이 빨라집니다.", 0, -2, "abundance", new[]{.3f,.45f,.6f});
             Add(altar, "A3", "수호의 불꽃", "밤이 시작되면 건물에 최대 내구도에 비례한 보호막을 부여합니다. 밤이 끝나면 사라집니다.", 2, 1, "shield", new[]{.05f,.1f,.15f});

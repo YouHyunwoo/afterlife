@@ -30,7 +30,7 @@ namespace Afterlife.Prototype
         {
             switch(u)
             {
-                case Upgrade.Pulse:return "커서 자동화";case Upgrade.Residents:return "집당 주민";case Upgrade.Construction:return "자동 건설";
+                case Upgrade.Pulse:return "신력 필드 주기";case Upgrade.Residents:return "집당 주민";case Upgrade.Construction:return "자동 건설";
                 case Upgrade.CriticalChance:return "커서 치명타 확률";case Upgrade.CriticalPower:return "커서 치명타 배율";
                 case Upgrade.WallHealth:return "성벽 체력";case Upgrade.ArrowDamage:return "화살 타워 피해";case Upgrade.ArrowRange:return "화살 타워 범위";
                 case Upgrade.MagicDamage:return "마법 타워 피해";case Upgrade.MagicRange:return "마법 타워 범위";case Upgrade.MultiTarget:return "타워 동시 공격";
@@ -43,7 +43,7 @@ namespace Afterlife.Prototype
             int level=Level(u);
             switch(u)
             {
-                case Upgrade.Pulse:return PulseLevel==0?"첫 강화: 모든 커서 작업의 호버 자동화 해금":"호버 자동 작업 · "+$"{Interval:0.00}초 · 단계마다 ×0.84";case Upgrade.Residents:return $"집당 {ResidentsPerHouse}명 · 단계마다 +1";
+                case Upgrade.Pulse:return $"필드 작업 주기 {Interval:0.00}초 · 단계마다 ×0.84";case Upgrade.Residents:return $"집당 {ResidentsPerHouse}명 · 단계마다 +1";
                 case Upgrade.Construction:return $"자동 속도 ×{1+.5f*level:0.0} · 단계마다 +0.5";
                 case Upgrade.CriticalChance:return $"{CursorCriticalChance*100:0}% · 단계마다 +5%p";case Upgrade.CriticalPower:return $"×{CursorCriticalMultiplier:0.0} · 단계마다 +0.5";
                 case Upgrade.WallHealth:return $"최대 {WallHealth:0} · 단계마다 기본 체력 +25%";

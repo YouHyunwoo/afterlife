@@ -118,6 +118,7 @@ namespace Afterlife.Prototype
             InitializeBuildItems();
             PrepareProgressionUi();
             _sceneUi.Bind(UiClick,UiSlider);InitializeProgressionUi();_sceneUi.WorldDisplay.texture=_pixels;
+            InitializeDivinePowerHud();
             foreach(var binding in _sceneUi.Bindings)
             {
                 if(binding?.Button==null)continue;
@@ -220,6 +221,7 @@ namespace Afterlife.Prototype
             _shownModalDepth=_modalStack.Count;
             UpdateUiTimeline();UpdateUiFeedback();UpdateGoldFeedback();UpdateDayBanner();
             if(Time.unscaledTime<_uiRefresh)return;_uiRefresh=Time.unscaledTime+.10f;
+            UpdateDivinePowerHud();
             ui.Label("HUD.Population",$"주민 {_model.Population} / {_model.Capacity}     병력 {_model.Bodies.Count(b=>b.Alive&&b.Friendly)}");
             foreach(var id in new[]{"HUD.Loot","HUD.Menu"})ui.Enable(id,_modal==Modal.None&&!_model.Ended);
             ui.Enable("Menu.GiveUp",true);

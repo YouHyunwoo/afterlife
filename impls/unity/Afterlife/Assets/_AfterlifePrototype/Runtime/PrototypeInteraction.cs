@@ -247,9 +247,17 @@ namespace Afterlife.Prototype
                 _model.Select(_model.Bodies.Where(b=>b.Friendly&&_model.Visibility(b.Position)>.12f).Where(b=>
                 {var p=_camera.WorldToViewportPoint(GroundPosition(b.Position,.3f));return p.z>0&&rect.Contains(new Vector2(p.x*Screen.width,p.y*Screen.height));}).Select(b=>b.Id));return;
             }
-            if(_pressBody==0){_model.ClearMode();_inspected=0;OpenTileBuildMenu(screen);return;}
+            bool fieldModifier=Keyboard.current!=null&&Keyboard.current.shiftKey.isPressed;
+            if(_pressBody==0)
+            {
+                _model.ClearMode();_inspected=0;
+                if(fieldModifier)_model.PlaceDivineField(_pressWorld);
+                else OpenTileBuildMenu(screen);
+                return;
+            }
             var body=_model.Find(_pressBody);_inspected=_pressBody;
-            if(body!=null && _model.CanManualWork(body.Id)){BeginManualWork(body);return;}
+            if(fieldModifier || body!=null && _model.CanDivineFieldInteract(body.Id))
+            { _model.PlaceDivineField(_pressWorld);return; }
             if(body!=null&&body.Friendly){_model.Select(new[]{body.Id});return;}
             _model.Select(System.Array.Empty<int>());
             if(body==null||!body.Complete||body.MovingOut)return;
@@ -287,6 +295,7 @@ namespace Afterlife.Prototype
         private void ClearVillageView()
         {
             _modalStack.Clear();
+            ClearDivineFieldVisuals();
             ClearSkillPresentation();
             CloseTileBuildMenu(true);
             foreach(var go in _objects.Values)Destroy(go);_objects.Clear();
@@ -306,6 +315,7 @@ namespace Afterlife.Prototype
                 if(house&&lamps<_lamps.Length)_lamps[lamps++]=new Vector4(body.Position.X,body.Position.Z,1.8f,1);
             }
             if(_model.PointerVisible&&count<_visionSources.Length)_visionSources[count++]=new Vector4(_model.WorkCenter.X,_model.WorkCenter.Z,_settings.CursorVision,1);
+            foreach(var field in _model.DivineFields.Fields)if(count<_visionSources.Length)_visionSources[count++]=new Vector4(field.X,field.Z,Mathf.Max(1.6f,field.Radius+1f),1);
             foreach(var echo in _model.Echoes)if(count<_visionSources.Length)_visionSources[count++]=new Vector4(echo.Position.X,echo.Position.Z,_settings.CursorVision,echo.Strength(_settings.VisionTrailSeconds));
             Shader.SetGlobalVectorArray("_VisionSources",_visionSources);Shader.SetGlobalInt("_VisionCount",count);
             Shader.SetGlobalVectorArray("_VillageLamps",_lamps);Shader.SetGlobalInt("_LampCount",lamps);
@@ -359,6 +369,14 @@ namespace Afterlife.Prototype
             }
             RefreshConnections();_previousHovered=_hovered;
             _workRing.enabled=false;
+            bool previewModifier=Keyboard.current!=null&&Keyboard.current.shiftKey.isPressed;
+            if(_model.PointerVisible&&_modal==Modal.None&&_model.Mode==InputMode.Work&&!_pressActive&&!_dragging&&!_tileBuildMenu&&
+                (previewModifier||_hovered!=0&&_model.CanDivineFieldInteract(_hovered)))
+            {
+                bool affordable=_model.DivinePower>=_model.DivineFields.PlacementCost&&_model.Terrain.At(_pointer)!=TerrainKind.Water;
+                Tint(_workRing,affordable?new Color(.52f,.84f,1f,.55f):new Color(1f,.3f,.3f,.6f));
+                Circle(_workRing,_pointer,_model.DivineFieldRadius);
+            }
             
             _hoverRing.enabled=false;var hover=_model.Find(_hovered);
             if(_tileBuildMenu&&_modal==Modal.None&&!_model.Ended)Box(_hoverRing,_buildTile,.98f,.98f);
@@ -384,6 +402,7 @@ namespace Afterlife.Prototype
                 var unit=_model.Find(id);if(unit==null||_model.Visibility(unit.Position)<.12f)continue;
                 if(!_selectedRings.TryGetValue(id,out var ring)){ring=Line("Selected troop",new Color(.4f,.8f,1),.05f);_selectedRings.Add(id,ring);}Circle(ring,unit.Position,.4f);
             }
+            UpdateDivineFieldVisuals();
             _commandLine.enabled=_arrowHead.enabled=_pressActive&&_dragging&&_commandDrag&&_pointerValid&&_modal==Modal.None;
             if(_commandLine.enabled)
             {
@@ -394,6 +413,8 @@ namespace Afterlife.Prototype
         }
         private void OnDestroy()
         {
+            ClearDivineFieldVisuals();
+            if(_divinePowerLabel!=null)Destroy(_divinePowerLabel.gameObject);
             _terrainSurface?.Dispose();_terrainSurface=null;
             _waterSurface?.Dispose();_waterSurface=null;
             DisposeGameFlow();

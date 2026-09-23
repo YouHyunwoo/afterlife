@@ -23,6 +23,11 @@ namespace Afterlife.Prototype
         public float NightSeconds = 35;
         public float ContributionSeconds = 1;
         [Min(.1f)] public float ContributionPower = 1;
+        [Header("신력 필드")]
+        [Min(1f)] public float DivinePowerMaximum = 100;
+        [Min(.1f)] public float DivineFieldCost = 30;
+        [Min(0f)] public float DivinePowerRegeneration = 3;
+        [Min(.1f)] public float DivineFieldDuration = 8;
         public float CursorVision = 7;
         public float VillageVision = 9;
         public float VisionTrailSeconds = 1.4f;
@@ -75,6 +80,8 @@ namespace Afterlife.Prototype
             WarriorSeconds = WarriorSeconds, WarriorMoney = WarriorMoney,
             DaySeconds = DaySeconds, DuskSeconds = DuskSeconds, NightSeconds = NightSeconds,
             PulseSeconds = ContributionSeconds, ContributionPower = ContributionPower, CursorVision = CursorVision, VillageVision = VillageVision,
+            DivinePowerMaximum = DivinePowerMaximum, DivineFieldCost = DivineFieldCost,
+            DivinePowerRegeneration = DivinePowerRegeneration, DivineFieldDuration = DivineFieldDuration,
             VisionTrailSeconds = VisionTrailSeconds, AutoConstruction = AutoConstruction, MapRadius = MapRadius, MapSeed=MapSeed, Days = PrototypeDays,ResourceSpawnSeconds=ResourceSpawnSeconds,TreeLimit=TreeLimit,RockLimit=RockLimit
         };
     }

@@ -27,6 +27,10 @@ MonoBehaviour:
   NightSeconds: 35
   ContributionSeconds: 1
   ContributionPower: 1
+  DivinePowerMaximum: 100
+  DivineFieldCost: 30
+  DivinePowerRegeneration: 3
+  DivineFieldDuration: 8
   CursorVision: 7
   VillageVision: 9
   VisionTrailSeconds: 1.4

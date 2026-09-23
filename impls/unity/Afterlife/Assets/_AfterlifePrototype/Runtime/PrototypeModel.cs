@@ -24,6 +24,7 @@ namespace Afterlife.Prototype
         public float WoodRate=2, StoneRate=1, CursorDamage=8, RepairRate=12, WarriorSeconds=10;
         public int WarriorMoney=10;
         public float DaySeconds=35, DuskSeconds=5, NightSeconds=35, PulseSeconds=1, ContributionPower=1;
+        public float DivinePowerMaximum=100, DivineFieldCost=30, DivinePowerRegeneration=3, DivineFieldDuration=8;
         public float CursorVision=7, VillageVision=9, VisionTrailSeconds=1.4f;
         public float AutoConstruction=.25f;
         public int MapSeed=0;
@@ -155,7 +156,7 @@ namespace Afterlife.Prototype
         public int TopologyRevision {get;private set;}
         private float _nightTime, _pulseClock, _ecologyClock, _echoClock, _combatTime;
         private Random _random;
-        public VillageModel(Balance settings) { Settings=settings; Terrain=new TerrainMap(settings.MapRadius); Reset(); }
+        public VillageModel(Balance settings) { Settings=settings; Terrain=new TerrainMap(settings.MapRadius); InitializeDivineFields(); Reset(); }
         public static int TileKey(int x,int z)=>(x+128)*256+z+128;
         public static string Name(Kind k)
         {
@@ -188,6 +189,7 @@ namespace Afterlife.Prototype
         private void ResetAttempt()
         {
             Terrain.Regenerate(Settings.MapSeed);
+            DivineFields.Reset();
             ResetManualWork();
             SoundReset?.Invoke();
             ResetProgression();ResetCombatGrowth();ResetExploration();Bodies.Clear();Projectiles.Clear();_obstaclesDirty=true;_nextShotId=0;Territory.Clear();Selected.Clear();Echoes.Clear();_nextId=0;_random=new Random(Terrain.Seed);
@@ -200,7 +202,7 @@ namespace Afterlife.Prototype
             AddResource(Kind.Tree,3,2);AddResource(Kind.Tree,4,2);AddResource(Kind.Rock,-4,3);
             SeedDiscoveries();SeedBiomes();
             for(int i=0;i<55;i++)SpawnNature(i%6==0?Kind.Treasure:i%5==0?Kind.Animal:i%3==0?Kind.Rock:Kind.Tree,6);
-            InitializeResourceLimits();Recalculate();TopologyRevision++;Say("초반에는 대상을 클릭해 작업합니다. 연구 R8 커서 자동화로 호버 작업을 해금하세요.");
+            InitializeResourceLimits();Recalculate();TopologyRevision++;Say("대상을 클릭해 신력 필드를 설치하세요. 빈 타일은 Shift+클릭으로 설치합니다.");
         }
         private Body Add(Kind k,Point p,float hp)
         {var b=new Body{Id=++_nextId,Kind=k,Position=p,Rally=p,Destination=p,Health=hp,MaxHealth=hp};Bodies.Add(b);if(!b.Unit)_obstaclesDirty=true;return b;}
@@ -311,8 +313,7 @@ namespace Afterlife.Prototype
             if(Frozen||dt<=0)return;dt=Math.Min(dt,.05f);
             if(_manualWorkElapsed<float.MaxValue)_manualWorkElapsed+=dt;
             _combatTime+=dt;TickProgression(dt);_pathBudget=3; UpdateEchoes(dt);ProcessConstruction(dt);
-            _pulseClock+=dt;
-            while(_pulseClock>=Interval){_pulseClock-=Interval;if(Working&&CursorAutomationUnlocked){Pulse();PulseCount++;}}
+            DivineFields.Tick(dt,Interval);
             ProcessProduction(dt);UpdateTactics(dt);ProcessUnits(dt);ProcessTowers(dt);ProcessProjectiles(dt);ProcessBurns(dt);ProcessExploration(dt);ProcessResourceRegrowth(dt*ProductionSpeed);Cleanup();
             if(!Bodies.Any(b=>b.Alive&&b.Kind==Kind.House)){End(Phase.Defeat);return;}
             Remaining=Math.Max(0,Remaining-dt);
@@ -334,7 +335,7 @@ namespace Afterlife.Prototype
         {
             LastResult=new RunResult{Victory=p==Phase.Victory,BestCleared=RunBestCleared,Rebirths=RebirthCount,Kills=RunKills};
             if(RunBestCleared>=2)BannerUnlocked=true;
-            ResetManualWork();ClearRunProgress();ResetProgression();ResetCombatGrowth();ResetExploration(); Money=0;_goldRemainder=0;PulseLevel=ResidentLevel=ConstructionLevel=CriticalChanceLevel=CriticalPowerLevel=0;
+            DivineFields.Reset();ResetManualWork();ClearRunProgress();ResetProgression();ResetCombatGrowth();ResetExploration(); Money=0;_goldRemainder=0;PulseLevel=ResidentLevel=ConstructionLevel=CriticalChanceLevel=CriticalPowerLevel=0;
             Valuables=LastValuables=LastSettlement=0;Bodies.Clear();Projectiles.Clear();_obstaclesDirty=true;Territory.Clear();TerritoryRevision++;Selected.Clear();Echoes.Clear();Population=Capacity=0;
             Phase=p;Working=PointerVisible=false;Mode=InputMode.Work;Remaining=0;Wave=1;SegmentCleared=SegmentKills=0;
             Say(p==Phase.Victory?$"{Settings.Days}번의 밤을 지켰습니다. 판 종료 · 영구 해금만 유지됩니다.":"마지막 집이 파괴되었습니다. 판 종료 · 영구 해금만 유지됩니다.");
@@ -381,6 +382,7 @@ namespace Afterlife.Prototype
             float amount=0;
             foreach(var b in Bodies){float radius=BodyVisionRadius(b);if(radius>0)amount=Math.Max(amount,Light(p,b.Position,radius));}
             if(PointerVisible)amount=Math.Max(amount,Light(p,WorkCenter,Settings.CursorVision));
+            foreach(var field in DivineFields.Fields)amount=Math.Max(amount,Light(p,new Point(field.X,field.Z),Math.Max(1.6f,field.Radius+1f)));
             foreach(var echo in Echoes)amount=Math.Max(amount,Light(p,echo.Position,Settings.CursorVision)*echo.Strength(Settings.VisionTrailSeconds));
             return amount;
         }

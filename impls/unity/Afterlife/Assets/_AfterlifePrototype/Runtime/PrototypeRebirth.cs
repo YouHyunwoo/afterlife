@@ -68,7 +68,7 @@ namespace Afterlife.Prototype
             if(target.Building)Sound(target.Alive?SoundCue.BuildingHit:SoundCue.Collapse);
             else if(!target.Alive&&target.Hostile)Sound(SoundCue.Kill,target.Position);
             if(target.Unit&&stagger){target.StunRemaining=.2f;target.StunUntil=_combatTime+.2f;target.PendingTarget=0;target.AttackWindup=target.AttackRecovery=0;}
-            if(target.Kind==Kind.Animal){target.FleeUntil=_combatTime+5;target.FleeFrom=Working?WorkCenter:target.Position;}
+            if(target.Kind==Kind.Animal){target.FleeUntil=_combatTime+5;target.FleeFrom=_activeDivineFieldCenter??(Working?WorkCenter:target.Position);}
             if(!target.Alive){if(target.Hostile){SegmentKills++;RunKills++;}CollectKillLoot(target);}
             Damaged?.Invoke(target);
         }
