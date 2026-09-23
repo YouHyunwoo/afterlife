@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enableSeparator: 1
   enableTree: 1
-  separatorList:
+  separators:
   - prefix: '#1'
     enableGradient: 0
     gradientAlignment: 1
