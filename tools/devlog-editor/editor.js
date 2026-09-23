@@ -107,7 +107,7 @@ let defaultProjectFolder='';
 function closeMenus(){for(const id of ['projectMenu','exportMenu'])$(id).open=false}
 function showCreateDialog(){if(busy)return;closeMenus();if(modified&&!confirm('저장하지 않은 편집을 버리고 새 프로젝트를 만들까요?'))return;$('projectError').textContent='';$('newProjectName').value='';$('newProjectFolder').value=projectPath?projectPath.replace(/[\\/][^\\/]+$/,''):defaultProjectFolder;$('projectDialog').showModal();$('newProjectName').focus()}
 function showOpenDialog(){if(busy)return;closeMenus();$('openError').textContent='';$('openProjectPath').value='';$('openDialog').showModal()}
-async function pickInto(kind,id,errorId){try{const d=await api('pick',{kind});if(d.path)$(id).value=d.path}catch(e){$(errorId).textContent=e.message}}
+async function pickInto(kind,id,errorId){$(errorId).textContent='';try{const d=await api('pick',{kind});if(d.path)$(id).value=d.path}catch(e){$(errorId).textContent=e.message}}
 $('welcomeCreate').onclick=showCreateDialog;$('newProject').onclick=showCreateDialog;
 $('welcomeOpen').onclick=showOpenDialog;$('open').onclick=showOpenDialog;
 $('newProjectFolder').onclick=()=>pickInto('folder','newProjectFolder','projectError');
