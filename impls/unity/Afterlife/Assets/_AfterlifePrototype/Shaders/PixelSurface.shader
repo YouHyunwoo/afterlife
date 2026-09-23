@@ -15,13 +15,13 @@ Shader "Afterlife/Prototype/PixelSurface"
             #pragma vertex Vert
             #pragma fragment Frag
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-            #include "Assets/Devlog/Modules/Wind/Shaders/ShowcaseWind.hlsl"
-            #include "Assets/Devlog/Modules/Lighting/Shaders/ShowcaseEmission.hlsl"
+            #include "Assets/Devlog/Youtube/Modules/Wind/Shaders/ShowcaseWind.hlsl"
+            #include "Assets/Devlog/Youtube/Modules/Lighting/Shaders/ShowcaseEmission.hlsl"
             #include "Assets/_AfterlifePrototype/Shaders/PrototypeGroundVisibility.hlsl"
             #include "Assets/_AfterlifePrototype/Shaders/PrototypeGroundAppearance.hlsl"
-            #include "Assets/Devlog/Modules/Hover/Shaders/ShowcaseHover.hlsl"
-            #include "Assets/Devlog/Modules/Destruction/Shaders/ShowcaseDissolve.hlsl"
-            #include "Assets/Devlog/Modules/Snow/Shaders/ShowcaseSnowErosion.hlsl"
+            #include "Assets/Devlog/Youtube/Modules/Hover/Shaders/ShowcaseHover.hlsl"
+            #include "Assets/Devlog/Youtube/Modules/Destruction/Shaders/ShowcaseDissolve.hlsl"
+            #include "Assets/Devlog/Youtube/Modules/Snow/Shaders/ShowcaseSnowErosion.hlsl"
             float _Snow, _SnowShell;
             int _SnowHitCount;
             float4 _SnowHits[32];
@@ -38,7 +38,7 @@ Shader "Afterlife/Prototype/PixelSurface"
             float _DamageWood;
             float4 _DamageMarksV1[8],_DamageNormalsV1[8];
             float4x4 _DamageWorldToLocal;
-            #include "Assets/Devlog/Modules/DamageMarks/Shaders/ShowcaseDamageMarks.hlsl"
+            #include "Assets/Devlog/Youtube/Modules/DamageMarks/Shaders/ShowcaseDamageMarks.hlsl"
             TEXTURE2D(_VegetationMask); SAMPLER(sampler_VegetationMask);
             float4 _VegetationBounds;
             float _PrototypeNight;

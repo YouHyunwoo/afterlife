@@ -13,7 +13,7 @@ Shader "Afterlife/Prototype/HoverDust"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Assets/_AfterlifePrototype/Shaders/PrototypeVegetationLighting.hlsl"
             #define HOVER_DUST_LIGHTING(color,world) PrototypeVegetationOutput(color,world).rgb
-            #include "Assets/Devlog/Modules/Hover/Shaders/ShowcaseHoverDustPass.hlsl"
+            #include "Assets/Devlog/Youtube/Modules/Hover/Shaders/ShowcaseHoverDustPass.hlsl"
             ENDHLSL
         }
     }

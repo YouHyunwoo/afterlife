@@ -19,7 +19,7 @@ Shader "Afterlife/Prototype/Leaves"
             #include "Assets/_AfterlifePrototype/Shaders/PrototypeVegetationLighting.hlsl"
             #define VEGETATION_OUTPUT(color,world) PrototypeVegetationOutput(color,world)
             #define VEGETATION_SHADE(color,normal,world) PrototypeVegetationShade(color,normal)
-            #include "Assets/Devlog/Modules/Vegetation/Shaders/ShowcaseLeafCardsPass.hlsl"
+            #include "Assets/Devlog/Youtube/Modules/Vegetation/Shaders/ShowcaseLeafCardsPass.hlsl"
             ENDHLSL
   }
  }

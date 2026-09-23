@@ -1,7 +1,7 @@
 #ifndef PROTOTYPE_GROUND_APPEARANCE
 #define PROTOTYPE_GROUND_APPEARANCE
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
-#include "Assets/Devlog/Modules/Hover/Shaders/ShowcaseHover.hlsl"
+#include "Assets/Devlog/Youtube/Modules/Hover/Shaders/ShowcaseHover.hlsl"
 TEXTURE2D(_PrototypeGroundColors); SAMPLER(sampler_PrototypeGroundColors);
 TEXTURE2D(_PrototypeGroundNormals); SAMPLER(sampler_PrototypeGroundNormals);
 TEXTURE2D(_PrototypeVision); SAMPLER(sampler_PrototypeVision);

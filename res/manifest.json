@@ -1028,8 +1028,8 @@
     },
     {
       "path": "res/audio/freesori-water/extract_ripple.py",
-      "bytes": 5345,
-      "sha256": "4c2672db7dc787ca6f26c0fc9f55b58602e04cdcf218ffca6fc07b96054c96e3",
+      "bytes": 5353,
+      "sha256": "ccc2b3c14433eca839aada1cb85bf692afb1df0b2a8926f839ba6306eb1fce33",
       "provenance": "프리소리 tistory.com/17 / 사용자 무료 이용 확인에 따라 적용 / 라이선스 원문 미확인 / docs/audio-credits.md"
     },
     {
@@ -5942,8 +5942,8 @@
     },
     {
       "path": "res/audio/nature-ambience/extract_grass_variants.py",
-      "bytes": 3091,
-      "sha256": "1ad108789030b66317fa871338eb62465c209445de4c08d9f4f8bec91f6254eb",
+      "bytes": 3099,
+      "sha256": "cb81aacec447576d53bb207e853c860af48a952cf764079d1724575b901ad51f",
       "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
     },
     {
@@ -5996,8 +5996,8 @@
     },
     {
       "path": "res/audio/nature-ambience/prepare.py",
-      "bytes": 3113,
-      "sha256": "304b750e74f39eca173978563d64ac6097e0c2d7b1eba1dee2e0ca59a07923e0",
+      "bytes": 3121,
+      "sha256": "c1552f65183e9a4e00a0815b81c67b3577b10de7f61b50a9d943239ff375001a",
       "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
     },
     {
@@ -7046,8 +7046,8 @@
     },
     {
       "path": "res/README.md",
-      "bytes": 2367,
-      "sha256": "58e8209a93e968e5c4f50fc43677b14d78d5d2011c0b9ecd936eb36b5d30d67e",
+      "bytes": 2546,
+      "sha256": "9643a29a7576e4aced4c73d98dc49ecacd656f319a29ad2c39108b6655b8ce45",
       "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
     },
     {

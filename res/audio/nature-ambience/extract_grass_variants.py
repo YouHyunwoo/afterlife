@@ -10,7 +10,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 SOURCE = HERE / 'grass.wav'
 OUTPUT = HERE / 'grass-variants'
-TARGET = ROOT / 'impls/unity/Afterlife/Assets/Devlog/Modules/AmbientAudio/Resources/DevlogAmbience/GrassRustles'
+TARGET = ROOT / 'impls/unity/Afterlife/Assets/Devlog/Youtube/Modules/AmbientAudio/Resources/DevlogAmbience/GrassRustles'
 
 
 def write_wav(path, data, rate):

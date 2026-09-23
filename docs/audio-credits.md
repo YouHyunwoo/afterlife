@@ -12,7 +12,7 @@
 - 원 자료: `res/audio/nature-ambience/*_hq.mp3`. Freesound 공개 HQ MP3 미리듣기를 내려받았으며 원본 WAV 다운로드가 아니다. 실제 다운로드 URL·저작자·SHA-256은 `sources.json`에 기록했다.
 - 풀 스침은 실제 마른 밀풀을 손으로 가볍게 스친 녹음이다. 바람이 풀을 흔드는 현장 녹음으로 오기하지 않는다.
 - 편집: 바람 12~52초 발췌/2초 교차 연결, 풀 0.3~10초 발췌/1초 교차 연결/짧은 피크 완화, 새 0~4.727초/80ms 시작·250ms 끝 페이드. 공통 DC 제거·고역통과 필터·음량 조정·44.1kHz/16bit 스테레오 WAV 변환. 상세 수치는 `analysis.json`, 재현은 `prepare.py`.
-- Unity: `Assets/Devlog/Modules/AmbientAudio/Resources/DevlogAmbience/{wind,grass,bird}.wav`. 현재 Day01 After에서는 grass(마우스 풀 접촉 중)와 bird(간헐적)만 사용한다. wind는 참조/로딩/재생을 제거했으며 기존 파일은 출처 추적용으로 보관한다. 실제 청취 검증은 대기 중이다.
+- Unity: `Assets/Devlog/Youtube/Modules/AmbientAudio/Resources/DevlogAmbience/{wind,grass,bird}.wav`. 현재 Day01 After에서는 grass(마우스 풀 접촉 중)와 bird(간헐적)만 사용한다. wind는 참조/로딩/재생을 제거했으며 기존 파일은 출처 추적용으로 보관한다. 실제 청취 검증은 대기 중이다.
 - 기존 공유마당 CC BY 음원의 공개 표기 의무는 별도로 유지한다.
 
 - 풀 스침 추가 편집: 기존 grass.wav에서 0.10~0.65 / 1.55~2.15 / 4.15~4.85 / 6.45~7.15초를 발췌. 원 MP3 기준 1.40~1.95 / 2.85~3.45 / 5.45~6.15 / 7.75~8.45초. tanh 피크 완화, 35ms/140ms 페이드, RMS -25dBFS·피크 -13dBFS 상한. 현재 풀 재생은 사용자 선택에 따라 `GrassRustles/grass_rustle_02~04.wav`만 사용한다. 01은 미사용 후보로 보관한다. 원래 grass.wav는 편집 원본으로 보존한다. 재현/분석은 `extract_grass_variants.py`, `grass-variants-analysis.json`.
@@ -23,7 +23,7 @@
 - 사용자 제공 원본: `C:/Users/User/Desktop/tfile.wav`; 보관본 `res/audio/freesori-water/tfile.wav`.
 - 적용 근거: 2026-09-20 사용자가 무료 이용을 확인했다고 알리고 적용을 지시함. 배포 페이지의 명시적 라이선스 원문·원저작자는 별도로 확인되지 않았으며 CC0/CC BY로 표기하지 않는다.
 - 편집본: `res/audio/freesori-water/freesori_water_ripple.wav`.
-- Unity 임포트본: `impls/unity/Afterlife/Assets/Devlog/Modules/Audio/Resources/DevlogAudio/freesori_water_ripple.wav`.
+- Unity 임포트본: `impls/unity/Afterlife/Assets/Devlog/Youtube/Modules/Audio/Resources/DevlogAudio/freesori_water_ripple.wav`.
 - 편집: 원본 2.30~2.60초 발췌(0.30초), 기존 편집본의 첫 100ms 어택 제거, 채널별 DC 제거, 시작 30ms/끝 140ms 페이드. 이전 게인 유지, 결과 피크 -16.12dBFS. 44.1kHz/16bit/스테레오 유지.
 - 분석과 재현: 같은 폴더의 `analysis.json`, `extract_ripple.py`. RMS 파형 기준 선정이며 청취 검증은 아직 하지 않음.
 - 현재 사용 음원: `res/audio/freesori-water/variants/freesori_water_ripple_01~05.wav`; Unity는 같은 파일을 `Resources/DevlogAudio/WaterRipples/`에서 임포트한다. 기존 단일 편집본은 참조 호환용으로 유지한다.
@@ -48,7 +48,7 @@
 - 출처 확인일: 2026-09-19
 - 상태: Devlog After 나무 쓰러짐 음원으로 사용 중. 기존 ecfike 음원을 대체했다. 공개용 게임 크레딧/영상 설명란 반영은 아직 필요하다.
 - 원본 보관: `res/audio/gongu-tree-fall/gongu_13220749_tree_fall.mp3`
-- 게임 리소스: `impls/unity/Afterlife/Assets/Devlog/Modules/Audio/Resources/DevlogAudio/gongu_13220749_tree_fall.mp3`
+- 게임 리소스: `impls/unity/Afterlife/Assets/Devlog/Youtube/Modules/Audio/Resources/DevlogAudio/gongu_13220749_tree_fall.mp3`
 - 편집: 없음. ZIP의 MP3 바이트를 그대로 복사했다. 게임 재생 피치 1, 볼륨 배율 0.65.
 
 ## 적용 규칙
@@ -71,3 +71,36 @@
 ## 프로토타입 이관 (2026-09-21)
 
 Day01과 동일한 임포트 음원을 참조하여 나무 쓰러짐, 바위 타격/파괴, 물 파문 5종, 풀 스침 02~04, 새 울음을 프로토타입에 연결했다. 이번 이관에서 음원 파일의 추가 편집/복제는 없다. 나무 쓰러짐은 피치 1·기본 배율 0.65에 사용자 SoundVolume을 곱한다. 기존 출처/이용조건을 그대로 유지한다. 내부 구현과 출처 기록만 완료했으며, 공개용 게임 크레딧 및 음원이 포함된 영상 설명란 표기는 아직 미완료다. 실제 청취 검증 대기.
+
+## Day01 AI 나레이션 — Supertonic 3
+- 공식 코드: https://github.com/supertone-oss-archive/supertonic (MIT)
+- 모델: https://huggingface.co/supertone-oss-archive/supertonic-3 (OpenRAIL-M)
+- 모델 revision: aafc6e32416a594460b32413efc49d7fe4ce6d46. 남성 M2, ko, speed 0.98, steps 12. 특정인의 음성 복제를 하지 않고 제공 프리셋을 사용했다.
+- 2026-09-21 공식 LICENSE 확인. 로컬 무상 실행과 생성물 이용에 비상업 전용 제한은 없으며, 금지 용도와 AI 생성 고지를 준수한다. 모델 제6항은 생성물에 대한 권리 주장을 하지 않음을 명시하고 Attachment A(e)는 기계 생성 사실 고지를 요구한다. 코드 MIT와 모델 조건을 혼동하지 않는다.
+- 원문 라이선스/제작 대본: devlog/youtube/day-01/source/narration/. 음원: devlog/youtube/day-01/media/audio/narration/. Unity는 Assets/Devlog/Youtube/Day01/Audio/Narration/의 문장별 WAV를 사용한다.
+- 편집: DC 제거, 피크 -3dBFS 이하, 양끝 8ms 페이드, PCM16/44.1kHz/mono 저장. 음성 속도는 합성 시 설정이며 피치 변환 없음.
+- Film 엔딩 크레딧의 나레이션 항목에 `Supertonic 3`와 `AI 생성 음성` 표시를 적용했다. 공개 영상에서 이를 제거할 경우 다른 명확한 고지를 유지한다. 영상 설명란 표기는 아직 게시하지 않았다.
+- 공개 설명란 문구: `나레이션은 Supertonic 3의 남성 프리셋 M2으로 로컬 생성한 AI 음성입니다. https://github.com/supertone-oss-archive/supertonic`
+- 이 나레이션 고지는 기존 공유마당 효과음의 출처 표시 의무를 대체하지 않는다.
+
+### Supertonic 고지 위치 확인
+Attachment A(e)는 AI 생성 사실의 명확한 고지를 요구하며 특정 위치나 상시 화면 표기를 명시하지 않는다. 영상 설명란 상단에 `이 영상의 나레이션은 Supertonic 3로 생성한 AI 음성입니다.`라고 명확히 기재하는 방식을 사용할 수 있다고 해석한다. 설명란만으로 충분하다는 공식 확인을 받은 것은 아니며 기존 화면 표시는 구현상 선택이었다. 이후 사용자 요청으로 Unity 엔딩 크레딧으로 고지를 이동했다. 공개 설명란은 아직 게시하지 않았다.
+
+## Day01 배경음악 — Childhood
+
+- 작곡가: Scott Buckley. 공식 출처: https://www.scottbuckley.com.au/library/childhood/
+- 라이선스: CC BY 4.0 — https://creativecommons.org/licenses/by/4.0/
+- 원본 MP3는 devlog/youtube/day-01/media/audio/music/, Unity 임포트는 Assets/Devlog/Youtube/Day01/Audio/Music/. 원본 파일 편집 없음. Film 재생 시 볼륨 0.08, 시작 2초 페이드 인·끝 3초 페이드 아웃 적용.
+- 엔딩 크레딧에 곡명·작곡가·라이선스·사이트를 추가했다. 유튜브 설명란에는 아래 문구를 별도로 넣어야 한다. 아직 공개 게시하지 않았다.
+
+```text
+Childhood — Scott Buckley
+Released under CC BY 4.0. www.scottbuckley.com.au
+https://www.scottbuckley.com.au/library/childhood/
+https://creativecommons.org/licenses/by/4.0/
+영상 길이에 맞춰 반복·4초 크로스페이드 연결, 볼륨 조절 및 페이드 인/아웃을 적용했습니다.
+```
+
+음원 길이 보정: 원곡 137.079초를 4초 선형 크로스페이드로 반복 연결한 Childhood-Day01.wav(192.85초)를 재생한다. 원본 MP3는 보존했다. 공개 편집 내역에도 반복·크로스페이드를 명시한다.
+
+시야 샷 추가 후 현재 BGM 편집본은 206.85초, Film 볼륨 0.10이다. 반복·크로스페이드와 시작/종료 페이드 조건은 동일하다.

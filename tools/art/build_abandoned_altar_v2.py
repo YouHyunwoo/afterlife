@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / 'res/art-source/world/abandoned-altar-v2'
 EXPORT = ROOT / 'res/models/world/AbandonedAltarV2.fbx'
 PREVIEW = ROOT / 'res/previews/abandoned-altar-v2'
-UNITY = ROOT / 'impls/unity/Afterlife/Assets/Devlog/Day01/Models/AbandonedAltarV2.fbx'
+UNITY = ROOT / 'impls/unity/Afterlife/Assets/Devlog/Youtube/Day01/Models/AbandonedAltarV2.fbx'
 for folder in (SOURCE, EXPORT.parent, PREVIEW, UNITY.parent):
     folder.mkdir(parents=True, exist_ok=True)
 rng = random.Random(20260920)

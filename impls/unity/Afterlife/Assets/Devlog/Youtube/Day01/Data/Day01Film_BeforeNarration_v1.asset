@@ -1,0 +1,350 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf409392b80c734488e43323ef87f3aa, type: 3}
+  m_Name: Day01Film_BeforeNarration_v1
+  m_EditorClassIdentifier: 
+  Shots:
+  - Title: "\uC644\uC131\uBCF8 \uB3C4\uC785"
+    Stage: 5
+    Duration: 6
+    From:
+      Focus: {x: 0, y: 0.5, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 5.5
+    To:
+      Focus: {x: 0, y: 0.5, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 5.1
+    Subtitle: "\uD68C\uC0C9 \uB3C4\uD615\uC73C\uB85C \uC2DC\uC791\uD55C \uC791\uC740
+      \uC138\uACC4\uC785\uB2C8\uB2E4."
+    SubtitleDelay: 0.4
+    SubtitleDuration: 5
+    FadeIn: 1
+    FadeInDuration: 0.6
+    FadeOut: 0
+    FadeOutDuration: 0.6
+    Night: 0
+    AllowInteraction: 0
+  - Title: Before
+    Stage: 0
+    Duration: 5
+    From:
+      Focus: {x: 0, y: 0.5, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 5.5
+    To:
+      Focus: {x: 0, y: 0.5, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 5.5
+    Subtitle: "\uCC98\uC74C\uC5D0\uB294 \uB098\uBB34\uB3C4 \uC9D1\uB3C4 \uB2E8\uC21C\uD55C
+      \uB3C4\uD615\uC774\uC5C8\uC2B5\uB2C8\uB2E4."
+    SubtitleDelay: 0.4
+    SubtitleDuration: 4
+    FadeIn: 0
+    FadeInDuration: 0.6
+    FadeOut: 1
+    FadeOutDuration: 0.6
+    Night: 0
+    AllowInteraction: 0
+  - Title: "\uBAA8\uB378\uACFC \uD53D\uC140"
+    Stage: 1
+    Duration: 8
+    From:
+      Focus: {x: 0, y: 0.5, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 5.5
+    To:
+      Focus: {x: 0, y: 0.5, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 5.5
+    Subtitle: "\uC911\uC138 \uD310\uD0C0\uC9C0 \uBAA8\uB378\uACFC \uC0C9\uC744 \uC785\uD788\uACE0,
+      \uD53D\uC140 \uB290\uB08C\uC744 \uB354\uD588\uC2B5\uB2C8\uB2E4."
+    SubtitleDelay: 0.4
+    SubtitleDuration: 7
+    FadeIn: 1
+    FadeInDuration: 0.6
+    FadeOut: 1
+    FadeOutDuration: 0.6
+    Night: 0
+    AllowInteraction: 0
+  - Title: "\uC9C0\uD615"
+    Stage: 2
+    Duration: 8
+    From:
+      Focus: {x: 0, y: 0.5, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 5.5
+    To:
+      Focus: {x: 0, y: 0.5, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 4.8
+    Subtitle: "\uBC18\uB4EF\uD55C \uD0C0\uC77C\uC5D0 \uC791\uC740 \uAD74\uACE1\uACFC
+      \uC790\uC5F0\uC2A4\uB7EC\uC6B4 \uACBD\uACC4\uB97C \uB354\uD588\uC2B5\uB2C8\uB2E4."
+    SubtitleDelay: 0.4
+    SubtitleDuration: 7
+    FadeIn: 1
+    FadeInDuration: 0.6
+    FadeOut: 1
+    FadeOutDuration: 0.6
+    Night: 0
+    AllowInteraction: 0
+  - Title: "\uD574\uBCC0\uACFC \uBB3C"
+    Stage: 2
+    Duration: 10
+    From:
+      Focus: {x: 3.8, y: 0, z: -3.6}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 2.6
+    To:
+      Focus: {x: 3.8, y: 0, z: -3.6}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 2.3
+    Subtitle: "\uBB3C\uC5D0\uB294 \uAE4A\uC774\uC640 \uAC70\uD488\uC744, \uD574\uBCC0\uC5D0\uB294
+      \uBD80\uB4DC\uB7EC\uC6B4 \uBAA8\uC11C\uB9AC\uB97C \uB9CC\uB4E4\uC5C8\uC2B5\uB2C8\uB2E4."
+    SubtitleDelay: 0.4
+    SubtitleDuration: 7
+    FadeIn: 1
+    FadeInDuration: 0.6
+    FadeOut: 1
+    FadeOutDuration: 0.6
+    Night: 0
+    AllowInteraction: 0
+  - Title: "\uC232\uACFC \uBC14\uB78C"
+    Stage: 3
+    Duration: 6
+    From:
+      Focus: {x: -3, y: 1, z: 1.5}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 3.1
+    To:
+      Focus: {x: -3, y: 1, z: 1.5}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 2.8
+    Subtitle: "\uD480\uACFC \uB098\uBB47\uC78E\uC774 \uBC14\uB78C\uC5D0 \uD754\uB4E4\uB9AC\uAE30
+      \uC2DC\uC791\uD569\uB2C8\uB2E4."
+    SubtitleDelay: 0.4
+    SubtitleDuration: 4
+    FadeIn: 1
+    FadeInDuration: 0.6
+    FadeOut: 1
+    FadeOutDuration: 0.6
+    Night: 0
+    AllowInteraction: 0
+  - Title: "\uB208"
+    Stage: 3
+    Duration: 6
+    From:
+      Focus: {x: -2.5, y: 1.1, z: 4}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 2.8
+    To:
+      Focus: {x: -2.5, y: 1.1, z: 4}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 2.5
+    Subtitle: "\uB208\uC740 \uC704\uB97C \uD5A5\uD55C \uBA74\uC5D0 \uC313\uC774\uACE0,
+      \uC78E \uC0AC\uC774\uB85C \uC6D0\uB798 \uC0C9\uC774 \uBCF4\uC785\uB2C8\uB2E4."
+    SubtitleDelay: 0.4
+    SubtitleDuration: 4
+    FadeIn: 1
+    FadeInDuration: 0.6
+    FadeOut: 1
+    FadeOutDuration: 0.6
+    Night: 0
+    AllowInteraction: 0
+  - Title: "\uAD74\uB69D"
+    Stage: 3
+    Duration: 7
+    From:
+      Focus: {x: 2.35, y: 1, z: 2.1}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 3
+    To:
+      Focus: {x: 2.35, y: 1, z: 2.1}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 2.7
+    Subtitle: "\uC791\uC740 \uAD74\uB69D\uC5D0\uB3C4 \uC6C0\uC9C1\uC784\uC744 \uB354\uD588\uC2B5\uB2C8\uB2E4."
+    SubtitleDelay: 0.4
+    SubtitleDuration: 5
+    FadeIn: 1
+    FadeInDuration: 0.6
+    FadeOut: 1
+    FadeOutDuration: 0.6
+    Night: 0
+    AllowInteraction: 0
+  - Title: "\uC9C0\uBA74 \uD638\uBC84 \u2014 \uC9C1\uC811 \uC870\uC791"
+    Stage: 4
+    Duration: 9
+    From:
+      Focus: {x: 1, y: 0, z: -1.7}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 3.8
+    To:
+      Focus: {x: 1, y: 0, z: -1.7}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 3.8
+    Subtitle: "\uB9C8\uC6B0\uC2A4\uAC00 \uC9C0\uB098\uAC04 \uC790\uB9AC\uC5D0\uB3C4
+      \uBC18\uC751\uC774 \uB0A8\uC2B5\uB2C8\uB2E4."
+    SubtitleDelay: 0.4
+    SubtitleDuration: 7
+    FadeIn: 1
+    FadeInDuration: 0.6
+    FadeOut: 1
+    FadeOutDuration: 0.6
+    Night: 0
+    AllowInteraction: 1
+  - Title: "\uB098\uBB34 \uD0C0\uACA9 \u2014 \uC9C1\uC811 \uC870\uC791"
+    Stage: 4
+    Duration: 14
+    From:
+      Focus: {x: -4.9000015, y: 1.0100385, z: -2.5}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 2.7
+    To:
+      Focus: {x: -4.9000015, y: 1.0100385, z: -2.5}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 2.7
+    Subtitle: "\uB3C4\uB07C\uAC00 \uB2FF\uC740 \uACF3\uC5D0 \uC790\uAD6D\uC774 \uB0A8\uACE0,
+      \uB098\uBB34\uB294 \uBC18\uB300 \uBC29\uD5A5\uC73C\uB85C \uD754\uB4E4\uB9BD\uB2C8\uB2E4."
+    SubtitleDelay: 0.4
+    SubtitleDuration: 7
+    FadeIn: 1
+    FadeInDuration: 0.6
+    FadeOut: 1
+    FadeOutDuration: 0.6
+    Night: 0
+    AllowInteraction: 1
+  - Title: "\uBC14\uC704 \uD0C0\uACA9 \u2014 \uC9C1\uC811 \uC870\uC791"
+    Stage: 4
+    Duration: 14
+    From:
+      Focus: {x: 3, y: 0.4, z: -2.7}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 2.5
+    To:
+      Focus: {x: 3, y: 0.4, z: -2.7}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 2.5
+    Subtitle: "\uBC14\uC704\uB294 \uC870\uAC01\uC73C\uB85C \uD769\uC5B4\uC9C0\uACE0,
+      \uCC9C\uCC9C\uD788 \uC0AC\uB77C\uC9D1\uB2C8\uB2E4."
+    SubtitleDelay: 0.4
+    SubtitleDuration: 7
+    FadeIn: 1
+    FadeInDuration: 0.6
+    FadeOut: 1
+    FadeOutDuration: 0.6
+    Night: 0
+    AllowInteraction: 1
+  - Title: "\uC9D1\uACFC \uBC24"
+    Stage: 5
+    Duration: 10
+    From:
+      Focus: {x: 2.35, y: 1, z: 2.1}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 3.7
+    To:
+      Focus: {x: 2.35, y: 1, z: 2.1}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 3.3
+    Subtitle: "\uBC24\uC5D0\uB294 \uC791\uC740 \uBD88\uBE5B \uC8FC\uBCC0\uB9CC \uBCF4\uC774\uB3C4\uB85D
+      \uD588\uC2B5\uB2C8\uB2E4."
+    SubtitleDelay: 0.4
+    SubtitleDuration: 7
+    FadeIn: 1
+    FadeInDuration: 0.6
+    FadeOut: 1
+    FadeOutDuration: 0.6
+    Night: 1
+    AllowInteraction: 0
+  - Title: "\uC218\uC815"
+    Stage: 5
+    Duration: 6
+    From:
+      Focus: {x: -2.8, y: 0.8, z: 0.7}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 2.5
+    To:
+      Focus: {x: -2.8, y: 0.8, z: 0.7}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 2.2
+    Subtitle: "\uC5B4\uB460 \uC18D\uC5D0\uC11C \uBE5B\uB098\uB294 \uC791\uC740 \uBC1C\uACAC\uB3C4
+      \uB0A8\uACA8\uB450\uC5C8\uC2B5\uB2C8\uB2E4."
+    SubtitleDelay: 0.4
+    SubtitleDuration: 4
+    FadeIn: 1
+    FadeInDuration: 0.6
+    FadeOut: 1
+    FadeOutDuration: 0.6
+    Night: 1
+    AllowInteraction: 0
+  - Title: "\uC804\uD6C4 \uBE44\uAD50 \u2014 Before"
+    Stage: 0
+    Duration: 5
+    From:
+      Focus: {x: 0, y: 0.5, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 5.5
+    To:
+      Focus: {x: 0, y: 0.5, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 5.5
+    Subtitle: "\uC2DC\uC791\uC740 \uC774 \uBAA8\uC2B5\uC774\uC5C8\uC9C0\uB9CC\u2026"
+    SubtitleDelay: 0.4
+    SubtitleDuration: 4
+    FadeIn: 1
+    FadeInDuration: 0.6
+    FadeOut: 0
+    FadeOutDuration: 0.6
+    Night: 0
+    AllowInteraction: 0
+  - Title: "\uC804\uD6C4 \uBE44\uAD50 \u2014 After"
+    Stage: 5
+    Duration: 7
+    From:
+      Focus: {x: 0, y: 0.5, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 5.5
+    To:
+      Focus: {x: 0, y: 0.5, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 5.5
+    Subtitle: "\uC774\uC81C \uC870\uAE08\uC740, \uB9CC\uC9C0\uACE0 \uC2F6\uC740 \uC138\uACC4\uAC00
+      \uB418\uC5C8\uC2B5\uB2C8\uB2E4."
+    SubtitleDelay: 0.4
+    SubtitleDuration: 6
+    FadeIn: 0
+    FadeInDuration: 0.6
+    FadeOut: 0
+    FadeOutDuration: 0.6
+    Night: 0
+    AllowInteraction: 1
+  - Title: "\uC804\uD6C4 \uBE44\uAD50 \u2014 After"
+    Stage: 5
+    Duration: 20
+    From:
+      Focus: {x: 0, y: 0.5, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 5.5
+    To:
+      Focus: {x: 0, y: 0.5, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 5.5
+    Subtitle: 
+    SubtitleDelay: 0.4
+    SubtitleDuration: 0.1
+    FadeIn: 0
+    FadeInDuration: 0.6
+    FadeOut: 1
+    FadeOutDuration: 0.6
+    Night: 1
+    AllowInteraction: 1
+  SubtitleFont: {fileID: 11400000, guid: 4a36bcf4fd3be004a923486f797762b5, type: 2}
+  SubtitleSize: 38

@@ -10,7 +10,7 @@ from math import gcd
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
-TARGET = ROOT / 'impls/unity/Afterlife/Assets/Devlog/Modules/AmbientAudio/Resources/DevlogAmbience'
+TARGET = ROOT / 'impls/unity/Afterlife/Assets/Devlog/Youtube/Modules/AmbientAudio/Resources/DevlogAmbience'
 RATE = 44100
 
 

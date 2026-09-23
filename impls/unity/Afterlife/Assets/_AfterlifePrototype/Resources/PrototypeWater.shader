@@ -39,7 +39,7 @@ Shader "Afterlife/Prototype/CoastalWater"
             #include "Assets/_AfterlifePrototype/Shaders/PrototypeWaterLighting.hlsl"
             #define WATER_LIGHTING(color,world) (color)
             #define WATER_OUTPUT(color,opacity,world) PrototypeWaterOutput(color,opacity,world)
-            #include "Assets/Devlog/Modules/Water/Shaders/ShowcaseWaterPass.hlsl"
+            #include "Assets/Devlog/Youtube/Modules/Water/Shaders/ShowcaseWaterPass.hlsl"
             ENDHLSL
         }
     }

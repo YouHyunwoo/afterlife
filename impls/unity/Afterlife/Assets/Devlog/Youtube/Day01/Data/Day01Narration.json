@@ -1,0 +1,533 @@
+{
+  "version": 3,
+  "engine": "Supertonic 3",
+  "modelRevision": "aafc6e32416a594460b32413efc49d7fe4ce6d46",
+  "voice": "M2",
+  "language": "ko",
+  "speed": 0.98,
+  "steps": 12,
+  "sampleRate": 44100,
+  "shots": [
+    {
+      "id": "01-intro",
+      "sourceShot": 0,
+      "title": "만들고 있는 게임",
+      "stage": 5,
+      "minimumDuration": 8,
+      "visual": "After 전체를 천천히 당겨 보여주기. 게임의 목표를 소개하며 전투 장면이라고 표현하지 않기.",
+      "cues": [
+        {
+          "start": 0.75,
+          "duration": 6.863,
+          "text": "자원을 모아 마을을 키우고, 몰려오는 마물을 막는 게임을 만들고 있습니다.",
+          "file": "01-intro-01.wav",
+          "audioSeconds": 6.513,
+          "signature": "c74e684f60ba1076431e039f36b9de1da83e6033d01966f34ce6ce31a494fc83",
+          "peak": 0.70697,
+          "sha256": "98a86a6e6acd86ed55e0feeb15a06d9190001011034f000cdf988d58a8b1dc3f"
+        }
+      ],
+      "duration": 8.36,
+      "start": 0
+    },
+    {
+      "id": "02-growth",
+      "sourceShot": 1,
+      "title": "성장과 재도전",
+      "stage": 5,
+      "minimumDuration": 8,
+      "visual": "낮의 집 주변. 성장과 환생은 기획 소개이며 이 씬에서 플레이를 시연하지 않음.",
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 6.798,
+          "text": "주민과 커서를 강화하고, 환생으로 다시 도전하는 중세 판타지 게임이에요.",
+          "file": "02-growth-01.wav",
+          "audioSeconds": 6.448,
+          "signature": "b33f3315ea08e3897e28df2e0fc801622df54c825fd52d88fee18f82e2077a10",
+          "peak": 0.70697,
+          "sha256": "91201183691f36585af59551dbaf045714f53fc004e126647b2781a40803c38e"
+        }
+      ],
+      "duration": 8.1,
+      "start": 8.36
+    },
+    {
+      "id": "03-engine",
+      "sourceShot": 2,
+      "title": "첫 개발일지 · 세계의 모습과 손맛",
+      "stage": 5,
+      "minimumDuration": 9,
+      "visual": "After 전체. 엔진과 이번 편의 범위를 짧게 소개한 뒤 암전.",
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 7.629,
+          "text": "유니티로 개발하고 있고, 이번 첫 개발일지에서는 세계의 모습과 손맛을 만들어봅니다.",
+          "file": "03-engine-01.wav",
+          "audioSeconds": 7.279,
+          "signature": "b2d6f8ac57d4ca8b008a85bc3b1e1a33adfe38d965bfd26dff2d9982a8c38a32",
+          "peak": 0.70697,
+          "sha256": "d567e7223f816ee444d889925fde0f8718ed22521b475fa5220ea27fe8823047"
+        }
+      ],
+      "duration": 9,
+      "start": 16.46
+    },
+    {
+      "id": "04-before",
+      "sourceShot": 3,
+      "title": "01 · 단순한 도형에서",
+      "stage": 0,
+      "minimumDuration": 6,
+      "visual": "Before 전체. 동일한 넓은 구도를 유지.",
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 5.537,
+          "text": "시작은 이랬습니다. 나무도 집도, 전부 단순한 도형이었죠.",
+          "file": "04-before-01.wav",
+          "audioSeconds": 5.187,
+          "signature": "cc4e89956cde054b35e73c3b8854f139014e666bfff7ad4da550fc813b782a9d",
+          "peak": 0.70697,
+          "sha256": "c738f3d969efd172303f45a61658997ba6cf1a575c426cfbf435f332d294a652"
+        }
+      ],
+      "duration": 6.84,
+      "start": 25.46
+    },
+    {
+      "id": "05-models",
+      "sourceShot": 4,
+      "title": "02 · 모델과 픽셀",
+      "stage": 1,
+      "minimumDuration": 9,
+      "visual": "Shape 전체. 모델과 픽셀 표현을 비교할 수 있게 안정적인 구도.",
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 4.658,
+          "text": "도형을 중세풍 모델로 바꾸고, 색을 입혔습니다.",
+          "file": "05-models-01.wav",
+          "audioSeconds": 4.308,
+          "signature": "029730d3deab0ce6473c8e57e81042a07e5dd67ccd2d914267289548cdac5e81",
+          "peak": 0.70697,
+          "sha256": "25ee5e905bd3ed001a4ecf38b70dc759e3b20ae6953fcff8dd7e4261616f36f4"
+        },
+        {
+          "start": 5.408,
+          "duration": 5.516,
+          "text": "여기에 픽셀 느낌을 더해, 작은 디오라마처럼 보이게 했어요.",
+          "file": "05-models-02.wav",
+          "audioSeconds": 5.166,
+          "signature": "e1bbe64ea7f1135aa889e52a2fb5a13ec38997e51aac20696ce0e3153d89b11d",
+          "peak": 0.70697,
+          "sha256": "bf7945906c772c97d9dfb76122d060dd7915c974951a53c85e24fb15945d985f"
+        }
+      ],
+      "duration": 11.67,
+      "start": 32.3
+    },
+    {
+      "id": "06-terrain",
+      "sourceShot": 5,
+      "title": "03 · 이어지는 지형",
+      "stage": 2,
+      "minimumDuration": 10,
+      "visual": "Terrain 전체에서 지형 경계 쪽으로 천천히 접근.",
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 6.364,
+          "text": "땅은 타일마다 끊기지 않도록, 지도 전체에 이어지는 굴곡을 줬습니다.",
+          "file": "06-terrain-01.wav",
+          "audioSeconds": 6.014,
+          "signature": "e829b3189f935bbb2f41627824f06f8e3d63851407a7a0095284dd90ea9f80e7",
+          "peak": 0.70697,
+          "sha256": "c52ea7bc621a592df1502d5c8d7209e11e0d58e5bf1b09972ea969965ea213b3"
+        },
+        {
+          "start": 7.114,
+          "duration": 4.068,
+          "text": "풀과 모래, 돌의 경계에도 변화를 더했어요.",
+          "file": "06-terrain-02.wav",
+          "audioSeconds": 3.718,
+          "signature": "830f65916a0e11999e595311d460f569c1606d5cb8cb603a313e5f615f787eac",
+          "peak": 0.70697,
+          "sha256": "dd17508796701d879bcc2cb76fe1aa8f82edef93a826510030665b6ecb5f00c4"
+        }
+      ],
+      "duration": 11.93,
+      "start": 43.97
+    },
+    {
+      "id": "07-water",
+      "sourceShot": 6,
+      "title": "물의 깊이와 해변",
+      "stage": 2,
+      "minimumDuration": 10,
+      "visual": "해변 확대. 상호작용 차단 유지, 파도와 거품 감상.",
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 5.705,
+          "text": "물은 깊을수록 어두워지고, 표면에는 두 겹의 거품이 흐릅니다.",
+          "file": "07-water-01.wav",
+          "audioSeconds": 5.355,
+          "signature": "3903b711b55042dc6b6ec4b442d76d7fdc2be74a2e4479458814882e34f71077",
+          "peak": 0.70697,
+          "sha256": "2a6d04f2a8743f6b3d03dc01c0d16362fee12e0e7221a94a827b827724c485b7"
+        },
+        {
+          "start": 6.455,
+          "duration": 3.716,
+          "text": "각진 해변도 조금 부드럽게 다듬었습니다.",
+          "file": "07-water-02.wav",
+          "audioSeconds": 3.366,
+          "signature": "016d133d7eff7f492561b743e105160689cd0b5cc0524be889773c92559331ac",
+          "peak": 0.70697,
+          "sha256": "b370cfabcb77448ff174f15db3ac69ed67909c563cc3e21713ab633fe05cc7c6"
+        }
+      ],
+      "duration": 10.92,
+      "start": 55.9
+    },
+    {
+      "id": "08-wind",
+      "sourceShot": 7,
+      "title": "04 · 숲에 움직임을",
+      "stage": 3,
+      "minimumDuration": 9,
+      "visual": "Life 숲. 빌보드 잎과 풀의 움직임이 보이는 근접 샷.",
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 6.801,
+          "text": "풀과 나뭇잎을 여러 장 배치하고, 바람에 조금씩 다르게 흔들리게 했습니다.",
+          "file": "08-wind-01.wav",
+          "audioSeconds": 6.451,
+          "signature": "01601590e0093bc523e2527928c6b56a5a6ded7450b6eb28f984766c080e1a27",
+          "peak": 0.70697,
+          "sha256": "f5ead3a1794425e88f97ffcefd0c0bb3c4061b788ca962461b58bdb154063d6c"
+        }
+      ],
+      "duration": 9,
+      "start": 66.82
+    },
+    {
+      "id": "09-snow",
+      "sourceShot": 8,
+      "title": "눈이 쌓인 풍경",
+      "stage": 3,
+      "minimumDuration": 8,
+      "visual": "눈 바이옴 두 나무의 위아래 색 차이.",
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 6.924,
+          "text": "눈이 쌓이는 면은 하얗게 덮고, 아래쪽 잎에는 원래의 초록색을 남겼어요.",
+          "file": "09-snow-01.wav",
+          "audioSeconds": 6.574,
+          "signature": "1757ca8aff972e75363824a59d3807bffe123acc1f161d997cf379dcbcd65a69",
+          "peak": 0.707,
+          "sha256": "ce5d2bb5b0aa4edb1f8d9721555db42dc37b46d04210bfa771f5fd4550e201ef"
+        }
+      ],
+      "duration": 8.22,
+      "start": 75.82
+    },
+    {
+      "id": "10-smoke",
+      "sourceShot": 9,
+      "title": "사람이 살 것 같은 집",
+      "stage": 3,
+      "minimumDuration": 6,
+      "visual": "집 굴뚝. 말이 끝난 뒤 짧게 연기만 감상.",
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 5.712,
+          "text": "굴뚝에 연기도 더하니, 누군가 살고 있는 집처럼 느껴집니다.",
+          "file": "10-smoke-01.wav",
+          "audioSeconds": 5.362,
+          "signature": "9152f9bde51a9d59d6e772a38193a768f6fcb8666303b309ba9cb7622f753411",
+          "peak": 0.70697,
+          "sha256": "06151bab6d21e78bb842a2442be03bea90afdbb671a7abe9b9172dac8ab6a923"
+        }
+      ],
+      "duration": 7.01,
+      "start": 84.04
+    },
+    {
+      "id": "11-hover",
+      "sourceShot": 10,
+      "title": "05 · 마우스에 반응하는 세계",
+      "stage": 4,
+      "minimumDuration": 13,
+      "interaction": true,
+      "visual": "직접 조작: 풀→흙→모래 순으로 마우스를 움직이고 잠시 멈추기.",
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 5.954,
+          "text": "보기만 하는 풍경이 아니라, 마우스에도 반응하도록 만들었습니다.",
+          "file": "11-hover-01.wav",
+          "audioSeconds": 5.604,
+          "signature": "126b212245ce3ab684cfa6839684376597dbbee7d5f1943a7818993326c60b27",
+          "peak": 0.70697,
+          "sha256": "203ddb8ae8f0087016988f9b4601aed1211a3d81ed52fb5fdcff55d86c690cf0"
+        },
+        {
+          "start": 6.704,
+          "duration": 5.4,
+          "text": "풀이 흔들리고, 땅에는 흔적이 남았다가 서서히 돌아옵니다.",
+          "file": "11-hover-02.wav",
+          "audioSeconds": 5.05,
+          "signature": "afde316516371e2ab32d50daaa8bc2567b91c76628c6d6202320fd7e2aabae96",
+          "peak": 0.70697,
+          "sha256": "7b28c21f227f1bfd8708c2a62da391d630df6b372840e51a07a9244c7c7d161a"
+        }
+      ],
+      "duration": 13,
+      "start": 91.05
+    },
+    {
+      "id": "12-tree",
+      "sourceShot": 11,
+      "title": "나무를 때리는 손맛",
+      "stage": 4,
+      "minimumDuration": 17,
+      "interaction": true,
+      "visual": "직접 조작: 나레이션에 맞춰 나무를 반복 클릭. 파괴 후 사라질 여유 확보.",
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 7.005,
+          "text": "도끼가 닿은 자리에 파편과 자국이 남고, 나무가 타격 방향으로 밀립니다.",
+          "file": "12-tree-01.wav",
+          "audioSeconds": 6.655,
+          "signature": "3312ad2e712e593c841de85b2ee1b96583525252a09c56921189c237d8596239",
+          "peak": 0.707,
+          "sha256": "f91ddc96b8958157c3fb69a217a9363e9ae31d2b9c9fad548fee106c9e063d96"
+        },
+        {
+          "start": 7.755,
+          "duration": 5.162,
+          "text": "쓰러진 뒤에는 잎과 몸통이 함께 천천히 사라집니다.",
+          "file": "12-tree-02.wav",
+          "audioSeconds": 4.812,
+          "signature": "b8c27c243455b24e7955751072730c0a605b9a92ed0db33fcd7e6d65676632d9",
+          "peak": 0.70697,
+          "sha256": "8c682f84b85a2f09e4b72b2f4452ed494e5f8541fd4ff35388052bb4633e6a71"
+        }
+      ],
+      "duration": 17,
+      "start": 104.05
+    },
+    {
+      "id": "13-rock",
+      "sourceShot": 12,
+      "title": "돌이 부서지는 손맛",
+      "stage": 4,
+      "minimumDuration": 15,
+      "interaction": true,
+      "visual": "직접 조작: 바위를 반복 클릭. 마지막 3초는 조각과 효과음 감상.",
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 4.383,
+          "text": "바위는 작은 덩어리로 부서져 굴러가게 했습니다.",
+          "file": "13-rock-01.wav",
+          "audioSeconds": 4.033,
+          "signature": "bff0f7a5a27ea867e60526f331bdd3e08812dc86225c0559e214824f905a2d55",
+          "peak": 0.70697,
+          "sha256": "74e97478e24d8f42a4999addfb7fc660522bedd1dec3bbdbf195116258bd2c52"
+        },
+        {
+          "start": 5.133,
+          "duration": 6.206,
+          "text": "효과음과 짧은 반응을 더해, 클릭 한 번도 손에 남도록 만들었어요.",
+          "file": "13-rock-02.wav",
+          "audioSeconds": 5.856,
+          "signature": "33d76bb4d433a351abd98194663446f6869684c9270112968b3779dc9ca481da",
+          "peak": 0.70697,
+          "sha256": "f4232f947be285117f37bc26baedf2e05e2de5b8b339b136b2d96a2a5a462d36"
+        }
+      ],
+      "duration": 15,
+      "start": 121.05
+    },
+    {
+      "id": "14-night",
+      "sourceShot": 13,
+      "title": "06 · 어둠과 작은 불빛",
+      "stage": 5,
+      "minimumDuration": 10,
+      "night": true,
+      "visual": "밤 집 주변. 창문 번짐과 줄어든 시야 대비.",
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 6.573,
+          "text": "밤에는 주변을 어둡게 하고, 집의 작은 불빛이 눈에 들어오도록 했습니다.",
+          "file": "14-night-01.wav",
+          "audioSeconds": 6.223,
+          "signature": "d4f3eeef6d165b5f76e3d7384e9e8d6b91337cda505394c5e82d63d4793ae73d",
+          "peak": 0.70697,
+          "sha256": "1053a0cc8e4d1e23f216f011a9c53780be9a19b88087882648a42ca08e09cd16"
+        }
+      ],
+      "duration": 10,
+      "start": 136.05
+    },
+    {
+      "id": "15-crystal",
+      "sourceShot": 14,
+      "title": "숲속의 작은 발견",
+      "stage": 5,
+      "minimumDuration": 7,
+      "night": true,
+      "visual": "밤 수정 근접. 빛 번짐 감상.",
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 6.706,
+          "text": "숲속의 수정에도 은은한 빛을 더해, 다가가 보고 싶은 지점을 만들었어요.",
+          "file": "15-crystal-01.wav",
+          "audioSeconds": 6.356,
+          "signature": "936dbef2135f865f5c9bc8af7ef4e925a1910bf510ddf3368c4b139d6caa3df3",
+          "peak": 0.70697,
+          "sha256": "f4d204ca0f4b2f87698da535932a8b01c3ab7cd08191d5b16dac74a07ddb622f"
+        }
+      ],
+      "duration": 8.01,
+      "start": 146.05
+    },
+    {
+      "id": "16-compare-before",
+      "sourceShot": 15,
+      "title": "처음의 모습",
+      "stage": 0,
+      "minimumDuration": 4,
+      "visual": "Before 전체. 다음 컷과 카메라 구도를 정확히 맞추기.",
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 3.267,
+          "text": "처음엔 단순한 도형들이었지만,",
+          "file": "16-compare-before-01.wav",
+          "audioSeconds": 2.917,
+          "signature": "168947be5b96e9625c8d9f21ca47508136db514d8a4c92ca4d173fb5135ce40e",
+          "peak": 0.70697,
+          "sha256": "29450cd682b3347d8439413b68ad9ca8166da0570d27a66271358b87fa91ef28"
+        }
+      ],
+      "duration": 4.57,
+      "start": 154.06
+    },
+    {
+      "id": "17-compare-after",
+      "sourceShot": 16,
+      "title": "조금 더 살아 있는 세계",
+      "stage": 5,
+      "minimumDuration": 8,
+      "visual": "After 동일 구도. 낮, Pixels/Leaves/Random/Dissolve/Rounded/Sway/피해 마크 기본값.",
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 5.197,
+          "text": "이제는 바람과 빛, 작은 반응이 있는 세계가 되었습니다.",
+          "file": "17-compare-after-01.wav",
+          "audioSeconds": 4.847,
+          "signature": "8c95bb760318f50ca3792e06f71d8350644ae131883112b0b05650073ea525ef",
+          "peak": 0.70697,
+          "sha256": "a7f01b34f80cd9cf08bc616985aa9930fb6540fda512a4beefe06f5c2db09c77"
+        }
+      ],
+      "duration": 8,
+      "start": 158.63
+    },
+    {
+      "id": "20-vision",
+      "sourceShot": 16,
+      "title": "커서와 집 주변의 시야",
+      "stage": 5,
+      "minimumDuration": 14,
+      "interaction": true,
+      "vision": true,
+      "transitionToNight": true,
+      "visual": "After 비교 직후 같은 구도. 0–7초 낮에서 마우스를 천천히 움직여 시야 시연, 7–10초 밤으로 부드럽게 전환, 10–14초 집 근처에 멈추기.",
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 3.706,
+          "text": "다만, 모든 곳이 늘 보이지는 않습니다.",
+          "file": "20-vision-01.wav",
+          "audioSeconds": 3.356,
+          "signature": "a198d2906b06d1c30c4f35689d0ec7ec9528737caeb80a04e912eba047eefc84",
+          "peak": 0.70697,
+          "sha256": "1553683917fbbe90b1f3aab145f0742cc030649fa0adf98cab108dff78b768a0"
+        },
+        {
+          "start": 4.456,
+          "duration": 5.955,
+          "text": "커서 주변을 살펴보고, 집 주변에는 시야가 남도록 만들었어요.",
+          "file": "20-vision-02.wav",
+          "audioSeconds": 5.605,
+          "signature": "0933167cd13760291d81cd74adab51adda72ce75740f6dd72457cad3a84c32e1",
+          "peak": 0.707,
+          "sha256": "51a49e3574a42177cebb91aec67e8eae7dc792cf9c6de49a36f044a52447a921"
+        }
+      ],
+      "duration": 14,
+      "start": 166.63
+    },
+    {
+      "id": "18-outro",
+      "sourceShot": 17,
+      "title": "다음은, 이 마을을 지키는 이야기",
+      "stage": 5,
+      "minimumDuration": 9,
+      "visual": "After 마지막 구도를 유지하며 나레이션을 마치고, 암전 없이 크레딧으로 연결.",
+      "night": true,
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 5.46,
+          "text": "앞으로는 이 마을을 키우고 지키는 과정을 다듬어가겠습니다.",
+          "file": "18-outro-01.wav",
+          "audioSeconds": 5.11,
+          "signature": "8afcece70eba7aa10248e983265ce11ea3b59c9ab5981c5a0ade4e8078510653",
+          "peak": 0.70697,
+          "sha256": "8eb521936fe8d1e9830f4ff23ec9f35dbaa8ca4d46d1d08eb25f8799534fdb96"
+        },
+        {
+          "start": 6.21,
+          "duration": 3.264,
+          "text": "어떤 변화가 가장 마음에 드셨나요?",
+          "file": "18-outro-02.wav",
+          "audioSeconds": 2.914,
+          "signature": "5255db6167d693c9ce617a16a56243fdef5df1f74551a31a011f4d24fd645f4d",
+          "peak": 0.70697,
+          "sha256": "5e8d6ab6f01252c6083540d3a8d87c93018b97cd8d5f8ff3dd3c46f3a251b711"
+        }
+      ],
+      "duration": 10.22,
+      "start": 180.63
+    },
+    {
+      "id": "19-credits",
+      "sourceShot": 18,
+      "title": "제작 크레딧",
+      "stage": 5,
+      "minimumDuration": 16,
+      "credits": true,
+      "visual": "마지막 After 구도 유지. 2초간 블러·어두운 오버레이 페이드 인, 중앙 크레딧 아래→위 이동, 마지막 1초 암전.",
+      "night": true,
+      "cues": [],
+      "duration": 16,
+      "start": 190.85
+    }
+  ],
+  "duration": 206.85
+}
