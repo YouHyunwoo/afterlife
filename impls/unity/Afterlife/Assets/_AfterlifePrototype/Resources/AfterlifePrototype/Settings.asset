@@ -25,7 +25,7 @@ MonoBehaviour:
   DaySeconds: 35
   DuskSeconds: 5
   NightSeconds: 35
-  ContributionSeconds: 2
+  ContributionSeconds: 1
   ContributionPower: 1
   CursorVision: 7
   VillageVision: 9
@@ -36,6 +36,7 @@ MonoBehaviour:
   RockLimit: 480
   MapRadius: 45
   PrototypeDays: 6
+  CameraGroundDistance: 22.7
   CameraEdgeBand: 160
   CameraFastBand: 35
   CameraMediumBand: 85
@@ -43,3 +44,4 @@ MonoBehaviour:
   CameraMediumSpeed: 10
   CameraMaxSpeed: 20
   PixelHeight: 360
+  SoundVolume: 0.7

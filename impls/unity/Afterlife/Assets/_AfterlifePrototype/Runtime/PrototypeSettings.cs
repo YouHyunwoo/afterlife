@@ -21,7 +21,7 @@ namespace Afterlife.Prototype
         public float DaySeconds = 35;
         public float DuskSeconds = 5;
         public float NightSeconds = 35;
-        public float ContributionSeconds = 2;
+        public float ContributionSeconds = 1;
         [Min(.1f)] public float ContributionPower = 1;
         public float CursorVision = 7;
         public float VillageVision = 9;

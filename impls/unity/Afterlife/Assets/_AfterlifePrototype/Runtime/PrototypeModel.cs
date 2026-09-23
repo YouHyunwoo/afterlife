@@ -23,7 +23,7 @@ namespace Afterlife.Prototype
         public float FirstPreparation=60, Maintenance=45, CursorRadius=.65f, HouseRadius=3.8f;
         public float WoodRate=2, StoneRate=1, CursorDamage=8, RepairRate=12, WarriorSeconds=10;
         public int WarriorMoney=10;
-        public float DaySeconds=35, DuskSeconds=5, NightSeconds=35, PulseSeconds=2, ContributionPower=1;
+        public float DaySeconds=35, DuskSeconds=5, NightSeconds=35, PulseSeconds=1, ContributionPower=1;
         public float CursorVision=7, VillageVision=9, VisionTrailSeconds=1.4f;
         public float AutoConstruction=.25f;
         public int MapSeed=0;
