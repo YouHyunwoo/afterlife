@@ -132,16 +132,16 @@ namespace Afterlife.Prototype
                 Part(root.transform,"Eye",PrimitiveType.Cube,new Vector3(-.11f,.36f,.25f),new Vector3(.065f,.07f,.04f),Color.black,false);
                 Part(root.transform,"Eye",PrimitiveType.Cube,new Vector3(.11f,.36f,.25f),new Vector3(.065f,.07f,.04f),Color.black,false);
             }
-            if(body.Kind==Kind.House)
+            if(VillageModel.HasBuildingLight(body.Kind))
             {
-                if(_model.BannerUnlocked)
+                if(body.Kind==Kind.House&&_model.BannerUnlocked)
                 {
                     Part(root.transform,"Unlocked banner pole",PrimitiveType.Cube,new Vector3(.34f,1.3f,0),new Vector3(.04f,.75f,.04f),new Color(.4f,.3f,.2f),false);
                     Part(root.transform,"Unlocked teal banner",PrimitiveType.Cube,new Vector3(.47f,1.5f,0),new Vector3(.25f,.3f,.035f),_cyan,false);
                 }
                 Part(root.transform,"Lamp",PrimitiveType.Cube,new Vector3(.26f,.65f,-.42f),new Vector3(.16f,.18f,.04f),new Color(1,.72f,.24f),false);
-                var lamp=new GameObject("House Light");lamp.transform.SetParent(root.transform,false);lamp.transform.localPosition=new Vector3(0,1.1f,-.5f);
-                var light=lamp.AddComponent<Light>();light.type=LightType.Point;light.color=new Color(1,.65f,.25f);light.range=1.8f;light.intensity=0;light.shadows=LightShadows.None;
+                var lamp=new GameObject("Building Light");lamp.transform.SetParent(root.transform,false);lamp.transform.localPosition=new Vector3(0,1.1f,-.5f);
+                var light=lamp.AddComponent<Light>();light.type=LightType.Point;light.color=new Color(1,.65f,.25f);light.range=Mathf.Max(.01f,_model.BodyLightRadius(body));light.intensity=0;light.shadows=LightShadows.None;
             }
             foreach(var renderer in root.GetComponentsInChildren<Renderer>())
             {

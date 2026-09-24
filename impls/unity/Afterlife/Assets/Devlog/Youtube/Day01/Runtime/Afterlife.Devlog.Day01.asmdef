@@ -20,7 +20,8 @@
     "Afterlife.Devlog.Interaction",
     "Afterlife.Devlog.Cinematics",
     "UnityEngine.UI",
-    "Unity.TextMeshPro"
+    "Unity.TextMeshPro",
+    "Afterlife.VisionBlur"
   ],
   "autoReferenced": true
 }

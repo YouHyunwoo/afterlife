@@ -26,12 +26,11 @@ half4 PrototypeVegetationOutput(half3 color,float3 visibilityPoint)
         visibility=max(visibility,ShowcaseVisionCircle(visibilityPoint.xz,_VisionSources[i].xy,_VisionSources[i].z,_VisionSources[i].w));
     clip(visibility-.001);
     visibility=smoothstep(0,1,visibility);
-    // Day01과 같은 밝기 감쇠와 시야 밖 제거만 사용한다.
-    color*=PrototypeGroundBrightness(_PrototypeNight,visibility);
     float warm=0;
     for(int j=0;j<_LampCount;j++)
         warm=max(warm,saturate(1-distance(visibilityPoint.xz,_VillageLamps[j].xy)/max(.001,_VillageLamps[j].z)));
-    color+=half3(.10,.055,.01)*warm*_PrototypeNight*visibility;
+    color*=PrototypeGroundBrightness(_PrototypeNight,warm);
+    color+=half3(.10,.055,.01)*warm*_PrototypeNight;
     return half4(color,1);
 }
 // 풀 종류별 단색. 높이에 따른 뿌리/끝 색 보간은 사용하지 않는다.

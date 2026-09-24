@@ -17,7 +17,17 @@ namespace Afterlife.Prototype
         public float BurnDamagePerSecond=>3*(1+.4f*Level(Upgrade.BurnDamage));
         public float BurnSeconds=>3+Level(Upgrade.BurnDuration);
         public static bool IsTower(Kind kind)=>kind==Kind.ArrowTower||kind==Kind.MagicTower;
-        public float BodyVisionRadius(Body body)=>!body.Alive?0:body.Friendly?5:body.Complete&&body.Kind==Kind.House?Settings.VillageVision:body.Complete&&!body.MovingOut&&IsTower(body.Kind)?TowerRange(body)+.65f:0;
+        public static bool HasBuildingLight(Kind kind)=>kind==Kind.House||kind==Kind.Research||kind==Kind.Barracks||kind==Kind.Market||kind==Kind.LargeTest;
+        public float BodyVisionRadius(Body body)
+        {
+            if(!body.Alive)return 0;
+            if(body.Friendly)return 5;
+            if(!body.Building)return 0;
+            if(HasBuildingLight(body.Kind))return Math.Max(3,Settings.VillageVision);
+            if(body.Complete&&!body.MovingOut&&IsTower(body.Kind))return TowerRange(body)+.65f;
+            return Math.Max(1.5f,Math.Max(3,Settings.VillageVision)/3);
+        }
+        public float BodyLightRadius(Body body)=>body.Alive&&body.Complete&&!body.MovingOut&&HasBuildingLight(body.Kind)?BodyVisionRadius(body)*.5f:0;
         public float TowerRange(Body tower)=>TowerRange(tower.Kind)+.35f*tower.TowerLevel;
         public float TowerDamage(Body tower)=>(tower.Kind==Kind.MagicTower?34:18)*(1+.2f*Level(tower.Kind==Kind.MagicTower?Upgrade.MagicDamage:Upgrade.ArrowDamage)+.2f*tower.TowerLevel);
         public int TowerPrice(Body tower)=>40*(tower.TowerLevel+1);

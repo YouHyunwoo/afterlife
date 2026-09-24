@@ -28,7 +28,8 @@ namespace Afterlife.Prototype
         [Min(.1f)] public float DivineFieldCost = 30;
         [Min(0f)] public float DivinePowerRegeneration = 3;
         [Min(.1f)] public float DivineFieldDuration = 8;
-        public float CursorVision = 7;
+        public bool VisionBlur = true;
+        public float CursorVision = 4;
         public float VillageVision = 9;
         public float VisionTrailSeconds = 1.4f;
         public float AutoConstruction = .25f;

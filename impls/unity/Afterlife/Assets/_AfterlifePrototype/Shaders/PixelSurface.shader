@@ -172,11 +172,10 @@ Shader "Afterlife/Prototype/PixelSurface"
                 color=floor(saturate(color)*31.0+.5)/31.0;
                 #endif
                 if(linkedGround)color=PrototypeGroundColor(input.world);
-                // 지면은 낮에 약간 어둡게 남고 밤에는 암흑. 물체는 clip되어 완전히 숨는다.
-                if(_Overlay<.5)color*=PrototypeGroundBrightness(_PrototypeNight,visibility);
                 float warm=0;
                 for(int j=0;j<_LampCount;j++)warm=max(warm,saturate(1-distance(input.world.xz,_VillageLamps[j].xy)/_VillageLamps[j].z));
-                color+=half3(.10,.055,.01)*warm*_PrototypeNight*visibility;
+                if(_Overlay<.5)color*=PrototypeGroundBrightness(_PrototypeNight,warm);
+                color+=half3(.10,.055,.01)*warm*_PrototypeNight;
                 if(_Ground>.5&&_CursorCircle.z>0&&(_TerrainRelief<.5||input.color.a>=0))
                 {
                     float2 delta=input.world.xz-_CursorCircle.xy;

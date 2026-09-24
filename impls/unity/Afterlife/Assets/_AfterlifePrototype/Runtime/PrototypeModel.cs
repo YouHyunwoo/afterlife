@@ -25,7 +25,7 @@ namespace Afterlife.Prototype
         public int WarriorMoney=10;
         public float DaySeconds=35, DuskSeconds=5, NightSeconds=35, PulseSeconds=1, ContributionPower=1;
         public float DivinePowerMaximum=100, DivineFieldCost=30, DivinePowerRegeneration=3, DivineFieldDuration=8;
-        public float CursorVision=7, VillageVision=9, VisionTrailSeconds=1.4f;
+        public float CursorVision=4, VillageVision=9, VisionTrailSeconds=1.4f;
         public float AutoConstruction=.25f;
         public int MapSeed=0;
         public int MapRadius=45, Days=6,TreeLimit=780,RockLimit=480;public float ResourceSpawnSeconds=12;

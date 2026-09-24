@@ -26,7 +26,8 @@
     "Afterlife.Devlog.Audio",
     "Afterlife.Devlog.AmbientAudio",
     "Afterlife.Devlog.Lighting",
-    "Afterlife.DivineFields"
+    "Afterlife.DivineFields",
+    "Afterlife.VisionBlur"
   ],
   "autoReferenced": true
 }

@@ -31,7 +31,8 @@ MonoBehaviour:
   DivineFieldCost: 30
   DivinePowerRegeneration: 3
   DivineFieldDuration: 8
-  CursorVision: 7
+  VisionBlur: 1
+  CursorVision: 4
   VillageVision: 9
   VisionTrailSeconds: 1.4
   AutoConstruction: 0.25

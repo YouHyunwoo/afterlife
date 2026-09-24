@@ -1,9 +1,9 @@
 #ifndef PROTOTYPE_GROUND_VISIBILITY
 #define PROTOTYPE_GROUND_VISIBILITY
 #include "Assets/Devlog/Youtube/Modules/Lighting/Shaders/ShowcaseVision.hlsl"
-// 지형과 식생이 같은 시야 계수로 낮/밤 밝기를 감쇠한다.
-half PrototypeGroundBrightness(float night,float visibility)
+// 시야는 물체 표시 여부만 결정하고, 밤의 밝기는 건물 조명으로 결정한다.
+half PrototypeGroundBrightness(float night,float illumination)
 {
-    return ShowcaseVisionBrightness(night,visibility);
+    return lerp(1,lerp(.08,1,saturate(illumination)),saturate(night));
 }
 #endif

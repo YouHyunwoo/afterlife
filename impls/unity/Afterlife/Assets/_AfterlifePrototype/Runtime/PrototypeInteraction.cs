@@ -294,6 +294,7 @@ namespace Afterlife.Prototype
         }
         private void ClearVillageView()
         {
+            ResetVisionBlurFocus();
             _modalStack.Clear();
             ClearDivineFieldVisuals();
             ClearSkillPresentation();
@@ -308,11 +309,11 @@ namespace Afterlife.Prototype
             foreach(var body in _model.Bodies)
             {
                 if(!body.Alive)continue;
-                bool house=body.Kind==Kind.House&&body.Complete;
+                float lightRadius=_model.BodyLightRadius(body);
                 float vision=_model.BodyVisionRadius(body);
                 if(vision>0&&count<_visionSources.Length)
                     _visionSources[count++]=new Vector4(body.Position.X,body.Position.Z,vision,1);
-                if(house&&lamps<_lamps.Length)_lamps[lamps++]=new Vector4(body.Position.X,body.Position.Z,1.8f,1);
+                if(lightRadius>0&&lamps<_lamps.Length)_lamps[lamps++]=new Vector4(body.Position.X,body.Position.Z,lightRadius,1);
             }
             if(_model.PointerVisible&&count<_visionSources.Length)_visionSources[count++]=new Vector4(_model.WorkCenter.X,_model.WorkCenter.Z,_settings.CursorVision,1);
             foreach(var field in _model.DivineFields.Fields)if(count<_visionSources.Length)_visionSources[count++]=new Vector4(field.X,field.Z,Mathf.Max(1.6f,field.Radius+1f),1);
@@ -365,7 +366,7 @@ namespace Afterlife.Prototype
                 if(b.Id==_hovered||b.Id==_previousHovered)foreach(var renderer in _renderCache[b.Id])
                 {var tint=renderer.GetComponent<PrototypeTint>();Tint(renderer,b.Id==_hovered?Color.Lerp(tint.Original,Color.white,.4f):tint.Original);}
                 UpdateGlow(b);
-                var light=_lightCache[b.Id];if(light!=null)light.intensity=b.Complete?1.1f*_model.NightBlend:0;
+                var light=_lightCache[b.Id];if(light!=null){float radius=_model.BodyLightRadius(b);light.range=Mathf.Max(.01f,radius);light.intensity=radius>0?1.1f*_model.NightBlend:0;}
             }
             RefreshConnections();_previousHovered=_hovered;
             _workRing.enabled=false;
@@ -413,6 +414,7 @@ namespace Afterlife.Prototype
         }
         private void OnDestroy()
         {
+            DisposeVisionBlur();
             ClearDivineFieldVisuals();
             if(_divinePowerLabel!=null)Destroy(_divinePowerLabel.gameObject);
             _terrainSurface?.Dispose();_terrainSurface=null;

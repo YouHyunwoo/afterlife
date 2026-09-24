@@ -19,12 +19,11 @@ half4 PrototypeWaterOutput(half3 color, half opacity, float3 world)
     float2 edge=abs(frac(world.xz+.5)-.5);
     color=lerp(color,color*1.12+half3(.015,.045,.035),territory);
     color=lerp(color,half3(.20,.55,.43),territory*smoothstep(.455,.485,max(edge.x,edge.y))*.65);
-    // 굴절까지 합친 색에 시야를 적용하여 밤의 안개 밖으로 배경이 새지 않게 한다.
-    color*=PrototypeGroundBrightness(_PrototypeNight,visibility);
     float warm=0;
     for(int j=0;j<_LampCount;j++)
         warm=max(warm,saturate(1-distance(world.xz,_VillageLamps[j].xy)/max(.001,_VillageLamps[j].z)));
-    color+=half3(.10,.055,.01)*warm*_PrototypeNight*visibility;
+    color*=PrototypeGroundBrightness(_PrototypeNight,warm);
+    color+=half3(.10,.055,.01)*warm*_PrototypeNight;
     if(_CursorCircle.z>0)
     {
         float2 delta=world.xz-_CursorCircle.xy;

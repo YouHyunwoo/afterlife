@@ -185,6 +185,7 @@ namespace Afterlife.Prototype
             if(!_ready||_sceneUi==null||_gameFlow==null||!_gameFlow.IsPlaying)return;
             var ui=_sceneUi;
             if(ui.WorldDisplay.texture!=_pixels)ui.WorldDisplay.texture=_pixels;
+            UpdateVisionBlur();
             // 1200×675의 편집 기준에 사용자 UI 배율만 적용한다.
             ui.Scaler.referenceResolution=_baseUiResolution/_uiSize;
             ui.Show("ModalLayer",_modal!=Modal.None||_model.Ended);
