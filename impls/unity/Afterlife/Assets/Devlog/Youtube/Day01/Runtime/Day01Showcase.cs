@@ -12,7 +12,12 @@ namespace Afterlife.Devlog.Day01
         public Camera ShowcaseCamera;
         public bool FilmMode { get; set; }
         public bool FilmInteraction { get; set; }
-        public bool FilmVision { get; set; }
+        private bool _filmVision;
+        public bool FilmVision
+        {
+            get => _filmVision;
+            set { if (_filmVision == value) return; _filmVision = value; if (_output != null) ConfigureOutput(); }
+        }
         public void SetFilmLightingBlend(float? blend) => _lighting?.SetFilmBlend(blend);
         public int CurrentStageIndex => _stage;
         public Vector3 StageOrigin => CurrentStage.position;
@@ -31,8 +36,7 @@ namespace Afterlife.Devlog.Day01
             _damageMarksEnabled=true;
             foreach(var target in _targets) { target.RemovalMode=_removalMode; target.DamageMarksEnabled=true; }
         }
-        private Canvas _pixelCanvas;
-        private RawImage _pixelImage;
+        private Day01PixelOutput _output;
         // 기존 에디터 업그레이드의 After 인덱스(2)는 보존한다.
         public Transform[] Stages;
         public Transform[] PresentationStages;
@@ -56,6 +60,12 @@ namespace Afterlife.Devlog.Day01
         [Min(.1f)] public float VisionTrailSeconds=1.4f;
         private ShowcaseLighting _lighting;
         private bool _visionTest;
+        private bool VisionEnabled => Phase == 5 && (FilmMode ? FilmVision : _visionTest);
+        private bool VisionTest
+        {
+            get => _visionTest;
+            set { if (_visionTest == value) return; _visionTest = value; if (_output != null) ConfigureOutput(); }
+        }
         private ShowcaseSmoke _smoke;
         private Afterlife.Devlog.Wind.ShowcaseWind _wind;
         private ShowcaseCrystalGlow _crystalGlow;
@@ -69,12 +79,7 @@ namespace Afterlife.Devlog.Day01
         private ShowcaseHoverTerrain _hoverTerrain;
         [HideInInspector] public int LayoutVersion;
         [HideInInspector] public int ContinuousTerrainVersion;
-        private RenderPipelineAsset _previousGraphics, _previousQuality;
-        private UniversalRenderPipelineAsset _ownedPipeline;
-        private RenderTexture _texture;
-        private Camera _displayCamera;
-        private UniversalAdditionalCameraData _refractionCameraData;
-        private CameraOverrideOption _previousColorTextureOption;
+        private RenderTexture _texture => _output?.Texture;
         private ShowcaseTarget _hover;
         private ShowcaseTarget[] _targets;
         private ShowcasePickSurface[] _pickSurfaces;
@@ -106,7 +111,7 @@ namespace Afterlife.Devlog.Day01
         private Vector3 _impactNormal = Vector3.up;
         private const float ImpactTime = .12f, ContactHold = Afterlife.Devlog.Destruction.ShowcaseImpactTiming.Hold, SwingDuration = .285f;
         private readonly Vector3 _cameraOffset = new Vector3(10, 13, -16);
-        private Rect _display;
+        private Rect _display => _output != null ? _output.Display : default;
         private const float Aspect = 16f / 9;
         private struct Chip { public Transform Transform; public Vector3 Velocity; public float Age; public bool Snow, Tap; public float FloorY; }
 
@@ -116,18 +121,7 @@ namespace Afterlife.Devlog.Day01
             { Debug.LogError("Day01: camera, pipeline or stage reference missing.", this); enabled = false; return; }
             // Unity 네이티브 객체는 역직렬화 생성자가 아닌 메인 스레드 수명 콜백에서 생성한다.
             if (_chipProperties==null) _chipProperties=new MaterialPropertyBlock();
-            _previousGraphics = GraphicsSettings.defaultRenderPipeline;
-            _previousQuality = QualitySettings.renderPipeline;
-            _ownedPipeline = Instantiate(Pipeline);
-            _ownedPipeline.msaaSampleCount = 1;
-            _ownedPipeline.supportsHDR = true;
-            _ownedPipeline.supportsCameraDepthTexture = true;
-            ShowcaseCamera.GetUniversalAdditionalCameraData().requiresDepthTexture = true;
-            _refractionCameraData = ShowcaseCamera.GetUniversalAdditionalCameraData();
-            _previousColorTextureOption = _refractionCameraData.requiresColorOption;
-            _refractionCameraData.requiresColorTexture = true;
-            GraphicsSettings.defaultRenderPipeline = _ownedPipeline;
-            QualitySettings.renderPipeline = _ownedPipeline;
+            _output = new Day01PixelOutput(transform, ShowcaseCamera, Pipeline);
             var targets = new List<ShowcaseTarget>();
             foreach (var stage in StageRoots) targets.AddRange(stage.GetComponentsInChildren<ShowcaseTarget>(true));
             _targets = targets.ToArray();
@@ -277,60 +271,7 @@ namespace Afterlife.Devlog.Day01
             _smoke?.Dispose(); _smoke = null;
         }
 
-        private void ConfigureOutput()
-        {
-            if (_pixelImage != null) _pixelImage.texture = null;
-            if (_pixelCanvas != null) _pixelCanvas.gameObject.SetActive(false);
-            if (_texture != null) { ShowcaseCamera.targetTexture = null; _texture.Release(); Destroy(_texture); _texture = null; }
-            bool pixelated = _pixels && Phase >= 1;
-            if (pixelated && _displayCamera == null)
-            {
-                var output = new GameObject("PixelDisplayCamera");
-                output.transform.SetParent(transform,false);
-                _displayCamera = output.AddComponent<Camera>();
-                _displayCamera.cullingMask = 0;
-                _displayCamera.clearFlags = CameraClearFlags.SolidColor;
-                _displayCamera.backgroundColor = Color.black;
-                _displayCamera.allowHDR = false; _displayCamera.allowMSAA = false;
-                var data = output.AddComponent<UniversalAdditionalCameraData>();
-                data.renderPostProcessing = false; data.renderShadows = false;
-                data.requiresDepthTexture = false; data.requiresColorTexture = false;
-            }
-            if (_displayCamera != null)
-            {
-                // GUI로 확대 표시하는 픽셀 화면 뒤에 실제 Display 출력 경로를 유지한다.
-                _displayCamera.targetDisplay = ShowcaseCamera.targetDisplay;
-                _displayCamera.depth = ShowcaseCamera.depth + 1;
-                _displayCamera.enabled = pixelated;
-            }
-            // 16:9 고정 구도로 단계/녹화 해상도에 따른 전후 비교 오차를 막는다.
-            float height = Mathf.Min(Screen.height, Screen.width / Aspect);
-            _display = new Rect((Screen.width - height * Aspect) / 2, (Screen.height - height) / 2, height * Aspect, height);
-            ShowcaseCamera.rect = pixelated ? new Rect(0, 0, 1, 1) : new Rect(_display.x / Screen.width, _display.y / Screen.height, _display.width / Screen.width, _display.height / Screen.height);
-            ShowcaseCamera.aspect = Aspect;
-            if (!pixelated) return;
-            int scale = Mathf.Max(1, Mathf.RoundToInt(_display.height / Mathf.Clamp(PixelHeight, 180, 720)));
-            int h = Mathf.Max(1, Mathf.RoundToInt(_display.height / scale));
-            _texture = new RenderTexture(Mathf.RoundToInt(h * Aspect), h, 24, RenderTextureFormat.DefaultHDR) { name = "Day01 Pixel Frame", filterMode = FilterMode.Point, antiAliasing = 1 };
-            _texture.Create();
-            ShowcaseCamera.targetTexture = _texture;
-            if (_pixelCanvas == null)
-            {
-                var go = new GameObject("PixelPresentation", typeof(RectTransform), typeof(Canvas));
-                go.transform.SetParent(transform,false);
-                _pixelCanvas = go.GetComponent<Canvas>();
-                _pixelCanvas.renderMode = RenderMode.ScreenSpaceOverlay; _pixelCanvas.sortingOrder = -1000;
-                var frame = new GameObject("PixelFrame", typeof(RectTransform), typeof(RawImage));
-                frame.transform.SetParent(go.transform,false);
-                _pixelImage = frame.GetComponent<RawImage>(); _pixelImage.raycastTarget = false;
-            }
-            _pixelCanvas.targetDisplay = ShowcaseCamera.targetDisplay;
-            _pixelImage.texture = _texture;
-            _pixelImage.rectTransform.anchorMin = _pixelImage.rectTransform.anchorMax = Vector2.one*.5f;
-            _pixelImage.rectTransform.anchoredPosition = Vector2.zero;
-            _pixelImage.rectTransform.sizeDelta = _display.size;
-            _pixelCanvas.gameObject.SetActive(true);
-        }
+        private void ConfigureOutput() => _output?.Configure(_pixels && Phase >= 1, VisionEnabled, PixelHeight);
 
         private void Update()
         {
@@ -346,12 +287,12 @@ namespace Afterlife.Devlog.Day01
                 if (keyboard.hKey.wasPressedThisFrame) ShowGuide = !ShowGuide;
                 if (keyboard.pKey.wasPressedThisFrame) { _pixels = !_pixels; ConfigureOutput(); }
                 if (keyboard.rKey.wasPressedThisFrame) ResetTake();
-                if (keyboard.vKey.wasPressedThisFrame) _visionTest=!_visionTest;
+                if (keyboard.vKey.wasPressedThisFrame && Phase == 5) VisionTest=!VisionTest;
                 if (keyboard.nKey.wasPressedThisFrame && Phase == 5) _lighting?.Toggle();
                 if (keyboard.lKey.wasPressedThisFrame) foreach (var leaves in _treeLeaves) leaves.Toggle();
                 if (keyboard.gKey.wasPressedThisFrame) foreach (var leaves in _treeLeaves) leaves.ToggleRotation();
             }
-            _lighting?.SetVisionTest(FilmMode ? FilmVision : _visionTest);
+            _lighting?.SetVisionTest(VisionEnabled);
             _lighting?.Tick(Time.unscaledDeltaTime);
             _wind?.Tick(Time.unscaledTime, Phase >= 3 ? 1 : 0);
             _smoke?.TickWind();
@@ -360,6 +301,7 @@ namespace Afterlife.Devlog.Day01
             _shake = Mathf.Max(0, _shake - Time.unscaledDeltaTime);
             PositionCamera();
             UpdatePointer();
+            _output?.SetVisionBlur(VisionEnabled, _lighting);
             _ambience?.Tick(Time.unscaledDeltaTime, Phase >= 3, _lighting == null || !_lighting.Night, _brushingGrass);
             _tileHover?.Tick(Time.unscaledDeltaTime);
             for (int i = _chips.Count - 1; i >= 0; i--)
@@ -651,7 +593,9 @@ namespace Afterlife.Devlog.Day01
                 foreach (var target in _targets) target.DamageMarksEnabled=_damageMarksEnabled;
             }
             GUI.enabled = true;
-            _visionTest=GUI.Toggle(new Rect(28,307,500,27),_visionTest,"V Mouse vision test: "+(_visionTest?"ON":"OFF"));
+            GUI.enabled = Phase == 5;
+            VisionTest=GUI.Toggle(new Rect(28,307,500,27),_visionTest,"V Vision blur: "+(_visionTest?"ON":"OFF"));
+            GUI.enabled = true;
             string[] buttons = HasPresentationStages ? new[] { "1 Before", "2 Shape", "3 Terrain", "4 Life", "5 Hits", "6 After" } : new[] { "1 Before", "2 Process", "3 After" };
             for (int i = 0; i < buttons.Length; i++)
                 if (GUI.Button(new Rect(28 + i * 86, 270, 82, 27), (_stage == i ? "* " : "") + buttons[i])) SetStage(i);
@@ -659,7 +603,6 @@ namespace Afterlife.Devlog.Day01
 
         private void OnDisable()
         {
-            if (_pixelCanvas != null) { _pixelCanvas.gameObject.SetActive(false); Destroy(_pixelCanvas.gameObject); _pixelCanvas=null; _pixelImage=null; }
             if (_tileHover!=null) _tileHover.WaterRippleCreated-=PlayWaterRipple;
             _sound?.Dispose(); _sound=null;
             _ambience?.Dispose(); _ambience=null;
@@ -669,24 +612,7 @@ namespace Afterlife.Devlog.Day01
             _lighting?.Dispose(); _lighting = null;
             ResetTake();
             _chipPool?.Dispose(); _chipPool=null;
-            if (_refractionCameraData != null)
-            {
-                _refractionCameraData.requiresColorOption = _previousColorTextureOption;
-                _refractionCameraData = null;
-            }
-            if (ShowcaseCamera != null) { ShowcaseCamera.targetTexture = null; ShowcaseCamera.rect = new Rect(0, 0, 1, 1); }
-            if (_texture != null) { _texture.Release(); Destroy(_texture); _texture = null; }
-            if (_displayCamera != null)
-            {
-                _displayCamera.enabled = false;
-                Destroy(_displayCamera.gameObject); _displayCamera = null;
-            }
-            if (_ownedPipeline != null)
-            {
-                if (GraphicsSettings.defaultRenderPipeline == _ownedPipeline) GraphicsSettings.defaultRenderPipeline = _previousGraphics;
-                if (QualitySettings.renderPipeline == _ownedPipeline) QualitySettings.renderPipeline = _previousQuality;
-                Destroy(_ownedPipeline); _ownedPipeline = null;
-            }
+            _output?.Dispose(); _output = null;
         }
     }
 }

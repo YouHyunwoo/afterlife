@@ -19,6 +19,8 @@ float DevlogTestVisibility(float3 world)
         float4 trail=_DevlogVisionTrail[i];
         visible=max(visible,ShowcaseVisionCircle(world.xz,trail.xy,trail.z,trail.w));
     }
+    // 집은 마우스와 별개의 시야를 제공한다.
+    visible=max(visible,ShowcaseVisionCircle(world.xz,_DevlogHouseVision.xz,_DevlogHouseVision.w,1));
     return smoothstep(0,1,visible);
 }
 void DevlogClipVision(float3 world,float ground)
@@ -27,17 +29,13 @@ void DevlogClipVision(float3 world,float ground)
 }
 half3 DevlogLighting(half3 color,float3 world,float ground)
 {
-    if(_DevlogVisionTest>.5)
-    {
-        float visible=DevlogTestVisibility(world);
-        DevlogClipVision(world,ground);
-        // 지형은 밤에도 남기고, 오브젝트는 시야 밖에서 깊이와 함께 제거한다.
-        return color*ShowcaseVisionBrightness(_DevlogNight,visible);
-    }
-    float house=DevlogVision(world,_DevlogHouseVision);
-    float visible=max(house,DevlogVision(world,_DevlogCursorVision));
-    // 시야 밖은 거의 어둡게 숨긴다. 시야 안의 밝기와 경계 감쇠는 유지한다.
-    half3 nightColor=color*lerp(half3(.018,.025,.045),half3(.56,.64,.80),visible);
+    // 시야 테스트는 물체의 표시 여부만 바꾸고 낮/밤 밝기는 그대로 유지한다.
+    DevlogClipVision(world,ground);
+    // 집 조명만 밤의 밝기를 올린다. 커서는 시야 원점이며 광원이 아니다.
+    float4 houseLamp=_DevlogHouseVision;
+    houseLamp.w*=.65;
+    float houseLight=DevlogVision(world,houseLamp);
+    half3 nightColor=color*lerp(half3(.018,.025,.045),half3(.56,.64,.80),houseLight);
     return lerp(color,nightColor,_DevlogNight);
 }
 half3 DevlogLighting(half3 color,float3 world)

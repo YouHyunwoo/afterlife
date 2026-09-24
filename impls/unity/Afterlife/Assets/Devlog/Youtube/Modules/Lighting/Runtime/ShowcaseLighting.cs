@@ -77,6 +77,8 @@ namespace Afterlife.Devlog.Day01
         private Transform _stage;
         private float _blend;
         public bool Night { get; private set; }
+        public bool HasCursor => _hasCursor;
+        public Vector3 CursorGround => _cursorPoint.position-Vector3.up*Height;
         public float Height = .8f, CursorRadius = 3.2f, HouseRadius = 3f;
 
         public ShowcaseLighting(Transform root, Camera camera)
@@ -168,11 +170,11 @@ namespace Afterlife.Devlog.Day01
         {
             _hasCursor=false;
             if (_stage == null || !ray.HasValue || !new Plane(Vector3.up,_stage.position).Raycast(ray.Value,out float distance))
-            { if(!VisionTest)Shader.SetGlobalVector("_DevlogCursorVision",Vector4.zero); return; }
+            { Shader.SetGlobalVector("_DevlogCursorVision",Vector4.zero); return; }
             Vector3 floor = ray.Value.GetPoint(distance);
             Vector3 local = _stage.InverseTransformPoint(floor);
             if (local.x < -6 || local.x > 6 || local.z < -5 || local.z > 5)
-            { if(!VisionTest)Shader.SetGlobalVector("_DevlogCursorVision",Vector4.zero); return; }
+            { Shader.SetGlobalVector("_DevlogCursorVision",Vector4.zero); return; }
             // 시야 원점은 지면 교차점보다 높게 둬 수목/돌의 높이에도 반경이 적용된다.
             _hasCursor=true;
             if(VisionTest)AddTrail(floor);
