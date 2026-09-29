@@ -1,6 +1,8 @@
 # 로컬 백업, 실행 로그, 분석 도구 설치본
 /local-backups/
 /logs/
+# 임시 빌드 로그 및 리팩터링 백업
+/Temp/
 # 로컬 유튜브·DC 개발일지 문서와 게시 자료
 /devlog/
 .tooling/
