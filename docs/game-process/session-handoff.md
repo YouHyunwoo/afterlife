@@ -1,6 +1,34 @@
 # 다음 세션 인계 · 2026-09-17
 
-> 최신 규칙: 초반의 모든 커서 작업은 대상 직접 클릭 1회로 실행하며, 자동화 강화 후에만 호버 주기 작업이 열린다. 아래의 시작부터 자동 기여 설명/과거 QA는 변경 전 기록이다. [최신 규칙·구현·검증](46-click-work-and-automation.md).
+## 2026-09-27 · 남은 고정 오브젝트의 프리팹 연결
+
+[61 구성·검증 기록](61-prototype-static-composition.md): 환경음 채널, 영력 HUD, 환생 기록, 강화 트리 고정 틀, 스킬 바, 모달 캡처 카메라, 흙먼지를 편집 모드 프리팹/씬 참조로 전환했다. 카탈로그 노드·연결선과 화면 크기에 종속된 RenderTexture는 런타임에 유지한다. C# 빌드·직렬화 참조 확인 완료, 실제 플레이 확인 대기.
+
+## 2026-09-27 · Game Flow Screens 고정 구성
+
+[45 화면 흐름 기록](45-modular-screen-flow.md): 런타임에 조립하던 타이틀·인트로·결과 공용 Canvas를 프리팹으로 만들고 프로토타입 씬에 배치했다. `PrototypeView` 직렬화 참조와 기존 HUD Canvas의 `CanvasGroup`을 저장했으며, 런타임에는 화면 상태·문구·버튼 이벤트만 처리한다. C# 빌드 및 씬 참조 확인 완료, 실제 플레이 확인 대기.
+
+## 2026-09-27 · 프로토타입 고정 오브젝트의 씬 연결
+
+[51 카메라·씬 구성](51-territory-camera-distance.md): `World Camera`, `AudioRoot`, `WorldMarkers`를 프리팹 인스턴스로 하이어라키에 배치하고 `PrototypeView` 직렬화 참조를 연결했다. 오디오 8+4채널과 고정 선 7개, 빌드 마커, Day 배너·버튼·패널 보조 컴포넌트도 에디터에서 관리한다. 화면 크기에 맞춰야 하는 `RenderTexture`와 개수가 변하는 월드 오브젝트는 런타임에 생성한다. 관련 C# 빌드 통과, Unity 플레이 확인 대기.
+
+## 2026-09-26 · 집 영역 기반 카메라
+
+[51 구현 기록](51-territory-camera-distance.md): 시간 경과만으로 멀어지는 동작을 제거했다. `Territory.Count`의 초기 대비 증가량을 목표 거리로 매핑하고, 120타일 증가 시 최대 22.7이다. 시작 거리 16과 프리팹·독립 모듈 구조는 유지한다. 따라가기 속도 3으로 영역 변화에만 부드럽게 반응한다. 관련 C# 빌드 경고/오류 0, Unity 실제 플레이 확인 대기.
+
+## 2026-09-25 · 카메라 거리 증가
+
+[50 이전 구현 기록](50-camera-distance-progression.md): 시간 기반 거리 증가를 처음 추가했다. 현재 동작은 위의 51 집 영역 기반 구현을 따른다. 독립 CameraDistance 코어와 Unity 표현 컴포넌트를 PrototypeCamera 프리팹에 조합했고, 루트/Unity AGENTS.md에 문서 갱신·독립 모듈·프리팹·로직 분리 지침을 추가했다.
+
+## 2026-09-24 · 대륙 전체 랜덤화
+
+[49 구현 기록](49-random-continent.md): 사용자 지정 Astra low 계획·Sol high 구현. `WorldMapLayout`에서 대륙 방향/종횡비/반도·만, 기후 방향, 호수·강 배치를 시드로 생성한다. 시작 11×11 초원, 초기 자원, 연결된 육지, 물 회피 탐험 길을 보호한다. 수계는 바다 연결 및 육지 연결을 확인해 채택한다. Terrain 독립 재빌드와 Point 임시 타입을 사용한 실제 PrototypeTerrain 어댑터 컴파일은 경고·오류 0. 전체 Prototype은 기존 PrototypeRelicData.cs/PrototypeRelicCatalog.cs 중복 정의 CS0101로 실패. Unity 직접 확인은 미실시이며 49의 시드/반경 비교 절차를 따른다.
+
+> 현재 조작(2026-09-24): 영력을 써서 위치에 8초 유지되는 필드를 설치한다. 필드는 커서와 무관하게 범위 안 대상을 주기적으로 처리한다. 대상 클릭·빈 타일 Shift+클릭이 설치 입력이며 R8은 작업 간격을 줄인다. 아래의 과거 입력·QA 기록은 당시 버전 설명이다. [현재 구현·검증](47-divine-interaction-fields.md).
+
+## 현재 재개 위치 · 영력 필드
+
+기본 조작은 위치에 영력 30을 투자해 고정 필드를 8초 설치하는 방식이다. 최대 영력 100·초당 회복 3, 기본 작업 간격 1초, 기존 기여량 계산과 R8 주기 강화가 연결된다. 대상 클릭 또는 빈 타일 `Shift+클릭`으로 설치하고, 빈 타일 일반 클릭의 건설 메뉴는 유지한다. [47 구현 기록](47-divine-interaction-fields.md)에 코드 경계와 수동 확인 절차가 있다. 관련 C# 임시 프로젝트 컴파일은 경고·오류 0이며 Unity 임포트·직접 플레이는 아직 확인하지 않았다.
 
 
 ## 최신 UI · 강화 트리 아이콘·툴팁·전체 보기 (2026-09-19)
@@ -9,7 +37,7 @@ UpgradeTreeScreen 우측 패널/노드 텍스트 제거, UpgradeHoverTooltip·Up
 
 ## 최신 추가 · 45 독립 화면 흐름 모듈 (2026-09-19)
 
-Assets/Afterlife/Modules/Flow에 Unity 비의존 Reusable.Flow 추가(noEngineReferences, 외부 참조 없음). 상태/전환 정의, Guard, Enter/Exit, 재진입 거절, 예외 시 Faulted, Dispose 계약 제공. PrototypeGameFlow가 게임별 5화면 규칙과 IPrototypeGameSession을 조합하고 Moonstone으로 주입한다. PrototypeFlowScreen은 런타임 기본 화면이며 인트로는 정적 안내(44번 튜토리얼 구현 아님). 게임 외 상태에서는 입력·Tick·월드 카메라/HUD를 끈다. RunEnded 후 Tick/Sync가 끝나면 결과 스냅샷으로 전환. 포기와 결과 화면에서 타이틀 복귀, 다음 Playing 진입 때 모델 Reset. 모델/지형은 씬 수명으로 재사용하고 동적 월드 뷰/모달/연출은 Playing 종료 시 정리. Build-Modules.ps1에 독립 코어 빌드 추가. 컴파일 오류·경고 0. Unity 플레이/테스트·Windows 빌드 미실시. 상세: 45-modular-screen-flow.md, 코어 재사용: Flow/README.md.
+Assets/Afterlife/Modules/Flow에 Unity 비의존 Afterlife.Flow 추가(noEngineReferences, 외부 참조 없음). 상태/전환 정의, Guard, Enter/Exit, 재진입 거절, 예외 시 Faulted, Dispose 계약 제공. PrototypeGameFlow가 게임별 5화면 규칙과 IPrototypeGameSession을 조합하고 Moonstone으로 주입한다. PrototypeFlowScreen은 런타임 기본 화면이며 인트로는 정적 안내(44번 튜토리얼 구현 아님). 게임 외 상태에서는 입력·Tick·월드 카메라/HUD를 끈다. RunEnded 후 Tick/Sync가 끝나면 결과 스냅샷으로 전환. 포기와 결과 화면에서 타이틀 복귀, 다음 Playing 진입 때 모델 Reset. 모델/지형은 씬 수명으로 재사용하고 동적 월드 뷰/모달/연출은 Playing 종료 시 정리. Build-Modules.ps1에 독립 코어 빌드 추가. 컴파일 오류·경고 0. Unity 플레이/테스트·Windows 빌드 미실시. 상세: 45-modular-screen-flow.md, 코어 재사용: Flow/README.md.
 
 ## 최신 기획 · 44 단계형 튜토리얼 (2026-09-19)
 
