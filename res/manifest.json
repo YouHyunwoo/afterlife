@@ -291,7 +291,7 @@
     {
       "path": "res/analysis/ui-audit/graphify-out/cache/last_query_stamp",
       "bytes": 18,
-      "sha256": "f8fbc200c7da4259579a8a89ed8362aae7709b6d996ff97f14c5ce1357c28f65",
+      "sha256": "e579192bf84c9fd6606315132e21c73ed988e65d8925eb9f9915f67ea71cc7f7",
       "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
     },
     {
@@ -6365,6 +6365,204 @@
       "bytes": 298930,
       "sha256": "2238c1415b4ad8ec8ff2d208fb68ea99ac9fc1927fe2fc7ca04f0d8048417387",
       "provenance": "iwanPlays / Freesound 567250, 567251; 분석 폴더 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/afterlife-source.html",
+      "bytes": 79323,
+      "sha256": "263cad7d6972f2575c9140e7a039138c87422f19878c3242f29dcb22ce335cc2",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/afterlife_source.mp3",
+      "bytes": 24727749,
+      "sha256": "9ce02e24e853265ea6dc2439e39af0905abdce806f242f57222c3a13712961aa",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/analysis.json",
+      "bytes": 3929,
+      "sha256": "d49e9840d2f616437adc72714ff7e2ae1fef09fc860719548f2d4c35f84603ab",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/clear-source.html",
+      "bytes": 88897,
+      "sha256": "6bac9bd043f9d806afb6d51106c08e7b5d961ca0eb2d667849c8ce1e1548e46e",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/clear_source.mp3",
+      "bytes": 14853414,
+      "sha256": "72cce153866fbb5b0c5d8ffb0be2ea73bf64190e2b70a50cbcc8c83b5a8e0dbf",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/CREDITS.txt",
+      "bytes": 1030,
+      "sha256": "63836b9c0f12b05c35cb77ab5de909115f38417bbb30b187e298938d0ac08e70",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/decoherence-source.html",
+      "bytes": 80127,
+      "sha256": "4197d642693ad0164d35b41138bb46a13abddf540d03a16adf254b1cdc7cbaa6",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/download.py",
+      "bytes": 3035,
+      "sha256": "fab0ec4906b42cba4de9ef325757bcb749d95036fb4fa8c1b5b5d62ee746c175",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/edited/camera_whoosh.wav",
+      "bytes": 77844,
+      "sha256": "7b38ffeaac16edeba359fd5143fc6f065eadfed0a6f75f7e2165e42b0bba9d21",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/edited/music_clear.wav",
+      "bytes": 18874844,
+      "sha256": "22687b9cd40753b9c09d957e2f775fcec9807f6c8c19414faef96942790d3598",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/edited/music_day.wav",
+      "bytes": 20286044,
+      "sha256": "1fb2adf927abed8644ce8f9715888d5859c5a811213a358c0e84aeaf170eaffd",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/edited/music_night.wav",
+      "bytes": 20286044,
+      "sha256": "f87c457254ca83a10b22aaa8acdb20b4fbf2a17c3342fdb3251e979bde0f8bc7",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/edited/music_over.wav",
+      "bytes": 20286044,
+      "sha256": "0364da5ea5957ab597df0d0db4dc11deebff053a1ff02a7638db883fccc154ca",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/edited/music_playing.wav",
+      "bytes": 18874844,
+      "sha256": "f4d5f044b29ead3579b168be857eda1f2a1dbfafb9830f19ac9c79af9d2e9824",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/edited/music_title.wav",
+      "bytes": 20286044,
+      "sha256": "9f248fb79dccf2d7dcf377e805b5e59ad009e65c2079ede316d136b7df22e7e0",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/edited/water_enter.wav",
+      "bytes": 101474,
+      "sha256": "f10fccd7661a9973691acb3da9fc2f513cd8e9ad8693b6d754fe6aa0b0218b12",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/edited/water_exit.wav",
+      "bytes": 101474,
+      "sha256": "56a605f13c05cffbd85fc7d0bafaf744a28b5d85de592c7b3484b3262f294297",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/edited/water_loop.wav",
+      "bytes": 1199328,
+      "sha256": "57e0837e7ea639aff1f4d42856110c0c692c0434f98efbf1cc011f1e207642dd",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/intervention-source.html",
+      "bytes": 74438,
+      "sha256": "11b6a6f6137165e7726f89f9f4b19690587bd57d254ce4f2536273a8e9a43d12",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/night-source.html",
+      "bytes": 73668,
+      "sha256": "3541bb08431285c9535f83178d2e77d1c1bbf5be7119e0f4a543f35aac706589",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/night_source.mp3",
+      "bytes": 10340546,
+      "sha256": "decafaf069940c9e0038c54d707a7dd27903ec91e661c1b46dbbb705c44e934c",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/over-source.html",
+      "bytes": 75599,
+      "sha256": "1301c0c93224b3dd567130457bc2bac1de56369521dcacf20642b656efbe42fd",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/over_source.mp3",
+      "bytes": 17764541,
+      "sha256": "82ed105724e6ee31d2007615472cb4e3621000edbff9a4aaf6a64789c32bece5",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/playing-source.html",
+      "bytes": 103197,
+      "sha256": "64494e0dc8cf65430f8cc16709918d611f306755815802a3868b549ac4815062",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/playing_source.mp3",
+      "bytes": 5486935,
+      "sha256": "7bc1a9bf1d57d1eb96dcfd9ead5d31371d378fa6c238fe7f59700cd6e5936460",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/prepare.py",
+      "bytes": 3235,
+      "sha256": "a80cb1b75737b4ec04c15b228bfac3c6bf005b8ba159d83efc450d1d550b5773",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/sources.json",
+      "bytes": 4180,
+      "sha256": "aab9d67e58f58e169cd253527f5612ef01195e86537abd7238dbac918babc3f7",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/title-source.html",
+      "bytes": 100020,
+      "sha256": "1c9a9ce1d590423347dbf9ad1c426c5e2461c7997ae8304332e1e3761cb6adf9",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/title_source.mp3",
+      "bytes": 10000906,
+      "sha256": "4652007dad67295f1f5c87c8cbc8e2df1a530e7671266a29f693a084375d3910",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/water-source.html",
+      "bytes": 49196,
+      "sha256": "f34fc9ed35459cec0e8380b1531a42af6c6b9fe798eea16a6eb5ed24bcae0706",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/water_source.mp3",
+      "bytes": 337248,
+      "sha256": "bab7f3e7346d70be89f4bc52523490e2658253028a5d7ba4eb2ab1c09f4c0cdf",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/whoosh-source.html",
+      "bytes": 42762,
+      "sha256": "07a60f05891a2cfd8434a590263853f364d7a1574492c0bc26fc5118c620ee6b",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
+    },
+    {
+      "path": "res/audio/threshold/whoosh_source.mp3",
+      "bytes": 17429,
+      "sha256": "ff4a19d5476ca9d84b0f219a6e7edc5de64a520f3ecca52db05570d145380622",
+      "provenance": "기존 프로젝트 리소스; 공개 이용조건은 출처 기록 확인"
     },
     {
       "path": "res/audio/tree-fall-analysis/01_tree_fall_full.wav",
