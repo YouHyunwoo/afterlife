@@ -14,6 +14,7 @@ namespace Afterlife.Devlog.Day01.Editor
     {
         private const string Root="Assets/Devlog/Youtube/Day01";
         private const string DataPath=Root+"/Data/Day01Narration.json";
+        private const string FilmPath=Root+"/Data/Day01Film.asset";
         private static bool _running;
         // JsonUtility이 역직렬화하는 DTO 필드다.
 #pragma warning disable CS0649
@@ -38,7 +39,7 @@ namespace Afterlife.Devlog.Day01.Editor
             if (_running || EditorApplication.isPlayingOrWillChangePlaymode) return;
             if (EditorApplication.isCompiling || EditorApplication.isUpdating) {EditorApplication.delayCall+=Apply;return;}
             var data=AssetDatabase.LoadAssetAtPath<TextAsset>(DataPath);
-            var film=AssetDatabase.LoadAssetAtPath<ShowcaseFilm>(Day01FilmSetup.FilmPath);
+            var film=AssetDatabase.LoadAssetAtPath<ShowcaseFilm>(FilmPath);
             if (data==null || film==null || EditorUtility.IsDirty(film)) return;
             var music=AssetDatabase.LoadAssetAtPath<AudioClip>(Root+"/Audio/Music/Childhood-Day01.wav");
             if(music!=null && (film.BackgroundMusic==null || film.BackgroundMusic.name=="Childhood-Scott-Buckley"))
@@ -82,7 +83,7 @@ namespace Afterlife.Devlog.Day01.Editor
                     };
                     if(plan.credits || plan.vision) {shots[i].From=pose.To;shots[i].To=pose.To;}
                 }
-                if (AssetDatabase.LoadAssetAtPath<ShowcaseFilm>(backup)==null && !AssetDatabase.CopyAsset(Day01FilmSetup.FilmPath,backup))
+                if (AssetDatabase.LoadAssetAtPath<ShowcaseFilm>(backup)==null && !AssetDatabase.CopyAsset(FilmPath,backup))
                     throw new IOException("Could not back up existing film.");
                 Undo.RecordObject(film,"첫 개발일지 나레이션 시퀀스 적용");
                 film.Shots=shots; film.NarrationVolume=.85f;film.MusicVolume=.10f;
@@ -92,7 +93,7 @@ namespace Afterlife.Devlog.Day01.Editor
                 film.CreditsFadeSeconds=2;film.CreditsDarkness=.38f;film.CreditsBlurRadius=5;
                 film.NarrationVersion=manifest.version;
                 EditorUtility.SetDirty(film); AssetDatabase.SaveAssets();
-                string report=Path.GetFullPath(Path.Combine(Application.dataPath,"../../../../devlog/youtube/records/film-narration-unity.json"));
+                string report=Path.GetFullPath(Path.Combine(Application.dataPath,"../../../../devlog/youtube/day-01/records/film-narration-unity.json"));
                 File.WriteAllText(report,"{\"version\":"+film.NarrationVersion+",\"shots\":"+shots.Length+",\"clips\":"+shots.Sum(s=>s.Cues.Length)+",\"duration\":"+film.Duration.ToString(System.Globalization.CultureInfo.InvariantCulture)+",\"savedAtUtc\":\""+DateTime.UtcNow.ToString("O")+"\",\"backup\":\""+backup+"\"}");
                 Debug.Log("Day01 narrated film saved. F8 plays captions and narration; Space pauses both. Original film backed up at "+backup);
             }

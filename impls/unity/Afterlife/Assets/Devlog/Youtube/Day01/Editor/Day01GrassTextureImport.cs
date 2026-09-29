@@ -6,8 +6,8 @@ namespace Afterlife.Devlog.Day01.Editor
     [InitializeOnLoad]
     public sealed class Day01GrassTextureImport : AssetPostprocessor
     {
-        private static string Folder => AssetDatabase.IsValidFolder("Assets/Devlog/Youtube/Modules/Vegetation/Resources/GrassSprites")
-            ? "Assets/Devlog/Youtube/Modules/Vegetation/Resources/GrassSprites/" : "Assets/Devlog/Youtube/Day01/Resources/GrassSprites/";
+        private static string Folder => AssetDatabase.IsValidFolder("Assets/Afterlife/Modules/Vegetation/Resources/GrassSprites")
+            ? "Assets/Afterlife/Modules/Vegetation/Resources/GrassSprites/" : "Assets/Devlog/Youtube/Day01/Resources/GrassSprites/";
         static Day01GrassTextureImport() { EditorApplication.delayCall+=ConfigureExisting; }
         private static void Configure(TextureImporter importer)
         {
@@ -20,7 +20,8 @@ namespace Afterlife.Devlog.Day01.Editor
         }
         private void OnPreprocessTexture()
         {
-            if (assetPath.StartsWith("Assets/Devlog/") && assetPath.Contains("/Resources/GrassSprites/")) Configure((TextureImporter)assetImporter);
+            if ((assetPath.StartsWith("Assets/Devlog/") || assetPath.StartsWith("Assets/Afterlife/Modules/Vegetation/"))
+                && assetPath.Contains("/Resources/GrassSprites/")) Configure((TextureImporter)assetImporter);
         }
         private static void ConfigureExisting()
         {

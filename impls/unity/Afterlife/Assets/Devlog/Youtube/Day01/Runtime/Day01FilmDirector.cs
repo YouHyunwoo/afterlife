@@ -39,7 +39,7 @@ namespace Afterlife.Devlog.Day01
         public void StartFilm()
         {
             if (!Application.isPlaying || IsFilmMode) return;
-            if (Showcase==null || !Showcase.isActiveAndEnabled || !Showcase.HasPresentationStages || Film==null || Film.Shots==null || Film.Shots.Length==0 || Film.SubtitleFont==null)
+            if (Showcase==null || !Showcase.isActiveAndEnabled || Showcase.StageRoots==null || Showcase.StageRoots.Length!=6 || Film==null || Film.Shots==null || Film.Shots.Length==0 || Film.SubtitleFont==null)
             { Debug.LogError("Film requires the six-stage showcase, sequence and subtitle font.",this); return; }
             _returnStage=Showcase.CurrentStageIndex; _returnGuide=Showcase.ShowGuide; _returnShake=Showcase.CameraShake;
             Showcase.FilmMode=true; Showcase.ShowGuide=false; Showcase.CameraShake=false;

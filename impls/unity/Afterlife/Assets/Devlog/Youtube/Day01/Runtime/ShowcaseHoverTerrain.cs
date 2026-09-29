@@ -1,6 +1,7 @@
+using Afterlife.Modules.Interaction;
 using System;
 using System.Collections.Generic;
-using Afterlife.Devlog.Hover;
+using Afterlife.Modules.Hover;
 using Afterlife.Devlog.Shoreline;
 using UnityEngine;
 
@@ -14,11 +15,11 @@ namespace Afterlife.Devlog.Day01
             public MeshFilter Filter;
             public Renderer Renderer;
             public Mesh Original, Dense;
-            public ShowcasePickSurface Surface;
-            public ShowcasePickMesh OriginalPick, Pick;
+            public PickSurface Surface;
+            public PickMeshData OriginalPick, Pick;
         }
         private readonly List<Entry> _entries=new List<Entry>();
-        public ShowcaseHoverTerrain(Transform stage,ShowcaseTileHover hover)
+        public ShowcaseHoverTerrain(Transform stage,TerrainHoverEffects hover)
         {
             var grid=stage.Find("Terrain_Flat/BiomeGrid_12x10");
             if (grid==null) return;
@@ -26,11 +27,11 @@ namespace Afterlife.Devlog.Day01
             {
                 // 픽셀 물결은 표면 높이를 바꾸지 않으므로 세분화나 높이 콜백이 필요 없다.
                 if (!tile.gameObject.activeSelf || !(tile.name.EndsWith("_Sand") || tile.name.EndsWith("_Snow"))) continue;
-                var filter=tile.GetComponent<MeshFilter>(); var surface=tile.GetComponent<ShowcasePickSurface>();
+                var filter=tile.GetComponent<MeshFilter>(); var surface=tile.GetComponent<PickSurface>();
                 if (filter==null || surface==null || !filter.sharedMesh.isReadable) continue;
                 var dense=filter.sharedMesh.vertexCount>2000 ? UnityEngine.Object.Instantiate(filter.sharedMesh)
-                    : ShorelineGeometry.Build(filter.sharedMesh,stage.worldToLocalMatrix*tile.localToWorldMatrix,ShorelineMode.Square,4);
-                var pick=ScriptableObject.CreateInstance<ShowcasePickMesh>();
+                    : ShorelineGeometry.Build(filter.sharedMesh,stage.worldToLocalMatrix*tile.localToWorldMatrix,ShorelineMode.Square,(_,_)=>false,4);
+                var pick=ScriptableObject.CreateInstance<PickMeshData>();
                 pick.Vertices=dense.vertices; pick.Normals=dense.normals; pick.Triangles=dense.triangles;
                 pick.Colors=dense.colors; pick.Bounds=dense.bounds; pick.ColorVersion=2;
                 var slots=new List<int>();

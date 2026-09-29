@@ -59,7 +59,7 @@ namespace Afterlife.Devlog.Day01.Editor
         {
             var view=SceneView.lastActiveSceneView;
             var showcase=Object.FindFirstObjectByType<Day01Showcase>();
-            if(view==null || showcase==null || !showcase.HasPresentationStages) {Debug.LogWarning("Open Day01 and a Scene view first.");return;}
+            if(view==null || showcase==null || showcase.StageRoots==null || showcase.StageRoots.Length!=6) {Debug.LogWarning("Open Day01 and a Scene view first.");return;}
             var shot=film.Shots[_shot]; var origin=showcase.StageRoots[shot.Stage].position;
             if(!capture) {var pose=shot.From; view.LookAt(origin+pose.Focus,Quaternion.LookRotation(-pose.Offset),pose.OrthographicSize,true);view.Repaint();return;}
             Undo.RecordObject(film,"촬영 구도 저장");
