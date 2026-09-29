@@ -1,0 +1,7 @@
+{
+  "name": "Afterlife.CameraDistance",
+  "rootNamespace": "Afterlife.Modules.CameraDistance",
+  "references": [],
+  "autoReferenced": false,
+  "noEngineReferences": true
+}
