@@ -80,6 +80,7 @@ namespace Afterlife.Prototype
         {
             _runEndPending = false;
             _simulationTime = 0;
+            _nightCleanupMarkers?.Clear();
             _model.UpdatePointer(default, false, false);
             _model.ClearMode();
             _pressActive = _dragging = _pointerValid = _orbiting = false;

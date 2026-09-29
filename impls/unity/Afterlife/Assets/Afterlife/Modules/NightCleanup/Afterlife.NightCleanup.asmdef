@@ -1,0 +1,4 @@
+{
+ "name": "Afterlife.NightCleanup", "rootNamespace": "Afterlife.Modules.NightCleanup",
+ "references": [], "autoReferenced": false, "noEngineReferences": true
+}

@@ -26,7 +26,7 @@ namespace Afterlife.Prototype
             {
                 if(!candidate.Alive||(!candidate.Friendly&&!candidate.Building))continue;
                 float distance=candidate.DistanceTo(enemy.Position);
-                if(distance>EnemyVisionRadius(enemy.Kind))continue;
+                if(!(NightOvertime && enemy.Raider) && distance>EnemyVisionRadius(enemy.Kind))continue;
                 int tier=candidate.Friendly||IsTower(candidate.Kind)||candidate.Kind==Kind.Wall?0:1;
                 if(tier<bestTier||tier==bestTier&&distance<bestDistance)
                 {best=candidate;bestTier=tier;bestDistance=distance;}

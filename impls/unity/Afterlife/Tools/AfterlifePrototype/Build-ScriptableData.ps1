@@ -3,6 +3,8 @@ param([string[]]$Modules = @())
 $ErrorActionPreference = 'Stop'
 $projectRoot = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 $specs = @(
+    @{Name='Afterlife.NightCleanup';Pattern='Assets/Afterlife/Modules/NightCleanup/*.cs';Pure=$true},
+    @{Name='Afterlife.NightCleanup.Unity';Pattern='Assets/Afterlife/Modules/NightCleanup.Unity/*.cs'},
     @{Name='Afterlife.TerritoryVision';Pattern='Assets/Afterlife/Modules/TerritoryVision/*.cs';Pure=$true},
     @{Name='Afterlife.Buildings';Pattern='Assets/Afterlife/Modules/Buildings/*.cs';Pure=$true},
     @{Name='Afterlife.EconomicSites';Pattern='Assets/Afterlife/Modules/EconomicSites/*.cs';Pure=$true},
@@ -12,7 +14,7 @@ $specs = @(
     @{Name='Afterlife.Skills';Pattern='Assets/Afterlife/Modules/Skills/*.cs';Pure=$true},
     @{Name='Afterlife.Prototype.Data';Pattern='Assets/Afterlife/Modules/PrototypeData/*.cs';Pure=$true},
     @{Name='Afterlife.Progression.Unity';Pattern='Assets/Afterlife/Modules/Progression.Unity/*.cs'},
-    @{Name='Afterlife.Prototype';Pattern='Assets/_AfterlifePrototype/Runtime/*.cs';Extra=@('Afterlife.Buildings','Afterlife.EconomicSites','Afterlife.RechargeSlots','Afterlife.RechargeSlots.Unity','Afterlife.DivineFields','Afterlife.Skills')},
+    @{Name='Afterlife.Prototype';Pattern='Assets/_AfterlifePrototype/Runtime/*.cs';Extra=@('Afterlife.NightCleanup','Afterlife.NightCleanup.Unity','Afterlife.Buildings','Afterlife.EconomicSites','Afterlife.RechargeSlots','Afterlife.RechargeSlots.Unity','Afterlife.DivineFields','Afterlife.Skills')},
     @{Name='Afterlife.Prototype.Editor';Pattern='Assets/_AfterlifePrototype/Editor/*.cs';Extra=@('Afterlife.Destruction','Afterlife.WorldAudio','Afterlife.RechargeSlots.Unity')},
     @{Name='Afterlife.Devlog.Day01';Pattern='Assets/Devlog/Youtube/Day01/Runtime/*.cs'},
     @{Name='Afterlife.Devlog.Day02';Pattern='Assets/Devlog/Youtube/Day02/Runtime/*.cs'},

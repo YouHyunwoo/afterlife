@@ -192,6 +192,7 @@ namespace Afterlife.Prototype
         }
         private void ResetAttempt()
         {
+            ResetNightCleanup();
             Terrain.Regenerate(Settings.MapSeed);
             InitializeEconomicSites();ResetBuildingSystems();
             DivineFields.Reset();
@@ -326,6 +327,7 @@ namespace Afterlife.Prototype
             if(MergeBuildings())RebuildTowns();TickBuildingProduction(productionElapsed);UpdateTactics(dt);ProcessUnits(dt);ProcessTowers(dt);ProcessProjectiles(dt);ProcessBurns(dt);ProcessExploration(dt);ProcessResourceRegrowth(dt*ProductionSpeed);Cleanup();
             if(!Bodies.Any(b=>b.Alive&&IsHousing(b.Kind))){End(Phase.Defeat);return;}
             Remaining=Math.Max(0,Remaining-dt);
+            TickNightCleanup(dt);
             if(Phase==Phase.Day)
             {
                 _ecologyClock+=dt;if(_ecologyClock>=Rules.Resources.EcologySeconds){_ecologyClock=0;SpawnNature(Kind.Animal,Rules.Resources.AnimalMinimumDistance);SpawnNature(Kind.Slime,Rules.Resources.SlimeMinimumDistance);}
@@ -347,12 +349,14 @@ namespace Afterlife.Prototype
         }
         private void BeginNight()
         {
+            ResetNightCleanup();
             Phase=Phase.Night;Remaining=Settings.NightSeconds;
             GrantShields(Effect("shield"),0,true);_nightTime=0;_spawned=0;
             Sound(SoundCue.Warning);Say($"{Wave}일 밤 · 웨이브 {Wave} 시작! {WaveEnemyCount}마리 · {WaveThreat}");
         }
         private void End(Phase p)
         {
+            ResetNightCleanup();
             LastResult=new RunResult{Victory=p==Phase.Victory,BestCleared=RunBestCleared,Rebirths=RebirthCount,Kills=RunKills};
             if(RunBestCleared>=Rules.Rebirth.BannerUnlockDay)BannerUnlocked=true;
             DivineFields.Reset();ResetManualWork();ClearRunProgress();ResetProgression();ResetCombatGrowth();ResetExploration();ResetFieldSlots();ResetBuildingSystems(); Money=0;_goldRemainder=0;PulseLevel=ResidentLevel=ConstructionLevel=CriticalChanceLevel=CriticalPowerLevel=0;
@@ -364,6 +368,7 @@ namespace Afterlife.Prototype
         }
         private void BeginSettlement()
         {
+            ResetNightCleanup();
             ClearNightShields();Projectiles.Clear();SegmentCleared=Wave;RunBestCleared=Math.Max(RunBestCleared,Wave);
             if(Settings.MvpSlots && Wave>=Settings.Days){End(Phase.Victory);return;}
             Phase=Phase.Settlement;Working=false;LastValuables=Valuables;LastSettlement=Valuables*Rules.Resources.ValuableGold+SellLoot();Money+=LastSettlement;Valuables=0;PrepareDailyRelics();
@@ -579,7 +584,7 @@ namespace Afterlife.Prototype
                 float r=Math.Min(Settings.MapRadius-3,extent+Rules.Waves.SpawnDistance+(float)_random.NextDouble()*Rules.Waves.SpawnDistanceVariation);
                 var p=new Point((float)Math.Cos(angle)*r,(float)Math.Sin(angle)*r);
                 if(i>=60)p=new Point(_random.Next(-Settings.MapRadius+2,Settings.MapRadius-1),_random.Next(-Settings.MapRadius+2,Settings.MapRadius-1));
-                if(Visibility(p)>.015f||!Walkable(p,.4f)||!UnitFree(p,0))continue;
+                if((!NightOvertime&&Visibility(p)>.015f)||!Walkable(p,.4f)||!UnitFree(p,0))continue;
                 Kind kind=WaveEnemy(_spawned);var b=Add(kind,p,EnemyHealth(kind)*(1+Rules.Waves.HealthGrowth*(Wave-1)*(Wave-1)));b.Raider=true;return true;
             }
             return false;

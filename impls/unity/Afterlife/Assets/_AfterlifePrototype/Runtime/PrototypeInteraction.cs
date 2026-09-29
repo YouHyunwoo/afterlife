@@ -271,7 +271,7 @@ namespace Afterlife.Prototype
             if(_lastPulse!=_model.PulseCount){_lastPulse=_model.PulseCount;_pulseFlash=.25f;}_pulseFlash=Mathf.Max(0,_pulseFlash-Time.deltaTime);
             UpdateFog();
             _cpuWatch.Restart();UnityEngine.Profiling.Profiler.BeginSample("Prototype.ViewSync");
-            Sync(); UpdatePresentation();
+            Sync(); UpdatePresentation(); UpdateNightCleanupMarkers();
             UnityEngine.Profiling.Profiler.EndSample();_syncMilliseconds=(float)_cpuWatch.Elapsed.TotalMilliseconds;
             CompletePendingRun();
         }

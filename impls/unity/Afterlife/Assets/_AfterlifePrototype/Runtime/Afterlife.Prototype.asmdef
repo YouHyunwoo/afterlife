@@ -3,6 +3,8 @@
   "rootNamespace": "Afterlife.Prototype",
   "references": [
     "Afterlife.Buildings",
+    "Afterlife.NightCleanup",
+    "Afterlife.NightCleanup.Unity",
     "Afterlife.TerritoryVision",
     "Afterlife.EconomicSites",
     "Afterlife.RechargeSlots",
