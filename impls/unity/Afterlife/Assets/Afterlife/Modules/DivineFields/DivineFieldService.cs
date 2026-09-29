@@ -3,23 +3,24 @@ using System.Collections.Generic;
 
 namespace Afterlife.Modules.DivineFields
 {
-    public enum FieldPlacementResult { Success, InvalidPosition, InsufficientPower, Overlap }
+    public enum FieldPlacementResult { Success, InvalidPosition, InsufficientPower, Overlap, NoReadySlot }
 
     public sealed class DivineField
     {
         public int Id { get; }
-        public float X { get; }
-        public float Z { get; }
+        public float X { get; internal set; }
+        public float Z { get; internal set; }
+        public int TargetId { get; }
         public float Radius { get; }
         public float Remaining { get; internal set; }
         internal float PulseClock;
         public float TimeUntilPulse(float interval) => Math.Max(0, interval - PulseClock);
 
-        internal DivineField(int id, float x, float z, float radius, float duration)
-        { Id = id; X = x; Z = z; Radius = radius; Remaining = duration; }
+        internal DivineField(int id, float x, float z, float radius, float duration, int targetId)
+        { Id = id; X = x; Z = z; Radius = radius; Remaining = duration; TargetId = targetId; }
     }
 
-    // 위치와 신력, 수명, 주기만 소유한다. 대상 판정과 실제 작업은 게임 어댑터가 처리한다.
+    // 위치와 영력, 수명, 주기만 소유한다. 대상 판정과 실제 작업은 게임 어댑터가 처리한다.
     public sealed class DivineFieldService
     {
         private readonly List<DivineField> _fields = new List<DivineField>();
@@ -46,21 +47,32 @@ namespace Afterlife.Modules.DivineFields
             Power = maximumPower;
         }
 
-        public FieldPlacementResult TryPlace(float x, float z, float radius)
+        public FieldPlacementResult TryPlace(float x, float z, float radius, int targetId = 0, bool usePower = true)
         {
-            if (!Finite(x) || !Finite(z) || !FinitePositive(radius)) return FieldPlacementResult.InvalidPosition;
-            if (Power + .0001f < PlacementCost) return FieldPlacementResult.InsufficientPower;
+            if (!Finite(x) || !Finite(z) || !FinitePositive(radius) || targetId < 0) return FieldPlacementResult.InvalidPosition;
+            if (usePower && Power + .0001f < PlacementCost) return FieldPlacementResult.InsufficientPower;
             foreach (var existing in _fields)
             {
                 float dx = existing.X - x, dz = existing.Z - z;
                 float minimum = Math.Min(existing.Radius, radius) * .5f;
                 if (dx * dx + dz * dz < minimum * minimum) return FieldPlacementResult.Overlap;
             }
-            Power = Math.Max(0, Power - PlacementCost);
-            var field = new DivineField(++_nextId, x, z, radius, Duration);
+            if (usePower) Power = Math.Max(0, Power - PlacementCost);
+            var field = new DivineField(++_nextId, x, z, radius, Duration, targetId);
             _fields.Add(field);
             Placed?.Invoke(field);
             return FieldPlacementResult.Success;
+        }
+
+        public void MoveTarget(int targetId, float x, float z)
+        {
+            if (targetId <= 0 || !Finite(x) || !Finite(z)) return;
+            foreach (var field in _fields)
+            {
+                if (field.TargetId != targetId) continue;
+                field.X = x;
+                field.Z = z;
+            }
         }
 
         public void Tick(float deltaTime, float pulseInterval)
