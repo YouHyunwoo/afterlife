@@ -1,13 +1,13 @@
 # 재사용 흐름 모듈
 
-`Reusable.Flow`는 Unity, Afterlife, UI, 씬, DI 컨테이너에 의존하지 않는 동기 상태 머신이다. 화면 흐름, 작업 단계, 메뉴 흐름 등에 사용할 수 있다. `FlowMachine.cs`와 `Reusable.Flow.asmdef`가 모듈 전체이며 다른 Afterlife 모듈은 필요 없다.
+`Afterlife.Flow`는 Unity 엔진, 다른 Afterlife 모듈, UI, 씬, DI 컨테이너에 의존하지 않는 동기 상태 머신이다. 화면 흐름, 작업 단계, 메뉴 흐름 등에 사용할 수 있다. `FlowMachine.cs`와 `Afterlife.Flow.asmdef`가 모듈 전체이며 다른 Afterlife 모듈은 필요 없다.
 
 ## 다른 프로젝트에서 사용
 
-Unity에서는 이 폴더를 복사하고 사용하는 어셈블리의 asmdef references에 `Reusable.Flow`를 추가한다. `.meta`는 대상 Unity 에디터가 생성한다. 일반 C# 프로젝트에서는 `FlowMachine.cs`를 포함한다. NuGet 패키지나 전역 싱글턴은 필요 없다. 같은 정의로 여러 머신 인스턴스를 만들 수 있으며 현재 상태는 각 인스턴스에 속한다. 상태 ID와 이벤트 키는 enum 또는 불변 문자열을 권장한다.
+Unity에서는 이 폴더를 복사하고 사용하는 어셈블리의 asmdef references에 `Afterlife.Flow`를 추가한다. `.meta`는 대상 Unity 에디터가 생성한다. 일반 C# 프로젝트에서는 `FlowMachine.cs`를 포함한다. NuGet 패키지나 전역 싱글턴은 필요 없다. 같은 정의로 여러 머신 인스턴스를 만들 수 있으며 현재 상태는 각 인스턴스에 속한다. 상태 ID와 이벤트 키는 enum 또는 불변 문자열을 권장한다.
 
 ```csharp
-using Reusable.Flow;
+using Afterlife.Modules.Flow;
 
 var flow = new FlowMachine<string, string>(
     new[] {
@@ -39,6 +39,6 @@ flow.Dispose();
 
 ## 어셈블리 경계와 검증
 
-asmdef는 `noEngineReferences: true`, 외부 참조 없음, 자동 참조 꺼짐이다. 프로젝트의 `Tools/AfterlifePrototype/Build-Modules.ps1`은 Unity 참조를 제거한 별도 `Reusable.Flow.ModuleValidation.csproj`를 생성해 `dotnet build --no-restore`로 컴파일한다.
+asmdef는 `noEngineReferences: true`, 외부 참조 없음, 자동 참조 꺼짐이다. 프로젝트의 `Tools/AfterlifePrototype/Build-Modules.ps1`은 Unity 참조를 제거한 별도 `Afterlife.Flow.ModuleValidation.csproj`를 생성해 `dotnet build --no-restore`로 컴파일한다.
 
 런타임 확인 항목: 정상 전환의 콜백 순서, 거짓 Guard, 미등록 이벤트, 중복 정의의 예외, 콜백 내 TrySend 거절, 콜백 예외 뒤 IsFaulted, 반복 Dispose, 독립 인스턴스 사이의 상태 격리. 이번 작업에서는 저장소 규칙에 따라 실행 테스트 없이 컴파일만 수행했다.

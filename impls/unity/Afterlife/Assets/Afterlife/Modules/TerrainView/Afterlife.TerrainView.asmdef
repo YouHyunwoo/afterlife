@@ -1,0 +1,6 @@
+{
+  "name": "Afterlife.TerrainView",
+  "rootNamespace": "Afterlife.Modules.TerrainView",
+  "references": ["Afterlife.Terrain"],
+  "autoReferenced": true
+}

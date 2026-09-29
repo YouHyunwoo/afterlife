@@ -1,6 +1,6 @@
 {
   "name": "Afterlife.Devlog.Shoreline",
   "rootNamespace": "Afterlife.Devlog.Shoreline",
-  "references": ["Afterlife.Devlog.Terrain"],
+  "references": ["Afterlife.Terrain"],
   "autoReferenced": true
 }

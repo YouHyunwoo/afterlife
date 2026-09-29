@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Reusable.Flow
+namespace Afterlife.Modules.Flow
 {
     /// <summary>불변 상태 정의. 화면, 씬, 컨테이너에 의존하지 않는다.</summary>
     public sealed class FlowState<TState>

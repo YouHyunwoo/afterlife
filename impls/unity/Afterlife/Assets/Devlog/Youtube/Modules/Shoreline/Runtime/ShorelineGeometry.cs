@@ -1,5 +1,6 @@
+using System;
 using System.Collections.Generic;
-using Afterlife.Devlog.Terrain;
+using Afterlife.Modules.Terrain;
 using UnityEngine;
 
 namespace Afterlife.Devlog.Shoreline
@@ -9,13 +10,14 @@ namespace Afterlife.Devlog.Shoreline
     public static class ShorelineGeometry
     {
         public const float Width=.22f;
-        public static float Offset(Vector3 stagePoint,ShorelineMode mode)
+        public static float Offset(Vector3 stagePoint,ShorelineMode mode,Func<int,int,bool> water)
         {
+            if(water==null)throw new ArgumentNullException(nameof(water));
             return (float)CoastField.Offset(stagePoint.x,stagePoint.z,
-                (x,z)=>x>=-6 && x<6 && z>=-5 && z<5 && ShowcaseBiomeMap.At(x,z)==ShowcaseBiome.Water,(CoastShape)mode);
+                water,(CoastShape)mode);
         }
 
-        public static Mesh Build(Mesh source,Matrix4x4 toStage,ShorelineMode mode,int cuts=8)
+        public static Mesh Build(Mesh source,Matrix4x4 toStage,ShorelineMode mode,Func<int,int,bool> water,int cuts=8)
         {
             var vertices=new List<Vector3>(); var normals=new List<Vector3>(); var colors=new List<Color>();
             var input=source.vertices; var inputColors=source.colors;
@@ -26,7 +28,7 @@ namespace Afterlife.Devlog.Shoreline
             {
                 Vector3 stage=toStage.MultiplyPoint3x4(p);
                 // 블록 바닥은 고정하고 윗모서리를 낮춰 해안만 깎는다.
-                stage.y+=Offset(stage,mode)*Mathf.Clamp01((stage.y+.8f)/.8f);
+                stage.y+=Offset(stage,mode,water)*Mathf.Clamp01((stage.y+.8f)/.8f);
                 return fromStage.MultiplyPoint3x4(stage);
             }
             cuts=Mathf.Clamp(cuts,1,8);

@@ -1,0 +1,6 @@
+{
+  "name": "Afterlife.Terrain",
+  "rootNamespace": "Afterlife.Modules.Terrain",
+  "noEngineReferences": true,
+  "autoReferenced": true
+}

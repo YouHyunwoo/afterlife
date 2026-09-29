@@ -1,0 +1,10 @@
+{
+  "name": "Afterlife.Vegetation",
+  "rootNamespace": "Afterlife.Modules.Vegetation",
+  "references": [
+    "Afterlife.Terrain",
+    "Afterlife.Interaction",
+    "Afterlife.UnitySupport"
+  ],
+  "autoReferenced": true
+}

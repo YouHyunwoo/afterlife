@@ -1,0 +1,10 @@
+{
+  "rootNamespace": "Afterlife.Modules.Snow",
+  "name": "Afterlife.Snow",
+  "references": [
+    "Afterlife.TargetContracts",
+    "Afterlife.Interaction",
+    "Afterlife.UnitySupport"
+  ],
+  "autoReferenced": true
+}

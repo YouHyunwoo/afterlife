@@ -103,7 +103,7 @@ namespace Afterlife.Modules.VisionBlur
         {
             if (frame == null) return;
             frame.Release();
-            UnityEngine.Object.Destroy(frame);
+            Afterlife.Modules.UnitySupport.ObjectLifetime.Release(frame);
             frame = null;
         }
 
@@ -114,8 +114,8 @@ namespace Afterlife.Modules.VisionBlur
             RenderPipelineManager.endCameraRendering -= OnCameraRendered;
             ReleaseFrames();
             _source = null;
-            if (_composite != null) UnityEngine.Object.Destroy(_composite);
-            if (_gaussian != null) UnityEngine.Object.Destroy(_gaussian);
+            if (_composite != null) Afterlife.Modules.UnitySupport.ObjectLifetime.Release(_composite);
+            if (_gaussian != null) Afterlife.Modules.UnitySupport.ObjectLifetime.Release(_gaussian);
         }
     }
 }
