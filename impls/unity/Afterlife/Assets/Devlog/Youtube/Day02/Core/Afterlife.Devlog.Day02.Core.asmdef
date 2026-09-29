@@ -1,0 +1,8 @@
+{
+  "name": "Afterlife.Devlog.Day02.Core",
+  "references": [
+    "Afterlife.DivineFields"
+  ],
+  "includePlatforms": [],
+  "noEngineReferences": true
+}

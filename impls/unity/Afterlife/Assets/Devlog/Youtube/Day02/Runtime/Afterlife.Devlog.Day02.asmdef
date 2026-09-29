@@ -1,0 +1,20 @@
+{
+  "name": "Afterlife.Devlog.Day02",
+  "references": [
+    "Afterlife.Devlog.Day02.Core",
+    "Afterlife.DivineFields",
+    "Afterlife.Devlog.Cinematics",
+    "Unity.InputSystem",
+    "Unity.TextMeshPro",
+    "UnityEngine.UI",
+    "Unity.RenderPipelines.Universal.Runtime",
+    "Unity.RenderPipelines.Core.Runtime",
+    "Afterlife.WorldAudio",
+    "Afterlife.Wind",
+    "Afterlife.SceneFeatures",
+    "Afterlife.Terrain",
+    "Afterlife.TerrainView"
+  ],
+  "includePlatforms": [],
+  "noEngineReferences": false
+}

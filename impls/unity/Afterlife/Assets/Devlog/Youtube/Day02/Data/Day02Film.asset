@@ -1,0 +1,363 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf409392b80c734488e43323ef87f3aa, type: 3}
+  m_Name: Day02Film
+  m_EditorClassIdentifier: 
+  Shots:
+  - Title: "\uCC44\uC9D1 \uC2DC\uC2A4\uD15C\uC744 \uB2E4\uB4EC\uB294 \uACFC\uC815"
+    Stage: 0
+    Duration: 16
+    From:
+      Focus: {x: 0, y: 0.6, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 3.2
+    To:
+      Focus: {x: 0, y: 0.6, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 3.2
+    Subtitle: 
+    SubtitleDelay: 0.4
+    SubtitleDuration: 7
+    FadeIn: 1
+    FadeInDuration: 0.6
+    FadeOut: 1
+    FadeOutDuration: 0.6
+    Night: 0
+    AllowInteraction: 0
+    Heading: "\uCC44\uC9D1 \uC2DC\uC2A4\uD15C\uC744 \uB2E4\uB4EC\uB294 \uACFC\uC815"
+    Cues:
+    - Start: 0.75
+      Duration: 7.469
+      Text: "\uC774 \uAC8C\uC784\uC740 \uB0AE\uC5D0 \uC790\uC6D0\uC744 \uBAA8\uC544
+        \uB9C8\uC744\uC744 \uD0A4\uC6B0\uACE0, \uBC24\uC5D0 \uBAB0\uB824\uC624\uB294
+        \uC801\uC744 \uB9C9\uB294 \uAC8C\uC784\uC785\uB2C8\uB2E4."
+      Narration: {fileID: 8300000, guid: 6d72da116d609754abdc54725451d772, type: 3}
+    - Start: 8.419
+      Duration: 5.763
+      Text: "\uC774\uBC88\uC5D0\uB294 \uCC44\uC9D1 \uBC29\uC2DD\uC774 \uBC14\uB010
+        \uACFC\uC815\uC744 \uC791\uC740 \uC12C\uC5D0\uC11C \uBCF4\uC5EC\uB4DC\uB9B4\uAC8C\uC694."
+      Narration: {fileID: 8300000, guid: d37cae080e120c14f8cb60f9976bfef2, type: 3}
+    ShowCredits: 0
+    ShowVision: 0
+    TransitionToNight: 0
+    NightTransitionStart: 7
+    NightTransitionDuration: 3
+  - Title: "\uCC98\uC74C\uC5D0\uB294 \xB7 \uD074\uB9AD \uD55C \uBC88, \uCC44\uC9D1
+      \uD55C \uBC88"
+    Stage: 0
+    Duration: 22
+    From:
+      Focus: {x: 0, y: 0.6, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 3.2
+    To:
+      Focus: {x: 0, y: 0.6, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 3.2
+    Subtitle: 
+    SubtitleDelay: 0.4
+    SubtitleDuration: 7
+    FadeIn: 1
+    FadeInDuration: 0.6
+    FadeOut: 1
+    FadeOutDuration: 0.6
+    Night: 0
+    AllowInteraction: 1
+    Heading: "\uCC98\uC74C\uC5D0\uB294 \xB7 \uD074\uB9AD \uD55C \uBC88, \uCC44\uC9D1
+      \uD55C \uBC88"
+    Cues:
+    - Start: 0.55
+      Duration: 6.526
+      Text: "\uCC98\uC74C\uC5D0\uB294 \uB098\uBB34\uB098 \uBC14\uC704\uB97C \uD074\uB9AD\uD560
+        \uB54C\uB9C8\uB2E4 \uD55C \uBC88\uC529 \uCC44\uC9D1\uD558\uAC8C \uB9CC\uB4E4\uC5C8\uC2B5\uB2C8\uB2E4."
+      Narration: {fileID: 8300000, guid: c0557aac0323ce242894ff697910d8de, type: 3}
+    - Start: 7.276
+      Duration: 5.708
+      Text: "\uC9C1\uC811 \uB204\uB974\uB294 \uB9DB\uC740 \uC788\uC9C0\uB9CC, \uC790\uC6D0\uC744
+        \uBAA8\uC73C\uB824\uBA74 \uACC4\uC18D \uD074\uB9AD\uD574\uC57C \uD588\uC8E0."
+      Narration: {fileID: 8300000, guid: fe50abc45eafe644cbff70e25edc2786, type: 3}
+    ShowCredits: 0
+    ShowVision: 0
+    TransitionToNight: 0
+    NightTransitionStart: 7
+    NightTransitionDuration: 3
+  - Title: "\uBC18\uBCF5 \uD074\uB9AD\uC744 \uC904\uC774\uB824\uBA74?"
+    Stage: 1
+    Duration: 10
+    From:
+      Focus: {x: 0, y: 0.6, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 3.2
+    To:
+      Focus: {x: 0, y: 0.6, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 3.2
+    Subtitle: 
+    SubtitleDelay: 0.4
+    SubtitleDuration: 7
+    FadeIn: 1
+    FadeInDuration: 0.6
+    FadeOut: 1
+    FadeOutDuration: 0.6
+    Night: 0
+    AllowInteraction: 0
+    Heading: "\uBC18\uBCF5 \uD074\uB9AD\uC744 \uC904\uC774\uB824\uBA74?"
+    Cues:
+    - Start: 0.55
+      Duration: 5.593
+      Text: "\uADF8\uB798\uC11C \uCEE4\uC11C\uB97C \uC62C\uB824\uB450\uAE30\uB9CC
+        \uD574\uB3C4 \uC790\uB3D9\uC73C\uB85C \uCC44\uC9D1\uB418\uB3C4\uB85D \uBC14\uAFE8\uC2B5\uB2C8\uB2E4."
+      Narration: {fileID: 8300000, guid: d2dcc2c9ff9c083438889677e4fe965f, type: 3}
+    ShowCredits: 0
+    ShowVision: 0
+    TransitionToNight: 0
+    NightTransitionStart: 7
+    NightTransitionDuration: 3
+  - Title: "\uCEE4\uC11C\uB97C \uC62C\uB824\uB450\uBA74 \uC790\uB3D9 \uCC44\uC9D1"
+    Stage: 1
+    Duration: 22
+    From:
+      Focus: {x: 0, y: 0.6, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 3.2
+    To:
+      Focus: {x: 0, y: 0.6, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 3.2
+    Subtitle: 
+    SubtitleDelay: 0.4
+    SubtitleDuration: 7
+    FadeIn: 1
+    FadeInDuration: 0.6
+    FadeOut: 1
+    FadeOutDuration: 0.6
+    Night: 0
+    AllowInteraction: 1
+    Heading: "\uCEE4\uC11C\uB97C \uC62C\uB824\uB450\uBA74 \uC790\uB3D9 \uCC44\uC9D1"
+    Cues:
+    - Start: 0.55
+      Duration: 6.321
+      Text: "\uB098\uBB34 \uC704\uC5D0 \uCEE4\uC11C\uB97C \uB450\uBA74 \uBC18\uBCF5\uD574\uC11C
+        \uC791\uC5C5\uD569\uB2C8\uB2E4. \uBC14\uC704\uB3C4 \uB9C8\uCC2C\uAC00\uC9C0\uC608\uC694."
+      Narration: {fileID: 8300000, guid: 0f5a4dc06d827c14d9ff31002eee86c6, type: 3}
+    - Start: 7.071
+      Duration: 7.536
+      Text: "\uD074\uB9AD\uC740 \uC904\uC5C8\uC9C0\uB9CC, \uCEE4\uC11C\uB97C \uB5BC\uBA74
+        \uC791\uC5C5\uC774 \uBA48\uCDA5\uB2C8\uB2E4. \uACB0\uAD6D \uB9C8\uC6B0\uC2A4\uAC00
+        \uD55C \uACF3\uC5D0 \uBB36\uC600\uC8E0."
+      Narration: {fileID: 8300000, guid: a0aa4e0bd56488648b0f0a0b3e474fbc, type: 3}
+    ShowCredits: 0
+    ShowVision: 0
+    TransitionToNight: 0
+    NightTransitionStart: 7
+    NightTransitionDuration: 3
+  - Title: "\uC791\uC5C5\uD560 \uC7A5\uC18C\uB97C \uB0A8\uACA8\uB450\uBA74?"
+    Stage: 2
+    Duration: 12
+    From:
+      Focus: {x: 0, y: 0.6, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 3.2
+    To:
+      Focus: {x: 0, y: 0.6, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 3.2
+    Subtitle: 
+    SubtitleDelay: 0.4
+    SubtitleDuration: 7
+    FadeIn: 1
+    FadeInDuration: 0.6
+    FadeOut: 1
+    FadeOutDuration: 0.6
+    Night: 0
+    AllowInteraction: 0
+    Heading: "\uC791\uC5C5\uD560 \uC7A5\uC18C\uB97C \uB0A8\uACA8\uB450\uBA74?"
+    Cues:
+    - Start: 0.55
+      Duration: 6.524
+      Text: "\uC791\uC5C5\uD560 \uC7A5\uC18C\uB97C \uC815\uD574 \uB450\uACE0 \uB2E4\uB978
+        \uACF3\uC744 \uC0B4\uD3B4\uBCFC \uC218 \uC788\uC73C\uBA74 \uC5B4\uB5A8\uAE4C
+        \uC2F6\uC5C8\uC2B5\uB2C8\uB2E4."
+      Narration: {fileID: 8300000, guid: 5b77719a2a251f646b35c62a4ab7de29, type: 3}
+    - Start: 7.274
+      Duration: 3.002
+      Text: "\uADF8\uB798\uC11C \uC601\uB825 \uD544\uB4DC\uB97C \uB9CC\uB4E4\uC5C8\uC5B4\uC694."
+      Narration: {fileID: 8300000, guid: f38874445297de748ba8011c0ba23b8c, type: 3}
+    ShowCredits: 0
+    ShowVision: 0
+    TransitionToNight: 0
+    NightTransitionStart: 7
+    NightTransitionDuration: 3
+  - Title: "\uC791\uC740 \uBC94\uC704\uC5D0 \uC601\uB825 \uD544\uB4DC \uC124\uCE58"
+    Stage: 2
+    Duration: 24
+    From:
+      Focus: {x: 0, y: 0.6, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 3.2
+    To:
+      Focus: {x: 0, y: 0.6, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 3.2
+    Subtitle: 
+    SubtitleDelay: 0.4
+    SubtitleDuration: 7
+    FadeIn: 1
+    FadeInDuration: 0.6
+    FadeOut: 1
+    FadeOutDuration: 0.6
+    Night: 0
+    AllowInteraction: 1
+    Heading: "\uC791\uC740 \uBC94\uC704\uC5D0 \uC601\uB825 \uD544\uB4DC \uC124\uCE58"
+    Cues:
+    - Start: 0.55
+      Duration: 4.455
+      Text: "\uB098\uBB34\uC640 \uBC14\uC704 \uC0AC\uC774\uC5D0 \uC791\uC740 \uD544\uB4DC\uB97C
+        \uB193\uC544\uBCF4\uACA0\uC2B5\uB2C8\uB2E4."
+      Narration: {fileID: 8300000, guid: e9e92c409807fab4c86179958e611c17, type: 3}
+    - Start: 5.205
+      Duration: 7.208
+      Text: "\uCEE4\uC11C\uB97C \uC62E\uACA8\uB3C4 \uBC94\uC704 \uC548\uC5D0\uC11C\uB294
+        \uC791\uC5C5\uC774 \uC774\uC5B4\uC9D1\uB2C8\uB2E4. \uC5B4\uB514\uC5D0 \uB193\uB290\uB0D0\uAC00
+        \uC911\uC694\uD574\uC84C\uC8E0."
+      Narration: {fileID: 8300000, guid: 247d2b60b74acb243977ffa66a6b313a, type: 3}
+    ShowCredits: 0
+    ShowVision: 0
+    TransitionToNight: 0
+    NightTransitionStart: 7
+    NightTransitionDuration: 3
+  - Title: "\uC774\uC81C \uB354 \uD070 \uC12C\uC73C\uB85C"
+    Stage: 3
+    Duration: 10
+    From:
+      Focus: {x: 0, y: 0.6, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 6.5
+    To:
+      Focus: {x: 0, y: 0.6, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 6.5
+    Subtitle: 
+    SubtitleDelay: 0.4
+    SubtitleDuration: 7
+    FadeIn: 1
+    FadeInDuration: 0.6
+    FadeOut: 1
+    FadeOutDuration: 0.6
+    Night: 0
+    AllowInteraction: 0
+    Heading: "\uC774\uC81C \uB354 \uD070 \uC12C\uC73C\uB85C"
+    Cues:
+    - Start: 0.55
+      Duration: 4.586
+      Text: "\uC774\uC81C \uC870\uAE08 \uB354 \uD070 \uC12C\uC5D0\uC11C \uC790\uC720\uB86D\uAC8C
+        \uCC44\uC9D1\uD574 \uBCFC\uAC8C\uC694."
+      Narration: {fileID: 8300000, guid: 833091b083c4fd847848871404872b95, type: 3}
+    ShowCredits: 0
+    ShowVision: 0
+    TransitionToNight: 0
+    NightTransitionStart: 7
+    NightTransitionDuration: 3
+  - Title: "\uC790\uC720\uB86D\uAC8C \uCC44\uC9D1\uD574\uC11C \uACE8\uB4DC \uBC8C\uAE30"
+    Stage: 3
+    Duration: 32
+    From:
+      Focus: {x: 0, y: 0.6, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 6.5
+    To:
+      Focus: {x: 0, y: 0.6, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 6.5
+    Subtitle: 
+    SubtitleDelay: 0.4
+    SubtitleDuration: 7
+    FadeIn: 1
+    FadeInDuration: 0.6
+    FadeOut: 1
+    FadeOutDuration: 0.6
+    Night: 0
+    AllowInteraction: 1
+    Heading: "\uC790\uC720\uB86D\uAC8C \uCC44\uC9D1\uD574\uC11C \uACE8\uB4DC \uBC8C\uAE30"
+    Cues:
+    - Start: 0.55
+      Duration: 5.216
+      Text: "\uD544\uB4DC\uB97C \uB193\uACE0, \uB2E4\uB978 \uC790\uC6D0\uC73C\uB85C
+        \uC774\uB3D9\uD574 \uB2E4\uC74C \uC791\uC5C5\uC744 \uC815\uD569\uB2C8\uB2E4."
+      Narration: {fileID: 8300000, guid: 324e62aa39f3ca84d9bd8159edf0c505, type: 3}
+    - Start: 5.966
+      Duration: 7.972
+      Text: "\uB098\uBB34\uC640 \uBC14\uC704\uC5D0\uC11C \uC5BB\uC740 \uC218\uC785\uC740
+        \uACE8\uB4DC\uAC00 \uB429\uB2C8\uB2E4. \uC774\uC81C \uCC44\uC9D1\uC774 \uB9C8\uC744\uC744
+        \uD0A4\uC6B8 \uC900\uBE44\uB85C \uC774\uC5B4\uC9D1\uB2C8\uB2E4."
+      Narration: {fileID: 8300000, guid: 4321419f76e3b7e45bb28366b8e44ea1, type: 3}
+    ShowCredits: 0
+    ShowVision: 0
+    TransitionToNight: 0
+    NightTransitionStart: 7
+    NightTransitionDuration: 3
+  - Title: "\uB2E4\uC74C\uC5D0\uB294 \xB7 \uBC88 \uACE8\uB4DC\uB85C \uB9C8\uC744
+      \uAC74\uC124"
+    Stage: 3
+    Duration: 10
+    From:
+      Focus: {x: 0, y: 0.6, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 6.5
+    To:
+      Focus: {x: 0, y: 0.6, z: 0}
+      Offset: {x: 10, y: 13, z: -16}
+      OrthographicSize: 6.5
+    Subtitle: 
+    SubtitleDelay: 0.4
+    SubtitleDuration: 7
+    FadeIn: 1
+    FadeInDuration: 0.6
+    FadeOut: 1
+    FadeOutDuration: 0.6
+    Night: 0
+    AllowInteraction: 0
+    Heading: "\uB2E4\uC74C\uC5D0\uB294 \xB7 \uBC88 \uACE8\uB4DC\uB85C \uB9C8\uC744
+      \uAC74\uC124"
+    Cues:
+    - Start: 0.55
+      Duration: 4.244
+      Text: "\uCC44\uC9D1\uC758 \uC218\uCE58\uC640 \uC190\uB9DB\uC740 \uACC4\uC18D
+        \uB2E4\uB4EC\uACE0 \uC788\uC2B5\uB2C8\uB2E4."
+      Narration: {fileID: 8300000, guid: f5e712e8d5604694aad6d6b6b6c727b1, type: 3}
+    - Start: 4.994
+      Duration: 3.8
+      Text: "\uB2E4\uC74C\uC5D0\uB294 \uBC88 \uACE8\uB4DC\uB85C \uAC74\uBB3C\uC744
+        \uC138\uC6CC\uBCFC\uAC8C\uC694."
+      Narration: {fileID: 8300000, guid: 1f537c8c571bb784f98fe4b45666f75e, type: 3}
+    ShowCredits: 0
+    ShowVision: 0
+    TransitionToNight: 0
+    NightTransitionStart: 7
+    NightTransitionDuration: 3
+  SubtitleFont: {fileID: 11400000, guid: 4a36bcf4fd3be004a923486f797762b5, type: 2}
+  SubtitleSize: 38
+  NarrationVolume: 0.85
+  NarrationEnabled: 1
+  BackgroundMusicEnabled: 0
+  BackgroundMusic: {fileID: 0}
+  MusicVolume: 0.08
+  CreditsMusicMultiplier: 1.5
+  NarrationDisclosure: "AI \uC0DD\uC131 \uB098\uB808\uC774\uC158 \xB7 Supertonic
+    3 \xB7 M2"
+  CreditsBlurShader: {fileID: 0}
+  CreditsFadeSeconds: 2
+  CreditsDarkness: 0.38
+  CreditsBlurRadius: 5
+  CreditsText: 
+  CreditsScale: 1.25
+  NarrationVersion: 2
