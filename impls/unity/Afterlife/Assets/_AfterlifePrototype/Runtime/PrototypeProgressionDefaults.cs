@@ -9,14 +9,15 @@ namespace Afterlife.Prototype
     public static class PrototypeProgressionDefaults
     {
         public const string ResourcePath = "AfterlifePrototype/Progression";
-        public static List<string> Validate(ProgressionCatalog catalog)
+        public static List<string> Validate(ProgressionCatalog catalog, bool mvp = false)
         {
             var errors = catalog.Validate();
             if (errors.Count > 0) return errors;
-            if (catalog.Trees.Count != 2 || !catalog.Trees.Any(tree => tree.Id == "research") || !catalog.Trees.Any(tree => tree.Id == "altar")) errors.Add("게임 연결에는 research/altar 트리가 각각 하나씩 필요합니다.");
+            if (mvp ? catalog.Trees.Count != 1 || catalog.Trees[0].Id != "research"
+                : catalog.Trees.Count != 2 || !catalog.Trees.Any(tree => tree.Id == "research") || !catalog.Trees.Any(tree => tree.Id == "altar")) errors.Add("강화 트리 구성과 게임 모드를 확인하세요.");
             foreach (string id in new[] { "lightning", "abundance", "ritual" })
                 if (!catalog.Skills.Any(skill => skill.Id == id)) errors.Add("기본 스킬 ID가 필요합니다: " + id);
-            string[] supported = { "housing", "work", "radius", "education", "construction", "structure", "physical", "interval", "territory", "cooperation", "lightning", "abundance", "shield", "chain", "shock", "echo", "healing", "harvest", "blessedShield", "ritual" };
+            string[] supported = { "housing", "work", "radius", "education", "construction", "structure", "physical", "interval", "territory", "cooperation", "lightning", "abundance", "shield", "chain", "shock", "echo", "healing", "harvest", "blessedShield", "ritual", "fieldSlot", "slotRecharge" };
             foreach (var node in catalog.Nodes)
             {
                 if (!string.IsNullOrEmpty(node.EffectId) && !supported.Contains(node.EffectId)) errors.Add(node.Id + ": 게임 어댑터에 없는 효과 ID입니다: " + node.EffectId);
@@ -28,18 +29,18 @@ namespace Afterlife.Prototype
         }
         public static void Populate(ProgressionCatalog catalog)
         {
-            var research = new UpgradeTreeData { Id = "research", Title = "연구소", Laboratory = true };
-            var altar = new UpgradeTreeData { Id = "altar", Title = "제단" };
+            var research = new UpgradeTreeData { Id = "research", Title = "제단 기초", Laboratory = false };
+            var altar = new UpgradeTreeData { Id = "altar", Title = "제단 마법" };
             catalog.Trees = new List<UpgradeTreeData> { research, altar };
-            Add(research, "R1", "주거 개선", "집 한 채에 살 수 있는 주민 수가 늘어납니다. 농장이 제공하는 인구 상한은 그대로입니다.", -2, 1, "housing", new[]{1f,2,3});
+            Add(research, "R1", "영력 반경 확장", "영력 필드의 작업 반경이 직접 증가합니다.", -2, 1, "housing", new[]{.1f,.2f,.3f});
             Add(research, "R2", "작업 도구 개량", "채집·건설·수리의 작업 효율이 증가합니다.", 0, 2, "work", new[]{.08f,.16f,.24f,.32f,.4f});
-            Add(research, "R3", "작업 반경 확장", "신력 필드의 작업 반경이 증가합니다.", 2, 1, "radius", new[]{.05f,.1f,.15f});
-            Add(research, "R4", "주민 숙련 교육", "주민의 작업 효율 보너스가 증가합니다.", -3, 3, "education", new[]{.1f,.2f,.3f,.4f,.5f}, "R1");
+            Add(research, "R3", "작업 반경 확장", "영력 필드의 작업 반경이 증가합니다.", 2, 1, "radius", new[]{.05f,.1f,.15f});
+            Add(research, "R4", "작업 숙련", "영력 필드의 작업 효율이 직접 증가합니다.", -3, 3, "education", new[]{.1f,.2f,.3f,.4f,.5f}, "R1");
             Add(research, "R5", "표준 건축 공법", "건설에 필요한 작업량이 줄어듭니다.", -1, 4, "construction", new[]{.1f,.2f,.3f}, "R2");
             Add(research, "R6", "강화 골조", "건물의 최대 내구도가 증가합니다. 남아 있는 내구도의 비율은 유지됩니다.", -1, 6, "structure", new[]{.15f,.3f,.45f}, "R5");
-            Add(research, "R7", "타격 도구 강화", "신력 필드의 물리 공격 피해가 증가합니다.", 4, 2, "physical", new[]{.1f,.2f,.3f,.4f,.5f}, "R3");
-            Add(research, "R8", "필드 동조", "신력 필드의 자동 작업 간격을 줄입니다.", 2, 4, "interval", new[]{.05f,.1f,.15f}, "R2", "R3");
-            Add(research, "R9", "마을 구획 정비", "집을 중심으로 펼쳐지는 마을 영역이 넓어집니다.", -4, 5, "territory", new[]{.05f,.1f,.15f}, "R1", "R5");
+            Add(research, "R7", "타격 도구 강화", "영력 필드의 물리 공격 피해가 증가합니다.", 4, 2, "physical", new[]{.1f,.2f,.3f,.4f,.5f}, "R3");
+            Add(research, "R8", "필드 동조", "영력 필드의 자동 작업 간격을 줄입니다.", 2, 4, "interval", new[]{.05f,.1f,.15f}, "R2", "R3");
+            Add(research, "R9", "영력 범위 확장", "영력 필드의 작업 반경이 직접 증가합니다.", -4, 5, "radius", new[]{.1f,.2f,.3f}, "R1", "R5");
             Add(research, "R10", "협동 작업 체계", "필드 안에 작업 대상이 2개 이상이면 채집·건설·수리 효율이 증가합니다.", 1, 7, "cooperation", new[]{.1f,.2f,.3f}, "R4", "R8");
             Add(altar, "A1", "낙뢰", "[Q] 커서 안의 무작위 적 하나에게 번개를 내립니다. 수치는 기본 주문 피해에 곱하는 배율입니다.", -2, 1, "lightning", new[]{1f,1.5f,2});
             Add(altar, "A2", "풍요의 기도", "[W] 10초 동안 채집과 자원 재생이 빨라집니다.", 0, -2, "abundance", new[]{.3f,.45f,.6f});
@@ -66,13 +67,13 @@ namespace Afterlife.Prototype
             var node = new UpgradeNodeData { Id = id, Title = title, Description = description, Grid = new Vector2Int(x, y), EffectId = effect, Parents = new List<string>(parents) };
             switch (effect)
             {
-                case "housing": node.ValueSuffix = "명"; break;
                 case "chain": node.ValueSuffix = "명"; break;
                 case "harvest": node.ValueSuffix = "초"; break;
                 case "lightning": case "ritual": node.ValueSuffix = "배"; break;
                 default: node.ValueFormat = "P1"; break;
             }
-            for (int index = 0; index < values.Length; index++) node.Levels.Add(new UpgradeLevelData { Cost = (30 + parents.Length * 25) * (index + 1), Value = values[index] });
+            for (int index = 0; index < values.Length; index++)
+                node.Levels.Add(new UpgradeLevelData { Cost = ((30 + parents.Length * 25) * (index + 1) + 29) / 30, Value = values[index] });
             tree.Nodes.Add(node);
         }
     }

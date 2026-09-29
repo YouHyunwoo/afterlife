@@ -1,0 +1,123 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 885e78e08bc7745498fbfce9e4823f17, type: 3}
+  m_Name: WorldVisuals
+  m_EditorClassIdentifier: 
+  Entries:
+  - Id: AbandonedAltar
+    Prefab: {fileID: 919132149155446097, guid: 2e20e1e467738514b9693948aa1b96a2, type: 3}
+  - Id: Altar
+    Prefab: {fileID: 919132149155446097, guid: 29b6e90b38ed5d6488d8cffc63b04e97, type: 3}
+  - Id: AltarPath
+    Prefab: {fileID: 919132149155446097, guid: a11ab9a2751b7ea4d8924f7a41fd56e8, type: 3}
+  - Id: Archer
+    Prefab: {fileID: 919132149155446097, guid: 9f6a854e48c45b84cbb244e734aaaf9b, type: 3}
+  - Id: ArrowTower
+    Prefab: {fileID: 919132149155446097, guid: 8ee99e66f82d60f4c9458ad510b287ba, type: 3}
+  - Id: AxeTool
+    Prefab: {fileID: 919132149155446097, guid: 4dd2b3595369c7a43b1eae366b8b4808, type: 3}
+  - Id: Barracks
+    Prefab: {fileID: 919132149155446097, guid: 68fee9c17ee37b94eb61887a429d5d5a, type: 3}
+  - Id: Chest0
+    Prefab: {fileID: 919132149155446097, guid: 1e4ba5ece1001e145b5e44102bdc9a5a, type: 3}
+  - Id: Chest1
+    Prefab: {fileID: 919132149155446097, guid: 6e54235170451334e92c9ab675a6a857, type: 3}
+  - Id: Chest2
+    Prefab: {fileID: 919132149155446097, guid: 404a2ca0843c09345b6d49fdbecfde2f, type: 3}
+  - Id: FallenLog
+    Prefab: {fileID: 919132149155446097, guid: e03b1d398492d9947a77d830c899a7a0, type: 3}
+  - Id: Farm
+    Prefab: {fileID: 919132149155446097, guid: 58a25c69e2e330d47ab8d145e1a14629, type: 3}
+  - Id: Fern
+    Prefab: {fileID: 919132149155446097, guid: 8f750c67c7e3d2749bd934bc93391f23, type: 3}
+  - Id: Flowers
+    Prefab: {fileID: 919132149155446097, guid: 7919cedd622bde446b5e90aab73649d2, type: 3}
+  - Id: Goblin
+    Prefab: {fileID: 919132149155446097, guid: 9b2a3c2c54b4c0548a3eab4aea5db05d, type: 3}
+  - Id: GoblinShaman
+    Prefab: {fileID: 919132149155446097, guid: 4757efab3df76f144a0e49354e1caccf, type: 3}
+  - Id: GoblinWarrior
+    Prefab: {fileID: 919132149155446097, guid: 3673ebe1fe6608044a89b7f50683d49d, type: 3}
+  - Id: HammerTool
+    Prefab: {fileID: 919132149155446097, guid: 7763f8d0cda54ab4698f13c2552187e2, type: 3}
+  - Id: HandTool
+    Prefab: {fileID: 919132149155446097, guid: 3c9f9f250b5b3a84b966659f80dc06da, type: 3}
+  - Id: House
+    Prefab: {fileID: 919132149155446097, guid: cb151fbdb9c8f8343b6a1eb38ca7d64e, type: 3}
+  - Id: HouseBridge
+    Prefab: {fileID: 919132149155446097, guid: 6bbd1b5264275ad4e8c03df23b4c45df, type: 3}
+  - Id: Knight
+    Prefab: {fileID: 919132149155446097, guid: 2ed4de89636225240971b819c12385c5, type: 3}
+  - Id: LargeTest
+    Prefab: {fileID: 919132149155446097, guid: 6a6577706eef35c448b0b317932c1b10, type: 3}
+  - Id: Lizard
+    Prefab: {fileID: 919132149155446097, guid: 27ed400b5e77d524cbb6e7f848eac9e3, type: 3}
+  - Id: Mage
+    Prefab: {fileID: 919132149155446097, guid: e6989b75c6688c34d879589e988275df, type: 3}
+  - Id: MagicTower
+    Prefab: {fileID: 919132149155446097, guid: af582bed1a9144640ae6195a6e65e1d4, type: 3}
+  - Id: Market
+    Prefab: {fileID: 919132149155446097, guid: 4fa21c95ba8947043abae82b6a0551b5, type: 3}
+  - Id: Orc
+    Prefab: {fileID: 919132149155446097, guid: 8d7c440b4ea1c6048a49389f96169a4f, type: 3}
+  - Id: Pebbles
+    Prefab: {fileID: 919132149155446097, guid: d8a8b365241aa3f4fb83bb32c966f374, type: 3}
+  - Id: PickTool
+    Prefab: {fileID: 919132149155446097, guid: 64b9645ddd53b6a4c88cb33d0f4e713c, type: 3}
+  - Id: Reeds
+    Prefab: {fileID: 919132149155446097, guid: 6dbfa2964566cc0468651b6ef4d49349, type: 3}
+  - Id: Research
+    Prefab: {fileID: 919132149155446097, guid: 26bf9072e5ebded41aa4d13c572e6a05, type: 3}
+  - Id: Rock0
+    Prefab: {fileID: 919132149155446097, guid: 7bfa5b8e06e7cdb42a4b8d4cf8af7955, type: 3}
+  - Id: Rock1
+    Prefab: {fileID: 919132149155446097, guid: a2dd508cd480c18448d443b8a7644afb, type: 3}
+  - Id: Rock2
+    Prefab: {fileID: 919132149155446097, guid: ab743ed073311de4d99ff07eaa790b04, type: 3}
+  - Id: Rock3
+    Prefab: {fileID: 919132149155446097, guid: 1dddb15b1c47c2d41b754a34db37c232, type: 3}
+  - Id: Ruins
+    Prefab: {fileID: 919132149155446097, guid: 8f7dd186cef78d44590d59a450ea6336, type: 3}
+  - Id: Slime
+    Prefab: {fileID: 919132149155446097, guid: 453b301cad500a8409f89449d9151b22, type: 3}
+  - Id: SwordTool
+    Prefab: {fileID: 919132149155446097, guid: 5c808ed7ed4c3934da122e39eaa5db03, type: 3}
+  - Id: Treasure
+    Prefab: {fileID: 919132149155446097, guid: b7db1e08777af264a8cac9aebbef5afa, type: 3}
+  - Id: Tree0
+    Prefab: {fileID: 919132149155446097, guid: 924dba00f11e1164b83e653a9603e774, type: 3}
+  - Id: Tree1
+    Prefab: {fileID: 919132149155446097, guid: 10903b5bd44a212479b432ea625559cc, type: 3}
+  - Id: Tree2
+    Prefab: {fileID: 919132149155446097, guid: 8ae7dabb8661f6941bc2b7b35b871453, type: 3}
+  - Id: Tree3
+    Prefab: {fileID: 919132149155446097, guid: 9cecf38fd73465540a4239cc43aa9f26, type: 3}
+  - Id: Wall
+    Prefab: {fileID: 919132149155446097, guid: 0c8e34795e34cd748aee3f1f7eac24e1, type: 3}
+  - Id: WallArm
+    Prefab: {fileID: 919132149155446097, guid: 32520166410a9c644a302b43fd56da9c, type: 3}
+  - Id: WallCorner
+    Prefab: {fileID: 919132149155446097, guid: 7d27eeded5aca974688b6d37bbb425f8, type: 3}
+  - Id: WallPost
+    Prefab: {fileID: 919132149155446097, guid: 226c7f3136a8ca94fbda9e03f0e8495e, type: 3}
+  - Id: Warrior
+    Prefab: {fileID: 919132149155446097, guid: e410ae3e47d6bc3458008c83221383c6, type: 3}
+  - Id: TownHall
+    Prefab: {fileID: 2832829970331632003, guid: 7b1f0f3d754a54c4e82a567616aab1ce, type: 3}
+  - Id: Sanctuary
+    Prefab: {fileID: 5491793447697917095, guid: e59aebec71b4e7643b3341e7af5416f3, type: 3}
+  - Id: ArcheryRange
+    Prefab: {fileID: 2504885351148059435, guid: 138d83787b0b0b04c97edffc3e5d89f2, type: 3}
+  - Id: KnightHall
+    Prefab: {fileID: 7553726505735506748, guid: a3873c22d39cfa64f8525b3b76c9e095, type: 3}
+  - Id: MageTower
+    Prefab: {fileID: 2262675466782526790, guid: 7e2a7a80d0a682945b6e220ecf7d5ac8, type: 3}

@@ -1,7 +1,7 @@
+using Afterlife.Modules.Vegetation;
 using System.Collections.Generic;
-using Afterlife.Devlog.Day01;
-using Afterlife.Devlog.Terrain;
-using Afterlife.Devlog.Wind;
+using Afterlife.Modules.Terrain;
+using Afterlife.Modules.Wind;
 using UnityEngine;
 
 namespace Afterlife.Prototype
@@ -49,8 +49,8 @@ namespace Afterlife.Prototype
             int z=Mathf.Clamp(Mathf.FloorToInt((anchor.z-min)*4),0,size-1);
             return _vegetationMaskPixels[z*size+x].r<128;
         }
-        private ShowcaseGrass _vegetationGrass;
-        private ShowcaseWind _vegetationWind;
+        private GrassRenderer _vegetationGrass;
+        private WindFieldController _vegetationWind;
         private Shader _leafShader;
         private Texture2D _vegetationMask;
         private Color32[] _vegetationMaskPixels;
@@ -58,7 +58,7 @@ namespace Afterlife.Prototype
         private bool _vegetationMaskDirty=true;
         private sealed class TreeLeaves
         {
-            public ShowcaseLeafCards Cards;
+            public LeafCardRenderer Cards;
             public int Revision;
             public readonly List<Renderer> Sources=new List<Renderer>();
         }
@@ -75,10 +75,10 @@ namespace Afterlife.Prototype
             _leafShader=Resources.Load<Shader>("PrototypeLeaves");
             if(_leafShader==null)throw new System.InvalidOperationException("PrototypeLeaves shader missing.");
             _grassContactVisible=IsGrassContactVisible;
-            _vegetationWind=new ShowcaseWind();
-            _vegetationGrass=new ShowcaseGrass(_mapRoot.transform,new ShowcaseGrass.Map {
-                Radius=_model.Terrain.Radius,SamplesPerAxis=7,AccentFraction=.25f,
-                Biome=(x,z)=>(ShowcaseBiome)(int)_model.Terrain.At(x,z),
+            _vegetationWind=new WindFieldController();
+            _vegetationGrass=new GrassRenderer(_mapRoot.transform,new GrassRenderer.Map {
+                Radius=_model.Terrain.Radius,SamplesPerAxis=_settings.EnvironmentValues.GrassSamplesPerAxis,AccentFraction=_settings.EnvironmentValues.GrassAccentFraction,
+                Biome=(x,z)=>(TerrainBiome)(int)_model.Terrain.At(x,z),
                 Height=(x,z)=>_terrainSurface.Height(x,z),
                 Color=(x,z)=>_terrainSurface.SurfaceColor(x,z)
             },Resources.Load<Shader>("PrototypeGrass"));
@@ -99,7 +99,7 @@ namespace Afterlife.Prototype
         private void AttachTreeLeaves(Body body,Renderer[] renderers)
         {
             if(body.Kind!=Kind.Tree)return;
-            var tree=new TreeLeaves();var surfaces=new List<ShowcaseLeafCards.Surface>();
+            var tree=new TreeLeaves();var surfaces=new List<LeafCardRenderer.Surface>();
             foreach(var renderer in renderers)
             {
                 var filter=renderer.GetComponent<MeshFilter>();
@@ -128,11 +128,11 @@ namespace Afterlife.Prototype
                     _treeWindMaterials.Add(source,windy);_materials.Add(windy);
                 }
                 renderer.sharedMaterial=windy;
-                surfaces.Add(new ShowcaseLeafCards.Surface {Transform=filter.transform,Vertices=data.Vertices,Normals=data.Normals,
+                surfaces.Add(new LeafCardRenderer.Surface {Transform=filter.transform,Vertices=data.Vertices,Normals=data.Normals,
                     Triangles=data.Triangles,Colors=colors,Renderer=renderer});
                 tree.Sources.Add(renderer);_leafTints.Add(renderer,new LeafTint {Tree=tree,Color=tint});
             }
-            tree.Cards=new ShowcaseLeafCards(surfaces,()=>tree.Revision,_leafShader,384,(source,properties)=> {
+            tree.Cards=new LeafCardRenderer(surfaces,()=>tree.Revision,_leafShader,_settings.EnvironmentValues.LeafCards,(source,properties)=> {
                 var original=source.GetComponent<PrototypeTint>().Original;
                 var current=properties.GetColor("_BaseColor");
                 properties.SetColor("_BaseColor",new Color(current.r/Mathf.Max(.001f,original.r),
@@ -167,7 +167,7 @@ namespace Afterlife.Prototype
         }
         private void UpdateVegetation()
         {
-            _vegetationWind?.Tick(_effectTime);
+            _vegetationWind?.Tick(_effectTime,_settings.EnvironmentValues.WindStrength);
             UpdateGrassPalette();
             _vegetationGrass?.Tick(_camera);
             foreach(var tree in _treeLeaves.Values)tree.Cards.Tick(_camera);

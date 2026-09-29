@@ -13,8 +13,35 @@ MonoBehaviour:
   m_Name: House
   m_EditorClassIdentifier: 
   Id: 0
-  DisplayName: "\uC9D1"
+  DisplayName: "\uC8FC\uD0DD"
   Icon: {fileID: 21300000, guid: 0b0cbe2d2a59c8c498cdf69a02637f19, type: 2}
   GoldCost: 20
   RequiresBuilding: 0
   RequiredBuilding: 6
+  Stats:
+    Health: 180
+    ConstructionSeconds: 10
+    Width: 1
+    Depth: 1
+    PopulationCapacity: 0
+    VisionRadius: 2
+    TerritoryRadius: 2
+    LightRadius: 1.95
+    ConstructionSpeedBonus: 0.1
+    VisionMatchesTerritory: 1
+    BlocksMovement: 1
+    DirectBuild: 1
+    CanMerge: 1
+    MergeTarget: 27
+    ProducedUnit: 9
+    Production: 0
+    ProductionSeconds: 0
+    ProductionAmount: 1
+    TroopCapacity: 3
+    AccelerationGoldCost: 0
+    AttackDamage: 18
+    AttackRange: 6
+    AttackSeconds: 1.6
+    ProjectileSpeed: 12
+  _statsMigrated: 1
+  _buildingRulesVersion: 1

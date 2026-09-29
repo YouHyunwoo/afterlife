@@ -1,0 +1,236 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e230c63b748dfa24a818c2738baad275, type: 3}
+  m_Name: Audio
+  m_EditorClassIdentifier: 
+  GrassVolume: 0.2
+  BirdVolume: 0.38
+  BirdMinimumGap: 9
+  BirdMaximumGap: 23
+  WorldBank: {fileID: 11400000, guid: e94c5d3cd319c1b4a997067170d52471, type: 2}
+  GrassRustles:
+  - {fileID: 8300000, guid: 9e9e8b5f7ecef7643875b51cea951bb5, type: 3}
+  - {fileID: 8300000, guid: 00135d38ca318fb49a3f1ed3e2b865c3, type: 3}
+  - {fileID: 8300000, guid: 73a924d62ec806a428d8d9347b5a85f1, type: 3}
+  Bird: {fileID: 8300000, guid: 7810cf4cae6a32441817f680d2708bf7, type: 3}
+  Cues:
+  - Id: 1
+    Volume: 0.65
+    Cooldown: 0.2
+    Important: 0
+    Sequential: 0
+    PitchVariation: 0
+    Clips:
+    - {fileID: 8300000, guid: 064b5c15edc0fb0478b10c8c119d08a9, type: 3}
+    ResourcePaths:
+    - AfterlifePrototype/Audio/03A
+  - Id: 2
+    Volume: 0.55
+    Cooldown: 0.35
+    Important: 0
+    Sequential: 0
+    PitchVariation: 0
+    Clips:
+    - {fileID: 8300000, guid: 057eb60235e423a489fa40d723ad6a92, type: 3}
+    ResourcePaths:
+    - AfterlifePrototype/Audio/04A
+  - Id: 3
+    Volume: 0.75
+    Cooldown: 0.12
+    Important: 1
+    Sequential: 0
+    PitchVariation: 0
+    Clips:
+    - {fileID: 8300000, guid: 6e9a71c4662c14b4b870b753c8f9782a, type: 3}
+    ResourcePaths:
+    - AfterlifePrototype/Audio/05A
+  - Id: 4
+    Volume: 0.65
+    Cooldown: 0.14
+    Important: 0
+    Sequential: 0
+    PitchVariation: 0
+    Clips:
+    - {fileID: 8300000, guid: 2dfcd7d3612390040b5ee58291096391, type: 3}
+    ResourcePaths:
+    - AfterlifePrototype/Audio/06B
+  - Id: 5
+    Volume: 0.7
+    Cooldown: 0.22
+    Important: 1
+    Sequential: 0
+    PitchVariation: 0
+    Clips:
+    - {fileID: 8300000, guid: 9ff22878dd14aff41a6470ee31dd191b, type: 3}
+    ResourcePaths:
+    - AfterlifePrototype/Audio/07A
+  - Id: 6
+    Volume: 0.7
+    Cooldown: 0.08
+    Important: 0
+    Sequential: 0
+    PitchVariation: 0
+    Clips:
+    - {fileID: 8300000, guid: b0339f942f269d644a2305fa46164d4b, type: 3}
+    ResourcePaths:
+    - AfterlifePrototype/Audio/09C
+  - Id: 7
+    Volume: 0.7
+    Cooldown: 0.12
+    Important: 0
+    Sequential: 0
+    PitchVariation: 0
+    Clips:
+    - {fileID: 8300000, guid: 7052a34158053d3418d0485df8ab8ad3, type: 3}
+    ResourcePaths:
+    - AfterlifePrototype/Audio/12B
+  - Id: 8
+    Volume: 0.65
+    Cooldown: 0.16
+    Important: 0
+    Sequential: 0
+    PitchVariation: 0
+    Clips:
+    - {fileID: 8300000, guid: 0d9ff57c260c12541bd5855fef63a5a9, type: 3}
+    ResourcePaths:
+    - AfterlifePrototype/Audio/14A
+  - Id: 9
+    Volume: 0.8
+    Cooldown: 0.15
+    Important: 0
+    Sequential: 0
+    PitchVariation: 0
+    Clips:
+    - {fileID: 8300000, guid: d4183b91d0702ae4da0d0f183a74b55d, type: 3}
+    ResourcePaths:
+    - AfterlifePrototype/Audio/15A
+  - Id: 10
+    Volume: 0.2
+    Cooldown: 0.75
+    Important: 0
+    Sequential: 0
+    PitchVariation: 0
+    Clips:
+    - {fileID: 8300000, guid: 87b44661388d1b546a5de259979e4e1a, type: 3}
+    ResourcePaths:
+    - AfterlifePrototype/Audio/16B
+  - Id: 11
+    Volume: 0.8
+    Cooldown: 0.25
+    Important: 1
+    Sequential: 0
+    PitchVariation: 0
+    Clips:
+    - {fileID: 8300000, guid: 87b44661388d1b546a5de259979e4e1a, type: 3}
+    ResourcePaths:
+    - AfterlifePrototype/Audio/16B
+  - Id: 12
+    Volume: 0.8
+    Cooldown: 0.25
+    Important: 1
+    Sequential: 0
+    PitchVariation: 0
+    Clips:
+    - {fileID: 8300000, guid: 6388356da1fb1d74db63eee927f344ad, type: 3}
+    ResourcePaths:
+    - AfterlifePrototype/Audio/17B
+  - Id: 13
+    Volume: 0.8
+    Cooldown: 0.25
+    Important: 1
+    Sequential: 0
+    PitchVariation: 0
+    Clips:
+    - {fileID: 8300000, guid: f380e681ef31e8c46b27a2504be2508c, type: 3}
+    ResourcePaths:
+    - AfterlifePrototype/Audio/18A
+  - Id: 14
+    Volume: 0.6
+    Cooldown: 0.06
+    Important: 1
+    Sequential: 0
+    PitchVariation: 0
+    Clips:
+    - {fileID: 8300000, guid: dfb2f47cd4861ef449fbb0b4506e0a29, type: 3}
+    ResourcePaths:
+    - AfterlifePrototype/Audio/19A
+  - Id: 15
+    Volume: 0.65
+    Cooldown: 0.1
+    Important: 1
+    Sequential: 0
+    PitchVariation: 0
+    Clips:
+    - {fileID: 8300000, guid: 491e3d600ddac724681496d9d5c88555, type: 3}
+    ResourcePaths:
+    - AfterlifePrototype/Audio/20A
+  - Id: 16
+    Volume: 0.75
+    Cooldown: 0.12
+    Important: 1
+    Sequential: 0
+    PitchVariation: 0
+    Clips:
+    - {fileID: 8300000, guid: 605aa16f74ae62e44ad88a5d89257e58, type: 3}
+    ResourcePaths:
+    - AfterlifePrototype/Audio/21C
+  - Id: 17
+    Volume: 0.75
+    Cooldown: 0.2
+    Important: 1
+    Sequential: 0
+    PitchVariation: 0
+    Clips:
+    - {fileID: 8300000, guid: 03408452e5ac39847a0bad3623e0b19e, type: 3}
+    ResourcePaths:
+    - AfterlifePrototype/Audio/22A
+  - Id: 18
+    Volume: 0.65
+    Cooldown: 0.5
+    Important: 1
+    Sequential: 0
+    PitchVariation: 0
+    Clips:
+    - {fileID: 8300000, guid: bfa4481e749166b48bcae8df48f4d7f6, type: 3}
+    ResourcePaths:
+    - AfterlifePrototype/Audio/23C
+  - Id: 19
+    Volume: 0.7
+    Cooldown: 0.5
+    Important: 1
+    Sequential: 0
+    PitchVariation: 0
+    Clips:
+    - {fileID: 8300000, guid: 59e6d143cc0b0c541bd382e37879f42b, type: 3}
+    ResourcePaths:
+    - AfterlifePrototype/Audio/24C
+  - Id: 20
+    Volume: 0.8
+    Cooldown: 0.5
+    Important: 1
+    Sequential: 0
+    PitchVariation: 0
+    Clips:
+    - {fileID: 8300000, guid: 0007c90522991e44bbbdbc466a04dfc9, type: 3}
+    ResourcePaths:
+    - AfterlifePrototype/Audio/25B
+  - Id: 21
+    Volume: 0.7
+    Cooldown: 0.5
+    Important: 1
+    Sequential: 0
+    PitchVariation: 0
+    Clips:
+    - {fileID: 8300000, guid: 0e5a06e7ee03c2442b33e0fce9ecaa1d, type: 3}
+    ResourcePaths:
+    - AfterlifePrototype/Audio/26C
+  SoundVolume: 0.7

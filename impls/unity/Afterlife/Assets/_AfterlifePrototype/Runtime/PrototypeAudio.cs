@@ -19,66 +19,40 @@ namespace Afterlife.Prototype
         private readonly Dictionary<SoundCue, Cue> _cues = new Dictionary<SoundCue, Cue>();
         private readonly Dictionary<SoundCue, Request> _pending = new Dictionary<SoundCue, Request>();
         private readonly System.Random _random = new System.Random();
-        private readonly AudioSource[] _voices = new AudioSource[12];
+        [SerializeField] private AudioSource[] _voices = new AudioSource[12];
         private VillageModel _model;
         private PrototypeSettings _settings;
         private Camera _camera;
-        private AudioListener _ownedListener;
         private int _feedbackVoice;
 
-        public void Initialize(VillageModel model, PrototypeSettings settings, Camera camera)
+        public bool Initialize(VillageModel model, PrototypeSettings settings, Camera camera)
         {
-            if (_model != null) return;
+            if (_model != null) return true;
+            if (camera == null || camera.GetComponent<AudioListener>() == null ||
+                _voices == null || _voices.Length != 12 || System.Array.Exists(_voices, voice => voice == null))
+            {
+                Debug.LogError("Prototype audio references are incomplete: assign the camera AudioListener and all 12 prefab voice sources.", this);
+                return false;
+            }
             _model = model; _settings = settings; _camera = camera;
-            bool hasListener = false;
-            foreach (var listener in FindObjectsByType<AudioListener>(FindObjectsSortMode.None))
-                if (listener.isActiveAndEnabled) { hasListener = true; break; }
-            if (!hasListener) _ownedListener = camera.gameObject.AddComponent<AudioListener>();
             for (int i = 0; i < _voices.Length; i++)
             {
-                var source = gameObject.AddComponent<AudioSource>();
+                var source = _voices[i];
                 source.playOnAwake = false; source.loop = false; source.spatialBlend = 0;
                 source.dopplerLevel = 0; source.priority = i < 8 ? 160 : 64;
-                _voices[i] = source;
             }
-            Add(SoundCue.Wood, .75f, .12f, false, "01B", "01C");
-            Add(SoundCue.ResourceEmpty, .65f, .20f, false, "03A");
-            Add(SoundCue.Gold, .55f, .35f, false, "04A");
-            Add(SoundCue.Place, .75f, .12f, true, "05A");
-            Add(SoundCue.Work, .65f, .14f, false, "06B");
-            Add(SoundCue.Complete, .70f, .22f, true, "07A");
-            Add(SoundCue.Hit, .70f, .08f, false, "09C");
-            Add(SoundCue.Magic, .70f, .12f, false, "12B");
-            Add(SoundCue.Kill, .65f, .16f, false, "14A");
-            Add(SoundCue.Critical, .80f, .15f, false, "15A");
-            Add(SoundCue.BuildingHit, .20f, .75f, false, "16B");
-            Add(SoundCue.Collapse, .80f, .25f, true, "16B");
-            Add(SoundCue.Chest, .80f, .25f, true, "17B");
-            Add(SoundCue.Relic, .80f, .25f, true, "18A");
-            Add(SoundCue.Select, .60f, .06f, true, "19A");
-            Add(SoundCue.Cancel, .65f, .10f, true, "20A");
-            Add(SoundCue.Open, .75f, .12f, true, "21C");
-            Add(SoundCue.Error, .75f, .20f, true, "22A");
-            Add(SoundCue.Warning, .65f, .50f, true, "23C");
-            Add(SoundCue.Day, .70f, .50f, true, "24C");
-            Add(SoundCue.Result, .80f, .50f, true, "25B");
-            Add(SoundCue.Rebirth, .70f, .50f, true, "26C");
+            foreach(var entry in settings.Audio!=null?settings.Audio.Cues:PrototypeAudioSettings.Defaults())
+            {
+                var clips=new List<AudioClip>();
+                if(entry.Clips!=null)foreach(var clip in entry.Clips)if(clip!=null)clips.Add(clip);
+                if(clips.Count==0 && entry.ResourcePaths!=null)foreach(var path in entry.ResourcePaths){var clip=Resources.Load<AudioClip>(path);if(clip!=null)clips.Add(clip);}
+                _cues.Add(entry.Id,new Cue { Clips=clips.ToArray(),Volume=entry.Volume,Cooldown=entry.Cooldown,Important=entry.Important,Sequential=entry.Sequential,PitchVariation=entry.PitchVariation });
+            }
             InitializeEnvironmentAudio();
             _model.SoundRequested += RequestSound;
             _model.SoundReset += ResetSounds;
             RequestSound(SoundCue.Day);
-        }
-
-        private void Add(SoundCue key, float volume, float cooldown, bool important, params string[] ids)
-        {
-            var clips = new List<AudioClip>();
-            foreach (string id in ids)
-            {
-                var clip = Resources.Load<AudioClip>("AfterlifePrototype/Audio/" + id);
-                if (clip != null) clips.Add(clip);
-                else Debug.LogWarning("Afterlife 효과음 누락: " + id, this);
-            }
-            _cues.Add(key, new Cue { Clips = clips.ToArray(), Volume = volume, Cooldown = cooldown, Important = important });
+            return true;
         }
 
         public void RequestSound(SoundCue cue, Point? position = null)
@@ -145,9 +119,6 @@ namespace Afterlife.Prototype
         {
             if (_model != null) { _model.SoundRequested -= RequestSound; _model.SoundReset -= ResetSounds; }
             _environmentAmbience?.Dispose();_environmentWater?.Dispose();
-            if (_ownedAudioBank != null) Destroy(_ownedAudioBank);
-            if (_ownedListener != null) Destroy(_ownedListener);
-            foreach (var source in _voices) if (source != null) Destroy(source);
         }
     }
 }

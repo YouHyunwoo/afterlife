@@ -2,7 +2,6 @@ using System;
 
 namespace Afterlife.Prototype
 {
-    public enum MemoryUpgrade { Work, House, Army }
     public sealed class RebirthReceipt
     {
         public int Cleared, Kills, WaveReward, KillBonus, StockBonus;
@@ -25,18 +24,18 @@ namespace Afterlife.Prototype
         public bool BannerUnlocked {get;set;}
         public RebirthReceipt LastRebirth {get;private set;}
         public RunResult LastResult {get;private set;}
-        public float MemoryWorkMultiplier=>1+.20f*MemoryWork;
-        public float MemoryArmyMultiplier=>1+.20f*MemoryArmy;
-        public bool CanRebirth=>!Ended&&!DailyRewardPending&&Has(Kind.Altar)&&SegmentCleared>0&&SegmentCleared<Settings.Days&&(Phase==Phase.Day||Phase==Phase.Settlement);
+        public float MemoryWorkMultiplier=>1+Rules.Rebirth.WorkPerLevel*MemoryWork;
+        public float MemoryArmyMultiplier=>1+Rules.Rebirth.ArmyPerLevel*MemoryArmy;
+        public bool CanRebirth=>!Settings.MvpSlots&&!Ended&&!DailyRewardPending&&HasAltar&&SegmentCleared>0&&SegmentCleared<Settings.Days&&(Phase==Phase.Day||Phase==Phase.Settlement);
         private void ClearRunProgress()
         {
             Etheron=MemoryWork=MemoryHouse=MemoryArmy=RebirthCount=RunBestCleared=RunKills=0;LastRebirth=null;
         }
         public RebirthReceipt PreviewRebirth()
         {
-            int reward=0;for(int wave=1;wave<=SegmentCleared;wave++)reward+=2*wave*wave;
-            int cap=reward/2,killBonus=Math.Min(cap,SegmentKills/10);
-            int stockBonus=Math.Min(cap-killBonus,(int)Math.Floor(Money/100));
+            int reward=0;for(int wave=1;wave<=SegmentCleared;wave++)reward+=Rules.Rebirth.WaveReward*wave*wave;
+            int cap=reward/Rules.Rebirth.BonusCapDivisor,killBonus=Math.Min(cap,SegmentKills/Rules.Rebirth.KillsPerBonus);
+            int stockBonus=Math.Min(cap-killBonus,(int)Math.Floor(Money/Rules.Rebirth.GoldPerBonus));
             return new RebirthReceipt{Cleared=SegmentCleared,Kills=SegmentKills,WaveReward=reward,KillBonus=killBonus,StockBonus=stockBonus};
         }
         public bool BeginRebirth()
@@ -48,10 +47,10 @@ namespace Afterlife.Prototype
             Say($"환생 정산 완료 · 에테론 +{LastRebirth.Total}. 강화 후 첫날부터 재건하세요.");return true;
         }
         public int MemoryLevel(MemoryUpgrade upgrade)=>upgrade==MemoryUpgrade.Work?MemoryWork:upgrade==MemoryUpgrade.House?MemoryHouse:MemoryArmy;
-        public int MemoryPrice(MemoryUpgrade upgrade)=>8*(1<<MemoryLevel(upgrade));
+        public int MemoryPrice(MemoryUpgrade upgrade)=>Rules.Rebirth.MemoryBasePrice*(1<<MemoryLevel(upgrade));
         public void BuyMemory(MemoryUpgrade upgrade)
         {
-            if(Phase!=Phase.Rebirth||MemoryLevel(upgrade)>=3||Etheron<MemoryPrice(upgrade))return;
+            if(Phase!=Phase.Rebirth||MemoryLevel(upgrade)>=Rules.Rebirth.MemoryMaxLevel||Etheron<MemoryPrice(upgrade))return;
             Etheron-=MemoryPrice(upgrade);
             if(upgrade==MemoryUpgrade.Work)MemoryWork++;else if(upgrade==MemoryUpgrade.House)MemoryHouse++;else MemoryArmy++;
         }
@@ -67,8 +66,8 @@ namespace Afterlife.Prototype
             target.Health-=damage;
             if(target.Building)Sound(target.Alive?SoundCue.BuildingHit:SoundCue.Collapse);
             else if(!target.Alive&&target.Hostile)Sound(SoundCue.Kill,target.Position);
-            if(target.Unit&&stagger){target.StunRemaining=.2f;target.StunUntil=_combatTime+.2f;target.PendingTarget=0;target.AttackWindup=target.AttackRecovery=0;}
-            if(target.Kind==Kind.Animal){target.FleeUntil=_combatTime+5;target.FleeFrom=_activeDivineFieldCenter??(Working?WorkCenter:target.Position);}
+            if(target.Unit&&stagger){target.StunRemaining=Rules.Combat.HitStun;target.StunUntil=_combatTime+Rules.Combat.HitStun;target.PendingTarget=0;target.AttackWindup=target.AttackRecovery=0;}
+            if(target.Kind==Kind.Animal){target.FleeUntil=_combatTime+Rules.Combat.AnimalFleeSeconds;target.FleeFrom=_activeDivineFieldCenter??(Working?WorkCenter:target.Position);}
             if(!target.Alive){if(target.Hostile){SegmentKills++;RunKills++;}CollectKillLoot(target);}
             Damaged?.Invoke(target);
         }

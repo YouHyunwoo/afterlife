@@ -12,12 +12,12 @@ namespace Afterlife.Prototype
         public int Size => Radius*2+1;
         public int Seed { get; private set; }
         public int Revision { get; private set; }
-        public Afterlife.Devlog.Terrain.ShowcaseWorldMap Layout { get; private set; }
+        public Afterlife.Modules.Terrain.WorldMapLayout Layout { get; private set; }
         public TerrainMap(int radius){Radius=Math.Max(8,radius);_tiles=new TerrainKind[Size*Size];}
         public void Regenerate(int seed)
         {
             Seed=seed==0?Guid.NewGuid().GetHashCode():seed;
-            Layout=new Afterlife.Devlog.Terrain.ShowcaseWorldMap(Radius,Seed);
+            Layout=new Afterlife.Modules.Terrain.WorldMapLayout(Radius,Seed);
             for(int i=0;i<_tiles.Length;i++)_tiles[i]=(TerrainKind)(int)Layout.Tiles[i];
             Revision++;
         }

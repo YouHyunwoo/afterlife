@@ -19,7 +19,7 @@ namespace Afterlife.Prototype
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             if(_qaFolder!=null)return;
 #endif
-            PlayerPrefs.SetFloat("Afterlife.UI.Size",_uiSize);PlayerPrefs.SetFloat("Afterlife.Camera.Edge",_edgeFraction);PlayerPrefs.SetFloat("Afterlife.Camera.Speed",_cameraSpeedFactor);
+            PrototypeUiPreferences.Save(new PrototypeUiPreferenceValues(_uiSize,_edgeFraction,_cameraSpeedFactor));
         }
         private void DisposeUi() { }
     }

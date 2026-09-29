@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23f8aef8788da9547bd1dcf91d260997, type: 3}
+  m_Name: World
+  m_EditorClassIdentifier: 
+  ResourceSpawnSeconds: 12
+  TreeLimit: 780
+  RockLimit: 480
+  MapSeed: 0
+  MapRadius: 45
+  FertileSiteCount: 2
+  LeylineSiteCount: 2
+  FertileSiteSize: 3
+  LeylineSiteSize: 3
+  EconomicSiteMinimumDistance: 8

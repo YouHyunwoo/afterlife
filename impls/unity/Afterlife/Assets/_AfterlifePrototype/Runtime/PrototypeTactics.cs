@@ -10,9 +10,9 @@ namespace Afterlife.Prototype
         private void UpdateTactics(float dt)
         {
             _tacticsClock-=dt;if(_tacticsClock>0&&_tacticsRevision==TopologyRevision)return;
-            _tacticsClock=.65f;bool rebuild=_tacticsRevision!=TopologyRevision;_tacticsRevision=TopologyRevision;
+            _tacticsClock=Rules.Combat.TacticsSeconds;bool rebuild=_tacticsRevision!=TopologyRevision;_tacticsRevision=TopologyRevision;
             var army=Bodies.Where(b=>b.Alive&&b.Friendly).OrderBy(b=>b.Id).ToArray();
-            var houses=Bodies.Where(b=>b.Alive&&b.Complete&&b.Kind==Kind.House).ToArray();
+            var houses=Bodies.Where(b=>b.Alive&&b.Complete&&IsHousing(b.Kind)).ToArray();
             var threats=Bodies.Where(b=>b.Alive&&b.Hostile&&Visibility(b.Position)>.14f).ToArray();
             _targetClaims.Clear();int[] sectors={0,4,2,6,1,5,3,7};int automatic=0;
             // 서로 다른 방향을 먼저 채워 병영 출구 쪽으로만 순찰이 모이지 않게 한다.
@@ -32,7 +32,7 @@ namespace Afterlife.Prototype
                 foreach(var enemy in threats)
                 {
                     float distance=Point.Distance(unit.Position,enemy.Position),home=Point.Distance(unit.GuardPost,enemy.Position);
-                    if(unit.AttackMove?distance>4.5f:home>(unit.ManualGuard?6:8))continue;
+                    if(unit.AttackMove?distance>Rules.Combat.AttackMoveAcquireRange:home>(unit.ManualGuard?Rules.Combat.ManualGuardRange:Rules.Combat.AutoGuardRange))continue;
                     int claims=_targetClaims.TryGetValue(enemy.Id,out int assigned)?assigned:0;
                     int capacity=Math.Min(4,Math.Max(1,(int)Math.Ceiling(enemy.Health/45)));
                     if(claims>=capacity&&distance>AttackRange(unit.Kind)+.35f)continue;

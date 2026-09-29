@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8875fda7637980044a5fa2b09b8d34c8, type: 3}
   m_Name: Progression
   m_EditorClassIdentifier: 
-  Trees:
+  TreeAssets:
+  - {fileID: 11400000, guid: c4caaa0fc83a4b34490ecc9a1b89797b, type: 2}
+  - {fileID: 11400000, guid: 9a901d83b9d560b448de4816d912ca9b, type: 2}
+  SkillCatalog: {fileID: 11400000, guid: 9e2c2a7da638568488d766189e828051, type: 2}
+  _legacyTrees:
   - Id: research
     Title: "\uC5F0\uAD6C\uC18C"
     Laboratory: 1
@@ -20,7 +24,9 @@ MonoBehaviour:
     - Id: R1
       Title: "\uC8FC\uAC70 \uAC1C\uC120"
       Icon: {fileID: 21300000, guid: 6ab33e84bdce9d346a84d20d4afdf1d2, type: 3}
-      Description: "집 한 채에 살 수 있는 주민 수가 늘어납니다. 농장이 제공하는 인구 상한은 그대로입니다."
+      Description: "\uC9D1 \uD55C \uCC44\uC5D0 \uC0B4 \uC218 \uC788\uB294 \uC8FC\uBBFC
+        \uC218\uAC00 \uB298\uC5B4\uB0A9\uB2C8\uB2E4. \uB18D\uC7A5\uC774 \uC81C\uACF5\uD558\uB294
+        \uC778\uAD6C \uC0C1\uD55C\uC740 \uADF8\uB300\uB85C\uC785\uB2C8\uB2E4."
       Grid: {x: -2, y: 1}
       Parents: []
       EffectId: housing
@@ -37,7 +43,8 @@ MonoBehaviour:
     - Id: R2
       Title: "\uC791\uC5C5 \uB3C4\uAD6C \uAC1C\uB7C9"
       Icon: {fileID: 21300000, guid: f9c3c67aa663dcb44b355057b0177ba6, type: 3}
-      Description: "채집·건설·수리의 작업 효율이 증가합니다."
+      Description: "\uCC44\uC9D1\xB7\uAC74\uC124\xB7\uC218\uB9AC\uC758 \uC791\uC5C5
+        \uD6A8\uC728\uC774 \uC99D\uAC00\uD569\uB2C8\uB2E4."
       Grid: {x: 0, y: 2}
       Parents: []
       EffectId: work
@@ -58,7 +65,8 @@ MonoBehaviour:
     - Id: R3
       Title: "\uC791\uC5C5 \uBC18\uACBD \uD655\uC7A5"
       Icon: {fileID: 21300000, guid: 75c4a825909871440839d82417cb0082, type: 3}
-      Description: "신력 필드의 작업 반경이 증가합니다."
+      Description: "\uC601\uB825 \uD544\uB4DC\uC758 \uC791\uC5C5 \uBC18\uACBD\uC774
+        \uC99D\uAC00\uD569\uB2C8\uB2E4."
       Grid: {x: 2, y: 1}
       Parents: []
       EffectId: radius
@@ -75,7 +83,8 @@ MonoBehaviour:
     - Id: R4
       Title: "\uC8FC\uBBFC \uC219\uB828 \uAD50\uC721"
       Icon: {fileID: 21300000, guid: 7fb23a11ad23f93408c809f9f743ed0e, type: 3}
-      Description: "주민의 작업 효율 보너스가 증가합니다."
+      Description: "\uC8FC\uBBFC\uC758 \uC791\uC5C5 \uD6A8\uC728 \uBCF4\uB108\uC2A4\uAC00
+        \uC99D\uAC00\uD569\uB2C8\uB2E4."
       Grid: {x: -3, y: 3}
       Parents:
       - R1
@@ -97,7 +106,8 @@ MonoBehaviour:
     - Id: R5
       Title: "\uD45C\uC900 \uAC74\uCD95 \uACF5\uBC95"
       Icon: {fileID: 21300000, guid: 49b0353bcd0b84845b3ca021b33dd8b6, type: 3}
-      Description: "건설에 필요한 작업량이 줄어듭니다."
+      Description: "\uAC74\uC124\uC5D0 \uD544\uC694\uD55C \uC791\uC5C5\uB7C9\uC774
+        \uC904\uC5B4\uB4ED\uB2C8\uB2E4."
       Grid: {x: -1, y: 4}
       Parents:
       - R2
@@ -115,7 +125,8 @@ MonoBehaviour:
     - Id: R6
       Title: "\uAC15\uD654 \uACE8\uC870"
       Icon: {fileID: 21300000, guid: a908fa45d8aec3c4595b8d2e1e7db4dd, type: 3}
-      Description: "건물의 최대 내구도가 증가합니다. 남아 있는 내구도의 비율은 유지됩니다."
+      Description: "\uAC74\uBB3C\uC758 \uCD5C\uB300 \uB0B4\uAD6C\uB3C4\uAC00 \uC99D\uAC00\uD569\uB2C8\uB2E4.
+        \uB0A8\uC544 \uC788\uB294 \uB0B4\uAD6C\uB3C4\uC758 \uBE44\uC728\uC740 \uC720\uC9C0\uB429\uB2C8\uB2E4."
       Grid: {x: -1, y: 6}
       Parents:
       - R5
@@ -133,7 +144,8 @@ MonoBehaviour:
     - Id: R7
       Title: "\uD0C0\uACA9 \uB3C4\uAD6C \uAC15\uD654"
       Icon: {fileID: 21300000, guid: e521871530dbe504eb81f8ab4c4c15b5, type: 3}
-      Description: "신력 필드의 물리 공격 피해가 증가합니다."
+      Description: "\uC601\uB825 \uD544\uB4DC\uC758 \uBB3C\uB9AC \uACF5\uACA9 \uD53C\uD574\uAC00
+        \uC99D\uAC00\uD569\uB2C8\uB2E4."
       Grid: {x: 4, y: 2}
       Parents:
       - R3
@@ -153,9 +165,10 @@ MonoBehaviour:
       - Cost: 275
         Value: 0.5
     - Id: R8
-      Title: "필드 동조"
+      Title: "\uD544\uB4DC \uB3D9\uC870"
       Icon: {fileID: 21300000, guid: b688820f4e1633f4791c91149fc826f1, type: 3}
-      Description: "신력 필드의 자동 작업 간격을 줄입니다."
+      Description: "\uC601\uB825 \uD544\uB4DC\uC758 \uC790\uB3D9 \uC791\uC5C5 \uAC04\uACA9\uC744
+        \uC904\uC785\uB2C8\uB2E4."
       Grid: {x: 2, y: 4}
       Parents:
       - R2
@@ -174,7 +187,8 @@ MonoBehaviour:
     - Id: R9
       Title: "\uB9C8\uC744 \uAD6C\uD68D \uC815\uBE44"
       Icon: {fileID: 21300000, guid: d837342be120528418c5392734efbac9, type: 3}
-      Description: "집을 중심으로 펼쳐지는 마을 영역이 넓어집니다."
+      Description: "\uC9D1\uC744 \uC911\uC2EC\uC73C\uB85C \uD3BC\uCCD0\uC9C0\uB294
+        \uB9C8\uC744 \uC601\uC5ED\uC774 \uB113\uC5B4\uC9D1\uB2C8\uB2E4."
       Grid: {x: -4, y: 5}
       Parents:
       - R1
@@ -193,7 +207,9 @@ MonoBehaviour:
     - Id: R10
       Title: "\uD611\uB3D9 \uC791\uC5C5 \uCCB4\uACC4"
       Icon: {fileID: 21300000, guid: 04c42041faa9e874e81d63ebc8ddee7d, type: 3}
-      Description: "필드 안에 작업 대상이 2개 이상이면 채집·건설·수리 효율이 증가합니다."
+      Description: "\uD544\uB4DC \uC548\uC5D0 \uC791\uC5C5 \uB300\uC0C1\uC774 2\uAC1C
+        \uC774\uC0C1\uC774\uBA74 \uCC44\uC9D1\xB7\uAC74\uC124\xB7\uC218\uB9AC \uD6A8\uC728\uC774
+        \uC99D\uAC00\uD569\uB2C8\uB2E4."
       Grid: {x: 1, y: 7}
       Parents:
       - R4
@@ -216,7 +232,9 @@ MonoBehaviour:
     - Id: A1
       Title: "\uB099\uB8B0"
       Icon: {fileID: 21300000, guid: 1ce5225395e94fd4a882c1e2355be009, type: 3}
-      Description: "[Q] 커서 안의 무작위 적 하나에게 번개를 내립니다. 수치는 기본 주문 피해에 곱하는 배율입니다."
+      Description: "[Q] \uCEE4\uC11C \uC548\uC758 \uBB34\uC791\uC704 \uC801 \uD558\uB098\uC5D0\uAC8C
+        \uBC88\uAC1C\uB97C \uB0B4\uB9BD\uB2C8\uB2E4. \uC218\uCE58\uB294 \uAE30\uBCF8
+        \uC8FC\uBB38 \uD53C\uD574\uC5D0 \uACF1\uD558\uB294 \uBC30\uC728\uC785\uB2C8\uB2E4."
       Grid: {x: -2, y: 1}
       Parents: []
       EffectId: lightning
@@ -233,7 +251,8 @@ MonoBehaviour:
     - Id: A2
       Title: "\uD48D\uC694\uC758 \uAE30\uB3C4"
       Icon: {fileID: 21300000, guid: 59de08575592f78449924cd1979c2e76, type: 3}
-      Description: "[W] 10초 동안 채집과 자원 재생이 빨라집니다."
+      Description: "[W] 10\uCD08 \uB3D9\uC548 \uCC44\uC9D1\uACFC \uC790\uC6D0 \uC7AC\uC0DD\uC774
+        \uBE68\uB77C\uC9D1\uB2C8\uB2E4."
       Grid: {x: 0, y: -2}
       Parents: []
       EffectId: abundance
@@ -250,7 +269,9 @@ MonoBehaviour:
     - Id: A3
       Title: "\uC218\uD638\uC758 \uBD88\uAF43"
       Icon: {fileID: 21300000, guid: bcd813d7d6568ad4eb66f38bf77b28dc, type: 3}
-      Description: "밤이 시작되면 건물에 최대 내구도에 비례한 보호막을 부여합니다. 밤이 끝나면 사라집니다."
+      Description: "\uBC24\uC774 \uC2DC\uC791\uB418\uBA74 \uAC74\uBB3C\uC5D0 \uCD5C\uB300
+        \uB0B4\uAD6C\uB3C4\uC5D0 \uBE44\uB840\uD55C \uBCF4\uD638\uB9C9\uC744 \uBD80\uC5EC\uD569\uB2C8\uB2E4.
+        \uBC24\uC774 \uB05D\uB098\uBA74 \uC0AC\uB77C\uC9D1\uB2C8\uB2E4."
       Grid: {x: 2, y: 1}
       Parents: []
       EffectId: shield
@@ -267,7 +288,9 @@ MonoBehaviour:
     - Id: A4
       Title: "\uC5F0\uC1C4 \uBC88\uAC1C"
       Icon: {fileID: 21300000, guid: ca3cb75bd8e4e91419451bac115061a8, type: 3}
-      Description: "번개가 주변의 다른 적에게도 이어집니다. 추가 대상은 원래 피해의 50%를 받습니다."
+      Description: "\uBC88\uAC1C\uAC00 \uC8FC\uBCC0\uC758 \uB2E4\uB978 \uC801\uC5D0\uAC8C\uB3C4
+        \uC774\uC5B4\uC9D1\uB2C8\uB2E4. \uCD94\uAC00 \uB300\uC0C1\uC740 \uC6D0\uB798
+        \uD53C\uD574\uC758 50%\uB97C \uBC1B\uC2B5\uB2C8\uB2E4."
       Grid: {x: -4, y: 3}
       Parents:
       - A1
@@ -285,7 +308,8 @@ MonoBehaviour:
     - Id: A5
       Title: "\uAC10\uC804 \uB099\uC778"
       Icon: {fileID: 21300000, guid: ef9af92e6f6c11940b08630455db731c, type: 3}
-      Description: "번개에 맞은 적은 3초 동안 물리 피해를 더 받습니다."
+      Description: "\uBC88\uAC1C\uC5D0 \uB9DE\uC740 \uC801\uC740 3\uCD08 \uB3D9\uC548
+        \uBB3C\uB9AC \uD53C\uD574\uB97C \uB354 \uBC1B\uC2B5\uB2C8\uB2E4."
       Grid: {x: -1, y: 3}
       Parents:
       - A1
@@ -303,7 +327,9 @@ MonoBehaviour:
     - Id: A6
       Title: "\uC794\uD5A5\uC758 \uCD95\uBCF5"
       Icon: {fileID: 21300000, guid: 6158b79c616898f409be665968a8747e, type: 3}
-      Description: "풍요의 기도가 끝나도 10초 동안 효과의 일부가 남습니다. 수치는 유지되는 효과의 비율입니다."
+      Description: "\uD48D\uC694\uC758 \uAE30\uB3C4\uAC00 \uB05D\uB098\uB3C4 10\uCD08
+        \uB3D9\uC548 \uD6A8\uACFC\uC758 \uC77C\uBD80\uAC00 \uB0A8\uC2B5\uB2C8\uB2E4.
+        \uC218\uCE58\uB294 \uC720\uC9C0\uB418\uB294 \uD6A8\uACFC\uC758 \uBE44\uC728\uC785\uB2C8\uB2E4."
       Grid: {x: 0, y: -4}
       Parents:
       - A2
@@ -321,7 +347,8 @@ MonoBehaviour:
     - Id: A7
       Title: "\uC601\uD63C\uC758 \uBCF4\uC0B4\uD54C"
       Icon: {fileID: 21300000, guid: 1074fa74bc2049647bf705031bf5382d, type: 3}
-      Description: "수호 보호막이 남은 건물은 매초 최대 내구도의 일부를 회복합니다."
+      Description: "\uC218\uD638 \uBCF4\uD638\uB9C9\uC774 \uB0A8\uC740 \uAC74\uBB3C\uC740
+        \uB9E4\uCD08 \uCD5C\uB300 \uB0B4\uAD6C\uB3C4\uC758 \uC77C\uBD80\uB97C \uD68C\uBCF5\uD569\uB2C8\uB2E4."
       Grid: {x: 4, y: 3}
       Parents:
       - A3
@@ -339,7 +366,10 @@ MonoBehaviour:
     - Id: A8
       Title: "\uC601\uD63C \uC218\uD655"
       Icon: {fileID: 21300000, guid: e3401c11cc61494428272e0ad320342f, type: 3}
-      Description: "번개로 적을 처치하면 풍요의 기도 대기시간이 줄어듭니다. 한 번의 낙뢰·의식당 최대 3초 줄어듭니다."
+      Description: "\uBC88\uAC1C\uB85C \uC801\uC744 \uCC98\uCE58\uD558\uBA74 \uD48D\uC694\uC758
+        \uAE30\uB3C4 \uB300\uAE30\uC2DC\uAC04\uC774 \uC904\uC5B4\uB4ED\uB2C8\uB2E4.
+        \uD55C \uBC88\uC758 \uB099\uB8B0\xB7\uC758\uC2DD\uB2F9 \uCD5C\uB300 3\uCD08
+        \uC904\uC5B4\uB4ED\uB2C8\uB2E4."
       Grid: {x: -4, y: -2}
       Parents:
       - A4
@@ -358,7 +388,10 @@ MonoBehaviour:
     - Id: A9
       Title: "\uCD95\uBCF5\uBC1B\uC740 \uACB0\uACC4"
       Icon: {fileID: 21300000, guid: 2a81b247971af614bb98ad0ddf60cabf, type: 3}
-      Description: "풍요의 기도 사용 시 최대 내구도에 비례한 보호막을 10초간 부여합니다. 수호 보호막과 중첩되지 않습니다."
+      Description: "\uD48D\uC694\uC758 \uAE30\uB3C4 \uC0AC\uC6A9 \uC2DC \uCD5C\uB300
+        \uB0B4\uAD6C\uB3C4\uC5D0 \uBE44\uB840\uD55C \uBCF4\uD638\uB9C9\uC744 10\uCD08\uAC04
+        \uBD80\uC5EC\uD569\uB2C8\uB2E4. \uC218\uD638 \uBCF4\uD638\uB9C9\uACFC \uC911\uCCA9\uB418\uC9C0
+        \uC54A\uC2B5\uB2C8\uB2E4."
       Grid: {x: 3, y: -3}
       Parents:
       - A6
@@ -377,7 +410,9 @@ MonoBehaviour:
     - Id: A10
       Title: "\uCC9C\uBC8C\uC758 \uC758\uC2DD"
       Icon: {fileID: 21300000, guid: c1a734a42fe669e41881f22198d6728c, type: 3}
-      Description: "[E] 6초 동안 2초마다 커서 안에 번개를 내립니다. 연쇄·감전도 적용되며, 수치는 주문 피해 배율입니다."
+      Description: "[E] 6\uCD08 \uB3D9\uC548 2\uCD08\uB9C8\uB2E4 \uCEE4\uC11C \uC548\uC5D0
+        \uBC88\uAC1C\uB97C \uB0B4\uB9BD\uB2C8\uB2E4. \uC5F0\uC1C4\xB7\uAC10\uC804\uB3C4
+        \uC801\uC6A9\uB418\uBA70, \uC218\uCE58\uB294 \uC8FC\uBB38 \uD53C\uD574 \uBC30\uC728\uC785\uB2C8\uB2E4."
       Grid: {x: -3, y: 5}
       Parents:
       - A4
@@ -393,7 +428,7 @@ MonoBehaviour:
         Value: 0.8
       - Cost: 240
         Value: 1
-  Skills:
+  _legacySkills:
   - Id: lightning
     Title: "\uB099\uB8B0"
     Cooldown: 12

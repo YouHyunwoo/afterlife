@@ -11,6 +11,8 @@ namespace Afterlife.Prototype
     public sealed class PrototypeScene : MonoBehaviour
     {
         public const string SceneName = "Afterlife_PixelPrototype";
+        [Tooltip("선택한 씬 전용 설정을 실행 중 복제해 사용합니다. 비어 있으면 본편 설정을 사용합니다.")]
+        public PrototypeSettings SettingsOverride;
         private RenderPipelineAsset _previousGraphics, _previousQuality;
         private UniversalRenderPipelineAsset _pipeline;
         private UniversalRendererData _renderer;
@@ -35,7 +37,9 @@ namespace Afterlife.Prototype
         }
         private void Awake()
         {
-            _settings = Resources.Load<PrototypeSettings>("AfterlifePrototype/Settings");
+            var sourceSettings = SettingsOverride != null ? SettingsOverride : Resources.Load<PrototypeSettings>("AfterlifePrototype/Settings");
+            _settings = sourceSettings != null ? sourceSettings.RuntimeCopy() : null;
+            _ownsSettings = true;
             if (_settings == null) { _settings = ScriptableObject.CreateInstance<PrototypeSettings>(); _ownsSettings = true; }
             var sourcePipeline = Resources.Load<UniversalRenderPipelineAsset>("AfterlifePrototype/Pipeline");
             if (sourcePipeline != null) { _pipeline = Instantiate(sourcePipeline); _ownsPipeline = true; }
@@ -60,28 +64,26 @@ namespace Afterlife.Prototype
             _previousQuality = QualitySettings.renderPipeline;
             GraphicsSettings.defaultRenderPipeline = _pipeline;
             QualitySettings.renderPipeline = _pipeline;
-            var model = new VillageModel(_settings.ToBalance());
             var view = GetComponent<PrototypeView>();
             if(view==null){Debug.LogError("PrototypeView 씬 참조 누락");return;}
             var buildCatalog=view.SceneUi!=null&&view.SceneUi.BuildCatalog!=null?view.SceneUi.BuildCatalog:Resources.Load<PrototypeBuildCatalog>(PrototypeBuildCatalog.ResourcePath);
-            if(buildCatalog!=null)
-            {
-                var rules=new System.Collections.Generic.List<ConstructionRule>();
-                foreach(var data in buildCatalog.Buildings)if(data!=null)rules.Add(data.ToRule());
-                model.ConfigureConstruction(rules);
-            }
-            var progression = Resources.Load<ProgressionCatalog>(PrototypeProgressionDefaults.ResourcePath);
-            if (progression != null) { progression = Instantiate(progression); _ownedProgression = progression; }
+            var rules=new System.Collections.Generic.List<ConstructionRule>();
+            if(buildCatalog!=null)foreach(var data in buildCatalog.Buildings)if(data!=null)rules.Add(data.ToRule());
+            // 첫 집/자원 생성보다 먼저 콘텐츠 스냅샷과 건설 데이터를 주입한다.
+            var model = new VillageModel(_settings.ToBalance(),rules);
+            var progression = Resources.Load<ProgressionCatalog>(_settings.System != null && _settings.System.MvpSlots
+                ? "AfterlifePrototype/MvpProgression" : PrototypeProgressionDefaults.ResourcePath);
+            if (progression != null) { progression = progression.RuntimeCopy(); _ownedProgression = progression; }
             if (progression == null)
             {
                 progression = ScriptableObject.CreateInstance<ProgressionCatalog>();
                 PrototypeProgressionDefaults.Populate(progression); _ownedProgression = progression;
                 Debug.LogWarning("강화 데이터 에셋이 없어 기본 데이터를 사용합니다. 강화 에디터에서 에셋 생성을 확인하세요.");
             }
-            var errors = PrototypeProgressionDefaults.Validate(progression);
+            var errors = PrototypeProgressionDefaults.Validate(progression, model.Settings.MvpSlots);
             if (errors.Count > 0) { Debug.LogError("강화 데이터 오류: " + string.Join(" / ", errors)); enabled = false; return; }
             model.ConfigureProgression(progression.Nodes.Select(node => node.ToDefinition()), progression.Skills.Select(skill => skill.ToDefinition()),
-                progression.Trees.SelectMany(tree => tree.Nodes.Select(node => new ProgressionRule { NodeId = node.Id, TreeId = tree.Id, EffectId = node.EffectId, SkillId = node.SkillId, Values = node.Levels.Select(level => level.Value).ToArray() })));
+                progression.Trees.SelectMany(tree => tree.Nodes.Select(node => new ProgressionRule { NodeId = node.Id, TreeId = tree.Id, EffectId = node.EffectId, SkillId = node.SkillId, RequiresAltar = node.RequiresAltar, Values = node.Levels.Select(level => level.Value).ToArray() })));
             view.ProgressionCatalog = progression;
             // 새 씬 단위 Moonstone 조립. 기존 전역 컨테이너/레거시 ModeSystem을 변경하지 않는다.
             _resolver = new ServiceResolver();
@@ -93,7 +95,7 @@ namespace Afterlife.Prototype
             _resolver.Register(model.Skills);
             _resolver.Register(gameFlow);
             _resolver.BindEachOther();
-            view.SetUp();
+            PrototypeView.MeasureStartup("ViewSetup",view.SetUp);
         }
         private void ConfigureWaterRendering()
         {

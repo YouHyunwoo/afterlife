@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Afterlife.Devlog.Destruction;
+using Afterlife.Modules.Destruction;
 using UnityEngine;
 
 namespace Afterlife.Prototype
@@ -8,7 +8,7 @@ namespace Afterlife.Prototype
     {
         private sealed class ResourceDestruction
         {
-            public ShowcaseDestruction Effect;
+            public DestructionEffect Effect;
             public Transform Root;
             public Quaternion Rotation;
             public Vector3 Axis;
@@ -26,9 +26,9 @@ namespace Afterlife.Prototype
                 foreach(var collider in go.GetComponentsInChildren<Collider>())collider.enabled=false;
                 bool wood=reaction.Kind==Kind.Tree;
                 Vector3 away=reaction.Away.sqrMagnitude>.001f?reaction.Away:Vector3.forward;
-                var effect=new ShowcaseDestruction(go.transform,renderers,wood,DisappearMode.Dissolve,
-                    world=>_terrainSurface!=null?_terrainSurface.Height(world.x,world.z):0,away,null,
-                    filter=>filter.sharedMesh!=_contactMesh && (filter.GetComponent<Afterlife.Devlog.Day01.ShowcasePickSurface>()==null || !filter.GetComponent<Afterlife.Devlog.Day01.ShowcasePickSurface>().SnowCap));
+                var effect=new DestructionEffect(go.transform,renderers,wood,DisappearMode.Dissolve,
+                    world=>_terrainSurface!=null?_terrainSurface.Height(world.x,world.z):0,away,_settings.Destruction,
+                    filter=>filter.sharedMesh!=_contactMesh && (filter.GetComponent<Afterlife.Modules.Interaction.PickSurface>()==null || !filter.GetComponent<Afterlife.Modules.Interaction.PickSurface>().SnowCap));
                 if(!wood)foreach(var renderer in renderers)renderer.enabled=false;
                 _resourceDestructions.Add(pair.Key,new ResourceDestruction{Effect=effect,Root=go.transform,
                     Rotation=reaction.Rotation,Axis=Vector3.Cross(Vector3.up,away).normalized,Wood=wood});
@@ -44,9 +44,9 @@ namespace Afterlife.Prototype
                 state.Age+=dt;
                 if(state.Wood)
                 {
-                    float fall=Mathf.Clamp01((state.Age-ShowcaseImpactTiming.Hold)/1.1f);
-                    state.Root.rotation=Quaternion.AngleAxis(88*fall*fall,state.Axis)*state.Rotation;
-                    ResourceFlash(pair.Key,ShowcaseImpactTiming.Flash(state.Age));
+                    float fall=Mathf.Clamp01((state.Age-ImpactTiming.Hold)/(_settings.Destruction!=null?Mathf.Max(.1f,_settings.Destruction.TreeFallSeconds):1.1f));
+                    state.Root.rotation=Quaternion.AngleAxis((_settings.Destruction!=null?_settings.Destruction.TreeFallDegrees:88)*fall*fall,state.Axis)*state.Rotation;
+                    ResourceFlash(pair.Key,ImpactTiming.Flash(state.Age));
                 }
                 state.Effect.Tick(dt);
                 // 원본 수관 MPB의 디졸브를 잎 카드에도 반영한다.

@@ -10,12 +10,12 @@ namespace Afterlife.Prototype
         private readonly List<FloatingAmount> _amounts=new List<FloatingAmount>();
         private sealed class ShotView { public GameObject Root;public int Id,Style;public bool Used;public LineRenderer Bolt;public Vector3 Previous; }
         private readonly List<ShotView> _shotViews=new List<ShotView>();
-        private static string ResourceName(Body body)
+        private string ResourceName(Body body)
         {
-            if(body.Kind==Kind.Tree)return body.Variant==0?"둥근나무":body.Variant==1?"침엽수":body.Variant==2?"자작나무":"참나무";
-            if(body.Kind==Kind.Animal)return new[]{"사슴","토끼","멧돼지","여우"}[body.Variant%4];
-            if(body.Kind==Kind.Rock)return body.Variant==0?"일반 바위":body.Variant==1?"층리암":body.Variant==2?"수정 바위":"화강암";
-            return VillageModel.Name(body.Kind);
+            if(body.Kind==Kind.Tree)return _model.Rules.Resources.TreeNames[body.Variant%4];
+            if(body.Kind==Kind.Animal)return _model.Rules.Resources.AnimalNames[body.Variant%4];
+            if(body.Kind==Kind.Rock)return _model.Rules.Resources.RockNames[body.Variant%4];
+            return _model.DisplayName(body.Kind);
         }
         private GameObject Cone(Transform parent,string name,Vector3 position,Vector3 scale,Color color)
         {

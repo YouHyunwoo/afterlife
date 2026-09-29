@@ -41,7 +41,7 @@ Shader "Afterlife/Prototype/Grass"
             float _GrassSizeScale;
             #define GRASS_SIZE_SCALE _GrassSizeScale
             #define GRASS_CLIP(anchor) PrototypeGrassClip(anchor)
-            #include "Assets/Devlog/Youtube/Modules/Vegetation/Shaders/ShowcaseGrassPass.hlsl"
+            #include "Assets/Afterlife/Modules/Vegetation/Shaders/GrassPass.hlsl"
             ENDHLSL
         }
     }

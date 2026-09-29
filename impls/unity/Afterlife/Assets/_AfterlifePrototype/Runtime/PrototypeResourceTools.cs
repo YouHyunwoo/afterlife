@@ -7,7 +7,7 @@ namespace Afterlife.Prototype
         private bool BuildResourceTool(ToolEffect tool,string name)
         {
             if(tool.Kind==Kind.Chest)return true; // 상자는 도구 없이 오브젝트 반동으로 반응한다.
-            var source=Resources.Load<GameObject>("AfterlifePrototype/World/"+name);
+            var source=WorldAsset(name);
             if(source==null)return false;
             // Day01과 동일하게 FBX 루트 축/스케일을 보존한다. FrontMarker 회전을 적용하지 않는다.
             var art=Instantiate(source,tool.Pivot,false);
@@ -99,7 +99,7 @@ namespace Afterlife.Prototype
             if(VillageModel.IsHostile(tool.Kind)||tool.Kind==Kind.Animal)
             {PoseSwordFromGrip(tool,contact,age);return;}
             float approach=Mathf.Clamp01(age/.12f);approach*=approach;
-            float recovery=Mathf.SmoothStep(0,1,Mathf.InverseLerp(.12f+Afterlife.Devlog.Destruction.ShowcaseImpactTiming.Hold,.285f,age));
+            float recovery=Mathf.SmoothStep(0,1,Mathf.InverseLerp(.12f+Afterlife.Modules.Destruction.ImpactTiming.Hold,.285f,age));
             Vector3 offset=tool.Approach;
             float startAngle=-65,contactAngle=25,retreatAngle=-10;
             bool hand=tool.Kind==Kind.Treasure;

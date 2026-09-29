@@ -43,7 +43,8 @@ namespace Afterlife.Prototype
             {
                 Label.raycastTarget=false;
                 _textFade=Label.GetComponent<CanvasGroup>();
-                if(_textFade==null)_textFade=Label.gameObject.AddComponent<CanvasGroup>();
+                if(_textFade==null)Debug.LogError("Day banner Label needs a CanvasGroup in the scene.",this);
+                if(_textFade==null)return;
                 _textFade.blocksRaycasts=false;_textFade.interactable=false;
             }
         }

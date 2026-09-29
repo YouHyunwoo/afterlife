@@ -35,18 +35,20 @@ namespace Afterlife.Prototype.Editor
         }
         private void OnEnable()
         {
-            minSize = new Vector2(850, 520); _catalog = AssetDatabase.LoadAssetAtPath<ProgressionCatalog>(CatalogPath);
+            minSize = new Vector2(850, 520);
+            _catalog = AssetDatabase.LoadAssetAtPath<ProgressionCatalog>("Assets/_AfterlifePrototype/Resources/AfterlifePrototype/MvpProgression.asset")
+                ?? AssetDatabase.LoadAssetAtPath<ProgressionCatalog>(CatalogPath);
             EditorApplication.update += UpdateSave; Undo.undoRedoPerformed += OnUndo;
         }
         private void OnDisable() { FinishDrag(); Save(); EditorApplication.update -= UpdateSave; Undo.undoRedoPerformed -= OnUndo; }
         private void OnLostFocus() { FinishDrag(); Save(); }
         private void OnUndo() { QueueSave(); Repaint(); }
-        private void QueueSave() { if (_catalog == null) return; EditorUtility.SetDirty(_catalog); _pendingSave = true; _saveAt = EditorApplication.timeSinceStartup + .6; }
+        private void QueueSave() { if (_catalog == null) return; foreach(var asset in _catalog.DataAssets)EditorUtility.SetDirty(asset); _pendingSave = true; _saveAt = EditorApplication.timeSinceStartup + .6; }
         private void UpdateSave() { if (_pendingSave && !_dragging && EditorApplication.timeSinceStartup >= _saveAt) Save(); }
         private void Save()
         {
             if (!_pendingSave || _catalog == null) return;
-            try { AssetDatabase.SaveAssetIfDirty(_catalog); _pendingSave = false; _status = "자동 저장 " + DateTime.Now.ToString("HH:mm:ss"); }
+            try { foreach(var asset in _catalog.DataAssets)AssetDatabase.SaveAssetIfDirty(asset); _pendingSave = false; _status = "자동 저장 " + DateTime.Now.ToString("HH:mm:ss"); }
             catch (Exception exception) { _status = "저장 실패: " + exception.Message; _saveAt = EditorApplication.timeSinceStartup + 3; }
         }
         private UpgradeTreeData Tree => _catalog.Trees[_treeIndex];
@@ -131,7 +133,7 @@ namespace Afterlife.Prototype.Editor
                 _selected = Tree.Nodes.FindLastIndex(node => new Rect(GridToScreen(node.Grid, canvas) - new Vector2(44, 44) * _zoom, new Vector2(88, 88) * _zoom).Contains(input.mousePosition));
                 if (_selected >= 0)
                 {
-                    Undo.RecordObject(_catalog, "강화 노드 격자 이동"); _originalGrid = Tree.Nodes[_selected].Grid;
+                    Undo.RecordObject(_catalog.TreeOwner(_treeIndex), "강화 노드 격자 이동"); _originalGrid = Tree.Nodes[_selected].Grid;
                     _dragOffset = input.mousePosition - GridToScreen(_originalGrid, canvas); _dragging = true;
                 }
                 else _panning = true;
@@ -159,28 +161,29 @@ namespace Afterlife.Prototype.Editor
             EditorGUILayout.Space();
             if (_selected >= 0 && _selected < Tree.Nodes.Count)
             {
-                var serialized = new SerializedObject(_catalog); serialized.Update();
-                var node = serialized.FindProperty("Trees").GetArrayElementAtIndex(_treeIndex).FindPropertyRelative("Nodes").GetArrayElementAtIndex(_selected);
+                var serialized = new SerializedObject(_catalog.TreeOwner(_treeIndex)); serialized.Update();
+                var tree = _catalog.TreeAssets.Count>0 ? serialized.FindProperty("Data") : serialized.FindProperty("_legacyTrees").GetArrayElementAtIndex(_treeIndex);
+                var node = tree.FindPropertyRelative("Nodes").GetArrayElementAtIndex(_selected);
                 EditorGUILayout.PropertyField(node, new GUIContent("선택한 강화"), true);
                 if (serialized.ApplyModifiedProperties()) QueueSave();
                 EditorGUILayout.HelpBox("Parents에는 같은 트리의 ID를 입력합니다. 부모 하나 이상 구매 시 표시, 모두 1단계 이상 구매 시 해금됩니다. Levels의 Value는 단계별 총효과입니다.", MessageType.Info);
                 if (GUILayout.Button("선택 노드 삭제"))
                 {
-                    Undo.RecordObject(_catalog, "강화 노드 삭제"); string id = Tree.Nodes[_selected].Id;
+                    Undo.RecordObject(_catalog.TreeOwner(_treeIndex), "강화 노드 삭제"); string id = Tree.Nodes[_selected].Id;
                     Tree.Nodes.RemoveAt(_selected); foreach (var other in Tree.Nodes) other.Parents.RemoveAll(parent => parent == id);
                     _selected = -1; QueueSave();
                 }
             }
             EditorGUILayout.Space();
-            var skillObject = new SerializedObject(_catalog); skillObject.Update();
-            EditorGUILayout.PropertyField(skillObject.FindProperty("Skills"), new GUIContent("스킬 시간 설정"), true);
+            var skillObject = new SerializedObject(_catalog.SkillCatalog!=null?(UnityEngine.Object)_catalog.SkillCatalog:_catalog); skillObject.Update();
+            EditorGUILayout.PropertyField(skillObject.FindProperty(_catalog.SkillCatalog!=null?"Entries":"_legacySkills"), new GUIContent("스킬 시간 설정"), true);
             if (skillObject.ApplyModifiedProperties()) QueueSave();
-            foreach (var error in PrototypeProgressionDefaults.Validate(_catalog)) EditorGUILayout.HelpBox(error, MessageType.Error);
+            foreach (var error in PrototypeProgressionDefaults.Validate(_catalog, _catalog.Trees.Count==1 && _catalog.Trees[0].Id=="research")) EditorGUILayout.HelpBox(error, MessageType.Error);
             EditorGUILayout.HelpBox("오류가 있는 편집 내용도 초안으로 자동 저장합니다. 오류를 해결한 뒤 플레이하세요. 실행 중 데이터 편집은 지원하지 않습니다.", MessageType.None);
         }
         private void AddNode()
         {
-            Undo.RecordObject(_catalog, "강화 노드 추가"); int count = 1; string id;
+            Undo.RecordObject(_catalog.TreeOwner(_treeIndex), "강화 노드 추가"); int count = 1; string id;
             do { id = Tree.Id + "." + count++; } while (_catalog.Nodes.Any(node => node.Id == id));
             var grid = new Vector2Int(1, 0); while (Tree.Nodes.Any(node => node.Grid == grid)) grid.x++;
             Tree.Nodes.Add(new UpgradeNodeData { Id = id, Title = "새 강화", Grid = grid, Levels = new System.Collections.Generic.List<UpgradeLevelData> { new UpgradeLevelData() } });

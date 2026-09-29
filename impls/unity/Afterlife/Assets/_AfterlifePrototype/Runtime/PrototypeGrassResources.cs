@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Afterlife.Devlog.Terrain;
+using Afterlife.Modules.Terrain;
 namespace Afterlife.Prototype
 {
     public sealed partial class VillageModel
@@ -15,14 +15,14 @@ namespace Afterlife.Prototype
             var centers=new List<Point>();var candidates=new List<Point>();
             for(int z=-Terrain.Radius+3;z<Terrain.Radius-2;z++)for(int x=-Terrain.Radius+3;x<Terrain.Radius-2;x++)
                 if(x*x+z*z>49 && Terrain.At(x,z)==TerrainKind.Grass)candidates.Add(new Point(x,z));
-            candidates=candidates.OrderBy(p=>ShowcaseTileVariants.Seed(unchecked((int)p.X+Terrain.Seed),(int)p.Z+613)).ToList();
+            candidates=candidates.OrderBy(p=>TerrainTileVariants.Seed(unchecked((int)p.X+Terrain.Seed),(int)p.Z+613)).ToList();
             int treeGroups=0,rockGroups=0;
             foreach(var center in candidates)
             {
-                if(centers.Any(p=>Point.Distance(p,center)<5.5f))continue;
-                int seed=ShowcaseTileVariants.Seed(unchecked((int)center.X+Terrain.Seed),(int)center.Z-313);
+                if(centers.Any(p=>Point.Distance(p,center)<Rules.Resources.GrassGroupSpacing))continue;
+                int seed=TerrainTileVariants.Seed(unchecked((int)center.X+Terrain.Seed),(int)center.Z-313);
                 Kind kind=seed%2==0?Kind.Tree:Kind.Rock;
-                if(kind==Kind.Tree?treeGroups>=Math.Max(1,Settings.TreeLimit/12):rockGroups>=Math.Max(1,Settings.RockLimit/12))continue;
+                if(kind==Kind.Tree?treeGroups>=Math.Max(1,Settings.TreeLimit/Rules.Resources.GrassGroupBudgetDivisor):rockGroups>=Math.Max(1,Settings.RockLimit/Rules.Resources.GrassGroupBudgetDivisor))continue;
                 var random=new Random(seed);var nearby=new List<Point>();
                 for(int dz=-1;dz<=1;dz++)for(int dx=-1;dx<=1;dx++)nearby.Add(new Point(center.X+dx,center.Z+dz));
                 nearby=nearby.OrderBy(p=>random.Next()).Take(5+(seed/7)%2).ToList();
@@ -35,8 +35,8 @@ namespace Afterlife.Prototype
             var singles=new List<Point>();
             foreach(var point in candidates)
             {
-                int seed=ShowcaseTileVariants.Seed(unchecked((int)point.X+Terrain.Seed),(int)point.Z+997);
-                if(seed%100>=3 || centers.Any(p=>Point.Distance(p,point)<3.6f)||singles.Any(p=>Point.Distance(p,point)<3))continue;
+                int seed=TerrainTileVariants.Seed(unchecked((int)point.X+Terrain.Seed),(int)point.Z+997);
+                if(seed%100>=Rules.Resources.GrassSinglePercent || centers.Any(p=>Point.Distance(p,point)<Rules.Resources.GrassSingleGroupSpacing)||singles.Any(p=>Point.Distance(p,point)<Rules.Resources.GrassSingleSpacing))continue;
                 if(!Walkable(point,.38f)||!UnitFree(point,0))continue;
                 Kind kind=seed%2==0?Kind.Tree:Kind.Rock;
                 _grassResourceGroups[kind].Add(new List<Point>{point});_grassResourceSites[kind].Add(TileKey((int)point.X,(int)point.Z));singles.Add(point);

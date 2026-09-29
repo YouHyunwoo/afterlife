@@ -15,8 +15,8 @@ Shader "Afterlife/Prototype/Smoke"
             #pragma fragment Frag
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Assets/_AfterlifePrototype/Shaders/PrototypeVegetationLighting.hlsl"
-            #define SHOWCASE_SMOKE_COLOR(color,world) PrototypeVegetationOutput(color,world).rgb
-            #include "Assets/Devlog/Youtube/Modules/Lighting/Shaders/ShowcaseSmokePass.hlsl"
+            #define AFTERLIFE_SMOKE_COLOR(color,world) PrototypeVegetationOutput(color,world).rgb
+            #include "Assets/Afterlife/Modules/Lighting/Shaders/SmokePass.hlsl"
             ENDHLSL
         }
     }

@@ -18,7 +18,7 @@ namespace Afterlife.Prototype
         private int _nextShotId;
         private bool _obstaclesDirty=true;
         private readonly Dictionary<int,List<Body>> _obstacles=new Dictionary<int,List<Body>>();
-        public static float EnemyVisionRadius(Kind kind)=>IsRanged(kind)?10:8;
+        public float EnemyVisionRadius(Kind kind)=>Rules.Units.Find(kind).Vision;
         private Body EnemyTarget(Body enemy)
         {
             Body best=null;int bestTier=2;float bestDistance=float.MaxValue;
@@ -36,19 +36,12 @@ namespace Afterlife.Prototype
         public static bool IsHostile(Kind kind)=>kind==Kind.Slime||kind>=Kind.Goblin&&kind<=Kind.Lizard;
         public static bool IsRanged(Kind kind)=>kind==Kind.Archer||kind==Kind.Mage||kind==Kind.GoblinShaman||kind==Kind.Lizard;
         public static bool IsMagic(Kind kind)=>kind==Kind.Mage||kind==Kind.GoblinShaman;
-        public int WaveEnemyCount=>Wave==1?6:Wave==2?10:Wave==3?16:Wave==4?24:Wave==5?32:42;
+        public int WaveEnemyCount=>Rules.Waves.At(Wave).Count;
         public int RemainingRaiders=>Bodies.Count(b=>b.Alive&&b.Raider)+(Phase==Phase.Night?Math.Max(0,WaveEnemyCount-_spawned):0);
-        public string WaveThreat=>Wave==1?"슬라임 · 한 방향":Wave==2?"빠른 고블린 합류":Wave==3?"고블린 전사·주술사 · 양방향":Wave==4?"오크 돌격 + 주술사 지원":Wave==5?"리자드 궁수 · 세 방향":"총공세 · 중장갑과 원거리 혼성";
-        private Kind WaveEnemy(int index)
-        {
-            if(Wave==1)return Kind.Slime;
-            if(Wave==2)return index%3==0?Kind.Slime:Kind.Goblin;
-            if(Wave==3)return index%4==0?Kind.GoblinShaman:index%4==1?Kind.GoblinWarrior:Kind.Goblin;
-            if(Wave==4)return index%5==0?Kind.Orc:index%5==1?Kind.GoblinShaman:index%5==2?Kind.GoblinWarrior:Kind.Goblin;
-            return index%5==0?Kind.GoblinShaman:index%5==1?Kind.Lizard:index%5==2?Kind.Orc:index%5==3?Kind.GoblinWarrior:Wave>=6?Kind.Orc:Kind.Goblin;
-        }
-        private static float EnemyHealth(Kind kind)=>kind==Kind.Orc?140:kind==Kind.GoblinWarrior?80:kind==Kind.GoblinShaman?55:kind==Kind.Lizard?65:kind==Kind.Goblin?36:30;
-        private static float MoveSpeed(Kind kind)=>kind==Kind.Goblin?2.15f:kind==Kind.Lizard?2.2f:kind==Kind.Orc?.95f:kind==Kind.GoblinWarrior?1.45f:kind==Kind.GoblinShaman?1.3f:kind==Kind.Slime?1.2f:kind==Kind.Animal?.6f:2;
+        public string WaveThreat=>Rules.Waves.At(Wave).Description;
+        private Kind WaveEnemy(int index) { var pattern=Rules.Waves.At(Wave).Pattern; return pattern[index%pattern.Length]; }
+        private float EnemyHealth(Kind kind)=>Rules.Units.Find(kind).Health;
+        private float MoveSpeed(Kind kind)=>Rules.Units.Find(kind).MoveSpeed;
         private void EnemyHit(Body target,float damage)
         {
             if(target==null||!target.Alive||damage<=0)return;
@@ -60,10 +53,10 @@ namespace Afterlife.Prototype
         }
         private void ResolveAttack(Body source,Body target)
         {
-            float amount=Damage(source.Kind)*(source.Raider?1+.18f*(Wave-1):1),baseDamage=amount;if(source.Friendly)amount=CriticalDamage(amount);
+            float amount=Damage(source.Kind)*(source.Raider?1+Rules.Waves.DamageGrowth*(Wave-1):1),baseDamage=amount;if(source.Friendly)amount=CriticalDamage(amount);
             if(!IsRanged(source.Kind)){if(!target.Building)Sound(amount>baseDamage?SoundCue.Critical:SoundCue.Hit,target.Position);if(source.Friendly)PlayerHit(target,amount);else EnemyHit(target,amount);return;}
             if(IsMagic(source.Kind))Sound(SoundCue.Magic,source.Position);
-            Projectiles.Add(new Shot{Id=++_nextShotId,Source=source.Id,Target=target.Id,Start=source.Position,Position=source.Position,Direction=new Point(target.Position.X-source.Position.X,target.Position.Z-source.Position.Z),Damage=amount,Speed=IsMagic(source.Kind)?7:11,Magic=IsMagic(source.Kind),Enemy=source.Hostile});
+            Projectiles.Add(new Shot{Id=++_nextShotId,Source=source.Id,Target=target.Id,Start=source.Position,Position=source.Position,Direction=new Point(target.Position.X-source.Position.X,target.Position.Z-source.Position.Z),Damage=amount,Speed=Rules.Units.Find(source.Kind).ProjectileSpeed,Magic=IsMagic(source.Kind),Enemy=source.Hostile});
         }
         private void ProcessProjectiles(float dt)
         {
@@ -96,7 +89,7 @@ namespace Afterlife.Prototype
                 _obstacles.Clear();
                 foreach(var b in Bodies)
                 {
-                    if(!b.Alive||b.Unit||b.Kind==Kind.Treasure)continue;
+                    if(!b.Alive||!Obstacle(b))continue;
                     float hx=b.Building?b.Width*.5f:.3f,hz=b.Building?b.Depth*.5f:.3f;
                     for(int z=(int)Math.Floor((b.Position.Z-hz)/2);z<=(int)Math.Floor((b.Position.Z+hz)/2);z++)
                     for(int x=(int)Math.Floor((b.Position.X-hx)/2);x<=(int)Math.Floor((b.Position.X+hx)/2);x++)

@@ -12,7 +12,11 @@ namespace Afterlife.Prototype
     public sealed partial class PrototypeView
     {
         public ProgressionCatalog ProgressionCatalog { get; set; }
-        private RectTransform _skillBar;
+        [Header("진행 UI · 씬 프리팹 연결")]
+        [SerializeField] private PrototypeModalPanel _rebirthReviewPanel;
+        [SerializeField] private UpgradeTreeScreen _researchTreeScreen, _altarTreeScreen;
+        [SerializeField] private RectTransform _skillBar;
+        [SerializeField] private Button _lightningButton, _abundanceButton, _ritualButton;
         private readonly Dictionary<string, Button> _skillButtons = new Dictionary<string, Button>();
         private Point _skillAim;
         private bool _skillAimValid;
@@ -21,32 +25,9 @@ namespace Afterlife.Prototype
         private void PrepareProgressionUi()
         {
             if (ProgressionCatalog == null || _model.Upgrades == null) return;
-            // 기존 제단의 환생 기록 화면은 별도 모달 창으로 보존한다.
-            var altar = _sceneUi.Bindings.Find(binding => binding.Id == "Modal.Altar")?.Rect;
-            if (altar == null) return;
-            var review = Instantiate(altar.gameObject, altar.parent).GetComponent<RectTransform>(); review.name = "RebirthReview"; review.gameObject.SetActive(false);
-            var panel = review.GetComponent<PrototypeModalPanel>();
-            if (panel != null)
-            {
-                foreach (var binding in panel.Bindings) binding.Id = binding.Id.Replace("Modal.Altar", "Modal.RebirthReview").Replace("Altar.", "RebirthReview.");
-                panel.RetiredBindingIds.Clear();
-            }
-            else
-            {
-                panel = review.gameObject.AddComponent<PrototypeModalPanel>();
-                foreach (var binding in _sceneUi.Bindings.Where(binding => binding.Rect != null && (binding.Rect == altar || binding.Rect.IsChildOf(altar))).ToArray())
-                {
-                    var path = RelativeTransformPath(altar, binding.Rect); var mapped = string.IsNullOrEmpty(path) ? review : review.Find(path) as RectTransform;
-                    if (mapped == null) continue;
-                    panel.Bindings.Add(new PrototypeUiBinding { Id = binding.Id.Replace("Modal.Altar", "Modal.RebirthReview").Replace("Altar.", "RebirthReview."), Rect = mapped,
-                        Text = mapped.GetComponent<Text>(), TmpText = mapped.GetComponent<TMP_Text>(), Button = mapped.GetComponent<Button>(), Image = mapped.GetComponent<Image>() });
-                }
-            }
-            panel.Connect(_sceneUi);
-        }
-        private static string RelativeTransformPath(Transform root, Transform child)
-        {
-            var parts = new List<string>(); while (child != root) { parts.Add(child.name); child = child.parent; } parts.Reverse(); return string.Join("/", parts);
+            if (_model.Settings.MvpSlots) return;
+            if (_rebirthReviewPanel == null) { Debug.LogError("Assign RebirthReview panel in the scene.", this); return; }
+            _rebirthReviewPanel.Connect(_sceneUi);
         }
         private void InitializeProgressionUi()
         {
@@ -56,7 +37,8 @@ namespace Afterlife.Prototype
                 var modal = tree.Id == "research" ? Modal.Research : Modal.Altar;
                 var root = _sceneUi.Item("Modal." + modal)?.Rect; if (root == null) continue;
                 foreach (Transform child in root) child.gameObject.SetActive(false);
-                var surface = root.GetComponent<PrototypeModalSurface>(); if (surface == null) surface = root.gameObject.AddComponent<PrototypeModalSurface>();
+                var surface = root.GetComponent<PrototypeModalSurface>();
+                if (surface == null) throw new InvalidOperationException("Research and Altar panels need PrototypeModalSurface in the scene.");
                 surface.Presentation = ModalPresentation.Screen;
                 if (tree.Id == "altar")
                 {
@@ -65,45 +47,43 @@ namespace Afterlife.Prototype
                     if (panelImage != null) panelImage.enabled = false;
                 }
                 UpgradeTreeScreen.Stretch(root);
-                var screenRect = UpgradeTreeScreen.MakeRect("UpgradeTreeScreen", root); UpgradeTreeScreen.Stretch(screenRect);
-                var screen = screenRect.gameObject.AddComponent<UpgradeTreeScreen>();
+                var screen = tree.Id == "research" ? _researchTreeScreen : _altarTreeScreen;
+                if (screen == null) { Debug.LogError("Assign the UpgradeTreeScreen scene instances.", this); continue; }
+                screen.gameObject.SetActive(true);
                 string treeId = tree.Id;
-                screen.Bind(tree, _model.Upgrades, _sceneUi.ResourcesTmpFont, _model.BuyProgression, () => _model.CanUseTree(treeId), () => _model.Money, CloseModal,
-                    treeId == "altar" ? (Action)(() => PushModal(Modal.RebirthReview)) : null, () => !_model.Ended,
-                    node => Resources.Load<Sprite>("UI/Upgrades/" + node.Id));
+                Action extra = treeId == "research" && !_model.Settings.MvpSlots
+                    ? (Action)(() => PushModal(Modal.Altar))
+                    : treeId == "altar" && !_model.Settings.MvpSlots
+                        ? (Action)(() => PushModal(Modal.RebirthReview)) : null;
+                screen.Bind(tree, _model.Upgrades, _sceneUi.ResourcesTmpFont, _model.BuyProgression, () => _model.CanUseTree(treeId), () => _model.Etheron, CloseModal,
+                    extra, () => !_model.Ended && _model.HasAltar,
+                    node => Resources.Load<Sprite>("UI/Upgrades/" + node.Id), _model.CanUseProgressionNode,
+                    treeId == "research" ? "마법 강화" : null);
             }
-            _skillBar = UpgradeTreeScreen.MakeRect("AltarSkillBar", _sceneUi.Canvas.transform); _skillBar.anchorMin = _skillBar.anchorMax = new Vector2(.5f, 0); _skillBar.pivot = new Vector2(.5f, 0); _skillBar.anchoredPosition = new Vector2(0, 16); _skillBar.sizeDelta = new Vector2(480, 48);
-            string[] ids = { "lightning", "abundance", "ritual" };
-            for (int index = 0; index < ids.Length; index++)
-            {
-                string id = ids[index]; var rect = UpgradeTreeScreen.MakeRect(id, _skillBar); rect.sizeDelta = new Vector2(150, 48); rect.anchoredPosition = new Vector2((index - 1) * 160, 0);
-                var image = rect.gameObject.AddComponent<Image>(); image.color = new Color(.09f, .19f, .24f, .96f);
-                var button = rect.gameObject.AddComponent<Button>(); button.targetGraphic = image; button.onClick.AddListener(() => CastSkill(id));
-                button.navigation = new Navigation { mode = Navigation.Mode.None };
-                var outline = rect.gameObject.AddComponent<Outline>(); outline.effectColor = new Color(.75f, .57f, .27f); outline.effectDistance = new Vector2(1, -1);
-                var labelRect = UpgradeTreeScreen.MakeRect("Label", rect); UpgradeTreeScreen.Stretch(labelRect);
-                var label = labelRect.gameObject.AddComponent<TextMeshProUGUI>(); label.font = _sceneUi.ResourcesTmpFont; label.fontSize = 17; label.alignment = TextAlignmentOptions.Center; label.raycastTarget = false;
-                _skillButtons.Add(id, button);
-            }
+            if (_skillBar == null || _lightningButton == null || _abundanceButton == null || _ritualButton == null)
+            { Debug.LogError("Assign AltarSkillBar and its three prefab buttons.", this); return; }
+            _skillButtons.Add("lightning", _lightningButton); _lightningButton.onClick.AddListener(() => CastSkill("lightning"));
+            _skillButtons.Add("abundance", _abundanceButton); _abundanceButton.onClick.AddListener(() => CastSkill("abundance"));
+            _skillButtons.Add("ritual", _ritualButton); _ritualButton.onClick.AddListener(() => CastSkill("ritual"));
             _model.LightningStruck += ShowSkillLightning;
         }
         private void UpdateProgressionInput()
         {
             if (_model.Skills == null) return;
             if (_pointerValid && _model.PointerVisible && _modal == Modal.None) { _skillAim = _pointer; _skillAimValid = true; }
-            if (_modal == Modal.None && !_model.Frozen && !_tileBuildMenu && Application.isFocused && Keyboard.current != null)
+            if (!_model.Settings.MvpSlots && _modal == Modal.None && !_model.Frozen && !_tileBuildMenu && Application.isFocused && Keyboard.current != null)
             {
                 if (Keyboard.current.qKey.wasPressedThisFrame) CastSkill("lightning");
                 if (Keyboard.current.wKey.wasPressedThisFrame) CastSkill("abundance");
                 if (Keyboard.current.eKey.wasPressedThisFrame) CastSkill("ritual");
             }
-            if (_skillBar != null) _skillBar.gameObject.SetActive(_modal == Modal.None && !_model.Frozen && _model.Skills.States.Values.Any(state => state.Level > 0));
+            if (_skillBar != null) _skillBar.gameObject.SetActive(_modal == Modal.None && !_model.Frozen && _model.Mode == InputMode.Work && _model.Skills.States.Values.Any(state => state.Level > 0));
             foreach (var entry in _skillButtons)
             {
                 var state = _model.Skills.States[entry.Key]; string key = entry.Key == "lightning" ? "Q" : entry.Key == "abundance" ? "W" : "E";
                 var data = ProgressionCatalog.Skills.Find(skill => skill.Id == entry.Key);
-                entry.Value.interactable = state.Level > 0 && state.CooldownRemaining <= 0 && _model.Has(Kind.Altar);
-                entry.Value.GetComponentInChildren<TMP_Text>().text = "[" + key + "] " + data.Title + "\n" + (state.Level == 0 ? "미해금" : state.ActiveRemaining > 0 ? "발동 중 " + state.ActiveRemaining.ToString("0.0") : state.CooldownRemaining > 0 ? state.CooldownRemaining.ToString("0.0") + "초" : "준비");
+                entry.Value.interactable = !_model.Settings.MvpSlots && state.Level > 0 && state.CooldownRemaining <= 0 && _model.HasAltar;
+                entry.Value.GetComponentInChildren<TMP_Text>().text = (_model.Settings.MvpSlots ? "[자동] " : "[" + key + "] ") + data.Title + "\n" + (state.Level == 0 ? "미해금" : state.ActiveRemaining > 0 ? "발동 중 " + state.ActiveRemaining.ToString("0.0") : state.CooldownRemaining > 0 ? state.CooldownRemaining.ToString("0.0") + "초" : !_model.HasAltar ? "제단 필요" : "준비");
             }
             for (int index = _skillBolts.Count - 1; index >= 0; index--)
                 if (Time.unscaledTime >= _skillBolts[index].Expires) { Destroy(_skillBolts[index].Line.gameObject); _skillBolts.RemoveAt(index); }
@@ -116,7 +96,7 @@ namespace Afterlife.Prototype
         }
         private void CastSkill(string id)
         {
-            if (_modal != Modal.None || _model.Frozen || !_skillAimValid && id != "abundance") return;
+            if (_model.Settings.MvpSlots || _modal != Modal.None || _model.Frozen || _model.Mode != InputMode.Work || !_skillAimValid && id != "abundance") return;
             if (!_model.TryCastSkill(id, _skillAim, _skillAimValid)) PlaySound(SoundCue.Error);
         }
         private void ShowSkillLightning(Point origin, Point target)

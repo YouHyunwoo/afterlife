@@ -18,14 +18,13 @@ namespace Afterlife.Prototype
                 _previousWorldMaterial = _sceneUi.WorldDisplay.material;
                 _visionBlur = new VisionBlurRenderer(_camera);
             }
-            // UI 위나 모달에서는 마지막 초점을 유지한다. 건설 모드도 커서 주변은 선명하다.
-            bool hasPointer = _model.PointerVisible || (_model.Mode == InputMode.Build && _pointerValid);
-            if (hasPointer && _modal == Modal.None && Application.isFocused)
+            // 시야와 블러는 모드별 예외 없이 모델의 커서 활성 상태와 위치를 공유한다.
+            _hasVisionBlurFocus = _model.PointerVisible;
+            if (_hasVisionBlurFocus)
             {
-                Point point = _model.PointerVisible ? _model.WorkCenter : _pointer;
+                Point point = _model.WorkCenter;
                 float height = _terrainSurface != null ? _terrainSurface.Height(point.X, point.Z) : 0;
                 _visionBlurFocus = new Vector3(point.X, height, point.Z);
-                _hasVisionBlurFocus = true;
             }
             _visionBlur.SetSource(_pixels);
             _visionBlur.SetFocus(_settings.VisionBlur, _hasVisionBlurFocus, _visionBlurFocus, _settings.CursorVision);

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d60136e39488b0e4495e5ffa9e91e8bc, type: 3}
+  m_Name: Destruction
+  m_EditorClassIdentifier: 
+  HitsToBreak: 4
+  TreeFallSeconds: 1.1
+  TreeFallDegrees: 88
+  TreeHoldSeconds: 0.55
+  RockFragmentCount: 6
+  RockRollSeconds: 1.5
+  RemovalSeconds: 1.15

@@ -1,0 +1,181 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 979da432ae3f9a04e9c17f60a61bae92, type: 3}
+  m_Name: Units
+  m_EditorClassIdentifier: 
+  Values:
+    Entries:
+    - Id: 9
+      DisplayName: "\uC804\uC0AC"
+      Health: 90
+      Damage: 12
+      Range: 0.52
+      MoveSpeed: 2
+      AttackSeconds: 0.9
+      Vision: 8
+      RecruitmentMultiplier: 1
+      ProjectileSpeed: 11
+      Price: 10
+      KillGold: 0
+      RequiresBuilding: 0
+      RequiredBuilding: 0
+      Loot: 
+    - Id: 10
+      DisplayName: "\uAD81\uC218"
+      Health: 60
+      Damage: 11
+      Range: 4.5
+      MoveSpeed: 2
+      AttackSeconds: 1.5
+      Vision: 8
+      RecruitmentMultiplier: 1
+      ProjectileSpeed: 11
+      Price: 15
+      KillGold: 0
+      RequiresBuilding: 0
+      RequiredBuilding: 0
+      Loot: 
+    - Id: 11
+      DisplayName: "\uB9C8\uBC95\uC0AC"
+      Health: 60
+      Damage: 20
+      Range: 4
+      MoveSpeed: 2
+      AttackSeconds: 1.5
+      Vision: 8
+      RecruitmentMultiplier: 1.5
+      ProjectileSpeed: 7
+      Price: 30
+      KillGold: 0
+      RequiresBuilding: 1
+      RequiredBuilding: 6
+      Loot: 
+    - Id: 12
+      DisplayName: "\uAE30\uC0AC"
+      Health: 150
+      Damage: 18
+      Range: 0.52
+      MoveSpeed: 2
+      AttackSeconds: 0.9
+      Vision: 8
+      RecruitmentMultiplier: 1.8
+      ProjectileSpeed: 11
+      Price: 40
+      KillGold: 0
+      RequiresBuilding: 1
+      RequiredBuilding: 6
+      Loot: 
+    - Id: 13
+      DisplayName: "\uC2AC\uB77C\uC784"
+      Health: 30
+      Damage: 5
+      Range: 0.52
+      MoveSpeed: 1.2
+      AttackSeconds: 1.2
+      Vision: 8
+      RecruitmentMultiplier: 1
+      ProjectileSpeed: 11
+      Price: 0
+      KillGold: 2
+      RequiresBuilding: 0
+      RequiredBuilding: 0
+      Loot: 00000000
+    - Id: 16
+      DisplayName: "\uACE0\uBE14\uB9B0"
+      Health: 36
+      Damage: 7
+      Range: 0.52
+      MoveSpeed: 2.15
+      AttackSeconds: 0.9
+      Vision: 8
+      RecruitmentMultiplier: 1
+      ProjectileSpeed: 11
+      Price: 0
+      KillGold: 3
+      RequiresBuilding: 0
+      RequiredBuilding: 0
+      Loot: 0100000002000000
+    - Id: 17
+      DisplayName: "\uACE0\uBE14\uB9B0 \uC804\uC0AC"
+      Health: 80
+      Damage: 10
+      Range: 0.52
+      MoveSpeed: 1.45
+      AttackSeconds: 0.9
+      Vision: 8
+      RecruitmentMultiplier: 1
+      ProjectileSpeed: 11
+      Price: 0
+      KillGold: 5
+      RequiresBuilding: 0
+      RequiredBuilding: 0
+      Loot: 03000000
+    - Id: 18
+      DisplayName: "\uACE0\uBE14\uB9B0 \uC8FC\uC220\uC0AC"
+      Health: 55
+      Damage: 14
+      Range: 4.8
+      MoveSpeed: 1.3
+      AttackSeconds: 1.5
+      Vision: 10
+      RecruitmentMultiplier: 1
+      ProjectileSpeed: 7
+      Price: 0
+      KillGold: 4
+      RequiresBuilding: 0
+      RequiredBuilding: 0
+      Loot: 04000000
+    - Id: 19
+      DisplayName: "\uC624\uD06C"
+      Health: 140
+      Damage: 18
+      Range: 0.65
+      MoveSpeed: 0.95
+      AttackSeconds: 1.4
+      Vision: 8
+      RecruitmentMultiplier: 1
+      ProjectileSpeed: 11
+      Price: 0
+      KillGold: 8
+      RequiresBuilding: 0
+      RequiredBuilding: 0
+      Loot: 05000000
+    - Id: 20
+      DisplayName: "\uB9AC\uC790\uB4DC"
+      Health: 65
+      Damage: 12
+      Range: 5
+      MoveSpeed: 2.2
+      AttackSeconds: 1.5
+      Vision: 10
+      RecruitmentMultiplier: 1
+      ProjectileSpeed: 11
+      Price: 0
+      KillGold: 4
+      RequiresBuilding: 0
+      RequiredBuilding: 0
+      Loot: 06000000
+    - Id: 14
+      DisplayName: "\uC0AC\uC2B4"
+      Health: 25
+      Damage: 5
+      Range: 0.52
+      MoveSpeed: 0.6
+      AttackSeconds: 0.9
+      Vision: 8
+      RecruitmentMultiplier: 1
+      ProjectileSpeed: 11
+      Price: 0
+      KillGold: 0
+      RequiresBuilding: 0
+      RequiredBuilding: 0
+      Loot: 0700000008000000

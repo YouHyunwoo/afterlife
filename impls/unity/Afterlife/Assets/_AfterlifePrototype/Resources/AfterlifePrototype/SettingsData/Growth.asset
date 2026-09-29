@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b401ad7caa77954449e0e8dada28cba9, type: 3}
+  m_Name: Growth
+  m_EditorClassIdentifier: 
+  Values:
+    MaxLevel: 5
+    CostPerLevel: 30
+    TowerMaxLevel: 5
+    TowerCostPerLevel: 40
+    PulseMultiplier: 0.84
+    MinimumPulseSeconds: 0.75
+    ConstructionPerLevel: 0.5
+    WallHealthPerLevel: 0.25
+    CriticalChancePerLevel: 0.05
+    CriticalPowerPerLevel: 0.5
+    TowerDamagePerLevel: 0.2
+    TowerRangePerLevel: 0.35
+    TowerResearchRangePerLevel: 0.5
+    IgniteChancePerLevel: 0.05
+    FireImpact: 8
+    FireImpactPerLevel: 0.3
+    BurnDamage: 3
+    BurnDamagePerLevel: 0.4
+    BurnSeconds: 3
+    BurnSecondsPerLevel: 1

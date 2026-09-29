@@ -24,7 +24,7 @@ namespace Afterlife.Prototype
             return !CursorAutomationUnlocked && !Frozen && !Ended && Mode==InputMode.Work && b!=null && b.Alive
                 && Visibility(b.Position)>.12f && (b.MovingOut || b.MoveSource!=0 || b.Kind==Kind.Tree || b.Kind==Kind.Rock
                 || b.Kind==Kind.Chest || b.Kind==Kind.Treasure || b.Hostile || b.Kind==Kind.Animal
-                || b.Building && (!b.Complete || b.Health<b.MaxHealth && Money>0));
+                || b.Building && b.Complete && b.Health<b.MaxHealth && Money>0);
         }
         public bool ManualWork(int id)
         {

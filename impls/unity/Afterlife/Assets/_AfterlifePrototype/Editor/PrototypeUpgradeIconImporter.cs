@@ -40,7 +40,7 @@ namespace Afterlife.Prototype.Editor
                 var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(Folder + node.Id + ".png");
                 if (sprite == null) continue; node.Icon = sprite; changed = true;
             }
-            if (changed) { EditorUtility.SetDirty(catalog); AssetDatabase.SaveAssetIfDirty(catalog); }
+            if (changed) { foreach(var asset in catalog.DataAssets){EditorUtility.SetDirty(asset);AssetDatabase.SaveAssetIfDirty(asset);} }
         }
     }
 }

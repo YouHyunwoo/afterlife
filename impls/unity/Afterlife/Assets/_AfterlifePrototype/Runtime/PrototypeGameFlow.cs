@@ -1,5 +1,5 @@
 using System;
-using Reusable.Flow;
+using Afterlife.Modules.Flow;
 
 namespace Afterlife.Prototype
 {
@@ -23,7 +23,7 @@ namespace Afterlife.Prototype
         { Victory = victory; BestCleared = bestCleared; Rebirths = rebirths; Kills = kills; }
     }
 
-    // 게임 규칙과 세션 수명은 어댑터에만 있다. Reusable.Flow에는 게임 상태 이름도 없다.
+    // 게임 규칙과 세션 수명은 어댑터에만 있다. Afterlife.Modules.Flow에는 게임 상태 이름도 없다.
     public sealed class PrototypeGameFlow : IDisposable
     {
         private readonly FlowMachine<GameScreen, GameFlowTrigger> _machine;
@@ -50,7 +50,8 @@ namespace Afterlife.Prototype
                 Route(GameScreen.Playing, GameFlowTrigger.Lost, GameScreen.GameOver),
                 Route(GameScreen.Clear, GameFlowTrigger.ReturnToTitle, GameScreen.Title),
                 Route(GameScreen.GameOver, GameFlowTrigger.ReturnToTitle, GameScreen.Title),
-                Route(GameScreen.Playing, GameFlowTrigger.ReturnToTitle, GameScreen.Title)
+                Route(GameScreen.Playing, GameFlowTrigger.ReturnToTitle, GameScreen.Title),
+                Route(GameScreen.GameOver, GameFlowTrigger.Start, GameScreen.Playing)
             });
             _machine.StateChanged += OnScreenChanged;
         }
@@ -62,6 +63,13 @@ namespace Afterlife.Prototype
         public bool StartGame() => _machine.TrySend(GameFlowTrigger.Start);
         public bool CompleteIntro() => _machine.TrySend(GameFlowTrigger.IntroCompleted);
         public bool ReturnToTitle() => _machine.TrySend(GameFlowTrigger.ReturnToTitle);
+        public bool Retry()
+        {
+            if (Current != GameScreen.GameOver || _machine.IsTransitioning) return false;
+            if (!_machine.TrySend(GameFlowTrigger.Start)) return false;
+            Result = null;
+            return true;
+        }
         public bool Complete(GameFlowResult result)
         {
             if (result == null) throw new ArgumentNullException(nameof(result));

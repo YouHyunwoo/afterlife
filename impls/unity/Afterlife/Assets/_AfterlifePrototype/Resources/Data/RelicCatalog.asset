@@ -42,3 +42,15 @@ MonoBehaviour:
     DisplayName: "\uC21C\uD658\uC758 \uBAA8\uB798\uC2DC\uACC4"
     Icon: {fileID: 21300000, guid: d5f4f4e1cb614e14d88feb2621a41b86, type: 2}
     TooltipTemplate: "{name} \xB7 {level}\uB2E8\uACC4\n{effect}"
+  - Id: 7
+    DisplayName: "\uB113\uC5B4\uC9C0\uB294 \uC190\uAE38"
+    Icon: {fileID: 21300000, guid: 75c4a825909871440839d82417cb0082, type: 3}
+    TooltipTemplate: "{name} \xB7 {level}\uB2E8\uACC4\n{effect}"
+  - Id: 8
+    DisplayName: "\uBE60\uB978 \uC7AC\uCDA9\uC804"
+    Icon: {fileID: 21300000, guid: b688820f4e1633f4791c91149fc826f1, type: 3}
+    TooltipTemplate: "{name} \xB7 {level}\uB2E8\uACC4\n{effect}"
+  - Id: 9
+    DisplayName: "\uCD94\uAC00 \uD544\uB4DC \uC2AC\uB86F"
+    Icon: {fileID: 21300000, guid: f9c3c67aa663dcb44b355057b0177ba6, type: 3}
+    TooltipTemplate: "{name} \xB7 {level}\uB2E8\uACC4\n{effect}"

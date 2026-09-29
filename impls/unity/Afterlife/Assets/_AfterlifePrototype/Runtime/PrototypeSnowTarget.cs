@@ -1,6 +1,7 @@
+using Afterlife.Modules.Snow;
+using Afterlife.Modules.Interaction;
 using System.Collections.Generic;
-using Afterlife.Devlog.Contracts;
-using Afterlife.Devlog.Day01;
+using Afterlife.Modules.TargetContracts;
 using UnityEngine;
 
 namespace Afterlife.Prototype
@@ -13,34 +14,35 @@ namespace Afterlife.Prototype
         public bool IsBroken { get; set; }
         private readonly Vector4[] _hits=new Vector4[32];
         private int _count;
-        private readonly List<ShowcaseSnowCap> _caps=new List<ShowcaseSnowCap>();
+        private readonly List<SnowCapRenderer> _caps=new List<SnowCapRenderer>();
         private Renderer[] _renderers;
         private MaterialPropertyBlock _properties;
         private Matrix4x4 _lastMatrix;
         private bool _dirty=true;
-        public void Initialize(Renderer[] renderers){_renderers=renderers;_properties=new MaterialPropertyBlock();}
-        public ShowcaseSnowCap AddCap(ShowcasePickSurface source)
+        private PrototypeEnvironmentValues _settings=new PrototypeEnvironmentValues();
+        public void Initialize(Renderer[] renderers,PrototypeEnvironmentValues settings=null){_settings=settings??new PrototypeEnvironmentValues();_renderers=renderers;_properties=new MaterialPropertyBlock();}
+        public SnowCapRenderer AddCap(PickSurface source)
         {
-            var cap=new ShowcaseSnowCap(source,this,source.name.StartsWith("Tree1_Mesh"));
+            var cap=new SnowCapRenderer(source,this,source.name.StartsWith("Tree1_Mesh"));
             _caps.Add(cap);return cap;
         }
         public float SnowRemaining(Vector3 world)
         {
             Vector3 local=transform.InverseTransformPoint(world);float remaining=1;
-            for(int i=0;i<_count;i++)remaining*=1-_hits[i].w*ShowcaseSnowErosion.Influence(local,(Vector3)_hits[i]);
+            for(int i=0;i<_count;i++)remaining*=1-_hits[i].w*SnowErosion.Influence(local,(Vector3)_hits[i]);
             return remaining;
         }
-        public bool SnowVisible(Vector3 world)=>ShowcaseSnowErosion.Visible(transform.InverseTransformPoint(world),SnowRemaining(world));
+        public bool SnowVisible(Vector3 world)=>SnowErosion.Visible(transform.InverseTransformPoint(world),SnowRemaining(world));
         public List<Vector3> Hit(Vector3 world)
         {
-            var samples=new List<ShowcaseSnowCap.Sample>();
+            var samples=new List<SnowCapRenderer.Sample>();
             foreach(var cap in _caps)cap.CollectSamples(world,samples);
             Vector3 local=transform.InverseTransformPoint(world);int slot=-1;float nearest=float.PositiveInfinity;
             for(int i=0;i<_count;i++){float distance=Vector3.Distance(local,(Vector3)_hits[i]);if(distance<nearest){nearest=distance;slot=i;}}
-            if(nearest>.12f && _count<_hits.Length){slot=_count++;_hits[slot]=new Vector4(local.x,local.y,local.z,0);}
-            if(slot>=0)_hits[slot].w=Mathf.Min(1,_hits[slot].w+.55f);
+            if(nearest>_settings.SnowHitRadius && _count<_hits.Length){slot=_count++;_hits[slot]=new Vector4(local.x,local.y,local.z,0);}
+            if(slot>=0)_hits[slot].w=Mathf.Min(1,_hits[slot].w+_settings.SnowHitPower);
             var particles=new List<Vector3>();
-            foreach(var sample in samples)if(sample.Before-SnowRemaining(sample.MaskPosition)>.02f && particles.Count<20)particles.Add(sample.Position);
+            foreach(var sample in samples)if(sample.Before-SnowRemaining(sample.MaskPosition)>.02f && particles.Count<_settings.SnowParticlesPerHit)particles.Add(sample.Position);
             foreach(var cap in _caps)cap.Refresh();
             _dirty=true;WriteProperties();return particles;
         }

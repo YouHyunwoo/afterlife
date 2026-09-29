@@ -9,6 +9,7 @@ namespace Afterlife.Prototype
     public sealed class ProgressionRule
     {
         public string NodeId, TreeId, EffectId, SkillId;
+        public bool RequiresAltar;
         public float[] Values;
     }
     // 게임 연결 계층. 독립 모듈 사이의 관계와 월드 효과는 이곳에서만 조립한다.
@@ -31,7 +32,9 @@ namespace Afterlife.Prototype
             if (Upgrades != null) throw new InvalidOperationException("강화 모듈은 씬 조립 시 한 번만 구성합니다.");
             foreach (var rule in rules) _progressionRules.Add(rule.NodeId, rule);
             Upgrades = new UpgradeService(nodes, new ProgressionWallet(this));
-            Skills = new SkillService(skills, new SkillPolicy(this));
+            Skills = new SkillService(skills, Settings.MvpSlots
+                ? (ISkillActivationPolicy)new AutomaticSkillPolicy(() => !Frozen && HasAltar, HasAutomaticSkillTarget)
+                : new SkillPolicy(this));
             Upgrades.Purchased += OnProgressionPurchased;
             Skills.Activated += OnSkillActivated;
             Skills.Pulsed += OnSkillPulsed;
@@ -43,24 +46,23 @@ namespace Afterlife.Prototype
             public ProgressionWallet(VillageModel model) { _model = model; }
             public bool TrySpend(int amount)
             {
-                if (_model.Frozen || amount < 0 || _model.Money < amount) return false;
-                _model.Money -= amount; return true;
+                return _model.TrySpendEtheron(amount);
             }
         }
         private sealed class SkillPolicy : ISkillActivationPolicy
         {
             private readonly VillageModel _model;
             public SkillPolicy(VillageModel model) { _model = model; }
-            public bool CanActivate(string id) => !_model.Frozen && _model.Has(Kind.Altar) &&
+            public bool CanActivate(string id) => !_model.Frozen && _model.HasAltar &&
                 (id == "abundance" || _model.PointerVisible && _model.Bodies.Any(body => body.Alive && body.Hostile && body.DistanceTo(_model.WorkCenter) <= _model.Radius));
         }
-        public bool CanUseTree(string tree) => !Frozen && Has(tree == "research" ? Kind.Research : Kind.Altar);
+        public bool CanUseTree(string tree) => !Frozen && HasAltar;
         public PurchaseResult BuyProgression(string id)
         {
             if (Upgrades == null || !_progressionRules.TryGetValue(id, out var rule)) return PurchaseResult.UnknownNode;
-            if (!CanUseTree(rule.TreeId)) return PurchaseResult.Locked;
+            if (!CanUseProgressionNode(id)) { Say("제단 또는 성소가 필요합니다."); return PurchaseResult.Locked; }
             var result = Upgrades.Purchase(id);
-            if (result != PurchaseResult.Success) Say(result == PurchaseResult.InsufficientFunds ? "골드가 부족합니다." : "모든 부모 강화를 1단계 이상 구매해야 합니다.");
+            if (result != PurchaseResult.Success) Say(result == PurchaseResult.InsufficientFunds ? "에테론이 부족합니다." : "모든 부모 강화를 1단계 이상 구매해야 합니다.");
             return result;
         }
         private void OnProgressionPurchased(string id, int level)
@@ -79,6 +81,7 @@ namespace Afterlife.Prototype
             foreach (var body in Bodies)
                 if (body.Alive && body.Building) { body.MaxHealth *= structure; body.Health *= structure; body.SpiritShield *= structure; }
             Recalculate(); _pulseClock = Math.Min(_pulseClock, Interval);
+            RefreshFieldSlots();
             Say("강화 " + id + " · " + level + "단계 적용");
         }
         private void ResetProgression()
@@ -89,6 +92,7 @@ namespace Afterlife.Prototype
         {
             _abundanceEcho = Math.Max(0, _abundanceEcho - dt);
             Skills?.Tick(dt);
+            TickAutomaticSkills();
             foreach (var body in Bodies)
             {
                 body.ShockRemaining = Math.Max(0, body.ShockRemaining - dt);
@@ -103,7 +107,7 @@ namespace Afterlife.Prototype
         }
         public bool TryCastSkill(string id, Point aim, bool valid)
         {
-            if (Skills == null || Frozen) return false;
+            if (Settings.MvpSlots || Skills == null || Frozen) return false;
             var previous = WorkCenter; bool visible = PointerVisible;
             WorkCenter = aim; PointerVisible = valid;
             try { return Skills.TryActivate(id); }
@@ -116,12 +120,12 @@ namespace Afterlife.Prototype
             else if (id == "abundance")
             {
                 _abundanceEcho = 0;
-                GrantShields(Effect("blessedShield"), 10, false);
+                GrantShields(Effect("blessedShield"), Rules.Combat.AbundanceShieldSeconds, false);
                 Say("풍요의 기도 · 채집과 자원 재생 가속");
             }
         }
         private void OnSkillPulsed(string id) { if (id == "ritual") StrikeLightning(Effect("ritual"), true); }
-        private void OnSkillExpired(string id) { if (id == "abundance" && Effect("echo") > 0) _abundanceEcho = 10; }
+        private void OnSkillExpired(string id) { if (id == "abundance" && Effect("echo") > 0) _abundanceEcho = Rules.Combat.EchoSeconds; }
         private void GrantShields(float ratio, float seconds, bool guardian)
         {
             if (ratio <= 0) return;
@@ -139,25 +143,26 @@ namespace Afterlife.Prototype
         }
         private void StrikeLightning(float multiplier, bool ritual)
         {
-            if (!PointerVisible) return;
-            var targets = Bodies.Where(body => body.Alive && body.Hostile && body.DistanceTo(WorkCenter) <= Radius).ToArray();
+            if (!Settings.MvpSlots && !PointerVisible) return;
+            var targets = Settings.MvpSlots ? new[] { AutomaticAttackTarget() }.Where(body => body != null).ToArray()
+                : Bodies.Where(body => body.Alive && body.Hostile && body.DistanceTo(WorkCenter) <= Radius).ToArray();
             if (targets.Length == 0) return;
             var first = targets[_random.Next(targets.Length)];
-            var hit = new HashSet<int>(); var target = first; var origin = WorkCenter; int kills = 0;
+            var hit = new HashSet<int>(); var target = first; var origin = Settings.MvpSlots ? first.Position : WorkCenter; int kills = 0;
             for (int hop = 0; target != null && hop <= (int)Effect("chain"); hop++)
             {
                 hit.Add(target.Id);
                 // 주문은 물리 연구 수치와 분리된 기본 피해를 사용한다.
-                float damage = 24 * multiplier * (hop == 0 ? 1 : .5f);
+                float damage = Rules.Combat.LightningDamage * multiplier * (hop == 0 ? 1 : Rules.Combat.ChainDamageMultiplier);
                 LightningStruck?.Invoke(origin, target.Position);
                 ApplyDamage(target, damage); EmitText(target, "번개 " + damage.ToString("0.#"), FeedbackKind.Lightning);
                 if (!target.Alive) kills++;
-                else { target.ShockRemaining = 3; target.ShockMultiplier = Effect("shock"); }
+                else { target.ShockRemaining = Rules.Combat.ShockSeconds; target.ShockMultiplier = Effect("shock"); }
                 origin = target.Position;
-                target = Bodies.Where(body => body.Alive && body.Hostile && !hit.Contains(body.Id) && Point.Distance(body.Position, origin) <= 3)
-                    .OrderBy(body => Point.Distance(body.Position, origin)).FirstOrDefault();
+                target = Bodies.Where(body => body.Alive && body.Hostile && !hit.Contains(body.Id) && (!Settings.MvpSlots || InsideVillage(body)) && Point.Distance(body.Position, origin) <= Rules.Combat.ChainRange)
+                    .OrderBy(body => Point.Distance(body.Position, origin)).ThenBy(body=>body.Id).FirstOrDefault();
             }
-            float refund = Math.Min(ritual ? Math.Max(0, 3 - _ritualRefund) : 3, kills * Effect("harvest"));
+            float refund = Math.Min(ritual ? Math.Max(0, Rules.Combat.HarvestRefundCap - _ritualRefund) : Rules.Combat.HarvestRefundCap, kills * Effect("harvest"));
             Skills.ReduceCooldown("abundance", refund);
             if (ritual) _ritualRefund += refund;
         }

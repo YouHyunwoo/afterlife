@@ -15,13 +15,13 @@ Shader "Afterlife/Prototype/PixelSurface"
             #pragma vertex Vert
             #pragma fragment Frag
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-            #include "Assets/Devlog/Youtube/Modules/Wind/Shaders/ShowcaseWind.hlsl"
-            #include "Assets/Devlog/Youtube/Modules/Lighting/Shaders/ShowcaseEmission.hlsl"
+            #include "Assets/Afterlife/Modules/Wind/Shaders/WindField.hlsl"
+            #include "Assets/Afterlife/Modules/Lighting/Shaders/SurfaceEmission.hlsl"
             #include "Assets/_AfterlifePrototype/Shaders/PrototypeGroundVisibility.hlsl"
             #include "Assets/_AfterlifePrototype/Shaders/PrototypeGroundAppearance.hlsl"
-            #include "Assets/Devlog/Youtube/Modules/Hover/Shaders/ShowcaseHover.hlsl"
-            #include "Assets/Devlog/Youtube/Modules/Destruction/Shaders/ShowcaseDissolve.hlsl"
-            #include "Assets/Devlog/Youtube/Modules/Snow/Shaders/ShowcaseSnowErosion.hlsl"
+            #include "Assets/Afterlife/Modules/Hover/Shaders/HoverEffects.hlsl"
+            #include "Assets/Afterlife/Modules/Destruction/Shaders/Dissolve.hlsl"
+            #include "Assets/Afterlife/Modules/Snow/Shaders/SnowErosion.hlsl"
             float _Snow, _SnowShell;
             int _SnowHitCount;
             float4 _SnowHits[32];
@@ -38,7 +38,7 @@ Shader "Afterlife/Prototype/PixelSurface"
             float _DamageWood;
             float4 _DamageMarksV1[8],_DamageNormalsV1[8];
             float4x4 _DamageWorldToLocal;
-            #include "Assets/Devlog/Youtube/Modules/DamageMarks/Shaders/ShowcaseDamageMarks.hlsl"
+            #include "Assets/Afterlife/Modules/DamageMarks/Shaders/DamageMarks.hlsl"
             TEXTURE2D(_VegetationMask); SAMPLER(sampler_VegetationMask);
             float4 _VegetationBounds;
             float _PrototypeNight;
@@ -87,7 +87,7 @@ Shader "Afterlife/Prototype/PixelSurface"
                 if(_Grass>.5)output.world.x+=sin(_Time.y*2+output.world.z*1.7+output.world.x)*.08*saturate(input.positionOS.y+.5);
                 half3 foliageColor=_BaseColor.rgb*lerp(half3(1,1,1),input.color.rgb,saturate(_VertexPalette));
                 if(_FoliageWind>.5 && foliageColor.g>foliageColor.r*1.08 && foliageColor.g>foliageColor.b*1.05)
-                    output.world.xz+=DevlogWindAt(output.world)*(.025*saturate(output.world.y*2));
+                    output.world.xz+=WindAt(output.world)*(.025*saturate(output.world.y*2));
                 output.positionCS = TransformWorldToHClip(output.world);
                 output.normalWS = TransformObjectToWorldNormal(input.normalOS);
                 output.color = lerp(half4(1,1,1,1),input.color,saturate(_VertexPalette));
@@ -104,10 +104,11 @@ Shader "Afterlife/Prototype/PixelSurface"
                 if(_Dissolve>0)clip(DissolveVisibility(input.removalLocal,_DissolveScale,_Dissolve));
                 float2 uv = (input.world.xz + _PrototypeMapRadius) / max(.01,2*_PrototypeMapRadius);
                 half3 sight = SAMPLE_TEXTURE2D(_PrototypeVision,sampler_PrototypeVision,uv).rgb;
-                float visibility=0;
+                float territorySight=PrototypeTerritoryVision(input.world.xz,_PrototypeMapRadius);
+                float visibility=max(territorySight,PrototypeBuildingVision(input.world.xz,_PrototypeMapRadius));
                 for(int i=0;i<_VisionCount;i++)
                 {
-                    visibility=max(visibility,ShowcaseVisionCircle(input.world.xz,_VisionSources[i].xy,_VisionSources[i].z,_VisionSources[i].w));
+                    visibility=max(visibility,VisionCircle(input.world.xz,_VisionSources[i].xy,_VisionSources[i].z,_VisionSources[i].w));
                 }
                 visibility=smoothstep(0,1,visibility);
                 half light = saturate(dot(normalize(input.normalWS + .00001), normalize(float3(-.4,.85,-.3))));
@@ -172,10 +173,9 @@ Shader "Afterlife/Prototype/PixelSurface"
                 color=floor(saturate(color)*31.0+.5)/31.0;
                 #endif
                 if(linkedGround)color=PrototypeGroundColor(input.world);
-                float warm=0;
-                for(int j=0;j<_LampCount;j++)warm=max(warm,saturate(1-distance(input.world.xz,_VillageLamps[j].xy)/_VillageLamps[j].z));
-                if(_Overlay<.5)color*=PrototypeGroundBrightness(_PrototypeNight,warm);
-                color+=half3(.10,.055,.01)*warm*_PrototypeNight;
+                float warm=PrototypeTerritoryLight(input.world.xz,_PrototypeMapRadius);
+                for(int j=0;j<_LampCount;j++)warm=max(warm,PrototypeLampInfluence(input.world,_VillageLamps[j]));
+                if(_Overlay<.5)color=PrototypeNightLighting(color,_PrototypeNight,warm);
                 if(_Ground>.5&&_CursorCircle.z>0&&(_TerrainRelief<.5||input.color.a>=0))
                 {
                     float2 delta=input.world.xz-_CursorCircle.xy;
@@ -187,7 +187,7 @@ Shader "Afterlife/Prototype/PixelSurface"
                     color=lerp(color,_CursorColor.rgb,max(fill,ring));
                 }
                 if(_Overlay<.5 && _Ground<.5 && _SnowShell<.5)
-                    color=ShowcaseEmission(color,input.color.rgb,_BaseColor.rgb,_CrystalGlow,_HouseWindows,_PrototypeNight,_Time.y);
+                    color=SurfaceEmission(color,input.color.rgb,_BaseColor.rgb,_CrystalGlow,_HouseWindows,_PrototypeNight,_Time.y);
                 return half4(lerp(color,_BaseColor.rgb,saturate(_Overlay)),(_Ground>.5||_Overlay>.5)?_BaseColor.a:_BaseColor.a*input.color.a);
             }
             ENDHLSL

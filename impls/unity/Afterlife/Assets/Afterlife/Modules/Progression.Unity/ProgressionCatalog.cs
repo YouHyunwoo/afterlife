@@ -22,6 +22,7 @@ namespace Afterlife.Modules.Progression
         public List<string> Parents = new List<string>();
         public string EffectId;
         public string SkillId;
+        public bool RequiresAltar;
         public string ValueFormat = "0.##";
         public string ValueSuffix = "";
         public List<UpgradeLevelData> Levels = new List<UpgradeLevelData>();
@@ -50,8 +51,25 @@ namespace Afterlife.Modules.Progression
     [CreateAssetMenu(menuName = "Afterlife/Progression Catalog")]
     public sealed class ProgressionCatalog : ScriptableObject
     {
-        public List<UpgradeTreeData> Trees = new List<UpgradeTreeData>();
-        public List<SkillData> Skills = new List<SkillData>();
+        public List<UpgradeTreeAsset> TreeAssets = new List<UpgradeTreeAsset>();
+        public SkillCatalog SkillCatalog;
+        [SerializeField,HideInInspector,UnityEngine.Serialization.FormerlySerializedAs("Trees")]
+        private List<UpgradeTreeData> _legacyTrees = new List<UpgradeTreeData>();
+        [SerializeField,HideInInspector,UnityEngine.Serialization.FormerlySerializedAs("Skills")]
+        private List<SkillData> _legacySkills = new List<SkillData>();
+        public List<UpgradeTreeData> Trees { get => TreeAssets.Count>0 ? TreeAssets.Select(asset=>asset.Data).ToList() : _legacyTrees; set { TreeAssets.Clear(); _legacyTrees=value; } }
+        public List<SkillData> Skills { get => SkillCatalog!=null ? SkillCatalog.Entries : _legacySkills; set { SkillCatalog=null; _legacySkills=value; } }
+        public ScriptableObject TreeOwner(int index) => TreeAssets.Count>0 ? (ScriptableObject)TreeAssets[index] : this;
+        public IEnumerable<ScriptableObject> DataAssets => new ScriptableObject[]{this}.Concat(TreeAssets).Concat(SkillCatalog!=null?new ScriptableObject[]{SkillCatalog}:Array.Empty<ScriptableObject>());
+        public ProgressionCatalog RuntimeCopy()
+        {
+            var result=Instantiate(this);
+            // 참조된 트리도 복사하여 플레이 중 에셋 변경이 런타임 구매 정의와 어긋나지 않게 한다.
+            result._legacyTrees=Trees.Select(tree=>JsonUtility.FromJson<UpgradeTreeData>(JsonUtility.ToJson(tree))).ToList();
+            result._legacySkills=Skills.Select(skill=>JsonUtility.FromJson<SkillData>(JsonUtility.ToJson(skill))).ToList();
+            result.TreeAssets.Clear();result.SkillCatalog=null;
+            return result;
+        }
         public IEnumerable<UpgradeNodeData> Nodes => Trees.SelectMany(tree => tree.Nodes);
         public List<string> Validate()
         {

@@ -12,41 +12,74 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 008ac2a30351a2f44a003c7423893259, type: 3}
   m_Name: Settings
   m_EditorClassIdentifier: 
-  FirstPreparation: 60
-  Maintenance: 45
-  CursorRadius: 0.65
-  HouseRadius: 3.8
-  WoodPerSecond: 2
-  StonePerSecond: 1
-  CursorDamage: 8
-  RepairPerSecond: 12
-  WarriorSeconds: 10
-  WarriorMoney: 10
-  DaySeconds: 35
-  DuskSeconds: 5
-  NightSeconds: 35
-  ContributionSeconds: 1
-  ContributionPower: 1
-  DivinePowerMaximum: 100
-  DivineFieldCost: 30
-  DivinePowerRegeneration: 3
-  DivineFieldDuration: 8
-  VisionBlur: 1
-  CursorVision: 4
-  VillageVision: 9
-  VisionTrailSeconds: 1.4
-  AutoConstruction: 0.25
-  ResourceSpawnSeconds: 12
-  TreeLimit: 780
-  RockLimit: 480
-  MapRadius: 45
-  PrototypeDays: 6
-  CameraGroundDistance: 22.7
-  CameraEdgeBand: 160
-  CameraFastBand: 35
-  CameraMediumBand: 85
-  CameraSlowSpeed: 4
-  CameraMediumSpeed: 10
-  CameraMaxSpeed: 20
-  PixelHeight: 360
-  SoundVolume: 0.7
+  Camera: {fileID: 11400000, guid: 948fdeb5df4bbcf4497c683307d3ab7c, type: 2}
+  Presentation: {fileID: 11400000, guid: 70d7738dc38f39a48bb3de3ba6f45f41, type: 2}
+  Audio: {fileID: 11400000, guid: 0ac406d9d0d6b824497a1490b2741acc, type: 2}
+  World: {fileID: 11400000, guid: 80289364f1bcee147b0d1a5a36b2cbad, type: 2}
+  System: {fileID: 11400000, guid: 09e84f971f0df06479662576eb632156, type: 2}
+  Units: {fileID: 11400000, guid: 7134b860c90514844a6e308a8dd9a1b2, type: 2}
+  Waves: {fileID: 11400000, guid: c9d986384ff76f84b8e3575b1337146e, type: 2}
+  Resources: {fileID: 11400000, guid: 55bd8c281ffebd94694379759fe9b142, type: 2}
+  Economy: {fileID: 11400000, guid: 2dd47ba215eacae4583c3a80e3371a1f, type: 2}
+  Combat: {fileID: 11400000, guid: 087650812e7f2d243b27e286d3bbbb44, type: 2}
+  Growth: {fileID: 11400000, guid: 7304dec8c4627af4d875affd53321f89, type: 2}
+  Rebirth: {fileID: 11400000, guid: a856b28ace3c9784694e2eabf70c2a3c, type: 2}
+  Relics: {fileID: 11400000, guid: cfed5673b236b55448aaf4333f974bfd, type: 2}
+  Loot: {fileID: 11400000, guid: 9a38493a32850654b9adda630ef6dccc, type: 2}
+  Chests: {fileID: 11400000, guid: b35dd4d103fa6994bba6ef8aafdf5b63, type: 2}
+  Environment: {fileID: 11400000, guid: 3547e7795a23db041a0583da74499e0a, type: 2}
+  WorldVisuals: {fileID: 11400000, guid: 1cf01c42636c0534f811d120b4151034, type: 2}
+  Destruction: {fileID: 11400000, guid: dc972928522d10043b7dcd4ca73af325, type: 2}
+  _dataVersion: 3
+  _legacyCameraGroundDistance: 22.7
+  _legacyCameraEdgeBand: 160
+  _legacyCameraFastBand: 35
+  _legacyCameraMediumBand: 85
+  _legacyCameraSlowSpeed: 4
+  _legacyCameraMediumSpeed: 10
+  _legacyCameraMaxSpeed: 20
+  _legacyVisionBlur: 1
+  _legacyTreeModelScale: 0.7111111
+  _legacyRockModelScale: 0.6666667
+  _legacyPixelHeight: 360
+  _legacyGrassSizeScale: 0.5555556
+  _legacyGrassUsesTerrainColor: 1
+  _legacyGrassBaseColor: {r: 0.3, g: 0.4, b: 0.23, a: 1}
+  _legacyGrassBeigeColor: {r: 0.65, g: 0.57, b: 0.41, a: 1}
+  _legacyGrassDarkColor: {r: 0.14, g: 0.17, b: 0.15, a: 1}
+  _legacyGrassPaleColor: {r: 0.91, g: 0.93, b: 0.89, a: 1}
+  _legacyGrassTealColor: {r: 0.24, g: 0.48, b: 0.42, a: 1}
+  _legacyGrassMossColor: {r: 0.36, g: 0.43, b: 0.2, a: 1}
+  _legacyGrassPurpleColor: {r: 0.47, g: 0.3, b: 0.48, a: 1}
+  _legacyGrassFlowerPink: {r: 0.82, g: 0.66, b: 0.78, a: 1}
+  _legacyGrassFlowerYellow: {r: 0.95, g: 0.92, b: 0.78, a: 1}
+  _legacySoundVolume: 0.7
+  _legacyResourceSpawnSeconds: 12
+  _legacyTreeLimit: 780
+  _legacyRockLimit: 480
+  _legacyMapSeed: 0
+  _legacyMapRadius: 45
+  _legacyFirstPreparation: 60
+  _legacyMaintenance: 45
+  _legacyCursorRadius: 0.65
+  _legacyHouseRadius: 3.8
+  _legacyWoodPerSecond: 2
+  _legacyStonePerSecond: 1
+  _legacyCursorDamage: 8
+  _legacyRepairPerSecond: 12
+  _legacyWarriorSeconds: 10
+  _legacyWarriorMoney: 10
+  _legacyDaySeconds: 35
+  _legacyDuskSeconds: 5
+  _legacyNightSeconds: 35
+  _legacyContributionSeconds: 1
+  _legacyContributionPower: 1
+  _legacyDivinePowerMaximum: 100
+  _legacyDivineFieldCost: 30
+  _legacyDivinePowerRegeneration: 3
+  _legacyDivineFieldDuration: 8
+  _legacyCursorVision: 4
+  _legacyVillageVision: 9
+  _legacyVisionTrailSeconds: 1.4
+  _legacyAutoConstruction: 0.25
+  _legacyPrototypeDays: 6

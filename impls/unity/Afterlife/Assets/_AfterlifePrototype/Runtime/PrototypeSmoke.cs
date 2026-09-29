@@ -1,12 +1,12 @@
+using Afterlife.Modules.Lighting;
 using System.Collections.Generic;
-using Afterlife.Devlog.Day01;
 using UnityEngine;
 
 namespace Afterlife.Prototype
 {
     public sealed partial class PrototypeView
     {
-        private readonly Dictionary<int,ShowcaseSmoke> _houseSmoke=new Dictionary<int,ShowcaseSmoke>();
+        private readonly Dictionary<int,SmokeEffect> _houseSmoke=new Dictionary<int,SmokeEffect>();
         private readonly List<int> _expiredSmoke=new List<int>();
         private Shader _smokeShader;
         private void UpdateHouseSmoke()
@@ -25,7 +25,7 @@ namespace Afterlife.Prototype
                 if(_smokeShader==null)_smokeShader=Resources.Load<Shader>("PrototypeSmoke");
                 if(_smokeShader==null)return;
                 var root=house.transform;
-                _houseSmoke.Add(body.Id,new ShowcaseSmoke(root,_=>outlet,null,
+                _houseSmoke.Add(body.Id,new SmokeEffect(root,_=>outlet,null,
                     world=>_vegetationWind!=null?_vegetationWind.Sample(world):Vector3.zero,_smokeShader,candidate=>candidate==root));
             }
             foreach(var smoke in _houseSmoke.Values){smoke.SetPaused(_modal==Modal.Menu || _model.Frozen);smoke.TickWind();}

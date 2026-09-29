@@ -2,11 +2,11 @@
 $ErrorActionPreference = 'Stop'
 $projectRoot = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 $moduleSpecs = @(
-    @{ Name='Reusable.Flow'; Pattern='Assets\Afterlife\Modules\Flow\*.cs'; Dependencies=@(); Pure=$true },
+    @{ Name='Afterlife.Flow'; Pattern='Assets\Afterlife\Modules\Flow\*.cs'; Dependencies=@(); Pure=$true },
     @{ Name='Afterlife.Upgrades'; Pattern='Assets\Afterlife\Modules\Upgrades\*.cs'; Dependencies=@(); Pure=$true },
     @{ Name='Afterlife.Skills'; Pattern='Assets\Afterlife\Modules\Skills\*.cs'; Dependencies=@(); Pure=$true },
     @{ Name='Afterlife.Progression.Unity'; Pattern='Assets\Afterlife\Modules\Progression.Unity\*.cs'; Dependencies=@('Afterlife.Upgrades','Afterlife.Skills') },
-    @{ Name='Afterlife.Prototype'; Pattern='Assets\_AfterlifePrototype\Runtime\*.cs'; Dependencies=@('Afterlife.Upgrades','Afterlife.Skills','Afterlife.Progression.Unity','Reusable.Flow') },
+    @{ Name='Afterlife.Prototype'; Pattern='Assets\_AfterlifePrototype\Runtime\*.cs'; Dependencies=@('Afterlife.Upgrades','Afterlife.Skills','Afterlife.Progression.Unity','Afterlife.Flow') },
     @{ Name='Afterlife.Prototype.Editor'; Pattern='Assets\_AfterlifePrototype\Editor\*.cs'; Dependencies=@('Afterlife.Upgrades','Afterlife.Skills','Afterlife.Progression.Unity','Afterlife.Prototype') }
 )
 Push-Location $projectRoot

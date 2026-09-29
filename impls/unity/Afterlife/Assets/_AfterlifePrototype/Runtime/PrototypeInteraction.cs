@@ -26,6 +26,8 @@ namespace Afterlife.Prototype
         }
         private void PushModal(Modal modal)
         {
+            if (_model.Settings.MvpSlots && (modal == Modal.RebirthShop || modal == Modal.RebirthReview)) return;
+            if (_model.Settings.MvpSlots && modal == Modal.Altar) modal = Modal.Research;
             if(_modal==modal)return;
             if(_modal!=Modal.None)_modalStack.Add((_modal,_modalBody));
             _modal=modal;_modalBody=0;_pressActive=false;
@@ -33,18 +35,31 @@ namespace Afterlife.Prototype
         private int _modalBody;
         private Texture2D _fog;
         private Color32[] _fogPixels;
+        private Texture2D _buildingSight;
+        private Color32[] _buildingSightPixels;
+        private const int BuildingSightPixelsPerTile=4;
+        private struct BuildingSightSource
+        {
+            public int Id,Width,Depth;
+            public float X,Z,Radius;
+            public bool Matches(BuildingSightSource other)=>Id==other.Id&&Width==other.Width&&Depth==other.Depth
+                &&X==other.X&&Z==other.Z&&Radius==other.Radius;
+        }
+        private readonly List<BuildingSightSource> _buildingSightSources=new List<BuildingSightSource>();
+        private bool _buildingSightReady;
         private Vector2 _pressScreen;
         private Point _pressWorld;
         private bool _pressActive, _commandDrag, _dragging;
         private int _pressBody;
         private readonly Dictionary<int,LineRenderer> _selectedRings=new Dictionary<int,LineRenderer>();
-        private LineRenderer _commandLine, _arrowHead;
+        [SerializeField] private LineRenderer _commandLine, _arrowHead;
         private Vector3 _cameraVelocity;
         [SerializeField,Range(.02f,1f)] private float _orbitDegreesPerPixel=.2f;
         private bool _orbiting;
         private Vector3 _orbitPivot;
         private Vector2 _orbitLastPointer;
         private int _fogTerritoryRevision=-1;
+        private bool _fogBuildMode;
         private readonly Vector4[] _visionSources=new Vector4[128];
         private readonly Vector4[] _lamps=new Vector4[32];
         private readonly RaycastHit[] _pickHits=new RaycastHit[64];
@@ -62,15 +77,20 @@ namespace Afterlife.Prototype
         private int _lastPulse;
         private float _pulseFlash;
         private int FogSize=>_settings.MapRadius*2+1;
+        private int BuildingSightSize=>FogSize*BuildingSightPixelsPerTile;
 
         private void InitializeInteraction()
         {
-            _fog=new Texture2D(FogSize,FogSize,TextureFormat.RGBA32,false,true){name="Shared village/cursor vision",filterMode=FilterMode.Point,wrapMode=TextureWrapMode.Clamp};
+            _fog=new Texture2D(FogSize,FogSize,TextureFormat.RGBA32,false,true){name="Village territory overlay",filterMode=FilterMode.Point,wrapMode=TextureWrapMode.Clamp};
             _fogPixels=new Color32[FogSize*FogSize];
+            _buildingSight=new Texture2D(BuildingSightSize,BuildingSightSize,TextureFormat.RGBA32,false,true)
+                {name="Building sight union",filterMode=FilterMode.Bilinear,wrapMode=TextureWrapMode.Clamp};
+            _buildingSightPixels=new Color32[BuildingSightSize*BuildingSightSize];
             Shader.SetGlobalTexture("_PrototypeVision",_fog);
+            Shader.SetGlobalTexture("_PrototypeBuildingSight",_buildingSight);
             Shader.SetGlobalFloat("_PrototypeMapRadius",_settings.MapRadius+.5f);
-            _commandLine=Line("Attack move arrow",_gold,.08f);_commandLine.loop=false;
-            _arrowHead=Line("Attack move arrow head",_gold,.08f);_arrowHead.loop=false;
+            ConfigureLine(_commandLine,_gold,.08f);_commandLine.loop=false;
+            ConfigureLine(_arrowHead,_gold,.08f);_arrowHead.loop=false;
         }
         private bool OverUi(Vector2 p)
         {return DebugPanelBlocks(p)||_modal!=Modal.None||_model.Ended||_sceneUi!=null&&_sceneUi.Blocks(new Vector2(p.x,Screen.height-p.y));}
@@ -82,6 +102,17 @@ namespace Afterlife.Prototype
             point=default;return false;
         }
         private bool CameraUiGuard(Vector2 screen)=>_sceneUi!=null&&_sceneUi.Guards(screen);
+        private void UpdateInputMode()
+        {
+            var keyboard=Keyboard.current;
+            bool build=keyboard!=null&&(keyboard.ctrlKey.isPressed||keyboard.shiftKey.isPressed)
+                &&Application.isFocused&&!_model.Frozen&&!_model.Ended;
+            var next=build?InputMode.Build:InputMode.Work;
+            if(_model.Mode==next)return;
+            _model.SetMode(next,_selectedBuildKind??Kind.House);
+            if(build)_inspected=0;
+            _pressActive=false;_dragging=false;_buildingDrag=false;_commandDrag=false;
+        }
         private void UpdateCamera(Vector2 screen,bool blocked,bool edgeHeld=false)
         {
             
@@ -107,22 +138,22 @@ namespace Afterlife.Prototype
             }
             _camera.transform.position+=movement;
         }
-        private float _appliedCameraGroundDistance = -1;
-        private void ApplyCameraGroundDistance()
+        private void ResetCameraGroundDistance()
         {
-            float distance = _settings.CameraGroundDistance;
-            if (float.IsNaN(distance) || float.IsInfinity(distance)) return;
-            distance = Mathf.Max(1f, distance);
-            if (Mathf.Approximately(distance, _appliedCameraGroundDistance)) return;
-            var cameraTransform = _camera.transform;
-            var ray = new Ray(cameraTransform.position, cameraTransform.forward);
-            if (!new Plane(Vector3.up, Vector3.zero).Raycast(ray, out float currentDistance)) return;
-            Vector3 center = ray.GetPoint(currentDistance);
-            cameraTransform.position = center - cameraTransform.forward * distance;
-            // 직교 투영에서도 거리 조정이 화면 확대/축소로 보이도록 초기 구도의 비율을 유지한다.
-            _camera.orthographicSize = 8.7f * distance / 22.825424f;
-            _camera.farClipPlane = Mathf.Max(80f, distance + _settings.MapRadius * 2f);
-            _appliedCameraGroundDistance = distance;
+            if (CaptureActive) return;
+            float maximum = _settings.Camera != null ? _settings.Camera.CameraMaximumGroundDistance : _settings.CameraGroundDistance;
+            _cameraDistance.ResetDistance(_settings.CameraGroundDistance, maximum, _model.Territory.Count, _settings.MapRadius);
+        }
+        private void UpdateCameraGroundDistance()
+        {
+            if (CaptureOwnsInput) return;
+            var settings = _settings.Camera;
+            float maximum = settings != null ? settings.CameraMaximumGroundDistance : _settings.CameraGroundDistance;
+            int expansionTiles = settings != null ? settings.CameraExpansionTilesToMaximum : 1;
+            float followSpeed = settings != null ? settings.CameraDistanceFollowSpeed : 0f;
+            bool paused = _model.Frozen || IsGameplayPausedByModal() || !Application.isFocused;
+            _cameraDistance.FollowTerritory(_model.Territory.Count, _settings.CameraGroundDistance, maximum,
+                expansionTiles, followSpeed, paused ? 0f : Time.deltaTime, _settings.MapRadius);
         }
         private bool CameraGroundCenter(out Vector3 point)
         {
@@ -146,7 +177,6 @@ namespace Afterlife.Prototype
         private void Update()
         {
             if(!_ready)return;Resize();
-            ApplyCameraGroundDistance();
             if(_gameFlow==null||!_gameFlow.IsPlaying){_tileHover?.SetPaused(true);_audio?.TickEnvironment(false,false);return;}
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             if(Keyboard.current!=null&&Keyboard.current.f4Key.wasPressedThisFrame)_showDebugPanel=!_showDebugPanel;
@@ -166,32 +196,33 @@ namespace Afterlife.Prototype
             if(_model.Phase==Phase.Rebirth&&_modal!=Modal.RebirthShop&&!_modalStack.Exists(entry=>entry.modal==Modal.RebirthShop))PushModal(Modal.RebirthShop);
             if(_model.Ended){_modal=Modal.None;_modalStack.Clear();}
             if(_modalBody!=0&&_modal!=Modal.None&&_modal!=Modal.Settlement&&_modal!=Modal.RebirthShop&&_model.Find(_modalBody)==null)CloseModal();
-            if(Keyboard.current!=null&&Keyboard.current.escapeKey.wasPressedThisFrame)
-            {if(_tileBuildMenu)CloseTileBuildMenu();else if(_modal!=Modal.None)CloseModal();else if(_model.Selected.Count>0||_inspected!=0||_model.Mode==InputMode.Build){_model.ClearMode();_inspected=0;_pressActive=false;}else if(!_model.Ended){_modal=Modal.Menu;_modalBody=0;_pressActive=false;}}
+            if (!CaptureOwnsInput) UpdateInputMode();
+            if(!CaptureOwnsInput&&Keyboard.current!=null&&Keyboard.current.escapeKey.wasPressedThisFrame)
+            {if(_modal!=Modal.None)CloseModal();else if(_model.Selected.Count>0||_inspected!=0||_selectedBuildKind.HasValue){_model.Selected.Clear();_selectedBuildKind=null;RefreshBuildSelection();_inspected=0;_pressActive=false;}else if(!_model.Ended){_modal=Modal.Menu;_modalBody=0;_pressActive=false;}}
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             if(_qaActive){UpdateFog();Sync();UpdatePresentation();return;}
 #endif
+            UpdateCameraGroundDistance();
             var mouse=Mouse.current;_hovered=0;_pointerValid=false;_tileHoverValid=false;
             if(mouse!=null)
             {
                 Vector2 screen=mouse.position.ReadValue(),gui=new Vector2(screen.x,Screen.height-screen.y);
-                bool buildMenuWasOpen=_tileBuildMenu;
-                if(buildMenuWasOpen&&Application.isFocused&&mouse.leftButton.wasPressedThisFrame&&(_buildMenuGroup==null||!_buildMenuGroup.blocksRaycasts||!_sceneUi.Contains("Build",screen)))
-                {CloseTileBuildMenu();_pressActive=false;_dragging=false;}
-                // 메뉴 바깥 클릭은 닫기에만 사용하며 같은 클릭으로 월드를 조작하지 않는다.
-                bool blocked=buildMenuWasOpen||OverUi(gui)||_model.Frozen||!Application.isFocused;
-                UpdateCameraOrbit(screen,mouse.middleButton.wasPressedThisFrame,mouse.middleButton.isPressed,blocked);
-                UpdateCamera(screen,blocked,mouse.rightButton.isPressed);
-                bool cameraGesture=mouse.rightButton.isPressed||mouse.middleButton.isPressed;
-                if(cameraGesture){CloseTileBuildMenu();_pressActive=false;_dragging=false;}
-                _pointerValid=MouseWorld(screen,out _pointer);
-                _model.UpdatePointer(_pointer,_pointerValid&&!blocked,_pointerValid&&!blocked&&!_pressActive&&!cameraGesture);
-                if(!blocked&&_pointerValid&&!cameraGesture)
+                bool blocked=OverUi(gui)||_model.Frozen||!Application.isFocused||(CaptureOwnsInput&&!CaptureInputAllowed);
+                if (!CaptureOwnsInput)
                 {
-                    _tileHoverValid=true;
+                    UpdateCameraOrbit(screen,mouse.middleButton.wasPressedThisFrame,mouse.middleButton.isPressed,blocked);
+                    UpdateCamera(screen,blocked,mouse.rightButton.isPressed&&!mouse.rightButton.wasPressedThisFrame);
+                }
+                bool cameraGesture=!CaptureOwnsInput&&(mouse.rightButton.isPressed||mouse.middleButton.isPressed);
+                if(cameraGesture){_pressActive=false;_dragging=false;}
+                _pointerValid=MouseWorld(screen,out _pointer);
+                _model.UpdatePointer(_pointer,_pointerValid&&!blocked,false);
+                if(!blocked&&_pointerValid)
+                {
+                    _tileHoverValid=!cameraGesture;
                     Physics.SyncTransforms();
                     var ray=_camera.ViewportPointToRay(new Vector3(screen.x/Screen.width,screen.y/Screen.height,0));
-                    int hitCount=Physics.RaycastNonAlloc(ray,_pickHits,_camera.farClipPlane);float nearest=float.MaxValue;
+                    int hitCount=Physics.RaycastNonAlloc(ray,_pickHits,_camera.farClipPlane,Physics.DefaultRaycastLayers,QueryTriggerInteraction.Collide);float nearest=float.MaxValue;
                     for(int hi=0;hi<hitCount;hi++)
                     {
                         var hit=_pickHits[hi];var pick=hit.collider.GetComponentInParent<PrototypePick>();var body=pick!=null?_model.Find(pick.Id):null;
@@ -202,12 +233,20 @@ namespace Afterlife.Prototype
                             if(distance<nearest){_hovered=body.Id;nearest=distance;}
                         }
                     }
-                    if(mouse.leftButton.wasPressedThisFrame)
+                    if(_model.Mode==InputMode.Build)_hovered=0;
+                    if(!CaptureOwnsInput&&mouse.rightButton.wasPressedThisFrame&&_model.Mode==InputMode.Work)
+                        InspectBody(_hovered);
+                    if(mouse.leftButton.wasPressedThisFrame&&!cameraGesture)
                     {
-                        CloseTileBuildMenu();_pressActive=true;_dragging=false;_pressScreen=screen;_pressWorld=_pointer;_pressBody=_hovered;
-                        _commandDrag=_model.Selected.Contains(_hovered);
-                        var pressed=_model.Find(_hovered);_buildingDrag=pressed!=null&&pressed.Building&&pressed.Complete&&!pressed.MovingOut;
-                        if(_commandDrag)_pressWorld=_model.Find(_hovered).Position;
+                        bool inVillage=_model.Territory.Contains(VillageModel.TileKey(Mathf.RoundToInt(_pointer.X),Mathf.RoundToInt(_pointer.Z)));
+                        if(_model.Mode==InputMode.Work||inVillage||_selectedBuildKind==Kind.House)
+                        {
+                            _pressActive=true;_dragging=false;_pressScreen=screen;_pressWorld=_pointer;_pressBody=_hovered;
+                            _commandDrag=_model.Mode==InputMode.Work&&_model.Selected.Contains(_hovered);
+                            var pressed=_model.Find(_hovered);
+                            _buildingDrag=_model.Mode==InputMode.Work&&pressed!=null&&pressed.Building&&pressed.Complete&&!pressed.MovingOut;
+                            if(_commandDrag)_pressWorld=pressed.Position;
+                        }
                     }
                 }
                 if(_pressActive&&mouse.leftButton.isPressed)
@@ -223,9 +262,9 @@ namespace Afterlife.Prototype
                 if(blocked&&!mouse.leftButton.isPressed)_pressActive=false;
             }
             else {_orbiting=false;_cameraVelocity=Vector3.zero;_model.UpdatePointer(default,false,false);}
-            UpdateProgressionInput();
+            if (!CaptureOwnsInput) UpdateProgressionInput();
             // 모달별 PauseGameplay 정책을 따른다.
-            _simulationTime+=IsGameplayPausedByModal()?0:Mathf.Min(Time.deltaTime,.1f);
+            _simulationTime+=IsGameplayPausedByModal()||(CaptureActive&&!CaptureInputAllowed)?0:Time.deltaTime;
             _cpuWatch.Restart();UnityEngine.Profiling.Profiler.BeginSample("Prototype.ModelTick");
             while(_simulationTime>=1f/30f){_model.Tick(1f/30f);_simulationTime-=1f/30f;}
             UnityEngine.Profiling.Profiler.EndSample();_modelMilliseconds=(float)_cpuWatch.Elapsed.TotalMilliseconds;
@@ -238,7 +277,23 @@ namespace Afterlife.Prototype
         }
         private void ReleasePointer(Vector2 screen)
         {
-            if(_model.Mode==InputMode.Build){_model.Place(_model.BuildKind,Mathf.RoundToInt(_pointer.X),Mathf.RoundToInt(_pointer.Z));return;}
+            if (CaptureOwnsInput)
+            {
+                if (CaptureInputAllowed && !_dragging)
+                {
+                    if (_pressBody == 0) _model.PlaceDivineField(_pressWorld);
+                    else if (_model.CanDivineFieldInteract(_pressBody)) _model.PlaceDivineFieldOnTarget(_pressBody);
+                }
+                return;
+            }
+            if(_model.Mode==InputMode.Build)
+            {
+                if(_dragging)return;
+                int x=Mathf.RoundToInt(_pointer.X),z=Mathf.RoundToInt(_pointer.Z);
+                if(_selectedBuildKind.HasValue)
+                    _model.Place(_selectedBuildKind.Value,x,z);
+                return;
+            }
             if(_dragging&&_buildingDrag){_model.BeginRelocation(_pressBody,Mathf.RoundToInt(_pointer.X),Mathf.RoundToInt(_pointer.Z));return;}
             if(_dragging&&_commandDrag){_model.AttackMove(_pointer);return;}
             if(_dragging)
@@ -247,24 +302,21 @@ namespace Afterlife.Prototype
                 _model.Select(_model.Bodies.Where(b=>b.Friendly&&_model.Visibility(b.Position)>.12f).Where(b=>
                 {var p=_camera.WorldToViewportPoint(GroundPosition(b.Position,.3f));return p.z>0&&rect.Contains(new Vector2(p.x*Screen.width,p.y*Screen.height));}).Select(b=>b.Id));return;
             }
-            bool fieldModifier=Keyboard.current!=null&&Keyboard.current.shiftKey.isPressed;
             if(_pressBody==0)
             {
-                _model.ClearMode();_inspected=0;
-                if(fieldModifier)_model.PlaceDivineField(_pressWorld);
-                else OpenTileBuildMenu(screen);
+                _model.PlaceDivineField(_pressWorld);
                 return;
             }
-            var body=_model.Find(_pressBody);_inspected=_pressBody;
-            if(fieldModifier || body!=null && _model.CanDivineFieldInteract(body.Id))
-            { _model.PlaceDivineField(_pressWorld);return; }
-            if(body!=null&&body.Friendly){_model.Select(new[]{body.Id});return;}
-            _model.Select(System.Array.Empty<int>());
-            if(body==null||!body.Complete||body.MovingOut)return;
+            _model.PlaceDivineFieldOnTarget(_pressBody);
+        }
+        private void InspectBody(int id)
+        {
+            var body=_model.Find(id);
+            if(body==null||!body.Alive)return;
+            _inspected=id;
+            if(!body.Complete||body.MovingOut)return;
             _modalBody=body.Id;
-            if(body.Kind==Kind.Barracks){_model.SelectBarracks(body.Id);_modal=Modal.Barracks;}
-            else if(body.Kind==Kind.Research)_modal=Modal.Research;
-            else if(body.Kind==Kind.Altar)_modal=Modal.Altar;
+            if(_model.IsProductionBuilding(body.Kind))_modal=Modal.Barracks;
             else if(VillageModel.IsTower(body.Kind))_modal=Modal.Tower;
         }
         private void CloseModal()
@@ -289,8 +341,10 @@ namespace Afterlife.Prototype
         private void RebuildVillageView()
         {
             ClearVillageView();
-            if(_mapRevision!=_model.Terrain.Revision)RebuildMap();
-            _camera.transform.position=new Vector3(10,15,-14);_camera.transform.LookAt(Vector3.zero);_cameraVelocity=Vector3.zero;_orbiting=false;UpdateFog();Sync();
+            if(_mapRoot==null||_mapRevision!=_model.Terrain.Revision)RebuildMap();
+            _camera.transform.SetPositionAndRotation(_initialCameraPosition,_initialCameraRotation);_cameraVelocity=Vector3.zero;_orbiting=false;
+            ResetCameraGroundDistance();UpdateFog();
+            MeasureStartup("Objects",Sync);
         }
         private void ClearVillageView()
         {
@@ -298,22 +352,81 @@ namespace Afterlife.Prototype
             _modalStack.Clear();
             ClearDivineFieldVisuals();
             ClearSkillPresentation();
-            CloseTileBuildMenu(true);
-            foreach(var go in _objects.Values)Destroy(go);_objects.Clear();
+            CloseTileBuildMenu();
+            foreach(var go in _objects.Values){go.SetActive(false);Destroy(go);}_objects.Clear();
             ResetPresentation();_weapons.Clear();_animals.Clear();_worldRigs.Clear();_connectionMasks.Clear();_connectionRevision=-1;_inspected=_hovered=_previousHovered=_modalBody=0;_pressActive=false;_modal=Modal.None;_lastPulse=0;_simulationTime=0;
         }
+        private void UpdateBuildingSight()
+        {
+            int index=0;
+            bool changed=!_buildingSightReady;
+            foreach(var body in _model.Bodies)
+            {
+                if(!body.Building)continue;
+                float radius=_model.BodyVisionRadius(body);
+                if(radius<=0)continue;
+                var source=new BuildingSightSource{Id=body.Id,X=body.Position.X,Z=body.Position.Z,
+                    Width=body.Width,Depth=body.Depth,Radius=radius};
+                if(index==_buildingSightSources.Count){_buildingSightSources.Add(source);changed=true;}
+                else
+                {
+                    if(!_buildingSightSources[index].Matches(source))changed=true;
+                    _buildingSightSources[index]=source;
+                }
+                index++;
+            }
+            if(index<_buildingSightSources.Count)
+            {
+                _buildingSightSources.RemoveRange(index,_buildingSightSources.Count-index);
+                changed=true;
+            }
+            if(!changed)return;
+            _buildingSightReady=true;
+
+            int size=BuildingSightSize;
+            float range=_settings.MapRadius+.5f;
+            float step=1f/BuildingSightPixelsPerTile;
+            for(int pixel=0;pixel<_buildingSightPixels.Length;pixel++)
+                _buildingSightPixels[pixel]=new Color32(0,0,0,255);
+            foreach(var source in _buildingSightSources)
+            {
+                int minX=Mathf.Max(0,Mathf.CeilToInt((source.X-source.Radius+range)/step-.5f));
+                int maxX=Mathf.Min(size-1,Mathf.FloorToInt((source.X+source.Radius+range)/step-.5f));
+                int minZ=Mathf.Max(0,Mathf.CeilToInt((source.Z-source.Radius+range)/step-.5f));
+                int maxZ=Mathf.Min(size-1,Mathf.FloorToInt((source.Z+source.Radius+range)/step-.5f));
+                for(int z=minZ;z<=maxZ;z++)
+                {
+                    float worldZ=-range+(z+.5f)*step;
+                    for(int x=minX;x<=maxX;x++)
+                    {
+                        float worldX=-range+(x+.5f)*step;
+                        byte strength=(byte)Mathf.RoundToInt(Afterlife.Buildings.CircularRange.SightStrength(worldX,worldZ,source.X,source.Z,source.Radius)*255);
+                        int pixel=z*size+x;
+                        if(strength<=_buildingSightPixels[pixel].r)continue;
+                        var color=_buildingSightPixels[pixel];color.r=strength;_buildingSightPixels[pixel]=color;
+                    }
+                }
+            }
+            _buildingSight.SetPixels32(_buildingSightPixels);
+            _buildingSight.Apply(false,false);
+        }
+
         private void UpdateFog()
         {
             UnityEngine.Profiling.Profiler.BeginSample("Prototype.VisionUpload");
+            UpdateBuildingSight();
+            UpdateTerritorySight();
             int count=0,lamps=0;
             foreach(var body in _model.Bodies)
             {
                 if(!body.Alive)continue;
                 float lightRadius=_model.BodyLightRadius(body);
                 float vision=_model.BodyVisionRadius(body);
-                if(vision>0&&count<_visionSources.Length)
+                if(!body.Building&&vision>0&&count<_visionSources.Length)
+                {
                     _visionSources[count++]=new Vector4(body.Position.X,body.Position.Z,vision,1);
-                if(lightRadius>0&&lamps<_lamps.Length)_lamps[lamps++]=new Vector4(body.Position.X,body.Position.Z,lightRadius,1);
+                }
+                if(lightRadius>0&&lamps<_lamps.Length)_lamps[lamps++]=new Vector4(body.Position.X,GroundLift(body.Position.X,body.Position.Z)+.8f,body.Position.Z,lightRadius);
             }
             if(_model.PointerVisible&&count<_visionSources.Length)_visionSources[count++]=new Vector4(_model.WorkCenter.X,_model.WorkCenter.Z,_settings.CursorVision,1);
             foreach(var field in _model.DivineFields.Fields)if(count<_visionSources.Length)_visionSources[count++]=new Vector4(field.X,field.Z,Mathf.Max(1.6f,field.Radius+1f),1);
@@ -321,18 +434,20 @@ namespace Afterlife.Prototype
             Shader.SetGlobalVectorArray("_VisionSources",_visionSources);Shader.SetGlobalInt("_VisionCount",count);
             Shader.SetGlobalVectorArray("_VillageLamps",_lamps);Shader.SetGlobalInt("_LampCount",lamps);
             // 정적 마을 영역만 변경 시 업로드. 매 프레임 16,384×전체 오브젝트 검색 제거.
-            if(_fogTerritoryRevision!=_model.TerritoryRevision)
+            bool buildMode=_model.Mode==InputMode.Build;
+            if(_fogTerritoryRevision!=_model.TerritoryRevision||_fogBuildMode!=buildMode)
             {
                 _fogTerritoryRevision=_model.TerritoryRevision;
+                _fogBuildMode=buildMode;
                 for(int z=0;z<FogSize;z++)for(int x=0;x<FogSize;x++)
                 {
                     int tx=x-_settings.MapRadius,tz=z-_settings.MapRadius;
-                    _fogPixels[z*FogSize+x]=new Color32(0,(byte)(_model.Territory.Contains(VillageModel.TileKey(tx,tz))?255:0),0,255);
+                    _fogPixels[z*FogSize+x]=new Color32(0,(byte)(buildMode&&_model.Territory.Contains(VillageModel.TileKey(tx,tz))?255:0),0,255);
                 }
                 _fog.SetPixels32(_fogPixels);_fog.Apply(false,false);
             }
             Shader.SetGlobalFloat("_PrototypeNight",_model.NightBlend);
-            _camera.backgroundColor=Color.Lerp(new Color(.045f,.07f,.06f),Color.black,_model.NightBlend);
+            _camera.backgroundColor=Color.Lerp(new Color(.045f,.07f,.06f),new Color(.006f,.009f,.022f),_model.NightBlend);
             UnityEngine.Profiling.Profiler.EndSample();
         }
 
@@ -370,18 +485,19 @@ namespace Afterlife.Prototype
             }
             RefreshConnections();_previousHovered=_hovered;
             _workRing.enabled=false;
-            bool previewModifier=Keyboard.current!=null&&Keyboard.current.shiftKey.isPressed;
             if(_model.PointerVisible&&_modal==Modal.None&&_model.Mode==InputMode.Work&&!_pressActive&&!_dragging&&!_tileBuildMenu&&
-                (previewModifier||_hovered!=0&&_model.CanDivineFieldInteract(_hovered)))
+                _pointerValid)
             {
-                bool affordable=_model.DivinePower>=_model.DivineFields.PlacementCost&&_model.Terrain.At(_pointer)!=TerrainKind.Water;
+                bool affordable=_model.CanPlaceField&&_model.Terrain.At(_pointer)!=TerrainKind.Water;
                 Tint(_workRing,affordable?new Color(.52f,.84f,1f,.55f):new Color(1f,.3f,.3f,.6f));
-                Circle(_workRing,_pointer,_model.DivineFieldRadius);
+                var target=_model.Find(_hovered);
+                Circle(_workRing,target!=null?target.Position:_pointer,_model.DivineFieldRadius);
             }
             
             _hoverRing.enabled=false;var hover=_model.Find(_hovered);
-            if(_tileBuildMenu&&_modal==Modal.None&&!_model.Ended)Box(_hoverRing,_buildTile,.98f,.98f);
-            else if(hover!=null){if(hover.Building)Box(_hoverRing,hover.Position,hover.Width+.08f,hover.Depth+.08f);else Circle(_hoverRing,hover.Position,.43f);}
+            if(_model.Mode==InputMode.Build&&_tileHoverValid&&(_selectedBuildKind==Kind.House||_model.Territory.Contains(VillageModel.TileKey(Mathf.RoundToInt(_pointer.X),Mathf.RoundToInt(_pointer.Z)))))
+                Box(_hoverRing,new Point(Mathf.RoundToInt(_pointer.X),Mathf.RoundToInt(_pointer.Z)),.98f,.98f);
+            else if(_model.Mode==InputMode.Work&&hover!=null){if(hover.Building)Box(_hoverRing,hover.Position,hover.Width+.08f,hover.Depth+.08f);else Circle(_hoverRing,hover.Position,.43f);}
             else if(_tileHoverValid&&_pointerValid&&!_tileBuildMenu&&_modal==Modal.None&&!_model.Ended&&!_dragging&&_model.Mode!=InputMode.Build)
             {
                 // 배치와 동일한 타일 중심으로 맞추며 기존 오브젝트 호버 테두리를 재사용한다.
@@ -389,11 +505,16 @@ namespace Afterlife.Prototype
             }
             _towerRange.enabled=false;if(hover!=null&&VillageModel.IsTower(hover.Kind))Circle(_towerRange,hover.Position,_model.TowerRange(hover));
             _preview.enabled=false;
-            if(_model.Mode==InputMode.Build&&_pointerValid&&_modal==Modal.None)
-            {int x=Mathf.RoundToInt(_pointer.X),z=Mathf.RoundToInt(_pointer.Z),w=_model.BuildKind==Kind.LargeTest?2:1;Box(_preview,new Point(x+(w-1)*.5f,z),w,.98f);Tint(_preview,_model.PlacementError(_model.BuildKind,x,z)==null?_cyan:Color.red);}
+            if(_model.Mode==InputMode.Build&&_selectedBuildKind.HasValue&&_tileHoverValid&&_modal==Modal.None)
+            {
+                int x=Mathf.RoundToInt(_pointer.X),z=Mathf.RoundToInt(_pointer.Z);
+                var stats=_model.Building(_selectedBuildKind.Value);
+                Box(_preview,new Point(x+(stats.Width-1)*.5f,z+(stats.Depth-1)*.5f),stats.Width,stats.Depth);
+                Tint(_preview,_model.PlacementError(_selectedBuildKind.Value,x,z)==null?_cyan:Color.red);
+            }
             if(_pressActive&&_buildingDrag&&_dragging&&_pointerValid)
             {
-                var moving=_model.Find(_pressBody);if(moving!=null){int x=Mathf.RoundToInt(_pointer.X),z=Mathf.RoundToInt(_pointer.Z);Box(_preview,new Point(x+(moving.Width-1)*.5f,z),moving.Width,moving.Depth);Tint(_preview,_model.MoveError(moving,x,z)==null?_cyan:Color.red);}
+                var moving=_model.Find(_pressBody);if(moving!=null){int x=Mathf.RoundToInt(_pointer.X),z=Mathf.RoundToInt(_pointer.Z);Box(_preview,new Point(x+(moving.Width-1)*.5f,z+(moving.Depth-1)*.5f),moving.Width,moving.Depth);Tint(_preview,_model.MoveError(moving,x,z)==null?_cyan:Color.red);}
             }
             _rally.enabled=false;var inspected=_model.Find(_inspected);
             if(inspected!=null&&inspected.Building){Box(_rally,inspected.Position,inspected.Width+.15f,inspected.Depth+.15f);}
@@ -414,26 +535,28 @@ namespace Afterlife.Prototype
         }
         private void OnDestroy()
         {
+            DisposeTerritorySight();
             DisposeVisionBlur();
+            EndCapture();
             ClearDivineFieldVisuals();
-            if(_divinePowerLabel!=null)Destroy(_divinePowerLabel.gameObject);
             _terrainSurface?.Dispose();_terrainSurface=null;
             _waterSurface?.Dispose();_waterSurface=null;
             DisposeGameFlow();
             ClearSkillPresentation();
             if(_model!=null)_model.LightningStruck-=ShowSkillLightning;
-            if(_skillBar!=null)Destroy(_skillBar.gameObject);
-            if(_audio!=null){_audio.enabled=false;Destroy(_audio);}
+            if(_audio!=null)_audio.enabled=false;
             DisposeBuildItems();
             if(_model!=null)_model.RelicsChanged-=SyncRelicHud;
             foreach(var item in _relicItems.Values)if(item!=null)Destroy(item.gameObject);
             _relicItems.Clear();
             if(_model!=null){_model.ArrowRayBlocked=null;_model.Notice-=OnNotice;_model.Contributed-=OnContributed;_model.Damaged-=OnDamaged;_model.ContributionText-=OnContributionText;_model.HarvestGold-=OnHarvestGold;_model.RunEnded-=OnRunEnded;}
             DisposeBuildTileMenu();DisposePresentation();DisposeWorldArt();
-            if(_pixels!=null){_pixels.Release();Destroy(_pixels);}if(_fog!=null)Destroy(_fog);
+            if(_pixels!=null){_pixels.Release();Destroy(_pixels);}if(_fog!=null)Destroy(_fog);if(_buildingSight!=null)Destroy(_buildingSight);
             foreach(var material in _materials)if(material!=null)Destroy(material);
             DisposeUi();foreach(var roof in _roofs.Values)Destroy(roof);if(_font!=null&&_font!=Resources.Load<Font>("Fonts/Mona12TextKR"))Destroy(_font);
-            Shader.SetGlobalTexture("_PrototypeVision",Texture2D.whiteTexture);Shader.SetGlobalFloat("_PrototypeNight",0);
+            Shader.SetGlobalTexture("_PrototypeVision",Texture2D.whiteTexture);
+            Shader.SetGlobalTexture("_PrototypeBuildingSight",Texture2D.blackTexture);
+            Shader.SetGlobalFloat("_PrototypeNight",0);
         }
     }
 }

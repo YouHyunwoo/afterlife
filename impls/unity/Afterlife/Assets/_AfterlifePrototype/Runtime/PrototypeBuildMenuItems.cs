@@ -35,11 +35,15 @@ namespace Afterlife.Prototype
                 old.SetActive(false);Destroy(old);
             }
             bool layout=scroll.content.GetComponent<LayoutGroup>()!=null;float y=0;
-            foreach(var data in catalog.Buildings)
+            foreach(var data in catalog.Buildings.Where(data=>data.Id!=Kind.Research&&data.ToRule().Stats.DirectBuild))
             {
                 var item=Instantiate(prefab,scroll.content,false);var go=item.gameObject;
                 _runtimeBuildItems.Add(go);go.name="Build.Item."+data.Id;item.Data=data;
                 item.NameText.text=data.DisplayName;item.CostText.text=$"골드 {data.GoldCost}";item.Icon.sprite=data.Icon;
+                var outline=item.Button.GetComponent<Outline>();
+                if(outline==null)throw new InvalidOperationException("Build.Item prefab Button needs an Outline component.");
+                outline.effectColor=new Color(1f,.78f,.28f,1f);outline.effectDistance=new Vector2(2,-2);
+                outline.enabled=_selectedBuildKind==data.Id;
                 var rect=(RectTransform)item.transform;
                 if(!layout){rect.anchoredPosition=new Vector2(rect.anchoredPosition.x,-y);y+=rect.rect.height+8;}
                 go.SetActive(true);
@@ -48,6 +52,16 @@ namespace Afterlife.Prototype
             }
             if(!layout&&y>scroll.content.rect.height)scroll.content.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical,y);
             _buildItemsInitialized=true;
+        }
+        private void RefreshBuildSelection()
+        {
+            foreach(var go in _runtimeBuildItems)
+            {
+                if(go==null)continue;
+                var item=go.GetComponent<PrototypeBuildItem>();
+                var outline=item?.Button?.GetComponent<Outline>();
+                if(outline!=null)outline.enabled=_selectedBuildKind.HasValue&&item.Data.Id==_selectedBuildKind.Value;
+            }
         }
         private void DisposeBuildItems()
         {

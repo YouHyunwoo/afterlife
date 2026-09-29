@@ -18,3 +18,30 @@ MonoBehaviour:
   GoldCost: 30
   RequiresBuilding: 0
   RequiredBuilding: 6
+  Stats:
+    Health: 120
+    ConstructionSeconds: 10
+    Width: 1
+    Depth: 1
+    PopulationCapacity: 0
+    VisionRadius: 1
+    TerritoryRadius: 0
+    LightRadius: 0
+    ConstructionSpeedBonus: 0
+    VisionMatchesTerritory: 0
+    BlocksMovement: 0
+    DirectBuild: 1
+    CanMerge: 0
+    MergeTarget: 28
+    ProducedUnit: 9
+    Production: 1
+    ProductionSeconds: 3
+    ProductionAmount: 1
+    TroopCapacity: 3
+    AccelerationGoldCost: 0
+    AttackDamage: 18
+    AttackRange: 6
+    AttackSeconds: 1.6
+    ProjectileSpeed: 12
+  _statsMigrated: 1
+  _buildingRulesVersion: 1

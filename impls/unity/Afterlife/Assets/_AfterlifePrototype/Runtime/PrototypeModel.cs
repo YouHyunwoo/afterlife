@@ -5,11 +5,9 @@ using System.Linq;
 namespace Afterlife.Prototype
 {
     // Market 값은 기존 직렬화 번호 보존용. 일반 플레이에서는 생성/건설하지 않는다.
-    public enum Kind { House, Farm, Market, Barracks, LargeTest, Research, Altar, Tree, Rock, Warrior, Archer, Mage, Knight, Slime, Animal, Treasure, Goblin, GoblinWarrior, GoblinShaman, Orc, Lizard, ArrowTower, MagicTower, Wall, Chest, AbandonedAltar, Ruins }
     public enum Phase { Day, Dusk, Night, Settlement, Rebirth, Victory, Defeat }
     public enum InputMode { Work, Build }
     public enum FeedbackKind { Normal, Critical, Fire, Burn, EnemyDamage, Lightning }
-    public enum Upgrade { Pulse, Residents, Construction, CriticalChance, CriticalPower, WallHealth, ArrowDamage, ArrowRange, MagicDamage, MagicRange, MultiTarget, Ignite, FireImpact, BurnDamage, BurnDuration }
     public struct Point
     {
         public float X, Z;
@@ -17,18 +15,6 @@ namespace Afterlife.Prototype
         public static float Distance(Point a,Point b) => (float)Math.Sqrt((a.X-b.X)*(a.X-b.X)+(a.Z-b.Z)*(a.Z-b.Z));
         public static Point Move(Point a,Point b,float distance)
         { float d=Distance(a,b); return d<=distance||d<.0001f?b:new Point(a.X+(b.X-a.X)*distance/d,a.Z+(b.Z-a.Z)*distance/d); }
-    }
-    public sealed class Balance
-    {
-        public float FirstPreparation=60, Maintenance=45, CursorRadius=.65f, HouseRadius=3.8f;
-        public float WoodRate=2, StoneRate=1, CursorDamage=8, RepairRate=12, WarriorSeconds=10;
-        public int WarriorMoney=10;
-        public float DaySeconds=35, DuskSeconds=5, NightSeconds=35, PulseSeconds=1, ContributionPower=1;
-        public float DivinePowerMaximum=100, DivineFieldCost=30, DivinePowerRegeneration=3, DivineFieldDuration=8;
-        public float CursorVision=4, VillageVision=9, VisionTrailSeconds=1.4f;
-        public float AutoConstruction=.25f;
-        public int MapSeed=0;
-        public int MapRadius=45, Days=6,TreeLimit=780,RockLimit=480;public float ResourceSpawnSeconds=12;
     }
     public sealed class Order { public float Progress; public int Paid; public Kind Kind; public float Seconds; }
     public sealed class VisionEcho
@@ -44,6 +30,7 @@ namespace Afterlife.Prototype
     public sealed class Body
     {
         public int Id, Width=1, Depth=1, Owner, PatrolIndex;
+        public bool BlocksMovement=true;
         public Kind Kind;
         public int Variant;public ChestGrade ChestGrade;public bool ChestOpened;
         public Point Position, Rally, Destination;
@@ -53,6 +40,7 @@ namespace Afterlife.Prototype
         public float SpiritShield, ShieldRemaining, ShockRemaining, ShockMultiplier;
         public bool GuardianShield;
         public bool ManualGuard,GuardAssigned;public int GuardSlot,CombatTarget;public Point GuardPost,MeleePoint,PathGoal;
+        public int PathTargetId;public float PathRange;
         public bool AttackMove, Raider;
         public float StunRemaining, StunUntil, AttackWindup, AttackRecovery;
         public int PendingTarget;
@@ -79,6 +67,7 @@ namespace Afterlife.Prototype
     public sealed partial class VillageModel
     {
         public readonly Balance Settings;
+        public PrototypeRules Rules => Settings.Rules;
         public readonly TerrainMap Terrain;
         public readonly List<Body> Bodies=new List<Body>();
         public readonly HashSet<int> Territory=new HashSet<int>();
@@ -93,7 +82,7 @@ namespace Afterlife.Prototype
         private double _goldRemainder;
         private int GatherGold(float amount,Kind kind)
         {
-            double total=_goldRemainder+amount*(kind==Kind.Rock?2:1)*HarvestGoldMultiplier;
+            double total=_goldRemainder+amount*(kind==Kind.Rock?Rules.Resources.RockGold:Rules.Resources.TreeGold)*HarvestGoldMultiplier;
             int whole=(int)Math.Floor(total+0.00001);_goldRemainder=Math.Max(0,total-whole);return whole;
         }
         public event Action RunEnded;
@@ -117,6 +106,21 @@ namespace Afterlife.Prototype
             }
         }
         public void DebugAddGold() { Money+=100; }
+        public bool CanDebugSkipPhase=>Phase==Phase.Day||Phase==Phase.Dusk||Phase==Phase.Night;
+        public void DebugSkipPhase()
+        {
+            if(!CanDebugSkipPhase)return;
+            Remaining=0;
+            if(Phase==Phase.Day)BeginDusk();
+            else if(Phase==Phase.Dusk)BeginNight();
+            else
+            {
+                // Skip combat without awarding kills or drops for unearned victories.
+                Bodies.RemoveAll(body=>body.Raider);
+                _spawned=WaveEnemyCount;
+                BeginSettlement();
+            }
+        }
         private float DebugCursorMultiplier=>DebugCursorBoost?100:1;
         private float DebugCursorSpeedMultiplier=>DebugCursorSpeedBoost?100:1;
 #else
@@ -143,26 +147,26 @@ namespace Afterlife.Prototype
         public bool Ended=>Phase==Phase.Victory||Phase==Phase.Defeat;
         public bool Frozen=>Ended||Phase==Phase.Settlement||Phase==Phase.Rebirth;
         public int DaySequence {get;private set;}
-        public float Efficiency=>1+.09f*Math.Max(0,Population-1)*(1+Effect("education"));
-        public float Radius=>Settings.CursorRadius*(1+.04f*Math.Max(0,Population-1))*(1+Effect("radius"));
-        public float Interval=>Math.Max(.75f,Settings.PulseSeconds*(float)Math.Pow(.84,PulseLevel)*Math.Max(.1f,1-Effect("interval")))/DebugCursorSpeedMultiplier;
+        public float Efficiency=>1+Effect("education");
+        public float Radius=>Settings.CursorRadius*(1+Rules.Economy.RadiusPerResident*ResidentLevel+Effect("radius")+Effect("housing")+FieldRadiusReward);
+        public float Interval=>Math.Max(Rules.Growth.MinimumPulseSeconds,Settings.PulseSeconds*(float)Math.Pow(Rules.Growth.PulseMultiplier,PulseLevel)*Math.Max(.1f,1-Effect("interval")))/DebugCursorSpeedMultiplier;
         public bool CursorAutomationUnlocked=>PulseLevel>0 || Effect("interval")>0;
         public float PulseFraction=>_pulseClock/Interval;
-        public float AutoBuildMultiplier=>Settings.AutoConstruction*(1+.5f*ConstructionLevel)*MemoryWorkMultiplier*(ActiveShrine?1.25f:1);
-        public int ResidentsPerHouse=>1+ResidentLevel+(int)Effect("housing");
+        public float AutoBuildMultiplier=>Settings.AutoConstruction*(1+Rules.Growth.ConstructionPerLevel*ConstructionLevel)*MemoryWorkMultiplier*(ActiveShrine?Rules.Economy.ShrineConstructionMultiplier:1);
+        public int ResidentsPerHouse=>0; // Legacy read-only consumers: population is no longer simulated.
         public float NightBlend=>Phase==Phase.Night?1:Phase==Phase.Dusk?1-Remaining/Math.Max(1,Settings.DuskSeconds):0;
         public int TerritoryRevision {get;private set;}
         private int _nextId, _spawned;
         public int TopologyRevision {get;private set;}
         private float _nightTime, _pulseClock, _ecologyClock, _echoClock, _combatTime;
         private Random _random;
-        public VillageModel(Balance settings) { Settings=settings; Terrain=new TerrainMap(settings.MapRadius); InitializeDivineFields(); Reset(); }
+        public VillageModel(Balance settings, IEnumerable<ConstructionRule> buildings=null) { Settings=settings; Rules.Validate(); if(buildings!=null)ConfigureConstruction(buildings); Terrain=new TerrainMap(settings.MapRadius); InitializeDivineFields(); Reset(); }
         public static int TileKey(int x,int z)=>(x+128)*256+z+128;
         public static string Name(Kind k)
         {
             switch(k) {
-                case Kind.ArrowTower:return "화살 타워";case Kind.MagicTower:return "마법 타워";case Kind.Wall:return "성벽";case Kind.Chest:return "보물 상자";case Kind.AbandonedAltar:return "버려진 제단";case Kind.Ruins:return "고대 유적";case Kind.House:return "집";case Kind.Farm:return "농장";case Kind.Market:return "교역소";
-                case Kind.Barracks:return "병영";case Kind.Research:return "연구소";case Kind.Altar:return "제단";
+                case Kind.ArrowTower:return "화살 타워";case Kind.MagicTower:return "마법 타워";case Kind.Wall:return "성벽";case Kind.Chest:return "보물 상자";case Kind.AbandonedAltar:return "버려진 제단";case Kind.Ruins:return "고대 유적";case Kind.House:return "주택";case Kind.Farm:return "농장";case Kind.Market:return "교역소";
+                case Kind.TownHall:return "마을회관";case Kind.Sanctuary:return "성소";case Kind.ArcheryRange:return "궁수 훈련장";case Kind.KnightHall:return "기사단 본부";case Kind.MageTower:return "마법사 탑";case Kind.Barracks:return "병영";case Kind.Research:return "연구소";case Kind.Altar:return "제단";
                 case Kind.Tree:return "나무";case Kind.Rock:return "바위";case Kind.Warrior:return "전사";
                 case Kind.Archer:return "궁수";case Kind.Mage:return "마법사";case Kind.Knight:return "기사";
                 case Kind.Goblin:return "고블린";case Kind.GoblinWarrior:return "고블린 전사";case Kind.GoblinShaman:return "고블린 주술사";case Kind.Orc:return "오크";case Kind.Lizard:return "리자드";case Kind.Slime:return "슬라임";case Kind.Animal:return "사슴";case Kind.Treasure:return "귀중품";
@@ -174,7 +178,7 @@ namespace Afterlife.Prototype
             switch(kind)
             {
                 case Kind.House:return 20;case Kind.Farm:return 30;case Kind.Barracks:return 80;
-                case Kind.Research:return 110;case Kind.Altar:return 120;case Kind.ArrowTower:return 95;
+                case Kind.ArcheryRange:return 120;case Kind.KnightHall:return 320;case Kind.MageTower:return 240;case Kind.Research:return 110;case Kind.Altar:return 120;case Kind.ArrowTower:return 95;
                 case Kind.MagicTower:return 145;case Kind.Wall:return 24;default:return 0;
             }
         }
@@ -189,30 +193,32 @@ namespace Afterlife.Prototype
         private void ResetAttempt()
         {
             Terrain.Regenerate(Settings.MapSeed);
+            InitializeEconomicSites();ResetBuildingSystems();
             DivineFields.Reset();
             ResetManualWork();
             SoundReset?.Invoke();
-            ResetProgression();ResetCombatGrowth();ResetExploration();Bodies.Clear();Projectiles.Clear();_obstaclesDirty=true;_nextShotId=0;Territory.Clear();Selected.Clear();Echoes.Clear();_nextId=0;_random=new Random(Terrain.Seed);
+            ResetProgression();ResetCombatGrowth();ResetExploration();Bodies.Clear();Projectiles.Clear();_obstaclesDirty=true;_nextShotId=0;Territory.Clear();TerritoryRevision++;Selected.Clear();Echoes.Clear();_nextId=0;_random=new Random(Terrain.Seed);
             Money=0;_goldRemainder=0;Population=0;Working=PointerVisible=false;Mode=InputMode.Work;
-            SelectedBarracks=0;Wave=1;DaySequence++;Phase=Phase.Day;Remaining=Settings.DaySeconds;
+            ResetFieldSlots();
+            SelectedBarracks=0;Wave=1;DaySequence++;Phase=Phase.Day;Remaining=Settings.DayDuration(Wave);
             PulseLevel=ResidentLevel=ConstructionLevel=CriticalChanceLevel=CriticalPowerLevel=Valuables=LastValuables=LastSettlement=PulseCount=0;
             _nightTime=_pulseClock=_ecologyClock=_echoClock=_combatTime=0;_spawned=0; SegmentCleared=SegmentKills=0;
             AddBuilding(Kind.House,0,0,true);
             AddResource(Kind.Tree,-2,0);AddResource(Kind.Tree,-2,1);AddResource(Kind.Rock,-2,-1);AddResource(Kind.Rock,-3,-1);
             AddResource(Kind.Tree,3,2);AddResource(Kind.Tree,4,2);AddResource(Kind.Rock,-4,3);
             SeedDiscoveries();SeedBiomes();
-            for(int i=0;i<55;i++)SpawnNature(i%6==0?Kind.Treasure:i%5==0?Kind.Animal:i%3==0?Kind.Rock:Kind.Tree,6);
-            InitializeResourceLimits();Recalculate();TopologyRevision++;Say("대상을 클릭해 신력 필드를 설치하세요. 빈 타일은 Shift+클릭으로 설치합니다.");
+            for(int i=0;i<Rules.Resources.InitialNatureCount;i++)SpawnNature(i%6==0?Kind.Treasure:i%5==0?Kind.Animal:i%3==0?Kind.Rock:Kind.Tree,Rules.Resources.InitialNatureDistance);
+            InitializeResourceLimits();Recalculate();TopologyRevision++;Say("좌클릭으로 상호작용 필드를 설치하고 Ctrl/Shift를 눌러 건설합니다.");
         }
         private Body Add(Kind k,Point p,float hp)
         {var b=new Body{Id=++_nextId,Kind=k,Position=p,Rally=p,Destination=p,Health=hp,MaxHealth=hp};Bodies.Add(b);if(!b.Unit)_obstaclesDirty=true;return b;}
         private void AddResource(Kind k,float x,float z)
-        {if(!Terrain.Land(new Point(x,z),.35f)||(k==Kind.Tree||k==Kind.Rock)&&Terrain.At(new Point(x,z))==TerrainKind.Dirt)return;var b=Add(k,new Point(x,z),k==Kind.Animal?25:k==Kind.Tree?70*Wave:k==Kind.Rock?50*Wave:1);b.Variant=(b.Id-1)%4;}
+        {if(!Terrain.Land(new Point(x,z),.35f)||(k==Kind.Tree||k==Kind.Rock)&&Terrain.At(new Point(x,z))==TerrainKind.Dirt)return;var b=Add(k,new Point(x,z),k==Kind.Animal?Rules.Units.Find(k).Health:k==Kind.Tree?Rules.Resources.TreeStock*Wave:k==Kind.Rock?Rules.Resources.RockStock*Wave:1);b.Variant=(b.Id-1)%4;}
         private Body AddBuilding(Kind k,int x,int z,bool complete)
         {
-            int w=k==Kind.LargeTest?2:1;var b=Add(k,new Point(x+(w-1)*.5f,z),k==Kind.House?180*(1+.25f*MemoryHouse):k==Kind.Wall?WallHealth:k==Kind.ArrowTower||k==Kind.MagicTower?190:120);
+            var stats=Building(k);int w=stats.Width,d=stats.Depth;var b=Add(k,new Point(x+(w-1)*.5f,z+(d-1)*.5f),k==Kind.Wall?WallHealth:stats.Health*(k==Kind.House?1+Rules.Rebirth.HouseHealthPerLevel*MemoryHouse:1));
             b.MaxHealth*=1+Effect("structure");b.Health=b.MaxHealth;
-            b.Width=w;b.Construction=complete?1:0;b.ConstructionSeconds=k==Kind.Barracks?15:10;
+            b.Width=w;b.Depth=d;b.BlocksMovement=stats.BlocksMovement;b.Construction=complete?1:0;b.ConstructionSeconds=stats.ConstructionSeconds;
             b.Rally=new Point(b.Position.X+1.5f,b.Position.Z);b.PaidGold=complete?0:ConstructionPrice(k);return b;
         }
         public void UpdatePointer(Point point,bool reveal,bool contribute)
@@ -222,24 +228,24 @@ namespace Afterlife.Prototype
         public void ClearMode() {Mode=InputMode.Work;Selected.Clear();}
         public void Select(IEnumerable<int> ids)
         {Selected.Clear();foreach(int id in ids){var b=Find(id);if(b!=null&&b.Friendly&&Visibility(b.Position)>.15f)Selected.Add(id);}Mode=InputMode.Work;if(Selected.Count>0)Sound(SoundCue.Select);}
-        public void SelectBarracks(int id){var b=Find(id);if(b!=null&&b.Kind==Kind.Barracks&&b.Complete)SelectedBarracks=id;}
+        public void SelectBarracks(int id){var b=Find(id);if(b!=null&&IsProductionBuilding(b.Kind)&&b.Complete)SelectedBarracks=id;}
         public string PlacementError(Kind k,int x,int z)
         {
             if(!IsBuildingKind(k))return "건물이 아닙니다.";
             var requirement=ConstructionRequirement(k);if(requirement!=null)return requirement;
             if(k==Kind.Market)return "교역소는 더 이상 사용하지 않습니다.";
-            string tileError=BuildTileError(x,z,k==Kind.LargeTest?2:1);
+            string tileError=BuildTileError(x,z,Building(k).Width,Building(k).Depth,k==Kind.House);
             if(tileError!=null)return tileError;
             return Money<ConstructionPrice(k)?"골드가 부족합니다.":null;
         }
         // 위치의 건설 가능 여부는 골드/개별 건물 해금 조건과 분리한다.
-        public string BuildTileError(int x,int z,int width=1)
+        public string BuildTileError(int x,int z,int width=1,int depth=1,bool allowOutside=false)
         {
-            for(int dx=0;dx<width;dx++)
+            for(int dx=0;dx<width;dx++)for(int dz=0;dz<depth;dz++)
             {
-                var p=new Point(x+dx,z);
+                var p=new Point(x+dx,z+dz);
                 if(Terrain.At(p)==TerrainKind.Water)return "물 타일에는 건설할 수 없습니다.";
-                if(!Territory.Contains(TileKey(x+dx,z)))return "모든 점유 타일이 마을 영역 안이어야 합니다.";
+                if(!allowOutside&&!Territory.Contains(TileKey(x+dx,z+dz)))return "모든 점유 타일이 마을 영역 안이어야 합니다.";
                 if(Bodies.Any(b=>b.Alive&&(b.Building?b.DistanceTo(p)<.49f:Point.Distance(b.Position,p)<.8f)))return "다른 오브젝트와 겹칩니다.";
             }
             return null;
@@ -247,9 +253,9 @@ namespace Afterlife.Prototype
         public void Place(Kind k,int x,int z)
         {
             if(Frozen)return;string error=PlacementError(k,x,z);if(error!=null){Sound(SoundCue.Error);Say(error);return;}
-            Money-=ConstructionPrice(k);AddBuilding(k,x,z,false);Mode=InputMode.Work;
+            Money-=ConstructionPrice(k);AddBuilding(k,x,z,false);
             Sound(SoundCue.Place);
-            TopologyRevision++;InvalidatePaths();Say(Name(k)+" 자동 공사 시작 · 커서로 추가 지원 가능");
+            TopologyRevision++;InvalidatePaths();Say(Name(k)+" 자동 공사 시작");
         }
         public void CancelConstruction(int id)
         {
@@ -258,17 +264,17 @@ namespace Afterlife.Prototype
             Sound(SoundCue.Cancel);
             Recalculate();InvalidatePaths();Say("공사 취소 · 미진행 비율 환급");
         }
-        public int Price(Kind kind)=>kind==Kind.Archer?15:kind==Kind.Mage?30:kind==Kind.Knight?40:Settings.WarriorMoney;
+        public int Price(Kind kind)=>kind==Kind.Warrior?Settings.WarriorMoney:Rules.Units.Find(kind).Price;
         public const int MaxQueuedOrders=10;
-        public float RecruitmentSeconds(Kind kind)=>Settings.WarriorSeconds*(kind==Kind.Knight?1.8f:kind==Kind.Mage?1.5f:1)/MemoryArmyMultiplier;
-        public static float TroopHealth(Kind kind)=>kind==Kind.Knight?150:kind==Kind.Warrior?90:60;
+        public float RecruitmentSeconds(Kind kind)=>Settings.WarriorSeconds*Rules.Units.Find(kind).RecruitmentMultiplier/MemoryArmyMultiplier;
+        public float TroopHealth(Kind kind)=>Rules.Units.Find(kind).Health;
         public float TroopDamage(Kind kind)=>Damage(kind);
         public float TroopRange(Kind kind)=>AttackRange(kind);
-        public bool Unlocked(Kind kind)=>kind==Kind.Warrior||kind==Kind.Archer||kind==Kind.Knight&&Has(Kind.Research)||kind==Kind.Mage&&Has(Kind.Altar);
+        public bool Unlocked(Kind kind)=>!Rules.Units.Find(kind).RequiresBuilding||(kind==Kind.Knight||Rules.Units.Find(kind).RequiredBuilding==Kind.Altar?HasAltar:Has(Rules.Units.Find(kind).RequiredBuilding));
         public void Recruit(int id,Kind kind)
         {
-            var b=Find(id);if(Frozen||b==null||!b.Alive||b.Kind!=Kind.Barracks||!b.Complete||b.MovingOut||!Unlocked(kind)||Money<Price(kind)||b.Orders.Count>=MaxQueuedOrders+1)return;
-            SelectedBarracks=id;Money-=Price(kind);b.Orders.Enqueue(new Order{Kind=kind,Paid=Price(kind),Seconds=RecruitmentSeconds(kind)});
+            // Kept for legacy consumers: buildings now replenish automatically.
+            var body=Find(id);if(body!=null&&IsProductionBuilding(body.Kind))SelectedBarracks=id;
         }
         public void CancelOrder(int id)
         {var b=Find(id);if(Frozen||b==null||b.Orders.Count==0)return;var o=b.Orders.Dequeue();Money+=(float)Math.Floor(o.Paid*(1-o.Progress));Sound(SoundCue.Cancel);}
@@ -287,10 +293,10 @@ namespace Afterlife.Prototype
             Money+=target.Paid;Sound(SoundCue.Cancel);
         }
         public int Level(Upgrade u)=>u==Upgrade.Pulse?PulseLevel:u==Upgrade.Residents?ResidentLevel:u==Upgrade.Construction?ConstructionLevel:u==Upgrade.CriticalChance?CriticalChanceLevel:u==Upgrade.CriticalPower?CriticalPowerLevel:ExtraLevel(u);
-        public int UpgradeCost(Upgrade u)=>30*(Level(u)+(u==Upgrade.MultiTarget?0:1));
+        public int UpgradeCost(Upgrade u)=>(int)Math.Ceiling(Rules.Growth.CostPerLevel*(Level(u)+(u==Upgrade.MultiTarget?0:1))/30f);
         public void BuyUpgrade(Upgrade u)
         {
-            if(Frozen||!Has(Kind.Research)||!UpgradeUnlocked(u)||Level(u)>=UpgradeMax(u)||Money<UpgradeCost(u))return;Money-=UpgradeCost(u);
+            if(Frozen||!HasAltar||!UpgradeUnlocked(u)||Level(u)>=UpgradeMax(u)||!TrySpendEtheron(UpgradeCost(u)))return;
             if(u==Upgrade.Pulse)PulseLevel++;else if(u==Upgrade.Residents)ResidentLevel++;else if(u==Upgrade.Construction)ConstructionLevel++;else if(u==Upgrade.CriticalChance)CriticalChanceLevel++;else if(u==Upgrade.CriticalPower)CriticalPowerLevel++;else _combatUpgrades[u]=Level(u)+1;
             if(u==Upgrade.WallHealth)UpgradeWallHealth();
             Recalculate();_pulseClock=Math.Min(_pulseClock,Interval);Say("일반 강화 적용 · 환생/판 종료 때 초기화");
@@ -310,32 +316,46 @@ namespace Afterlife.Prototype
         }
         public void Tick(float dt)
         {
-            if(Frozen||dt<=0)return;dt=Math.Min(dt,.05f);
+            if(Frozen||dt<=0||float.IsNaN(dt)||float.IsInfinity(dt))return;
+            float productionElapsed=dt;dt=Math.Min(dt,.05f);
             if(_manualWorkElapsed<float.MaxValue)_manualWorkElapsed+=dt;
             _combatTime+=dt;TickProgression(dt);_pathBudget=3; UpdateEchoes(dt);ProcessConstruction(dt);
+            UpdateDivineFieldTargets();
+            if(Settings.MvpSlots)FieldSlots.Tick(dt);
             DivineFields.Tick(dt,Interval);
-            ProcessProduction(dt);UpdateTactics(dt);ProcessUnits(dt);ProcessTowers(dt);ProcessProjectiles(dt);ProcessBurns(dt);ProcessExploration(dt);ProcessResourceRegrowth(dt*ProductionSpeed);Cleanup();
-            if(!Bodies.Any(b=>b.Alive&&b.Kind==Kind.House)){End(Phase.Defeat);return;}
+            if(MergeBuildings())RebuildTowns();TickBuildingProduction(productionElapsed);UpdateTactics(dt);ProcessUnits(dt);ProcessTowers(dt);ProcessProjectiles(dt);ProcessBurns(dt);ProcessExploration(dt);ProcessResourceRegrowth(dt*ProductionSpeed);Cleanup();
+            if(!Bodies.Any(b=>b.Alive&&IsHousing(b.Kind))){End(Phase.Defeat);return;}
             Remaining=Math.Max(0,Remaining-dt);
             if(Phase==Phase.Day)
             {
-                _ecologyClock+=dt;if(_ecologyClock>=12){_ecologyClock=0;SpawnNature(Kind.Animal,5);SpawnNature(Kind.Slime,12);}
-                if(Remaining<=0){Phase=Phase.Dusk;Remaining=Settings.DuskSeconds;Sound(SoundCue.Warning);Say("황혼 · 집에 불이 켜집니다. 어둠 속 침공을 준비하세요.");}
+                _ecologyClock+=dt;if(_ecologyClock>=Rules.Resources.EcologySeconds){_ecologyClock=0;SpawnNature(Kind.Animal,Rules.Resources.AnimalMinimumDistance);SpawnNature(Kind.Slime,Rules.Resources.SlimeMinimumDistance);}
+                if(Remaining<=0)BeginDusk();
             }
-            else if(Phase==Phase.Dusk&&Remaining<=0){Phase=Phase.Night;Remaining=Settings.NightSeconds;GrantShields(Effect("shield"),0,true);_nightTime=0;_spawned=0;Sound(SoundCue.Warning);Say($"{Wave}일 밤 · 웨이브 {Wave} 시작! {WaveEnemyCount}마리 · {WaveThreat}");}
+            else if(Phase==Phase.Dusk&&Remaining<=0)BeginNight();
             else if(Phase==Phase.Night)
             {
                 _nightTime+=dt;int total=WaveEnemyCount;
-                int groups=Wave<=2?3:4,groupSize=(int)Math.Ceiling(total/(float)groups);
-                if(_spawned<total&&_nightTime>=(_spawned/groupSize)*(Wave<=2?12:10)&&SpawnRaider())_spawned++;
+                int groups=Rules.Waves.At(Wave).Groups,groupSize=(int)Math.Ceiling(total/(float)groups);
+                if(_spawned<total&&_nightTime>=(_spawned/groupSize)*Rules.Waves.At(Wave).GroupInterval&&SpawnRaider())_spawned++;
                 if(Remaining<=0&&_spawned==total&&!Bodies.Any(b=>b.Alive&&b.Raider))BeginSettlement();
             }
+        }
+        private void BeginDusk()
+        {
+            Phase=Phase.Dusk;Remaining=Settings.DuskSeconds;
+            Sound(SoundCue.Warning);Say("황혼 · 집에 불이 켜집니다. 어둠 속 침공을 준비하세요.");
+        }
+        private void BeginNight()
+        {
+            Phase=Phase.Night;Remaining=Settings.NightSeconds;
+            GrantShields(Effect("shield"),0,true);_nightTime=0;_spawned=0;
+            Sound(SoundCue.Warning);Say($"{Wave}일 밤 · 웨이브 {Wave} 시작! {WaveEnemyCount}마리 · {WaveThreat}");
         }
         private void End(Phase p)
         {
             LastResult=new RunResult{Victory=p==Phase.Victory,BestCleared=RunBestCleared,Rebirths=RebirthCount,Kills=RunKills};
-            if(RunBestCleared>=2)BannerUnlocked=true;
-            DivineFields.Reset();ResetManualWork();ClearRunProgress();ResetProgression();ResetCombatGrowth();ResetExploration(); Money=0;_goldRemainder=0;PulseLevel=ResidentLevel=ConstructionLevel=CriticalChanceLevel=CriticalPowerLevel=0;
+            if(RunBestCleared>=Rules.Rebirth.BannerUnlockDay)BannerUnlocked=true;
+            DivineFields.Reset();ResetManualWork();ClearRunProgress();ResetProgression();ResetCombatGrowth();ResetExploration();ResetFieldSlots();ResetBuildingSystems(); Money=0;_goldRemainder=0;PulseLevel=ResidentLevel=ConstructionLevel=CriticalChanceLevel=CriticalPowerLevel=0;
             Valuables=LastValuables=LastSettlement=0;Bodies.Clear();Projectiles.Clear();_obstaclesDirty=true;Territory.Clear();TerritoryRevision++;Selected.Clear();Echoes.Clear();Population=Capacity=0;
             Phase=p;Working=PointerVisible=false;Mode=InputMode.Work;Remaining=0;Wave=1;SegmentCleared=SegmentKills=0;
             Say(p==Phase.Victory?$"{Settings.Days}번의 밤을 지켰습니다. 판 종료 · 영구 해금만 유지됩니다.":"마지막 집이 파괴되었습니다. 판 종료 · 영구 해금만 유지됩니다.");
@@ -345,12 +365,13 @@ namespace Afterlife.Prototype
         private void BeginSettlement()
         {
             ClearNightShields();Projectiles.Clear();SegmentCleared=Wave;RunBestCleared=Math.Max(RunBestCleared,Wave);
-            Phase=Phase.Settlement;Working=false;LastValuables=Valuables;LastSettlement=Valuables*5+SellLoot();Money+=LastSettlement;Valuables=0;PrepareDailyRelics();
+            if(Settings.MvpSlots && Wave>=Settings.Days){End(Phase.Victory);return;}
+            Phase=Phase.Settlement;Working=false;LastValuables=Valuables;LastSettlement=Valuables*Rules.Resources.ValuableGold+SellLoot();Money+=LastSettlement;Valuables=0;PrepareDailyRelics();
             Sound(SoundCue.Day);if(LastSettlement>0)Sound(SoundCue.Gold);
-            Say($"{Wave}일 웨이브 클리어 · 새벽 정산 · 귀중품 {LastValuables}개 → 골드 {LastSettlement}. 에테론 지급 없음.");
+            Say($"{Wave}일 웨이브 클리어 · 새벽 정산 · 귀중품 {LastValuables}개 → 골드 {LastSettlement}." + (Settings.MvpSlots ? "" : " 에테론 지급 없음."));
         }
         public void CompleteSettlement()
-        {if(Phase!=Phase.Settlement||DailyRewardPending)return;if(Wave>=Settings.Days){End(Phase.Victory);return;}Wave++;DaySequence++;Phase=Phase.Day;Remaining=Settings.DaySeconds;_ecologyClock=0;Sound(SoundCue.Day);}
+        {if(Phase!=Phase.Settlement||DailyRewardPending)return;if(Wave>=Settings.Days){End(Phase.Victory);return;}Wave++;DaySequence++;Phase=Phase.Day;Remaining=Settings.DayDuration(Wave);_ecologyClock=0;Sound(SoundCue.Day);}
         private void UpdateEchoes(float dt)
         {
             for(int i=Echoes.Count-1;i>=0;i--){Echoes[i].Life-=dt;if(Echoes[i].Life<=0)Echoes.RemoveAt(i);}
@@ -371,26 +392,29 @@ namespace Afterlife.Prototype
             _echoClock=0;
         }
         private static float Clamp01(float n)=>Math.Max(0,Math.Min(1,n));
-        private float Light(Point p,Point center,float radius)
+        private float SightStrength(Point p,Point center,float radius)
         {
-            float dx=p.X-center.X,dz=p.Z-center.Z;
-            if(dx*dx+dz*dz>radius*radius)return 0;
-            return Clamp01((radius-(float)Math.Sqrt(dx*dx+dz*dz))/.65f);
+            return Afterlife.Buildings.CircularRange.SightStrength(p.X,p.Z,center.X,center.Z,radius);
         }
         public float Visibility(Point p)
         {
-            float amount=0;
-            foreach(var b in Bodies){float radius=BodyVisionRadius(b);if(radius>0)amount=Math.Max(amount,Light(p,b.Position,radius));}
-            if(PointerVisible)amount=Math.Max(amount,Light(p,WorkCenter,Settings.CursorVision));
-            foreach(var field in DivineFields.Fields)amount=Math.Max(amount,Light(p,new Point(field.X,field.Z),Math.Max(1.6f,field.Radius+1f)));
-            foreach(var echo in Echoes)amount=Math.Max(amount,Light(p,echo.Position,Settings.CursorVision)*echo.Strength(Settings.VisionTrailSeconds));
+            float amount=TerritorySight.Contains(p.X,p.Z)?1:0;
+            foreach(var b in Bodies)
+            {
+                float radius=BodyVisionRadius(b);if(radius<=0)continue;
+                float strength=SightStrength(p,b.Position,radius);
+                amount=Math.Max(amount,strength);
+            }
+            if(PointerVisible)amount=Math.Max(amount,SightStrength(p,WorkCenter,Settings.CursorVision));
+            foreach(var field in DivineFields.Fields)amount=Math.Max(amount,SightStrength(p,new Point(field.X,field.Z),Math.Max(1.6f,field.Radius+1f)));
+            foreach(var echo in Echoes)amount=Math.Max(amount,SightStrength(p,echo.Position,Settings.CursorVision)*echo.Strength(Settings.VisionTrailSeconds));
             return amount;
         }
         private void ProcessConstruction(float dt)
         {
             bool changed=false;
             foreach(var b in Bodies)if(b.Alive&&b.Building&&!b.Complete&&b.MoveSource==0)
-            {b.Construction=Math.Min(1,b.Construction+AutoBuildMultiplier*dt/(b.ConstructionSeconds*ConstructionWorkFactor));if(b.Complete){changed=true;Sound(SoundCue.Complete);if(b.Kind==Kind.Barracks)SelectedBarracks=b.Id;}}
+            {b.Construction=Math.Min(1,b.Construction+AutoBuildMultiplier*LocalConstructionMultiplier(b)*dt/(b.ConstructionSeconds*ConstructionWorkFactor));if(b.Complete){changed=true;Sound(SoundCue.Complete);if(b.Kind==Kind.Barracks)SelectedBarracks=b.Id;}}
             AdvanceMoves(dt);if(changed){TopologyRevision++;Recalculate();}
         }
         private void Pulse()
@@ -408,40 +432,27 @@ namespace Afterlife.Prototype
             if(critical)Sound(SoundCue.Critical,b.Position);
             float effort=Efficiency*MemoryWorkMultiplier*Settings.ContributionPower*power*WorkMultiplier*CooperationMultiplier();
             if(b.MovingOut||b.MoveSource!=0)
-            {Contributed?.Invoke(b);Sound(SoundCue.Work,b.Position);AdvanceMove(b.MoveSource!=0?Find(b.MoveSource):b,effort/b.ConstructionSeconds);EmitText(b,"이전 작업 지원",feedback);}
+            {Contributed?.Invoke(b);Sound(SoundCue.Work,b.Position);var source=b.MoveSource!=0?Find(b.MoveSource):b;var site=source!=null?Find(source.MoveSite):null;AdvanceMove(source,effort*LocalConstructionMultiplier(site??b)/(b.ConstructionSeconds*ConstructionWorkFactor));EmitText(b,"이전 작업 지원",feedback);}
             else if(b.Kind==Kind.Chest){Contributed?.Invoke(b);WorkChest(b,Settings.WoodRate*effort,feedback);}
             else if(b.Kind==Kind.Tree||b.Kind==Kind.Rock)
             {
                 Contributed?.Invoke(b);
                 Sound(b.Kind==Kind.Tree?SoundCue.Wood:SoundCue.Stone,b.Position);
-                float bonus=1+(b.Kind==Kind.Tree?.5f*RelicLevel(RelicKind.Wood):.3f*RelicLevel(RelicKind.Stone));
+                float bonus=1+(b.Kind==Kind.Tree?Rules.Relics.Wood*RelicLevel(RelicKind.Wood):Rules.Relics.Stone*RelicLevel(RelicKind.Stone));
                 float amount=Math.Min(b.Health,(b.Kind==Kind.Tree?Settings.WoodRate:Settings.StoneRate)*effort*bonus*ProductionSpeed);
                 b.Health=Math.Max(0,b.Health-amount);
                 int gained=GatherGold(amount,b.Kind);Money+=gained;if(gained>0)HarvestGold?.Invoke(b.Position,b.Kind,gained);if(amount>0)EmitText(b,$"채집 {amount:0.#}",feedback);
-                if(b.Health<=.001f){b.Health=0;Sound(b.Kind==Kind.Tree?SoundCue.TreeFall:SoundCue.StoneBreak,b.Position);if(_random.NextDouble()<.4)Valuables++;}
+                if(b.Health<=.001f){b.Health=0;Sound(b.Kind==Kind.Tree?SoundCue.TreeFall:SoundCue.StoneBreak,b.Position);if(_random.NextDouble()<Rules.Resources.ValuableChance)Valuables++;}
             }
             else if(b.Kind==Kind.Treasure){Contributed?.Invoke(b);Sound(SoundCue.Gold,b.Position);Valuables++;EmitText(b,"귀중품 +1");b.Health=0;Say("귀중품 발견 · 다음 날 정산에서 골드으로 전환됩니다.");}
             else if(b.Building&&!b.Complete)
-            {Contributed?.Invoke(b);Sound(SoundCue.Work,b.Position);float before=b.Construction;b.Construction=Math.Min(1,b.Construction+effort/(b.ConstructionSeconds*ConstructionWorkFactor));EmitText(b,$"건설 +{(b.Construction-before)*100:0.#}%",feedback);changed|=b.Complete;if(b.Complete)Sound(SoundCue.Complete);}
+            {Contributed?.Invoke(b);Sound(SoundCue.Work,b.Position);float before=b.Construction;b.Construction=Math.Min(1,b.Construction+effort*LocalConstructionMultiplier(b)/(b.ConstructionSeconds*ConstructionWorkFactor));EmitText(b,$"건설 +{(b.Construction-before)*100:0.#}%",feedback);changed|=b.Complete;if(b.Complete)Sound(SoundCue.Complete);}
             else if(b.Building&&b.Health<b.MaxHealth)
-            {if(Money>0)Contributed?.Invoke(b);float amount=Math.Min(b.MaxHealth-b.Health,Math.Min(Settings.RepairRate*effort*(1+.3f*RelicLevel(RelicKind.Repair)),Money*10));Money-=amount/10;b.Health+=amount;if(amount>0){Sound(SoundCue.Work,b.Position);EmitText(b,$"수리 +{amount:0.#}",feedback);}}
+            {if(Money>0)Contributed?.Invoke(b);float amount=Math.Min(b.MaxHealth-b.Health,Math.Min(Settings.RepairRate*effort*(1+Rules.Relics.Repair*RelicLevel(RelicKind.Repair)),Money*Rules.Economy.RepairPerGold));Money-=amount/Rules.Economy.RepairPerGold;b.Health+=amount;if(amount>0){Sound(SoundCue.Work,b.Position);EmitText(b,$"수리 +{amount:0.#}",feedback);}}
             else if(b.Hostile||b.Kind==Kind.Animal){Contributed?.Invoke(b);if(!critical)Sound(SoundCue.Hit,b.Position);float damage=Settings.CursorDamage*Efficiency*Settings.ContributionPower*power*(1+Effect("physical"));EmitText(b,$"{damage:0.#}",feedback);PlayerHit(b,damage);}
         }
-        private void ProcessProduction(float dt)
-        {
-            foreach(var b in Bodies.ToArray())
-            {
-                if(!b.Alive||b.Kind!=Kind.Barracks||!b.Complete||b.MovingOut||b.Orders.Count==0)continue;var order=b.Orders.Peek();
-                if(order.Progress<=0&&!Unlocked(order.Kind))continue;
-                order.Progress=Math.Min(1,order.Progress+dt/Math.Max(.1f,order.Seconds));if(order.Progress<1)continue;
-                Point? spawn=null;
-                for(int i=0;i<40;i++){float a=i*(float)Math.PI/8;float radius=1.1f+(i/16)*.65f;var p=new Point(b.Position.X+(float)Math.Cos(a)*radius,b.Position.Z+(float)Math.Sin(a)*radius);if(Walkable(p,.34f)&&UnitFree(p,0)){spawn=p;break;}}
-                if(!spawn.HasValue)continue;b.Orders.Dequeue();var u=Add(order.Kind,spawn.Value,TroopHealth(order.Kind));u.Owner=b.Id;u.Rally=b.Rally;_tacticsClock=0;
-                Sound(SoundCue.Complete);
-            }
-        }
-        private float AttackRange(Kind k)=>k==Kind.Archer?4.5f:k==Kind.Mage?4:k==Kind.GoblinShaman?4.8f:k==Kind.Lizard?5:k==Kind.Orc?.65f:.52f;
-        private float Damage(Kind k)=>k==Kind.Knight?18:k==Kind.Mage?20:k==Kind.Archer?11:k==Kind.Warrior?12:k==Kind.Orc?18:k==Kind.GoblinWarrior?10:k==Kind.GoblinShaman?14:k==Kind.Lizard?12:k==Kind.Goblin?7:5;
+        private float AttackRange(Kind k)=>Rules.Units.Find(k).Range;
+        private float Damage(Kind k)=>Rules.Units.Find(k).Damage;
         private void ProcessUnits(float dt)
         {
             var units=Bodies.Where(b=>b.Alive&&b.Unit).ToArray();
@@ -462,7 +473,7 @@ namespace Afterlife.Prototype
                     if(u.AttackWindup<=0)
                     {
                         if(victim!=null&&victim.DistanceTo(u.Position)<=AttackRange(u.Kind)+.12f&&ClearAttack(u.Position,victim,u.Id))ResolveAttack(u,victim);
-                        u.PendingTarget=0;u.AttackRecovery=.18f;u.AttackTimer=IsRanged(u.Kind)?1.5f:u.Kind==Kind.Orc?1.4f:u.Kind==Kind.Slime?1.2f:.9f;
+                        u.PendingTarget=0;u.AttackRecovery=Rules.Combat.AttackRecovery;u.AttackTimer=Rules.Units.Find(u.Kind).AttackSeconds;
                     }
                     continue;
                 }
@@ -479,7 +490,7 @@ namespace Afterlife.Prototype
                 {
                     float range=AttackRange(u.Kind);
                     if(target.DistanceTo(u.Position)<=range&&ClearAttack(u.Position,target,u.Id))
-                    {u.Route.Clear();u.Facing=new Point(target.Position.X-u.Position.X,target.Position.Z-u.Position.Z);if(u.AttackTimer<=0){u.PendingTarget=target.Id;u.AttackWindup=.18f;}}
+                    {u.Route.Clear();u.Facing=new Point(target.Position.X-u.Position.X,target.Position.Z-u.Position.Z);if(u.AttackTimer<=0){u.PendingTarget=target.Id;u.AttackWindup=Rules.Combat.AttackWindup;}}
                     else if(IsRanged(u.Kind))SeekFiringPosition(u,target,range,dt);else if(u.Friendly)Navigate(u,u.MeleePoint,null,.2f,dt);else Navigate(u,target.Position,target,range,dt);
                 }
                 else if(u.Friendly&&u.AttackMove)
@@ -488,7 +499,7 @@ namespace Afterlife.Prototype
                 else if(u.Raider)
                 {
                     // 시야 밖에서는 공격 대상을 지정하지 않고 마을로 접근한다.
-                    var village=Bodies.Where(b=>b.Alive&&b.Kind==Kind.House).OrderBy(b=>b.DistanceTo(u.Position)).FirstOrDefault();
+                    var village=Bodies.Where(b=>b.Alive&&IsHousing(b.Kind)).OrderBy(b=>b.DistanceTo(u.Position)).FirstOrDefault();
                     if(village!=null)Navigate(u,village.Position,village,.8f,dt);else Patrol(u,dt);
                 }
                 else Patrol(u,dt);
@@ -518,15 +529,17 @@ namespace Afterlife.Prototype
         {foreach(var b in Bodies)if(b.Id!=self&&b.Alive&&b.Unit&&Point.Distance(p,b.Position)<.68f)return false;return true;}
         private void Navigate(Body u,Point goal,Body target,float range,float dt)
         {
-            if(Point.Distance(goal,u.PathGoal)>.65f){u.PathGoal=goal;u.Route.Clear();u.RouteTimer=0;}
+            if(Point.Distance(goal,u.PathGoal)>.65f||u.PathTargetId!=(target?.Id??0)||u.PathRange!=range)
+            {u.PathGoal=goal;u.PathTargetId=target?.Id??0;u.PathRange=range;u.Route.Clear();u.RouteTimer=0;}
             u.RouteTimer-=dt;
-            if(u.RouteTimer<=0&&_pathBudget>0)
+            // 진행 중인 경로는 유지한다. 목표 변경, 정체, 지형 변경 시 기존 무효화 처리가 재탐색한다.
+            if(u.Route.Count==0&&u.RouteTimer<=0&&_pathBudget>0)
             {
-                _pathBudget--; u.RouteTimer=1.6f+(u.Id%7)*.09f;u.Route.Clear();
+                _pathBudget--; u.RouteTimer=1.6f+(u.Id%7)*.09f;u.PathGoal=goal;
                 foreach(var p in Pathfinder.Find(u.Position,goal,target,range,this,u.Id))u.Route.Enqueue(p);
             }
             if(u.Route.Count==0)return;
-            float travel=MoveSpeed(u.Kind)*(u.Kind==Kind.Animal&&u.FleeUntil>_combatTime?4.2f:1)*dt;
+            float travel=MoveSpeed(u.Kind)*(u.Kind==Kind.Animal&&u.FleeUntil>_combatTime?Rules.Combat.AnimalFleeMultiplier:1)*dt;
             Point next=Point.Move(u.Position,u.Route.Peek(),travel);
             Point before=u.Position;
             if(Walkable(next,.34f)&&UnitFree(next,u.Id))u.Position=next;
@@ -559,15 +572,15 @@ namespace Afterlife.Prototype
             // 현재 공유 시야와 잔상을 포함한 암흑에서만 생성. 위치를 찾지 못하면 다음 틱에 재시도한다.
             for(int i=0;i<80;i++)
             {
-                int fronts=Wave<=2?1:Wave<=4?2:3;
+                int fronts=Rules.Waves.At(Wave).Fronts;
                 double front=(Wave*.9+(_spawned%fronts)*Math.PI*2/fronts);
                 double angle=i<50?front+(_random.NextDouble()-.5)*.65:_random.NextDouble()*Math.PI*2;
-                float extent=Bodies.Where(h=>h.Alive&&h.Kind==Kind.House&&h.Complete).Select(h=>Point.Distance(h.Position,new Point(0,0))).DefaultIfEmpty(0).Max();
-                float r=Math.Min(Settings.MapRadius-3,extent+10.5f+(float)_random.NextDouble()*5);
+                float extent=Bodies.Where(h=>h.Alive&&IsHousing(h.Kind)&&h.Complete).Select(h=>Point.Distance(h.Position,new Point(0,0))+Math.Max(h.Width,h.Depth)*.5f).DefaultIfEmpty(0).Max();
+                float r=Math.Min(Settings.MapRadius-3,extent+Rules.Waves.SpawnDistance+(float)_random.NextDouble()*Rules.Waves.SpawnDistanceVariation);
                 var p=new Point((float)Math.Cos(angle)*r,(float)Math.Sin(angle)*r);
                 if(i>=60)p=new Point(_random.Next(-Settings.MapRadius+2,Settings.MapRadius-1),_random.Next(-Settings.MapRadius+2,Settings.MapRadius-1));
                 if(Visibility(p)>.015f||!Walkable(p,.4f)||!UnitFree(p,0))continue;
-                Kind kind=WaveEnemy(_spawned);var b=Add(kind,p,EnemyHealth(kind)*(1+.12f*(Wave-1)*(Wave-1)));b.Raider=true;return true;
+                Kind kind=WaveEnemy(_spawned);var b=Add(kind,p,EnemyHealth(kind)*(1+Rules.Waves.HealthGrowth*(Wave-1)*(Wave-1)));b.Raider=true;return true;
             }
             return false;
         }
@@ -575,21 +588,10 @@ namespace Afterlife.Prototype
         {
             bool buildings=false;
             foreach(var b in Bodies.Where(b=>!b.Alive).ToArray())
-            {AbortDestroyedMove(b);buildings|=b.Building;foreach(var o in b.Orders)Money+=(float)Math.Floor(o.Paid*(1-o.Progress));Selected.Remove(b.Id);Bodies.Remove(b);if(!b.Unit)_obstaclesDirty=true;}
+            {AbortDestroyedMove(b);buildings|=b.Building;foreach(var o in b.Orders)Money+=(float)Math.Floor(o.Paid*(1-o.Progress));Selected.Remove(b.Id);Bodies.Remove(b);_production.Remove(b.Id);if(!b.Unit)_obstaclesDirty=true;}
             if(buildings){TopologyRevision++;Recalculate();InvalidatePaths();}
         }
-        private void Recalculate()
-        {
-            var houses=Bodies.Where(b=>b.Alive&&b.Complete&&b.Kind==Kind.House).ToArray();var tiles=new HashSet<int>();
-            int extent=(int)Math.Ceiling(VillageRadius);
-            foreach(var house in houses)
-            for(int x=(int)house.Position.X-extent;x<=(int)house.Position.X+extent;x++)for(int z=(int)house.Position.Z-extent;z<=(int)house.Position.Z+extent;z++)
-                if(Math.Abs(x)<Settings.MapRadius&&Math.Abs(z)<Settings.MapRadius&&Point.Distance(house.Position,new Point(x,z))<=VillageRadius)tiles.Add(TileKey(x,z));
-            if(!Territory.SetEquals(tiles)){Territory.Clear();Territory.UnionWith(tiles);TerritoryRevision++;}
-            UpdateCapturedSites();int old=Population;Capacity=1+3*Bodies.Count(b=>b.Alive&&b.Complete&&b.Kind==Kind.Farm);
-            Population=Math.Min(Capacity,houses.Length*ResidentsPerHouse);
-            if(old!=Population)Say($"주민 {old} → {Population} · 집당 {ResidentsPerHouse}명 / 상한 {Capacity}");
-        }
+        private void Recalculate() => RebuildTowns();
         private void InvalidatePaths(){foreach(var b in Bodies){b.Route.Clear();b.RouteTimer=0;}}
         private static float Clamp(float n,float min,float max)=>Math.Max(min,Math.Min(max,n));
         private void Say(string text)=>Notice?.Invoke(text);
@@ -597,16 +599,33 @@ namespace Afterlife.Prototype
     internal sealed class SearchHeap
     {
         private readonly List<(int Key,float Score)> _items=new List<(int,float)>();
+        private readonly Dictionary<int,int> _indices=new Dictionary<int,int>();
         public int Count=>_items.Count;
         public void Push(int key,float score)
         {
-            _items.Add((key,score));int i=_items.Count-1;
-            while(i>0){int parent=(i-1)/2;if(_items[parent].Score<=score)break;_items[i]=_items[parent];i=parent;}_items[i]=(key,score);
+            // 이미 대기 중인 칸은 우선순위만 낮춰 탐색 횟수를 중복 항목에 쓰지 않는다.
+            if(_indices.TryGetValue(key,out int i))
+            {if(_items[i].Score<=score)return;}
+            else{i=_items.Count;_items.Add((key,score));}
+            while(i>0)
+            {
+                int parent=(i-1)/2;if(_items[parent].Score<=score)break;
+                _items[i]=_items[parent];_indices[_items[i].Key]=i;i=parent;
+            }
+            _items[i]=(key,score);_indices[key]=i;
         }
         public int Pop()
         {
-            int key=_items[0].Key;var last=_items[_items.Count-1];_items.RemoveAt(_items.Count-1);if(_items.Count==0)return key;
-            int i=0;while(i*2+1<_items.Count){int child=i*2+1;if(child+1<_items.Count&&_items[child+1].Score<_items[child].Score)child++;if(_items[child].Score>=last.Score)break;_items[i]=_items[child];i=child;}_items[i]=last;return key;
+            int key=_items[0].Key;var last=_items[_items.Count-1];_items.RemoveAt(_items.Count-1);_indices.Remove(key);
+            if(_items.Count==0)return key;
+            int i=0;
+            while(i*2+1<_items.Count)
+            {
+                int child=i*2+1;if(child+1<_items.Count&&_items[child+1].Score<_items[child].Score)child++;
+                if(_items[child].Score>=last.Score)break;
+                _items[i]=_items[child];_indices[_items[i].Key]=i;i=child;
+            }
+            _items[i]=last;_indices[last.Key]=i;return key;
         }
     }
     internal static class Pathfinder
@@ -616,12 +635,10 @@ namespace Afterlife.Prototype
         {
             // 검색 시점 유닛 위치의 스냅샷. 점유는 통행 불가가 아닌 비용으로 두어 좁은 길을 봉쇄하지 않는다.
             var occupied=model.Bodies.Where(b=>b.Alive&&b.Unit&&b.Id!=self&&b.Id!=(target?.Id??0)).Select(b=>b.Position).ToArray();
-            var crowdCache=new Dictionary<Point,float>();
             float Crowd(Point point)
             {
-                if(crowdCache.TryGetValue(point,out float cached))return cached;
                 float cost=0;foreach(var unit in occupied){float dx=point.X-unit.X,dz=point.Z-unit.Z,squared=dx*dx+dz*dz;if(squared<1.5625f)cost+=squared<.4624f?8:1.5f*(1.25f-(float)Math.Sqrt(squared))/.57f;}
-                crowdCache[point]=cost;return cost;
+                return cost;
             }
             // 열린 구간은 연속 좌표 직선 경로. 막힌 경우에만 A* 표본 경로를 구한다.
             Point end=goal;
@@ -634,9 +651,11 @@ namespace Afterlife.Prototype
             bool straight=true;int steps=Math.Max(1,(int)(Point.Distance(start,end)*5));
             for(int i=1;i<=steps;i++){var p=new Point(start.X+(end.X-start.X)*i/steps,start.Z+(end.Z-start.Z)*i/steps);if(!model.Walkable(p,.34f)||Crowd(p)>.05f){straight=false;break;}}
             if(straight)return new[]{end};
-            var walkCache=new Dictionary<Point,bool>();
-            bool Free(Point point){if(!walkCache.TryGetValue(point,out bool free)){free=model.Walkable(point,.34f);walkCache[point]=free;}return free;}
             int radius=model.Settings.MapRadius*2,width=radius*2+1;
+            // 직선 표본은 한 번만 검사한다. A*가 재방문하는 격자만 정수 키로 저장한다.
+            var walkCache=new Dictionary<int,bool>();var crowdCache=new Dictionary<int,float>();
+            bool Free(int key){if(!walkCache.TryGetValue(key,out bool free)){free=model.Walkable(World(key,width,radius),.34f);walkCache[key]=free;}return free;}
+            float GridCrowd(int key){if(!crowdCache.TryGetValue(key,out float value)){value=Crowd(World(key,width,radius));crowdCache[key]=value;}return value;}
             int initial=((int)Math.Round(start.Z*2)+radius)*width+(int)Math.Round(start.X*2)+radius;
             var previous=new Dictionary<int,int>{{initial,-1}};var cost=new Dictionary<int,float>{{initial,0}};
             var open=new SearchHeap();open.Push(initial,Point.Distance(start,goal));var closed=new HashSet<int>();int found=-1,closest=initial;float closestDistance=Point.Distance(start,goal);
@@ -645,14 +664,14 @@ namespace Afterlife.Prototype
                 int current=open.Pop();if(!closed.Add(current))continue;Point p=World(current,width,radius);
                 float distance=target==null?Point.Distance(p,goal):target.DistanceTo(p);
                 if(distance<closestDistance&&current!=initial){closestDistance=distance;closest=current;}
-                if((target==null?Point.Distance(p,goal)<.45f:target.DistanceTo(p)<=range)&&Free(p)&&Crowd(p)<8){found=current;break;}
+                if((target==null?distance<.45f:distance<=range)&&Free(current)&&GridCrowd(current)<8){found=current;break;}
                 int x=current%width,z=current/width;
                 for(int dx=-1;dx<=1;dx++)for(int dz=-1;dz<=1;dz++)
                 {
                     if(dx==0&&dz==0||x+dx<0||x+dx>=width||z+dz<0||z+dz>=width)continue;
                     int key=(z+dz)*width+x+dx;if(closed.Contains(key))continue;var q=World(key,width,radius);
-                    if(!Free(q)||dx!=0&&dz!=0&&(!Free(new Point(p.X,q.Z))||!Free(new Point(q.X,p.Z))))continue;
-                    float c=cost[current]+(dx!=0&&dz!=0?.7071f:.5f)+Crowd(q);
+                    if(!Free(key)||dx!=0&&dz!=0&&(!Free(current+dz*width)||!Free(current+dx)))continue;
+                    float c=cost[current]+(dx!=0&&dz!=0?.7071f:.5f)+GridCrowd(key);
                     if(cost.TryGetValue(key,out float old)&&old<=c)continue;cost[key]=c;previous[key]=current;open.Push(key,c+Point.Distance(q,goal));
                 }
             }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Afterlife.Modules.CameraDistance.Unity;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,28 +11,31 @@ namespace Afterlife.Prototype
     {
         [Moonstone.Arc.DependencyInjection.Inject] private VillageModel _model = null; // Moonstone ServiceResolver 주입
         [Moonstone.Arc.DependencyInjection.Inject] private PrototypeSettings _settings = null;
-        private Camera _camera;
-        private PrototypeAudio _audio;
+        [SerializeField] private Camera _camera;
+        private GroundCameraDistance _cameraDistance;
+        [SerializeField] private PrototypeAudio _audio;
+        private Vector3 _initialCameraPosition;
+        private Quaternion _initialCameraRotation;
         private void PlaySound(SoundCue cue) { if(_audio!=null)_audio.RequestSound(cue); }
         private RenderTexture _pixels;
         private readonly Dictionary<int, GameObject> _objects = new Dictionary<int, GameObject>();
         private readonly List<Material> _materials = new List<Material>();
         private readonly Dictionary<int, Mesh> _roofs = new Dictionary<int, Mesh>();
         private Material _surface;
-        private LineRenderer _workRing, _hoverRing, _preview, _rally, _towerRange;
+        [SerializeField] private LineRenderer _workRing, _hoverRing, _preview, _rally, _towerRange;
         private Font _font;
         private bool _ready, _pointerValid;
         private float _simulationTime;
         private int _hovered, _inspected, _screenWidth, _screenHeight;
         private Point _pointer;
-        private string _notice = "대상을 클릭해 신력 필드를 설치하세요. 빈 타일은 Shift+클릭으로 설치합니다.";
+        private string _notice = "좌클릭으로 상호작용 필드를 설치하고 Ctrl/Shift를 눌러 건설합니다.";
         private readonly Color _cream = new Color(.93f,.88f,.72f);
         private readonly Color _cyan = new Color(.34f,.96f,.85f);
         private readonly Color _gold = new Color(1,.78f,.25f);
         private MaterialPropertyBlock _block;
-        private Afterlife.Devlog.TerrainView.TerrainSurface _terrainSurface;
-        private Afterlife.Devlog.Water.WaterSurface _waterSurface;
-        private float GroundLift(float x,float z) => _terrainSurface==null ? 0 : _terrainSurface.Height(x,z)-Afterlife.Devlog.TerrainView.TerrainSurface.BaseHeight;
+        private Afterlife.Modules.TerrainView.TerrainSurface _terrainSurface;
+        private Afterlife.Modules.Water.WaterSurface _waterSurface;
+        private float GroundLift(float x,float z) => _terrainSurface==null ? 0 : _terrainSurface.Height(x,z)-Afterlife.Modules.TerrainView.TerrainSurface.BaseHeight;
         private Vector3 GroundPosition(Point p,float y=0) => V(p,y+GroundLift(p.X,p.Z));
         private static Vector3 V(Point p,float y=0) => new Vector3(p.X,y,p.Z);
 
@@ -45,25 +49,29 @@ namespace Afterlife.Prototype
             _block = new MaterialPropertyBlock();
             _font = Resources.Load<Font>("Fonts/Mona12TextKR");
             if(_font==null||!_font.HasCharacter('가')||!_font.HasCharacter('0'))_font = Font.CreateDynamicFontFromOSFont(new[] {"Malgun Gothic", "Arial"}, 18);
-            var cameraObject=new GameObject("Prototype Camera"); cameraObject.transform.SetParent(transform);
-            _camera=cameraObject.AddComponent<Camera>(); _camera.orthographic=true; _camera.orthographicSize=8.7f;
-            _camera.transform.position=new Vector3(10,15,-14);
-            _camera.transform.LookAt(new Vector3(0,0,0));
-            _camera.clearFlags=CameraClearFlags.SolidColor; _camera.backgroundColor=new Color(.075f,.115f,.12f);
-            _camera.nearClipPlane=.1f; _camera.farClipPlane=80; _camera.allowHDR=false; _camera.allowMSAA=false;
-            ApplyCameraGroundDistance();
-            var cameraData=cameraObject.AddComponent<UnityEngine.Rendering.Universal.UniversalAdditionalCameraData>();
-            cameraData.requiresDepthTexture=true;cameraData.requiresColorTexture=true;
-            _audio=gameObject.AddComponent<PrototypeAudio>();_audio.Initialize(_model,_settings,_camera);
-            BuildGround(); InitializeInteraction(); InitializePresentation();
-            _workRing=Line("WorkRange",_cyan,.055f);
-            _towerRange=Line("Tower attack range",new Color(.45f,.75f,1,.6f),.05f);
-            _hoverRing=Line("HoverFocus",_gold,.045f);
-            _preview=Line("PlacementPreview",Color.green,.065f);
-            _rally=Line("RallyPoint",new Color(.4f,.65f,1),.04f);
+            _cameraDistance = _camera != null ? _camera.GetComponent<GroundCameraDistance>() : null;
+            if (_cameraDistance == null || _audio == null || _camera.GetComponent<UnityEngine.Rendering.Universal.UniversalAdditionalCameraData>() == null ||
+                _workRing == null || _towerRange == null || _hoverRing == null || _preview == null || _rally == null ||
+                _commandLine == null || _arrowHead == null || _buildTileMarker == null ||
+                _buildTileMarker.GetComponent<MeshFilter>() == null || _buildTileMarker.GetComponent<MeshRenderer>() == null)
+            {
+                Debug.LogError("Prototype scene references are incomplete: assign World Camera, AudioRoot, and WorldMarkers including the build tile marker.", this);
+                return;
+            }
+            _initialCameraPosition = _camera.transform.position;
+            _initialCameraRotation = _camera.transform.rotation;
+            ResetCameraGroundDistance();
+            if (!_audio.Initialize(_model,_settings,_camera)) return;
+            // 타이틀에서는 월드를 표시하지 않는다. 첫 세션의 맵 시드가 정해진 뒤 생성한다.
+            InitializeInteraction(); InitializeGlow();
+            ConfigureLine(_workRing,_cyan,.055f);
+            ConfigureLine(_towerRange,new Color(.45f,.75f,1,.6f),.05f);
+            ConfigureLine(_hoverRing,_gold,.045f);
+            ConfigureLine(_preview,Color.green,.065f);
+            ConfigureLine(_rally,new Color(.4f,.65f,1),.04f);
             _model.ArrowRayBlocked=ArrowBlocked;_model.Notice+=OnNotice; _model.Contributed+=OnContributed; _model.Damaged+=OnDamaged;_model.ContributionText+=OnContributionText;_model.HarvestGold+=OnHarvestGold;_model.RunEnded+=OnRunEnded;
             _model.BannerUnlocked=PlayerPrefs.GetInt("AfterlifePrototype.Unlock.TealBanner.v1",0)==1;
-            Resize(); InitializeSceneUi(); _ready=true; UpdateFog(); Sync(); InitializeGameFlow();
+            Resize(); InitializeSceneUi(); _ready=true; InitializeGameFlow();
         }
         private void OnNotice(string message) { _notice=message;_noticeTime=Time.unscaledTime; }
         private GameObject _mapRoot;
@@ -72,15 +80,16 @@ namespace Afterlife.Prototype
         {
             _mapRevision=_model.Terrain.Revision;
             _mapRoot=new GameObject("GeneratedMap");_mapRoot.transform.SetParent(transform,false);
-            var palette=new[]{new Color(.30f,.40f,.23f),new Color(.43f,.34f,.25f),new Color(.68f,.61f,.44f),
-                new Color(.055f,.25f,.32f),new Color(.81f,.85f,.88f),new Color(.23f,.32f,.19f),new Color(.43f,.45f,.43f)};
-            var coast=new Afterlife.Devlog.Terrain.CoastalTerrain(Afterlife.Devlog.Terrain.CoastShape.Rounded,-.46f,-.82f);
+            var palette=_settings.EnvironmentValues.TerrainPalette;
+            var coast=new Afterlife.Modules.Terrain.CoastalTerrain(Afterlife.Modules.Terrain.CoastShape.Rounded,_settings.EnvironmentValues.WaterHeight,_settings.EnvironmentValues.SeaFloorHeight);
             var waterShader=Resources.Load<Shader>("PrototypeWater");
-            _terrainSurface=new Afterlife.Devlog.TerrainView.TerrainSurface(_mapRoot.transform,_model.Terrain.Radius,
-                (x,z)=>(Afterlife.Devlog.Terrain.ShowcaseBiome)(int)_model.Terrain.At(x,z),_surface,palette,coast);
-            _waterSurface=new Afterlife.Devlog.Water.WaterSurface(_mapRoot.transform,_model.Terrain.Radius,
+            var geometry=new Afterlife.Modules.TerrainView.TerrainGeometry(_model.Terrain.Radius,
+                (x,z)=>(Afterlife.Modules.Terrain.TerrainBiome)(int)_model.Terrain.At(x,z),palette,coast);
+            _terrainSurface=new Afterlife.Modules.TerrainView.TerrainSurface(_mapRoot.transform,geometry,_surface);
+            _waterSurface=new Afterlife.Modules.Water.WaterSurface(_mapRoot.transform,_model.Terrain.Radius,
                 (x,z)=>_model.Terrain.At(x,z)==TerrainKind.Water,waterShader,coast.WaterHeight,coast.FloorHeight);
             InitializeGroundAppearance();
+            BuildEconomicSiteMarkers();
         }
         private GameObject Part(Transform parent,string name,PrimitiveType type,Vector3 position,Vector3 scale,Color color,bool collider=true)
         {
@@ -101,11 +110,12 @@ namespace Afterlife.Prototype
             else if(body.Kind==Kind.ArrowTower||body.Kind==Kind.MagicTower||body.Kind==Kind.Wall||body.Kind==Kind.Chest||body.Kind==Kind.Altar||body.Kind==Kind.AbandonedAltar||body.Kind==Kind.Ruins)BuildExpansion(root.transform,body);
             else if(body.Building)
             {
-                Part(root.transform,"Foundation",PrimitiveType.Cube,new Vector3(0,.1f,0),new Vector3(body.Width*.92f,.2f,body.Depth*.92f),new Color(.32f,.34f,.3f));
+                Part(root.transform,"Foundation",PrimitiveType.Cube,new Vector3(0,.1f,0),new Vector3(body.Width*.92f,.2f,body.Depth*.92f),new Color(.32f,.34f,.3f),_model.Building(body.Kind).BlocksMovement);
                 if(body.Kind==Kind.Farm)
                 {
                     for(int row=0;row<3;row++)
-                        Part(root.transform,"Wheat",PrimitiveType.Cube,new Vector3(-.28f+row*.28f,.26f,0),new Vector3(.13f,.3f,.7f),baseColor);
+                        Part(root.transform,"Wheat",PrimitiveType.Cube,new Vector3(-.28f+row*.28f,.26f,0),new Vector3(.13f,.3f,.7f),baseColor,false);
+                    var pick=root.AddComponent<BoxCollider>();pick.center=new Vector3(0,.25f,0);pick.size=new Vector3(body.Width,.5f,body.Depth);pick.isTrigger=true;
                 }
                 else
                 {
@@ -132,13 +142,13 @@ namespace Afterlife.Prototype
                 Part(root.transform,"Eye",PrimitiveType.Cube,new Vector3(-.11f,.36f,.25f),new Vector3(.065f,.07f,.04f),Color.black,false);
                 Part(root.transform,"Eye",PrimitiveType.Cube,new Vector3(.11f,.36f,.25f),new Vector3(.065f,.07f,.04f),Color.black,false);
             }
-            if(VillageModel.HasBuildingLight(body.Kind))
+            if(body.Kind==Kind.House&&_model.BannerUnlocked)
             {
-                if(body.Kind==Kind.House&&_model.BannerUnlocked)
-                {
-                    Part(root.transform,"Unlocked banner pole",PrimitiveType.Cube,new Vector3(.34f,1.3f,0),new Vector3(.04f,.75f,.04f),new Color(.4f,.3f,.2f),false);
-                    Part(root.transform,"Unlocked teal banner",PrimitiveType.Cube,new Vector3(.47f,1.5f,0),new Vector3(.25f,.3f,.035f),_cyan,false);
-                }
+                Part(root.transform,"Unlocked banner pole",PrimitiveType.Cube,new Vector3(.34f,1.3f,0),new Vector3(.04f,.75f,.04f),new Color(.4f,.3f,.2f),false);
+                Part(root.transform,"Unlocked teal banner",PrimitiveType.Cube,new Vector3(.47f,1.5f,0),new Vector3(.25f,.3f,.035f),_cyan,false);
+            }
+            if(body.Building&&_model.HasBuildingLight(body.Kind))
+            {
                 Part(root.transform,"Lamp",PrimitiveType.Cube,new Vector3(.26f,.65f,-.42f),new Vector3(.16f,.18f,.04f),new Color(1,.72f,.24f),false);
                 var lamp=new GameObject("Building Light");lamp.transform.SetParent(root.transform,false);lamp.transform.localPosition=new Vector3(0,1.1f,-.5f);
                 var light=lamp.AddComponent<Light>();light.type=LightType.Point;light.color=new Color(1,.65f,.25f);light.range=Mathf.Max(.01f,_model.BodyLightRadius(body));light.intensity=0;light.shadows=LightShadows.None;
@@ -171,9 +181,15 @@ namespace Afterlife.Prototype
         private LineRenderer Line(string name,Color color,float width)
         {
             var go=new GameObject(name); go.transform.SetParent(transform);
-            var line=go.AddComponent<LineRenderer>(); line.sharedMaterial=_surface;
+            var line=go.AddComponent<LineRenderer>();
+            ConfigureLine(line,color,width);
+            return line;
+        }
+        private void ConfigureLine(LineRenderer line,Color color,float width)
+        {
+            line.sharedMaterial=_surface;
             line.useWorldSpace=true; line.loop=true; line.widthMultiplier=width;
-            Tint(line,color); line.enabled=false; return line;
+            Tint(line,color); line.enabled=false;
         }
         private void Circle(LineRenderer line,Point center,float radius)
         {

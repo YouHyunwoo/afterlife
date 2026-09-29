@@ -65,7 +65,7 @@ namespace Afterlife.Prototype
             {
                 if(pair.Value==null||!pair.Value.gameObject.activeInHierarchy||!_model.Relics.Contains(pair.Key))continue;
                 if(RectTransformUtility.RectangleContainsScreenPoint(pair.Value,mouse))
-                    return _relicCatalog.Find(pair.Key)?.Tooltip(_model.RelicLevel(pair.Key))??"";
+                    return _relicCatalog.Find(pair.Key)?.Tooltip(_model.RelicLevel(pair.Key),_model.Rules.Relics)??"";
             }
             return "";
         }

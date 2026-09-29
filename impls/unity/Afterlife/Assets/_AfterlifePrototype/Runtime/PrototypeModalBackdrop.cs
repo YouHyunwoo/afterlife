@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using Afterlife.Modules.Threshold.Unity;
 namespace Afterlife.Prototype
 {
     public enum ModalBackdropMode { Dark, DarkBlur }
@@ -18,13 +19,16 @@ namespace Afterlife.Prototype
         [Tooltip("화면 픽셀 기준 블러 샘플 반경. 클수록 넓게 흐려집니다.")]
         [Range(0,24)] public float BlurRadius=8;
         [Range(1,4)] public int Downsample=2;
-        private bool _visible,_captured;
+        private bool _visible,_captured,_closingEdge;
         private ModalBackdropMode _renderMode;
-        private bool _useBlur;
+        private bool _useBlur,_useEdge;
         private bool? _requestedBlur;
+        private bool _requestedEdge;
         private Coroutine _capture;
-        private RenderTexture _source,_horizontal,_blurred;
+        private RenderTexture _source,_horizontal,_blurred,_edgeSource;
         private Material _material;
+        private ThresholdScreenEdge _edge;
+        private ThresholdModalEffect _effect;
         private float _lastRadius=-1,_lastDarkness=-1;
         private int _lastDownsample;
         private int _depth;
@@ -32,31 +36,40 @@ namespace Afterlife.Prototype
         private RectTransform _top;
         private CanvasGroup _hiddenTop;
         private float _topAlpha;
-        private Camera _captureCamera;
+        [Header("씬 캡처 카메라")]
+        [SerializeField] private Camera _captureCamera;
         private readonly WaitForEndOfFrame _endOfFrame=new WaitForEndOfFrame();
-        public void SetVisible(bool visible,RectTransform top=null,int depth=1,bool? blur=null)
+        public bool IsTransitioning => _closingEdge;
+        public void SetVisible(bool visible,RectTransform top=null,int depth=1,bool? blur=null,bool edge=false)
         {
             // 깊이만 바뀌면 기존 캡처 텍스처를 재사용하고 암전 농도만 갱신한다.
             _depth=visible?Mathf.Max(0,depth):0;
             _requestedBlur=blur;
-            bool useBlur=blur??Mode==ModalBackdropMode.DarkBlur;
-            if(_visible==visible&&_top==top&&_useBlur==useBlur)return;
-            ResetBackdrop();_top=top;_visible=visible;_renderMode=Mode;_useBlur=useBlur;
-            if(!visible){ResetBackdrop();return;}
-            // 씬 편집으로 CanvasGroup이 제거되어도 저장된 모달 바인딩에서 복구한다.
-            if(ModalLayer==null)
+            _requestedEdge=edge;
+            bool useBlur=!edge&&(blur??Mode==ModalBackdropMode.DarkBlur);
+            if(!visible&&_closingEdge)return;
+            if(!visible&&_visible&&_useEdge&&_edge!=null&&_captured)
             {
-                var ui=GetComponent<PrototypeCanvas>();
-                var layer=ui!=null?ui.Item("ModalLayer")?.Rect:null;
-                if(layer!=null)
-                {
-                    ModalLayer=layer.GetComponent<CanvasGroup>();
-                    if(ModalLayer==null)ModalLayer=layer.gameObject.AddComponent<CanvasGroup>();
-                }
+                _visible=false;_top=null;_closingEdge=true;
+                if(_effect!=null)_effect.SetOpen(false);
+                return;
             }
-            if(Background==null||ModalLayer==null)return;
+            if(_visible==visible&&_top==top&&_useBlur==useBlur&&_useEdge==edge)return;
+            bool restartEdge=(_useEdge&&edge&&_top!=top)||_closingEdge;
+            if(_useEdge&&!edge&&_effect!=null)_effect.SetOpen(false);
+            ResetBackdrop();_top=top;_visible=visible;_renderMode=Mode;_useBlur=useBlur;_useEdge=edge;
+            if(!visible){ResetBackdrop();return;}
+            if(Background==null||ModalLayer==null){Debug.LogError("Assign ModalLayer and Background in the scene.",this);return;}
             Background.transform.SetAsLastSibling();
             if(_top!=null)_top.SetAsLastSibling();
+            if(_useEdge)
+            {
+                _edge=Background.GetComponent<ThresholdScreenEdge>();
+                if(_edge==null){Debug.LogError("Add ThresholdScreenEdge to the modal background.",Background);ShowDark();return;}
+                if(_effect==null)_effect=GetComponent<ThresholdModalEffect>();
+                if(_effect==null){Debug.LogError("Add ThresholdModalEffect to the modal Canvas.",this);ShowDark();return;}
+                ShowDark();_effect.SetOpen(true,restartEdge);_capture=StartCoroutine(CaptureBackground());return;
+            }
             if(BlurShader==null)BlurShader=Resources.Load<Shader>("UI/ModalBackdropBlur");
             if(!_useBlur||BlurShader==null||!BlurShader.isSupported){ShowDark();return;}
             if(_material==null)_material=new Material(BlurShader){hideFlags=HideFlags.HideAndDontSave};
@@ -65,11 +78,11 @@ namespace Afterlife.Prototype
         }
         private IEnumerator CaptureBackground()
         {
-            while(_visible)
+            while(_visible||_closingEdge)
             {
                 yield return _endOfFrame;
-                if(!_visible)break;
-                if(!_useBlur){ShowDark();continue;}
+                if(!_visible&&!_closingEdge)break;
+                if(!_useBlur&&!_useEdge){ShowDark();continue;}
                 bool failed=false;
                 try
                 {
@@ -78,7 +91,8 @@ namespace Afterlife.Prototype
                     {
                         Release(ref _source);_source=CreateTexture(width,height,"Live modal background",24);
                     }
-                    CaptureUi();_captured=true;RenderBlur();
+                    CaptureUi();_captured=true;
+                    if(_useEdge)RenderEdge();else RenderBlur();
                 }
                 catch(System.Exception error){_captured=false;ShowDark();Debug.LogException(error,this);failed=true;}
                 if(failed)break;
@@ -89,17 +103,7 @@ namespace Afterlife.Prototype
         {
             var canvas=GetComponent<Canvas>();
             if(canvas==null)throw new System.InvalidOperationException("모달 블러 Canvas가 없습니다.");
-            if(_captureCamera==null)
-            {
-                var go=new GameObject("Modal UI Capture Camera"){hideFlags=HideFlags.HideAndDontSave};
-                _captureCamera=go.AddComponent<Camera>();_captureCamera.enabled=false;
-                // 실제 월드와 떨어진 좁은 프러스텀에는 이 Canvas만 배치한다.
-                go.transform.position=new Vector3(10000,10000,-10000);
-                _captureCamera.nearClipPlane=.1f;_captureCamera.farClipPlane=2;
-                _captureCamera.clearFlags=CameraClearFlags.SolidColor;_captureCamera.backgroundColor=Color.black;
-                _captureCamera.allowHDR=false;_captureCamera.allowMSAA=false;
-                var data=_captureCamera.GetUniversalAdditionalCameraData();data.renderPostProcessing=false;data.renderShadows=false;
-            }
+            if(_captureCamera==null)throw new System.InvalidOperationException("Assign Modal UI Capture Camera in the scene.");
             var mode=canvas.renderMode;var camera=canvas.worldCamera;float distance=canvas.planeDistance;
             bool backgroundEnabled=Background.enabled;
             try
@@ -108,7 +112,7 @@ namespace Afterlife.Prototype
                 if(_top!=null)
                 {
                     _hiddenTop=_top.GetComponent<CanvasGroup>();
-                    if(_hiddenTop==null)_hiddenTop=_top.gameObject.AddComponent<CanvasGroup>();
+                    if(_hiddenTop==null)throw new System.InvalidOperationException("Top modal panel needs a CanvasGroup in the scene.");
                     _topAlpha=_hiddenTop.alpha;_hiddenTop.alpha=0;
                 }
                 _captureCamera.targetTexture=_source;
@@ -127,14 +131,26 @@ namespace Afterlife.Prototype
         }
         private void LateUpdate()
         {
-            if(!_visible||Background==null)return;
-            if(Mode!=_renderMode){var top=_top;int depth=_depth;var blur=_requestedBlur;SetVisible(false);SetVisible(true,top,depth,blur);return;}
+            if(_closingEdge&&(_effect==null||_effect.IsClosed)){ResetBackdrop();return;}
+            if((!_visible&&!_closingEdge)||Background==null)return;
+            if(!_closingEdge&&Mode!=_renderMode){var top=_top;int depth=_depth;var blur=_requestedBlur;bool edge=_requestedEdge;SetVisible(false);SetVisible(true,top,depth,blur,edge);return;}
             if(_capture!=null)return;
-            if(!_useBlur){ShowDark();return;}
+            if(!_useBlur&&!_useEdge){ShowDark();return;}
             if(!_captured){ShowDark();return;}
+            if(_useEdge){RenderEdge();return;}
             if(_lastRadius!=BlurRadius||_lastDarkness!=EffectiveDarkness||_lastDownsample!=Mathf.Clamp(Downsample,1,4)||Background.texture!=_blurred)RenderBlur();
         }
-        private void ShowDark(){Background.texture=Texture2D.whiteTexture;Background.color=new Color(0,0,0,EffectiveDarkness);if(ModalLayer!=null)ModalLayer.alpha=1;}
+        private void ShowDark(){if(_edge!=null&&!_useEdge)_edge.Clear();Background.texture=Texture2D.whiteTexture;Background.color=new Color(0,0,0,EffectiveDarkness);if(ModalLayer!=null)ModalLayer.alpha=1;}
+        private void RenderEdge()
+        {
+            if(_edge==null||_source==null)return;
+            int down=Mathf.Clamp(Downsample,1,4),w=Mathf.Max(1,_source.width/down),h=Mathf.Max(1,_source.height/down);
+            if(_edgeSource==null||_edgeSource.width!=w||_edgeSource.height!=h)
+            {Release(ref _edgeSource);_edgeSource=CreateTexture(w,h,"Threshold modal edge source");}
+            Graphics.Blit(_source,_edgeSource);
+            // Lab의 중앙 명도를 유지한다. 이 모드의 암전은 Veil의 _Modal이 담당한다.
+            _edge.Present(_edgeSource,0,_effect!=null?_effect.Amount:1);
+        }
         private void RenderBlur()
         {
             int down=Mathf.Clamp(Downsample,1,4),w=Mathf.Max(1,_source.width/down),h=Mathf.Max(1,_source.height/down);
@@ -165,15 +181,23 @@ namespace Afterlife.Prototype
         private void ResetBackdrop()
         {
             if(_capture!=null){StopCoroutine(_capture);_capture=null;}
+            _closingEdge=false;
             RestoreTop();
+            if(_edge!=null)_edge.Clear();
             if(Background!=null)Background.enabled=true;
             if(ModalLayer!=null)ModalLayer.alpha=1;
             if(Background!=null)Background.texture=null;
-            _captured=false;Release(ref _source);Release(ref _horizontal);Release(ref _blurred);
+            _captured=false;Release(ref _source);Release(ref _horizontal);Release(ref _blurred);Release(ref _edgeSource);
+        }
+        public void HideImmediate()
+        {
+            _visible=false;
+            if(_effect!=null)_effect.ResetImmediate();
+            ResetBackdrop();
         }
         private void RestoreTop(){if(_hiddenTop!=null)_hiddenTop.alpha=_topAlpha;_hiddenTop=null;}
         private static void Release(ref RenderTexture texture){if(texture==null)return;texture.Release();Destroy(texture);texture=null;}
-        private void OnDisable(){_visible=false;ResetBackdrop();}
-        private void OnDestroy(){ResetBackdrop();if(_material!=null)Destroy(_material);if(_captureCamera!=null)Destroy(_captureCamera.gameObject);}
+        private void OnDisable()=>HideImmediate();
+        private void OnDestroy(){ResetBackdrop();if(_material!=null)Destroy(_material);}
     }
 }

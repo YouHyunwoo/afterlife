@@ -7,61 +7,23 @@ namespace Afterlife.Modules.Progression
     public sealed class UpgradeHoverTooltip : MonoBehaviour
     {
         private RectTransform _root, _rect;
-        private TMP_Text _title, _description, _values, _price;
-        private RectTransform _cost, _coin;
+        [Header("툴팁 프리팹 참조")]
+        [SerializeField] private TMP_Text _title, _description, _values, _price;
+        [SerializeField] private RectTransform _cost, _coin;
         private string _arrow;
         private Vector2 _pointer;
         private Camera _eventCamera;
-        private CanvasGroup _group;
+        [SerializeField] private CanvasGroup _group;
         private float _progress, _fitScale = 1;
         private bool _showing;
         public void Initialize(RectTransform root, TMP_FontAsset font)
         {
-            _root = root; _rect = (RectTransform)transform; _rect.pivot = new Vector2(.5f, .5f);
-            var image = gameObject.AddComponent<Image>(); image.color = new Color(.045f, .065f, .1f, 1); image.raycastTarget = false;
-            var outline = gameObject.AddComponent<Outline>(); outline.effectColor = new Color(.75f, .57f, .27f); outline.effectDistance = new Vector2(1, -1);
-            var group = gameObject.AddComponent<CanvasGroup>(); group.blocksRaycasts = false; group.interactable = false;
-            _group = group;
-            _rect.sizeDelta = new Vector2(340, 260);
-            _title = Text("Title", font, 21, TextAlignmentOptions.Center, new Vector2(18, -14), new Vector2(304, 34));
-            _title.fontStyle = FontStyles.Bold;
-            _description = Text("Description", font, 16, TextAlignmentOptions.TopLeft, new Vector2(20, -60), new Vector2(300, 104));
-            _values = Text("EffectValues", font, 22, TextAlignmentOptions.Center, new Vector2(20, -164), new Vector2(300, 36));
-            _values.color = new Color32(122, 214, 196, 255);
+            if (_title == null || _description == null || _values == null || _price == null || _cost == null || _coin == null || _group == null)
+                throw new System.InvalidOperationException("UpgradeHoverTooltip prefab references are incomplete.");
+            _root = root; _rect = (RectTransform)transform;
+            _title.font = _description.font = _values.font = _price.font = font;
             _arrow = font != null && font.HasCharacter('→', true, true) ? "→" : "->";
-            var divider = UpgradeTreeScreen.MakeRect("PriceDivider", _rect);
-            divider.anchorMin = divider.anchorMax = new Vector2(.5f, 0);
-            divider.anchoredPosition = new Vector2(0, 52); divider.sizeDelta = new Vector2(300, 1);
-            var line = divider.gameObject.AddComponent<Image>(); line.color = new Color(.75f, .57f, .27f, .4f); line.raycastTarget = false;
-            _cost = UpgradeTreeScreen.MakeRect("PurchaseCost", _rect);
-            _cost.anchorMin = _cost.anchorMax = new Vector2(.5f, 0); _cost.anchoredPosition = new Vector2(0, 27);
-            var coin = UpgradeTreeScreen.MakeRect("CoinIcon", _cost); coin.sizeDelta = new Vector2(20, 20);
-            coin.anchorMin = coin.anchorMax = new Vector2(0, .5f); coin.anchoredPosition = new Vector2(10, 0);
-            coin.gameObject.AddComponent<UpgradeTooltipCoin>();
-            _coin = coin;
-            var priceRect = UpgradeTreeScreen.MakeRect("PriceValue", _cost);
-            priceRect.anchorMin = Vector2.zero; priceRect.anchorMax = Vector2.one;
-            priceRect.offsetMin = new Vector2(28, 0); priceRect.offsetMax = Vector2.zero;
-            _price = priceRect.gameObject.AddComponent<TextMeshProUGUI>();
-            _price.font = font; _price.fontSize = 20; _price.alignment = TextAlignmentOptions.MidlineLeft;
-            _price.textWrappingMode = TextWrappingModes.NoWrap;
-            _price.overflowMode = TextOverflowModes.Ellipsis;
-            _price.raycastTarget = false;
             HideImmediate();
-        }
-        private TMP_Text Text(string name, TMP_FontAsset font, float size, TextAlignmentOptions alignment, Vector2 position, Vector2 dimensions)
-        {
-            var rect = UpgradeTreeScreen.MakeRect(name, _rect);
-            rect.anchorMin = rect.anchorMax = new Vector2(0, 1); rect.pivot = new Vector2(0, 1);
-            rect.anchoredPosition = position; rect.sizeDelta = dimensions;
-            var label = rect.gameObject.AddComponent<TextMeshProUGUI>();
-            label.font = font; label.fontSize = size; label.enableAutoSizing = false;
-            // TMP 프로젝트 기본값과 무관하게 카드 영역 안에서 줄바꿈한다.
-            label.textWrappingMode = TextWrappingModes.Normal;
-            label.overflowMode = TextOverflowModes.Ellipsis;
-            label.color = new Color32(243, 234, 209, 255); label.alignment = alignment;
-            label.raycastTarget = false;
-            return label;
         }
         public void Show(string title, string description, string current, string next, int cost, bool canBuy)
         {

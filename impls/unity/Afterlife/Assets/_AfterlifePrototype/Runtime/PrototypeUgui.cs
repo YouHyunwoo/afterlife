@@ -21,7 +21,7 @@ namespace Afterlife.Prototype
             if(_dayBannerAnimation==null)
             {
                 _dayBannerAnimation=ui.DayBanner.GetComponent<PrototypeDayStartBanner>();
-                if(_dayBannerAnimation==null)_dayBannerAnimation=ui.DayBanner.gameObject.AddComponent<PrototypeDayStartBanner>();
+                if(_dayBannerAnimation==null)return;
             }
             bool day=_model.Phase==Phase.Day;
             if(day&&_shownDaySequence!=_model.DaySequence)
@@ -114,7 +114,7 @@ namespace Afterlife.Prototype
         {
             if(_sceneUi==null){Debug.LogError("Prototype Canvas 참조가 없습니다. 씬의 Canvas와 PrototypeView.SceneUi 연결을 확인하세요.");return;}
             _font=_sceneUi.Font;_baseUiResolution=_sceneUi.Scaler.referenceResolution;
-            _uiSize=PlayerPrefs.GetFloat("Afterlife.UI.Size",1);_edgeFraction=PlayerPrefs.GetFloat("Afterlife.Camera.Edge",.25f);_cameraSpeedFactor=PlayerPrefs.GetFloat("Afterlife.Camera.Speed",1);
+            ReloadUiPreferences();
             InitializeBuildItems();
             PrepareProgressionUi();
             _sceneUi.Bind(UiClick,UiSlider);InitializeProgressionUi();_sceneUi.WorldDisplay.texture=_pixels;
@@ -123,11 +123,10 @@ namespace Afterlife.Prototype
             {
                 if(binding?.Button==null)continue;
                 var feedback=binding.Button.GetComponent<PrototypeDisabledButtonSound>();
-                if(feedback==null)feedback=binding.Button.gameObject.AddComponent<PrototypeDisabledButtonSound>();
-                feedback.Bind(binding.Button,_audio);
+                if(feedback!=null)feedback.Bind(binding.Button,_audio);
             }
             var buildCatalog=_sceneUi.BuildCatalog!=null?_sceneUi.BuildCatalog:Resources.Load<PrototypeBuildCatalog>(PrototypeBuildCatalog.ResourcePath);
-            if(buildCatalog!=null)_configuredBuildKinds=buildCatalog.Buildings.Where(data=>data!=null).Select(data=>data.Id).ToArray();
+            if(buildCatalog!=null)_configuredBuildKinds=buildCatalog.Buildings.Where(data=>data!=null&&data.Id!=Kind.Research&&data.ToRule().Stats.DirectBuild).Select(data=>data.Id).ToArray();
             InitializeRelicHud();
             _collectionFlights=new CollectionFlight[_sceneUi.CollectionIcons?.Length??0];
             for(int i=0;i<_collectionFlights.Length;i++)_collectionFlights[i]=new CollectionFlight();
@@ -138,6 +137,16 @@ namespace Afterlife.Prototype
             if(id=="Menu.Size")_uiSize=value;else if(id=="Menu.Edge")_edgeFraction=value;else if(id=="Menu.Speed")_cameraSpeedFactor=value;
             SaveUiPreferences();_uiRefresh=0;
         }
+        private void ReloadUiPreferences()
+        {
+            var camera = _settings != null ? _settings.Camera : null;
+            var values = PrototypeUiPreferences.Load(camera != null ? camera.DefaultUiSize : 1,
+                camera != null ? camera.DefaultEdgeFraction : .25f,
+                camera != null ? camera.DefaultSpeedFactor : 1);
+            _uiSize = values.Size;
+            _edgeFraction = values.Edge;
+            _cameraSpeedFactor = values.Speed;
+        }
         private void UiClick(string id)
         {
             if(!_ready||_gameFlow==null||!_gameFlow.IsPlaying)return;
@@ -145,6 +154,7 @@ namespace Afterlife.Prototype
             if(id.StartsWith("Settings.Tab.")||id.StartsWith("Research.Tab."))PlaySound(SoundCue.Open);
             else if(id.StartsWith("Recruit.")||id.StartsWith("Memory."))PlaySound(SoundCue.Select);
             if(id=="HUD.Loot")PushModal(Modal.Loot);
+            else if(id=="HUD.Altar"&&_model.HasAltar)PushModal(Modal.Research);
             else if(id=="HUD.Menu")PushModal(Modal.Menu);
             else if(id=="Menu.Settings")PushModal(Modal.Settings);
             else if(id.StartsWith("Settings.Tab."))_settingsTab=int.Parse(id.Substring("Settings.Tab.".Length));
@@ -156,19 +166,16 @@ namespace Afterlife.Prototype
             else if(id.StartsWith("Build.Item."))
             {
                 var kind=(Kind)Enum.Parse(typeof(Kind),id.Substring(11));
-                if(_tileBuildMenu)
+                if(_model.Mode==InputMode.Build&&_tileBuildMenu)
                 {
-                    if(_buildMenuClosing||_buildMenuTime<BuildMarkerSeconds+BuildPanelSeconds)return;
-                    bool valid=_model.PlacementError(kind,(int)_buildTile.X,(int)_buildTile.Z)==null;
-                    _model.Place(kind,(int)_buildTile.X,(int)_buildTile.Z);
-                    if(valid&&!_model.Frozen)CloseTileBuildMenu(false,false);
+                    _selectedBuildKind=kind;
+                    _model.SetMode(InputMode.Build,kind);
+                    RefreshBuildSelection();
+                    PlaySound(SoundCue.Select);
                 }
-
             }
             else if(id=="Build.Cancel")_model.CancelConstruction(_inspected);
-            else if(id=="Barracks.Cancel")_model.CancelOrder(_modalBody);
-            else if(id.StartsWith("Barracks.Slot."))CancelDisplayedReservation(int.Parse(id.Substring("Barracks.Slot.".Length)));
-            else if(id.StartsWith("Recruit."))_model.Recruit(_modalBody,(Kind)Enum.Parse(typeof(Kind),id.Substring(8)));
+            else if(id=="Barracks.Cancel"&&!IsGameplayPausedByModal()&&Time.timeScale>0)_model.AccelerateProduction(_modalBody);
             else if(id.StartsWith("Research.Tab."))_researchCategory=int.Parse(id.Substring(13));
             else if(id.StartsWith("Upgrade."))_model.BuyUpgrade((Upgrade)Enum.Parse(typeof(Upgrade),id.Substring(8)));
             else if(id=="Tower.Upgrade")_model.UpgradeTower(_modalBody);
@@ -188,7 +195,6 @@ namespace Afterlife.Prototype
             UpdateVisionBlur();
             // 1200×675의 편집 기준에 사용자 UI 배율만 적용한다.
             ui.Scaler.referenceResolution=_baseUiResolution/_uiSize;
-            ui.Show("ModalLayer",_modal!=Modal.None||_model.Ended);
             foreach(Modal m in Enum.GetValues(typeof(Modal)))if(m!=Modal.None)
             {
                 bool top=_modal==m&&!_model.Ended;
@@ -197,7 +203,7 @@ namespace Afterlife.Prototype
                 var rect=ui.Item("Modal."+m)?.Rect;
                 if(rect==null)continue;
                 var group=rect.GetComponent<CanvasGroup>();
-                if(group==null)group=rect.gameObject.AddComponent<CanvasGroup>();
+                if(group==null)continue;
                 group.interactable=top;group.blocksRaycasts=top;
             }
             var topRect=ui.Item(_model.Ended?"Modal.Result":"Modal."+_modal)?.Rect;
@@ -209,9 +215,11 @@ namespace Afterlife.Prototype
                 if(!_model.Ended)
                     foreach(var entry in _modalStack)
                         AccumulateBackdrop(ui.Item("Modal."+entry.modal)?.Rect,ref darkLayers,ref blur);
-                // 효과를 모두 꺼도 투명한 배경으로 뒤쪽 UI 클릭을 차단한다.
-                ui.ModalBackdrop.SetVisible(_modal!=Modal.None||_model.Ended,topRect,darkLayers,blur);
+                bool edge=topRect!=null&&topRect.GetComponent<PrototypeModalSurface>()?.EdgeBackground==true;
+                // 가장자리 연출을 켠 최상단 모달에서는 아래 모달의 블러도 억제한다.
+                ui.ModalBackdrop.SetVisible(_modal!=Modal.None||_model.Ended,topRect,darkLayers,edge?false:blur,edge);
             }
+            ui.Show("ModalLayer",_modal!=Modal.None||_model.Ended||ui.ModalBackdrop!=null&&ui.ModalBackdrop.IsTransitioning);
             UpdateTileBuildMenu();ui.Show("Modal.Result",_model.Ended);ui.Show("HUD.Build",false);ui.Show("Build",_tileBuildMenu&&_modal==Modal.None&&!_model.Ended);
             if(_shownModal!=_modal)
             {
@@ -223,7 +231,11 @@ namespace Afterlife.Prototype
             UpdateUiTimeline();UpdateUiFeedback();UpdateGoldFeedback();UpdateDayBanner();
             if(Time.unscaledTime<_uiRefresh)return;_uiRefresh=Time.unscaledTime+.10f;
             UpdateDivinePowerHud();
-            ui.Label("HUD.Population",$"주민 {_model.Population} / {_model.Capacity}     병력 {_model.Bodies.Count(b=>b.Alive&&b.Friendly)}");
+            ui.Label("HUD.Etheron",$"에테론 {_model.Etheron:N0}");
+            ui.Label("HUD.Population",$"병력 {_model.Bodies.Count(b=>b.Alive&&b.Friendly)}");
+            ui.Show("HUD.Altar",true);
+            ui.Enable("HUD.Altar",_model.HasAltar&&!_model.Frozen);
+            ui.Label("HUD.Altar",_model.HasAltar?"제단 강화":"제단 강화 · 잠금");
             foreach(var id in new[]{"HUD.Loot","HUD.Menu"})ui.Enable(id,_modal==Modal.None&&!_model.Ended);
             ui.Enable("Menu.GiveUp",true);
 
@@ -235,9 +247,9 @@ namespace Afterlife.Prototype
             }
             var inspected=_model.Find(_inspected);ui.Enable("Build.Cancel",inspected!=null&&inspected.Building&&!inspected.Complete);
             ui.Label("HUD.Notice",Time.unscaledTime-_noticeTime<4.5f?_notice:"");ui.Show("HUD.Notice",Time.unscaledTime-_noticeTime<4.5f&&_notice.Length>0);
-            ui.Show("HUD.BuildHint",_model.Mode==InputMode.Build&&_modal==Modal.None);ui.Label("HUD.BuildHint",$"{VillageModel.Name(_model.BuildKind)} 배치 · ESC 취소");
+            ui.Show("HUD.BuildHint",_model.Mode==InputMode.Build&&_modal==Modal.None);ui.Label("HUD.BuildHint",_selectedBuildKind.HasValue?$"{_model.DisplayName(_selectedBuildKind.Value)} 배치 · ESC 선택 해제":"건물을 선택한 뒤 배치할 타일을 클릭");
             ui.Show("HUD.Performance",_showPerformance);ui.Label("HUD.Performance",$"FPS {_averageFps:0} · 최대 {_lastFrameMax:0.0}ms\n모델 {_modelMilliseconds:0.00}ms · 표시 {_syncMilliseconds:0.00}ms");
-            if(_model.Ended){ui.Label("Result.Title",_model.Phase==Phase.Victory?"마을에 찾아온 평화":"마지막 불빛이 꺼졌습니다");ui.Label("Result.Body",$"최고 {_model.LastResult?.BestCleared}일 방어 · 환생 {_model.LastResult?.Rebirths}회\n처치 {_model.LastResult?.Kills} · 새로운 판은 처음부터 시작합니다.\n\n"+(_model.BannerUnlocked?"해금: 청록 마을 깃발":"2일 이상 방어하면 청록 마을 깃발이 해금됩니다."));}
+            if(_model.Ended){ui.Label("Result.Title",_model.Phase==Phase.Victory?"마을에 찾아온 평화":"마지막 불빛이 꺼졌습니다");ui.Label("Result.Body",$"최고 {_model.LastResult?.BestCleared}일 방어"+(_model.Settings.MvpSlots?"":$" · 환생 {_model.LastResult?.Rebirths}회")+$"\n처치 {_model.LastResult?.Kills} · 새로운 판은 처음부터 시작합니다.\n\n"+(_model.BannerUnlocked?"해금: 청록 마을 깃발":"2일 이상 방어하면 청록 마을 깃발이 해금됩니다."));}
             UpdateUiModal();
         }
         private void AccumulateBackdrop(RectTransform rect,ref int darkLayers,ref bool blur)
@@ -254,7 +266,7 @@ namespace Afterlife.Prototype
             if(_modal==Modal.Loot)
             {
                 ui.Label("Loot.Total",$"예상 정산액 · 골드 {_model.PendingLootMoney+_model.Valuables*5:N0}");
-                foreach(LootKind k in Enum.GetValues(typeof(LootKind))){_model.Loot.TryGetValue(k,out int count);ui.Show("Loot.Row."+k,count>0);ui.Label("Loot.Row."+k,$"{VillageModel.LootName(k)} ×{count:N0}     골드 {count*VillageModel.LootValue(k):N0}");}
+                foreach(LootKind k in Enum.GetValues(typeof(LootKind))){_model.Loot.TryGetValue(k,out int count);ui.Show("Loot.Row."+k,count>0);ui.Label("Loot.Row."+k,$"{_model.LootName(k)} ×{count:N0}     골드 {count*_model.LootValue(k):N0}");}
                 ui.Show("Loot.Valuables",_model.Valuables>0);ui.Label("Loot.Valuables",$"귀중품 ×{_model.Valuables}     골드 {_model.Valuables*5}");ui.Show("Loot.Empty",_model.PendingLootMoney==0&&_model.Valuables==0);
             }
             if(_modal==Modal.Settings)
@@ -279,23 +291,24 @@ namespace Afterlife.Prototype
             {
                 UpdateBarracksUi(b);
             }
-            if(_modal==Modal.Tower&&b!=null){ui.Label("Tower.Info",$"{VillageModel.Name(b.Kind)} {b.TowerLevel}/5\n피해 {_model.TowerDamage(b):0.#} · 사거리 {_model.TowerRange(b):0.##}\n동시 공격 {_model.TargetCount} · 체력 {b.Health:0}/{b.MaxHealth:0}");ui.Label("Tower.Upgrade",b.TowerLevel>=5?"최대 단계":$"타워 강화 · 골드 {_model.TowerPrice(b)}");ui.Enable("Tower.Upgrade",b.Complete&&!b.MovingOut&&b.TowerLevel<5&&_model.Money>=_model.TowerPrice(b));}
+            if(_modal==Modal.Tower&&b!=null){ui.Label("Tower.Info",$"{_model.DisplayName(b.Kind)} {b.TowerLevel}/{_model.Rules.Growth.TowerMaxLevel}\n피해 {_model.TowerDamage(b):0.#} · 사거리 {_model.TowerRange(b):0.##}\n동시 공격 {_model.TargetCount} · 체력 {b.Health:0}/{b.MaxHealth:0}");ui.Label("Tower.Upgrade",b.TowerLevel>=_model.Rules.Growth.TowerMaxLevel?"최대 단계":$"타워 강화 · 골드 {_model.TowerPrice(b)}");ui.Enable("Tower.Upgrade",b.Complete&&!b.MovingOut&&b.TowerLevel<_model.Rules.Growth.TowerMaxLevel&&_model.Money>=_model.TowerPrice(b));}
             if(_modal==Modal.RebirthReview){var r=_model.PreviewRebirth();ui.Label("RebirthReview.Info",$"이번 생의 기록\n{r.Cleared}일 방어 · {r.Kills}마리 처치\n진행 {r.WaveReward} + 처치 {r.KillBonus} + 재화 {r.StockBonus}\n\n에테론 +{r.Total} · 보유 {_model.Etheron}\n집 하나와 첫날부터 다시 시작합니다.");ui.Enable("RebirthReview.Rebirth",_model.CanRebirth);ui.Show("RebirthReview.Lock",!_model.CanRebirth);}
-            if(_modal==Modal.RebirthShop){ui.Label("RebirthShop.Total",$"보유 에테론 {_model.Etheron} · 환생 {_model.RebirthCount}회");foreach(MemoryUpgrade u in Enum.GetValues(typeof(MemoryUpgrade))){int level=_model.MemoryLevel(u),price=_model.MemoryPrice(u);ui.Label("Memory."+u,level>=3?"최대 단계":$"기억 강화 {level}/3 · 에테론 {price}");ui.Enable("Memory."+u,level<3&&_model.Etheron>=price);}}
+            if(_modal==Modal.RebirthShop){ui.Label("RebirthShop.Total",$"보유 에테론 {_model.Etheron} · 환생 {_model.RebirthCount}회");foreach(MemoryUpgrade u in Enum.GetValues(typeof(MemoryUpgrade))){int level=_model.MemoryLevel(u),price=_model.MemoryPrice(u);ui.Label("Memory."+u,level>=_model.Rules.Rebirth.MemoryMaxLevel?"최대 단계":$"기억 강화 {level}/{_model.Rules.Rebirth.MemoryMaxLevel} · 에테론 {price}");ui.Enable("Memory."+u,level<_model.Rules.Rebirth.MemoryMaxLevel&&_model.Etheron>=price);}}
             if(_modal==Modal.Settlement)
             {
                 bool choosing=_model.DailyRewardChoosing;
                 ui.Show("Settlement.Rewards",choosing);ui.Show("Settlement.Info",!choosing);
-                ui.Show("Settlement.Help",!choosing);ui.Show("Settlement.Next",!choosing);ui.Show("Settlement.Rebirth",!choosing);
+                ui.Show("Settlement.Help",!choosing);ui.Show("Settlement.Next",!choosing);ui.Show("Settlement.Rebirth",!choosing&&!_model.Settings.MvpSlots);
                 ui.Enable("Settlement.Close",!choosing);
-                ui.Label("Settlement.Info",$"{_model.Wave}일차 결산\n귀중품 {_model.LastValuables}개\n{_model.LastLootSummary}\n\n받은 골드 {_model.LastSettlement} · 보유 골드 {_model.Money:0}"+(_model.DailyRewardPending?"\n생존 보상: 유물 3종 중 1개 선택":"\n생존 보상을 받았습니다."));
+                if(_model.Settings.MvpSlots)ui.Label("Settlement.Help","생존 보상을 선택하고 다음 날의 방어를 준비하세요.");
+                ui.Label("Settlement.Info",$"{_model.Wave}일차 결산\n귀중품 {_model.LastValuables}개\n{_model.LastLootSummary}\n\n받은 골드 {_model.LastSettlement} · 보유 골드 {_model.Money:0}"+(_model.DailyRewardPending?$"\n생존 보상: 유물 {_model.DailyRelicChoices.Count}종 중 1개 선택":"\n생존 보상을 받았습니다."));
                 ui.Label("Settlement.Next",_model.DailyRewardPending?"생존 보상 선택":_model.Wave>=_model.Settings.Days?"결과 확인":"다음 낮 시작");ui.Enable("Settlement.Rebirth",_model.CanRebirth);
                 for(int i=0;i<3;i++)
                 {
                     bool available=i<_model.DailyRelicChoices.Count;ui.Show("Settlement.Choice."+i,choosing&&available);
                     if(!available)continue;var kind=_model.DailyRelicChoices[i];int level=_model.RelicLevel(kind);
                     var data=_relicCatalog!=null?_relicCatalog.Find(kind):null;
-                    ui.Label("Settlement.Choice."+i,(level==0?"새 유물":$"{level} → {level+1}단계")+"\n"+(data!=null?data.Tooltip(level+1):VillageModel.RelicName(kind)+"\n"+VillageModel.RelicEffect(kind,level+1)));
+                    ui.Label("Settlement.Choice."+i,(level==0?"새 유물":$"{level} → {level+1}단계")+"\n"+(data!=null?data.Tooltip(level+1,_model.Rules.Relics):VillageModel.RelicName(kind)+"\n"+_model.RelicEffect(kind,level+1)));
                 }
             }
         }
@@ -320,6 +333,8 @@ namespace Afterlife.Prototype
                 tip=RelicTooltip(mouse);
                 if(ui.Contains("HUD.Loot",mouse))tip="전리품\n획득한 전리품과 귀중품을 확인합니다. 하루 결산 시 골드로 정산됩니다.";
                 if(ui.Contains("HUD.GoldIcon",mouse)||ui.Contains("HUD.Money",mouse))tip=$"보유 골드 {Mathf.FloorToInt(_model.Money):N0}\n채집한 자원은 즉시 골드가 됩니다.";
+                if(ui.Contains("HUD.Etheron",mouse))tip=$"보유 에테론 {_model.Etheron:N0}\n제단·성소의 자동 생산으로 얻고 강화에 사용합니다.";
+                if(ui.Contains("HUD.Altar",mouse))tip=_model.HasAltar?"제단 강화\n기본·마법 강화 트리를 엽니다.":"제단 강화 잠금\n제단 또는 성소를 완공하면 열립니다.";
                 if(ui.Contains("HUD.Menu",mouse))tip="메뉴 · ESC · 메뉴를 열면 일시정지됩니다.";
                 var body=_model.Find(_hovered);if(tip.Length==0&&body!=null&&!ui.Blocks(mouse))
                 {
@@ -334,7 +349,14 @@ namespace Afterlife.Prototype
                     else tip+=$"\n체력 {body.Health:0}/{body.MaxHealth:0}";
                     if(body.SpiritShield>0)tip+=$"\n영혼 보호막 {body.SpiritShield:0}";
                     if(body.Building)tip+=$"\n건설 {body.Construction*100:0}% · 클릭 관리 / 드래그 이전";
+                    if(body.Building&&body.Complete&&_model.IsProductionBuilding(body.Kind))tip+=$"\n자동 생산 · 남은 시간 {_model.ProductionRemaining(body.Id):0.0}초";
                     if(VillageModel.IsTower(body.Kind))tip+=$"\n피해 {_model.TowerDamage(body):0.#} · 범위 {_model.TowerRange(body):0.#}";
+                }
+                if(tip.Length==0&&_model.Mode==InputMode.Build&&_selectedBuildKind.HasValue&&_pointerValid)
+                {
+                    int x=Mathf.RoundToInt(_pointer.X),z=Mathf.RoundToInt(_pointer.Z);
+                    var stats=_model.Building(_selectedBuildKind.Value);
+                    tip=_model.EconomicSiteTooltip(_selectedBuildKind.Value,x,z,stats.Width,stats.Depth);
                 }
             }
             ui.Tooltip.gameObject.SetActive(tip.Length>0);ui.SetTooltipText(tip);

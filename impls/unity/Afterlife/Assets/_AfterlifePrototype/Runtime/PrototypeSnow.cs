@@ -1,6 +1,6 @@
+using Afterlife.Modules.Interaction;
 using System.Collections.Generic;
-using Afterlife.Devlog.Day01;
-using Afterlife.Devlog.Destruction;
+using Afterlife.Modules.Destruction;
 using UnityEngine;
 
 namespace Afterlife.Prototype
@@ -11,7 +11,7 @@ namespace Afterlife.Prototype
         private void AttachSnow(Body body,GameObject root)
         {
             if(body.Unit || _model.Terrain.At(body.Position)!=TerrainKind.Snow || !_resourceSurfaces.TryGetValue(body.Id,out var surfaces))return;
-            var target=root.AddComponent<PrototypeSnowTarget>();target.Initialize(_renderCache[body.Id]);
+            var target=root.AddComponent<PrototypeSnowTarget>();target.Initialize(_renderCache[body.Id],_settings.EnvironmentValues);
             var extra=new List<ResourceSurface>();
             foreach(var surface in surfaces)
             {
@@ -19,7 +19,7 @@ namespace Afterlife.Prototype
                 if(cap.Renderer!=null)
                 {
                     cap.Renderer.gameObject.AddComponent<PrototypeTint>().Original=Color.white;
-                    extra.Add(new ResourceSurface{Pick=cap.Renderer.GetComponent<ShowcasePickSurface>(),Wood=surface.Wood});
+                    extra.Add(new ResourceSurface{Pick=cap.Renderer.GetComponent<PickSurface>(),Wood=surface.Wood});
                 }
             }
             surfaces.AddRange(extra);_snowTargets.Add(body.Id,target);
@@ -33,7 +33,7 @@ namespace Afterlife.Prototype
             if(!_snowTargets.TryGetValue(tool.Body,out var target))return;
             var positions=target.Hit(tool.HitPosition);
             if(_treeLeaves.TryGetValue(tool.Body,out var tree))tree.Revision++;
-            if(_impactPool==null)_impactPool=new ShowcaseChipPool(transform,null);
+            if(_impactPool==null)_impactPool=new ImpactChipPool(transform,null);
             foreach(var position in positions)
             {
                 if(_impactChips.Count>=128)break;

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Afterlife.Devlog.Terrain;
+using Afterlife.Modules.Terrain;
 
 namespace Afterlife.Prototype
 {
@@ -14,11 +14,11 @@ namespace Afterlife.Prototype
             var biome=Terrain.At(p);
             if(biome==TerrainKind.Dirt || biome==TerrainKind.Water)return false;
             if(PreferredResourceBiome(kind,p))
-                return ShowcaseTileVariants.Seed(unchecked(x+Terrain.Seed),z-71)%100<90;
+                return TerrainTileVariants.Seed(unchecked(x+Terrain.Seed),z-71)%100<Rules.Resources.PreferredBiomeDensity;
             if(biome==TerrainKind.Grass)return _grassResourceSites.TryGetValue(kind,out var sites)&&sites.Contains(TileKey(x,z));
             // 숲/암석 타일의 자리는 각각 나무/바위를 위해 남긴다.
             if(biome==TerrainKind.Forest || biome==TerrainKind.Rocky)return false;
-            return ShowcaseResourceClusters.Allows(kind==Kind.Tree,x,z,(ShowcaseBiome)(int)biome,3);
+            return ResourceClusterRules.Allows(kind==Kind.Tree,x,z,(TerrainBiome)(int)biome,3);
         }
         private void SeedBiomes()
         {
@@ -37,9 +37,9 @@ namespace Afterlife.Prototype
                 candidates.Add(p);
             }
             // 행 스캔 순서로 남쪽부터 채우지 않고 지도 전체를 고정 시드로 섞는다.
-            candidates=candidates.OrderBy(p=>ShowcaseTileVariants.Seed((int)p.X+43,(int)p.Z-97)).ToList();
+            candidates=candidates.OrderBy(p=>TerrainTileVariants.Seed((int)p.X+43,(int)p.Z-97)).ToList();
             int budget=Math.Max(candidates.Count(p=>PreferredResourceBiome(kind,p)),Math.Max(0,limit-Bodies.Count(b=>b.Alive&&b.Kind==kind)));
-            int snowBudget=Math.Max(1,budget/5),added=0,snowAdded=0;
+            int snowBudget=Math.Max(1,budget/Rules.Resources.SnowBudgetDivisor),added=0,snowAdded=0;
             var used=new HashSet<int>();
             for(int pass=0;pass<3;pass++)
             {

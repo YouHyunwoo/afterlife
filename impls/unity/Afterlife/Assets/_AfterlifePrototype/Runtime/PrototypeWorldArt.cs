@@ -12,9 +12,21 @@ namespace Afterlife.Prototype
         private readonly Dictionary<string,GameObject> _worldAssets=new Dictionary<string,GameObject>();
         private readonly List<Mesh> _environmentMeshes=new List<Mesh>();
         private Mesh _contactMesh;
+        private GameObject WorldAsset(string id)
+        {
+            // Tree0's split model is scoped to the prototype; the original FBX stays available to Day01.
+            if (id == "Tree0")
+            {
+                var split = Resources.Load<GameObject>("AfterlifePrototype/World/Tree0_Split");
+                if (split != null) return split;
+            }
+            return _settings.WorldVisuals != null
+                ? _settings.WorldVisuals.Find(id)
+                : Resources.Load<GameObject>("AfterlifePrototype/World/" + id);
+        }
         private bool BuildWorldConnection(Transform parent,string name,Vector3 direction)
         {
-            if(!_worldAssets.TryGetValue(name,out var source)){source=Resources.Load<GameObject>("AfterlifePrototype/World/"+name);_worldAssets[name]=source;}
+            if(!_worldAssets.TryGetValue(name,out var source)){source=WorldAsset(name);_worldAssets[name]=source;}
             if(source==null||_worldPalette==null)return false;
             var wrapper=new GameObject(name).transform;wrapper.SetParent(parent,false);wrapper.localRotation=Quaternion.LookRotation(direction);
             var art=Instantiate(source,wrapper,false);var marker=art.GetComponentsInChildren<Transform>().FirstOrDefault(t=>t.name.Split('.')[0]=="FrontMarker");
@@ -28,7 +40,7 @@ namespace Afterlife.Prototype
             string key=body.Kind.ToString();
             if(body.Kind==Kind.Tree||body.Kind==Kind.Rock)key+=body.Variant%4;
             if(body.Kind==Kind.Chest)key+=(int)body.ChestGrade;
-            if(!_worldAssets.TryGetValue(key,out var asset)){asset=Resources.Load<GameObject>("AfterlifePrototype/World/"+key);_worldAssets[key]=asset;}
+            if(!_worldAssets.TryGetValue(key,out var asset)){asset=WorldAsset(key);_worldAssets[key]=asset;}
             if(asset==null){Debug.LogWarning("Missing authored world asset: "+key);return false;}
             if(_worldPalette==null){_worldPalette=new Material(_surface){name="Blender palette / shared vision"};_worldPalette.SetFloat("_VertexPalette",1);_worldPalette.SetFloat("_ZWrite",1);_materials.Add(_worldPalette);}
             var art=Instantiate(asset,root.transform,false);art.name="Blender "+key;
@@ -50,8 +62,25 @@ namespace Afterlife.Prototype
             if(rig.Turret!=null&&marker!=null)rig.TurretBasis=Quaternion.Inverse(Quaternion.LookRotation((marker.position-art.transform.position).normalized))*rig.Turret.rotation;
             _worldRigs[body.Id]=rig;
             var box=root.AddComponent<BoxCollider>();
+            // Walkable production plots remain pickable without blocking physics actors.
+            if(body.Building && !_model.Building(body.Kind).BlocksMovement) box.isTrigger=true;
             float height=body.Kind==Kind.Tree?1.6f:VillageModel.IsTower(body.Kind)?2.5f:body.Building?1.4f:body.Kind==Kind.Rock?.65f:body.Kind==Kind.Chest?.62f:body.Kind==Kind.Slime?.60f:body.Kind==Kind.Treasure?.35f:1.2f;
             box.center=new Vector3(0,height*.5f,0);box.size=new Vector3(body.Building?body.Width*.9f:body.Kind==Kind.Tree?.68f:.64f,height,body.Building?body.Depth*.9f:.64f);
+            if(body.Kind==Kind.Research)
+            {
+                // The authored laboratory extends away from its origin. Fit the clickable footprint to the visible model.
+                var renderers=art.GetComponentsInChildren<Renderer>();
+                if(renderers.Length>0)
+                {
+                    var bounds=renderers[0].bounds;
+                    for(int i=1;i<renderers.Length;i++)bounds.Encapsulate(renderers[i].bounds);
+                    var min=root.transform.InverseTransformPoint(bounds.min);
+                    var max=root.transform.InverseTransformPoint(bounds.max);
+                    box.center=new Vector3((min.x+max.x)*.5f,box.center.y,(min.z+max.z)*.5f);
+                    box.size=new Vector3(Mathf.Max(box.size.x,Mathf.Abs(max.x-min.x)),box.size.y,
+                        Mathf.Max(box.size.z,Mathf.Abs(max.z-min.z)));
+                }
+            }
             if(body.Kind==Kind.Tree||body.Kind==Kind.Rock)
             {
                 var renderers=art.GetComponentsInChildren<Renderer>();

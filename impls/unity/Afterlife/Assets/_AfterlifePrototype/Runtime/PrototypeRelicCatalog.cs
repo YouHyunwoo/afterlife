@@ -10,7 +10,7 @@ namespace Afterlife.Prototype
         public string DisplayName;
         public Sprite Icon;
         [TextArea] public string TooltipTemplate="{name} · {level}단계\n{effect}";
-        public string Tooltip(int level)=>TooltipTemplate.Replace("{name}",DisplayName).Replace("{level}",level.ToString()).Replace("{effect}",VillageModel.RelicEffect(Id,level));
+        public string Tooltip(int level, RelicRules effects=null)=>TooltipTemplate.Replace("{name}",DisplayName).Replace("{level}",level.ToString()).Replace("{effect}",(effects??new RelicRules()).Describe(Id,level));
     }
     [CreateAssetMenu(menuName="Afterlife/Relic Catalog")]
     public sealed class PrototypeRelicCatalog : ScriptableObject

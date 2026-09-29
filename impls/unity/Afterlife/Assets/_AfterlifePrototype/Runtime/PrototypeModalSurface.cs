@@ -15,6 +15,9 @@ namespace Afterlife.Prototype
         [InspectorName("배경 어둡게")]
         [Tooltip("켜면 배경 암전에 한 층을 추가합니다. 체크한 모달 수만큼 암전이 누적됩니다.")]
         public bool DarkenBackground=true;
+        [InspectorName("화면 가장자리 연출")]
+        [Tooltip("켜면 이 모달이 맨 위에 있을 때 ThresholdLab 가장자리 연출을 적용합니다. 블러보다 우선합니다.")]
+        public bool EdgeBackground=false;
         private void OnEnable()
         {
             if(Presentation!=ModalPresentation.Screen)return;

@@ -1,6 +1,6 @@
+using Afterlife.Modules.Interaction;
 using System.Collections.Generic;
-using Afterlife.Devlog.Day01;
-using Afterlife.Devlog.DamageMarks;
+using Afterlife.Modules.DamageMarks;
 using UnityEngine;
 
 namespace Afterlife.Prototype
@@ -9,8 +9,8 @@ namespace Afterlife.Prototype
     {
         private sealed class ResourceSurface
         {
-            public ShowcasePickSurface Pick;
-            public ShowcaseDamageMarks Marks=new ShowcaseDamageMarks();
+            public PickSurface Pick;
+            public DamageMarkRenderer Marks=new DamageMarkRenderer();
             public bool Wood,Marked,Dirty;
             public Matrix4x4 LastMatrix;
         }
@@ -22,13 +22,13 @@ namespace Afterlife.Prototype
             {
                 var filter=renderer.GetComponent<MeshFilter>();
                 if(filter==null || filter.sharedMesh==null || filter.sharedMesh==_contactMesh || !filter.sharedMesh.isReadable)continue;
-                var pick=renderer.gameObject.AddComponent<ShowcasePickSurface>();
+                var pick=renderer.gameObject.AddComponent<PickSurface>();
                 pick.VisibleRenderer=renderer;
                 surfaces.Add(new ResourceSurface{Pick=pick,Wood=body.Kind==Kind.Tree});
             }
             if(surfaces.Count>0)_resourceSurfaces[body.Id]=surfaces;
         }
-        private bool TryResourceSurface(int id,Ray ray,out ShowcasePickSurface surface,out float distance)
+        private bool TryResourceSurface(int id,Ray ray,out PickSurface surface,out float distance)
         {
             surface=null;distance=float.PositiveInfinity;
             if(!_resourceSurfaces.TryGetValue(id,out var surfaces))return false;

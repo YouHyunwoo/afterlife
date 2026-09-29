@@ -21,9 +21,9 @@ namespace Afterlife.Prototype
             public Vector3 ClickAway;
             public Vector3 SwordGrip=new Vector3(0,.075f,0),SwordBlade=new Vector3(0,.60f,0);
             public bool Used;
-            public Afterlife.Devlog.Day01.ShowcasePickSurface HitSurface;
+            public Afterlife.Modules.Interaction.PickSurface HitSurface;
             public Vector3 HitPosition,HitNormal,ManualLocalPoint,ManualLocalNormal;
-            public Afterlife.Devlog.Day01.ShowcasePickSurface ManualSurface;
+            public Afterlife.Modules.Interaction.PickSurface ManualSurface;
         }
         private sealed class Reaction { public bool Damage; public float Time; public Kind Kind; public Vector3 Position, Away; public Quaternion Rotation; }
         private readonly List<ToolEffect> _tools=new List<ToolEffect>();
@@ -64,8 +64,10 @@ namespace Afterlife.Prototype
 
         private void InitializePresentation()
         {
-            UploadTerrainTiles();BuildTerrainDetails();
-            InitializeVegetation();InitializeHover();InitializeGlow();
+            UploadTerrainTiles();
+            MeasureStartup("Decorations",BuildTerrainDetails);
+            MeasureStartup("Vegetation",InitializeVegetation);
+            InitializeHover();
         }
         private bool CanContribute(Body b)=>b.Alive&&(b.Kind==Kind.Tree||b.Kind==Kind.Rock||b.Hostile||b.Kind==Kind.Animal||b.Kind==Kind.Chest||b.Kind==Kind.Treasure||b.Building&&(b.MovingOut||b.MoveSource!=0||!b.Complete||b.Health<b.MaxHealth&&_model.Money>0));
         private ToolEffect GetTool(Body b)
@@ -191,14 +193,14 @@ namespace Afterlife.Prototype
                 if(!_objects.TryGetValue(pair.Key,out var go))continue;
                 var reaction=pair.Value;var body=_model.Find(pair.Key);
                 if(body==null){foreach(var collider in go.GetComponentsInChildren<Collider>())collider.enabled=false;go.transform.position=reaction.Position;}
-                ResourceFlash(pair.Key,resource||chest||reaction.Damage?Afterlife.Devlog.Destruction.ShowcaseImpactTiming.Flash(age):0);
+                ResourceFlash(pair.Key,resource||chest||reaction.Damage?Afterlife.Modules.Destruction.ImpactTiming.Flash(age):0);
                 if(resource)
                 {
                     bool wood=reaction.Kind==Kind.Tree;
-                    float recoil=Afterlife.Devlog.Destruction.ShowcaseImpactTiming.Recoil(age,wood);
+                    float recoil=Afterlife.Modules.Destruction.ImpactTiming.Recoil(age,wood);
                     go.transform.position+=reaction.Away*(wood?.04f:.085f)*recoil;
                     go.transform.rotation=Quaternion.AngleAxis(recoil*(wood?9:4),Vector3.Cross(Vector3.up,reaction.Away))*reaction.Rotation;
-                    ResourceFlash(pair.Key,Afterlife.Devlog.Destruction.ShowcaseImpactTiming.Flash(age));
+                    ResourceFlash(pair.Key,Afterlife.Modules.Destruction.ImpactTiming.Flash(age));
                 }
                 else if(chest)
                 {
@@ -215,7 +217,7 @@ namespace Afterlife.Prototype
                 else
                 {
                     Vector3 away=Vector3.ProjectOnPlane(reaction.Away,Vector3.up).normalized;
-                    go.transform.position+=away*Afterlife.Devlog.Destruction.ShowcaseImpactTiming.Recoil(age,false)*.07f;
+                    go.transform.position+=away*Afterlife.Modules.Destruction.ImpactTiming.Recoil(age,false)*.07f;
                     if(!reaction.Damage)go.transform.localScale*=1+Mathf.Sin(t*Mathf.PI)*.045f;
                 }
             }
@@ -236,6 +238,6 @@ namespace Afterlife.Prototype
             _terrainTiles.SetPixels32(pixels);_terrainTiles.Apply(false,true);
             Shader.SetGlobalTexture("_TerrainTiles",_terrainTiles);Shader.SetGlobalFloat("_TerrainSize",map.Size);Shader.SetGlobalFloat("_TerrainRadius",map.Radius);
         }
-        private void DisposePresentation(){DisposeGlow();ResetHouseSmoke();ResetResourceDestruction();ResetSnow();ResetImpactChips();_impactPool?.Dispose();_impactPool=null;ResetResourceSurfaces();DisposeHover();DisposeVegetation();DisposeContent();if(_terrainTiles!=null)Destroy(_terrainTiles);Shader.SetGlobalVector("_CursorCircle",Vector4.zero);Shader.SetGlobalInt("_VisionCount",0);}
+        private void DisposePresentation(){DisposeGlow();ResetHouseSmoke();ResetResourceDestruction();ResetSnow();ResetImpactChips();_impactPool?.Dispose();_impactPool=null;ResetResourceSurfaces();DisposeHover();DisposeVegetation();DisposeContent();if(_terrainTiles!=null)Destroy(_terrainTiles);Shader.SetGlobalVector("_CursorCircle",Vector4.zero);Shader.SetGlobalInt("_VisionCount",0);Shader.SetGlobalInt("_LampCount",0);}
     }
 }

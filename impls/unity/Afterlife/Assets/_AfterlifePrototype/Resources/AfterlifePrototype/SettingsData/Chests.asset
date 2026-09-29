@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d38636099f6e26458b2bfc210977d35, type: 3}
+  m_Name: Chests
+  m_EditorClassIdentifier: 
+  Values:
+    InitialCount: 4
+    MaximumCount: 7
+    InitialDelay: 50
+    SpawnSeconds: 45
+    SpawnVariation: 35
+    MinimumDistance: 6
+    Entries:
+    - Id: 0
+      DisplayName: "\uC77C\uBC18 \uC0C1\uC790"
+      Durability: 12
+      Weight: 60
+      ItemCount: 2
+      Gold: 25
+      WoodGold: 40
+      StoneGold: 60
+      DuplicateGold: 35
+      Relics: 0000000003000000
+      Items: 0000000001000000020000000700000008000000
+    - Id: 1
+      DisplayName: "\uD76C\uADC0 \uC0C1\uC790"
+      Durability: 36
+      Weight: 30
+      ItemCount: 3
+      Gold: 50
+      WoodGold: 80
+      StoneGold: 120
+      DuplicateGold: 70
+      Relics: 0000000003000000010000000400000005000000
+      Items: 030000000500000006000000
+    - Id: 2
+      DisplayName: "\uACE0\uB300 \uC0C1\uC790"
+      Durability: 72
+      Weight: 10
+      ItemCount: 4
+      Gold: 100
+      WoodGold: 160
+      StoneGold: 240
+      DuplicateGold: 140
+      Relics: 00000000010000000200000003000000040000000500000006000000
+      Items: 040000000500000003000000

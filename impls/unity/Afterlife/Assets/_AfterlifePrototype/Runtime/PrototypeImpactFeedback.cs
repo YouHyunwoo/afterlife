@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Afterlife.Devlog.Destruction;
+using Afterlife.Modules.Destruction;
 using UnityEngine;
 
 namespace Afterlife.Prototype
@@ -8,7 +8,7 @@ namespace Afterlife.Prototype
     {
         private sealed class ImpactChip { public GameObject Object; public Vector3 Velocity; public float Age; }
         private readonly List<ImpactChip> _impactChips=new List<ImpactChip>();
-        private ShowcaseChipPool _impactPool;
+        private ImpactChipPool _impactPool;
         private Vector3 ChestClickAway(Body body)
         {
             Vector3 center=GroundPosition(body.Position,.3f);
@@ -46,7 +46,7 @@ namespace Afterlife.Prototype
             bool hand=tool.Kind==Kind.Chest||tool.Kind==Kind.Treasure;
             Color color=resource?(tool.Kind==Kind.Tree?new Color(.57f,.34f,.13f):new Color(.55f,.60f,.62f)):
                 support?new Color(.38f,.9f,.65f):hand?new Color(1,.8f,.25f):new Color(1,.88f,.6f);
-            if(_impactPool==null)_impactPool=new ShowcaseChipPool(transform,null);
+            if(_impactPool==null)_impactPool=new ImpactChipPool(transform,null);
             for(int i=0;i<5 && _impactChips.Count<128;i++)
             {
                 var go=_impactPool.Rent();go.name="InteractionImpactChip";
