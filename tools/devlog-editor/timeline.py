@@ -54,6 +54,7 @@ def migrate(project, project_file=None):
 
 def validate(project, project_file, files=False):
     from project import resolve
+    from aspect_ratio import RATIOS
     def number(value, name, lo=0, hi=3600):
         if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or not lo <= value <= hi:
             raise ValueError(f'{name}: {lo}~{hi} 범위의 숫자가 필요합니다.')
@@ -69,7 +70,20 @@ def validate(project, project_file, files=False):
         number(project['music'].get(key, 2), key)
     if project['export']['height'] not in (720, 1080) or project['export']['fps'] not in (24, 30, 60):
         raise ValueError('지원하지 않는 출력 해상도/프레임입니다.')
+    if project['export'].get('aspectRatio', '16:9') not in RATIOS:
+        raise ValueError('지원하지 않는 화면 비율입니다.')
     asset_ids=set()
+    markers=project.get('markers',[])
+    if not isinstance(markers,list) or len(markers)>200:raise ValueError('촬영 메모는 최대 200개입니다.')
+    marker_ids=set()
+    for marker in markers:
+        if not isinstance(marker,dict) or not isinstance(marker.get('id'),str) or marker['id'] in marker_ids:
+            raise ValueError('촬영 메모 ID가 올바르지 않습니다.')
+        marker_ids.add(marker['id'])
+        if not isinstance(marker.get('title'),str) or not 1<=len(marker['title'])<=120:
+            raise ValueError('촬영 메모 제목은 1~120자입니다.')
+        number(marker.get('time'),'촬영 메모 시간')
+        if not isinstance(marker.get('done',False),bool):raise ValueError('촬영 메모 완료 상태가 올바르지 않습니다.')
     for asset in project.get('assets', []):
         if asset.get('kind') not in ('video', 'audio') or not isinstance(asset.get('path'), str) or not asset['path']:
             raise ValueError('영상·음성 에셋에는 종류와 원본 경로가 필요합니다.')
@@ -97,6 +111,8 @@ def validate(project, project_file, files=False):
                 raise ValueError('클립 ID가 중복됩니다.')
             ids.add(c['id'])
             number(c['start'], '클립 시작'); number(c['duration'], '클립 길이', .04)
+            if 'linkGroup' in c and (not isinstance(c['linkGroup'], str) or not 1<=len(c['linkGroup'])<=100):
+                raise ValueError('클립 연결 그룹이 올바르지 않습니다.')
             if track['kind']=='video' and c['start']<end-1e-6:
                 raise ValueError(f"{track['name']}: 같은 영상 트랙의 클립이 겹칩니다.")
             end=max(end,c['start']+c['duration'])

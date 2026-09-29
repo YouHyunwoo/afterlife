@@ -117,13 +117,26 @@ class EditorTests(unittest.TestCase):
         p=migrate(self.p,self.file);c=copy.deepcopy(p['tracks'][0]['clips'][0]);c['id']='overlap';c['start']=1;p['tracks'][0]['clips'].append(c)
         with self.assertRaises(ValueError):validate(p,self.file)
 
+    def test_aspect_presets_change_export_dimensions_and_reopen(self):
+        from aspect_ratio import dimensions
+        p=blank_project('비율 검증');p['minimumDuration']=.3;p['export'].update(height=720,aspectRatio='9:16')
+        self.assertEqual(dimensions(p['export']),(720,1280))
+        self.assertEqual(dimensions(dict(height=1080,aspectRatio='1:1')),(1080,1080))
+        self.assertEqual(dimensions(dict(height=1080,aspectRatio='21:9')),(2520,1080))
+        save(self.file,p);self.assertEqual(load(self.file)['export']['aspectRatio'],'9:16')
+        out=self.root/'portrait.mp4';export(p,self.file,out,self.root/'portrait-work')
+        info=run(['-i',str(out)],capture_output=True,text=True,encoding='utf-8',errors='replace')
+        self.assertIn('720x1280',info.stderr)
+        p['export']['aspectRatio']='3:2'
+        with self.assertRaises(ValueError):validate(p,self.file)
+
     def test_browser_media_import_dedup_and_assets_rebase(self):
         import io
-        from unittest.mock import patch
         import media_library
         from timeline import migrate
-        library=self.root/'imports';registry={}
-        with patch.object(media_library,'IMPORTS',library):
+        from storage import import_folder
+        library=import_folder(self.file,'video');registry={}
+        with self.subTest('project imports'):
             raw=(self.root/'source.mp4').read_bytes()
             a=media_library.import_stream(io.BytesIO(raw),len(raw),'한글 영상.mp4','video',self.file,registry)
             b=media_library.import_stream(io.BytesIO(raw),len(raw),'다른 이름.mp4','video',self.file,registry)
@@ -137,12 +150,12 @@ class EditorTests(unittest.TestCase):
 
     def test_audio_asset_import_and_defaults_roundtrip(self):
         import io
-        from unittest.mock import patch
         import media_library
         from timeline import migrate
-        library=self.root/'audio-imports';registry={}
+        from storage import import_folder
+        library=import_folder(self.file,'audio');registry={}
         raw=(self.root/'cue.wav').read_bytes()
-        with patch.object(media_library,'AUDIO_IMPORTS',library):
+        with self.subTest('audio imports'):
             asset=media_library.import_stream(io.BytesIO(raw),len(raw),'voice.wav','audio',self.file,registry)
         self.assertEqual(asset['kind'],'audio')
         self.assertEqual(len(list(library.iterdir())),1)
@@ -181,5 +194,14 @@ class EditorTests(unittest.TestCase):
         self.assertIsNone(listing['parent'])
         self.assertEqual(browse_projects(folder,root=self.root)['parent'],str(self.root))
         with self.assertRaises(ValueError):browse_projects(ROOT,root=self.root)
+
+    def test_shooting_markers_roundtrip_and_invalid_data(self):
+        p=blank_project('촬영 메모')
+        p['markers']=[dict(id='before',title='이전 화면 촬영',time=1.25,done=False),
+                      dict(id='after',title='현재 화면 촬영',time=3.5,done=True)]
+        save(self.file,p)
+        self.assertEqual(load(self.file)['markers'],p['markers'])
+        p['markers'][1]['id']='before'
+        with self.assertRaises(ValueError):validate(p,self.file)
 
 if __name__=='__main__':unittest.main()

@@ -4,9 +4,8 @@ import re
 import uuid
 from pathlib import Path
 from project import ROOT, relative, resolve
+from storage import import_folder, writable
 
-IMPORTS=ROOT/'devlog/youtube/day-01/media/video/imports'
-AUDIO_IMPORTS=ROOT/'devlog/youtube/day-01/media/audio/imports'
 EXTENSIONS={'video':{'.mp4','.mov','.mkv','.webm','.m4v'},'audio':{'.wav','.mp3','.ogg','.flac','.m4a'}}
 
 
@@ -30,7 +29,7 @@ def import_stream(stream,length,name,kind,project_file,registry):
     suffix=Path(name).suffix.lower()
     if suffix not in EXTENSIONS.get(kind,set()):raise ValueError('지원하지 않는 미디어 확장자입니다.')
     if not 0<length<=20*1024**3:raise ValueError('빈 파일이거나 파일이 20GB를 넘습니다.')
-    folder=AUDIO_IMPORTS if kind=='audio' else IMPORTS
+    folder=writable(import_folder(project_file,kind))
     folder.mkdir(parents=True,exist_ok=True)
     temp=folder/(uuid.uuid4().hex+'.part'+suffix)
     digest=hashlib.sha256()

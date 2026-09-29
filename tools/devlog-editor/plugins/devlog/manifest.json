@@ -1,0 +1,9 @@
+{
+  "id": "devlog",
+  "name": "개발일지 제작",
+  "version": "1.0.0",
+  "apiVersion": 1,
+  "description": "대본·SRT 자막, Supertonic 음성, 녹화본 배치, 이전/현재 비교, 엔딩 크레딧",
+  "entry": "panel.js",
+  "actions": ["script", "srt", "narration", "sequence", "comparison", "credits"]
+}

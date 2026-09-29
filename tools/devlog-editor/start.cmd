@@ -1,4 +1,8 @@
 @echo off
 cd /d "%~dp0..\.."
-".tooling\day01-tts\venv\Scripts\python.exe" "tools\devlog-editor\server.py"
-if errorlevel 1 pause
+if not exist ".tooling\devlog-editor\venv\Scripts\pythonw.exe" (
+  echo Run tools\devlog-editor\setup.cmd first.
+  pause
+  exit /b 1
+)
+start "" ".tooling\devlog-editor\venv\Scripts\pythonw.exe" "tools\devlog-editor\desktop.py"

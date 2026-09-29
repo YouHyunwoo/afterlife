@@ -65,15 +65,17 @@ def subtitles(project,out):
     rows=[]
     for _,c in clips(project,'subtitle'):
         rows.append(dict(timelineStart=c['start'],duration=c['duration'],cues=[dict(start=0,duration=c['duration'],text=c['text'])]))
-    legacy_subtitles(dict(shots=rows),out)
+    from aspect_ratio import dimensions
+    legacy_subtitles(dict(shots=rows),out,*dimensions(project['export']))
 
 
 def export(project,project_file,output,work,progress=lambda x:None,cancel=None):
-    from render import execute,probe,RATE
+    from render import execute,probe,RATE,publish_output
     validate(project,project_file,files=True)
     output=Path(output);work=Path(work);work.mkdir(parents=True,exist_ok=True)
     if output.exists():raise ValueError('같은 이름의 파일이 있습니다. 다른 이름으로 내보내세요.')
-    total=duration(project);height=project['export']['height'];width=height*16//9;fps=project['export']['fps']
+    from aspect_ratio import dimensions
+    total=duration(project);width,height=dimensions(project['export']);fps=project['export']['fps']
     info={}
     for _,c in clips(project,'video'):
         source=resolve(project_file,c['path']);key=str(source)
@@ -109,5 +111,5 @@ def export(project,project_file,output,work,progress=lambda x:None,cancel=None):
     else:args+=['-c:v','copy']
     args+=['-c:a','aac','-b:a','192k','-ar',str(RATE),'-movflags','+faststart','export.mp4']
     execute(args,cancel,work/'ffmpeg.log',work)
-    output.parent.mkdir(parents=True,exist_ok=True);(work/'export.mp4').replace(output)
+    publish_output(work/'export.mp4',output)
     progress(dict(phase='완료',percent=100,output=str(output)));return report

@@ -4,6 +4,7 @@ import math
 import re
 import subprocess
 import threading
+import shutil
 from pathlib import Path
 import numpy as np
 import soundfile as sf
@@ -13,6 +14,21 @@ from project import resolve, duration, timed_shots, validate
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
 RATE = 48000
 FLAGS = getattr(subprocess, 'CREATE_NO_WINDOW', 0)
+
+
+def publish_output(source, output):
+    """캐시와 프로젝트가 다른 드라이브여도 출력. 기존 파일은 덮어쓰지 않는다."""
+    output=Path(output);source=Path(source)
+    output.parent.mkdir(parents=True,exist_ok=True)
+    # 배타적 생성으로 렌더 도중 같은 이름의 파일이 생긴 경우도 보존한다.
+    destination=output.open('xb')
+    try:
+        with destination,source.open('rb') as stream:
+            shutil.copyfileobj(stream,destination,1024*1024)
+    except BaseException:
+        output.unlink(missing_ok=True)
+        raise
+    source.unlink()
 
 def run(args, **kwargs):
     return subprocess.run([FFMPEG, '-nostdin', '-hide_banner', *args], creationflags=FLAGS, **kwargs)
@@ -95,7 +111,7 @@ def ass_time(t):
     cs = round(t*100); h,cs=divmod(cs,360000); m,cs=divmod(cs,6000); s,cs=divmod(cs,100)
     return f'{h}:{m:02}:{s:02}.{cs:02}'
 
-def subtitles(project, out):
+def subtitles(project, out, width=1920, height=1080):
     header = '''[Script Info]
 ScriptType: v4.00+
 PlayResX: 1920
@@ -109,6 +125,7 @@ Style: Default,Malgun Gothic,38,&H00FFFFFF,&H00FFFFFF,&H00201810,&H80201810,0,0,
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 '''
+    header=header.replace('PlayResX: 1920',f'PlayResX: {width}').replace('PlayResY: 1080',f'PlayResY: {height}')
     lines=[]
     for start,shot in timed_shots(project):
         for cue in shot['cues']:
@@ -135,7 +152,8 @@ def export(project, project_file, output, work, progress=lambda x:None, cancel=N
     (work/'audio-report.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
     if cancel and cancel.is_set(): raise InterruptedError('취소했습니다.')
     # 각 샷을 순차 인코딩해 긴 단일 split 그래프의 프레임 버퍼 메모리를 피한다.
-    total=duration(project); height=project['export']['height']; width=height*16//9;fps=project['export']['fps']
+    from aspect_ratio import dimensions
+    total=duration(project); width,height=dimensions(project['export']);fps=project['export']['fps']
     parts=[]
     segments=[]; cursor=0
     for start,shot in sorted(timed_shots(project),key=lambda pair:pair[0]):
@@ -158,13 +176,13 @@ def export(project, project_file, output, work, progress=lambda x:None, cancel=N
     (work/'concat.txt').write_text('\n'.join(f"file '{p.name}'" for p in parts),encoding='utf-8')
     args=['-v','error','-y','-f','concat','-safe','0','-i','concat.txt','-i','mix.wav','-map','0:v:0','-map','1:a:0','-t',str(total)]
     if project['export']['subtitles']:
-        subtitles(project,work/'subtitles.ass')
+        subtitles(project,work/'subtitles.ass',width,height)
         args+=['-vf','subtitles=subtitles.ass','-c:v','libx264','-preset','fast','-crf','18','-threads','4']
     else: args+=['-c:v','copy']
     args+=['-c:a','aac','-b:a','192k','-ar',str(RATE),'-movflags','+faststart','export.mp4']
     execute(args,cancel,work/'ffmpeg.log',work)
     output.parent.mkdir(parents=True,exist_ok=True)
-    (work/'export.mp4').replace(output)
+    publish_output(work/'export.mp4',output)
     progress(dict(phase='완료',percent=100,output=str(output)))
     return report
 

@@ -6,7 +6,7 @@ import os
 import re
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+from runtime_paths import ROOT
 DEFAULT = ROOT / 'devlog/youtube/day-01/edit-project/day01.devfilm.json'
 
 def resolve(project_file, value):
@@ -14,7 +14,11 @@ def resolve(project_file, value):
     return p.resolve() if p.is_absolute() else (Path(project_file).parent / p).resolve()
 
 def relative(project_file, path):
-    return os.path.relpath(Path(path).resolve(), Path(project_file).parent).replace('\\', '/')
+    try:
+        return os.path.relpath(Path(path).resolve(), Path(project_file).parent).replace('\\', '/')
+    except ValueError:
+        # Windows에서 다른 드라이브의 기존 원본도 연결할 수 있다.
+        return str(Path(path).resolve())
 
 def timed_shots(project):
     start = 0.0
@@ -151,7 +155,7 @@ def blank_project(name):
         raise ValueError('Windows 예약 이름은 프로젝트 이름으로 사용할 수 없습니다.')
     return dict(schemaVersion=2, title=name, video=dict(path='', offset=0, volume=0, padEnd=False),
         narrationVolume=1, music=dict(path='', volume=.25, creditsMultiplier=1, fadeIn=0, fadeOut=0, creditsRamp=0),
-        export=dict(height=1080, fps=30, subtitles=False), tracks=[], assets=[], minimumDuration=1)
+        export=dict(height=1080, fps=30, subtitles=False, aspectRatio='16:9'), tracks=[], assets=[], markers=[], minimumDuration=1)
 
 
 def create_project(folder, name, root=ROOT):
