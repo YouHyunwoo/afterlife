@@ -1,0 +1,5 @@
+{
+  "name": "Afterlife.Threshold.Editor",
+  "references": ["Afterlife.Threshold.Core", "Afterlife.Threshold.Unity", "UnityEngine.UI", "Unity.TextMeshPro", "Unity.InputSystem"],
+  "includePlatforms": ["Editor"]
+}

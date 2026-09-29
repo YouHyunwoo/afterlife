@@ -1,5 +1,9 @@
 # 외부 음원 크레딧 지침
 
+## ThresholdLab 모달 효과음 재사용 (2026-09-28)
+
+프로토타입 전리품·설정 등 모달과 타이틀 설정에 기존 `ThresholdAudioBank`의 `WaterEnter`, `WaterExit`, `WaterLoop`를 연결했다. 파일 복제나 추가 편집은 없다. 원본 출처·편집 기록은 Unity의 `Assets/Afterlife/Samples/ThresholdLab/Audio/AudioCredits.txt`에 있다. 물소리 원본은 GoldenTricycle의 Freesound 녹음(CC0 1.0)이며, 현재 기록은 내부 출처 관리다.
+
 ## Freesound — 자연 환경음 (2026-09-20)
 
 |용도|저작물 / 저작자|원 배포 페이지|확인한 이용조건|
@@ -104,3 +108,63 @@ https://creativecommons.org/licenses/by/4.0/
 음원 길이 보정: 원곡 137.079초를 4초 선형 크로스페이드로 반복 연결한 Childhood-Day01.wav(192.85초)를 재생한다. 원본 MP3는 보존했다. 공개 편집 내역에도 반복·크로스페이드를 명시한다.
 
 시야 샷 추가 후 현재 BGM 편집본은 206.85초, Film 볼륨 0.10이다. 반복·크로스페이드와 시작/종료 페이드 조건은 동일하다.
+
+
+## ThresholdLab 화면 음악·전환 음원 — 2026-09-26
+
+음악 Undertow / Childhood / Unraveling / Ascension — Scott Buckley, CC BY 4.0. 공식 출처와 효과음 출처는 아래 공개용 문구를 따른다. 음악의 구간 발췌·음량 조정·5초 교차 연결 편집을 수행했다. 효과음은 CC0 Water bubbles loop / GoldenTricycle와 Backwards Whoosh / SlavicMagic의 공식 HQ MP3를 편집했다. 속도·필터·페이드·루프 교차 연결·역재생 내역은 `res/audio/threshold/analysis.json`에 기록했다.
+
+ThresholdLab의 설정 → 음악·효과음 출처 패널에 아래 내용을 표시한다. 본편 프로토타입이나 유튜브 설명란에 게시한 것은 아니다. 공개 영상에는 작곡가 안내에 따라 설명란 크레딧도 필요하다.
+
+```text
+음악 · 효과음 크레딧
+
+Water bubbles loop — GoldenTricycle (CC0-1.0)
+https://freesound.org/people/GoldenTricycle/sounds/521392/
+Backwards Whoosh — SlavicMagic (CC0-1.0)
+https://freesound.org/people/SlavicMagic/sounds/446010/
+Undertow — Scott Buckley (CC-BY-4.0)
+https://www.scottbuckley.com.au/library/undertow/
+Childhood — Scott Buckley (CC-BY-4.0)
+https://www.scottbuckley.com.au/library/childhood/
+Unraveling — Scott Buckley (CC-BY-4.0)
+https://www.scottbuckley.com.au/library/unraveling/
+Ascension — Scott Buckley (CC-BY-4.0)
+https://www.scottbuckley.com.au/library/ascension/
+
+음악: Scott Buckley · www.scottbuckley.com.au
+라이선스: https://creativecommons.org/licenses/by/4.0/
+효과음: https://creativecommons.org/publicdomain/zero/1.0/
+편집: 구간 발췌·음량 조정·반복 교차 연결. 물/이동음 속도 조정, 물소리 필터·역재생.
+```
+
+
+## ThresholdLab 사후세계·밤 음악 교체 — 2026-09-26
+
+현재 타이틀/인트로는 Decoherence, 낮은 Undertow, 밤은 Intervention (No Piano Melody), 결과는 Unraveling/Ascension을 사용한다. 이전 Childhood는 보관본이며 현재 샘플에서는 재생하지 않는다.
+Decoherence 20~140초와 Intervention 12~132초를 발췌해 DC 제거·음량 조정·5초 교차 연결을 적용했다. 음악별 115초 반복본. 기존 출처 패널을 아래 문구로 갱신한다. 외부 공개 영상 설명란은 별도 게시해야 한다.
+
+```text
+음악 · 효과음 크레딧
+
+Water bubbles loop — GoldenTricycle (CC0-1.0)
+https://freesound.org/people/GoldenTricycle/sounds/521392/
+Backwards Whoosh — SlavicMagic (CC0-1.0)
+https://freesound.org/people/SlavicMagic/sounds/446010/
+Undertow — Scott Buckley (CC-BY-4.0)
+https://www.scottbuckley.com.au/library/undertow/
+Decoherence — Scott Buckley (CC-BY-4.0)
+https://www.scottbuckley.com.au/library/decoherence/
+Intervention (No Piano Melody) — Scott Buckley (CC-BY-4.0)
+https://www.scottbuckley.com.au/library/intervention/
+Unraveling — Scott Buckley (CC-BY-4.0)
+https://www.scottbuckley.com.au/library/unraveling/
+Ascension — Scott Buckley (CC-BY-4.0)
+https://www.scottbuckley.com.au/library/ascension/
+
+음악: Scott Buckley · www.scottbuckley.com.au
+라이선스: https://creativecommons.org/licenses/by/4.0/
+효과음: https://creativecommons.org/publicdomain/zero/1.0/
+편집: 구간 발췌·음량 조정·반복 교차 연결. 물/이동음 속도 조정, 물소리 필터·역재생.
+
+```

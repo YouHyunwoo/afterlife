@@ -1,0 +1,100 @@
+[
+  {
+    "key": "afterlife",
+    "title": "Decoherence",
+    "url": "https://www.scottbuckley.com.au/library/wp-content/uploads/2022/03/sb_decoherence.mp3",
+    "author": "Scott Buckley",
+    "page": "https://www.scottbuckley.com.au/library/decoherence/",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "file": "afterlife_source.mp3",
+    "sha256": "9ce02e24e853265ea6dc2439e39af0905abdce806f242f57222c3a13712961aa",
+    "verified": "2026-09-26"
+  },
+  {
+    "key": "night",
+    "title": "Intervention (No Piano Melody)",
+    "url": "https://www.scottbuckley.com.au/library/wp-content/uploads/2019/01/sb_intervention_nomelody.mp3",
+    "author": "Scott Buckley",
+    "page": "https://www.scottbuckley.com.au/library/intervention/",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "file": "night_source.mp3",
+    "sha256": "decafaf069940c9e0038c54d707a7dd27903ec91e661c1b46dbbb705c44e934c",
+    "verified": "2026-09-26"
+  },
+  {
+    "key": "water",
+    "title": "Water bubbles loop",
+    "author": "GoldenTricycle",
+    "page": "https://freesound.org/people/GoldenTricycle/sounds/521392/",
+    "license": "CC0-1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "url": "https://cdn.freesound.org/previews/521/521392_3316626-hq.mp3",
+    "format": "Freesound public HQ MP3 preview, not original WAV",
+    "file": "water_source.mp3",
+    "sha256": "bab7f3e7346d70be89f4bc52523490e2658253028a5d7ba4eb2ab1c09f4c0cdf",
+    "verified": "2026-09-26"
+  },
+  {
+    "key": "whoosh",
+    "title": "Backwards Whoosh",
+    "author": "SlavicMagic",
+    "page": "https://freesound.org/people/SlavicMagic/sounds/446010/",
+    "license": "CC0-1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "url": "https://cdn.freesound.org/previews/446/446010_7079899-hq.mp3",
+    "format": "Freesound public HQ MP3 preview, not original WAV",
+    "file": "whoosh_source.mp3",
+    "sha256": "ff4a19d5476ca9d84b0f219a6e7edc5de64a520f3ecca52db05570d145380622",
+    "verified": "2026-09-26"
+  },
+  {
+    "key": "title",
+    "title": "Undertow",
+    "url": "https://www.scottbuckley.com.au/library/wp-content/uploads/2019/12/sb_undertow.mp3",
+    "author": "Scott Buckley",
+    "page": "https://www.scottbuckley.com.au/library/undertow/",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "file": "title_source.mp3",
+    "sha256": "4652007dad67295f1f5c87c8cbc8e2df1a530e7671266a29f693a084375d3910",
+    "verified": "2026-09-26"
+  },
+  {
+    "key": "playing",
+    "title": "Childhood",
+    "url": "https://www.scottbuckley.com.au/library/wp-content/uploads/2019/01/sb_childhood.mp3",
+    "author": "Scott Buckley",
+    "page": "https://www.scottbuckley.com.au/library/childhood/",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "file": "playing_source.mp3",
+    "sha256": "7bc1a9bf1d57d1eb96dcfd9ead5d31371d378fa6c238fe7f59700cd6e5936460",
+    "verified": "2026-09-26"
+  },
+  {
+    "key": "over",
+    "title": "Unraveling",
+    "url": "https://www.scottbuckley.com.au/library/wp-content/uploads/2026/05/Unraveling.mp3",
+    "author": "Scott Buckley",
+    "page": "https://www.scottbuckley.com.au/library/unraveling/",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "file": "over_source.mp3",
+    "sha256": "82ed105724e6ee31d2007615472cb4e3621000edbff9a4aaf6a64789c32bece5",
+    "verified": "2026-09-26"
+  },
+  {
+    "key": "clear",
+    "title": "Ascension",
+    "url": "https://www.scottbuckley.com.au/library/wp-content/uploads/2019/02/sb_ascension.mp3",
+    "author": "Scott Buckley",
+    "page": "https://www.scottbuckley.com.au/library/ascension/",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "file": "clear_source.mp3",
+    "sha256": "72cce153866fbb5b0c5d8ffb0be2ea73bf64190e2b70a50cbcc8c83b5a8e0dbf",
+    "verified": "2026-09-26"
+  }
+]

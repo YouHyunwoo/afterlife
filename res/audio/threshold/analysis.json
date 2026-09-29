@@ -1,0 +1,102 @@
+[
+  {
+    "file": "water_loop.wav",
+    "seconds": 13.59732426303855,
+    "peak_dbfs": -3.9996682292812924,
+    "rms_dbfs": -25.46820479817702,
+    "loop": true,
+    "seam_delta": 0.00299072265625,
+    "edits": "Playback slowed to 80%; 65-2400 Hz; DC removed; 1.2 s overlap seam; level matched",
+    "sha256": "57e0837e7ea639aff1f4d42856110c0c692c0434f98efbf1cc011f1e207642dd"
+  },
+  {
+    "file": "water_enter.wav",
+    "seconds": 1.15,
+    "peak_dbfs": -3.9996682292812924,
+    "rms_dbfs": -23.59890777364607,
+    "loop": false,
+    "seam_delta": null,
+    "edits": "Slowed/filtered source 2.0-3.15 s; fades 25/230 ms",
+    "sha256": "f10fccd7661a9973691acb3da9fc2f513cd8e9ad8693b6d754fe6aa0b0218b12"
+  },
+  {
+    "file": "water_exit.wav",
+    "seconds": 1.15,
+    "peak_dbfs": -3.9996682292812924,
+    "rms_dbfs": -23.723471397970215,
+    "loop": false,
+    "seam_delta": null,
+    "edits": "Reverse of edited water entry; fades 80/250 ms",
+    "sha256": "56a605f13c05cffbd85fc7d0bafaf744a28b5d85de592c7b3484b3262f294297"
+  },
+  {
+    "file": "camera_whoosh.wav",
+    "seconds": 0.8820861678004536,
+    "peak_dbfs": -3.9996682292812924,
+    "rms_dbfs": -20.011331556580284,
+    "loop": false,
+    "seam_delta": null,
+    "edits": "Original whoosh slowed to 75%; DC removal; fades 25/100 ms",
+    "sha256": "7b38ffeaac16edeba359fd5143fc6f065eadfed0a6f75f7e2165e42b0bba9d21"
+  },
+  {
+    "file": "music_title.wav",
+    "seconds": 115.0,
+    "peak_dbfs": -5.318672383161106,
+    "rms_dbfs": -22.999999260971016,
+    "loop": true,
+    "seam_delta": 0.004425048828125,
+    "edits": "afterlife source excerpt 20-140 s; DC removed; 5 s crossfade loop; level matched; PCM16 WAV (Unity importer compresses music)",
+    "sha256": "9f248fb79dccf2d7dcf377e805b5e59ad009e65c2079ede316d136b7df22e7e0"
+  },
+  {
+    "file": "music_night.wav",
+    "seconds": 115.0,
+    "peak_dbfs": -7.3240004473887215,
+    "rms_dbfs": -23.000000015266934,
+    "loop": true,
+    "seam_delta": 0.002685546875,
+    "edits": "night source excerpt 12-132 s; DC removed; 5 s crossfade loop; level matched; PCM16 WAV (Unity importer compresses music)",
+    "sha256": "f87c457254ca83a10b22aaa8acdb20b4fbf2a17c3342fdb3251e979bde0f8bc7"
+  },
+  {
+    "file": "music_day.wav",
+    "seconds": 115.0,
+    "peak_dbfs": -6.851688100854643,
+    "rms_dbfs": -22.999999739517435,
+    "loop": true,
+    "seam_delta": 0.00054931640625,
+    "edits": "title source excerpt 8-128 s; DC removed; 5 s crossfade loop; level matched; PCM16 WAV (Unity importer compresses music)",
+    "sha256": "1fb2adf927abed8644ce8f9715888d5859c5a811213a358c0e84aeaf170eaffd"
+  },
+  {
+    "file": "music_playing.wav",
+    "seconds": 107.0,
+    "peak_dbfs": -6.140171570423012,
+    "rms_dbfs": -23.00000000881589,
+    "loop": true,
+    "seam_delta": 0.0029296875,
+    "edits": "playing source excerpt 4-116 s; DC removed; 5 s crossfade loop; level matched; PCM16 WAV (Unity importer compresses music)",
+    "sha256": "f4d5f044b29ead3579b168be857eda1f2a1dbfafb9830f19ac9c79af9d2e9824"
+  },
+  {
+    "file": "music_over.wav",
+    "seconds": 115.0,
+    "peak_dbfs": -4.481621690162706,
+    "rms_dbfs": -22.99999976385041,
+    "loop": true,
+    "seam_delta": 0.00146484375,
+    "edits": "over source excerpt 12-132 s; DC removed; 5 s crossfade loop; level matched; PCM16 WAV (Unity importer compresses music)",
+    "sha256": "0364da5ea5957ab597df0d0db4dc11deebff053a1ff02a7638db883fccc154ca"
+  },
+  {
+    "file": "music_clear.wav",
+    "seconds": 107.0,
+    "peak_dbfs": -6.9792123326754405,
+    "rms_dbfs": -23.00000012532434,
+    "loop": true,
+    "seam_delta": 0.00079345703125,
+    "edits": "clear source excerpt 35-147 s; DC removed; 5 s crossfade loop; level matched; PCM16 WAV (Unity importer compresses music)",
+    "sha256": "22687b9cd40753b9c09d957e2f775fcec9807f6c8c19414faef96942790d3598"
+  }
+]
