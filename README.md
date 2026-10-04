@@ -4,6 +4,10 @@ Git 저장소 루트는 이 폴더이며 Unity 프로젝트는 `impls/unity/Afte
 현재 통합 개발 브랜치는 `dev`, 검증 기준 브랜치는 `main`이다.
 작업별 브랜치 생성과 병합 방법은 [Git 운영 규칙](docs/git-workflow.md)을 따른다.
 
+## 현재 게임 규칙 · 2026-10-03
+
+채집·건설·수리·공격은 버튼 유지 반복 작업과 작업 1회당 작업량 강화, 자동 수입은 농장 건설·생산 효율 강화로 확장한다. 본편 필드·슬롯·충전은 폐기할 설계다. [확정 규칙·사용법·설계·검증](docs/game-process/71-click-work-and-farm-automation.md) · [진행 상태](docs/game-process/status.md). 문서는 갱신했으며 게임 코드·씬·SO는 아직 기존 구현이다.
+
 ## 폴더 안내
 
 |경로|역할|
