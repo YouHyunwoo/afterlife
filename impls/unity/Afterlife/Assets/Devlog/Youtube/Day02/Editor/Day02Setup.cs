@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using Afterlife.Devlog.Cinematics;
+using Afterlife.Modules.SceneFeatures;
 using TMPro;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -17,10 +18,78 @@ namespace Afterlife.Devlog.Day02.Editor
         private const string ScenePath=Root+"/Scenes/Devlog_Day02.unity";
 #pragma warning disable CS0649
         [Serializable] private sealed class Manifest {public int version;public Shot[] shots;}
-        [Serializable] private sealed class Shot {public string title;public int stage;public bool interactive;public float duration;public Cue[] cues;}
+        [Serializable] private sealed class Shot {public string title;public int stage,workAmount;public bool interactive;public float duration;public Cue[] cues;}
         [Serializable] private sealed class Cue {public float start,duration,audioSeconds;public string text,file;}
 #pragma warning restore CS0649
         
+        public static string InstallHoldFilm()
+        {
+            if(EditorApplication.isPlayingOrWillChangePlaymode)throw new InvalidOperationException("Exit Play before authoring.");
+            var scene=SceneManager.GetSceneByPath(ScenePath);bool opened=!scene.isLoaded;
+            if(!opened&&scene.isDirty)throw new InvalidOperationException("Save the existing Day02 scene changes first.");
+            var manifest=JsonUtility.FromJson<Manifest>(AssetDatabase.LoadAssetAtPath<TextAsset>(Root+"/Data/Day02Narration.json").text);
+            if(manifest.version!=3)throw new InvalidDataException("Expected hold narration version 3.");
+            var film=AssetDatabase.LoadAssetAtPath<ShowcaseFilm>(Root+"/Data/Day02Film.asset");
+            var shots=manifest.shots.Select(s=>new FilmShot {
+                Title=s.title,Heading=s.title,Stage=s.stage,Duration=s.duration,AllowInteraction=s.interactive,
+                From=new FilmPose(Vector3.up*.6f,3.8f),To=new FilmPose(Vector3.up*.6f,3.8f),FadeIn=true,FadeOut=true,
+                Cues=s.cues.Select(c=> {
+                    var clip=AssetDatabase.LoadAssetAtPath<AudioClip>(Root+"/Audio/Narration/"+c.file);
+                    if(clip==null||string.IsNullOrWhiteSpace(c.text)||c.start+c.duration>s.duration+.01f||Mathf.Abs(clip.length-c.audioSeconds)>.08f)
+                        throw new InvalidDataException("Narration cue mismatch: "+c.file);
+                    return new FilmCue{Start=c.start,Duration=c.duration,Text=c.text,Narration=clip};
+                }).ToArray()
+            }).ToArray();
+            Directory.CreateDirectory("../../../devlog/youtube/day-02/source/archive");
+            string archive="../../../devlog/youtube/day-02/source/archive/before-hold-film.unity.txt";
+            if(!File.Exists(archive))File.Copy(ScenePath,archive);
+            if(opened)scene=EditorSceneManager.OpenScene(ScenePath,OpenSceneMode.Additive);
+            try {
+                var view=scene.GetRootGameObjects().SelectMany(g=>g.GetComponentsInChildren<Day02Showcase>(true)).Single();
+                // The existing small After island is the reusable composition for comparisons.
+                if(view.Stages[2].name!="EfficiencyIsland") {
+                    var source=view.Stages[1].GetComponent<SceneFeatureHost>();
+                    var sun=source.Bindings.Sun;
+                    Directory.CreateDirectory(Root+"/Prefabs");AssetDatabase.Refresh();
+                    var template=UnityEngine.Object.Instantiate(view.Stages[1].gameObject);
+                    GameObject prefab;
+                    try {
+                        template.name="SmallHarvestIsland";template.transform.position=Vector3.zero;
+                        var host=template.GetComponent<SceneFeatureHost>();host.Bindings.Camera=null;host.Bindings.Sun=null;
+                        prefab=PrefabUtility.SaveAsPrefabAsset(template,Root+"/Prefabs/SmallHarvestIsland.prefab");
+                        if(prefab==null)throw new IOException("Island prefab save failed.");
+                    } finally {UnityEngine.Object.DestroyImmediate(template);}
+                    for(int i=1;i<4;i++) {
+                        var old=view.Stages[i];
+                        var copy=(GameObject)PrefabUtility.InstantiatePrefab(prefab,scene);
+                        copy.name=i==1?"HoldIsland":i==2?"EfficiencyIsland":"GoldIsland";
+                        var host=copy.GetComponent<SceneFeatureHost>();host.Bindings.Camera=view.ShowcaseCamera;host.Bindings.Sun=sun;
+                        PrefabUtility.RecordPrefabInstancePropertyModifications(host);
+                        view.Stages[i]=copy.transform;
+                        UnityEngine.Object.DestroyImmediate(old.gameObject);
+                    }
+                }
+                view.Stages[1].name="HoldIsland";
+                for(int i=0;i<4;i++) {
+                    view.Stages[i].position=new Vector3(i*40,0,0);
+                    view.Stages[i].gameObject.SetActive(true);
+                }
+                view.SceneVersion=4;view.RingMaterial=null;view.Demonstration=false;
+                var director=view.GetComponent<Day02FilmDirector>();
+                director.ShotWorkAmounts=manifest.shots.Select(s=>Math.Max(1,s.workAmount)).ToArray();
+                EditorUtility.SetDirty(director);
+                view.ShowcaseCamera.transform.SetPositionAndRotation(new Vector3(10,13.6f,-16),Quaternion.LookRotation(new Vector3(-10,-13,16)));
+                view.ShowcaseCamera.orthographicSize=3.8f;
+                film.Shots=shots;film.NarrationVersion=3;film.BackgroundMusicEnabled=false;
+                film.NarrationDisclosure="AI 생성 나레이션 · Supertonic 3 · M2";
+                EditorUtility.SetDirty(film);EditorUtility.SetDirty(view);
+                EditorSceneManager.MarkSceneDirty(scene);
+                if(!EditorSceneManager.SaveScene(scene))throw new IOException("Day02 save failed.");
+                AssetDatabase.SaveAssets();
+                return "SUCCESS: hold film v3, "+shots.Length+" shots, "+film.Duration+" seconds. Four small islands at X=0,40,80,120. Play not run.";
+            } finally {if(opened&&scene.isLoaded)EditorSceneManager.CloseScene(scene,true);}
+        }
+
         private static void Install()
         {
             if(EditorApplication.isPlayingOrWillChangePlaymode||EditorApplication.isCompiling||EditorApplication.isUpdating){EditorApplication.delayCall+=Install;return;}

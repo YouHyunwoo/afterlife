@@ -27,8 +27,18 @@ namespace Afterlife.Devlog.Editor
         private static void Poll()
         {
             if(!File.Exists(Request)||EditorApplication.isCompiling||EditorApplication.isUpdating||EditorApplication.isPlayingOrWillChangePlaymode)return;
-            string command=File.ReadAllText(Request).Trim();File.Delete(Request);
+            string command;
+            // The external writer may still hold the file for a few milliseconds.
+            try { command=File.ReadAllText(Request).Trim();if(command.Length==0)return;File.Delete(Request); }
+            catch(IOException) { return; }
             if(command=="refresh"){AssetDatabase.Refresh();File.WriteAllText(Report,"REFRESHED: explicit asset import request.");return;}
+            if(command=="day02-hold") {
+                try {
+                    var type=AppDomain.CurrentDomain.GetAssemblies().Select(a=>a.GetType("Afterlife.Devlog.Day02.Editor.Day02Setup")).First(t=>t!=null);
+                    File.WriteAllText(Report,(string)type.GetMethod("InstallHoldFilm").Invoke(null,null));
+                } catch(Exception ex){File.WriteAllText(Report,"FAILED: "+ex);Debug.LogException(ex);}
+                return;
+            }
             if(command=="day02-scale-report"){File.WriteAllText(Report,Day02IslandArtMigration.ReportScale());return;}
             if(command=="day02-capture") {
                 try { File.WriteAllText(Report,Day02IslandArtMigration.CaptureViews()); }

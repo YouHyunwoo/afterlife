@@ -2,7 +2,6 @@
   "name": "Afterlife.Devlog.Day02",
   "references": [
     "Afterlife.Devlog.Day02.Core",
-    "Afterlife.DivineFields",
     "Afterlife.Devlog.Cinematics",
     "Unity.InputSystem",
     "Unity.TextMeshPro",

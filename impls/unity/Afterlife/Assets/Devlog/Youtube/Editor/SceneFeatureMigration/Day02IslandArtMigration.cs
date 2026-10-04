@@ -48,7 +48,7 @@ namespace Afterlife.Devlog.Editor
                     for(int index=0;index<view.Stages.Length;index++) {
                         for(int i=0;i<view.Stages.Length;i++)view.Stages[i].gameObject.SetActive(i==index);
                         camera.transform.SetPositionAndRotation(view.Stages[index].position+Vector3.up*.6f+offset,Quaternion.LookRotation(-offset));
-                        camera.orthographicSize=index==3?7:3.2f;
+                        camera.orthographicSize=view.SceneVersion>=4?3.8f:index==3?7:3.2f;
                         var texture=RenderTexture.GetTemporary(1280,720,24);
                         var previousActive=RenderTexture.active;
                         try {

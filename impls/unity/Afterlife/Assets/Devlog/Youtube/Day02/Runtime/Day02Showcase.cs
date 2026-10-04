@@ -15,7 +15,12 @@ namespace Afterlife.Devlog.Day02
         public TMP_FontAsset Font;
         public Material RingMaterial;
         public UniversalRenderPipelineAsset Pipeline;
-        public int SceneVersion=3;
+        public int SceneVersion=4;
+        public bool Demonstration;
+        public int WorkAmount=1;
+        private bool _requireRelease=true;
+        private float _demoTime;
+        private Vector3 _workPoint;
         public bool FilmMode, Interaction=true, Paused, ShowGuide=true;
         public int StageIndex {get;private set;}
         public Vector3 Origin=>Stages[StageIndex].position;
@@ -25,10 +30,10 @@ namespace Afterlife.Devlog.Day02
         private Afterlife.Modules.WorldAudio.WorldAudioPlayer _sound;
         private bool _listenerPause;
         private Day02Resource[] _resources;
-        private readonly List<LineRenderer> _rings=new List<LineRenderer>();
-        private LineRenderer _preview;
+        
+        
         private GameObject _canvas;
-        private TextMeshProUGUI _money,_guide,_feedback;
+        private TextMeshProUGUI _money,_guide,_feedback,_comparison;
         private float _feedbackTime;
         private RenderPipelineAsset _previousPipeline,_previousQuality;
         private Vector3 _pan;
@@ -49,51 +54,47 @@ namespace Afterlife.Devlog.Day02
             _money.color=new Color(1,.83f,.35f);
             _guide=Label("Guide",new Vector2(.1f,.18f),new Vector2(.9f,.25f),24);
             _feedback=Label("HarvestFeedback",new Vector2(.35f,.7f),new Vector2(.65f,.78f),30);
-            _preview=Ring("FieldPreview");SetStage(0);
+            _comparison=Label("EfficiencyComparison",new Vector2(.2f,.8f),new Vector2(.8f,.87f),28);
+            SetStage(0);
         }
         public void SetStage(int index)
         {
-            if(_features!=null && _features.Session!=null)_features.Contact-=FeatureContact;
+            
             _features?.Clear();
             StageIndex=Mathf.Clamp(index,0,3);_sound?.Reset();
             for(int i=0;i<Stages.Length;i++)Stages[i].gameObject.SetActive(i==StageIndex);
             _resources=Stages[StageIndex].GetComponentsInChildren<Day02Resource>(true);
             foreach(var resource in _resources)resource.ResetResource();
-            foreach(var ring in _rings)if(ring!=null)Destroy(ring.gameObject);_rings.Clear();
+            
             var nodes=_resources.Select(r=>new HarvestNode{X=r.transform.position.x,Z=r.transform.position.z}).ToArray();
-            _session=new HarvestSession(nodes,StageIndex==0?HarvestMode.Click:StageIndex==1?HarvestMode.Hover:HarvestMode.Field);
+            _session=new HarvestSession(nodes,StageIndex==0?HarvestMode.Click:HarvestMode.Hold);
             _session.Worked+=Worked;
             _features=Stages[StageIndex].GetComponent<SceneFeatureHost>();
             if(_features!=null) {
                 _features.ExternalTick=true;if(_features.Session==null)_features.Apply();else _features.Session.Reset();
-                _features.Contact+=FeatureContact;
+                
                 _night=false;_vision=false;_features.Session.SetNight(false,true);_features.Session.SetVision(false);
                 for(int i=0;i<_resources.Length;i++) { int node=i;var target=_resources[i].GetComponent<FeedbackTarget>();if(target!=null)target.CanReceiveHit=()=>_presentingWork || (_session!=null&&node<_session.Nodes.Length&&_session.Nodes[node].Remaining>0); }
             }
-            _session.Fields.Placed+=f=>_rings.Add(Ring("SpiritField"));
-            _pan=Vector3.zero;_zoom=StageIndex==3?7:3.2f;
-            _feedbackTime=0;_feedback.text="";_preview.enabled=false;
+            WorkAmount=StageIndex>=2?3:1;_demoTime=0;_requireRelease=true;
+            _pan=Vector3.zero;_zoom=3.8f;
+            _feedbackTime=0;_feedback.text="";
             PositionCamera();
-        }
-        private void FeatureContact(FeedbackTarget target,Vector3 point)
-        {
-            var resource=target.GetComponent<Day02Resource>();int index=System.Array.IndexOf(_resources,resource);
-            if(StageIndex==0 && !_presentingWork && index>=0 && !Paused && Interaction)_session.Click(index,point.x,point.z);
         }
         private void Worked(int index)
         {
             if(_features==null){_resources[index].Work();_sound?.Play(!_resources[index].Stone,false,Time.unscaledTime);}
-            else if(StageIndex>0) {
+            else {
                 var resource=_resources[index];var target=resource.GetComponent<FeedbackTarget>();
                 _presentingWork=true;
                 try {
-                    Vector3 hit=resource.transform.position+Vector3.up*(resource.Stone?.45f:.8f);
+                    Vector3 hit=_workPoint;
                     _features.Session.PresentSurfaceImpact(target,hit);
                     resource.Work();
                 } finally {_presentingWork=false;}
             }
             _feedbackTime=.6f;
-            _feedback.text=ShowMoney?"+5 골드":_resources[index].Stone?"석재 채집":"목재 채집";
+            _feedback.text=ShowMoney?"+"+_session.LastAmount+" 골드":(_resources[index].Stone?"석재":"목재")+" +"+_session.LastAmount;
         }
         private void Update()
         {
@@ -105,6 +106,7 @@ namespace Afterlife.Devlog.Day02
                 if(keys.digit3Key.wasPressedThisFrame)SetStage(2);
                 if(keys.digit4Key.wasPressedThisFrame)SetStage(3);
                 if(keys.rKey.wasPressedThisFrame)SetStage(StageIndex);
+                if(StageIndex==2&&keys.uKey.wasPressedThisFrame){int amount=WorkAmount==1?3:1;SetStage(2);WorkAmount=amount;}
             }
             if(keys!=null && !Paused && _features?.Session!=null) {
                 if(keys.nKey.wasPressedThisFrame){_night=!_night;_features.Session.SetNight(_night);}
@@ -112,64 +114,47 @@ namespace Afterlife.Devlog.Day02
             }
             AudioListener.pause=Paused||_listenerPause;
             float delta=Paused?0:Time.unscaledDeltaTime;
-            bool input=Interaction&&!Paused&&Application.isFocused;
-            int hovered=-1;bool ground=false;Vector3 point=Vector3.zero;
             var mouse=Mouse.current;
-            if(mouse!=null&&input){
-                var ray=ShowcaseCamera.ScreenPointToRay(mouse.position.ReadValue());
-                if(_features!=null && _features.Session!=null) {
-                    bool valid=_features.Session.ScreenRay(mouse.position.ReadValue(),out var mapped);
-                    ground=_features.Session.Pointer(valid?(Ray?)mapped:null,mouse.delta.ReadValue().sqrMagnitude>.01f,StageIndex==0&&mouse.leftButton.wasPressedThisFrame,out var target,out point);
-                    if(target!=null)hovered=System.Array.IndexOf(_resources,target.GetComponent<Day02Resource>());
-                    if(ground && StageIndex>=2) {
-                        var local=Stages[StageIndex].InverseTransformPoint(point);
-                        ground=_features.Session.Map!=null && _features.Session.Map.At(Mathf.FloorToInt(local.x+.5f),Mathf.FloorToInt(local.z+.5f))!=Afterlife.Modules.Terrain.TerrainBiome.Water;
-                        if(ground&&mouse.leftButton.wasPressedThisFrame){
-                            _features.Session.PresentGroundTap(point);
-                            _session.Click(hovered,point.x,point.z);
-                        }
-                    }
-                }
-                else {
-                if(Physics.Raycast(ray,out var hit,100)){
-                    var resource=hit.collider.GetComponentInParent<Day02Resource>();
-                    if(resource!=null){hovered=System.Array.IndexOf(_resources,resource);if(hovered>=0&&_session.Nodes[hovered].Remaining<=0)hovered=-1;}
-                }
-                if(new Plane(Vector3.up,new Vector3(0,.12f,0)).Raycast(ray,out float distance)){
-                    point=ray.GetPoint(distance);var local=point-Origin;float radius=StageIndex==3?6:2.6f;
-                    ground=local.x*local.x+local.z*local.z<radius*radius;
-                }
-                if(hovered>=0){point=_resources[hovered].transform.position;ground=true;}
-                if(ground&&mouse.leftButton.wasPressedThisFrame)_session.Click(hovered,point.x,point.z);
-                }
-                if(!FilmMode&&StageIndex==3){
-                    _zoom=Mathf.Clamp(_zoom-mouse.scroll.ReadValue().y*.004f,3.5f,9);
-                    if(mouse.rightButton.isPressed){var move=mouse.delta.ReadValue();_pan+=new Vector3(-move.x,0,-move.y)*.008f;_pan=Vector3.ClampMagnitude(_pan,4);}
-                }
+            bool blocked=UnityEngine.EventSystems.EventSystem.current!=null&&UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
+            bool input=Interaction&&!Paused&&Application.isFocused&&!blocked;
+            if(!input)_requireRelease=true;
+            if(input&&mouse!=null&&!mouse.leftButton.isPressed)_requireRelease=false;
+            int hovered=-1;Vector3 point=Vector3.zero;bool held=false,pressed=false;
+            if(input&&Demonstration) {
+                _demoTime+=delta;
+                int candidate=Mathf.FloorToInt(_demoTime/4)%_resources.Length;
+                for(int n=0;n<_resources.Length;n++){int i=(candidate+n)%_resources.Length;if(_session.Nodes[i].Remaining>0){hovered=i;break;}}
+                if(hovered>=0)point=_resources[hovered].transform.position+Vector3.up*(_resources[hovered].Stone?.45f:.8f);
+                held=_demoTime%5<4;pressed=held&&Mathf.FloorToInt(_demoTime/.9f)!=Mathf.FloorToInt((_demoTime-delta)/.9f);
+            } else if(mouse!=null&&input&&_features?.Session!=null) {
+                bool valid=_features.Session.ScreenRay(mouse.position.ReadValue(),out var ray);
+                bool hit=_features.Session.Pointer(valid?(Ray?)ray:null,mouse.delta.ReadValue().sqrMagnitude>.01f,false,out var target,out point);
+                if(target!=null)hovered=System.Array.IndexOf(_resources,target.GetComponent<Day02Resource>());
+                held=!_requireRelease&&mouse.leftButton.isPressed;
+                pressed=!_requireRelease&&mouse.leftButton.wasPressedThisFrame;
+                if(hit&&hovered<0&&pressed)_features.Session.PresentGroundTap(point);
             }
+            _workPoint=point;_session.WorkAmount=WorkAmount;
+            _session.Tick(input?delta:0,hovered,input&&held,input&&pressed);
             if(!FilmMode)PositionCamera();
             if(_features!=null && _features.Session!=null) {
                 if(!input)_features.Session.Pointer(null,false,false,out _,out _);
                 _features.Session.Tick(delta,Paused);
             }
-            _session.Tick(input?delta:0,hovered);
-            for(int i=0;i<_resources.Length;i++) { if(_features==null)_resources[i].Tick(delta,_session.Nodes[i].Remaining<=0);else {if(StageIndex>0)_resources[i].TickTool(delta);if(_session.Nodes[i].Remaining<=0){var target=_resources[i].GetComponent<FeedbackTarget>();if(target!=null)target.Break(Vector3.forward);}} }
-            for(int i=0;i<_rings.Count;i++){
-                bool active=i<_session.Fields.Fields.Count;_rings[i].enabled=active;
-                if(active){var field=_session.Fields.Fields[i];Circle(_rings[i],new Vector3(field.X,.18f,field.Z),field.Radius);}
-            }
-            _preview.enabled=input&&ground&&StageIndex>=2;
-            if(_preview.enabled)Circle(_preview,new Vector3(point.x,.2f,point.z),1.1f);
+
+            for(int i=0;i<_resources.Length;i++) { if(_features==null)_resources[i].Tick(delta,_session.Nodes[i].Remaining<=0);else {_resources[i].TickTool(delta);if(_session.Nodes[i].Remaining<=0){var target=_resources[i].GetComponent<FeedbackTarget>();if(target!=null)target.Break(Vector3.forward);}} }
             _money.gameObject.SetActive(ShowMoney);_money.text="골드  "+_session.Gold;
+            _comparison.gameObject.SetActive(StageIndex==2&&Interaction);
+            _comparison.text="회당 "+WorkAmount+" · 작업 "+_session.WorkCount+"회 · 총 채집 "+_session.Gold+"  <size=20>촬영용 강화 예시</size>";
             _feedbackTime=Mathf.Max(0,_feedbackTime-delta);_feedback.gameObject.SetActive(_feedbackTime>0);
             _guide.gameObject.SetActive(ShowGuide);
-            _guide.text=(Paused?"일시정지":StageIndex==0?"나무나 바위를 클릭 · 한 번 클릭하면 한 번 채집":StageIndex==1?"나무나 바위 위에 커서를 유지 · 떠나면 채집 중단":"나무·바위 사이 클릭 · 작은 영력 필드 설치 · 커서를 다른 곳으로 이동")+
-                (FilmMode?"  |  Space 정지 · ← → 이동 · H 안내 숨기기":"  |  1–4 공간 · R 초기화 · F8 필름 · H 안내 · N 낮/밤 · V 시야");
+            _guide.text=(Paused?"일시정지":StageIndex==0?"클릭 한 번 · 채집 한 번":"왼쪽 버튼 유지 · 현재 커서 대상에 반복 작업 · 놓으면 중단")+
+                (StageIndex==2?"  |  회당 채집량 ×"+WorkAmount+(!FilmMode?" · U 강화 비교 초기화":""):"")+
+                (FilmMode?(Demonstration?"  |  자동 시연 미리보기":"  |  직접 조작 촬영")+" · Space 정지 · ← → 샷 · Home 재시작 · H 안내":"  |  1–4 공간 · R 초기화 · F8 촬영 · F9 자동 시연 · H 안내 · N 낮/밤 · V 시야");
         }
         private void PositionCamera(){var offset=new Vector3(7,10,-12);ShowcaseCamera.transform.SetPositionAndRotation(Origin+Vector3.up*.6f+_pan+offset,Quaternion.LookRotation(-offset));ShowcaseCamera.orthographicSize=_zoom;}
-        private LineRenderer Ring(string name){var go=new GameObject(name);go.transform.SetParent(transform,false);var line=go.AddComponent<LineRenderer>();line.sharedMaterial=RingMaterial;line.positionCount=65;line.widthMultiplier=.035f;line.startColor=line.endColor=new Color(.45f,1, .85f,.85f);return line;}
-        private void Circle(LineRenderer line,Vector3 center,float radius){for(int i=0;i<=64;i++){float a=i*Mathf.PI*2/64;var p=center+new Vector3(Mathf.Cos(a)*radius,0,Mathf.Sin(a)*radius);if(_features?.Session?.Geometry!=null){var local=Stages[StageIndex].InverseTransformPoint(p);p.y=Stages[StageIndex].TransformPoint(new Vector3(local.x,_features.Session.Geometry.Height(local.x,local.z),local.z)).y+.045f;}line.SetPosition(i,p);}}
+        private void OnApplicationFocus(bool focused){if(!focused)_requireRelease=true;}
         private TextMeshProUGUI Label(string name,Vector2 min,Vector2 max,float size){var go=new GameObject(name,typeof(RectTransform),typeof(TextMeshProUGUI));go.transform.SetParent(_canvas.transform,false);var text=go.GetComponent<TextMeshProUGUI>();text.font=Font;text.fontSize=size;text.alignment=TextAlignmentOptions.Center;text.raycastTarget=false;var rect=text.rectTransform;rect.anchorMin=min;rect.anchorMax=max;rect.offsetMin=rect.offsetMax=Vector2.zero;return text;}
-        private void OnDisable(){if(_features!=null){if(_features.Session!=null)_features.Contact-=FeatureContact;_features.Clear();}AudioListener.pause=_listenerPause;_sound?.Dispose();_sound=null;GraphicsSettings.defaultRenderPipeline=_previousPipeline;QualitySettings.renderPipeline=_previousQuality;if(_canvas!=null)Destroy(_canvas);if(_preview!=null)Destroy(_preview.gameObject);foreach(var line in _rings)if(line!=null)Destroy(line.gameObject);_rings.Clear();_session=null;}
+        private void OnDisable(){if(_features!=null){_features.Clear();}AudioListener.pause=_listenerPause;_sound?.Dispose();_sound=null;GraphicsSettings.defaultRenderPipeline=_previousPipeline;QualitySettings.renderPipeline=_previousQuality;if(_canvas!=null)Destroy(_canvas);_session=null;}
     }
 }

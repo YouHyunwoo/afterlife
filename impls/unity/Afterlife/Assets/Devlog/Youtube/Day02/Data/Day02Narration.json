@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "engine": "Supertonic 3",
   "modelRevision": "aafc6e32416a594460b32413efc49d7fe4ce6d46",
   "voice": "M2",
@@ -9,264 +9,251 @@
   "sampleRate": 44100,
   "shots": [
     {
-      "id": "intro-v2",
-      "title": "채집 시스템을 다듬는 과정",
-      "minimumDuration": 16,
+      "id": "intro-hold",
+      "title": "채집을 편하게, 성장은 확실하게",
       "stage": 0,
       "interactive": false,
+      "minimumDuration": 16,
       "cues": [
         {
           "start": 0.75,
-          "duration": 7.469,
-          "text": "이 게임은 낮에 자원을 모아 마을을 키우고, 밤에 몰려오는 적을 막는 게임입니다.",
-          "file": "intro-v2-01.wav",
-          "audioSeconds": 7.119,
-          "signature": "410feaf668167da5472e790f7457b31f201b4ea6d4caf363875c7a43a5eebf9e",
+          "duration": 7.847,
+          "text": "낮에는 자원을 모아 마을을 키우고, 밤에는 몰려오는 적을 막는 게임을 만들고 있습니다.",
+          "file": "intro-hold-01.wav",
+          "audioSeconds": 7.497,
+          "signature": "987f88921bad666419c424fb585e21249f04a32b0d6f52ec322b1c32ed75798e",
           "peak": 0.70697,
-          "sha256": "631def78ea016ac522ac9f573862c9fba4d33e6f2108521dca706c691ee73f6c"
+          "sha256": "cee25d15e03ab67bc33e5dff8e48298b245f240d95c6bf0d9abf72db30144d99"
         },
         {
-          "start": 8.419,
-          "duration": 5.763,
-          "text": "이번에는 채집 방식이 바뀐 과정을 작은 섬에서 보여드릴게요.",
-          "file": "intro-v2-02.wav",
-          "audioSeconds": 5.413,
-          "signature": "1446dc36ec8cf66339de3ad765716e645c6f94687c1c06b3fac8072e04a7c70a",
+          "start": 8.797,
+          "duration": 6.494,
+          "text": "오늘은 작은 섬 네 곳에서 채집 방식이 달라지는 과정을 보여드릴게요.",
+          "file": "intro-hold-02.wav",
+          "audioSeconds": 6.144,
+          "signature": "b4913e1cfabe22e1a905b94143cf4628daa1c678b3ed44a3b50690305c9ec40c",
           "peak": 0.70697,
-          "sha256": "d0e392f07b49d51ee4eb2a98bae17468f22f025eec16cded163e459a2133e487"
+          "sha256": "178838942d57e7b9b75f71522b2928f592324dfe97e60201df2541009ce0e9a6"
         }
       ],
-      "duration": 16,
-      "start": 0
+      "duration": 16.04,
+      "start": 0,
+      "workAmount": 1
     },
     {
-      "id": "click-v2",
-      "title": "처음에는 · 클릭 한 번, 채집 한 번",
-      "minimumDuration": 22,
+      "id": "click-hold",
+      "title": "1 · 클릭 한 번, 채집 한 번",
       "stage": 0,
       "interactive": true,
+      "minimumDuration": 20,
       "cues": [
         {
           "start": 0.55,
-          "duration": 6.526,
-          "text": "처음에는 나무나 바위를 클릭할 때마다 한 번씩 채집하게 만들었습니다.",
-          "file": "click-v2-01.wav",
-          "audioSeconds": 6.176,
-          "signature": "3f1024756c9a4e75dc280ac66d612d2ec7b253c65409643a93cd9aaf6699dc1d",
+          "duration": 6.08,
+          "text": "처음에는 나무를 클릭할 때마다 한 번씩 채집하도록 만들었습니다.",
+          "file": "click-hold-01.wav",
+          "audioSeconds": 5.73,
+          "signature": "a9cf417a66dde368abcd9fcf31aa93f84af3bd9edfc24b2cf5b77025d70e2c56",
           "peak": 0.70697,
-          "sha256": "3681072ff596b52fd4eb3858c6449b848e10d0fa8f0381d36ef7fcdefca995f0"
+          "sha256": "c56ba9959a3d95cd255b6a95bf8074c0a3bff0a9c554f1a62c2a0d0b2fa50dbb"
         },
         {
-          "start": 7.276,
-          "duration": 5.708,
-          "text": "직접 누르는 맛은 있지만, 자원을 모으려면 계속 클릭해야 했죠.",
-          "file": "click-v2-02.wav",
-          "audioSeconds": 5.358,
-          "signature": "fc1aea1559e94204db55706f3c2a3de3d8f4154efe8a0655debd3c8f73e4929d",
+          "start": 6.83,
+          "duration": 6.338,
+          "text": "맞은 부분의 색으로 파편이 튀고, 도구와 나무도 함께 반응합니다.",
+          "file": "click-hold-02.wav",
+          "audioSeconds": 5.988,
+          "signature": "583e718def3193221139730c72d253a5301ec77c7636265d3b120066095c01eb",
           "peak": 0.70697,
-          "sha256": "5cedf96736276686558c9a31879dec35404a35a4ea8395694047200097e473cc"
+          "sha256": "4f1443b6f81e60ec7f20fd74f772cf97a83fe9652a1556a669b8388f612114ec"
         }
       ],
-      "duration": 22,
-      "start": 16
+      "duration": 20,
+      "start": 16.04,
+      "workAmount": 1
     },
     {
-      "id": "hover-why-v2",
-      "title": "반복 클릭을 줄이려면?",
-      "minimumDuration": 10,
+      "id": "why-hold",
+      "title": "2 · 반복 클릭을 줄이기",
       "stage": 1,
       "interactive": false,
+      "minimumDuration": 10,
       "cues": [
         {
           "start": 0.55,
-          "duration": 5.593,
-          "text": "그래서 커서를 올려두기만 해도 자동으로 채집되도록 바꿨습니다.",
-          "file": "hover-why-v2-01.wav",
-          "audioSeconds": 5.243,
-          "signature": "08d7f026076bd406e7b80200abf49c805f361e356d443ce892959863a49429a4",
+          "duration": 6.216,
+          "text": "하지만 자원을 모을 때마다 계속 클릭하면 손이 피곤할 것 같았습니다.",
+          "file": "why-hold-01.wav",
+          "audioSeconds": 5.866,
+          "signature": "10dbf82a9026f2c63e9d78c63f7be04c166ea805f45c5ba0770ab450444ce169",
           "peak": 0.70697,
-          "sha256": "c14627a2ea1fac076ab68c762367fdcfd9be374f91db3b7a2dc56f9578b5433a"
+          "sha256": "9fcc690fca5cff0d8f343bc8464fea80bf3717ef8cb64d31aed5dd71896142c6"
         }
       ],
       "duration": 10,
-      "start": 38
+      "start": 36.04,
+      "workAmount": 1
     },
     {
-      "id": "hover-v2",
-      "title": "커서를 올려두면 자동 채집",
-      "minimumDuration": 22,
+      "id": "demo-hold",
+      "title": "2 · 누른 채 커서를 움직여 보세요",
       "stage": 1,
       "interactive": true,
-      "cues": [
-        {
-          "start": 0.55,
-          "duration": 6.321,
-          "text": "나무 위에 커서를 두면 반복해서 작업합니다. 바위도 마찬가지예요.",
-          "file": "hover-v2-01.wav",
-          "audioSeconds": 5.971,
-          "signature": "55f4594c05436220f71b4a7125765a27fb3a198fcfad165d719ba7196615ad26",
-          "peak": 0.70697,
-          "sha256": "12f547b4cd1c9e9b9cf5b9b43914e8c953f08bdbf8b2ef4924b87d6e3e6573ba"
-        },
-        {
-          "start": 7.071,
-          "duration": 7.536,
-          "text": "클릭은 줄었지만, 커서를 떼면 작업이 멈춥니다. 결국 마우스가 한 곳에 묶였죠.",
-          "file": "hover-v2-02.wav",
-          "audioSeconds": 7.186,
-          "signature": "7fdb3b83277b4205c89e7b71de7f7dc406f5db09ca7a8736c2a69093e3bbdf1f",
-          "peak": 0.70697,
-          "sha256": "596ec71a9416dbd604eccbed3af3d875a7d6be29cd0d1fef9e5c7fe0176ba5a7"
-        }
-      ],
-      "duration": 22,
-      "start": 48
-    },
-    {
-      "id": "field-why-v2",
-      "title": "작업할 장소를 남겨두면?",
-      "minimumDuration": 12,
-      "stage": 2,
-      "interactive": false,
-      "cues": [
-        {
-          "start": 0.55,
-          "duration": 6.524,
-          "text": "작업할 장소를 정해 두고 다른 곳을 살펴볼 수 있으면 어떨까 싶었습니다.",
-          "file": "field-why-v2-01.wav",
-          "audioSeconds": 6.174,
-          "signature": "e0a240d8c5ec6c8f2e51066f38875fd83016ee6045c51476fa1b03bee1137acc",
-          "peak": 0.70697,
-          "sha256": "0b52fde6f10f0c5c8f3cc8a41a8f032f13a54cf469d4fa2db39437e3690f1f64"
-        },
-        {
-          "start": 7.274,
-          "duration": 3.002,
-          "text": "그래서 영력 필드를 만들었어요.",
-          "file": "field-why-v2-02.wav",
-          "audioSeconds": 2.652,
-          "signature": "66744048c2530158dd0ee634bd075e2e6eec616a54ddebd103756a9d227eb60f",
-          "peak": 0.70697,
-          "sha256": "ce94776c8405506095c1509beb38c9215cdbeb3dd98e99b8a456ccee059b4ba7"
-        }
-      ],
-      "duration": 12,
-      "start": 70
-    },
-    {
-      "id": "field-v2",
-      "title": "작은 범위에 영력 필드 설치",
       "minimumDuration": 24,
-      "stage": 2,
-      "interactive": true,
       "cues": [
         {
           "start": 0.55,
-          "duration": 4.455,
-          "text": "나무와 바위 사이에 작은 필드를 놓아보겠습니다.",
-          "file": "field-v2-01.wav",
-          "audioSeconds": 4.105,
-          "signature": "47a74bebf44ab6e58667b15986e2c129142e66f97ab79d55bcf80093563b8fa2",
+          "duration": 6.469,
+          "text": "그래서 마우스 버튼을 누르고 있으면 일정한 간격으로 작업하게 바꿨습니다.",
+          "file": "demo-hold-01.wav",
+          "audioSeconds": 6.119,
+          "signature": "9fdf42b76652f26923861b128b570b90bdf82877ffb0a1af063451e6fdb6aeac",
           "peak": 0.70697,
-          "sha256": "58124764b5bd11fe3d8ec454fdcd9a3f3dd060566cf5142cda879c627831ab8f"
+          "sha256": "15bfe8d8116d3bb6d2e36df4cf3bcfe6d4671b8e8fbeae761f579a5b4b4f4d27"
         },
         {
-          "start": 5.205,
-          "duration": 7.208,
-          "text": "커서를 옮겨도 범위 안에서는 작업이 이어집니다. 어디에 놓느냐가 중요해졌죠.",
-          "file": "field-v2-02.wav",
-          "audioSeconds": 6.858,
-          "signature": "88d7d3483cc09566d0e67dd876c441373032510ba4cc2fe79fbf50804243d522",
+          "start": 7.219,
+          "duration": 8.397,
+          "text": "누른 채 나무에서 바위로 옮기면 지금 가리키는 대상에 작업하고, 버튼을 놓으면 멈춥니다.",
+          "file": "demo-hold-02.wav",
+          "audioSeconds": 8.047,
+          "signature": "cd7e4621d6196caabde424dbca6f63bd46d4ad7215f833dd36aa2c143aedc190",
           "peak": 0.70697,
-          "sha256": "29dae4f0b605b91a02dcb103ee662ab39de43ef43d52aabe6637c6049e1b5e2e"
+          "sha256": "d892dbba36ce0a1cc7df57d0048933d0d72276e00075c71b9457e97aab20bece"
         }
       ],
       "duration": 24,
-      "start": 82
+      "start": 46.04,
+      "workAmount": 1
     },
     {
-      "id": "island-v2",
-      "title": "이제 더 큰 섬으로",
-      "minimumDuration": 10,
-      "stage": 3,
-      "interactive": false,
+      "id": "before-hold",
+      "title": "3 · 강화 전 · 작업당 1",
+      "stage": 2,
+      "interactive": true,
+      "minimumDuration": 16,
       "cues": [
         {
           "start": 0.55,
-          "duration": 4.586,
-          "text": "이제 조금 더 큰 섬에서 자유롭게 채집해 볼게요.",
-          "file": "island-v2-01.wav",
-          "audioSeconds": 4.236,
-          "signature": "4a44093b9606dd33c80f24a2d05df764699f65136f91e4f7bc4232342c8d4c4e",
+          "duration": 6.715,
+          "text": "이번에는 같은 작업 간격에서 한 번에 얼마나 채집하는지 비교해 보겠습니다.",
+          "file": "before-hold-01.wav",
+          "audioSeconds": 6.365,
+          "signature": "d5eb7313314b8337c78a803b009d97d569757dcb2c582249148400756987f53d",
           "peak": 0.707,
-          "sha256": "30dd37d7edcf7c4fc1922faee34b79edb1506ad7690a36f0cf7a0bd4fab3b71c"
+          "sha256": "738b78a4e35bfeb1a7d3e533842eb9951c36f69d4faa5f255812d90bc03a4a38"
+        },
+        {
+          "start": 7.465,
+          "duration": 4.381,
+          "text": "먼저 강화 전에는 한 번에 하나씩 채집합니다.",
+          "file": "before-hold-02.wav",
+          "audioSeconds": 4.031,
+          "signature": "1b836de3799c0db9f9b833a4ffe8d3959b94b44343a0e57903b057570a290026",
+          "peak": 0.70697,
+          "sha256": "d4836adedc804a53cfcc965a927ddb627ebb63c542c43b75933364b1b26a29ec"
         }
       ],
-      "duration": 10,
-      "start": 106
+      "duration": 16,
+      "start": 70.04,
+      "workAmount": 1
     },
     {
-      "id": "gold-v2",
-      "title": "자유롭게 채집해서 골드 벌기",
-      "minimumDuration": 32,
+      "id": "after-hold",
+      "title": "3 · 강화 후 · 작업당 3 · 예시",
+      "stage": 2,
+      "interactive": true,
+      "minimumDuration": 20,
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 7.453,
+          "text": "강화하면 작업 한 번의 효과가 커집니다. 여기서는 비교를 위해 세 배로 설정했습니다.",
+          "file": "after-hold-01.wav",
+          "audioSeconds": 7.103,
+          "signature": "494d521d5a58b9933f5bb10ff3e8c32f4fae0725f7c2fe8070f1e0d6951f30af",
+          "peak": 0.70697,
+          "sha256": "39e529278ada852feeb314484abf970c5335397b7fc5e2c1a6e46d2afb9832d5"
+        },
+        {
+          "start": 8.203,
+          "duration": 6.634,
+          "text": "더 빠르게 클릭할 필요 없이, 같은 시간에 더 많은 자원을 얻을 수 있습니다.",
+          "file": "after-hold-02.wav",
+          "audioSeconds": 6.284,
+          "signature": "383458b257e6bbd6c25816c1cab19d96a286ed563f71faae9f3d9d6c24ef681a",
+          "peak": 0.70697,
+          "sha256": "f95279120fc1240fea4e7f60c0a939564ec03ea97754661533c629cd76b3af12"
+        }
+      ],
+      "duration": 20,
+      "start": 86.04,
+      "workAmount": 3
+    },
+    {
+      "id": "gold-hold",
+      "title": "4 · 채집이 골드로 이어지기",
       "stage": 3,
       "interactive": true,
+      "minimumDuration": 26,
       "cues": [
         {
           "start": 0.55,
-          "duration": 5.216,
-          "text": "필드를 놓고, 다른 자원으로 이동해 다음 작업을 정합니다.",
-          "file": "gold-v2-01.wav",
-          "audioSeconds": 4.866,
-          "signature": "c390112b2dc810e391c4d5180abbcb3452f5fb741793dcb6bf0add245dc17c8a",
-          "peak": 0.707,
-          "sha256": "87c6dfb21d692f351d6ed2bb2ea727f33e1d61272638dab6e22f36ad56b6b67d"
+          "duration": 5.008,
+          "text": "이제 원하는 나무와 바위를 누르며 골드를 모아 봅시다.",
+          "file": "gold-hold-01.wav",
+          "audioSeconds": 4.658,
+          "signature": "347260e573d98d30d0d5ddb6afb424ba3f40bb39c02bd11f70443b7fad3342cb",
+          "peak": 0.70697,
+          "sha256": "c5ded363700f73c580f84b7b1eaf0334a1b621bc3613cf2aa04ae015a9920447"
         },
         {
-          "start": 5.966,
-          "duration": 7.972,
-          "text": "나무와 바위에서 얻은 수입은 골드가 됩니다. 이제 채집이 마을을 키울 준비로 이어집니다.",
-          "file": "gold-v2-02.wav",
-          "audioSeconds": 7.622,
-          "signature": "1db2172602520a675914030a2c935412bd9032cf89fc6e378dadbe3ce48846b3",
+          "start": 5.758,
+          "duration": 6.718,
+          "text": "직접 채집으로 필요한 돈을 마련하고, 마을의 성장을 앞당기는 흐름입니다.",
+          "file": "gold-hold-02.wav",
+          "audioSeconds": 6.368,
+          "signature": "0063f97aede386850bd92473f7af0f872ab01af463670bb0c082e4a4c0736f51",
           "peak": 0.70697,
-          "sha256": "ca9629c47d3d2d016d1a82120ca0bac16ee579e9d011108b2fdc6e32abac78ad"
+          "sha256": "9be7c066e04de40321f2993e7b5a7549016ee9e33171eda6610c046287daeada"
         }
       ],
-      "duration": 32,
-      "start": 116
+      "duration": 26,
+      "start": 106.04,
+      "workAmount": 3
     },
     {
-      "id": "next-v2",
-      "title": "다음에는 · 번 골드로 마을 건설",
-      "minimumDuration": 10,
+      "id": "next-hold",
+      "title": "다음에는 · 농장과 마을 건설",
       "stage": 3,
       "interactive": false,
+      "minimumDuration": 14,
       "cues": [
         {
           "start": 0.55,
-          "duration": 4.244,
-          "text": "채집의 수치와 손맛은 계속 다듬고 있습니다.",
-          "file": "next-v2-01.wav",
-          "audioSeconds": 3.894,
-          "signature": "3265fe4a845d3fd9deff94e9e46b4f6d856fd3d690c15e9a562d1e777218d54a",
+          "duration": 5.175,
+          "text": "지속적인 자동 수입은 농장이 맡도록 만들 계획입니다.",
+          "file": "next-hold-01.wav",
+          "audioSeconds": 4.825,
+          "signature": "fc0e4098f71277a55fc5a910687163ace43cef629495ad90c47ee36eade5d0eb",
           "peak": 0.70697,
-          "sha256": "91c22d841f91ba9af31a5232f132a7574b79c9b6caacdbc2943faf210b0be4e5"
+          "sha256": "a47b5c57645fbac6fd2e6c228c95c6e1ae2275618477af5612589e2ed99a305e"
         },
         {
-          "start": 4.994,
-          "duration": 3.8,
-          "text": "다음에는 번 골드로 건물을 세워볼게요.",
-          "file": "next-v2-02.wav",
-          "audioSeconds": 3.45,
-          "signature": "a4be85ab9e2590cb3a2c57c7df59dd1bea3306db0729f217d9a811f19f99af95",
+          "start": 5.925,
+          "duration": 6.149,
+          "text": "다음에는 이렇게 모은 골드로 건물을 짓고, 마을을 키워 보겠습니다.",
+          "file": "next-hold-02.wav",
+          "audioSeconds": 5.799,
+          "signature": "7367ddb62cca8b3a3e4f6dc107b1ff720148a135081bffd0d8642cd0dd96e2af",
           "peak": 0.70697,
-          "sha256": "35a2e313c76ac6dbe664dafc6f6ed4c68c2a755db684ba4e10751acd8004e6c1"
+          "sha256": "38b28e6b74c4e8170a965e2b1688ca3e41659b27daa01df41edb6d09335af784"
         }
       ],
-      "duration": 10,
-      "start": 148
+      "duration": 14,
+      "start": 132.04,
+      "workAmount": 3
     }
   ],
-  "duration": 158
+  "duration": 146.04
 }

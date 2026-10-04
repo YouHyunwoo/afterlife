@@ -9,6 +9,7 @@ namespace Afterlife.Devlog.Day02
     {
         public Day02Showcase View;
         public ShowcaseFilm Film;
+        public int[] ShotWorkAmounts = System.Array.Empty<int>();
         public bool ShowGuide = true;
         private ShowcaseFilmPlayer _player;
         private Day02Graphics _graphics;
@@ -21,7 +22,8 @@ namespace Afterlife.Devlog.Day02
             var keys = Keyboard.current;
             if (keys != null)
             {
-                if (keys.f8Key.wasPressedThisFrame) { if (IsFilmMode) StopFilm(); else StartFilm(); }
+                if (keys.f8Key.wasPressedThisFrame) { if (IsFilmMode) StopFilm(); else { View.Demonstration=false; StartFilm(); } }
+                if (keys.f9Key.wasPressedThisFrame) { if(IsFilmMode) StopFilm(); else { View.Demonstration=true; StartFilm(); } }
                 if (keys.hKey.wasPressedThisFrame) ShowGuide = !ShowGuide;
                 if (IsFilmMode)
                 {
@@ -58,13 +60,16 @@ namespace Afterlife.Devlog.Day02
         public void EnterShot(FilmShot shot, bool reset)
         {
             View.SetStage(shot.Stage);
+            View.WorkAmount=shot.Stage>=2?3:1;
+            int index=System.Array.IndexOf(Film.Shots,shot);
+            if(index>=0&&index<ShotWorkAmounts.Length)View.WorkAmount=Mathf.Max(1,ShotWorkAmounts[index]);
             _interactive = shot.AllowInteraction;
             View.Paused = false; View.Interaction = _interactive;
             _graphics.Show(shot);
         }
         public void EndFilm()
         {
-            if (View != null) { View.FilmMode = false; View.Paused = false; View.Interaction = true; View.ShowGuide = ShowGuide; }
+            if (View != null) { View.Demonstration=false; View.FilmMode = false; View.Paused = false; View.Interaction = true; View.ShowGuide = ShowGuide; }
             _graphics?.Dispose(); _graphics = null;
         }
         private void OnDisable() => StopFilm();

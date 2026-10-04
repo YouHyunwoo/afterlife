@@ -28,9 +28,9 @@ namespace Afterlife.Devlog.Day02
             switch (shot.Stage)
             {
                 case 0: _diagram.text = "<size=30>게임의 큰 흐름</size>\n\n채집 → 골드 → 건설 → 밤 방어\n\n<size=26>오늘은 채집 시스템을 다듬습니다</size>"; break;
-                case 1: _diagram.text = "반복 클릭을 줄여 볼까요?\n\n<size=30>클릭 → 커서를 올려두면 자동 채집</size>"; break;
-                case 2: _diagram.text = "커서가 한 곳에 묶여 있다면?\n\n<size=30>영력 필드를 놓고 다른 곳을 살펴보기</size>"; break;
-                case 3: _diagram.text = "더 큰 섬에서 자유롭게 채집하기\n\n<size=30>채집 → 골드 → 다음에는 마을 건설</size>"; break;
+                case 1: _diagram.text = "반복 클릭을 줄여 볼까요?\n\n<size=30>버튼 유지 → 현재 마우스 위치에서 반복 채집</size>"; break;
+                case 2: _diagram.text = "같은 시간에 더 많이 채집하려면?\n\n<size=30>강화 전 ×1 → 강화 후 ×3 · 촬영용 예시</size>"; break;
+                case 3: _diagram.text = "직접 채집으로 성장을 앞당기기\n\n<size=30>채집 → 골드 → 다음에는 마을 건설</size>"; break;
             }
         }
         private static TextMeshProUGUI Label(string name, Transform parent, TMP_FontAsset font, float size, Vector2 min, Vector2 max)

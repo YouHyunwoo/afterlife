@@ -10,7 +10,8 @@
     "Afterlife.Terrain",
     "Afterlife.TerrainView",
     "Afterlife.Water",
-    "Afterlife.Vegetation"
+    "Afterlife.Vegetation",
+    "Afterlife.SceneFeatures"
   ],
   "includePlatforms": [
     "Editor"
