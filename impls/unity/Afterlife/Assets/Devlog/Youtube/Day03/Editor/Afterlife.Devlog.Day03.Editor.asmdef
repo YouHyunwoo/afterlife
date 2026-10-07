@@ -1,0 +1,20 @@
+{
+  "name": "Afterlife.Devlog.Day03.Editor",
+  "references": [
+    "Afterlife.Devlog.Day03",
+    "Afterlife.Devlog.Day03.Core",
+    "Afterlife.Devlog.Cinematics",
+    "Afterlife.SceneFeatures",
+    "Afterlife.Interaction",
+    "Afterlife.TargetContracts",
+    "Afterlife.SceneFeatures.Core",
+    "Afterlife.Terrain",
+    "Afterlife.TerrainView",
+    "Unity.TextMeshPro",
+    "Unity.RenderPipelines.Universal.Runtime",
+    "Unity.RenderPipelines.Core.Runtime"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ]
+}

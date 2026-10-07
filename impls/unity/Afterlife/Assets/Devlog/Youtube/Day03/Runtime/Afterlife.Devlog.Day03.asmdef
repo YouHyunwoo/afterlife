@@ -1,0 +1,16 @@
+{
+  "name": "Afterlife.Devlog.Day03",
+  "references": [
+    "Afterlife.Devlog.Day03.Core",
+    "Afterlife.Devlog.Cinematics",
+    "Afterlife.SceneFeatures",
+    "Afterlife.Terrain",
+    "Afterlife.TerrainView",
+    "Afterlife.Buildings",
+    "Afterlife.HarvestFeedback.Unity",
+    "Unity.InputSystem",
+    "Unity.TextMeshPro",
+    "UnityEngine.UI"
+  ],
+  "noEngineReferences": false
+}

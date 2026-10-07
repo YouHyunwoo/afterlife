@@ -1,0 +1,7 @@
+{
+  "name": "Afterlife.Devlog.Day03.Core",
+  "references": [
+    "Afterlife.Buildings"
+  ],
+  "noEngineReferences": true
+}
