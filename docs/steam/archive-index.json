@@ -1,0 +1,46 @@
+[
+  {
+    "file": "Afterlife-2025-06-27.zip",
+    "platform": "Windows64",
+    "version": "2025-06-27",
+    "bytes": 48264649,
+    "sha256": "dc292140de757179e0ecbbc5f106496dc6ee42507fae9e0cf5880e86b94a8b5d",
+    "build_commit": "",
+    "archived_at_utc": "2026-10-07T07:23:14.8039531Z",
+    "original_path": "D:\\area\\dev\\alone\\Afterlife\\docs\\steam\\builds\\Afterlife-2025-06-27.zip",
+    "archive_path": "D:\\area\\archives\\Afterlife\\releases\\Windows64\\2025-06-27\\Afterlife-2025-06-27.zip"
+  },
+  {
+    "file": "Afterlife-2025-07-07.zip",
+    "platform": "Windows64",
+    "version": "2025-07-07",
+    "bytes": 48277804,
+    "sha256": "c014b5e4cb075f991b9819d7b2312d0c6e24ae67276c180f7ebf6c0fcb81053d",
+    "build_commit": "",
+    "archived_at_utc": "2026-10-07T07:23:15.0352116Z",
+    "original_path": "D:\\area\\dev\\alone\\Afterlife\\docs\\steam\\builds\\Afterlife-2025-07-07.zip",
+    "archive_path": "D:\\area\\archives\\Afterlife\\releases\\Windows64\\2025-07-07\\Afterlife-2025-07-07.zip"
+  },
+  {
+    "file": "Afterlife-2025-07-08.zip",
+    "platform": "Windows64",
+    "version": "2025-07-08",
+    "bytes": 48294563,
+    "sha256": "ba6cc2f7cd3b24c817ecdbd61fd8b94374356de1a3abf1259311fd3f2f178517",
+    "build_commit": "",
+    "archived_at_utc": "2026-10-07T07:23:15.2474235Z",
+    "original_path": "D:\\area\\dev\\alone\\Afterlife\\docs\\steam\\builds\\Afterlife-2025-07-08.zip",
+    "archive_path": "D:\\area\\archives\\Afterlife\\releases\\Windows64\\2025-07-08\\Afterlife-2025-07-08.zip"
+  },
+  {
+    "file": "Afterlife-2025-07-13.zip",
+    "platform": "Windows64",
+    "version": "2025-07-13",
+    "bytes": 48394550,
+    "sha256": "ba064de917022e51b0f1c57ab4a3a88fdee84748dbb79ded8ad18add3d4f7096",
+    "build_commit": "",
+    "archived_at_utc": "2026-10-07T07:23:15.4508683Z",
+    "original_path": "D:\\area\\dev\\alone\\Afterlife\\docs\\steam\\builds\\Afterlife-2025-07-13.zip",
+    "archive_path": "D:\\area\\archives\\Afterlife\\releases\\Windows64\\2025-07-13\\Afterlife-2025-07-13.zip"
+  }
+]

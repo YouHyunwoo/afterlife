@@ -7,6 +7,7 @@
 |tts/|여러 유튜브 회차가 공유하는 로컬 음성 생성|
 |unity/|Unity 생성 프로젝트 C# 컴파일과 빌드 출력 사용법|
 |docs/|게임 문서 대시보드와 공용 Markdown 파서|
+|releases/|배포 ZIP의 외부 보관·해시 검증|
 |resources/|게임 리소스 목록·해시 갱신|
 |localization/|기존 게임 문자열 정리|
 

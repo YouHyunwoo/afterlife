@@ -30,6 +30,6 @@ Unity 에셋은 최상위 `Legacy/`, `Prototype/`, `Modules/`, `Samples/`, `Devl
 
 게임 원본은 `res/art-source/`, 출력은 `res/models/`·`res/textures/`·`res/images/`, 참고 자료는 `res/references/`에 둔다. Unity는 Assets 임포트본을 사용한다. [리소스 관리](res/README.md) · [공용 도구](tools/README.md) · [공용 TTS](tools/tts/README.md).
 
-리소스 변경 후 `python tools/resources/update_manifest.py`로 목록을 갱신한다. 유튜브 Markdown 변경 후 로컬 `python devlog/youtube/tools/render_dashboard.py`로 대시보드를 재생성한다. 과거 배포 ZIP은 현재 `docs/steam/builds/`에 보존하고 Git에서 제외한다. 외부 보관소가 확정되면 해시를 검증해 이전한다.
+리소스 변경 후 `python tools/resources/update_manifest.py`로 목록을 갱신한다. 유튜브 Markdown 변경 후 로컬 `python devlog/youtube/tools/render_dashboard.py`로 대시보드를 재생성한다. 배포 ZIP은 `D:/area/archives/Afterlife/releases/<플랫폼>/<버전>/`에 보관한다. 과거 Windows64 ZIP4개는 이전·해시 검증을 완료했다. [배포 보관 절차](tools/releases/README.md)와 [보관 색인](docs/steam/archive-index.json)을 따른다.
 
 Unity Library와 Externals 내용은 유지한다. Builds 폴더는 유지하고 기존 산출물을 비웠다. 앞으로 프로토타입 Windows 빌드는 지정 출력 하위 폴더를 먼저 비워 과거 실행파일·데이터가 새 결과에 섞이지 않게 한다. 공개본은 임시 출력 폴더 밖에 보관한다.
