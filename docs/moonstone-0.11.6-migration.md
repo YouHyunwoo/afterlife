@@ -34,7 +34,7 @@ Afterlife.Lifecycle.Unity는 프리팹 Awake에서 Initialize, OnDestroy에서 D
 
 BuildMode의 직렬화된 가이드 참조가 있으면 보존하고, 비어 있을 때만 [Inject] 프로퍼티로 등록된 가이드를 채운다. 주입 대상 외의 설정·캐시 필드에는 [Inject]를 붙이지 않는다.
 
-Field.unity와 World.unity에서 사라진 Ore.Container 컴포넌트와 해당 _container 필드만 제거했다. 나머지 컴포넌트 파일 ID와 기존 스크립트 GUID는 보존했다. 사용되지 않던 비활성 Moonstone Arc Settings.asset은 .meta와 함께 저장소 상위 local-backups/moonstone-migration-settings에 백업했다. .meta 내용은 수정하거나 직접 생성하지 않았다.
+Field.unity와 World.unity에서 사라진 Ore.Container 컴포넌트와 해당 _container 필드만 제거했다. 나머지 컴포넌트 파일 ID와 기존 스크립트 GUID는 보존했다. 사용되지 않던 비활성 Moonstone Arc Settings.asset은 .meta와 함께 당시 저장소 상위 local-backups/moonstone-migration-settings에 백업했다. 2026-10-07 외부 D:/area/archives/Afterlife/backups/project-local-backups-2026-10-07/moonstone-migration-settings로 이전·해시 검증했다. .meta 내용은 수정하거나 직접 생성하지 않았다.
 
 ## 검증
 

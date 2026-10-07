@@ -68,7 +68,7 @@ dev의 C# 컴파일과 사용자 플레이 확인을 마친 뒤 main으로 병�
 
 기존 stash도 이전 루트 경로를 사용한다. 새 루트에서 바로 적용하지 말고 이전 기준 커밋의 별도 작업 폴더에서 복원한 후 필요한 파일을 현재 경로로 옮긴다.
 
-로컬 복구 자료는 `local-backups/git-root-migration-20260920/`에 있다.
+복구 자료는 `D:/area/archives/Afterlife/backups/project-local-backups-2026-10-07/git-root-migration-20260920/`에 있다. 2026-10-07 해시 검증 후 외부로 옮기고 프로젝트 local-backups를 제거했다. [보관 기록](architecture/backup-archive.json)을 확인한다. 재생성 가능한 unused-csproj 캐시는 보관하지 않았다.
 
 - `before.bundle`: 마이그레이션 전 브랜치와 stash 참조를 포함한 Git 이력
 - `uncommitted-files.zip`, `working-changes.patch`: 기능별 커밋 전 변경 파일

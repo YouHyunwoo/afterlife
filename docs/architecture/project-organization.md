@@ -64,14 +64,14 @@ Git은 실행 중 작업이 없는 상태를 확인하고 2026-10-07 이전 tmp_
 |res의 제작 원본·출력과 Unity Assets의 임포트본|원본 보관과 엔진 실행 역할이 다르다. Assets 사본에는 GUID·임포트 설정이 있으므로 파일 크기만 보고 합치지 않는다.|
 |회차 녹화 원본과 편집 프로젝트 .media 안의 MP4·WAV|편집 프로젝트가 가져온 미디어 사본을 참조한다. Day02 영상 사본 약77.5MiB를 포함해 편집 프로젝트와 함께 유지한다.|
 |Day01 음원과 Assets/Devlog의 임포트 음원|영상 제작과 Unity 시연이 각각 소비한다. 공용 제작 원본 위치와 공개 크레딧을 문서로 연결한다.|
-|local-backups와 현재 소스의 이전 버전|재사용 파일이 아니라 복구 시점의 기록이다. 보관 기간이나 외부 백업 정책이 정해지기 전에는 삭제하지 않는다.|
+|외부 backups와 현재 소스의 이전 버전|재사용 파일이 아니라 복구 시점의 기록이다. 원본은 외부 보관소로 옮겼고 프로젝트 local-backups는 제거했다.|
 |.tooling의 환경·모델과 공용 tools 코드|환경·모델은 로컬 실행 자료이며 tools는 버전 관리하는 실행 코드다. 회차별 환경을 추가하지 않고 youtube-tts 하나를 공유한다.|
 
 Legacy의 실험 코드·리소스는 새 구조로 격리했다. 참조되지 않는 것처럼 보이는 에셋도 직렬화 GUID, Resources.Load, 문자열 경로로 사용할 수 있어 이번에는 삭제하지 않았다. 다음 정리는 사용자가 기존 기능의 폐기를 결정한 뒤 해당 소비자와 함께 기능 단위로 진행한다. 용량이 큰 Library·Git pack은 현재 프로젝트와 이력을 위한 데이터이므로 유지했다.
 
 ## 로컬 백업과 배포 보관소
 
-local-backups에는 Git 루트 이전 전 bundle·미커밋 ZIP/패치·해시 기록, 이전 Moonstone 패키지, 설정 백업, 폐기한 csproj·복원 캐시가 있다. 이번에 삭제하지 않았다. 로컬 폴더의 README에 각각의 복구 범위를 기록했다. Git 추적 문서인 이 문서에서도 보존 범위를 안내한다.
+local-backups는 게임 실행·빌드에 사용하지 않는다. Git 루트 이전 전 bundle·미커밋 ZIP/패치·해시 기록, 이전 Moonstone 패키지, 설정 백업268개 파일·363,761,587바이트를 D:/area/archives/Afterlife/backups/project-local-backups-2026-10-07로 옮기고 해시 일치를 검증했다. 재생성 가능한 unused-csproj 캐시128개 파일·2,347,476바이트는 삭제했다. 프로젝트 local-backups 폴더는 제거했다. [보관 기록](backup-archive.json)의 위치와 외부 archive-manifest.json을 통해 복구 파일을 찾을 수 있다. bundle의 모든 기준 커밋은 현재 Git에도 존재함을 확인했다. devlog·모델·현재 편집 프로젝트를 모두 포함한 전체 프로젝트 백업은 아니다.
 
 배포 보관소는 사용자가 확정한 프로젝트 밖 D:/area/archives/Afterlife/releases/<플랫폼>/<버전>/다. 소스와 배포 파일을 분리하고 ZIP·SHA-256·버전·커밋 ID·빌드 결과를 함께 보관한다. 같은 디스크 경로 분리는 디스크 장애에 대비한 백업이 아니므로 공개본은 별도 디스크나 기존 백업 저장소에도 복사한다. 기존 Windows64 ZIP4개는 날짜별 폴더로 이전했고 SHA-256·ZIP CRC 검증을 통과했다. [보관 도구](../../tools/releases/README.md)와 [색인](../steam/archive-index.json)을 따른다. 과거 빌드 커밋은 미확인으로 비워 둔다.
 
@@ -90,6 +90,6 @@ Unity의 용도 없는 빈 폴더8개는 AssetDatabase로 제거했다. 제거 �
 ## 후속 작업 목록 · 2026-10-07
 
 - [x] 배포 보관소를 D:/area/archives/Afterlife/releases로 설정하고 Windows64 ZIP4개를 해시 검증해 이전
-- [ ] 복구 자료는 외부 backups에 보관하고 프로젝트 local-backups와 재생성 가능한 캐시 제거
+- [x] 복구 자료는 외부 backups에 보관하고 프로젝트 local-backups와 재생성 가능한 캐시 제거
 - [ ] Legacy CS0649 경고9개 원인 정리와 주입/비활성 카메라 코드 수정
 - [ ] 관련 C# 컴파일·운영 문서 갱신·목적별 커밋

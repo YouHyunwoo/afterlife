@@ -17,7 +17,7 @@ Day01은 공개 완료, Day02는97.29초 이야기 필름·음성, Day03은13샷
 |impls/unity/Afterlife/|Unity 구현·임포트 에셋·설정|
 |devlog/|Git 제외하는 로컬 유튜브·DC 문서와 제작 미디어|
 |.tooling/youtube-tts/|여러 회차가 공유하는 로컬 음성 모델·Python 환경, Git 제외|
-|local-backups/|Git 루트 이전·패키지·설정 복구 자료, Git 제외|
+|D:/area/archives/Afterlife/backups/|외부 복구 자료; 프로젝트 local-backups는 제거 완료|
 |Temp/ · logs/|로컬 임시 작업·과거 도구 로그, Git 제외|
 
 Unity 에셋은 최상위 `Legacy/`, `Prototype/`, `Modules/`, `Samples/`, `Devlog/`로 구분한다. `Plugins/`, `Resources/`, `StreamingAssets/` 등 Unity·패키지 전용 경로는 유지한다. [구조·사용법·검증](docs/architecture/project-organization.md).
