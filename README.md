@@ -33,3 +33,5 @@ Unity 에셋은 최상위 `Legacy/`, `Prototype/`, `Modules/`, `Samples/`, `Devl
 리소스 변경 후 `python tools/resources/update_manifest.py`로 목록을 갱신한다. 유튜브 Markdown 변경 후 로컬 `python devlog/youtube/tools/render_dashboard.py`로 대시보드를 재생성한다. 배포 ZIP은 `D:/area/archives/Afterlife/releases/<플랫폼>/<버전>/`에 보관한다. 과거 Windows64 ZIP4개는 이전·해시 검증을 완료했다. [배포 보관 절차](tools/releases/README.md)와 [보관 색인](docs/steam/archive-index.json)을 따른다.
 
 Unity Library와 Externals 내용은 유지한다. Builds 폴더는 유지하고 기존 산출물을 비웠다. 앞으로 프로토타입 Windows 빌드는 지정 출력 하위 폴더를 먼저 비워 과거 실행파일·데이터가 새 결과에 섞이지 않게 한다. 공개본은 임시 출력 폴더 밖에 보관한다.
+
+Legacy 컴파일 경고9개는 주입 속성 전환과 비활성 카메라 코드 제거로 해결했다. 해당 어셈블리 검증은 경고0개·오류0개다. [경고 수정과 사용자 확인 절차](docs/architecture/legacy-warning-fixes.md).

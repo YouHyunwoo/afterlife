@@ -4,7 +4,7 @@ namespace Afterlife.Dev.Field
 {
     public class EventSystem : Afterlife.Modules.Lifecycle.SceneSystem
     {
-        [Moonstone.Arc.DependencyInjection.Inject] private TimeSystem _timeSystem;
+        [Moonstone.Arc.DependencyInjection.Inject] private TimeSystem TimeSystem { get; set; }
 
         private readonly List<Event> _pendingEvents = new();
         private readonly List<Event> _activeEvents = new();
@@ -13,7 +13,7 @@ namespace Afterlife.Dev.Field
 
         private void Update()
         {
-            var currentTime = _timeSystem.ElapsedTime;
+            var currentTime = TimeSystem.ElapsedTime;
 
             for (var i = _pendingEvents.Count - 1; i >= 0; i--)
             {

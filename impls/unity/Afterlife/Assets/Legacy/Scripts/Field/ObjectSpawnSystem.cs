@@ -9,17 +9,17 @@ namespace Afterlife.Dev.Field
     public class ObjectSpawnSystem : Afterlife.Modules.Lifecycle.SceneSystem
     {
         private readonly Dictionary<string, ObjectVisible> _idToVisible = new();
-        [Moonstone.Arc.DependencyInjection.Inject] private WorldRepository _worldRepository;
+        [Moonstone.Arc.DependencyInjection.Inject] private WorldRepository WorldRepository { get; set; }
         private World.World _world;
-        [Moonstone.Arc.DependencyInjection.Inject] private ObjectRepository _objectRepository;
-        [Moonstone.Arc.DependencyInjection.Inject] private ObjectSystem _objectSystem;
+        [Moonstone.Arc.DependencyInjection.Inject] private ObjectRepository ObjectRepository { get; set; }
+        [Moonstone.Arc.DependencyInjection.Inject] private ObjectSystem ObjectSystem { get; set; }
 
         public event Action<ObjectVisible, bool, ObjectSpawnSystem, object> OnBuilt;
         public event Action<ObjectVisible, bool, ObjectSpawnSystem, object> OnDemolished;
 
         protected override void OnSetUp()
         {
-            _world = _worldRepository.FindAll().First();
+            _world = WorldRepository.FindAll().First();
         }
 
         public bool TrySpawn<TObject, TObjectVisible, TObjectData>(
@@ -37,7 +37,7 @@ namespace Afterlife.Dev.Field
             var objectId = System.Guid.NewGuid().ToString();
             @object = factory(objectId);
             @object.Initialize(data);
-            _objectRepository.Save(@object);
+            ObjectRepository.Save(@object);
 
             var worldPosition = (Vector3)(Vector2)position + (Vector3)(Vector2)data.Size * 0.5f;
             visible = Instantiate(prefab, worldPosition, Quaternion.identity);
@@ -51,11 +51,11 @@ namespace Afterlife.Dev.Field
             _idToVisible[@object.Id] = visible;
 
             if (visible is CharacterVisible<Citizen> citizenVisible)
-                _objectSystem.RegisterCharacter(@object, visible, citizenVisible.NavMeshAgent, citizenVisible.RefreshInteractionCollisionField);
+                ObjectSystem.RegisterCharacter(@object, visible, citizenVisible.NavMeshAgent, citizenVisible.RefreshInteractionCollisionField);
             else if (visible is CharacterVisible<Enemy> enemyVisible)
-                _objectSystem.RegisterCharacter(@object, visible, enemyVisible.NavMeshAgent, null);
+                ObjectSystem.RegisterCharacter(@object, visible, enemyVisible.NavMeshAgent, null);
             else
-                _objectSystem.Register(@object, visible);
+                ObjectSystem.Register(@object, visible);
 
             OnBuilt?.Invoke(visible, data.Size != Vector2Int.zero, this, this);
 
@@ -66,7 +66,7 @@ namespace Afterlife.Dev.Field
         {
             if (!_idToVisible.TryGetValue(@object.Id, out var visible)) return;
 
-            _objectSystem.Unregister(@object);
+            ObjectSystem.Unregister(@object);
 
             _idToVisible.Remove(@object.Id);
 
@@ -80,7 +80,7 @@ namespace Afterlife.Dev.Field
 
             Destroy(visible.gameObject);
 
-            _objectRepository.Delete(@object.Id);
+            ObjectRepository.Delete(@object.Id);
 
             OnDemolished?.Invoke(visible, @object.Size != Vector2Int.zero, this, this);
         }

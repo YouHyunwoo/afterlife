@@ -14,9 +14,6 @@ namespace Afterlife.GameSystem.Stage
         Model.Player player;
         Model.Map map;
 
-        Vector2 dragStartPosition;
-        Vector3 initialCameraPosition;
-        bool isDragging;
         Vector2 pointerInScreen;
 
         public override void SetUp()
@@ -24,47 +21,23 @@ namespace Afterlife.GameSystem.Stage
             player = ServiceLocator.Get<GameManager>().Game.Player;
             map = ServiceLocator.Get<StageManager>().Stage.Map;
 
-            // inputSystem.OnSpecialPointerDownEvent += OnSpecialPointerDown;
-            // inputSystem.OnSpecialPointerUpEvent += OnSpecialPointerUp;
             inputSystem.OnPointerMoveEvent += OnPointerMove;
 
-            isDragging = false;
         }
 
         public override void TearDown()
         {
-            isDragging = false;
 
             mainCamera.transform.position = new Vector3(0f, 0f, mainCamera.transform.position.z);
 
-            // inputSystem.OnSpecialPointerDownEvent -= OnSpecialPointerDown;
-            // inputSystem.OnSpecialPointerUpEvent -= OnSpecialPointerUp;
             inputSystem.OnPointerMoveEvent -= OnPointerMove;
 
             map = null;
             player = null;
         }
 
-        // void OnSpecialPointerDown(Vector2 pointerInScreen, Vector2 pointerInWorld, Vector2Int location)
-        // {
-        //     dragStartPosition = pointerInScreen;
-        //     initialCameraPosition = mainCamera.transform.position;
-        //     isDragging = true;
-        // }
-
         void OnPointerMove(Vector2 pointerInScreen, Vector2 pointerInWorld, Vector2Int location)
         {
-            if (isDragging)
-            {
-                var delta = pointerInWorld - (Vector2)mainCamera.ScreenToWorldPoint(dragStartPosition);
-                var cameraPosition = initialCameraPosition - (Vector3)delta;
-
-                cameraPosition.x = Mathf.Clamp(cameraPosition.x, 0f, map.Size.x);
-                cameraPosition.y = Mathf.Clamp(cameraPosition.y, 0f, map.Size.y);
-
-                mainCamera.transform.position = cameraPosition;
-            }
-
             this.pointerInScreen = pointerInScreen;
         }
 
@@ -113,14 +86,6 @@ namespace Afterlife.GameSystem.Stage
                 map.Fog.Invalidate();
             }
         }
-
-        // void OnSpecialPointerUp(Vector2 pointerInScreen, Vector2 pointerInWorld, Vector2Int location)
-        // {
-        //     if (isDragging)
-        //     {
-        //         isDragging = false;
-        //     }
-        // }
 
         public void SetCameraPosition(Vector2Int location)
         {

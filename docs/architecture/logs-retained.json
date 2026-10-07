@@ -24,6 +24,7 @@
     "impls/unity/Afterlife/Logs/asset-layout-migration.log",
     "impls/unity/Afterlife/Logs/day-banner-scene-check.json",
     "impls/unity/Afterlife/Logs/gold-economy-scene-check.json",
+    "impls/unity/Afterlife/Logs/legacy-warnings-build.log",
     "impls/unity/Afterlife/Logs/organization-dotnet-build.log"
   ]
 }

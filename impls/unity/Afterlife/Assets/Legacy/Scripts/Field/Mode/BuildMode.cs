@@ -21,7 +21,7 @@ namespace Afterlife.Dev.Field
             set { if (_buildGuideSystem == null) _buildGuideSystem = value; }
         }
 
-        [Moonstone.Arc.DependencyInjection.Inject] private WorldRepository _worldRepository;
+        [Moonstone.Arc.DependencyInjection.Inject] private WorldRepository WorldRepository { get; set; }
         private World.World _world;
 
         private BuildModeParam _param;
@@ -60,7 +60,7 @@ namespace Afterlife.Dev.Field
         {
             Debug.Log("건설 모드");
 
-            _world = _worldRepository.FindAll().First();
+            _world = WorldRepository.FindAll().First();
             if (param is BuildModeParam buildModeParam)
             {
                 _param = buildModeParam;

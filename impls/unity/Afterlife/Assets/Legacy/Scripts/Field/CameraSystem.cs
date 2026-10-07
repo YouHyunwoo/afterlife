@@ -14,7 +14,7 @@ namespace Afterlife.Dev.Field
         [SerializeField] float _minOrthographicSize = 7f;
         [SerializeField] float _maxOrthographicSize = 15f;
 
-        [Moonstone.Arc.DependencyInjection.Inject] WorldRepository _worldRepository;
+        [Moonstone.Arc.DependencyInjection.Inject] private WorldRepository WorldRepository { get; set; }
         Vector2Int _mapSize;
 
         protected override void OnInitialize()
@@ -24,7 +24,7 @@ namespace Afterlife.Dev.Field
 
         protected override void OnSetUp()
         {
-            var world = _worldRepository.FindAll().First();
+            var world = WorldRepository.FindAll().First();
             _mapSize = world.WorldMap.Size;
             enabled = true;
         }

@@ -10,7 +10,7 @@ namespace Afterlife.Dev.Field
     {
         [Moonstone.Arc.DependencyInjection.Inject] private Player _player;
         private EnemyVisible _enemyVisiblePrefab;
-        [Moonstone.Arc.DependencyInjection.Inject] private WorldRepository _worldRepository;
+        [Moonstone.Arc.DependencyInjection.Inject] private WorldRepository WorldRepository { get; set; }
         private World.World _world;
 
         private float _duration = 10f;
@@ -25,7 +25,7 @@ namespace Afterlife.Dev.Field
 
         protected override void OnStart()
         {
-            _world = _worldRepository.FindAll().First();
+            _world = WorldRepository.FindAll().First();
             _spawnTime = Time.time + _spawnInterval;
             _elapsedTime = Time.time + _duration;
         }
