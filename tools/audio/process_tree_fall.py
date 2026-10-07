@@ -1,15 +1,20 @@
 """선택한 나무 쓰러짐 효과음의 보수적인 잡음 억제/피치 다운/고음 완화."""
 from pathlib import Path
+import argparse
 import json
 import numpy as np
 from scipy.io import wavfile
 from scipy import signal, ndimage
 
 ROOT=Path(__file__).resolve().parents[2]
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--input', type=Path, required=True, help='ecfike 원본 WAV 경로')
+args=parser.parse_args()
+if not args.input.is_file():parser.error('입력 WAV를 찾을 수 없습니다: '+str(args.input))
 DIR=ROOT/'res/audio/tree-fall-analysis'
 rate,pcm=wavfile.read(DIR/'02_tree_fall_short.wav')
 x=pcm.astype(np.float64)/32768
-original_rate,original_pcm=wavfile.read(Path('C:/Users/User/Desktop/139952__ecfike__a-tree-falling-down.wav'))
+original_rate,original_pcm=wavfile.read(args.input)
 assert original_rate==rate and pcm.dtype==np.int16
 original=original_pcm.astype(np.float64)/32768
 # 약한 후반부에는 자연 잔향도 섞여 있으므로 최대 억제를 8dB로 제한한다.

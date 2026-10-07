@@ -1,12 +1,17 @@
 """나무 쓰러짐 녹음의 파형 기반 편집 후보를 원본 보존 방식으로 생성한다."""
 from pathlib import Path
+import argparse
 import csv
 import zipfile
 import numpy as np
 from scipy.io import wavfile
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE = Path('C:/Users/User/Desktop/139952__ecfike__a-tree-falling-down.wav')
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--input', type=Path, required=True, help='ecfike 원본 WAV 경로')
+args=parser.parse_args()
+if not args.input.is_file():parser.error('입력 WAV를 찾을 수 없습니다: '+str(args.input))
+SOURCE = args.input
 OUT = ROOT / 'res/audio/tree-fall-analysis'
 
 def main():

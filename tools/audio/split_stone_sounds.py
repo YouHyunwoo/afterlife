@@ -9,8 +9,8 @@ from scipy.signal import find_peaks
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / 'res/audio/stone-analysis'
 SOURCES = [
-    ('stones_falling', Path('C:/Users/User/Desktop/567251__iwanplays__stones-falling.wav')),
-    ('dropping_rocks', Path('C:/Users/User/Desktop/567250__iwanplays__dropping-rocks.wav')),
+    ('stones_falling', ROOT / 'res/audio/stone-analysis/stones_falling/567251__iwanplays__stones-falling.wav'),
+    ('dropping_rocks', ROOT / 'res/audio/stone-analysis/dropping_rocks/567250__iwanplays__dropping-rocks.wav'),
 ]
 
 def read(path):

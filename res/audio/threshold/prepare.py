@@ -6,7 +6,7 @@ HERE=Path(__file__).resolve().parent; ROOT=HERE.parents[2]
 sys.path.insert(0,str(ROOT/'impls/unity/Afterlife/Temp/threshold-audio-deps'))
 import soundfile as sf
 RATE=44100
-TARGET=ROOT/'impls/unity/Afterlife/Assets/Afterlife/Samples/ThresholdLab/Audio'
+TARGET=ROOT/'impls/unity/Afterlife/Assets/Samples/ThresholdLab/Audio'
 TARGET.mkdir(parents=True,exist_ok=True)
 OUT=HERE/'edited'; OUT.mkdir(exist_ok=True)
 report=[]

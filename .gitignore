@@ -1,6 +1,8 @@
 # 로컬 백업, 실행 로그, 분석 도구 설치본
 /local-backups/
 /logs/
+# 외부로 이전 완료한 독립 영상 편집기 프로젝트
+/EVE/
 # 임시 빌드 로그 및 리팩터링 백업
 /Temp/
 # 로컬 유튜브·DC 개발일지 문서와 게시 자료
@@ -37,8 +39,12 @@ desktop.ini
 # 과거 배포 패키지는 로컬 보관하고 소스 저장소에서 제외
 /docs/steam/builds/
 
-# 기존 Unity 저장소 밖의 별도 실험 프로젝트는 이번 통합 범위에서 제외
+# 과거 별도 실험 프로젝트 경로; 현재 폴더 없음
 /impls/unity/Afterlife 3d Test/
 
 # Unity 생성물 제외 규칙은 프로젝트 내부 .gitignore에서 관리
 # 에이전트 로컬 지침은 기존 Unity 저장소 정책대로 추적하지 않음
+
+# 분석 결과는 보존하고 실행 캐시·로컬 경로 상태는 추적하지 않음
+/res/analysis/**/graphify-out/cache/
+/res/analysis/**/graphify-out/.graphify*

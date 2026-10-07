@@ -1,5 +1,7 @@
 # 나무 쓰러짐 효과음 편집 후보
 
+> 현재 비활성인 과거 후보다. 실제 사용 음원은 공유마당 원본이며 docs/audio-credits.md를 따른다. 아래 적용 설명은 제작 당시 연혁이다. 원본 WAV가 필요하면 가공 도구에 --input으로 지정한다.
+
 원본: 139952__ecfike__a-tree-falling-down.wav (ecfike)
 출처: https://freesound.org/people/ecfike/sounds/139952/
 원본 길이 약 4.52초, 44.1kHz / 16bit / 스테레오. 원본 파일은 수정하지 않았다.
@@ -21,10 +23,10 @@
 
 `02_tree_fall_short_processed.wav`: 약 1.51반음 낮춤(속도를 늦춰 길이 3.208초), 후반 저레벨 구간 기반 스펙트럼 잡음 억제(최대 8dB), 55Hz 이하 저역 정리, 3.4kHz 저역통과로 날카로운 고음 완화, 약한 저역 보강과 피크 둥글림. 원본 후반에도 잔향이 있으므로 순수 잡음으로 단정하지 않고 억제량을 제한했다. 완전한 잡음 제거를 보장하지 않는다. 피크 -2dBFS 이하, 스테레오/44.1kHz/16bit 유지. 원본은 보존했다.
 
-`preview_original_then_processed.wav`는 원본 → 0.7초 간격 → 처리본 순서다. 수치/파형 기반 처리이며 직접 청취 검증은 하지 않았다. 처리 재현 스크립트: Tools/Audio/process_tree_fall.py. 설정과 측정치는 processing.json에 기록한다.
+`preview_original_then_processed.wav`는 원본 → 0.7초 간격 → 처리본 순서다. 수치/파형 기반 처리이며 직접 청취 검증은 하지 않았다. 처리 재현 스크립트: tools/audio/process_tree_fall.py. 설정과 측정치는 processing.json에 기록한다.
 
 ## 짧은 파열 + 착지음 재편집
 
 03_tree_fall_clean_crack_thud.wav를 새 게임용 버전으로 적용했다. 원본 전체의 0.72~1.04초 구간만 사용하여 약 -1.51반음, 120~2200Hz 대역 정리와 짧은 페이드로 약 0.35초 파열 후보를 만들었다. 기존 스펙트럼 잡음 억제는 사용하지 않는다. 원본 후반 잔향 대신 리버브 없는 저역 합성 충격음을 1.1초(현재 쓰러짐 모션 끝)에 배치했다. 전체 길이 1.50초, 피크 약 -3.35dBFS. 원본 구간 안에 포함된 반사음을 완전히 분리한 것은 아니다. 직접 청취 검증은 하지 않았다.
 
-preview_processed_then_clean.wav는 이전 처리본 → 0.7초 간격 → 새 편집본 순서. 재현 스크립트는 Tools/Audio/build_clean_tree_fall.py, 상세 수치는 clean_edit.json에 있다. 기존 파일은 보존했다.
+preview_processed_then_clean.wav는 이전 처리본 → 0.7초 간격 → 새 편집본 순서. 재현 스크립트는 tools/audio/build_clean_tree_fall.py, 상세 수치는 clean_edit.json에 있다. 기존 파일은 보존했다.

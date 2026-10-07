@@ -32,7 +32,7 @@ output = HERE / 'freesori_water_ripple.wav'
 with wave.open(str(output), 'wb') as wav:
     wav.setparams((channels, 2, rate, 0, 'NONE', 'not compressed'))
     wav.writeframes(pcm.tobytes())
-target = ROOT / 'impls/unity/Afterlife/Assets/Devlog/Youtube/Modules/Audio/Resources/DevlogAudio' / output.name
+target = ROOT / 'impls/unity/Afterlife/Assets/Modules/WorldAudio/Resources/WorldAudio' / output.name
 target.write_bytes(output.read_bytes())
 hop = round(rate * .01)
 report = {
