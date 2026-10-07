@@ -27,6 +27,7 @@ namespace Afterlife.Modules.SceneFeatures
         private readonly List<Chip> _chips = new List<Chip>();
         private Afterlife.Modules.Destruction.ImpactChipPool _chipPool;
         private IImpactReceiver _pendingTarget;
+        private Action _contacted;
         private GameObject _activeTool;
         private Transform _activeImpactPoint;
         private Transform _hitSurface;
@@ -68,7 +69,13 @@ namespace Afterlife.Modules.SceneFeatures
 
         public void BeginImpact(IImpactReceiver target, PickSurface surface, Vector3 point, Color color)
         {
-            if (target == null || !target.CanHit || IsSwinging) return;
+            TryBeginImpact(target, surface, point, color, null);
+        }
+
+        // An external model can synchronize its accepted-work presentation with the same Day01 swing.
+        public bool TryBeginImpact(IImpactReceiver target, PickSurface surface, Vector3 point, Color color, Action contacted)
+        {
+            if (target == null || !target.CanHit || IsSwinging || surface == null) return false;
             _toolPoint = point;
             _impactColor = color;
             _impactNormal = surface.HitNormal.normalized;
@@ -78,9 +85,11 @@ namespace Afterlife.Modules.SceneFeatures
             if (!ToolsEnabled || !target.UseJuice || _activeTool == null || _activeImpactPoint == null)
             {
                 ApplyImpact(target, point);
-                return;
+                contacted?.Invoke();
+                return true;
             }
             _pendingTarget = target;
+            _contacted = contacted;
             _hitSurface = surface.transform;
             _hitLocalPoint = _hitSurface.InverseTransformPoint(point);
             _swingBasis = _camera.transform.rotation;
@@ -88,6 +97,8 @@ namespace Afterlife.Modules.SceneFeatures
             _toolAge = 0;
             _clock.Begin();
             _activeTool.SetActive(true);
+            AnimateTool(0);
+            return true;
         }
 
         // External simulation already accepted this work; play its surface feedback immediately.
@@ -146,12 +157,13 @@ namespace Afterlife.Modules.SceneFeatures
             {
                 if (_activeTool != null) _activeTool.SetActive(false);
                 _pendingTarget = null;
+                _contacted = null;
                 return;
             }
             bool contactNow=_clock.Tick(deltaTime,ImpactTime);
             _toolAge=_clock.Age;
             if (_toolAge >= SwingDuration)
-            { _activeTool.SetActive(false); _pendingTarget = null; return; }
+            { _activeTool.SetActive(false); _pendingTarget = null; _contacted = null; return; }
             _toolPoint = _hitSurface.TransformPoint(_hitLocalPoint);
             float approach = Mathf.Clamp01(_toolAge / ImpactTime);
             approach *= approach;
@@ -163,6 +175,8 @@ namespace Afterlife.Modules.SceneFeatures
             if (contactNow)
             {
                 ApplyImpact(_pendingTarget, _toolPoint);
+                var contacted = _contacted; _contacted = null;
+                contacted?.Invoke();
             }
         }
 
@@ -175,6 +189,7 @@ namespace Afterlife.Modules.SceneFeatures
             if (_pick != null) _pick.SetActive(false);
             _shake = 0; _toolAge = 10;
             _pendingTarget = null; _clock.Reset();
+            _contacted = null;
             _hitSurface = null; _activeImpactPoint = null;
             _impactColor = Color.white; _impactNormal = Vector3.up;
         }

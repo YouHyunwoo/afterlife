@@ -148,6 +148,8 @@ namespace Afterlife.Modules.SceneFeatures
         private readonly List<SmokeEffect> _smokes=new List<SmokeEffect>();
         private void OnContact(FeedbackTarget target,Vector3 point)=>Contact?.Invoke(target,point);
         public void SetNight(bool night,bool immediate=false)=>_lighting?.SetNight(night,immediate);
+        // Null returns control to the normal day/night transition.
+        public void SetLightingBlend(float? blend)=>_lighting?.SetFilmBlend(blend.HasValue?Mathf.Clamp01(blend.Value):(float?)null);
         public void SetVision(bool enabled)
         {
             _settings.Set(SceneFeature.Vision,enabled);_settings.Set(SceneFeature.VisionBlur,enabled);
@@ -160,6 +162,14 @@ namespace Afterlife.Modules.SceneFeatures
         }
         // Automatic work samples the same mesh triangle/material/vertex color as direct picking.
         public bool PresentSurfaceImpact(FeedbackTarget target,Vector3 preferredPoint)
+        {
+            return SurfaceImpact(target,preferredPoint,false,null);
+        }
+        public bool BeginSurfaceImpact(FeedbackTarget target,Vector3 preferredPoint,Action contacted)
+        {
+            return SurfaceImpact(target,preferredPoint,true,contacted);
+        }
+        private bool SurfaceImpact(FeedbackTarget target,Vector3 preferredPoint,bool swing,Action contacted)
         {
             if(target==null || !_targets.Contains(target) || _impact==null || _bindings.Camera==null)return false;
             var camera=_bindings.Camera.transform;
@@ -175,6 +185,7 @@ namespace Afterlife.Modules.SceneFeatures
                     if(surface!=null && ReferenceEquals(surface.Target,target) && surface.Intersect(ray,out var hit,out var sampled) && hit<distance)
                     {nearest=surface;distance=hit;color=sampled;}
                 if(nearest==null)continue;
+                if(swing)return _impact.TryBeginImpact(target,nearest,ray.GetPoint(distance),color,contacted);
                 _impact.PresentImpact(target,ray.GetPoint(distance),nearest.HitNormal,color);
                 return true;
             }
@@ -207,6 +218,13 @@ namespace Afterlife.Modules.SceneFeatures
             if(!rect.Contains(point))return false;var uv=new Vector3((point.x-rect.x)/rect.width,(point.y-rect.y)/rect.height,0);
             var texture=_output?.Texture;if(texture!=null){uv.x=(Mathf.Floor(uv.x*texture.width)+.5f)/texture.width;uv.y=(Mathf.Floor(uv.y*texture.height)+.5f)/texture.height;}
             ray=_bindings.Camera.ViewportPointToRay(uv);return true;
+        }
+        public Vector2 WorldToScreenPoint(Vector3 point)
+        {
+            if(_bindings.Camera==null)return Vector2.zero;
+            var viewport=_bindings.Camera.WorldToViewportPoint(point);
+            var rect=_output!=null?_output.Display:_bindings.Camera.pixelRect;
+            return new Vector2(rect.x+viewport.x*rect.width,rect.y+viewport.y*rect.height);
         }
         public bool Pointer(Ray? ray,bool moving,bool click,out FeedbackTarget target,out Vector3 point)
         {

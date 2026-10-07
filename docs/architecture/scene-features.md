@@ -1,5 +1,9 @@
 # 공용 씬 기능 구성
 
+2026-10-06: SceneFeatureSession.SetLightingBlend(float?)로 외부 필름이 0~1 낮밤 비율을 주입할 수 있다. null은 기존 자동 전환으로 복귀하며 기존 소비자의 기본 동작은 유지된다. Day03은 8초 낮밤 연출에 사용한다. 해당 모듈과 Day03 관련 어셈블리 dotnet build --no-restore 통과, 실제 Play/GPU 확인은 대기 중이다. [Day03 설치·수명·사용자 확인](../../devlog/youtube/day-03/records/showcase.md).
+
+2026-10-04: Day02는 BeginSurfaceImpact의 접촉 콜백으로 Day01 After와 같은 도구 스윙을 재사용한다. 기존 즉시 PresentSurfaceImpact는 보존한다. 텍스트/아이콘 표시는 별도 [HarvestFeedback 모듈](harvest-feedback.md)이 담당하며 SceneFeatures는 경제나 HUD를 참조하지 않는다.
+
 ## 목적과 경계
 
 게임, 개발일지, 커스텀 에디터가 같은 계산/표현 서비스를 사용한다. 공용 모듈은 Day01·Day02·Prototype을 참조하지 않는다. 순수 상태/선택은 `Afterlife.SceneFeatures.Core`, Unity 표현/설정은 `Afterlife.SceneFeatures`, 선택적인 Input System 입력은 `Afterlife.SceneFeatures.Input`, 저작 UI는 `Afterlife.SceneFeatures.Editor`에 둔다. 렌더링 수학 서비스는 Unity의 벡터/행렬을 사용하지만 GameObject를 생성하지 않는다.
