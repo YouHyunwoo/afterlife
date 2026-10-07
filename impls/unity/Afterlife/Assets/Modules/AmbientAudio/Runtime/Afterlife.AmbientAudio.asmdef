@@ -1,0 +1,9 @@
+{
+  "name": "Afterlife.AmbientAudio",
+  "rootNamespace": "Afterlife.Modules.AmbientAudio",
+  "references": [
+    "Afterlife.AmbientAudio.Core",
+    "Afterlife.UnitySupport"
+  ],
+  "autoReferenced": true
+}

@@ -1,0 +1,7 @@
+{
+  "name": "Afterlife.Prototype.Data",
+  "rootNamespace": "Afterlife.Prototype",
+  "references": [],
+  "noEngineReferences": true,
+  "autoReferenced": true
+}

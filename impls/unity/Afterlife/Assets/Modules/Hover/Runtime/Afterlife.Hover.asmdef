@@ -1,0 +1,9 @@
+{
+  "name": "Afterlife.Hover",
+  "rootNamespace": "Afterlife.Modules.Hover",
+  "references": [
+    "Afterlife.Terrain",
+    "Afterlife.UnitySupport"
+  ],
+  "autoReferenced": true
+}

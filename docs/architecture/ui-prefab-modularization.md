@@ -12,10 +12,10 @@
 
 | 계열 | 확인한 상태 | 적용 판단 |
 |---|---|---|
-| `Assets/02_Scripts/UI` | UGUI View/Screen/Controller, 직렬화 참조와 항목 프리팹 사용. `Core/UIManager`는 ServiceLocator로 화면·Controller 등록 | 기존 자산 재사용. 전역 서비스 의존성을 새 모듈로 옮기지 않는다 |
-| `Assets/_AfterlifePrototype` | 저장된 Canvas, 공통/모달 프리팹, 건설·유물 항목 프리팹 사용. UI 로직은 `PrototypeView` partial 클래스에 집중 | 프리팹 기반은 유지하고 기능별 로직을 분리 |
+| `Assets/Legacy/Scripts/UI` | UGUI View/Screen/Controller, 직렬화 참조와 항목 프리팹 사용. `Core/UIManager`는 ServiceLocator로 화면·Controller 등록 | 기존 자산 재사용. 전역 서비스 의존성을 새 모듈로 옮기지 않는다 |
+| `Assets/Prototype` | 저장된 Canvas, 공통/모달 프리팹, 건설·유물 항목 프리팹 사용. UI 로직은 `PrototypeView` partial 클래스에 집중 | 프리팹 기반은 유지하고 기능별 로직을 분리 |
 | `Assets/_EmberVillage/Scripts/MVP/Runtime/UI` | 8개 Overlay가 IMGUI `OnGUI` 사용 | 제품 UI를 UGUI로 전환할 때 실질적인 화면 재작성 대상 |
-| `Assets/Afterlife/Modules/Progression.Unity` | `UpgradeTreeScreen.Bind`가 UGUI 계층·컴포넌트를 코드로 생성 | 사용 경로를 연결하기 전에 프리팹 구조로 전환 |
+| `Assets/Modules/Progression.Unity` | `UpgradeTreeScreen.Bind`가 UGUI 계층·컴포넌트를 코드로 생성 | 사용 경로를 연결하기 전에 프리팹 구조로 전환 |
 
 씬 YAML의 스크립트 GUID 직접 참조를 확인했을 때 PrototypeCanvas/View는 `Afterlife_PixelPrototype.unity`, MVP Overlay 8개는 `MVP.unity`에서 발견된다. 현재 `EditorBuildSettings.asset`의 활성 씬은 `Main`, `Basecamp`, `Game`이다. 따라서 발견된 모든 코드가 현재 빌드에서 실행된다고 단정할 수 없다. 프리팹을 경유한 간접 사용이나 런타임 로딩은 별도 확인 대상이다.
 
@@ -27,7 +27,7 @@
 
 ### A. UI 계층 자체를 런타임에 조립하는 코드
 
-**`Assets/Afterlife/Modules/Progression.Unity/UpgradeTreeScreen.cs:30` — 최우선 구조 개선 대상, 실제 채택 시 적용**
+**`Assets/Modules/Progression.Unity/UpgradeTreeScreen.cs:30` — 최우선 구조 개선 대상, 실제 채택 시 적용**
 
 - `Bind`: 배경, viewport, 마스크, 트리 content, 중심 노드, 제목, 보유 재화, 설명, 닫기·중앙 복귀·환생 버튼 생성.
 - 노드 수에 따라 버튼·텍스트·hover 컴포넌트를 만들고, 부모 관계에 따라 Image 연결선 생성.
@@ -54,7 +54,7 @@
 | `EmberWorkerLabelOverlay.cs:21` | 일꾼 패널·작업 대상 라벨 | Workers 패널 / WorldStatus 항목 |
 | `EmberRunDebugOverlay.cs:37` | 자원, 진행 상태, 시스템 진단 | 별도 Debug 모듈 |
 
-추가: `Assets/_EmberVillage/Scripts/Demo/Runtime/Field/UI/EmberFieldDebugPanel.cs:25`, `Assets/_AfterlifePrototype/Runtime/PrototypeHud.cs:22`도 IMGUI다. Prototype 디버그 패널에는 `UNITY_EDITOR || DEVELOPMENT_BUILD` 조건이 있다. MVP Debug Overlay는 같은 컴파일 조건 없이 `_showOverlay`로 표시를 제어하므로 배포용 포함 여부를 명시해야 한다.
+추가: `Assets/_EmberVillage/Scripts/Demo/Runtime/Field/UI/EmberFieldDebugPanel.cs:25`, `Assets/Prototype/Runtime/PrototypeHud.cs:22`도 IMGUI다. Prototype 디버그 패널에는 `UNITY_EDITOR || DEVELOPMENT_BUILD` 조건이 있다. MVP Debug Overlay는 같은 컴파일 조건 없이 `_showOverlay`로 표시를 제어하므로 배포용 포함 여부를 명시해야 한다.
 
 `EmberEnemyStatusOverlay`는 `_autoFindEnemies`가 켜지면 `OnGUI` 안에서 `FindObjectsByType`를 수행한다. 새 구조에서는 적 생성·제거 통지를 받아 항목을 등록하고, 위치만 표시 주기에 갱신한다.
 
@@ -62,15 +62,15 @@
 
 | 파일 | 생성 대상·방식 | 개선할 책임 |
 |---|---|---|
-| `Assets/_AfterlifePrototype/Runtime/PrototypeBuildMenuItems.cs:12,40` | Catalog의 `ItemPrefab` 복제, 건물별 이름·가격·아이콘 설정 | ConstructionList View에 항목 관리, Presenter에 상태·명령 처리 |
-| `Assets/_AfterlifePrototype/Runtime/PrototypeRelicHud.cs:42,56` | 소유 유물 ID에 따라 `ListItemPrefab` 생성·제거 | RelicHud 모듈로 분리, typed Image 참조 및 포인터 이벤트 |
-| `Assets/02_Scripts/UI/Main/Life.cs:11` | 생명 수만큼 Soul 프리팹, 기존 항목 전체 제거 후 재생성 | 개수 차이만 반영; 잦은 변경일 때 재사용 |
-| `Assets/02_Scripts/UI/Progress.cs:25,43` | 진행 노드·연결선 프리팹 | 구조 생성과 진행 상태 갱신 분리 |
-| `Assets/02_Scripts/UI/Stage/DayProgress.cs:53,57` | 일차 노드·연결선 프리팹 | Timeline View로 캡슐화 |
-| `Assets/02_Scripts/UI/Stage/Skill.cs:26,30` | SkillSlot 프리팹과 클릭 이벤트 | 항목별 ID·리스너 수명 관리 |
-| `Assets/02_Scripts/UI/Stage/ItemInformation.cs:37` | 제작 요구 재료 슬롯 프리팹 | ItemDetails 표시 데이터와 레이아웃 분리; 높이 200/290 하드코딩 정리 |
-| `Assets/02_Scripts/Dev/UpgradeTree/UI/UpgradeTreeView.cs:80,191` | 업그레이드 노드·연결선 프리팹 | 프리팹 구성은 참고하되 Dev 의존성은 가져오지 않는다 |
-| `Assets/02_Scripts/GameSystem/Stage/ItemCollectSystem.cs:55` | 획득 팝업 프리팹 | 게임 시스템의 직접 UI 생성 대신 획득 이벤트 → Feedback Presenter |
+| `Assets/Prototype/Runtime/PrototypeBuildMenuItems.cs:12,40` | Catalog의 `ItemPrefab` 복제, 건물별 이름·가격·아이콘 설정 | ConstructionList View에 항목 관리, Presenter에 상태·명령 처리 |
+| `Assets/Prototype/Runtime/PrototypeRelicHud.cs:42,56` | 소유 유물 ID에 따라 `ListItemPrefab` 생성·제거 | RelicHud 모듈로 분리, typed Image 참조 및 포인터 이벤트 |
+| `Assets/Legacy/Scripts/UI/Main/Life.cs:11` | 생명 수만큼 Soul 프리팹, 기존 항목 전체 제거 후 재생성 | 개수 차이만 반영; 잦은 변경일 때 재사용 |
+| `Assets/Legacy/Scripts/UI/Progress.cs:25,43` | 진행 노드·연결선 프리팹 | 구조 생성과 진행 상태 갱신 분리 |
+| `Assets/Legacy/Scripts/UI/Stage/DayProgress.cs:53,57` | 일차 노드·연결선 프리팹 | Timeline View로 캡슐화 |
+| `Assets/Legacy/Scripts/UI/Stage/Skill.cs:26,30` | SkillSlot 프리팹과 클릭 이벤트 | 항목별 ID·리스너 수명 관리 |
+| `Assets/Legacy/Scripts/UI/Stage/ItemInformation.cs:37` | 제작 요구 재료 슬롯 프리팹 | ItemDetails 표시 데이터와 레이아웃 분리; 높이 200/290 하드코딩 정리 |
+| `Assets/Legacy/Scripts/Dev/UpgradeTree/UI/UpgradeTreeView.cs:80,191` | 업그레이드 노드·연결선 프리팹 | 프리팹 구성은 참고하되 Dev 의존성은 가져오지 않는다 |
+| `Assets/Legacy/Scripts/GameSystem/Stage/ItemCollectSystem.cs:55` | 획득 팝업 프리팹 | 게임 시스템의 직접 UI 생성 대신 획득 이벤트 → Feedback Presenter |
 
 건설 목록은 `LayoutGroup`이 없을 때 직접 Y 위치와 content 높이를 계산한다. 프리팹에 레이아웃을 명시하고 런타임 대체 배치를 제거하는 편이 일관적이다. 유물 목록은 이미 ID 기반 차이 반영을 하므로 이 동작을 보존한다.
 

@@ -8,7 +8,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[2]
 ART = ROOT / 'res/art-source/ui/upgrades-v1'
-GAME = ROOT / 'impls/unity/Afterlife/Assets/_AfterlifePrototype/Resources/UI/Upgrades'
+GAME = ROOT / 'impls/unity/Afterlife/Assets/Prototype/Resources/UI/Upgrades'
 PALETTE = ['172433', '34495e', '267b78', '7ad6c4', 'bf9145', 'edcc79', 'f3ead1', '79659b']
 IDS = [f'{prefix}{i}' for prefix in ('R', 'A') for i in range(1, 11)]
 

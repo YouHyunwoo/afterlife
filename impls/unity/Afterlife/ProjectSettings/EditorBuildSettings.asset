@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_AfterlifePrototype/Scenes/Afterlife_PixelPrototype.unity
+    path: Assets/Prototype/Scenes/Afterlife_PixelPrototype.unity
     guid: dfa4a684be72f4340bd5a716e0ce39b8
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

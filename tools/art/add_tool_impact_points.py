@@ -37,7 +37,7 @@ for name, height in [('AxeTool', .48), ('PickTool', .40)]:
     for child in root.children_recursive:
         child.select_set(True)
     bpy.context.view_layer.objects.active = root
-    output = root_path / f'impls/unity/Afterlife/Assets/_AfterlifePrototype/Resources/AfterlifePrototype/World/{name}.fbx'
+    output = root_path / f'impls/unity/Afterlife/Assets/Prototype/Resources/AfterlifePrototype/World/{name}.fbx'
     bpy.ops.export_scene.fbx(filepath=str(output), use_selection=True, axis_forward='-Z', axis_up='Y',
         apply_unit_scale=True, apply_scale_options='FBX_SCALE_UNITS', bake_anim=False,
         add_leaf_bones=False, colors_type='LINEAR')

@@ -20,7 +20,7 @@ namespace Afterlife.Devlog.Editor
     {
         private const string Request="Temp/scene-feature-migration.request";
         private const string Report="Temp/scene-feature-migration.result.txt";
-        private const string Shared="Assets/Afterlife/Modules/SceneFeatures/Presets";
+        private const string Shared="Assets/Modules/SceneFeatures/Presets";
         private const string Day01="Assets/Devlog/Youtube/Day01";
         private const string Day02="Assets/Devlog/Youtube/Day02/Scenes/Devlog_Day02.unity";
         static SceneFeatureMigration(){EditorApplication.update+=Poll;}
@@ -71,7 +71,7 @@ namespace Afterlife.Devlog.Editor
             }
             Directory.CreateDirectory(Shared);AssetDatabase.Refresh();
             // GUID를 보존하여 기존 소비자의 참조를 유지한다.
-            Promote("Assets/Devlog/Youtube/Modules/Rendering", "Assets/Afterlife/Modules/SurfaceRendering");
+            Promote("Assets/Devlog/Youtube/Modules/Rendering", "Assets/Modules/SurfaceRendering");
             Promote(Day01+"/Prefabs/HitChip.prefab",Shared+"/HitChip.prefab");
             Promote(Day01+"/Prefabs/ChimneySmoke.prefab",Shared+"/ChimneySmoke.prefab");
             var profile=Load<SceneFeatureProfile>(Shared+"/After.asset");

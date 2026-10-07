@@ -4,7 +4,7 @@
 
 ## 책임과 의존성
 
-`Assets/Afterlife/Modules/HarvestFeedback/`는 채집 결과와 전달받은 입력 상태의 표시를 담당한다. 골드 지급·자원 잔량·마우스 입력 수집은 소비자가 소유한다.
+`Assets/Modules/HarvestFeedback/`는 채집 결과와 전달받은 입력 상태의 표시를 담당한다. 골드 지급·자원 잔량·마우스 입력 수집은 소비자가 소유한다.
 
 |어셈블리|책임|참조|
 |---|---|---|
@@ -14,7 +14,7 @@
 
 공용 모듈은 Day01·Day02·Prototype을 참조하지 않는다. Day02의 목재·석재 Sprite는 프로토타입에서 쓰는 기존 Icon0/1 에셋을 Inspector 참조로 주입한다. 본편 입력·경제는 변경하지 않았다.
 
-Day02 골드 HUD Sprite는 프로토타입 HUD.GoldIcon과 동일한 `Assets/_AfterlifePrototype/Resources/UI/Icons16.png`의 `Icons16_5`를 사용한다. Sprite 에셋 참조만 공유하며 런타임은 프로토타입 클래스나 씬을 참조하지 않는다.
+Day02 골드 HUD Sprite는 프로토타입 HUD.GoldIcon과 동일한 `Assets/Prototype/Resources/UI/Icons16.png`의 `Icons16_5`를 사용한다. Sprite 에셋 참조만 공유하며 런타임은 프로토타입 클래스나 씬을 참조하지 않는다.
 
 ## 컴포넌트 하나로 적용
 

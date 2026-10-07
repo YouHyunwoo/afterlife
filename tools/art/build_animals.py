@@ -2,7 +2,7 @@ import bpy, math
 from pathlib import Path
 from mathutils import Vector
 root=Path(__file__).resolve().parents[2]
-out=root/'impls/unity/Afterlife/Assets/_AfterlifePrototype/Resources/AfterlifePrototype/Animals'
+out=root/'impls/unity/Afterlife/Assets/Prototype/Resources/AfterlifePrototype/Animals'
 source=root/'res/art-source/animals'
 bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=False)
 def mat(name,color):

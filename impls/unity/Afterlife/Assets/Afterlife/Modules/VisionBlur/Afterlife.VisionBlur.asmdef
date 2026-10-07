@@ -1,8 +1,0 @@
-{
-  "name": "Afterlife.VisionBlur",
-  "rootNamespace": "Afterlife.Modules.VisionBlur",
-  "references": [
-    "Afterlife.UnitySupport"
-  ],
-  "autoReferenced": true
-}

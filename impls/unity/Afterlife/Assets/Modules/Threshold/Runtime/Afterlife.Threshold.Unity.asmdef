@@ -1,0 +1,5 @@
+{
+  "name": "Afterlife.Threshold.Unity",
+  "rootNamespace": "Afterlife.Modules.Threshold.Unity",
+  "references": ["Afterlife.Threshold.Core", "Moonstone.Arc", "UnityEngine.UI", "Unity.InputSystem", "Unity.TextMeshPro"]
+}

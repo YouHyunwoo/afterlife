@@ -26,7 +26,7 @@ SO 저작→판 시작 스냅샷→순수 모델/서비스→게임 어댑터의
 
 ## 편집 위치
 
-Unity 프로젝트 기준 `Assets/_AfterlifePrototype/Resources/AfterlifePrototype/Settings.asset`은 각 데이터 SO를 참조하는 조립 에셋이다. 아래 18개 에셋은 인접한 `SettingsData/`에 있다. 숫자와 목록은 해당 에셋의 Inspector에서 수정한다.
+Unity 프로젝트 기준 `Assets/Prototype/Resources/AfterlifePrototype/Settings.asset`은 각 데이터 SO를 참조하는 조립 에셋이다. 아래 18개 에셋은 인접한 `SettingsData/`에 있다. 숫자와 목록은 해당 에셋의 Inspector에서 수정한다.
 
 | 에셋 | 관리하는 데이터 |
 |---|---|
@@ -65,7 +65,7 @@ Unity 프로젝트 기준 `Assets/_AfterlifePrototype/Resources/AfterlifePrototy
 
 ## 데이터 경계와 수명
 
-- `Assets/Afterlife/Modules/PrototypeData/Afterlife.Prototype.Data.asmdef`는 `noEngineReferences: true`인 독립 데이터 모듈이다. 기존 enum의 이름과 숫자를 보존하고 순수 데이터·기본값·검증을 이곳에서 정의한다.
+- `Assets/Modules/PrototypeData/Afterlife.Prototype.Data.asmdef`는 `noEngineReferences: true`인 독립 데이터 모듈이다. 기존 enum의 이름과 숫자를 보존하고 순수 데이터·기본값·검증을 이곳에서 정의한다.
 - SO 타입은 Unity 어셈블리에 둔다. 순수 모델은 SO, 씬, UI, Resources, AssetDatabase를 참조하지 않는다.
 - 씬 조립 시 설정과 자식 SO의 런타임 복사본을 만들고, 별도 `Balance`/`PrototypeRules` 스냅샷을 모델에 전달한다. 건물 데이터는 최초 집 생성 전에 주입한다.
 - 강화 카탈로그도 트리·스킬 데이터를 깊게 복사한다. 구매 레벨·스킬 상태·체력·보유 자원은 모델/서비스가 소유하며 원본 SO에 쓰지 않는다.

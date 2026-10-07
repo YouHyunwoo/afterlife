@@ -21,7 +21,7 @@ namespace Afterlife.Devlog.Day02.Editor
         [Serializable] private sealed class Shot {public string title,explanation;public int stage,workAmount,maxWorks,treeWorks;public bool interactive,credits,automatic,quickCut,closeUp,fixedTarget,teaser,hideHeading,fadeIn,fadeOut;public float duration,demoStart,fadeInDuration,fadeOutDuration;public Cue[] cues;}
         [Serializable] private sealed class Cue {public float start,duration,audioSeconds;public string text,file;}
 #pragma warning restore CS0649
-        
+
         public static string InstallHoldFilm()
         {
             if(EditorApplication.isPlayingOrWillChangePlaymode)throw new InvalidOperationException("Exit Play before authoring.");
@@ -78,7 +78,7 @@ namespace Afterlife.Devlog.Day02.Editor
                 }
                 view.SceneVersion=4;view.RingMaterial=null;view.Demonstration=false;view.ShowGuide=false;
                 EnsureClickIslandStone(view);
-                view.GoldHudSprite=AssetDatabase.LoadAllAssetsAtPath("Assets/_AfterlifePrototype/Resources/UI/Icons16.png").OfType<Sprite>().Single(s=>s.name=="Icons16_5");
+                view.GoldHudSprite=AssetDatabase.LoadAllAssetsAtPath("Assets/Prototype/Resources/UI/Icons16.png").OfType<Sprite>().Single(s=>s.name=="Icons16_5");
                 var director=view.GetComponent<Day02FilmDirector>();
                 director.ShowGuide=false;
                 director.ShotWorkAmounts=manifest.shots.Select(s=>Math.Max(1,s.workAmount)).ToArray();
@@ -244,7 +244,7 @@ namespace Afterlife.Devlog.Day02.Editor
             if(old.IsValid()&&old.isDirty){Debug.LogWarning("Day02 rebuild is waiting: save or close the modified Day02 scene.");return;}
             var previous=SceneManager.GetActiveScene();Scene scene=default;
             try {
-                var font=AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/_AfterlifePrototype/Resources/Fonts/Mona12TextKR SDF.asset");
+                var font=AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/Prototype/Resources/Fonts/Mona12TextKR SDF.asset");
                 if(font==null)throw new InvalidDataException("Korean font missing");
                 var film=AssetDatabase.LoadAssetAtPath<ShowcaseFilm>(Root+"/Data/Day02Film.asset");
                 if(film==null){film=ScriptableObject.CreateInstance<ShowcaseFilm>();AssetDatabase.CreateAsset(film,Root+"/Data/Day02Film.asset");}
@@ -268,8 +268,8 @@ namespace Afterlife.Devlog.Day02.Editor
                 if(File.Exists(ScenePath) && !File.Exists("../../../devlog/youtube/day-02/source/archive/prototype-based-scene.unity.txt")) {Directory.CreateDirectory("../../../devlog/youtube/day-02/source/archive");File.Copy(ScenePath,"../../../devlog/youtube/day-02/source/archive/prototype-based-scene.unity.txt",true);}
                 scene=EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Additive);SceneManager.SetActiveScene(scene);
                 var root=new GameObject("Day02Showcase");var view=root.AddComponent<Day02Showcase>();view.Font=font;view.RingMaterial=ring;
-                view.GoldHudSprite=AssetDatabase.LoadAllAssetsAtPath("Assets/_AfterlifePrototype/Resources/UI/Icons16.png").OfType<Sprite>().Single(s=>s.name=="Icons16_5");
-                view.Pipeline=AssetDatabase.LoadAssetAtPath<UniversalRenderPipelineAsset>("Assets/_AfterlifePrototype/Resources/AfterlifePrototype/Pipeline.asset");
+                view.GoldHudSprite=AssetDatabase.LoadAllAssetsAtPath("Assets/Prototype/Resources/UI/Icons16.png").OfType<Sprite>().Single(s=>s.name=="Icons16_5");
+                view.Pipeline=AssetDatabase.LoadAssetAtPath<UniversalRenderPipelineAsset>("Assets/Prototype/Resources/AfterlifePrototype/Pipeline.asset");
                 if(view.Pipeline==null)throw new InvalidDataException("Pipeline missing");
                 var cameraObject=new GameObject("ShowcaseCamera",typeof(Camera),typeof(AudioListener));var camera=cameraObject.GetComponent<Camera>();
                 camera.orthographic=true;camera.orthographicSize=3.2f;camera.backgroundColor=new Color(.09f,.22f,.29f);camera.clearFlags=CameraClearFlags.SolidColor;camera.farClipPlane=150;
@@ -309,7 +309,7 @@ namespace Afterlife.Devlog.Day02.Editor
         }
         private static Material Material(string name,Color color,bool vertex,Shader shader){var path=Root+"/Materials/"+name+".mat";var mat=AssetDatabase.LoadAssetAtPath<Material>(path);if(mat!=null)return mat;mat=new Material(shader){name=name};mat.SetColor("_BaseColor",color);if(mat.HasProperty("_VertexColors"))mat.SetFloat("_VertexColors",vertex?1:0);AssetDatabase.CreateAsset(mat,path);return mat;}
         private static void Tile(Transform parent,string name,Vector3 position,Vector3 scale,Material material){var go=GameObject.CreatePrimitive(PrimitiveType.Cube);go.name=name;go.transform.SetParent(parent,false);go.transform.localPosition=position;go.transform.localScale=scale;go.GetComponent<Renderer>().sharedMaterial=material;UnityEngine.Object.DestroyImmediate(go.GetComponent<Collider>());}
-        private static GameObject Model(Transform parent,string name,Vector3 position,float height,Material material){var source=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_AfterlifePrototype/Resources/AfterlifePrototype/World/"+name+".fbx");if(source==null)throw new InvalidDataException("Missing art "+name);var go=UnityEngine.Object.Instantiate(source,parent);go.name=name;go.transform.localPosition=Vector3.zero;var renderers=go.GetComponentsInChildren<Renderer>();var bounds=renderers[0].bounds;foreach(var renderer in renderers){bounds.Encapsulate(renderer.bounds);renderer.sharedMaterial=material;}float scale=height/Mathf.Max(.01f,bounds.size.y);go.transform.localScale*=scale;var center=parent.InverseTransformPoint(bounds.center);go.transform.localPosition=position-new Vector3(center.x*scale,(center.y-bounds.size.y*.5f)*scale,center.z*scale);return go;}
+        private static GameObject Model(Transform parent,string name,Vector3 position,float height,Material material){var source=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prototype/Resources/AfterlifePrototype/World/"+name+".fbx");if(source==null)throw new InvalidDataException("Missing art "+name);var go=UnityEngine.Object.Instantiate(source,parent);go.name=name;go.transform.localPosition=Vector3.zero;var renderers=go.GetComponentsInChildren<Renderer>();var bounds=renderers[0].bounds;foreach(var renderer in renderers){bounds.Encapsulate(renderer.bounds);renderer.sharedMaterial=material;}float scale=height/Mathf.Max(.01f,bounds.size.y);go.transform.localScale*=scale;var center=parent.InverseTransformPoint(bounds.center);go.transform.localPosition=position-new Vector3(center.x*scale,(center.y-bounds.size.y*.5f)*scale,center.z*scale);return go;}
         private static void Resource(Transform parent,Vector3 position,bool stone,int variant,Material palette){var root=new GameObject(stone?"StoneResource":"TreeResource");root.transform.SetParent(parent,false);root.transform.localPosition=position;var resource=root.AddComponent<Day02Resource>();resource.Stone=stone;var art=new GameObject("Art").transform;art.SetParent(root.transform,false);resource.Art=art;Model(art,(stone?"Rock":"Tree")+variant,Vector3.zero,stone?.85f:2f,palette);var box=root.AddComponent<BoxCollider>();box.center=new Vector3(0,stone?.45f:1,0);box.size=new Vector3(.9f,stone?.9f:2,.9f);var tool=new GameObject("ToolPivot");tool.transform.SetParent(root.transform,false);tool.transform.localPosition=new Vector3(.55f,stone?.45f:.8f,-.2f);Model(tool.transform,stone?"PickTool":"AxeTool",Vector3.zero,stone?.56f:.62f,palette);resource.Tool=tool;tool.SetActive(false);}
     }
 }

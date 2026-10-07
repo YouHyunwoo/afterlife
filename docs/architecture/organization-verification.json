@@ -1,0 +1,26 @@
+{
+  "original_meta_files_unchanged": 2754,
+  "protected_external_and_episode_files_unchanged": 547,
+  "guid_count": 2760,
+  "errors": [],
+  "guid_preserved": true,
+  "unity_play_tests_executed": false,
+  "intentionally_removed_empty_folders": [
+    "Assets/Legacy/Scripts/Presentation",
+    "Assets/Legacy/Scripts/Shared",
+    "Assets/Legacy/Prefabs/World",
+    "Assets/Legacy/Experiments/Prefabs",
+    "Assets/Legacy/Experiments/Scripts/View",
+    "Assets/Legacy/Experiments/Shader",
+    "Assets/Devlog/DC/07/Rendering",
+    "Assets/Devlog/Youtube/Day01/Rendering"
+  ],
+  "empty_folders_removed": true,
+  "editing_project_and_media_files_unchanged": 20,
+  "resource_manifest_files_verified": 1993,
+  "resource_manifest_errors": 0,
+  "youtube_document_links_checked": 710,
+  "youtube_missing_links": 0,
+  "economy_calculation_reproduced": true,
+  "tts_runtime_imports_verified": true
+}

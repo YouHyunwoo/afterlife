@@ -1,8 +1,0 @@
-{
-  "name": "Afterlife.WorldAudio",
-  "rootNamespace": "Afterlife.Modules.WorldAudio",
-  "references": [
-    "Afterlife.UnitySupport"
-  ],
-  "autoReferenced": true
-}

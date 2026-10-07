@@ -7,7 +7,7 @@ from pathlib import Path
 from mathutils import Vector
 
 ROOT = Path(__file__).resolve().parents[2]
-OUT = ROOT/'impls/unity/Afterlife/Assets/_AfterlifePrototype/Resources/AfterlifePrototype/World'
+OUT = ROOT/'impls/unity/Afterlife/Assets/Prototype/Resources/AfterlifePrototype/World'
 SRC = ROOT/'res/art-source/world'
 OUT.mkdir(parents=True, exist_ok=True); SRC.mkdir(parents=True, exist_ok=True)
 bpy.ops.object.select_all(action='SELECT'); bpy.ops.object.delete(use_global=False)

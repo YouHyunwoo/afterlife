@@ -11,7 +11,7 @@
 - [에셋/프리팹](../../../../../../../devlog/youtube/architecture/assets.md)
 - [기존 누적 개발 기록](../../../../../../../devlog/youtube/day-01/records/day-01-history.md)
 
-프로토타입과 공유하는 모듈은 `Assets/Afterlife/Modules/`, 개발일지 전용 Cinematics·Rendering·Shoreline 모듈은 `Assets/Devlog/Youtube/Modules/`에 둔다. 고정 지도, 장면, 촬영 조합과 전용 프리팹은 이 Day01 폴더에 둔다. 초기 Unity 이동과 프리팹 생성 기록은 `devlog/youtube/day-01/records/unity-organization.json`에서 확인한다.
+프로토타입과 공유하는 모듈은 `Assets/Modules/`, 개발일지 전용 Cinematics·Rendering·Shoreline 모듈은 `Assets/Devlog/Youtube/Modules/`에 둔다. 고정 지도, 장면, 촬영 조합과 전용 프리팹은 이 Day01 폴더에 둔다. 초기 Unity 이동과 프리팹 생성 기록은 `devlog/youtube/day-01/records/unity-organization.json`에서 확인한다.
 
 재촬영에 필요한 현재 `Data/Day01Film.asset`·`Data/Day01Narration.json`과 `Audio/Narration/`·`Audio/Music/Childhood-Day01.wav`는 Unity GUID 참조를 유지한다. 참조가 없는 이전 Film 백업과 음원 후보·음악 원본은 외부 원본 또는 Git 이력으로 복구할 수 있어 Unity 임포트본에서 제외했다.
 

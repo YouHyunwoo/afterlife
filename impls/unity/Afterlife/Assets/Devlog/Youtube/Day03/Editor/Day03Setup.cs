@@ -17,9 +17,9 @@ namespace Afterlife.Devlog.Day03.Editor
     {
         private const string Root="Assets/Devlog/Youtube/Day03";
         public const string ScenePath=Root+"/Scenes/Devlog_Day03.unity";
-        private static Sprite LoadGoldHudSprite()=>AssetDatabase.LoadAllAssetsAtPath("Assets/_AfterlifePrototype/Resources/UI/Icons16.png")
+        private static Sprite LoadGoldHudSprite()=>AssetDatabase.LoadAllAssetsAtPath("Assets/Prototype/Resources/UI/Icons16.png")
             .OfType<Sprite>().Single(s=>s.name=="Icons16_5");
-        private static Sprite LoadBarleySprite()=>AssetDatabase.LoadAllAssetsAtPath("Assets/_AfterlifePrototype/Resources/UI/Icons16.png")
+        private static Sprite LoadBarleySprite()=>AssetDatabase.LoadAllAssetsAtPath("Assets/Prototype/Resources/UI/Icons16.png")
             .OfType<Sprite>().Single(s=>s.name=="Icons16_10");
         public static string UpdateHarvestFeedback()
         {
@@ -33,7 +33,7 @@ namespace Afterlife.Devlog.Day03.Editor
         }
         private static void ConfigureHarvest(Day03Showcase view)
         {
-            view.WoodCollectionSprite=AssetDatabase.LoadAssetAtPath<Sprite>("Assets/_AfterlifePrototype/Resources/UI/SceneSprites/Icon0.asset");
+            view.WoodCollectionSprite=AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Prototype/Resources/UI/SceneSprites/Icon0.asset");
             if(view.WoodCollectionSprite==null)throw new InvalidOperationException("Wood collection sprite missing.");
             var resource=view.Resource;
             resource.Model=resource.transform.Find("Model");
@@ -114,8 +114,8 @@ namespace Afterlife.Devlog.Day03.Editor
         }
         private static void ReadBuildingFootprints(Day03Settings settings)
         {
-            var farm=new SerializedObject(AssetDatabase.LoadAssetAtPath<Object>("Assets/_AfterlifePrototype/Resources/Data/Buildings/Farm.asset"));
-            var house=new SerializedObject(AssetDatabase.LoadAssetAtPath<Object>("Assets/_AfterlifePrototype/Resources/Data/Buildings/House.asset"));
+            var farm=new SerializedObject(AssetDatabase.LoadAssetAtPath<Object>("Assets/Prototype/Resources/Data/Buildings/Farm.asset"));
+            var house=new SerializedObject(AssetDatabase.LoadAssetAtPath<Object>("Assets/Prototype/Resources/Data/Buildings/House.asset"));
             settings.FarmWidth=farm.FindProperty("Stats.Width").intValue;settings.FarmDepth=farm.FindProperty("Stats.Depth").intValue;
             settings.HouseWidth=house.FindProperty("Stats.Width").intValue;settings.HouseDepth=house.FindProperty("Stats.Depth").intValue;
         }
@@ -226,7 +226,7 @@ namespace Afterlife.Devlog.Day03.Editor
                 var tree=Model("Tree0",root.transform,new Vector3(-.5f,Height(-.5f,1.7f),1.7f),1.6f,material);
                 var resource=tree.AddComponent<Day03Site>();resource.Target=VillageTarget.Resource;
                 var collider=tree.AddComponent<BoxCollider>();collider.center=Vector3.up*.8f;collider.size=new Vector3(.8f,1.6f,.8f);
-                var font=AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/_AfterlifePrototype/Resources/Fonts/Mona12TextKR SDF.asset");
+                var font=AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/Prototype/Resources/Fonts/Mona12TextKR SDF.asset");
                 var film=CreateFilm(font);
                 AssetDatabase.CreateAsset(film,Root+"/Data/Day03Film.asset");
                 var view=root.AddComponent<Day03Showcase>();view.ShowcaseCamera=camera;view.Environment=host;view.Sun=sun;view.Settings=settings;view.Font=font;
@@ -251,8 +251,8 @@ namespace Afterlife.Devlog.Day03.Editor
         private static void ReadBuildingRules(Day03Settings settings)
         {
             ReadBuildingFootprints(settings);
-            var farm=new SerializedObject(AssetDatabase.LoadAssetAtPath<Object>("Assets/_AfterlifePrototype/Resources/Data/Buildings/Farm.asset"));
-            var house=new SerializedObject(AssetDatabase.LoadAssetAtPath<Object>("Assets/_AfterlifePrototype/Resources/Data/Buildings/House.asset"));
+            var farm=new SerializedObject(AssetDatabase.LoadAssetAtPath<Object>("Assets/Prototype/Resources/Data/Buildings/Farm.asset"));
+            var house=new SerializedObject(AssetDatabase.LoadAssetAtPath<Object>("Assets/Prototype/Resources/Data/Buildings/House.asset"));
             settings.FarmCost=farm.FindProperty("GoldCost").intValue;settings.HouseCost=house.FindProperty("GoldCost").intValue;
             settings.FarmConstructionSeconds=farm.FindProperty("Stats.ConstructionSeconds").floatValue;
             settings.HouseConstructionSeconds=house.FindProperty("Stats.ConstructionSeconds").floatValue;
@@ -301,7 +301,7 @@ namespace Afterlife.Devlog.Day03.Editor
         private static GameObject Model(string name,Transform parent,Vector3 position,float height,Material material)
         {
             var root=new GameObject(name+"Visual");root.transform.SetParent(parent,false);root.transform.localPosition=position;
-            var source=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_AfterlifePrototype/Resources/AfterlifePrototype/World/"+name+".fbx");
+            var source=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prototype/Resources/AfterlifePrototype/World/"+name+".fbx");
             if(source==null)throw new FileNotFoundException(name+" model missing.");
             var model=Object.Instantiate(source,root.transform);model.name="Model";
             var renderers=model.GetComponentsInChildren<Renderer>();var bounds=renderers[0].bounds;

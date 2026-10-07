@@ -4,7 +4,7 @@ import shutil
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
-UI = ROOT / 'impls/unity/Afterlife/Assets/_AfterlifePrototype/Resources/UI'
+UI = ROOT / 'impls/unity/Afterlife/Assets/Prototype/Resources/UI'
 SOURCE = ROOT / 'res/art-source/ui'
 SOURCE.mkdir(parents=True, exist_ok=True)
 

@@ -2,7 +2,7 @@
 
 ## ThresholdLab 모달 효과음 재사용 (2026-09-28)
 
-프로토타입 전리품·설정 등 모달과 타이틀 설정에 기존 `ThresholdAudioBank`의 `WaterEnter`, `WaterExit`, `WaterLoop`를 연결했다. 파일 복제나 추가 편집은 없다. 원본 출처·편집 기록은 Unity의 `Assets/Afterlife/Samples/ThresholdLab/Audio/AudioCredits.txt`에 있다. 물소리 원본은 GoldenTricycle의 Freesound 녹음(CC0 1.0)이며, 현재 기록은 내부 출처 관리다.
+프로토타입 전리품·설정 등 모달과 타이틀 설정에 기존 `ThresholdAudioBank`의 `WaterEnter`, `WaterExit`, `WaterLoop`를 연결했다. 파일 복제나 추가 편집은 없다. 원본 출처·편집 기록은 Unity의 `Assets/Samples/ThresholdLab/Audio/AudioCredits.txt`에 있다. 물소리 원본은 GoldenTricycle의 Freesound 녹음(CC0 1.0)이며, 현재 기록은 내부 출처 관리다.
 
 ## Freesound — 자연 환경음 (2026-09-20)
 
@@ -16,7 +16,7 @@
 - 원 자료: `res/audio/nature-ambience/*_hq.mp3`. Freesound 공개 HQ MP3 미리듣기를 내려받았으며 원본 WAV 다운로드가 아니다. 실제 다운로드 URL·저작자·SHA-256은 `sources.json`에 기록했다.
 - 풀 스침은 실제 마른 밀풀을 손으로 가볍게 스친 녹음이다. 바람이 풀을 흔드는 현장 녹음으로 오기하지 않는다.
 - 편집: 바람 12~52초 발췌/2초 교차 연결, 풀 0.3~10초 발췌/1초 교차 연결/짧은 피크 완화, 새 0~4.727초/80ms 시작·250ms 끝 페이드. 공통 DC 제거·고역통과 필터·음량 조정·44.1kHz/16bit 스테레오 WAV 변환. 상세 수치는 `analysis.json`, 재현은 `prepare.py`.
-- Unity: `Assets/Devlog/Youtube/Modules/AmbientAudio/Resources/DevlogAmbience/{wind,grass,bird}.wav`. 현재 Day01 After에서는 grass(마우스 풀 접촉 중)와 bird(간헐적)만 사용한다. wind는 참조/로딩/재생을 제거했으며 기존 파일은 출처 추적용으로 보관한다. 실제 청취 검증은 대기 중이다.
+- Unity: `Assets/Modules/AmbientAudio/Resources/AmbientSounds/{wind,grass,bird}.wav`. 현재 Day01 After에서는 grass(마우스 풀 접촉 중)와 bird(간헐적)만 사용한다. wind는 참조/로딩/재생을 제거했으며 기존 파일은 출처 추적용으로 보관한다. 실제 청취 검증은 대기 중이다.
 - 기존 공유마당 CC BY 음원의 공개 표기 의무는 별도로 유지한다.
 
 - 풀 스침 추가 편집: 기존 grass.wav에서 0.10~0.65 / 1.55~2.15 / 4.15~4.85 / 6.45~7.15초를 발췌. 원 MP3 기준 1.40~1.95 / 2.85~3.45 / 5.45~6.15 / 7.75~8.45초. tanh 피크 완화, 35ms/140ms 페이드, RMS -25dBFS·피크 -13dBFS 상한. 현재 풀 재생은 사용자 선택에 따라 `GrassRustles/grass_rustle_02~04.wav`만 사용한다. 01은 미사용 후보로 보관한다. 원래 grass.wav는 편집 원본으로 보존한다. 재현/분석은 `extract_grass_variants.py`, `grass-variants-analysis.json`.
@@ -27,10 +27,10 @@
 - 사용자 제공 원본: `C:/Users/User/Desktop/tfile.wav`; 보관본 `res/audio/freesori-water/tfile.wav`.
 - 적용 근거: 2026-09-20 사용자가 무료 이용을 확인했다고 알리고 적용을 지시함. 배포 페이지의 명시적 라이선스 원문·원저작자는 별도로 확인되지 않았으며 CC0/CC BY로 표기하지 않는다.
 - 편집본: `res/audio/freesori-water/freesori_water_ripple.wav`.
-- Unity 임포트본: `impls/unity/Afterlife/Assets/Devlog/Youtube/Modules/Audio/Resources/DevlogAudio/freesori_water_ripple.wav`.
+- Unity 임포트본: `impls/unity/Afterlife/Assets/Modules/WorldAudio/Resources/WorldAudio/freesori_water_ripple.wav`.
 - 편집: 원본 2.30~2.60초 발췌(0.30초), 기존 편집본의 첫 100ms 어택 제거, 채널별 DC 제거, 시작 30ms/끝 140ms 페이드. 이전 게인 유지, 결과 피크 -16.12dBFS. 44.1kHz/16bit/스테레오 유지.
 - 분석과 재현: 같은 폴더의 `analysis.json`, `extract_ripple.py`. RMS 파형 기준 선정이며 청취 검증은 아직 하지 않음.
-- 현재 사용 음원: `res/audio/freesori-water/variants/freesori_water_ripple_01~05.wav`; Unity는 같은 파일을 `Resources/DevlogAudio/WaterRipples/`에서 임포트한다. 기존 단일 편집본은 참조 호환용으로 유지한다.
+- 현재 사용 음원: `res/audio/freesori-water/variants/freesori_water_ripple_01~05.wav`; Unity는 같은 파일을 `Resources/WorldAudio/WaterRipples/`에서 임포트한다. 기존 단일 편집본은 참조 호환용으로 유지한다.
 - 변형 편집: 원본 1.12~1.60, 2.30~2.68, 2.84~3.30, 4.64~5.00, 6.86~7.38초 발췌. DC 제거, tanh로 좁은 피크 완화, 45ms/180ms 페이드, RMS -32dBFS 목표와 피크 -16dBFS 상한으로 감쇠 조정. 분석은 `variants-analysis.json`에 기록한다.
 - 사용: Day01 After 물 호버 동심원 생성 시, 기본 볼륨 0.525, 연속 이동 55%, 재생 간격 0.25~0.40초, 피치 ±2%, 볼륨 ±8%.
 - 내부 출처 기록이며 공개 게임 크레딧/영상 설명란 반영 완료를 의미하지 않는다.
@@ -52,7 +52,7 @@
 - 출처 확인일: 2026-09-19
 - 상태: Devlog After 나무 쓰러짐 음원으로 사용 중. 기존 ecfike 음원을 대체했다. 공개용 게임 크레딧/영상 설명란 반영은 아직 필요하다.
 - 원본 보관: `res/audio/gongu-tree-fall/gongu_13220749_tree_fall.mp3`
-- 게임 리소스: `impls/unity/Afterlife/Assets/Devlog/Youtube/Modules/Audio/Resources/DevlogAudio/gongu_13220749_tree_fall.mp3`
+- 게임 리소스: `impls/unity/Afterlife/Assets/Modules/WorldAudio/Resources/WorldAudio/gongu_13220749_tree_fall.mp3`
 - 편집: 없음. ZIP의 MP3 바이트를 그대로 복사했다. 게임 재생 피치 1, 볼륨 배율 0.65.
 
 ## 적용 규칙
@@ -66,8 +66,8 @@
 
 ## 공개용 표기 예시
 
-> 효과음: 「나무 쓰러지는 소리」 — 한국저작권위원회  
-> 출처: 공유마당 https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?wrtSn=13220749&menuNo=200020  
+> 효과음: 「나무 쓰러지는 소리」 — 한국저작권위원회
+> 출처: 공유마당 https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?wrtSn=13220749&menuNo=200020
 > 라이선스: CC BY (저작권정보 표시)
 
 편집한 경우 위 문구 아래에 `편집: [실제로 수행한 변경 사항]`을 추가한다.
@@ -168,3 +168,7 @@ https://www.scottbuckley.com.au/library/ascension/
 편집: 구간 발췌·음량 조정·반복 교차 연결. 물/이동음 속도 조정, 물소리 필터·역재생.
 
 ```
+
+## Day02 마지막 크레딧 — 2026-10-04
+
+Day01의 Supertonic 3 / AI 생성 음성 및 Childhood / Scott Buckley / CC BY 4.0 문구를 Day02 마지막 크레딧에 동일하게 저장했다. 기존 Childhood-Day01.wav 참조를 재사용하며 신규 다운로드·편집은 없다. 사용자 요청으로 Day02 음악 재생 토글을 켜서 저장했다. 실제 음악을 켠 공개본은 위 Childhood 출처·반복/크로스페이드 편집 문구를 영상 설명란에도 반영한다. 영상 내부 크레딧 적용은 공개 설명란 반영 완료를 뜻하지 않는다. 상세는 devlog/youtube/day-02/records/ending-credits.md.

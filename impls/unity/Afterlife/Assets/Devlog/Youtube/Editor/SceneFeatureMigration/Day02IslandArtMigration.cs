@@ -32,8 +32,8 @@ namespace Afterlife.Devlog.Editor
             var scene=SceneManager.GetSceneByPath(scenePath);bool opened=!scene.isLoaded;
             if(!opened&&scene.isDirty)throw new InvalidOperationException("Save the existing Day02 scene changes first.");
             var source=Load<GameObject>(Source+"/Composition/Day01Showcase.prefab").GetComponent<Afterlife.Devlog.Day01.Day01Showcase>();
-            var wood=Load<Sprite>("Assets/_AfterlifePrototype/Resources/UI/SceneSprites/Icon0.asset");
-            var stone=Load<Sprite>("Assets/_AfterlifePrototype/Resources/UI/SceneSprites/Icon1.asset");
+            var wood=Load<Sprite>("Assets/Prototype/Resources/UI/SceneSprites/Icon0.asset");
+            var stone=Load<Sprite>("Assets/Prototype/Resources/UI/SceneSprites/Icon1.asset");
             if(source==null||wood==null||stone==null)throw new InvalidOperationException("Day01 tools or prototype collection sprites are missing.");
             const string islandPath=Root+"/Prefabs/SmallHarvestIsland.prefab";
             var island=PrefabUtility.LoadPrefabContents(islandPath);
@@ -230,7 +230,7 @@ namespace Afterlife.Devlog.Editor
             string path=Root+"/Scenes/Devlog_Day02.unity";
             var scene=SceneManager.GetSceneByPath(path);bool opened=!scene.isLoaded;
             if(!opened&&scene.isDirty)throw new InvalidOperationException("Day02 씬의 기존 변경을 먼저 저장하세요.");
-            var after=Load<SceneFeatureProfile>("Assets/Afterlife/Modules/SceneFeatures/Presets/After.asset");
+            var after=Load<SceneFeatureProfile>("Assets/Modules/SceneFeatures/Presets/After.asset");
             if(after==null)throw new InvalidOperationException("After profile missing");
             Directory.CreateDirectory(Root+"/Data/IslandArt");AssetDatabase.Refresh();
             Directory.CreateDirectory("../../../devlog/youtube/day-02/source/archive");
