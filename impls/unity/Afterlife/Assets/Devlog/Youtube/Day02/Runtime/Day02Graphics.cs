@@ -10,6 +10,7 @@ namespace Afterlife.Devlog.Day02
         private readonly GameObject _root;
         private readonly GameObject _panel;
         private readonly TextMeshProUGUI _diagram;
+        private readonly Image _background;
         public Day02Graphics(Transform parent, TMP_FontAsset font)
         {
             _root = new GameObject("Day02Graphics", typeof(Canvas), typeof(CanvasScaler));
@@ -18,20 +19,22 @@ namespace Afterlife.Devlog.Day02
             var scaler = _root.GetComponent<CanvasScaler>(); scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize; scaler.referenceResolution = new Vector2(1920,1080);
             _panel = new GameObject("Explanation", typeof(RectTransform), typeof(Image));
             _panel.transform.SetParent(_root.transform,false);
-            Rect(_panel,new Vector2(.12f,.32f),new Vector2(.88f,.72f));
-            var image = _panel.GetComponent<Image>(); image.color = new Color(.035f,.06f,.085f,.94f); image.raycastTarget = false;
-            _diagram = Label("Diagram",_panel.transform,font,42,new Vector2(.04f,.06f),new Vector2(.96f,.94f));
+            Rect(_panel,new Vector2(.10f,.72f),new Vector2(.90f,.82f));
+            _background = _panel.GetComponent<Image>(); _background.color = new Color(.035f,.06f,.085f,.94f); _background.raycastTarget = false;
+            _diagram = Label("Diagram",_panel.transform,font,32,new Vector2(.04f,.06f),new Vector2(.96f,.94f));
         }
-        public void Show(FilmShot shot)
+        public void Show(FilmShot shot,Day02ShotPresentation direction)
         {
-            _panel.SetActive(!shot.AllowInteraction);
-            switch (shot.Stage)
-            {
-                case 0: _diagram.text = "<size=30>게임의 큰 흐름</size>\n\n채집 → 골드 → 건설 → 밤 방어\n\n<size=26>오늘은 채집 시스템을 다듬습니다</size>"; break;
-                case 1: _diagram.text = "반복 클릭을 줄여 볼까요?\n\n<size=30>버튼 유지 → 현재 마우스 위치에서 반복 채집</size>"; break;
-                case 2: _diagram.text = "같은 시간에 더 많이 채집하려면?\n\n<size=30>강화 전 ×1 → 강화 후 ×3 · 촬영용 예시</size>"; break;
-                case 3: _diagram.text = "직접 채집으로 성장을 앞당기기\n\n<size=30>채집 → 골드 → 다음에는 마을 건설</size>"; break;
-            }
+            string explanation=direction!=null?direction.Explanation:null;
+            bool teaser=direction!=null&&direction.Teaser;
+            _panel.SetActive(!shot.ShowCredits&&!string.IsNullOrWhiteSpace(explanation));
+            // Place the teaser caption above the target, with an explicit input/result distinction.
+            Rect(_panel,teaser?new Vector2(.18f,.70f):new Vector2(.10f,.72f),teaser?new Vector2(.82f,.86f):new Vector2(.90f,.82f));
+            _diagram.fontSize=teaser?38:32;
+            _background.color=!teaser?new Color(.035f,.06f,.085f,.94f):
+                shot.Stage==0?new Color(.09f,.15f,.23f,.95f):
+                shot.Stage==1?new Color(.05f,.23f,.19f,.95f):new Color(.25f,.18f,.04f,.95f);
+            _diagram.text=teaser?"<b>"+shot.Title+"</b>\n<size=28>"+explanation+"</size>":explanation??"";
         }
         private static TextMeshProUGUI Label(string name, Transform parent, TMP_FontAsset font, float size, Vector2 min, Vector2 max)
         {

@@ -47,8 +47,11 @@ namespace Afterlife.Devlog.Cinematics
             var frame=new GameObject("VideoSafeFrame",typeof(RectTransform)); frame.transform.SetParent(_canvas.transform,false);
             _frame=frame.GetComponent<RectTransform>();
             _heading=CreateCaption("FilmHeading",frame.transform,film,new Vector2(.055f,.88f),new Vector2(.80f,.95f),28,TextAlignmentOptions.MidlineLeft);
-            var disclosure=CreateCaption("NarrationDisclosure",frame.transform,film,new Vector2(.55f,.94f),new Vector2(.95f,.985f),18,TextAlignmentOptions.MidlineRight);
-            disclosure.text=film.NarrationDisclosure;
+            if(!string.IsNullOrWhiteSpace(film.NarrationDisclosure))
+            {
+                var disclosure=CreateCaption("NarrationDisclosure",frame.transform,film,new Vector2(.55f,.94f),new Vector2(.95f,.985f),18,TextAlignmentOptions.MidlineRight);
+                disclosure.text=film.NarrationDisclosure;
+            }
             var panel=new GameObject("SubtitlePanel",typeof(RectTransform),typeof(CanvasGroup),typeof(Image));
             panel.transform.SetParent(frame.transform,false);
             var rect=panel.GetComponent<RectTransform>(); rect.anchorMin=new Vector2(.09f,.055f); rect.anchorMax=new Vector2(.91f,.165f); rect.offsetMin=rect.offsetMax=Vector2.zero;
@@ -80,7 +83,7 @@ namespace Afterlife.Devlog.Cinematics
             if (_fadeEntryFrame >= 0)
             {
                 // 생성과 같은 프레임, 그리고 그 작업 시간을 보고하는 다음 프레임은 진행하지 않는다.
-                // 검정 시작 화면이 실제로 출력되기 전에 초기화 비용으로 Fade In이 끝나는 것을 막는다.
+                // 새 화면이 실제로 출력되기 전에 초기화 비용으로 짧은 컷이나 Fade In이 끝나는 것을 막는다.
                 delta=0;
                 if (UnityEngine.Time.frameCount > _fadeEntryFrame) _fadeEntryFrame=-1;
             }
@@ -98,8 +101,8 @@ namespace Afterlife.Devlog.Cinematics
             {
                 _view.EnterShot(shot,discontinuity); _index=index; _subtitle.text=shot.Subtitle;
                 _heading.text=shot.Heading;
-                if (shot.FadeIn) _fadeEntryFrame=UnityEngine.Time.frameCount;
-                else _fadeEntryFrame=-1;
+                // Hard cuts also need a presented frame before initialization time advances the clock.
+                _fadeEntryFrame=UnityEngine.Time.frameCount;
             }
             float local=(float)_clock.LocalTime;
             if (_view is IFilmLightingView lighting)

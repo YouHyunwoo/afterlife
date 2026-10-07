@@ -12,7 +12,8 @@
     "Afterlife.Wind",
     "Afterlife.SceneFeatures",
     "Afterlife.Terrain",
-    "Afterlife.TerrainView"
+    "Afterlife.TerrainView",
+    "Afterlife.HarvestFeedback.Unity"
   ],
   "includePlatforms": [],
   "noEngineReferences": false

@@ -18,7 +18,7 @@ namespace Afterlife.Devlog.Day02.Editor
         private const string ScenePath=Root+"/Scenes/Devlog_Day02.unity";
 #pragma warning disable CS0649
         [Serializable] private sealed class Manifest {public int version;public Shot[] shots;}
-        [Serializable] private sealed class Shot {public string title;public int stage,workAmount;public bool interactive;public float duration;public Cue[] cues;}
+        [Serializable] private sealed class Shot {public string title,explanation;public int stage,workAmount,maxWorks,treeWorks;public bool interactive,credits,automatic,quickCut,closeUp,fixedTarget,teaser,hideHeading,fadeIn,fadeOut;public float duration,demoStart,fadeInDuration,fadeOutDuration;public Cue[] cues;}
         [Serializable] private sealed class Cue {public float start,duration,audioSeconds;public string text,file;}
 #pragma warning restore CS0649
         
@@ -28,11 +28,13 @@ namespace Afterlife.Devlog.Day02.Editor
             var scene=SceneManager.GetSceneByPath(ScenePath);bool opened=!scene.isLoaded;
             if(!opened&&scene.isDirty)throw new InvalidOperationException("Save the existing Day02 scene changes first.");
             var manifest=JsonUtility.FromJson<Manifest>(AssetDatabase.LoadAssetAtPath<TextAsset>(Root+"/Data/Day02Narration.json").text);
-            if(manifest.version!=3)throw new InvalidDataException("Expected hold narration version 3.");
+            if(manifest.version!=3&&manifest.version!=4)throw new InvalidDataException("Expected Day02 narration version 3 or 4.");
             var film=AssetDatabase.LoadAssetAtPath<ShowcaseFilm>(Root+"/Data/Day02Film.asset");
             var shots=manifest.shots.Select(s=>new FilmShot {
-                Title=s.title,Heading=s.title,Stage=s.stage,Duration=s.duration,AllowInteraction=s.interactive,
-                From=new FilmPose(Vector3.up*.6f,3.8f),To=new FilmPose(Vector3.up*.6f,3.8f),FadeIn=true,FadeOut=true,
+                Title=s.title,Heading=s.hideHeading||s.teaser?"":s.title,Stage=s.stage,Duration=s.duration,AllowInteraction=s.interactive,
+                From=new FilmPose(Vector3.up*.6f,3.8f),To=new FilmPose(Vector3.up*.6f,3.8f),FadeIn=s.fadeIn||(!s.credits&&!s.quickCut),FadeOut=s.fadeOut||(!s.credits&&!s.quickCut),
+                FadeInDuration=s.fadeInDuration>0?s.fadeInDuration:.6f,FadeOutDuration=s.fadeOutDuration>0?s.fadeOutDuration:.6f,
+                ShowCredits=s.credits,
                 Cues=s.cues.Select(c=> {
                     var clip=AssetDatabase.LoadAssetAtPath<AudioClip>(Root+"/Audio/Narration/"+c.file);
                     if(clip==null||string.IsNullOrWhiteSpace(c.text)||c.start+c.duration>s.duration+.01f||Mathf.Abs(clip.length-c.audioSeconds)>.08f)
@@ -74,20 +76,156 @@ namespace Afterlife.Devlog.Day02.Editor
                     view.Stages[i].position=new Vector3(i*40,0,0);
                     view.Stages[i].gameObject.SetActive(true);
                 }
-                view.SceneVersion=4;view.RingMaterial=null;view.Demonstration=false;
+                view.SceneVersion=4;view.RingMaterial=null;view.Demonstration=false;view.ShowGuide=false;
+                EnsureClickIslandStone(view);
+                view.GoldHudSprite=AssetDatabase.LoadAllAssetsAtPath("Assets/_AfterlifePrototype/Resources/UI/Icons16.png").OfType<Sprite>().Single(s=>s.name=="Icons16_5");
                 var director=view.GetComponent<Day02FilmDirector>();
+                director.ShowGuide=false;
                 director.ShotWorkAmounts=manifest.shots.Select(s=>Math.Max(1,s.workAmount)).ToArray();
+                director.ShotPresentations=manifest.shots.Select(s=>new Day02ShotPresentation {
+                    Automatic=s.automatic,FixedTarget=s.fixedTarget,Teaser=s.teaser,MaxWorks=s.maxWorks,TreeWorks=s.treeWorks,DemoStart=s.demoStart,Explanation=s.explanation
+                }).ToArray();
+                for(int i=0;i<shots.Length;i++) {
+                    var source=manifest.shots[i];
+                    // Gold uses the wider reward composition even when its demo target is fixed.
+                    if(!source.closeUp&&(!source.fixedTarget||source.stage!=2))continue;
+                    var tree=view.Stages[source.stage].GetComponentsInChildren<Day02Resource>(true).First(r=>!r.Stone);
+                    var focus=tree.transform.position-view.Stages[source.stage].position+Vector3.up*.7f;
+                    shots[i].From=shots[i].To=new FilmPose(focus,2.8f);
+                }
                 EditorUtility.SetDirty(director);
                 view.ShowcaseCamera.transform.SetPositionAndRotation(new Vector3(10,13.6f,-16),Quaternion.LookRotation(new Vector3(-10,-13,16)));
                 view.ShowcaseCamera.orthographicSize=3.8f;
-                film.Shots=shots;film.NarrationVersion=3;film.BackgroundMusicEnabled=false;
-                film.NarrationDisclosure="AI 생성 나레이션 · Supertonic 3 · M2";
+                film.Shots=shots;film.NarrationVersion=manifest.version;
+                ConfigureCredits(film);
                 EditorUtility.SetDirty(film);EditorUtility.SetDirty(view);
                 EditorSceneManager.MarkSceneDirty(scene);
                 if(!EditorSceneManager.SaveScene(scene))throw new IOException("Day02 save failed.");
                 AssetDatabase.SaveAssets();
-                return "SUCCESS: hold film v3, "+shots.Length+" shots, "+film.Duration+" seconds. Four small islands at X=0,40,80,120. Play not run.";
+                return "SUCCESS: Day02 film v"+manifest.version+", "+shots.Length+" shots, "+film.Duration+" seconds. Four small islands at X=0,40,80,120. Play not run.";
             } finally {if(opened&&scene.isLoaded)EditorSceneManager.CloseScene(scene,true);}
+        }
+
+        private static void EnsureClickIslandStone(Day02Showcase view)
+        {
+            var stage=view.Stages[0];var host=stage.GetComponent<SceneFeatureHost>();
+            var stone=stage.GetComponentsInChildren<Day02Resource>(true).FirstOrDefault(r=>r.Stone);
+            if(stone==null) {
+                var source=view.Stages[1].GetComponentsInChildren<Day02Resource>(true).First(r=>r.Stone);
+                string path=Root+"/Prefabs/HarvestStone.prefab";
+                var prefab=AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                if(prefab==null) {
+                    var template=UnityEngine.Object.Instantiate(source.gameObject);
+                    try {
+                        template.name="HarvestStone";template.transform.position=Vector3.zero;
+                        template.GetComponent<Day02Resource>().Tool=null;
+                        prefab=PrefabUtility.SaveAsPrefabAsset(template,path);
+                    } finally {UnityEngine.Object.DestroyImmediate(template);}
+                }
+                var instance=(GameObject)PrefabUtility.InstantiatePrefab(prefab,stage);
+                instance.name="StoneResource";stone=instance.GetComponent<Day02Resource>();
+                var tree=stage.GetComponentsInChildren<Day02Resource>(true).First(r=>!r.Stone);
+                instance.transform.localPosition=new Vector3(.72f,tree.transform.localPosition.y,-.32f);
+                if(host.Bindings.Map!=null) {
+                    var map=host.Bindings.Map.Data;var settings=host.Resolve();
+                    var coast=new Afterlife.Modules.Terrain.CoastalTerrain(
+                        settings.IsEnabled(Afterlife.Modules.SceneFeatures.SceneFeature.Coast)?settings.CoastShape:Afterlife.Modules.Terrain.CoastShape.Square,
+                        settings.WaterHeight,settings.FloorHeight);
+                    var geometry=new Afterlife.Modules.TerrainView.TerrainGeometry(map.Radius,map.At,settings.Palette,coast,
+                        map.UseHeightSamples?(Func<float,float,float>)((x,z)=>(float)map.Height(x,z)):null);
+                    var position=instance.transform.localPosition;position.y=geometry.Height(position.x,position.z);
+                    instance.transform.localPosition=position;
+                }
+                PrefabUtility.RecordPrefabInstancePropertyModifications(instance.transform);
+                PrefabUtility.RecordPrefabInstancePropertyModifications(instance);
+            }
+            if(host.Bindings.Pick==null) {
+                var source=view.Stages[1].GetComponent<SceneFeatureHost>().Bindings;
+                string contactPath=AnimationUtility.CalculateTransformPath(source.PickContact,source.Pick.transform);
+                string path=Root+"/Prefabs/HarvestPick.prefab";
+                var prefab=AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                if(prefab==null) {
+                    var template=UnityEngine.Object.Instantiate(source.Pick);
+                    try {
+                        template.name="HarvestPick";template.transform.position=Vector3.zero;
+                        prefab=PrefabUtility.SaveAsPrefabAsset(template,path);
+                    } finally {UnityEngine.Object.DestroyImmediate(template);}
+                }
+                var pick=(GameObject)PrefabUtility.InstantiatePrefab(prefab,stage);
+                pick.name="PickTool";pick.SetActive(false);
+                host.Bindings.Pick=pick;host.Bindings.PickContact=pick.transform.Find(contactPath);
+                PrefabUtility.RecordPrefabInstancePropertyModifications(pick);
+            }
+            host.Bindings.Targets=stage.GetComponentsInChildren<FeedbackTarget>(true);
+            host.Bindings.PickSurfaces=host.Bindings.PickSurfaces.Concat(
+                stone.GetComponentsInChildren<Afterlife.Modules.Interaction.PickSurface>(true)).Distinct().ToArray();
+            EditorUtility.SetDirty(host);
+        }
+
+        // Copies only the authored preset. Runtime uses the shared Cinematics module.
+        private static void ConfigureCredits(ShowcaseFilm film)
+        {
+            var source=AssetDatabase.LoadAssetAtPath<ShowcaseFilm>("Assets/Devlog/Youtube/Day01/Data/Day01Film.asset");
+            if(source==null)throw new InvalidDataException("Day01 credits preset missing.");
+            var preset=source.Shots.Last(s=>s.ShowCredits);
+            var content=film.Shots.Where(s=>!s.ShowCredits).ToArray();
+            if(content.Length==0)throw new InvalidDataException("Film content missing.");
+            var last=content.Last();last.FadeOut=false;
+            film.Shots=content.Concat(new[]{new FilmShot {
+                Title=preset.Title,Heading="",Stage=last.Stage,Duration=preset.Duration,
+                From=last.To,To=last.To,AllowInteraction=false,ShowCredits=true,
+                FadeIn=preset.FadeIn,FadeInDuration=preset.FadeInDuration,
+                FadeOut=preset.FadeOut,FadeOutDuration=preset.FadeOutDuration,
+                Cues=Array.Empty<FilmCue>()
+            }}).ToArray();
+            film.NarrationDisclosure="";
+            film.CreditsText=source.CreditsText;
+            film.CreditsBlurShader=source.CreditsBlurShader;
+            film.CreditsFadeSeconds=source.CreditsFadeSeconds;
+            film.CreditsDarkness=source.CreditsDarkness;
+            film.CreditsBlurRadius=source.CreditsBlurRadius;
+            film.CreditsScale=source.CreditsScale;
+            film.BackgroundMusic=source.BackgroundMusic;
+            film.MusicVolume=source.MusicVolume;
+            film.CreditsMusicMultiplier=source.CreditsMusicMultiplier;
+        }
+
+        public static string InstallCredits()
+        {
+            if(EditorApplication.isPlayingOrWillChangePlaymode)throw new InvalidOperationException("Exit Play before authoring.");
+            var film=AssetDatabase.LoadAssetAtPath<ShowcaseFilm>(Root+"/Data/Day02Film.asset");
+            if(film==null)throw new InvalidDataException("Day02 film missing.");
+            if(EditorUtility.IsDirty(film))throw new InvalidOperationException("Save existing film changes first.");
+            Undo.RecordObject(film,"Apply Day01 ending credits to Day02");
+            ConfigureCredits(film);EditorUtility.SetDirty(film);AssetDatabase.SaveAssets();
+            return "SUCCESS: Day02 credits saved; "+film.Shots.Length+" shots, "+film.Duration+" seconds. Play not run.";
+        }
+
+        // Timing-only edits preserve camera poses, credits, music and scene bindings.
+        public static string UpdateFilmTiming()
+        {
+            if(EditorApplication.isPlayingOrWillChangePlaymode)throw new InvalidOperationException("Exit Play before authoring.");
+            var manifest=JsonUtility.FromJson<Manifest>(AssetDatabase.LoadAssetAtPath<TextAsset>(Root+"/Data/Day02Narration.json").text);
+            var film=AssetDatabase.LoadAssetAtPath<ShowcaseFilm>(Root+"/Data/Day02Film.asset");
+            if((manifest.version!=3&&manifest.version!=4) || film==null || manifest.shots.Length!=film.Shots.Length)
+                throw new InvalidDataException("Film/manifest shot count mismatch.");
+            for(int i=0;i<film.Shots.Length;i++) {
+                var source=manifest.shots[i];var target=film.Shots[i];
+                if(source.stage!=target.Stage || source.interactive!=target.AllowInteraction || source.credits!=target.ShowCredits || source.cues.Length!=target.Cues.Length)
+                    throw new InvalidDataException("Film structure mismatch: "+i);
+                for(int j=0;j<source.cues.Length;j++) {
+                    var cue=source.cues[j];var existing=target.Cues[j];
+                    var clip=AssetDatabase.LoadAssetAtPath<AudioClip>(Root+"/Audio/Narration/"+cue.file);
+                    if(clip==null || existing.Narration!=clip || cue.text!=existing.Text ||
+                        Mathf.Abs(cue.start-existing.Start)>.001f || Mathf.Abs(cue.duration-existing.Duration)>.001f ||
+                        cue.start+cue.duration>source.duration+.01f || Mathf.Abs(clip.length-cue.audioSeconds)>.08f)
+                        throw new InvalidDataException("Narration timing mismatch: "+cue.file);
+                }
+            }
+            Undo.RecordObject(film,"Shorten Day02 harvest demonstrations");
+            for(int i=0;i<film.Shots.Length;i++)film.Shots[i].Duration=manifest.shots[i].duration;
+            EditorUtility.SetDirty(film);AssetDatabase.SaveAssets();
+            return "SUCCESS: timing saved; "+film.Shots.Length+" shots, "+film.Duration+" seconds. Play not run.";
         }
 
         private static void Install()
@@ -130,6 +268,7 @@ namespace Afterlife.Devlog.Day02.Editor
                 if(File.Exists(ScenePath) && !File.Exists("../../../devlog/youtube/day-02/source/archive/prototype-based-scene.unity.txt")) {Directory.CreateDirectory("../../../devlog/youtube/day-02/source/archive");File.Copy(ScenePath,"../../../devlog/youtube/day-02/source/archive/prototype-based-scene.unity.txt",true);}
                 scene=EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Additive);SceneManager.SetActiveScene(scene);
                 var root=new GameObject("Day02Showcase");var view=root.AddComponent<Day02Showcase>();view.Font=font;view.RingMaterial=ring;
+                view.GoldHudSprite=AssetDatabase.LoadAllAssetsAtPath("Assets/_AfterlifePrototype/Resources/UI/Icons16.png").OfType<Sprite>().Single(s=>s.name=="Icons16_5");
                 view.Pipeline=AssetDatabase.LoadAssetAtPath<UniversalRenderPipelineAsset>("Assets/_AfterlifePrototype/Resources/AfterlifePrototype/Pipeline.asset");
                 if(view.Pipeline==null)throw new InvalidDataException("Pipeline missing");
                 var cameraObject=new GameObject("ShowcaseCamera",typeof(Camera),typeof(AudioListener));var camera=cameraObject.GetComponent<Camera>();

@@ -24,6 +24,62 @@ namespace Afterlife.Devlog.Editor
         private const string Source="Assets/Devlog/Youtube/Day01/Prefabs";
         private const string Marker="AfterIslandComposition_v2";
         private static T Load<T>(string path) where T:UnityEngine.Object => AssetDatabase.LoadAssetAtPath<T>(path);
+        // Explicit install; no Tools menu or automatic scene rewrite.
+        public static string InstallHarvestFeedback()
+        {
+            if(EditorApplication.isPlayingOrWillChangePlaymode)throw new InvalidOperationException("Exit Play before authoring.");
+            const string scenePath=Root+"/Scenes/Devlog_Day02.unity";
+            var scene=SceneManager.GetSceneByPath(scenePath);bool opened=!scene.isLoaded;
+            if(!opened&&scene.isDirty)throw new InvalidOperationException("Save the existing Day02 scene changes first.");
+            var source=Load<GameObject>(Source+"/Composition/Day01Showcase.prefab").GetComponent<Afterlife.Devlog.Day01.Day01Showcase>();
+            var wood=Load<Sprite>("Assets/_AfterlifePrototype/Resources/UI/SceneSprites/Icon0.asset");
+            var stone=Load<Sprite>("Assets/_AfterlifePrototype/Resources/UI/SceneSprites/Icon1.asset");
+            if(source==null||wood==null||stone==null)throw new InvalidOperationException("Day01 tools or prototype collection sprites are missing.");
+            const string islandPath=Root+"/Prefabs/SmallHarvestIsland.prefab";
+            var island=PrefabUtility.LoadPrefabContents(islandPath);
+            try {
+                MatchHarvestTools(island.transform,source.Axe,source.Pick);
+                PrefabUtility.SaveAsPrefabAsset(island,islandPath);
+            } finally {PrefabUtility.UnloadPrefabContents(island);}
+            if(opened)scene=EditorSceneManager.OpenScene(scenePath,OpenSceneMode.Additive);
+            try {
+                var view=scene.GetRootGameObjects().SelectMany(g=>g.GetComponentsInChildren<Day02Showcase>(true)).Single();
+                foreach(var stage in view.Stages)MatchHarvestTools(stage,source.Axe,source.Pick);
+                view.WoodCollectionSprite=wood;view.StoneCollectionSprite=stone;
+                EditorUtility.SetDirty(view);PrefabUtility.RecordPrefabInstancePropertyModifications(view);
+                EditorSceneManager.MarkSceneDirty(scene);
+                if(!EditorSceneManager.SaveScene(scene))throw new IOException("Day02 save failed.");
+                AssetDatabase.SaveAssets();
+                return "Saved Day02 scene and SmallHarvestIsland: Day01 tool transforms and blade contacts; wood/stone collection sprites assigned. Play not run.";
+            } finally {if(opened&&scene.isLoaded)EditorSceneManager.CloseScene(scene,true);}
+        }
+        private static void MatchHarvestTools(Transform stage,GameObject axe,GameObject pick)
+        {
+            var resources=stage.GetComponentsInChildren<Day02Resource>(true);
+            foreach(var resource in resources) {
+                var tool=resource.Tool;if(tool==null)throw new InvalidOperationException("Tool missing: "+resource.name);
+                var original=resource.Stone?pick:axe;
+                var sourceArt=original.transform.Cast<Transform>().First(t=>t.GetComponentsInChildren<Renderer>(true).Length>0);
+                var art=tool.transform.Cast<Transform>().First(t=>t.GetComponentsInChildren<Renderer>(true).Length>0);
+                art.localPosition=sourceArt.localPosition;art.localRotation=sourceArt.localRotation;art.localScale=sourceArt.localScale;
+                tool.transform.localPosition=Vector3.zero;tool.transform.localRotation=Quaternion.identity;tool.transform.localScale=Vector3.one;
+                tool.SetActive(false);
+                EditorUtility.SetDirty(art);EditorUtility.SetDirty(tool.transform);EditorUtility.SetDirty(tool);
+                PrefabUtility.RecordPrefabInstancePropertyModifications(art);PrefabUtility.RecordPrefabInstancePropertyModifications(tool.transform);PrefabUtility.RecordPrefabInstancePropertyModifications(tool);
+            }
+            var host=stage.GetComponent<SceneFeatureHost>();
+            if(host==null)throw new InvalidOperationException("SceneFeatureHost missing: "+stage.name);
+            host.Bindings.Axe=resources.FirstOrDefault(r=>!r.Stone)?.Tool;host.Bindings.Pick=resources.FirstOrDefault(r=>r.Stone)?.Tool;
+            host.Bindings.AxeContact=BladeContact(host.Bindings.Axe);host.Bindings.PickContact=BladeContact(host.Bindings.Pick);
+            EditorUtility.SetDirty(host);PrefabUtility.RecordPrefabInstancePropertyModifications(host);
+        }
+        private static Transform BladeContact(GameObject tool)
+        {
+            if(tool==null)return null;
+            // Ignore the old zero-position anchor under ToolPivot; use the FBX blade marker.
+            var art=tool.transform.Cast<Transform>().First(t=>t.GetComponentsInChildren<Renderer>(true).Length>0);
+            return art.GetComponentsInChildren<Transform>(true).First(t=>t.name=="ImpactPoint"||t.name.StartsWith("ImpactPoint."));
+        }
         public static string CaptureViews()
         {
             const string scenePath=Root+"/Scenes/Devlog_Day02.unity";

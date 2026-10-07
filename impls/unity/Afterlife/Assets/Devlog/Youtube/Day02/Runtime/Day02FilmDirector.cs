@@ -10,10 +10,13 @@ namespace Afterlife.Devlog.Day02
         public Day02Showcase View;
         public ShowcaseFilm Film;
         public int[] ShotWorkAmounts = System.Array.Empty<int>();
-        public bool ShowGuide = true;
+        public Day02ShotPresentation[] ShotPresentations = System.Array.Empty<Day02ShotPresentation>();
+        public bool ShowGuide;
         private ShowcaseFilmPlayer _player;
         private Day02Graphics _graphics;
         private bool _interactive;
+        private bool _creditsActive;
+        private bool _automaticPreview;
         public Vector3 Origin => View.Origin;
         public bool IsFilmMode => _player != null;
 
@@ -36,7 +39,7 @@ namespace Afterlife.Devlog.Day02
             }
             if (_player == null) { if(View!=null) View.ShowGuide=ShowGuide; return; }
             _player.Tick(Time.unscaledDeltaTime);
-            View.Paused = !_player.Playing; View.Interaction = _interactive; View.ShowGuide = ShowGuide;
+            View.Paused = !_player.Playing; View.Interaction = _interactive; View.ShowGuide = ShowGuide&&!_creditsActive;
             if (_player.Time >= Film.Duration) StopFilm();
         }
 
@@ -45,6 +48,7 @@ namespace Afterlife.Devlog.Day02
             if (!Application.isPlaying || IsFilmMode || View == null || Film == null ||
                 Film.SubtitleFont == null || Film.Shots == null || Film.Shots.Length == 0) return;
             View.FilmMode = true;
+            _automaticPreview=View.Demonstration;
             try
             {
                 _graphics = new Day02Graphics(transform, Film.SubtitleFont);
@@ -63,12 +67,22 @@ namespace Afterlife.Devlog.Day02
             View.WorkAmount=shot.Stage>=2?3:1;
             int index=System.Array.IndexOf(Film.Shots,shot);
             if(index>=0&&index<ShotWorkAmounts.Length)View.WorkAmount=Mathf.Max(1,ShotWorkAmounts[index]);
+            var direction=index>=0&&index<ShotPresentations.Length?ShotPresentations[index]:null;
+            View.Demonstration=_automaticPreview||(direction!=null&&direction.Automatic);
+            View.DemoWorkLimit=direction!=null?direction.MaxWorks:0;
+            View.DemoFixedTarget=direction!=null&&direction.FixedTarget;
+            View.DemoStart=direction!=null?direction.DemoStart:0;
+            View.DemoTreeWorks=direction!=null?direction.TreeWorks:0;
             _interactive = shot.AllowInteraction;
+            _creditsActive=shot.ShowCredits;
             View.Paused = false; View.Interaction = _interactive;
-            _graphics.Show(shot);
+            View.ShowGuide=ShowGuide&&!_creditsActive;
+            _graphics.Show(shot,direction);
         }
         public void EndFilm()
         {
+            _creditsActive=false;_automaticPreview=false;
+            if(View!=null){View.DemoWorkLimit=0;View.DemoFixedTarget=false;View.DemoStart=0;View.DemoTreeWorks=0;}
             if (View != null) { View.Demonstration=false; View.FilmMode = false; View.Paused = false; View.Interaction = true; View.ShowGuide = ShowGuide; }
             _graphics?.Dispose(); _graphics = null;
         }

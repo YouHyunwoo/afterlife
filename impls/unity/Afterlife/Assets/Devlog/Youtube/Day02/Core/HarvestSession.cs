@@ -11,6 +11,7 @@ namespace Afterlife.Devlog.Day02
         public int Gold { get; private set; }
         public int LastAmount { get; private set; }
         public int WorkCount { get; private set; }
+        public bool IsReady => _cooldown<=0;
         public int WorkAmount { get; set; }=1;
         public float Interval { get; set; }=.7f;
         public event Action<int> Worked;

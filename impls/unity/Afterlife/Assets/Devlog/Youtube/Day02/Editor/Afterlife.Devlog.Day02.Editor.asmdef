@@ -11,7 +11,9 @@
     "Afterlife.TerrainView",
     "Afterlife.Water",
     "Afterlife.Vegetation",
-    "Afterlife.SceneFeatures"
+    "Afterlife.SceneFeatures",
+    "Afterlife.SceneFeatures.Core",
+    "Afterlife.Interaction"
   ],
   "includePlatforms": [
     "Editor"
