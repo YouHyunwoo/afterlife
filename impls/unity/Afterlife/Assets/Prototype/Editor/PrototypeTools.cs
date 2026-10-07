@@ -33,7 +33,7 @@ namespace Afterlife.Prototype.Editor
             var target = UnityEditor.Build.NamedBuildTarget.Standalone;
             var previousBackend = PlayerSettings.GetScriptingBackend(target);
             string output = Path.GetFullPath("Builds/PixelPrototypeWindows/AfterlifePrototype.exe");
-            Directory.CreateDirectory(Path.GetDirectoryName(output));
+            PrepareEmptyOutputDirectory(Path.GetDirectoryName(output));
             try
             {
                 GraphicsSettings.defaultRenderPipeline = pipeline;
@@ -62,6 +62,34 @@ namespace Afterlife.Prototype.Editor
                 PlayerSettings.SetScriptingBackend(target, previousBackend);
                 AssetDatabase.SaveAssets();
             }
+        }
+
+        private static void PrepareEmptyOutputDirectory(string outputDirectory)
+        {
+            string buildsRoot = Path.GetFullPath("Builds").TrimEnd(Path.DirectorySeparatorChar);
+            string expected = Path.Combine(buildsRoot, "PixelPrototypeWindows");
+            if (!string.Equals(outputDirectory, expected, System.StringComparison.OrdinalIgnoreCase))
+                throw new BuildFailedException("Unexpected build output directory: " + outputDirectory);
+            if (Directory.Exists(buildsRoot) && (File.GetAttributes(buildsRoot) & FileAttributes.ReparsePoint) != 0)
+                throw new BuildFailedException("Builds root is a link: " + buildsRoot);
+            if (Directory.Exists(outputDirectory) && (File.GetAttributes(outputDirectory) & FileAttributes.ReparsePoint) != 0)
+                throw new BuildFailedException("Build output directory is a link: " + outputDirectory);
+            Directory.CreateDirectory(outputDirectory);
+            var pending = new System.Collections.Generic.Stack<string>();
+            pending.Push(outputDirectory);
+            while (pending.Count > 0)
+            {
+                foreach (string entry in Directory.GetFileSystemEntries(pending.Pop()))
+                {
+                    var attributes = File.GetAttributes(entry);
+                    if ((attributes & FileAttributes.ReparsePoint) != 0)
+                        throw new BuildFailedException("Build output contains a link: " + entry);
+                    if ((attributes & FileAttributes.Directory) != 0) pending.Push(entry);
+                }
+            }
+            foreach (string file in Directory.GetFiles(outputDirectory)) File.Delete(file);
+            foreach (string directory in Directory.GetDirectories(outputDirectory))
+                Directory.Delete(directory, true);
         }
     }
 }
