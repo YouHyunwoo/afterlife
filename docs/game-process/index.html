@@ -14,7 +14,7 @@
 </style>
 </head>
 <body>
-<header><div class="eyebrow">Game design → release / project journal</div><h1>집 하나에서 직접 작업과 농장 생산으로 성장하고 밤의 침공을 막는 마을 디펜스.</h1><div class="overview"><div><span class="label">현재 단계</span><p>M2/M5 재설계 — 버튼 유지 작업·농장 자동화 확정, 문서 갱신 완료·새 구현/검증 대기</p></div><div><span class="label">다음 행동</span><p>입력 우선순위·기본 작업량·농장 강화·풍요/보상 계약과 경제를 구체화한 뒤 별도 개발 요청 범위에서 적용.</p></div></div><div class="updated">문서 생성 · 2026-10-03 19:01 +0900 · Markdown 원본 기반 / 열람용</div></header>
+<header><div class="eyebrow">Game design → release / project journal</div><h1>집 하나에서 직접 작업과 농장 생산으로 성장하고 밤의 침공을 막는 마을 디펜스.</h1><div class="overview"><div><span class="label">현재 단계</span><p>M2/M5 재설계 — 버튼 유지 작업·농장 자동화 확정, 문서 갱신 완료·새 구현/검증 대기</p></div><div><span class="label">다음 행동</span><p>72 후보의 입력 세부·농장 강화/보너스·수리/가속 계약을 구체화하고, 별도 본편 개발 범위에서1~4일 실제 조작 여유와5~6일 기본/복구 방어 경로를 검증.</p></div></div><div class="updated">문서 생성 · 2026-10-04 16:23 +0900 · Markdown 원본 기반 / 열람용</div></header>
 <div class="layout"><nav aria-label="프로젝트 단계"><h2>PROJECT PATH</h2><a href="#stage-01"><span>01</span>아이디어 구체화</a><a href="#stage-02"><span>02</span>타깃과 핵심 경험</a><a href="#stage-03"><span>03</span>플레이 반복 구조</a><a href="#stage-04"><span>04</span>규칙·행동·경험</a><a href="#stage-05"><span>05</span>시스템과 성장</a><a href="#stage-06"><span>06</span>플레이 흐름과 UX</a><a href="#stage-07"><span>07</span>프로토타입과 검증</a><a href="#stage-08"><span>08</span>MVP 범위와 계획</a><a href="#stage-mvp"><span>MVP</span>MVP 개발</a><a href="#stage-iterations" aria-current="step"><span>반복</span>테스트·수정 반복</a><a href="#stage-release"><span>출시</span>출시 준비</a><a href="#stage-operations"><span>운영</span>출시·운영</a><a href="#stage-records"><span>기록</span>진행·결정 기록</a></nav><main><div class="toolbar"><span>기획 정리 ≠ 구현 완료 ≠ 경험 검증 ≠ 출시 준비</span><div><button id="expand" type="button">모두 펼치기</button> <button id="collapse" type="button">모두 접기</button></div></div><details class="stage" id="stage-01"><summary><span class="stage-number">01</span><span>아이디어 구체화</span><span class="badge">방향 확정</span></summary><div class="stage-body"><p class="stage-description">버튼 유지 작업으로 초기 마을을 만들고 농장 자동 수입으로 운영 부담을 줄인다.</p><details class="artifact" id="doc-1efa8ff406c3c7f8"><summary>아이디어와 최신 방향<small>01-game-analysis.md</small></summary><div class="markdown"><a class="source" href="01-game-analysis.md">Markdown 원본 열기 ↗</a><h3 id="doc-1efa8ff406c3c7f8--아이디어와-최신-방향">아이디어와 최신 방향</h3>
 <blockquote>
 <p>확정 기획 · 2026-10-03: 채집·건설·수리·공격은 버튼을 누르고 있는 동안 작업 주기에 맞춰 반복하고, 강화는 작업 1회당 효과을 높인다. 자동 수입은 농장 건설·생산 강화로 확장한다. 본편 상호작용 필드·슬롯·충전·호버 자동 작업은 폐기한다. <a href="#doc-1f03dc67ebc17595">새 규칙·사용법·검증</a>. 새 규칙은 게임 코드·에셋에 아직 적용하지 않았다. 이전 규칙·수치·QA는 당시 기록으로 보존한다.</p>
@@ -405,7 +405,7 @@
 <h4 id="doc-7727c1379411e107--m515-이후-재검증-항목">M5·15 이후 재검증 항목</h4>
 <p><a href="#doc-74f10c8f7a2465f1">15 전투·성장</a>에서 자동 방어 분산, 수동 지점 유지, 강화 단계, 화상과 자원 내구도를 추가했다. 병력 지휘가 줄어든 만큼 판단 여유가 생기는지, 후반 자원 내구도가 투자 선택 대신 지루한 채집 시간만 늘리지 않는지 확인한다. 변경 전 경험을 새 버전의 검증 증거로 재사용하지 않는다.</p>
 <p>M5·15 사용자 피드백으로 공전 볼을 제거했다. 마우스 왕복으로 접촉 기여를 반복할 수 있다는 규칙상의 문제를 없애고 기존 주기 기여를 유지한다. 실제 플레이 재검증은 대기 중이다.</p>
-</div></details></div></details><details class="stage" id="stage-05"><summary><span class="stage-number">05</span><span>시스템과 성장</span><span class="badge">수치 재설계 대기</span></summary><div class="stage-body"><p class="stage-description">작업 1회당 효과·농장 생산 강화·골드 투자·에테론 강화·군사 자동 충원을 연결. 필드 기준 수입/예산은 대체 전제.</p><details class="artifact" id="doc-18551506f39492cd"><summary>시스템과 성장 · 버튼 유지 작업·농장 생산<small>05-system-map.md</small></summary><div class="markdown"><a class="source" href="05-system-map.md">Markdown 원본 열기 ↗</a><h3 id="doc-18551506f39492cd--시스템과-성장-버튼-유지-작업농장-생산">시스템과 성장 · 버튼 유지 작업·농장 생산</h3>
+</div></details></div></details><details class="stage" id="stage-05"><summary><span class="stage-number">05</span><span>시스템과 성장</span><span class="badge">1차 경제 산술 검토 완료 · 수치 미채택</span></summary><div class="stage-body"><p class="stage-description">작업 1회당 효과·농장 생산 강화·골드 투자·에테론 강화·군사 자동 충원을 연결. 필드 기준 수입/예산은 대체 전제.</p><details class="artifact" id="doc-18551506f39492cd"><summary>시스템과 성장 · 버튼 유지 작업·농장 생산<small>05-system-map.md</small></summary><div class="markdown"><a class="source" href="05-system-map.md">Markdown 원본 열기 ↗</a><h3 id="doc-18551506f39492cd--시스템과-성장-버튼-유지-작업농장-생산">시스템과 성장 · 버튼 유지 작업·농장 생산</h3>
 <blockquote>
 <p>확정 기획 · 2026-10-03: 채집·건설·수리·공격은 버튼을 누르고 있는 동안 작업 주기에 맞춰 반복하고, 강화는 작업 1회당 효과을 높인다. 자동 수입은 농장 건설·생산 강화로 확장한다. 본편 상호작용 필드·슬롯·충전·호버 자동 작업은 폐기한다. <a href="#doc-1f03dc67ebc17595">새 규칙·사용법·검증</a>. 새 규칙은 게임 코드·에셋에 아직 적용하지 않았다. 이전 규칙·수치·QA는 당시 기록으로 보존한다.</p>
 </blockquote>
@@ -1549,6 +1549,7 @@
 <li>핵심 요약: 입력 일관성·실제 작업량·농장 생산·직접 작업 부담·첫 구매와 방어를 새 규칙으로 검증한다.</li>
 <li>상태: 검증 계획 갱신. 새 코드/에셋 미구현, 기술·사람 검증 미실행.</li>
 </ul>
+<p>2026-10-04: <a href="#doc-09db89a263c7199e">72 경제 밸런싱</a>의 오프라인 산술 검토를 완료했다. 기본/복구 우선 경로의 구매·예정 지출과 모든 일차의 이월 산식만 확인했으며 게임 실행 결과가 아니다. 다음 직접 확인은1~4일 착공/완공/충원/조작 여유,5~6일 실제 피해·지출과 농장 복구, 인접/추가 농장의 이익과 방어 위험이다.</p>
 <h4 id="doc-2431ea35a0895405--새-규칙-기술-확인-계획">새 규칙 기술 확인 계획</h4>
 <table>
 <thead>
@@ -2131,7 +2132,7 @@
 <p>첫 시도에서는 Moonstone0.10.1의 Arc/D3 런타임 코드가UnityEditor.AssetDatabase를 직접 참조해Player 컴파일6건이 실패했다. Unity Package Manager Embed로 Packages/com.materialstone.moonstone에 포함하고 해당 검색을UNITY_EDITOR와Player Resources 조회로 분리했다. 설정이 없는 선택적Arc/D3 자동 부트스트랩은Player에서 생략한다. 프로토타입의Ore.Container는 그대로 유지한다. 수정 내역은 패키지AFTERLIFE-PATCH.md. 직접PackageCache나.meta를 편집하지 않았다.</p>
 <p>이후Unity Player 컴파일·셰이더/에셋 빌드·실행 파일 패키징 통과. 빌드용렌더/품질/백엔드 설정은 복원하고 프로젝트 설정4개를 작업 전 백업과 바이트 비교해 일치 확인했다. 최초 변경 없던URP 전역 설정의 빌드 자동 갱신도 원본으로 복원했다. 기존사용자 Afterlife.slnx/EditorBuildSettings 변경과_EmberVillage는 보존했다.</p>
 <p>이번 사용자 요청으로Unity CLI 빌드를 허용받아 검증 범위를 확장했다. 이전의“Unity 에셋/셰이더 미검증”은이 빌드 대상으로해소되었으나실행 파일을실제로플레이하거나화면/조작/성능/2웨이브완주를확인한것은아니다. M4는Unity빌드완료·플레이확인대기, M5인간경험검증은미시작.</p>
-</div></details></div></details><details class="stage" id="stage-iterations" open><summary><span class="stage-number">반복</span><span>테스트·수정 반복</span><span class="badge">규칙 문서 갱신 완료 · 본편 적용 전</span></summary><div class="stage-body"><p class="stage-description">필드/슬롯을 제거할 설계로 전환. 작업 1회당 효과과 농장 생산량/주기 강화, 옛 경제 재산정·풍요/보상/UX 이관 계획 정리. 코드·에셋은 기존 구현 유지.</p><h3 class="round">회차 · game-process</h3><details class="artifact" id="doc-32bc47b7768bfec4"><summary>M5 플레이 피드백 반영 · 2026-09-16<small>10-playtest-revision.md</small></summary><div class="markdown"><a class="source" href="10-playtest-revision.md">Markdown 원본 열기 ↗</a><h3 id="doc-32bc47b7768bfec4--m5-플레이-피드백-반영-2026-09-16">M5 플레이 피드백 반영 · 2026-09-16</h3>
+</div></details></div></details><details class="stage" id="stage-iterations" open><summary><span class="stage-number">반복</span><span>테스트·수정 반복</span><span class="badge">규칙 문서 갱신 완료 · 본편 적용 전</span></summary><div class="stage-body"><p class="stage-description">버튼 유지 작업·농장 자동화로 경제1차 재계산. 첫 구매/완공/충원·6가지 경로·27:15 후보 확인. 농장 최적화의 과잉 이익과 실제 전투는 검증 전이며 본편 적용 전.</p><h3 class="round">회차 · game-process</h3><details class="artifact" id="doc-32bc47b7768bfec4"><summary>M5 플레이 피드백 반영 · 2026-09-16<small>10-playtest-revision.md</small></summary><div class="markdown"><a class="source" href="10-playtest-revision.md">Markdown 원본 열기 ↗</a><h3 id="doc-32bc47b7768bfec4--m5-플레이-피드백-반영-2026-09-16">M5 플레이 피드백 반영 · 2026-09-16</h3>
 <blockquote>
 <p>확정 기획 · 2026-10-03: 채집·건설·수리·공격은 버튼을 누르고 있는 동안 작업 주기에 맞춰 반복하고, 강화는 작업 1회당 작업량을 높인다. 자동 수입은 농장 건설·생산 강화로 확장한다. 본편 상호작용 필드·슬롯·충전·호버 자동 작업은 폐기한다. <a href="#doc-1f03dc67ebc17595">새 규칙·사용법·검증</a>. 새 규칙은 게임 코드·에셋에 아직 적용하지 않았다. 이전 규칙·수치·QA는 당시 기록으로 보존한다.</p>
 </blockquote>
@@ -6988,6 +6989,7 @@ dotnet build Temp/ContinentConsumerValidation/Validation.csproj --no-restore --n
 <p>일차별 예산은 ‘이전 잔고 + 직접 채집 + 농장/기타 수입 − 건설/모집/가속/수리 지출’로 계산한다. 매일 잔고를0으로 가정하지 않고, 귀중품처럼 늦게 지급되는 돈은 지급 시점에 넣는다. 설치1회16G나 R0×시간으로 경제 전체를 확정하지 않는다.</p>
 <p>검증 순서는 R0 계산 확인 → 실제 채집 Hd → 첫날 구매·건설 → 농장 회수와2~4일 강화 → 5~6일 방어/복구 → 후반 수입과10일 전투다. 실제 수입과 재미는 이번 작업에서 측정하지 않았다.</p>
 </div></details><details class="artifact" id="doc-fe9720e0ac5b30c7"><summary>10일 연결 경제 · 버튼 유지 작업·농장 자동 수입<small>70-connected-ten-day-economy.md</small></summary><div class="markdown"><a class="source" href="70-connected-ten-day-economy.md">Markdown 원본 열기 ↗</a><h3 id="doc-fe9720e0ac5b30c7--10일-연결-경제-버튼-유지-작업농장-자동-수입">10일 연결 경제 · 버튼 유지 작업·농장 자동 수입</h3>
+<p>2026-10-04: 새 규칙의 첫 수치·구매/완공 시각·연결 예산은 <a href="#doc-09db89a263c7199e">72 유지 작업 경제 밸런싱</a>을 따른다. 아래의 재산정 전 상태와 역사 표는 당시 기록이다. 최신 추천 시간은27:15이며 수치·전투·재미는 미확정이다.</p>
 <blockquote>
 <p>확정 기획 · 2026-10-03: 채집·건설·수리·공격은 버튼을 누르고 있는 동안 작업 주기에 맞춰 반복하고, 강화는 작업 1회당 효과을 높인다. 자동 수입은 농장 건설·생산 강화로 확장한다. 본편 상호작용 필드·슬롯·충전·호버 자동 작업은 폐기한다. <a href="#doc-1f03dc67ebc17595">새 규칙·사용법·검증</a>. 새 규칙은 게임 코드·에셋에 아직 적용하지 않았다. 이전 규칙·수치·QA는 당시 기록으로 보존한다.</p>
 </blockquote>
@@ -7862,6 +7864,9 @@ dotnet build Temp/ContinentConsumerValidation/Validation.csproj --no-restore --n
 <p>필드 설치·수명·범위 다중 작업·필드 슬롯·충전·영력 설치 비용은 본편에서 제거할 설계를 유지한다. 버튼을 누르지 않는 호버만으로는 작업하지 않는다. 버튼을 놓은 뒤 작업을 계속하는 토글 자동 작업이나 광역 클릭 강화는 도입하지 않는다.</p>
 <p>영력 세계관·제단/성소 에테론 접근, 농장 기존 인접/비옥 보너스, 주택 연결·마을 건설 배율·합체·주민/인구 제거, 군사 무료 정원 충원·골드 가속과 독립 자동 전투는 <a href="#doc-0d03519218134379">64 건물 경제</a>의 기존 규칙을 유지한다.</p>
 <h4 id="doc-1f03dc67ebc17595--2-시작반복중단과-조작-안내">2. 시작·반복·중단과 조작 안내</h4>
+<blockquote>
+<p>후속 사용자 지시 · 2026-10-03: 버튼을 누른 채 <strong>현재 마우스 위치의 단일 대상</strong>에 계속 상호작용한다. 대상 고정/전환에 관한 아래 미정 항목은 이 결정으로 대체한다. Day02 촬영 씬에는 적용했으며 본편 게임 적용은 별도다. 촬영용 0.7초 간격·회당 1/3은 본편 경제 확정값이 아니다.</p>
+</blockquote>
 <table>
 <thead>
 <tr>
@@ -7926,6 +7931,7 @@ dotnet build Temp/ContinentConsumerValidation/Validation.csproj --no-restore --n
 <p>기존 R8 필드 간격·R11/R12 슬롯·반경 계열과 일일 보상은 본편에서 폐기·재설계한다. 이름만 바꿔 작업 주기 또는 농장 효과에 승계하지 않는다. 기존 노드 ID·가격·효과·선행/호환과 새 보상 상한은 구현 전 정의한다. 제단/성소 에테론 강화 접근은 기본 연결 후보이며 첫 농장은 강화 없이 생산한다.</p>
 <p>풍요의 활성 필드 조건·후속 회복/보호·재사용 시간 효과는 재설계 대상으로 유지한다. 농장 생산 지원으로 연결하는 것은 추천안이며 정확한 조건/배율은 미정이다. 독립 낙뢰 등 자동 스킬·일일 3택1 구조는 유지한다.</p>
 <h4 id="doc-1f03dc67ebc17595--4-경제시간일차별-영향">4. 경제·시간·일차별 영향</h4>
+<p>2026-10-04 수치 후속: <a href="#doc-09db89a263c7199e">72 경제 밸런싱1차</a>에 버튼 유지·단일 대상 기준의 추천 가격·반복 주기·농장 성장·구매 마감·6개 경로 산술 결과를 기록했다. 숫자와 첫 실행 정책은 아직 미채택이며 여기의 확정 방향과 구분한다.</p>
 <p><strong>직접 수입 = 대상별 완료된 유효 작업 횟수 × 회당 실제 채집량 × 단가.</strong> 작업 횟수는 버튼 유지 유효 시간·작업 주기·첫 실행/대상 전환 정책·잔량/비용에 따라 달라진다. 클릭 횟수나 사람의 연타 빈도를 수입 기준으로 사용하지 않는다.</p>
 <p>단순 지속 작업률 후보는 ‘회당 채집량×단가/작업 간격’이며 실제 수입에는 유효 유지 시간·중단·대상 변경·이동·자원 고갈을 반영한다. 간격이 미정이므로 새 G/초를 확정하지 않는다. 나무 기본량1은 회당 양이며 초당 수입이 아니다. 필드0.8/1.6G/초도 승계하지 않는다.</p>
 <p>농장 수입은 완료 생산 회차×회당 골드이며 인접/비옥/강화와 실제 가동 시간을 반영한다. 직접 공사·수리·공격 중 농장/자동 공사/군사 충원은 병렬 진행한다. 직접 채집에 사용하지 않은 시간은 채집 기회비용이지만 농장 수입 손실로 중복 차감하지 않는다.</p>
@@ -7984,7 +7990,499 @@ dotnet build Temp/ContinentConsumerValidation/Validation.csproj --no-restore --n
 <p>미정: 첫 실행·반복 간격·대상 고정/전환·타이머 이월/재입력·관리/이전 우선순위·조건 부족 후 재개, 회당 작업량/수리비, 농장 강화·풍요·노드/보상·새 경제 수치. 이전 클릭/호버/필드 QA를 유지 입력의 검증으로 재사용하지 않는다.</p>
 <h4 id="doc-1f03dc67ebc17595--7-문서-상태">7. 문서 상태</h4>
 <p>버튼 유지 규칙으로 기획·조작·경제·튜토리얼·강화/표시·검증·Devlog 안내를 갱신한다. 기존 결정과 역사 시연은 보존한다. 대시보드 재생성·링크/문서 정합성 확인은 문서 검증이며 코드 컴파일·Unity 실행·사람 경험 검증과 별개다. 실제 본편 적용은 아직 하지 않았다.</p>
+</div></details><details class="artifact" id="doc-09db89a263c7199e"><summary>버튼 유지 작업 · 10일 경제 밸런싱 1차<small>72-hold-economy-balance.md</small></summary><div class="markdown"><a class="source" href="72-hold-economy-balance.md">Markdown 원본 열기 ↗</a><h3 id="doc-09db89a263c7199e--버튼-유지-작업-10일-경제-밸런싱-1차">버튼 유지 작업 · 10일 경제 밸런싱 1차</h3>
+<p>2026-10-04. <a href="#doc-1f03dc67ebc17595">71 확정 입력 규칙</a>을 기준으로 경제·작업 시간·군사 충원을 다시 계산했다. 아래 수치와 입력 세부는 <strong>추천·미채택</strong>이며 게임 코드·씬·SO에 적용하지 않았다. 오프라인 경제 계산은 실제 플레이·전투 검증이 아니다.</p>
+<h4 id="doc-09db89a263c7199e--작업-목록">작업 목록</h4>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>최신 버튼 유지·단일 대상 규칙 확인, 옛 필드 예산 제외</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>직접 작업·자동 공사·생산 회차·재화 이월을 연결한 계산</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>1~4일 구매·완공·이동 포함 충원 마감 확인</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>기본·느린 작업·농장 파괴·인접·초반 추가 농장·복구 경로 비교</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled checked/>설계·사용법·검증·진행 기록 갱신</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>새 규칙의 본편 구현 및 실제 조작·전투·재미 확인</li>
+</ul>
+<h4 id="doc-09db89a263c7199e--1-이번-추천의-결론">1. 이번 추천의 결론</h4>
+<p>첫 농장과 병영은 직접 작업으로 빠르게 준비하고, 3일 제단으로 다음 날 강화에 접근한다. 5~6일에는 자금과 병력 손실의 복구를 요구한다. 7일 이후 농장 생산으로 직접 채집 부담을 줄여 배치·수리·중요 적 대응에 시간을 쓴다.</p>
+<p>기본 경로는 계산에서 모든 예정 구매·완공과 가정한 복구/가속 지출을 충족했다. 농장 파괴 후 기존 확장 순서를 그대로 쓰는 경로는 부족했고, 농장부터 복구하는 대안은 예산에 맞았다. 전투 승리 여부는 계산하지 않았다.</p>
+<p>시작 슬롯·충전·필드 수명·범위는 입력값에서 제외한다. 시작 조건은 <strong>나무 작업당1·단일 대상 버튼 유지·무료 군사 충원</strong>이다. 현행 본편은 아직 이전 방식이므로 아래 결과를 현재 빌드의 성능으로 읽지 않는다.</p>
+<h4 id="doc-09db89a263c7199e--2-계산용-공통-설정-미채택">2. 계산용 공통 설정 · 미채택</h4>
+<table>
+<thead>
+<tr>
+  <th>항목</th>
+  <th style="text-align:right">후보</th>
+  <th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>시작 골드</td>
+  <td style="text-align:right">20G</td>
+  <td>첫 농장까지 채집이 조금 필요</td>
+</tr>
+<tr>
+  <td>기본 반복 간격</td>
+  <td style="text-align:right">1초</td>
+  <td>나무 기본 수입1G/유효 작업초. 촬영용0.7초를 승계하지 않음</td>
+</tr>
+<tr>
+  <td>나무 작업량·단가</td>
+  <td style="text-align:right">1개·1G</td>
+  <td>돌/동시 다수 채집/치명타/상자/정산 수입 제외</td>
+</tr>
+<tr>
+  <td>회당 채집량 강화</td>
+  <td style="text-align:right">1→1.5→2</td>
+  <td>직접 작업 효율. 소수 잔량을 누적하고 골드는 정수 지급</td>
+</tr>
+<tr>
+  <td>기본 농장</td>
+  <td style="text-align:right">1G/5초</td>
+  <td>버튼과 독립. 회수까지 완공 후125초</td>
+</tr>
+<tr>
+  <td>농장 주기 강화</td>
+  <td style="text-align:right">5→4→3초</td>
+  <td>자동 수입 성장 후보. 농장 생산량은1 유지</td>
+</tr>
+<tr>
+  <td>군사 가속</td>
+  <td style="text-align:right">1G/1초</td>
+  <td>실제 지출 후보. 무료 충원 시간을 모집비로 차감하지 않음</td>
+</tr>
+<tr>
+  <td>군사 정원·주기</td>
+  <td style="text-align:right">시설당3명·10초</td>
+  <td>전사/궁수. 기사18초·마법사15초는 후속 경로</td>
+</tr>
+<tr>
+  <td>건설 자동 기여</td>
+  <td style="text-align:right">0.25/초</td>
+  <td>현행 기본값을 계산에 사용</td>
+</tr>
+<tr>
+  <td>직접 공사 기여</td>
+  <td style="text-align:right">작업당1→1.5</td>
+  <td>6일 강화 후보. 한 번에 공사 한 곳만 지원</td>
+</tr>
+<tr>
+  <td>지역 건설 배율</td>
+  <td style="text-align:right">1.1</td>
+  <td>시작 주택의+10%를 사용. 추가 주택·합체 효과 미포함</td>
+</tr>
+<tr>
+  <td>배치/대상 선택 지연</td>
+  <td style="text-align:right">시설당3초</td>
+  <td>입력을 못 하는 시간의 가정. 지도 이동 실측 아님</td>
+</tr>
+<tr>
+  <td>병력 이동 여유</td>
+  <td style="text-align:right">생산 후8초</td>
+  <td>실제 경로·막힘은 후속 측정</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+  <th>시설</th>
+  <th style="text-align:right">골드 후보</th>
+  <th style="text-align:right">기본 공사 분모</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>농장</td>
+  <td style="text-align:right">25G</td>
+  <td style="text-align:right">10</td>
+</tr>
+<tr>
+  <td>병영</td>
+  <td style="text-align:right">55G</td>
+  <td style="text-align:right">15</td>
+</tr>
+<tr>
+  <td>궁수장</td>
+  <td style="text-align:right">70G</td>
+  <td style="text-align:right">10</td>
+</tr>
+<tr>
+  <td>제단</td>
+  <td style="text-align:right">60G</td>
+  <td style="text-align:right">10</td>
+</tr>
+<tr>
+  <td>주택</td>
+  <td style="text-align:right">15G</td>
+  <td style="text-align:right">10</td>
+</tr>
+<tr>
+  <td>화살 타워</td>
+  <td style="text-align:right">50G</td>
+  <td style="text-align:right">10</td>
+</tr>
+</tbody>
+</table>
+<p>공사 분모10은 기본 자동 공사만으로10초 완공한다는 뜻이 아니다. 자동 기여0.25와 지역 배율1.1이면 약36.4초이고, 1초마다 직접 기여1을 더하면 배치3초 포함 약9초까지 줄어드는 계산이다. 병영은 같은 조건에서 약13초다. 채집과 직접 공사는 동시에 할 수 없으나 자동 생산·자동 공사는 병렬 진행한다.</p>
+<p>첫 작업은1초 후 실행하는 계산 정책이다. 이후 공용 작업 주기를 사용해 대상 전환·재입력으로 추가 작업을 만들어내지 않는다. 유효 대상은 현재 커서 위치이며 빈 땅/부적합 대상에는 지급하지 않는71 규칙을 따른다. 첫 실행·타이머 상세는 이번 <strong>추천 입력값</strong>이고 사용자 확정이 아니다.</p>
+<p>새 작업량·농장 강화는 각각 다른 효과로 계산했다. 현행 공용 ProductionSpeed는 채집과 건물 생산을 함께 올리는 부분이 있으므로 기존 효과/ID를 그대로 적용하면 아래 결과와 달라진다. 신규 노드 ID는 이번에 배정하지 않는다.</p>
+<h4 id="doc-09db89a263c7199e--3-하루-경험과-시간-기준2715">3. 하루 경험과 시간 · 기준27:15</h4>
+<p>황혼은 매일10초다. 선택/결과 예상은1~9일15초,10일10초다. 기존26:30 후보에서3일 낮+20초,4일+10초,7일+5초,9일+10초를 더했다. 진행24:50+선택/결과2:25=27:15. 선택 시간은 제한이 아니며 잔여 전투·튜토리얼 때문에 실제 시간은 달라진다.</p>
+<table>
+<thead>
+<tr>
+  <th>일차</th>
+  <th>낮 / 밤</th>
+  <th>새 시설·낮의 선택</th>
+  <th style="text-align:right">직접 채집 유지 목표</th>
+  <th>밤 과제</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td>120 / 25초</td>
+  <td>농장1→병영1, 공사 직접 지원</td>
+  <td style="text-align:right">65초</td>
+  <td>전사3명으로 한 방향 첫 방어</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td>90 / 30초</td>
+  <td>궁수장1, 전방/후방 병종 배치</td>
+  <td style="text-align:right">45초</td>
+  <td>전사3+궁수3 조합 익히기</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td>105 / 35초</td>
+  <td>제단1→주택1→농장1</td>
+  <td style="text-align:right">60초</td>
+  <td>확장과 다른 방향 대응</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td>95 / 40초</td>
+  <td>병영1·타워1, 작업량/낙뢰 첫 강화</td>
+  <td style="text-align:right">45초</td>
+  <td>강화 성과, 다음 대군 예고</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td>80 / 60초</td>
+  <td>궁수장1, 농장/보호 강화, 예비비</td>
+  <td style="text-align:right">35초</td>
+  <td>다수 적 지속 압박과 손실</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td>85 / 55초</td>
+  <td>병영1·농장1 또는 농장 복구 우선</td>
+  <td style="text-align:right">45초</td>
+  <td>피해 복구·보조 방향 공격</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td>85 / 45초</td>
+  <td>궁수장1, 회당 작업량/농장2단계</td>
+  <td style="text-align:right">30초</td>
+  <td>재정비·다음 방어 자금 비축</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td>80 / 55초</td>
+  <td>제단1·타워1·주택2</td>
+  <td style="text-align:right">25초</td>
+  <td>밀집 적 처리·보스 예고</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td>90 / 55초</td>
+  <td>병영1·궁수장1, 즉효 방어 강화</td>
+  <td style="text-align:right">20초</td>
+  <td>최종 군비와 보스 대응 연습</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td>60 / 100초</td>
+  <td>경제 확장 중단, 수리·충원·배치</td>
+  <td style="text-align:right">15초</td>
+  <td>호위 무리와 보스 결전</td>
+</tr>
+</tbody>
+</table>
+<p>직접 채집 유지 목표는 계산 예산이며 게임의 의무·쿼터가 아니다. 전체 낮을 유지 채집으로 채우지 않는다. 1일 채집65초+공사16.5초+배치6초 뒤 약32.5초,3일60+18.75+9 뒤 약17.25초,4일45+16.5+6 뒤 약27.5초가 다른 조작에 남는다. 이동·설명·대상 전환이 이 여유에 들어오는지 직접 확인한다.</p>
+<h4 id="doc-09db89a263c7199e--4-첫-구매와-밤-전-준비">4. 첫 구매와 밤 전 준비</h4>
+<p>시간은 각 날 낮 시작부터다. 소수 계산 결과를 실제 목표로 제시할 때는 초 단위로 둥글게 읽는다.</p>
+<table>
+<thead>
+<tr>
+  <th>일차</th>
+  <th>구매→완공</th>
+  <th>준비 시점</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td>농장 약5→14초, 병영61→74초</td>
+  <td>전사3명 생산+이동까지 약112초. 밤130초보다 이른 목표</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td>궁수장 약31→40초</td>
+  <td>궁수3명 생산+이동까지 약78초. 밤100초 전에 배치 여유</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td>제단26→35초, 주택46→55초, 농장75→84초</td>
+  <td>정산 시3E,4일 첫 강화2E 구매 가능</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td>병영15→28초, 타워52→61초</td>
+  <td>추가 전사3명은 약66초 도착. 밤105초 이전</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td>병영 즉시→10초, 궁수장11→18초</td>
+  <td>새 정원6명은 약56초 이내 도착. 밤100초 이전</td>
+</tr>
+</tbody>
+</table>
+<p>착공 시 비용을 차감하고 완공 다음 계산 틱부터 생산한다. 밤까지 벌 돈을 낮 시작 잔고로 사용하지 않는다. 실제 이동8초·건설 지역1.1·자원 확보가 달라지면 위 시점도 바뀐다.</p>
+<h4 id="doc-09db89a263c7199e--5-강화-재화와-성장-경로-미채택">5. 강화 재화와 성장 경로 · 미채택</h4>
+<table>
+<thead>
+<tr>
+  <th>일차</th>
+  <th>대표 강화</th>
+  <th style="text-align:right">합계 비용</th>
+  <th>연결</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>4</td>
+  <td>신규 회당 채집량1.5:1E + 기존 A1 낙뢰1:1E</td>
+  <td style="text-align:right">2E</td>
+  <td>완공 제단 접근</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td>신규 농장 주기4초:2E + A3 보호1:1E</td>
+  <td style="text-align:right">3E</td>
+  <td>완공 제단 접근</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td>신규 공사·수리 회당 효과+50%:2E + A7 회복1:2E</td>
+  <td style="text-align:right">4E</td>
+  <td>A7은A3 필요. 계산기는 공사 효과만 사용</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td>회당 채집량2:2E + 농장 주기3초:3E</td>
+  <td style="text-align:right">5E</td>
+  <td>각각 앞 단계 필요</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td>A1 낙뢰2:2E + A3 보호2:2E</td>
+  <td style="text-align:right">4E</td>
+  <td>각 앞 단계</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td>A3 보호3:3E + A7 회복2:4E</td>
+  <td style="text-align:right">7E</td>
+  <td>각 앞 단계</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td>A1 낙뢰3:3E</td>
+  <td style="text-align:right">3E</td>
+  <td>앞 단계</td>
+</tr>
+</tbody>
+</table>
+<p>강화 구매는 대표 경로이며 다른 선택도 허용한다. 계산기는 비용 합계를 확인하고 효과를 갱신한다. 제단·각 노드 선행은 위 경로와 현행 카탈로그를 문서로 대조했으며 계산기가 노드별 선행을 자동 검증하지는 않는다. 풍요·일일 보상은 효과가 미정이어서 수입에 포함하지 않았다.</p>
+<p>제단은30초/1E로 회차를 이월하며 정산 중 멈춘다. 두 번째 제단은8일에 추가한다. 기본 경로의3~10일 정산E잔고는3/6/8/9/9/14/17/26이다. 에테론 여유는 다른 강화 선택을 위한 후보이며 모든 노드를 구매한 결과가 아니다.</p>
+<h4 id="doc-09db89a263c7199e--6-연결된-기본-예산">6. 연결된 기본 예산</h4>
+<p>아래는 예정 작업 시간과 충분한 나무 공급의 결과다. 실제 자원 분포·고갈·적 전투를 실행하지 않았다. 농장 인접/비옥·추가 주택 건설 배율·처치/정산·유물 수입을 제외한다.</p>
+<table>
+<thead>
+<tr>
+  <th>일차</th>
+  <th style="text-align:right">시작G</th>
+  <th style="text-align:right">직접 채집G</th>
+  <th style="text-align:right">농장G</th>
+  <th style="text-align:right">시설G</th>
+  <th style="text-align:right">복구·가속G</th>
+  <th style="text-align:right">이월G</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td style="text-align:right">20</td>
+  <td style="text-align:right">65</td>
+  <td style="text-align:right">28</td>
+  <td style="text-align:right">80</td>
+  <td style="text-align:right">0</td>
+  <td style="text-align:right">33</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td style="text-align:right">33</td>
+  <td style="text-align:right">45</td>
+  <td style="text-align:right">26</td>
+  <td style="text-align:right">70</td>
+  <td style="text-align:right">5</td>
+  <td style="text-align:right">29</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td style="text-align:right">29</td>
+  <td style="text-align:right">60</td>
+  <td style="text-align:right">43</td>
+  <td style="text-align:right">100</td>
+  <td style="text-align:right">5</td>
+  <td style="text-align:right">27</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td style="text-align:right">27</td>
+  <td style="text-align:right">67</td>
+  <td style="text-align:right">58</td>
+  <td style="text-align:right">105</td>
+  <td style="text-align:right">20</td>
+  <td style="text-align:right">27</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td style="text-align:right">27</td>
+  <td style="text-align:right">53</td>
+  <td style="text-align:right">74</td>
+  <td style="text-align:right">70</td>
+  <td style="text-align:right">60</td>
+  <td style="text-align:right">24</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td style="text-align:right">24</td>
+  <td style="text-align:right">67</td>
+  <td style="text-align:right">102</td>
+  <td style="text-align:right">80</td>
+  <td style="text-align:right">70</td>
+  <td style="text-align:right">43</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td style="text-align:right">43</td>
+  <td style="text-align:right">60</td>
+  <td style="text-align:right">139</td>
+  <td style="text-align:right">70</td>
+  <td style="text-align:right">15</td>
+  <td style="text-align:right">157</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td style="text-align:right">157</td>
+  <td style="text-align:right">50</td>
+  <td style="text-align:right">146</td>
+  <td style="text-align:right">140</td>
+  <td style="text-align:right">80</td>
+  <td style="text-align:right">133</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td style="text-align:right">133</td>
+  <td style="text-align:right">40</td>
+  <td style="text-align:right">154</td>
+  <td style="text-align:right">125</td>
+  <td style="text-align:right">120</td>
+  <td style="text-align:right">82</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td style="text-align:right">82</td>
+  <td style="text-align:right">30</td>
+  <td style="text-align:right">171</td>
+  <td style="text-align:right">0</td>
+  <td style="text-align:right">160</td>
+  <td style="text-align:right">123</td>
+</tr>
+</tbody>
+</table>
+<p>5일은 정산 이월24G여도 밤 초반 지출 순간에는 예비비가 거의 사라진다. 일차 말 잔고만으로 위기 때 자금 여유를 판단하지 않는다. 복구·가속비는 실제 피해에서 산출한 값이 아니라60/70G 등의 가정 지출이며 밤10초에 지불하도록 계산했다. 이후 농장이 번 돈을 앞선 수리에 소급 사용하지 않는다.</p>
+<p>농장 비중은1일 총수입의 약30%,7일70%,10일85%다. 채집 유지 시간이65→15초로 줄어드는 경로여서 후반 운영 시간을 확보하는 후보가 된다. 자동 수입이 충분하다는 계산은 후반 콘텐츠가 재미있다는 증거가 아니다.</p>
+<h4 id="doc-09db89a263c7199e--7-경로-비교와-위기의-선택">7. 경로 비교와 위기의 선택</h4>
+<table>
+<thead>
+<tr>
+  <th>비교</th>
+  <th>계산에서 나타난 차이</th>
+  <th>밸런싱 판단</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>기본</td>
+  <td>구매/지출 부족 경고0, 첫 밤 전사3명,10일 이월123G</td>
+  <td>첫 검증 경로로 사용</td>
+</tr>
+<tr>
+  <td>작업 주기1.25초</td>
+  <td>작업률20% 감소.2일 밤 궁수0명,3일 농장·4일 타워 구매 지연</td>
+  <td>간격 변경 시 경제 전체를 다시 맞춰야 함</td>
+</tr>
+<tr>
+  <td>5일 농장1개 파괴·기존 순서 유지</td>
+  <td>6일 밤 비용38/70G, 이후에도 부족</td>
+  <td>방어 실패가 후속 수입을 줄이는 위기 후보</td>
+</tr>
+<tr>
+  <td>농장 인접 최적화</td>
+  <td>두 농장+25%, 세 농장 이상+50%의 가정.10일 이월524G</td>
+  <td>중반 위기를 크게 약화할 위험</td>
+</tr>
+<tr>
+  <td>1일 농장 추가 후 병영</td>
+  <td>첫 밤 전사2명,5일 이월149G,10일494G</td>
+  <td>초반 방어 손해가 후속 경제 이익에 비해 작은지 확인</td>
+</tr>
+<tr>
+  <td>농장 파괴 후 복구 우선</td>
+  <td>6일 농장2개 건설·병영은7일로, 예정 복구/가속비40G. 부족 경고0</td>
+  <td>6일 정원12명으로 복구를 선택하는 대안</td>
+</tr>
+</tbody>
+</table>
+<p>파괴 후 복구 경로는6일에 잃은 농장을 대체하고 새 농장을 더해 총3개를 되찾는다. 원래6일의 병영55G를7일로 미루고6일 예정 지출70G를40G로 줄였다.7일에는 병영+궁수장에125G를 쓴다.6일 군사 정원은15명 대신12명,7일18명으로 회복한다.10일 이월은114G다.</p>
+<p>30G 지출 축소는 피해가 자동으로 줄어든다는 뜻이 아니다. 긴급 가속 등 선택 지출을 줄이고 재건·병력 회복을 기다리는 경로다.6일 전투를12명과 이 지출로 버틸 수 있는지는 후속 검증 항목이다. 소유 농장 수에 따라 적을 자동으로 약화하지 않는다.</p>
+<p>작업 주기1.25초 경로는 미지급 지출 합계298G, 농장 파괴 후 기존 순서는195G 부족했다. 계산은 자금을 넘는 지출을 가능한 만큼만 지급하고 경고를 남긴다. 따라서 그 경로의 양수 종료 잔고를 성공으로 읽지 않는다. 미구매한 시설은 다음 날에 자동 추가하지 않는다. 복구 우선처럼 명시적으로 투자 순서를 바꾼 별도 경로로 확인한다.</p>
+<p><strong>이번 조정 우선순위:</strong> 초반 기본 경로부터 사람 검증한다. 농장 인접·추가 농장 경로가 실제로 방어 위험 없이 유리하면 농장 가격/생산 주기로 투자 회수 시간을 늘리거나 강화 상승폭을 줄이는 후보를 재계산한다. 확정 규칙인 인접 보너스를 이번에 임의 제거하지 않았다. 현 후보5→4→3초는 성장 확인용이며 최종값이 아니다. 시설 수를 강제 제한하거나 정답 구매 순서를 퀘스트로 강제하지 않는다.</p>
+<h4 id="doc-09db89a263c7199e--8-계산-사용법설계검증">8. 계산 사용법·설계·검증</h4>
+<p>입력은 <a href="balance/hold-economy.json">hold-economy.json</a>, 계산기는 <a href="balance/calculate_hold_economy.py">calculate_hold_economy.py</a>, 전체 결과는 <a href="balance/hold-economy-results.json">hold-economy-results.json</a>이다. 외부 라이브러리 없이 Python 표준 라이브러리로 실행한다.</p>
+<pre><code class="language-powershell">python docs/game-process/balance/calculate_hold_economy.py --output docs/game-process/balance/hold-economy-results.json
+</code></pre>
+<p><code>starting_gold</code>, <code>work_interval</code>, 시설 가격/공사 분모, 생산 주기, 날별 낮/밤/작업 유지 시간/시설 순서/강화 비용/효과/지출을 바꾸면 다시 계산할 수 있다. 계산 도구는 Unity를 참조하지 않고 본편 파일이나 에셋을 바꾸지 않는다. 분석 결과를 SO에 자동 쓰는 기능은 없다.</p>
+<p>0.25초 계산 틱으로 골드·에테론·잔여 생산 비율·공사 진행·살아 있는 군사 정원과 작업 잔량을 이월한다. 정산/결과 동안에는 시간이 진행되지 않는다. 농장 주기 변경은 생산 완료 비율을 보존한다. 비용은 착공 시, 생산은 완공 후 회차가 끝날 때 지급한다. 작업 주기는 대상 변경으로 우회하지 않는다.</p>
+<p>손실은5일 전사4/궁수2,6일3/2,8일5/3,9~10일6/4를 밤10초에 시설별로 분산하는 <strong>외부 가정</strong>이다. 군사 자동 보충을 확인하기 위한 입력이며 실제 적의 피해·손실 예측이 아니다. 생산 위치가 막히거나 이동 중 사망하는 경우는 모델링하지 않는다. 복구·가속 지출도 생산 가속/회복 효과 자체를 실행하지 않으므로 이를 전투 승리로 연결하지 않는다.</p>
+<p>검증한 내용: 기본/복구 경로의 구매·예정 지출 부족 경고0, 모든 경로/일차의 시작+직접 수입+농장−시설−실제 지출=이월 산식,27:15 시간 합계. 별도 Unity 빌드·Test Runner·자동 플레이·사람 플레이는 실행하지 않았다.</p>
+<p>직접 확인 순서:</p>
+<ol>
+<li>나무1·기본1초 유지 작업에서 실제 유효 작업 횟수와 수입을 기록한다. UI/해제/전환/고갈 때문에 잃은 시간도 측정한다.</li>
+<li>1~2일 농장/병영/궁수장 착공·완공·첫/세 번째 생산·배치 시각을 확인한다. 처음부터 모든 작업을 쉬지 않고 유지해야 한다면 가격/시작금보다 설명·대상 공급과 조작 부담도 확인한다.</li>
+<li>3일 확장과 제단 재화,4일 강화 선택이 낮의 남는 시간에 들어오는지 본다.</li>
+<li>5~6일 실제 수리HP·소모G·가속 초·손실·농장 파괴와 회복 시간을 측정한다. 기본 경로와 복구 우선 경로 둘 다 확인한다.</li>
+<li>인접/비옥·초반 농장 확대·직접 작업 강화·방어 강화 선택을 비교한다. 경제 성장만으로 중반 위기가 사라지는지 본다.</li>
+<li>7~10일 채집 유지 시간이 줄고 배치/전투에 시간이 쓰이는지, 전체25~30분과 승리·패배·재시작이 이어지는지 확인한다.</li>
+</ol>
+<p>실측 전에는 적 수·보스 체력·건물 가격을 최종 확정하지 않는다. 다음 밸런싱의 핵심은 <strong>초반 조작 여유와 농장 최적화 이익에 맞는 방어 위험</strong>이다.</p>
 </div></details></div></details><details class="stage" id="stage-release"><summary><span class="stage-number">출시</span><span>출시 준비</span><span class="badge">미시작</span></summary><div class="stage-body"><p class="stage-description">아직 작성된 산출물이 없습니다.</p></div></details><details class="stage" id="stage-operations"><summary><span class="stage-number">운영</span><span>출시·운영</span><span class="badge">미시작</span></summary><div class="stage-body"><p class="stage-description">아직 작성된 산출물이 없습니다.</p></div></details><details class="stage" id="stage-records"><summary><span class="stage-number">기록</span><span>진행·결정 기록</span><span class="badge">기록 있음 · 상태 미지정</span></summary><div class="stage-body"><p class="stage-description">문서를 펼쳐 세부 내용과 근거를 확인하세요.</p><details class="artifact" id="doc-1d5e3c1b753c04b4"><summary>Afterlife 재기획 진행<small>status.md</small></summary><div class="markdown"><a class="source" href="status.md">Markdown 원본 열기 ↗</a><h3 id="doc-1d5e3c1b753c04b4--afterlife-재기획-진행">Afterlife 재기획 진행</h3>
+<p>2026-10-04: <a href="#doc-09db89a263c7199e">72 유지 작업 경제 밸런싱1차</a>. 최신 버튼 유지 규칙으로 공사·생산·구매 시각·자금/에테론 이월을 재계산했다. 추천 기준은27:15·작업1초·시작20G·농장25G/5초·병영55G·궁수장70G·제단60G다. 기본 경로와 농장 파괴 후 복구 우선 경로는 예정 구매/지출 부족 경고0. 작업 주기1.25초·파괴 후 확장 유지에서 부족을 확인했고 인접/초반 추가 농장에서 중반 자금 급증을 확인했다. 입력/계산기/6경로 결과 저장, 전 일차 골드 산식 확인. 수치는 미채택이며 본편 구현·Unity/자동 플레이·사람 검증은 하지 않았다.</p>
 <p>2026-10-03 후속: 버튼을 누르고 있는 동안 작업 주기에 맞춰 반복하고 놓으면 중단하도록 수정했다. 강화 기준은 작업1회당 효과다. 첫 실행·반복 간격·대상 유지/전환·관리/이전 우선순위는 미정이며 게임 코드는 변경하지 않았다.</p>
 <p>2026-10-03: <a href="#doc-1f03dc67ebc17595">71 버튼 유지 작업·농장 자동화</a>를 사용자 확정 규칙으로 반영했다. 채집·건설·수리·공격은 버튼 유지 반복 작업과 작업 1회당 양 강화, 자동 수입은 농장 건설·생산 효율 강화로 확장한다. 본편 필드·슬롯·충전·호버 자동 작업과 관련 노드/보상은 폐기·재설계한다. 01~08·강화·튜토리얼·UI·66~70·구현/검증 기록·아키텍처·Devlog 안내와 대시보드 갱신. 이전 필드 예산/구매 시각은 적용 중단, 새 수치는 미정. 게임 코드·씬·SO·실제 플레이는 변경/실행하지 않았다.</p>
 <ul>
@@ -7992,7 +8490,7 @@ dotnet build Temp/ContinentConsumerValidation/Validation.csproj --no-restore --n
 <li>현재 모드와 단계: M2/M5 재설계 — 버튼 유지 작업·농장 자동화 확정, 문서 갱신 완료·새 구현/검증 대기</li>
 <li>현재 단계 ID: iterations</li>
 <li>iterations 상태: 규칙 문서 갱신 완료 · 본편 적용 전</li>
-<li>iterations 요약: 필드/슬롯을 제거할 설계로 전환. 작업 1회당 효과과 농장 생산량/주기 강화, 옛 경제 재산정·풍요/보상/UX 이관 계획 정리. 코드·에셋은 기존 구현 유지.</li>
+<li>iterations 요약: 버튼 유지 작업·농장 자동화로 경제1차 재계산. 첫 구매/완공/충원·6가지 경로·27:15 후보 확인. 농장 최적화의 과잉 이익과 실제 전투는 검증 전이며 본편 적용 전.</li>
 <li>단계 상태: 기획 갱신 완료 · 수치/구현/경험 검증 전</li>
 <li>현재 요청 범위: 관련 문서와 대시보드 갱신. 게임 구현·자동 플레이·테스트·공개 배포 제외.</li>
 <li>엔진·버전·플랫폼: 기존 Unity 프로젝트, 새 규칙 실제 적용 환경은 후속 개발 시 확인.</li>
@@ -8004,7 +8502,7 @@ dotnet build Temp/ContinentConsumerValidation/Validation.csproj --no-restore --n
 <li>03 요약: 직접 채집→농장→시설/강화/병력→밤 대응→복구/정산→다음 일차.</li>
 <li>04 상태: 새 경험 재검증 필요</li>
 <li>04 요약: 입력 일관성·유지 작업 피로·농장 수입과 직접 효율의 균형·긴급 개입을 검증한다.</li>
-<li>05 상태: 수치 재설계 대기</li>
+<li>05 상태: 1차 경제 산술 검토 완료 · 수치 미채택</li>
 <li>05 요약: 작업 1회당 효과·농장 생산 강화·골드 투자·에테론 강화·군사 자동 충원을 연결. 필드 기준 수입/예산은 대체 전제.</li>
 <li>06 상태: 조작 기획 갱신 · 세부 입력 우선순위 미정</li>
 <li>06 요약: 대상에서 버튼 유지 시 작업 반복, 농장은 지속 생산. UI·병력·배치·관리/이전과 월드 작업을 분리한다.</li>
@@ -8023,7 +8521,7 @@ dotnet build Temp/ContinentConsumerValidation/Validation.csproj --no-restore --n
 <li>현재 구현/검증 빌드: 기존 본편 필드/슬롯·건물 경제 구현 기록 유지. 새 유지 작업/농장 강화는 미구현, 이번 작업은 문서 검증만 수행.</li>
 <li>가장 큰 미검증 위험: 후반 직접 작업 유지 부담, 회당 작업 효율이 농장을 압도하거나 농장만 늘리는 정답, 공사/수리 클릭이 운영 판단을 방해하는지.</li>
 <li>진행 중 실험 또는 Milestone: M2 새 수치/계약 설계와 M5 새 빌드 경험 재검증 대기.</li>
-<li>다음 행동: 입력 우선순위·기본 작업량·농장 강화·풍요/보상 계약과 경제를 구체화한 뒤 별도 개발 요청 범위에서 적용.</li>
+<li>다음 행동: 72 후보의 입력 세부·농장 강화/보너스·수리/가속 계약을 구체화하고, 별도 본편 개발 범위에서1~4일 실제 조작 여유와5~6일 기본/복구 방어 경로를 검증.</li>
 </ul>
 <h4 id="doc-1d5e3c1b753c04b4--이전-구현기획-진행-이력">이전 구현·기획 진행 이력</h4>
 <p>아래 ‘현재/최신’은 각 기록 작성 당시를 뜻한다. 이전 필드/슬롯·주민·환생·예산/QA를 새 확정 규칙이나 새 검증 결과로 해석하지 않는다.</p>
@@ -8435,6 +8933,15 @@ dotnet build Temp/ContinentConsumerValidation/Validation.csproj --no-restore --n
 <h4 id="doc-1d5e3c1b753c04b4--현재-재개-위치-전투-ai와-성장">현재 재개 위치 · 전투 AI와 성장</h4>
 <p><a href="#doc-74f10c8f7a2465f1">15 전투·성장 개선</a>을 우선한다. 쏠림 원인을 확인하고 담당 지점/표적 분담을 구현했으나 실제 개선 체감은 아직 확인하지 않았다. 일반 강화는 최대 5단계, 타워 동시 공격은 기본 1단계~최대 5단계, 공전 에너지 볼은 사용자 피드백으로 제거했다. UI는 현재 기능 가독성을 다듬고 M5 후반~M6에서 최종 시각 체계를 완성한다.</p>
 </div></details><details class="artifact" id="doc-80a4cf760a0fa2bf"><summary>결정 기록<small>decisions.md</small></summary><div class="markdown"><a class="source" href="decisions.md">Markdown 원본 열기 ↗</a><h3 id="doc-80a4cf760a0fa2bf--결정-기록">결정 기록</h3>
+<h4 id="doc-80a4cf760a0fa2bf--2026-10-04-버튼-유지-규칙-경제-밸런싱1차-추천">2026-10-04 · 버튼 유지 규칙 경제 밸런싱1차 · 추천</h4>
+<ul>
+<li>최신71 규칙을 사용하고 옛 필드 수입/예산은 재사용하지 않았다. 작업1초·나무1·시작20G·시설 가격·농장5→4→3초·회당 채집1→1.5→2는 미채택 계산 입력이다.</li>
+<li>추천 시간: 3/4/7/9일 낮에 각각20/10/5/10초를 추가한27:15. 작업 유지·공사·배치 시간을 함께 배분했다.</li>
+<li>증거: 기본/농장 복구 우선의 예정 구매·지출 부족 경고0, 모든 경로의 일차별 골드 이월 산식 확인. 첫 밤 전사3명·다음 밤 궁수3명 준비 시각을 산술 계산했다.</li>
+<li>대안: 5일 농장 파괴 후6일 농장부터 재건하고 병영을7일로 미룬다.6일 정원12명과 지출40G로의 방어 성립은 실제 검증 전이다.</li>
+<li>남은 위험: 작업 주기1.25초에서 구매 지연, 농장 인접·초반 추가 농장에서 중반 자금 급증. 적 수/보스HP·최종 가격·강화 기울기는 실측 없이 확정하지 않는다.</li>
+<li>범위: 오프라인 경제 입력/계산기/결과·설계/검증/대시보드. 게임 코드·에셋 적용이나 자동 플레이가 아니다. <a href="#doc-09db89a263c7199e">72 상세</a>.</li>
+</ul>
 <h4 id="doc-80a4cf760a0fa2bf--2026-10-03-버튼-유지-반복-상호작용-사용자-채택">2026-10-03 · 버튼 유지 반복 상호작용 · 사용자 채택</h4>
 <ul>
 <li>사용자 결정: 매 작업마다 다시 클릭하는 대신 버튼을 누르고 있는 동안 채집·건설·수리·공격을 반복하도록 수정. 버튼을 놓으면 이후 직접 반복 중단.</li>
