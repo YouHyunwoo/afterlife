@@ -99,7 +99,7 @@ Blender 5.0.1로 사슴·토끼·멧돼지·여우를 만들고 FBX로 내보냈
 - 제작 스크립트: `tools/art/build_animals.py`
 - 원본: `res/art-source/animals/AfterlifeAnimals.blend`
 - [Blender 모델 미리보기](../../res/art-source/animals/animal-preview.png)
-- 게임 FBX: `impls/unity/Afterlife/Assets/_AfterlifePrototype/Resources/AfterlifePrototype/Animals/`
+- 게임 FBX: `impls/unity/Afterlife/Assets/Prototype/Resources/AfterlifePrototype/Animals/`
 
 ## 검증 결과
 

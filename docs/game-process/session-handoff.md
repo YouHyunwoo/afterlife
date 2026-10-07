@@ -39,7 +39,7 @@ UpgradeTreeScreen 우측 패널/노드 텍스트 제거, UpgradeHoverTooltip·Up
 
 ## 최신 추가 · 45 독립 화면 흐름 모듈 (2026-09-19)
 
-Assets/Afterlife/Modules/Flow에 Unity 비의존 Afterlife.Flow 추가(noEngineReferences, 외부 참조 없음). 상태/전환 정의, Guard, Enter/Exit, 재진입 거절, 예외 시 Faulted, Dispose 계약 제공. PrototypeGameFlow가 게임별 5화면 규칙과 IPrototypeGameSession을 조합하고 Moonstone으로 주입한다. PrototypeFlowScreen은 런타임 기본 화면이며 인트로는 정적 안내(44번 튜토리얼 구현 아님). 게임 외 상태에서는 입력·Tick·월드 카메라/HUD를 끈다. RunEnded 후 Tick/Sync가 끝나면 결과 스냅샷으로 전환. 포기와 결과 화면에서 타이틀 복귀, 다음 Playing 진입 때 모델 Reset. 모델/지형은 씬 수명으로 재사용하고 동적 월드 뷰/모달/연출은 Playing 종료 시 정리. Build-Modules.ps1에 독립 코어 빌드 추가. 컴파일 오류·경고 0. Unity 플레이/테스트·Windows 빌드 미실시. 상세: 45-modular-screen-flow.md, 코어 재사용: Flow/README.md.
+Assets/Modules/Flow에 Unity 비의존 Afterlife.Flow 추가(noEngineReferences, 외부 참조 없음). 상태/전환 정의, Guard, Enter/Exit, 재진입 거절, 예외 시 Faulted, Dispose 계약 제공. PrototypeGameFlow가 게임별 5화면 규칙과 IPrototypeGameSession을 조합하고 Moonstone으로 주입한다. PrototypeFlowScreen은 런타임 기본 화면이며 인트로는 정적 안내(44번 튜토리얼 구현 아님). 게임 외 상태에서는 입력·Tick·월드 카메라/HUD를 끈다. RunEnded 후 Tick/Sync가 끝나면 결과 스냅샷으로 전환. 포기와 결과 화면에서 타이틀 복귀, 다음 Playing 진입 때 모델 Reset. 모델/지형은 씬 수명으로 재사용하고 동적 월드 뷰/모달/연출은 Playing 종료 시 정리. Build-Modules.ps1에 독립 코어 빌드 추가. 컴파일 오류·경고 0. Unity 플레이/테스트·Windows 빌드 미실시. 상세: 45-modular-screen-flow.md, 코어 재사용: Flow/README.md.
 
 ## 최신 기획 · 44 단계형 튜토리얼 (2026-09-19)
 
@@ -296,8 +296,8 @@ PrototypeTileBuildMenu에 타일 중앙 회전 사각뿔 메시/알파, 0.22초 
 - 작업 루트: `D:/area/dev/alone/Afterlife`
 - 실제 Unity/Git 프로젝트: `D:/area/dev/alone/Afterlife/impls/unity/Afterlife` (상위 작업 루트는 Git 아님).
 - Unity: 6000.0.69f1, URP 17, Windows.
-- 씬: `Assets/_AfterlifePrototype/Scenes/Afterlife_PixelPrototype.unity`.
-- 코드: `Assets/_AfterlifePrototype/Runtime`, 편집기 도구: `Assets/_AfterlifePrototype/Editor`.
+- 씬: `Assets/Prototype/Scenes/Afterlife_PixelPrototype.unity`.
+- 코드: `Assets/Prototype/Runtime`, 편집기 도구: `Assets/Prototype/Editor`.
 - 빌드 폴더: `D:/area/dev/alone/Afterlife/impls/unity/Afterlife/Builds/PixelPrototypeWindows`
 - 실행 파일: 위 폴더의 `AfterlifePrototype.exe`.
 - Blender: `C:/Program Files/Blender Foundation/Blender 5.0/blender.exe`.
@@ -356,7 +356,7 @@ UI 편집:
 - 비활성 ModalLayer와 수정할 창을 활성화해 편집한 뒤 다시 비활성으로 저장한다.
 - 모달 본문은 `Body/Viewport/Content`; ScrollRect와 Content 크기로 스크롤 범위 조정.
 - Font는 **Mona12TextKR.ttf의 Unity Font 에셋**. TMP_FontAsset이 아니다. 각 Text.font에 직접 참조한다.
-- 폰트 경로: `Assets/_AfterlifePrototype/Resources/Fonts/Mona12TextKR.ttf`.
+- 폰트 경로: `Assets/Prototype/Resources/Fonts/Mona12TextKR.ttf`.
 - 프레임/아이콘 Sprite 에셋: `Resources/UI/SceneSprites`. 기존 텍스처 참조/9-slice이며 PNG를 새로 편집하지 않았다.
 - 편집 기준 1200×675, 1920×1080에서 1.6배. CanvasScaler 기준은 시작 시 값을 읽어 사용자 UI 배율과 함께 적용한다.
 - 기여 텍스트 일반/치명타 크기와 일반/치명타/불/화상 색상은 PrototypeCanvas Inspector에서 수정 가능.

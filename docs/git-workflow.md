@@ -49,7 +49,7 @@ dev의 C# 컴파일과 사용자 플레이 확인을 마친 뒤 main으로 병�
 - 구현 설명, 출처, 검증 기록은 해당 기능 변경과 함께 갱신한다.
 - C# 검증은 관련 `.csproj`에 `dotnet build --no-restore`를 실행한다. 에이전트는 Unity 테스트나 Play를 실행하지 않는다.
 - 로컬 유튜브 Devlog Markdown을 바꾸면 `python devlog/youtube/tools/render_dashboard.py`로 HTML을 갱신한다. `devlog/`는 Git에서 제외한다.
-- 리소스를 바꾸면 로컬 `python devlog/youtube/tools/resource_manifest.py`로 목록을 갱신한다.
+- 리소스를 바꾸면 로컬 `python tools/resources/update_manifest.py`로 목록을 갱신한다.
 - 파일 크기와 제작 원본 필요성을 확인하고, 향후 큰 바이너리가 늘면 Git LFS 도입을 별도 변경으로 검토한다. 이번 이전은 LFS 이력 변환을 하지 않았다.
 
 ## 추적에서 제외하는 파일
@@ -58,7 +58,7 @@ dev의 C# 컴파일과 사용자 플레이 확인을 마친 뒤 main으로 병�
 
 `AGENTS.md`, `CLAUDE.md`는 기존 Unity 저장소의 제외 정책을 유지한다. 로컬 지침 파일은 그대로 보존하며, 공유할 작업 규칙은 이 문서에 기록한다.
 
-`impls/unity/Afterlife 3d Test/`는 기존 저장소 밖에 있던 별도 실험 프로젝트이므로 추적하지 않는다. 제외한 파일은 디스크에서 삭제하지 않았다.
+`impls/unity/Afterlife 3d Test/`는 루트 통합 당시 추적에서 제외했다. 2026-10-07 현재 해당 폴더는 이 프로젝트 안에 없으며 외부 위치·이동/삭제 경위는 확인되지 않았다. EVE도 외부 이전을 완료해 루트에 없다.
 
 ## 마이그레이션 전 이력과 복구
 
@@ -77,3 +77,9 @@ dev의 C# 컴파일과 사용자 플레이 확인을 마친 뒤 main으로 병�
 - `build-logs/`: 이번 C# 빌드 결과
 
 원격 URL과 추적 참조는 유지했으며 이번 작업에서는 fetch, push 또는 force-push를 실행하지 않았다. 첫 공유 전에는 `git fetch origin`으로 실제 원격 변경을 확인하고 비교한 뒤 main/dev를 정상 push한다. 다른 복제본에서 변경이 없었다는 가정으로 강제 푸시하지 않는다.
+
+## 폴더 정리 이후 · 2026-10-07
+
+Unity의 Legacy·Prototype·Modules·Samples·Devlog 경계와 GUID 보존 절차는 [폴더 운영](architecture/project-organization.md)을 따른다. 분석 실행 캐시는 추적하지 않으며 리소스 목록 도구·TTS 추론 코드는 tools 아래에서 공유한다. 로컬 모델·환경·복구 자료는 Git 밖에 보존한다. 정리 작업은 기존 기능과 폴더 이전을 목적별로 나누어 커밋한다.
+
+게임 기획 Markdown을 수정하면 `python tools/docs/render_game_dashboard.py --docs-dir docs/game-process`로 게임 HTML을 갱신한다. 템플릿과 Markdown 파서는 저장소 안에서 공유한다.

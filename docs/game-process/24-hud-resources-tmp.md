@@ -24,7 +24,7 @@
 2. Tools > Afterlife > Convert HUD Resources to TMP 실행.
 3. Resources 내부 Text만 TextMeshProUGUI로 변환된다. Canvas의 ResourcesTmpFont와 HUD.Money/HUD.Population 바인딩의 TmpText가 연결된다. 기존 Font/Text 참조는 나머지 UI용으로 유지한다.
 4. Inspector의 TextMeshPro - Text (UI)에서 폰트/크기/색/정렬을 수정한다. 변환은 Undo 지원, 현재 씬은 자동 저장하지 않는다. 결과를 보고 씬을 저장한다.
-5. 생성 위치: Assets/_AfterlifePrototype/Resources/Fonts/Mona12TextKR SDF.asset. 원본 ttf, 생성 Material/Atlas 참조를 포함한다. 샘플 크기 64, Padding 8, SDFAA, 1024×1024, Dynamic, Multi Atlas. 숫자/영문/필요 한글을 미리 추가하고 새로운 글자는 원본 폰트에서 추가한다.
+5. 생성 위치: Assets/Prototype/Resources/Fonts/Mona12TextKR SDF.asset. 원본 ttf, 생성 Material/Atlas 참조를 포함한다. 샘플 크기 64, Padding 8, SDFAA, 1024×1024, Dynamic, Multi Atlas. 숫자/영문/필요 한글을 미리 추가하고 새로운 글자는 원본 폰트에서 추가한다.
 
 ## 구현 상세
 - PrototypeUiBinding에 TMP_Text 참조 추가. Label 갱신은 TMP 우선, 기존 Text fallback. 골드 숫자 애니메이션과 인구 갱신은 같은 Label API로 유지한다.

@@ -6,7 +6,7 @@
 
 ## 인스펙터 설정
 
-Project에서 `Assets/_AfterlifePrototype/Resources/AfterlifePrototype/SettingsData/Camera.asset`을 선택한다. 프로토타입의 `Settings.asset`이 이 에셋을 참조한다.
+Project에서 `Assets/Prototype/Resources/AfterlifePrototype/SettingsData/Camera.asset`을 선택한다. 프로토타입의 `Settings.asset`이 이 에셋을 참조한다.
 
 | 필드 | 기본값 | 의미 |
 | --- | --- | --- |
@@ -28,7 +28,7 @@ Project에서 `Assets/_AfterlifePrototype/Resources/AfterlifePrototype/SettingsD
 
 게임 플레이 중에만 `Time.deltaTime`으로 진행한다. 타이틀·인트로·게임 종료, 정산/환생 상태, 게임을 일시정지하는 모달, 포커스 상실, 촬영 중에는 진행하지 않는다. 단순 UI 호버는 자동 거리 증가를 멈추지 않는다. 새 게임·새 생의 기존 월드 초기화 경로에서 거리도 초기화한다. 촬영은 거리 모델을 변경하지 않고, 촬영 종료 시 저장한 위치·회전·화면 크기에서 이어간다. 컴포넌트는 카메라와 함께 파괴되며 이벤트 구독이나 외부 해제 자원이 없다.
 
-`Assets/_AfterlifePrototype/Resources/AfterlifePrototype/PrototypeCamera.prefab`은 프로젝트 카메라 구성을 재사용한다. 설정 참조가 없으면 Resources에서 기본 프리팹을 읽고, 그것도 없는 경우 기존 런타임 생성 경로를 사용한다. 기존 씬/프리팹의 사용자 편집을 덮어쓰지 않는다. `.meta`는 직접 생성/수정하지 않으며 Unity가 임포트 시 생성한다. 새 C# 모듈의 자동 생성 메타데이터는 확인했고, 새 프리팹 임포트는 사용자 에디터 확인 대상이다. 추가 Tools 메뉴는 없다.
+`Assets/Prototype/Resources/AfterlifePrototype/PrototypeCamera.prefab`은 프로젝트 카메라 구성을 재사용한다. 설정 참조가 없으면 Resources에서 기본 프리팹을 읽고, 그것도 없는 경우 기존 런타임 생성 경로를 사용한다. 기존 씬/프리팹의 사용자 편집을 덮어쓰지 않는다. `.meta`는 직접 생성/수정하지 않으며 Unity가 임포트 시 생성한다. 새 C# 모듈의 자동 생성 메타데이터는 확인했고, 새 프리팹 임포트는 사용자 에디터 확인 대상이다. 추가 Tools 메뉴는 없다.
 
 ## 검증
 

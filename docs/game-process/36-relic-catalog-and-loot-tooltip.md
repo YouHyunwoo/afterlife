@@ -17,7 +17,7 @@
 ## 변경 전후
 기존에는 Relic 7개가 씬에 미리 존재하고 보유 여부에 따라 활성화했다. 이제 기존 항목은 런타임에 숨기며 모델의 RelicsChanged 이벤트로 획득 ID를 전달받은 목록을 동기화하고, 데이터셋에서 ID를 조회하여 프리팹을 한 번 생성한다. 0.1초 기존 HUD 갱신에서도 보유 상태를 보수한다. 같은 ID의 재획득은 중복 생성하지 않고 현재 단계로 툴팁을 표시한다. 리셋/환생으로 없어진 유물은 항목도 제거한다.
 
-데이터 경로: Assets/_AfterlifePrototype/Resources/Data/RelicCatalog.asset. Unity가 스크립트를 임포트하면 최초 1회 생성하며 기존 에셋은 수정하지 않는다. 플레이 중 임포트했다면 편집 모드 복귀 후 생성한다. 필요 시 Tools > Afterlife > Create Missing Relic Catalog 메뉴 사용.
+데이터 경로: Assets/Prototype/Resources/Data/RelicCatalog.asset. Unity가 스크립트를 임포트하면 최초 1회 생성하며 기존 에셋은 수정하지 않는다. 플레이 중 임포트했다면 편집 모드 복귀 후 생성한다. 필요 시 Tools > Afterlife > Create Missing Relic Catalog 메뉴 사용.
 
 Entries는 Id(RelicKind enum의 기존 값), DisplayName, Icon, TooltipTemplate을 갖는다. TooltipTemplate의 {name}, {level}, {effect}가 표시 이름, 현재 단계, 실제 모델 효과 설명으로 치환된다. 효과 계산은 모델에 유지하여 툴팁 수치와 실제 효과가 따로 변경되는 일을 피한다. 이름·아이콘·문구를 바꾸려면 데이터셋, 크기·레이아웃을 바꾸려면 기존 Prefabs/Relic List Item.prefab을 편집한다.
 

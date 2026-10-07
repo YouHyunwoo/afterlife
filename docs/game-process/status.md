@@ -248,8 +248,8 @@
 
 ## 기존 자료
 
-- [기존 생존 디펜스 기획](../../impls/unity/Afterlife/Documents/idle_survival_defense_game_design.md)
-- [기존 마을 운영 방향](../../impls/unity/Afterlife/Documents/IdleVillageDefenseDesign.md)
+- 기존 생존 디펜스 기획 (삭제된 과거 원본; 현재 기획은 01~08 문서 참조)
+- 기존 마을 운영 방향 (삭제된 과거 원본; 현재 기획은 01~08 문서 참조)
 - 기존 Demo 개발 현황: 레거시 개발 계획 파일은 현재 작업 폴더에 없음(2026-09-20 확인).
 
 기존 문서는 참고 자료다. 모닥불, 방치형, 베이스캠프 등은 새 기획에 자동 승계하지 않는다.

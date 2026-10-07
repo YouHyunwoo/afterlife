@@ -269,7 +269,7 @@
 
 추천 표현: 중세 판타지 마을을 비스듬히 내려다보는 고정 각도 직교 카메라, 단순한3D 모델, 픽셀 표현과 단계적인 명암. UI·글자·건설 안내·커서 범위는 가독성을 위해 별도 선명한 계층으로 유지한다. 카메라 이동 시 픽셀 떨림과 병력/마물 실루엣 구분은 검증 대상이다. 각도·해상도·색상표는 미정이다.
 
-읽기 확인: 기존 impls/unity/Afterlife/Packages/manifest.json에 URP17.0.4 의존성이 있다. 렌더러 전환/호환성 검증이나 실제 화면 테스트는 수행하지 않았다. 별도 Afterlife 3d Test 폴더도 존재하지만 이번에는 내부 구현을 조사하지 않았으므로 재사용 가능 여부를 단정하지 않는다.
+읽기 확인: 기존 impls/unity/Afterlife/Packages/manifest.json에 URP17.0.4 의존성이 있다. 렌더러 전환/호환성 검증이나 실제 화면 테스트는 수행하지 않았다. 별도 Afterlife 3d Test는 당시 존재 기록만 있었고 내부 구현은 조사하지 않았다. 2026-10-07 현재 해당 폴더는 프로젝트에 없으며 재사용 가능 여부와 외부 위치는 미확인이다.
 
 Unity6의 Full Screen Pass는 화면 전체에 머티리얼 효과를 적용할 수 있는 기반이다. 저해상도 렌더링과 조합하는 구체 파이프라인은 개발 단계에서 결정한다. 근거: https://docs.unity3d.com/cn/6000.0/Manual/urp/renderer-features/renderer-feature-full-screen-pass.html
 

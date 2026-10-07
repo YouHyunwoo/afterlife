@@ -42,7 +42,7 @@ C# 검증 명령: `& impls/unity/Afterlife/Tools/Threshold/Build-Threshold.ps1`.
 
 직접 확인 절차:
 
-1. `Assets/Afterlife/Samples/ThresholdLab/Scenes/Afterlife_ThresholdLab.unity`를 열어 재생한다.
+1. `Assets/Samples/ThresholdLab/Scenes/Afterlife_ThresholdLab.unity`를 열어 재생한다.
 2. 타이틀에서 약 10초 관찰한다. 파문이 불규칙한 웅덩이 밖으로 이어지지 않고 밝은 부분만 남아야 한다.
 3. 새 게임 → 타이틀 귀환을 반복한다. 왕복 각각 0.95초 안에 가속·감속하며 같은 경로를 되짚어야 한다.
 4. 로비 창에는 Day01 After 저장 아트가 보이고 내부 조각선 없이 외곽만 찢어지고 번져야 한다. 마을은 창 밖에 나오지 않아야 한다.

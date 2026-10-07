@@ -20,7 +20,7 @@ Unity 에디터 테스트/플레이모드 스모크는 AGENTS.md에 따라 실�
 
 ## 결과 · 코드 구현/C# 컴파일 완료, Unity 플레이 검증 대기
 
-새 파일은 Assets/_AfterlifePrototype 및 Tools/AfterlifePrototype 아래에 격리했다. 새 씬은 Assets/_AfterlifePrototype/Scenes/Afterlife_PixelPrototype.unity. .meta는 직접 작성하지 않았으며 Unity 임포트 시 생성한다. 기존 씬/프로젝트 설정/기존 수정 파일은 변경하지 않았다.
+새 파일은 Assets/Prototype 및 Tools/AfterlifePrototype 아래에 격리했다. 새 씬은 Assets/Prototype/Scenes/Afterlife_PixelPrototype.unity. .meta는 직접 작성하지 않았으며 Unity 임포트 시 생성한다. 기존 씬/프로젝트 설정/기존 수정 파일은 변경하지 않았다.
 
 ### 실행 방법 · 사용자 직접 확인
 

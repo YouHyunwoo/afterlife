@@ -15,8 +15,8 @@
 
 
 ## 생성 이미지
-- Assets/_AfterlifePrototype/Resources/UI/DaySun-v1.png: 금색 8방향 햇살, 짙은 갈색 외곽선.
-- Assets/_AfterlifePrototype/Resources/UI/NightMoon-v1.png: 아이보리/푸른 회색 초승달, 남색 외곽선.
+- Assets/Prototype/Resources/UI/DaySun-v1.png: 금색 8방향 햇살, 짙은 갈색 외곽선.
+- Assets/Prototype/Resources/UI/NightMoon-v1.png: 아이보리/푸른 회색 초승달, 남색 외곽선.
 - imagegen 내장 도구로 각각 생성. 둘 다 1254×1254 RGBA, 알파 범위 0~255 확인. 원본 알파를 유지하여 프로젝트로 복사했으며 이미지 후처리는 하지 않았다.
 - 기본 import: Sprite Single, Point, mipmap 끔, 무압축, Alpha Is Transparency. Sprite 설정은 Unity API로 적용하고 .meta를 직접 만들거나 수정하지 않는다.
 

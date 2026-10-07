@@ -15,7 +15,7 @@
 
 - Unity 6000.0.69f1 Windows 개발 빌드: Succeeded, 오류 0·경고 0. [빌드 요약](qa/ui-polish/build-summary.txt).
 - 관련 C# 프로젝트 `Build-Prototype.ps1` → `dotnet build --no-restore`: 오류 0·경고 0.
-- [실행 파일](../../impls/unity/Afterlife/Builds/PixelPrototypeWindows/AfterlifePrototype.exe).
+- 실행 파일 (과거 검증 산출물; 2026-10-07 정리로 제거. 재빌드는 PrototypeTools.BuildWindows 사용).
 - 실행 파일 SHA256: `A676DCDBE72CE11DA17B53CB53CF93D139AF9B371606572CAFFD6AE189B05223`.
 - 게임 코드 `AfterlifePrototype_Data/Managed/Assembly-CSharp.dll` SHA256: `5FD6FFE052899C7F28320AE99D2719A1FBA2A5C80694A5060BA0458821C6D216`.
 - 빌드 전후 설정 파일 5개 해시 일치. [복원 확인](qa/ui-polish/settings-restored.json).

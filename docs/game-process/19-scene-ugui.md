@@ -42,7 +42,7 @@ Afterlife_PixelPrototype
 
 ## Inspector에서 수정하기
 
-1. `Assets/_AfterlifePrototype/Scenes/Afterlife_PixelPrototype.unity`를 연다.
+1. `Assets/Prototype/Scenes/Afterlife_PixelPrototype.unity`를 연다.
 2. Canvas 아래에서 수정할 UI를 선택한다. 위치/크기는 RectTransform, 글꼴/크기/색은 Text, 프레임/아이콘은 Image에서 바꾼다.
 3. 기본 비활성 창은 ModalLayer와 원하는 창만 활성화해 편집한다. DimBackground는 필요하면 잠시 끈다. 편집을 마치면 원래처럼 비활성화해 저장한다. 플레이할 때 상태에 맞춰 표시 여부가 갱신된다.
 4. 모달 본문은 `Body/Viewport/Content` 아래에 있다. ScrollRect와 Content의 높이로 스크롤 범위를 조정한다. 전리품과 유물은 LayoutGroup이 정렬한다.
@@ -52,7 +52,7 @@ Afterlife_PixelPrototype
 
 ## 폰트와 스프라이트
 
-- `Assets/_AfterlifePrototype/Resources/Fonts/Mona12TextKR.ttf`: Unity가 임포트한 **Font 에셋**을 각 Text에 직접 참조한다. TMP_FontAsset은 사용하지 않는다.
+- `Assets/Prototype/Resources/Fonts/Mona12TextKR.ttf`: Unity가 임포트한 **Font 에셋**을 각 Text에 직접 참조한다. TMP_FontAsset은 사용하지 않는다.
 - 모든 Text에 같은 Font가 연결됐는지 실행 검증한다. 폰트를 전체 변경하려면 Text들을 다중 선택해 Font를 바꾸고 Canvas의 Font 참조도 함께 바꾼다.
 - `Resources/UI/SceneSprites`: 기존 프레임/아이콘 텍스처를 참조하는 Sprite 에셋. 프레임은 9-slice이며 PNG를 다시 생성하거나 변경하지 않았다.
 - 일반 빌드는 이미 저장된 UI를 재생성하지 않는다. `Tools/Afterlife/Install Scene UI`도 기존 Canvas가 있으면 보존한다. 이번 최초 전환에서 생성된 슬라이더·스크롤 앵커만 버전 1 보정 후 다시 건드리지 않는다.

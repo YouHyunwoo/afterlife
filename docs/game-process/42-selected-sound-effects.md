@@ -57,7 +57,7 @@
 ## 파일
 
 - 선택 기록: `res/audio/kenney-review/approved-selections.json` (처음 읽은 사용자 파일에서 선택/메모를 보존한 기록)
-- 실행 음원: `impls/unity/Afterlife/Assets/_AfterlifePrototype/Resources/AfterlifePrototype/Audio/`
+- 실행 음원: `impls/unity/Afterlife/Assets/Prototype/Resources/AfterlifePrototype/Audio/`
 - 출처·변환 게인·SHA-256: 같은 폴더의 `provenance.json`
 - CC0 라이선스: 같은 폴더의 `Licenses/` (7개 사용 팩)
 - `.meta`는 직접 생성/수정하지 않았으며 Unity 임포트가 생성한다.

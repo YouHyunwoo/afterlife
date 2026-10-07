@@ -32,13 +32,13 @@
 
 | 계층 | 구현 | 책임 |
 | --- | --- | --- |
-| 재사용 코어 | Assets/Afterlife/Modules/Flow | 임의의 상태/이벤트, 전환 표, Guard, Enter/Exit, 변경 이벤트, 해제 |
+| 재사용 코어 | Assets/Modules/Flow | 임의의 상태/이벤트, 전환 표, Guard, Enter/Exit, 변경 이벤트, 해제 |
 | 게임 흐름 | PrototypeGameFlow.cs | 다섯 화면 규칙, 결과 스냅샷, 세션 Begin/Stop |
 | 조립 | PrototypeScene.cs | Moonstone에 모델·뷰·흐름 등록 |
 | 세션/표현 연결 | PrototypeFlow.cs | 기존 모델 리셋, 입력·시뮬레이션 경계, Canvas 표시, 종료 정리 |
 | 기본 화면 | Game Flow Screens.prefab / PrototypeFlowScreen.cs | Canvas·텍스트·버튼 배치와 타이틀·인트로·승리·패배 표시 및 버튼 의도 이벤트 |
 
-`Afterlife_PixelPrototype` 씬의 루트 `Game Flow Screens`는 `Assets/_AfterlifePrototype/Prefabs/Game Flow Screens.prefab` 인스턴스다. 게임 HUD의 `Canvas`와 별도 Canvas이므로 HUD를 숨겨도 흐름 화면을 표시할 수 있다. `GameRoot`의 `PrototypeView.Flow Screen` 참조가 이 인스턴스의 `PrototypeFlowScreen`을 가리키고, 기존 HUD `Canvas`에는 `CanvasGroup`을 편집 모드에서 저장한다. 제목·본문·버튼 라벨·배경·버튼 스타일은 프리팹에서 편집하며, 글꼴은 초기화 시 기존 `PrototypeCanvas.Font`를 적용한다.
+`Afterlife_PixelPrototype` 씬의 루트 `Game Flow Screens`는 `Assets/Prototype/Prefabs/Game Flow Screens.prefab` 인스턴스다. 게임 HUD의 `Canvas`와 별도 Canvas이므로 HUD를 숨겨도 흐름 화면을 표시할 수 있다. `GameRoot`의 `PrototypeView.Flow Screen` 참조가 이 인스턴스의 `PrototypeFlowScreen`을 가리키고, 기존 HUD `Canvas`에는 `CanvasGroup`을 편집 모드에서 저장한다. 제목·본문·버튼 라벨·배경·버튼 스타일은 프리팹에서 편집하며, 글꼴은 초기화 시 기존 `PrototypeCanvas.Font`를 적용한다.
 
 레거시 `Afterlife.Dev.State`의 Enter/Exit 방식은 참고하되 어셈블리 의존을 가져오지 않았다. 코어 네임스페이스는 `Afterlife.Modules.Flow`이고 게임 이름과 Unity를 모른다. Afterlife의 낮·황혼·밤·정산·환생은 기존 `VillageModel.Phase`가 계속 담당한다.
 

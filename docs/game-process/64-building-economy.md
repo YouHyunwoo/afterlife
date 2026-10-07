@@ -49,7 +49,7 @@
 
 ## Inspector 편집과 적용
 
-- 건물: `Assets/_AfterlifePrototype/Resources/Data/Buildings/*.asset`의 `Stats`. 프리팹에 수치를 저장하지 않는다.
+- 건물: `Assets/Prototype/Resources/Data/Buildings/*.asset`의 `Stats`. 프리팹에 수치를 저장하지 않는다.
 - 주택/회관: 영역 반경·시야 반경·건설 속도 기여량을 편집한다. 두 반경은 소수 입력 가능한 Unity 월드 단위이며 서로 독립적이다. 0 이하이면 해당 기능이 비활성화된다.
 - 생산: 생산 종류, 주기, 수량, 소속 병종/정원, 가속 가격을 편집한다. 합체 대상과 2×2 점유 깊이도 건물 SO로 전달한다.
 - 지도: `SettingsData/World.asset`의 Economic sites 그룹에서 지대 수·크기·최소 거리를 설정한다.

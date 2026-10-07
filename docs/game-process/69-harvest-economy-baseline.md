@@ -79,7 +79,7 @@ Hd를 시설 구매 여건의 상한 참고로 사용하고 Nd로 실제 달성 
 - 필드 처리: Modules/DivineFields/DivineFieldService.cs, Runtime/PrototypeDivineFields.cs
 - 가격: Resources/Data/Buildings/*.asset
 
-위 경로는 Unity 프로젝트의 Assets/_AfterlifePrototype 아래 기준이며 Modules는 Assets/Afterlife/Modules 아래다.
+위 경로는 Unity 프로젝트의 Assets/Prototype 아래 기준이며 Modules는 Assets/Modules 아래다.
 
 | 항목 | 현행 기본값 |
 |---|---:|

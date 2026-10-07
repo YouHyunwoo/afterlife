@@ -32,17 +32,17 @@ Unity 프로젝트: `impls/unity/Afterlife`.
 
 | 편집 대상 | 프로젝트 안의 위치 |
 |---|---|
-| 실제 게임 UI 씬 | Assets/_AfterlifePrototype/Scenes/Afterlife_PixelPrototype.unity |
+| 실제 게임 UI 씬 | Assets/Prototype/Scenes/Afterlife_PixelPrototype.unity |
 | 자원/골드/일차/건설 버튼 | 씬 Canvas/HUD |
 | 게임 메뉴/연구/결산 등 | 씬 Canvas/ModalLayer/Menu, Research, Settlement 등 |
 | 시작 N일차 배너 | 씬 Canvas/Day Start Banner |
 | 채집 아이콘 풀 | 씬 Canvas/Collection Feedback |
 | 툴팁 | 씬 Canvas/Tooltip |
-| 폰트 | Assets/_AfterlifePrototype/Resources/Fonts/Mona12TextKR.ttf |
-| 프레임/아이콘 Sprite | Assets/_AfterlifePrototype/Resources/UI/SceneSprites |
-| 게임 밸런스 | Assets/_AfterlifePrototype/Resources/AfterlifePrototype/Settings.asset |
-| 지형/월드 셰이더 | Assets/_AfterlifePrototype/Shaders/PixelSurface.shader |
-| 씬 UI 생성/추가 도구 | Assets/_AfterlifePrototype/Editor/PrototypeUiInstaller.cs |
+| 폰트 | Assets/Prototype/Resources/Fonts/Mona12TextKR.ttf |
+| 프레임/아이콘 Sprite | Assets/Prototype/Resources/UI/SceneSprites |
+| 게임 밸런스 | Assets/Prototype/Resources/AfterlifePrototype/Settings.asset |
+| 지형/월드 셰이더 | Assets/Prototype/Shaders/PixelSurface.shader |
+| 씬 UI 생성/추가 도구 | Assets/Prototype/Editor/PrototypeUiInstaller.cs |
 
 1. 씬을 열고 Canvas 아래 대상을 선택한다. RectTransform은 위치/크기, Text는 글꼴/크기/정렬, Image는 배경/색/Sprite다. TMP가 아닌 Unity UI Text/Font를 사용한다.
 2. 비활성 창은 ModalLayer와 해당 창을 활성화해 편집하고 다시 원래 비활성 상태로 저장한다. 본문은 Body/Viewport/Content이며 세로 스크롤은 ScrollRect와 Content 높이로 조절한다.

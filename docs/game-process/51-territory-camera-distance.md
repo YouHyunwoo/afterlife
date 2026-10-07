@@ -4,7 +4,7 @@
 
 ## 인스펙터 설정
 
-Project에서 `Assets/_AfterlifePrototype/Resources/AfterlifePrototype/SettingsData/Camera.asset`을 선택한다. 프로토타입 `Settings.asset`이 이 에셋을 참조한다.
+Project에서 `Assets/Prototype/Resources/AfterlifePrototype/SettingsData/Camera.asset`을 선택한다. 프로토타입 `Settings.asset`이 이 에셋을 참조한다.
 
 | 필드 | 기본값 | 의미 |
 | --- | --- | --- |

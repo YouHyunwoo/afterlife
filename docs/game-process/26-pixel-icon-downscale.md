@@ -15,7 +15,7 @@
 
 면적 평균 축소 후 아이콘별 최대 16색 팔레트, 디더링 없음, 알파 0/255를 적용했다. 확대는 Point 필터로 표시한다. 새 잠금 아이콘은 기존 시트 마지막 셀에 배치해 카메라 버튼과 같은 아이콘을 쓰던 잠금 표시에서도 기존 참조를 유지한다. 별도 CameraLock.png(25×30)도 저장했다.
 
-- 최종 게임 자산: `impls/unity/Afterlife/Assets/_AfterlifePrototype/Resources/UI/`
+- 최종 게임 자산: `impls/unity/Afterlife/Assets/Prototype/Resources/UI/`
 - 고해상도 원본과 imagegen 출력: `res/art-source/ui/`
 - 확대 미리보기: `res/art-source/ui/pixel-icons-preview.png`
 - 재현: `python -X utf8 tools/art/build_ui_pixels.py`

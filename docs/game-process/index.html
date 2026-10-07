@@ -14,7 +14,7 @@
 </style>
 </head>
 <body>
-<header><div class="eyebrow">Game design → release / project journal</div><h1>집 하나에서 직접 작업과 농장 생산으로 성장하고 밤의 침공을 막는 마을 디펜스.</h1><div class="overview"><div><span class="label">현재 단계</span><p>M2/M5 재설계 — 버튼 유지 작업·농장 자동화 확정, 문서 갱신 완료·새 구현/검증 대기</p></div><div><span class="label">다음 행동</span><p>72 후보의 입력 세부·농장 강화/보너스·수리/가속 계약을 구체화하고, 별도 본편 개발 범위에서1~4일 실제 조작 여유와5~6일 기본/복구 방어 경로를 검증.</p></div></div><div class="updated">문서 생성 · 2026-10-04 16:23 +0900 · Markdown 원본 기반 / 열람용</div></header>
+<header><div class="eyebrow">Game design → release / project journal</div><h1>집 하나에서 직접 작업과 농장 생산으로 성장하고 밤의 침공을 막는 마을 디펜스.</h1><div class="overview"><div><span class="label">현재 단계</span><p>M2/M5 재설계 — 버튼 유지 작업·농장 자동화 확정, 문서 갱신 완료·새 구현/검증 대기</p></div><div><span class="label">다음 행동</span><p>72 후보의 입력 세부·농장 강화/보너스·수리/가속 계약을 구체화하고, 별도 본편 개발 범위에서1~4일 실제 조작 여유와5~6일 기본/복구 방어 경로를 검증.</p></div></div><div class="updated">문서 생성 · 2026-10-07 16:04 +0900 · Markdown 원본 기반 / 열람용</div></header>
 <div class="layout"><nav aria-label="프로젝트 단계"><h2>PROJECT PATH</h2><a href="#stage-01"><span>01</span>아이디어 구체화</a><a href="#stage-02"><span>02</span>타깃과 핵심 경험</a><a href="#stage-03"><span>03</span>플레이 반복 구조</a><a href="#stage-04"><span>04</span>규칙·행동·경험</a><a href="#stage-05"><span>05</span>시스템과 성장</a><a href="#stage-06"><span>06</span>플레이 흐름과 UX</a><a href="#stage-07"><span>07</span>프로토타입과 검증</a><a href="#stage-08"><span>08</span>MVP 범위와 계획</a><a href="#stage-mvp"><span>MVP</span>MVP 개발</a><a href="#stage-iterations" aria-current="step"><span>반복</span>테스트·수정 반복</a><a href="#stage-release"><span>출시</span>출시 준비</a><a href="#stage-operations"><span>운영</span>출시·운영</a><a href="#stage-records"><span>기록</span>진행·결정 기록</a></nav><main><div class="toolbar"><span>기획 정리 ≠ 구현 완료 ≠ 경험 검증 ≠ 출시 준비</span><div><button id="expand" type="button">모두 펼치기</button> <button id="collapse" type="button">모두 접기</button></div></div><details class="stage" id="stage-01"><summary><span class="stage-number">01</span><span>아이디어 구체화</span><span class="badge">방향 확정</span></summary><div class="stage-body"><p class="stage-description">버튼 유지 작업으로 초기 마을을 만들고 농장 자동 수입으로 운영 부담을 줄인다.</p><details class="artifact" id="doc-1efa8ff406c3c7f8"><summary>아이디어와 최신 방향<small>01-game-analysis.md</small></summary><div class="markdown"><a class="source" href="01-game-analysis.md">Markdown 원본 열기 ↗</a><h3 id="doc-1efa8ff406c3c7f8--아이디어와-최신-방향">아이디어와 최신 방향</h3>
 <blockquote>
 <p>확정 기획 · 2026-10-03: 채집·건설·수리·공격은 버튼을 누르고 있는 동안 작업 주기에 맞춰 반복하고, 강화는 작업 1회당 효과을 높인다. 자동 수입은 농장 건설·생산 강화로 확장한다. 본편 상호작용 필드·슬롯·충전·호버 자동 작업은 폐기한다. <a href="#doc-1f03dc67ebc17595">새 규칙·사용법·검증</a>. 새 규칙은 게임 코드·에셋에 아직 적용하지 않았다. 이전 규칙·수치·QA는 당시 기록으로 보존한다.</p>
@@ -1536,7 +1536,7 @@
 <h4 id="doc-b47e24407e231ade--3d-픽셀-아트-시각-방향-사용자-희망-기술-검토">3D 픽셀 아트 시각 방향 · 사용자 희망 / 기술 검토</h4>
 <p>사용자는 3D pixel art shader 방식의 가능성을 질문했다. 3D 모델과 장면을 낮은 내부 해상도로 렌더링하고 선명하게 확대하며 제한된 색·명암·윤곽선을 조합하는 방향을 추천한다. 셰이더만으로 기존2D 자산이3D가 되는 것은 아니며 모델·애니메이션·카메라·조명 제작 범위가 따로 필요하다.</p>
 <p>추천 표현: 중세 판타지 마을을 비스듬히 내려다보는 고정 각도 직교 카메라, 단순한3D 모델, 픽셀 표현과 단계적인 명암. UI·글자·건설 안내·커서 범위는 가독성을 위해 별도 선명한 계층으로 유지한다. 카메라 이동 시 픽셀 떨림과 병력/마물 실루엣 구분은 검증 대상이다. 각도·해상도·색상표는 미정이다.</p>
-<p>읽기 확인: 기존 impls/unity/Afterlife/Packages/manifest.json에 URP17.0.4 의존성이 있다. 렌더러 전환/호환성 검증이나 실제 화면 테스트는 수행하지 않았다. 별도 Afterlife 3d Test 폴더도 존재하지만 이번에는 내부 구현을 조사하지 않았으므로 재사용 가능 여부를 단정하지 않는다.</p>
+<p>읽기 확인: 기존 impls/unity/Afterlife/Packages/manifest.json에 URP17.0.4 의존성이 있다. 렌더러 전환/호환성 검증이나 실제 화면 테스트는 수행하지 않았다. 별도 Afterlife 3d Test는 당시 존재 기록만 있었고 내부 구현은 조사하지 않았다. 2026-10-07 현재 해당 폴더는 프로젝트에 없으며 재사용 가능 여부와 외부 위치는 미확인이다.</p>
 <p>Unity6의 Full Screen Pass는 화면 전체에 머티리얼 효과를 적용할 수 있는 기반이다. 저해상도 렌더링과 조합하는 구체 파이프라인은 개발 단계에서 결정한다. 근거: https://docs.unity3d.com/cn/6000.0/Manual/urp/renderer-features/renderer-feature-full-screen-pass.html</p>
 <p>개발 요청 후 집·나무·슬라임과 커서 범위를 담은 작은 시각 검증 장면으로 크기/명암/픽셀 안정성을 먼저 확인하는 안을 제안한다. 지금은 기획 기록만 수행하며 구현을 시작하지 않는다.</p>
 <h4 id="doc-b47e24407e231ade--m3-공간호버-결정-반영">M3 공간·호버 결정 반영</h4>
@@ -1899,7 +1899,7 @@
 </tr>
 <tr>
   <td>impls/unity/Afterlife 3d Test</td>
-  <td>폴더 존재 확인만</td>
+  <td>과거 존재 확인 기록; 2026-10-07 현재 폴더 없음</td>
   <td>렌더러·장면·모델·실험 코드의 실제 작동/사용 가능성</td>
 </tr>
 <tr>
@@ -2074,7 +2074,7 @@
 <p>개발 대상: impls/unity/Afterlife (Unity6000.0.69f1/URP17.0.4). 3d Test는 Unity2022로 확인되어 그대로 확장하지 않는다. 기존 수정된 Afterlife.slnx/EditorBuildSettings 및 _EmberVillage는 보존한다.</p>
 <p>Unity 에디터 테스트/플레이모드 스모크는 AGENTS.md에 따라 실행하지 않는다. .meta는 작성하지 않고 Unity가 생성한다. 새 씬은 독립 부트스트랩 방식으로 연결한다.</p>
 <h4 id="doc-aa339961ba5ad2c2--결과-코드-구현c-컴파일-완료-unity-플레이-검증-대기">결과 · 코드 구현/C# 컴파일 완료, Unity 플레이 검증 대기</h4>
-<p>새 파일은 Assets/_AfterlifePrototype 및 Tools/AfterlifePrototype 아래에 격리했다. 새 씬은 Assets/_AfterlifePrototype/Scenes/Afterlife_PixelPrototype.unity. .meta는 직접 작성하지 않았으며 Unity 임포트 시 생성한다. 기존 씬/프로젝트 설정/기존 수정 파일은 변경하지 않았다.</p>
+<p>새 파일은 Assets/Prototype 및 Tools/AfterlifePrototype 아래에 격리했다. 새 씬은 Assets/Prototype/Scenes/Afterlife_PixelPrototype.unity. .meta는 직접 작성하지 않았으며 Unity 임포트 시 생성한다. 기존 씬/프로젝트 설정/기존 수정 파일은 변경하지 않았다.</p>
 <h5 id="doc-aa339961ba5ad2c2--실행-방법-사용자-직접-확인">실행 방법 · 사용자 직접 확인</h5>
 <ol>
 <li>Unity6000.0.69f1에서 impls/unity/Afterlife 프로젝트를 연다. 스크립트 임포트/컴파일 완료를 기다린다.</li>
@@ -2280,7 +2280,7 @@
 <li>커서 기본 반경 2.1→1.4, 기여 주기 3→2초. 주민은 여전히 범위와 기여량을 증가시키고, 주기는 연구로만 단축한다. 회당 기여량은 유지했으므로 초당 기여량은 기존보다 증가한다.</li>
 <li>커서 아래 작은 게이지를 제거하고 지면 범위 테두리를 12시부터 시계 방향으로 채운다. 미충전 테두리 알파에 대응하는 혼합 강도 0.22, 충전 0.72, 내부 0.055로 같은 색상을 섞는다.</li>
 <li>헤더 배경 제거. 목재·석재·돈 도형 아이콘과 수치, 주민/주기 표시, 상단 중앙 날짜 진행 바.</li>
-<li>기존 <code>Assets/02_Scripts/UI/Stage/DayProgress.cs</code>의 LocateDayImage clamp 방식 참조: 짧은 전체 길이는 그대로, 긴 경우 아이콘이 중앙까지 이동 → 내용 스크롤 → 마지막 구간에서 내용 정지 후 아이콘이 끝으로 이동. 일당 160px, 표시 폭 최대 510px.</li>
+<li>기존 <code>Assets/Legacy/Scripts/UI/Stage/DayProgress.cs</code>의 LocateDayImage clamp 방식 참조: 짧은 전체 길이는 그대로, 긴 경우 아이콘이 중앙까지 이동 → 내용 스크롤 → 마지막 구간에서 내용 정지 후 아이콘이 끝으로 이동. 일당 160px, 표시 폭 최대 510px.</li>
 <li>ESC는 모달 닫기 → 선택/건설 해제 → 아무 선택이 없으면 일시 정지 메뉴. 메뉴에서 계속하기/종료 가능.</li>
 </ul>
 <h5 id="doc-32bc47b7768bfec4--연출과-환경">연출과 환경</h5>
@@ -2865,7 +2865,7 @@
 <li>제작 스크립트: <code>tools/art/build_animals.py</code></li>
 <li>원본: <code>res/art-source/animals/AfterlifeAnimals.blend</code></li>
 <li><a href="../../res/art-source/animals/animal-preview.png">Blender 모델 미리보기</a></li>
-<li>게임 FBX: <code>impls/unity/Afterlife/Assets/_AfterlifePrototype/Resources/AfterlifePrototype/Animals/</code></li>
+<li>게임 FBX: <code>impls/unity/Afterlife/Assets/Prototype/Resources/AfterlifePrototype/Animals/</code></li>
 </ul>
 <h4 id="doc-e9a7aba949de6d85--검증-결과">검증 결과</h4>
 <ul>
@@ -3314,7 +3314,7 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <h4 id="doc-c41d4c0501b997d4--시각-기준">시각 기준</h4>
 <p>사용자 지정: 남색·황동·청록, 복잡한 장식 대신 16-bit 픽셀 아트. Slotbound Demo의 명확한 프레임, 아이콘과 수치의 결합, 정보 계층을 참고했다. 게임 자체 자산은 복사하지 않았다. 참고 스크린샷은 <code>reference/slotbound-01.jpg</code>에 보관한다.</p>
 <h4 id="doc-c41d4c0501b997d4--생성-자산">생성 자산</h4>
-<p>built-in imagegen으로 제작했고 게임 프로젝트의 <code>Assets/_AfterlifePrototype/Resources/UI/</code>에 저장했다. <code>Icons16.png</code>, <code>PanelFrame16.png</code>, <code>LootIcon16.png</code>를 실제 UI가 로드한다. 초기 세밀한 버전 <code>Icons.png</code>, <code>PanelFrame.png</code>, <code>LootIcon.png</code>는 대체 전 이력이며 새 UI에서 사용하지 않는다. 이미지는 글자를 포함하지 않으며 한국어는 Mona12 폰트로 별도 렌더링한다. 텍스처는 Point 필터, 프레임은 9-slice로 표시한다.</p>
+<p>built-in imagegen으로 제작했고 게임 프로젝트의 <code>Assets/Prototype/Resources/UI/</code>에 저장했다. <code>Icons16.png</code>, <code>PanelFrame16.png</code>, <code>LootIcon16.png</code>를 실제 UI가 로드한다. 초기 세밀한 버전 <code>Icons.png</code>, <code>PanelFrame.png</code>, <code>LootIcon.png</code>는 대체 전 이력이며 새 UI에서 사용하지 않는다. 이미지는 글자를 포함하지 않으며 한국어는 Mona12 폰트로 별도 렌더링한다. 텍스처는 Point 필터, 프레임은 9-slice로 표시한다.</p>
 <h5 id="doc-c41d4c0501b997d4--icons16png-최종-프롬프트">Icons16.png · 최종 프롬프트</h5>
 <blockquote>
 <p>Use case stylized-concept. A production SPRITE ATLAS for an original 16-bit pixel art medieval village defense game. EXACTLY 4 columns by 4 rows, 16 equal square cells on a genuinely transparent square canvas. Each symbol centered within its cell and with 20% padding; no dividers, no words. VERY SIMPLE 24x24 sprite aesthetic enlarged by nearest neighbor, SNES era game UI, clearly visible square pixel clusters, 8-12 colors per icon, NO photorealism, NO fine textures, NO antialiasing, NO gradients, NO ornate decoration. Shared dark navy 1-pixel outlines, brass highlights, leather ochre, desaturated teal accents, ivory, slate. Shared top-left lighting. Items in reading order: row1 three wooden logs, a single gray stone, three gold coins, a very simple hooded peasant head; row2 tiny red-roof house, three wheat stalks, market stall with teal striped canopy, simple crossed sword and shield; row3 open book with small lens, altar with teal flame, wooden arrow tower, stone tower with teal crystal; row4 three crenellated wall blocks, simple crescent moon with small sun, brass gear menu icon, a closed padlock with a small ivory camera crosshair. Strong simple silhouettes recognizable at 24 pixels, consistent icon scale and pixel grid. Original assets for Afterlife. NO florid heraldry, NO facial detail, NO smoke or effects escaping cell boundaries.</p>
@@ -3353,7 +3353,7 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <ul>
 <li>Unity 6000.0.69f1 Windows 개발 빌드: Succeeded, 오류 0·경고 0. <a href="qa/ui-polish/build-summary.txt">빌드 요약</a>.</li>
 <li>관련 C# 프로젝트 <code>Build-Prototype.ps1</code> → <code>dotnet build --no-restore</code>: 오류 0·경고 0.</li>
-<li><a href="../../impls/unity/Afterlife/Builds/PixelPrototypeWindows/AfterlifePrototype.exe">실행 파일</a>.</li>
+<li>실행 파일 (과거 검증 산출물; 2026-10-07 정리로 제거. 재빌드는 PrototypeTools.BuildWindows 사용).</li>
 <li>실행 파일 SHA256: <code>A676DCDBE72CE11DA17B53CB53CF93D139AF9B371606572CAFFD6AE189B05223</code>.</li>
 <li>게임 코드 <code>AfterlifePrototype_Data/Managed/Assembly-CSharp.dll</code> SHA256: <code>5FD6FFE052899C7F28320AE99D2719A1FBA2A5C80694A5060BA0458821C6D216</code>.</li>
 <li>빌드 전후 설정 파일 5개 해시 일치. <a href="qa/ui-polish/settings-restored.json">복원 확인</a>.</li>
@@ -3749,7 +3749,7 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <p>기존 OnGUI 및 IMGUI 그리기 코드를 제거했다. 게임 월드의 동적 모델과 카메라는 기존대로 게임 시작 시 구성하되 UI는 씬에 저장된 참조만 이용한다. WorldDisplay는 카메라의 픽셀 RenderTexture를 표시한다. 모델의 환전·생산·연구·환생 명령은 그대로 유지하고 uGUI 이벤트를 연결했다.</p>
 <h4 id="doc-ef792f48471e8474--inspector에서-수정하기">Inspector에서 수정하기</h4>
 <ol>
-<li><code>Assets/_AfterlifePrototype/Scenes/Afterlife_PixelPrototype.unity</code>를 연다.</li>
+<li><code>Assets/Prototype/Scenes/Afterlife_PixelPrototype.unity</code>를 연다.</li>
 <li>Canvas 아래에서 수정할 UI를 선택한다. 위치/크기는 RectTransform, 글꼴/크기/색은 Text, 프레임/아이콘은 Image에서 바꾼다.</li>
 <li>기본 비활성 창은 ModalLayer와 원하는 창만 활성화해 편집한다. DimBackground는 필요하면 잠시 끈다. 편집을 마치면 원래처럼 비활성화해 저장한다. 플레이할 때 상태에 맞춰 표시 여부가 갱신된다.</li>
 <li>모달 본문은 <code>Body/Viewport/Content</code> 아래에 있다. ScrollRect와 Content의 높이로 스크롤 범위를 조정한다. 전리품과 유물은 LayoutGroup이 정렬한다.</li>
@@ -3759,7 +3759,7 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 </ol>
 <h4 id="doc-ef792f48471e8474--폰트와-스프라이트">폰트와 스프라이트</h4>
 <ul>
-<li><code>Assets/_AfterlifePrototype/Resources/Fonts/Mona12TextKR.ttf</code>: Unity가 임포트한 <strong>Font 에셋</strong>을 각 Text에 직접 참조한다. TMP_FontAsset은 사용하지 않는다.</li>
+<li><code>Assets/Prototype/Resources/Fonts/Mona12TextKR.ttf</code>: Unity가 임포트한 <strong>Font 에셋</strong>을 각 Text에 직접 참조한다. TMP_FontAsset은 사용하지 않는다.</li>
 <li>모든 Text에 같은 Font가 연결됐는지 실행 검증한다. 폰트를 전체 변경하려면 Text들을 다중 선택해 Font를 바꾸고 Canvas의 Font 참조도 함께 바꾼다.</li>
 <li><code>Resources/UI/SceneSprites</code>: 기존 프레임/아이콘 텍스처를 참조하는 Sprite 에셋. 프레임은 9-slice이며 PNG를 다시 생성하거나 변경하지 않았다.</li>
 <li>일반 빌드는 이미 저장된 UI를 재생성하지 않는다. <code>Tools/Afterlife/Install Scene UI</code>도 기존 Canvas가 있으면 보존한다. 이번 최초 전환에서 생성된 슬라이더·스크롤 앵커만 버전 1 보정 후 다시 건드리지 않는다.</li>
@@ -3978,7 +3978,7 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <tbody>
 <tr>
   <td>실제 게임 UI 씬</td>
-  <td>Assets/_AfterlifePrototype/Scenes/Afterlife_PixelPrototype.unity</td>
+  <td>Assets/Prototype/Scenes/Afterlife_PixelPrototype.unity</td>
 </tr>
 <tr>
   <td>자원/골드/일차/건설 버튼</td>
@@ -4002,23 +4002,23 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 </tr>
 <tr>
   <td>폰트</td>
-  <td>Assets/_AfterlifePrototype/Resources/Fonts/Mona12TextKR.ttf</td>
+  <td>Assets/Prototype/Resources/Fonts/Mona12TextKR.ttf</td>
 </tr>
 <tr>
   <td>프레임/아이콘 Sprite</td>
-  <td>Assets/_AfterlifePrototype/Resources/UI/SceneSprites</td>
+  <td>Assets/Prototype/Resources/UI/SceneSprites</td>
 </tr>
 <tr>
   <td>게임 밸런스</td>
-  <td>Assets/_AfterlifePrototype/Resources/AfterlifePrototype/Settings.asset</td>
+  <td>Assets/Prototype/Resources/AfterlifePrototype/Settings.asset</td>
 </tr>
 <tr>
   <td>지형/월드 셰이더</td>
-  <td>Assets/_AfterlifePrototype/Shaders/PixelSurface.shader</td>
+  <td>Assets/Prototype/Shaders/PixelSurface.shader</td>
 </tr>
 <tr>
   <td>씬 UI 생성/추가 도구</td>
-  <td>Assets/_AfterlifePrototype/Editor/PrototypeUiInstaller.cs</td>
+  <td>Assets/Prototype/Editor/PrototypeUiInstaller.cs</td>
 </tr>
 </tbody>
 </table>
@@ -4070,7 +4070,7 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <li>Tools &gt; Afterlife &gt; Convert HUD Resources to TMP 실행.</li>
 <li>Resources 내부 Text만 TextMeshProUGUI로 변환된다. Canvas의 ResourcesTmpFont와 HUD.Money/HUD.Population 바인딩의 TmpText가 연결된다. 기존 Font/Text 참조는 나머지 UI용으로 유지한다.</li>
 <li>Inspector의 TextMeshPro - Text (UI)에서 폰트/크기/색/정렬을 수정한다. 변환은 Undo 지원, 현재 씬은 자동 저장하지 않는다. 결과를 보고 씬을 저장한다.</li>
-<li>생성 위치: Assets/_AfterlifePrototype/Resources/Fonts/Mona12TextKR SDF.asset. 원본 ttf, 생성 Material/Atlas 참조를 포함한다. 샘플 크기 64, Padding 8, SDFAA, 1024×1024, Dynamic, Multi Atlas. 숫자/영문/필요 한글을 미리 추가하고 새로운 글자는 원본 폰트에서 추가한다.</li>
+<li>생성 위치: Assets/Prototype/Resources/Fonts/Mona12TextKR SDF.asset. 원본 ttf, 생성 Material/Atlas 참조를 포함한다. 샘플 크기 64, Padding 8, SDFAA, 1024×1024, Dynamic, Multi Atlas. 숫자/영문/필요 한글을 미리 추가하고 새로운 글자는 원본 폰트에서 추가한다.</li>
 </ol>
 <h4 id="doc-3108166f5c685887--구현-상세">구현 상세</h4>
 <ul>
@@ -4103,8 +4103,8 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <p>사용자가 편집한 DayTimeline/Group/DayNight를 사용한다. Icon Image는 기존 Image, Text는 기존 TMP다. 새 UI를 생성하지 않고 지정된 참조만 연결한다. 기존 HUD.Day/HUD.Sun/HUD.Moon은 비활성 상태를 유지한다.</p>
 <h4 id="doc-007e3db03e3cd749--생성-이미지">생성 이미지</h4>
 <ul>
-<li>Assets/_AfterlifePrototype/Resources/UI/DaySun-v1.png: 금색 8방향 햇살, 짙은 갈색 외곽선.</li>
-<li>Assets/_AfterlifePrototype/Resources/UI/NightMoon-v1.png: 아이보리/푸른 회색 초승달, 남색 외곽선.</li>
+<li>Assets/Prototype/Resources/UI/DaySun-v1.png: 금색 8방향 햇살, 짙은 갈색 외곽선.</li>
+<li>Assets/Prototype/Resources/UI/NightMoon-v1.png: 아이보리/푸른 회색 초승달, 남색 외곽선.</li>
 <li>imagegen 내장 도구로 각각 생성. 둘 다 1254×1254 RGBA, 알파 범위 0~255 확인. 원본 알파를 유지하여 프로젝트로 복사했으며 이미지 후처리는 하지 않았다.</li>
 <li>기본 import: Sprite Single, Point, mipmap 끔, 무압축, Alpha Is Transparency. Sprite 설정은 Unity API로 적용하고 .meta를 직접 만들거나 수정하지 않는다.</li>
 </ul>
@@ -4344,7 +4344,7 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <h4 id="doc-47fe454db53c9ec0--최신-ui-강화-트리-아이콘툴팁전체-보기-2026-09-19">최신 UI · 강화 트리 아이콘·툴팁·전체 보기 (2026-09-19)</h4>
 <p>UpgradeTreeScreen 우측 패널/노드 텍스트 제거, UpgradeHoverTooltip·UpgradeNodeVisual 분리. viewport 전체 stretch, 전체 노드 bounds로 초기/전체 보기/리사이즈 자동 맞춤, 부모 가시성은 유지. imagegen 20개 → 8색 48px/투명 0·255/여백4px → 48·32px 시각 검사 → 승인 해시 일치본만 Resources/UI/Upgrades에 적용. PrototypeUpgradeIconImporter가 Point/무압축/Sprite Single 설정 및 비어 있는 Catalog Icon만 연결. 정확한 프롬프트와 검수표는 res/art-source/ui/upgrades-v1. 관련 독립 빌드 오류·경고0, Unity 플레이 미실시. 상세: upgrade-tree-icon-tooltip.md</p>
 <h4 id="doc-47fe454db53c9ec0--최신-추가-45-독립-화면-흐름-모듈-2026-09-19">최신 추가 · 45 독립 화면 흐름 모듈 (2026-09-19)</h4>
-<p>Assets/Afterlife/Modules/Flow에 Unity 비의존 Afterlife.Flow 추가(noEngineReferences, 외부 참조 없음). 상태/전환 정의, Guard, Enter/Exit, 재진입 거절, 예외 시 Faulted, Dispose 계약 제공. PrototypeGameFlow가 게임별 5화면 규칙과 IPrototypeGameSession을 조합하고 Moonstone으로 주입한다. PrototypeFlowScreen은 런타임 기본 화면이며 인트로는 정적 안내(44번 튜토리얼 구현 아님). 게임 외 상태에서는 입력·Tick·월드 카메라/HUD를 끈다. RunEnded 후 Tick/Sync가 끝나면 결과 스냅샷으로 전환. 포기와 결과 화면에서 타이틀 복귀, 다음 Playing 진입 때 모델 Reset. 모델/지형은 씬 수명으로 재사용하고 동적 월드 뷰/모달/연출은 Playing 종료 시 정리. Build-Modules.ps1에 독립 코어 빌드 추가. 컴파일 오류·경고 0. Unity 플레이/테스트·Windows 빌드 미실시. 상세: 45-modular-screen-flow.md, 코어 재사용: Flow/README.md.</p>
+<p>Assets/Modules/Flow에 Unity 비의존 Afterlife.Flow 추가(noEngineReferences, 외부 참조 없음). 상태/전환 정의, Guard, Enter/Exit, 재진입 거절, 예외 시 Faulted, Dispose 계약 제공. PrototypeGameFlow가 게임별 5화면 규칙과 IPrototypeGameSession을 조합하고 Moonstone으로 주입한다. PrototypeFlowScreen은 런타임 기본 화면이며 인트로는 정적 안내(44번 튜토리얼 구현 아님). 게임 외 상태에서는 입력·Tick·월드 카메라/HUD를 끈다. RunEnded 후 Tick/Sync가 끝나면 결과 스냅샷으로 전환. 포기와 결과 화면에서 타이틀 복귀, 다음 Playing 진입 때 모델 Reset. 모델/지형은 씬 수명으로 재사용하고 동적 월드 뷰/모달/연출은 Playing 종료 시 정리. Build-Modules.ps1에 독립 코어 빌드 추가. 컴파일 오류·경고 0. Unity 플레이/테스트·Windows 빌드 미실시. 상세: 45-modular-screen-flow.md, 코어 재사용: Flow/README.md.</p>
 <h4 id="doc-47fe454db53c9ec0--최신-기획-44-단계형-튜토리얼-2026-09-19">최신 기획 · 44 단계형 튜토리얼 (2026-09-19)</h4>
 <p><a href="#doc-2043725335fe3b58">44 기획</a>이 튜토리얼의 채택 명세다. 9×9 맵에서 10원 채집 + 40원 지원 → 농장 30원 → 집 20원 → 낮 5초·밤 방어 → 정산·유물 → 외곽 확장 → 본 게임 Day 1. 모든 집 파괴 시 전투 직전 상태 복원, 수리 무료. 같은 판에서는 성과를 유지하지만 이후 튜토리얼 없는 새 게임은 집 1채로 시작한다. 이번 작업은 문서만 변경했으며 구현·빌드·플레이 검증을 하지 않았다. 진입 UI·중도 저장 정책과 연출/적 세부 수치는 후속 결정 사항이다.</p>
 <h4 id="doc-47fe454db53c9ec0--최신-추가-43-독립-스킬강화-모듈과-격자-트리-2026-09-19">최신 추가 · 43 독립 스킬·강화 모듈과 격자 트리 (2026-09-19)</h4>
@@ -4519,8 +4519,8 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <li>작업 루트: <code>D:/area/dev/alone/Afterlife</code></li>
 <li>실제 Unity/Git 프로젝트: <code>D:/area/dev/alone/Afterlife/impls/unity/Afterlife</code> (상위 작업 루트는 Git 아님).</li>
 <li>Unity: 6000.0.69f1, URP 17, Windows.</li>
-<li>씬: <code>Assets/_AfterlifePrototype/Scenes/Afterlife_PixelPrototype.unity</code>.</li>
-<li>코드: <code>Assets/_AfterlifePrototype/Runtime</code>, 편집기 도구: <code>Assets/_AfterlifePrototype/Editor</code>.</li>
+<li>씬: <code>Assets/Prototype/Scenes/Afterlife_PixelPrototype.unity</code>.</li>
+<li>코드: <code>Assets/Prototype/Runtime</code>, 편집기 도구: <code>Assets/Prototype/Editor</code>.</li>
 <li>빌드 폴더: <code>D:/area/dev/alone/Afterlife/impls/unity/Afterlife/Builds/PixelPrototypeWindows</code></li>
 <li>실행 파일: 위 폴더의 <code>AfterlifePrototype.exe</code>.</li>
 <li>Blender: <code>C:/Program Files/Blender Foundation/Blender 5.0/blender.exe</code>.</li>
@@ -4576,7 +4576,7 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <li>비활성 ModalLayer와 수정할 창을 활성화해 편집한 뒤 다시 비활성으로 저장한다.</li>
 <li>모달 본문은 <code>Body/Viewport/Content</code>; ScrollRect와 Content 크기로 스크롤 범위 조정.</li>
 <li>Font는 <strong>Mona12TextKR.ttf의 Unity Font 에셋</strong>. TMP_FontAsset이 아니다. 각 Text.font에 직접 참조한다.</li>
-<li>폰트 경로: <code>Assets/_AfterlifePrototype/Resources/Fonts/Mona12TextKR.ttf</code>.</li>
+<li>폰트 경로: <code>Assets/Prototype/Resources/Fonts/Mona12TextKR.ttf</code>.</li>
 <li>프레임/아이콘 Sprite 에셋: <code>Resources/UI/SceneSprites</code>. 기존 텍스처 참조/9-slice이며 PNG를 새로 편집하지 않았다.</li>
 <li>편집 기준 1200×675, 1920×1080에서 1.6배. CanvasScaler 기준은 시작 시 값을 읽어 사용자 UI 배율과 함께 적용한다.</li>
 <li>기여 텍스트 일반/치명타 크기와 일반/치명타/불/화상 색상은 PrototypeCanvas Inspector에서 수정 가능.</li>
@@ -4675,7 +4675,7 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 </tr>
 </tbody>
 </table>
-<p>코어 경로: <code>impls/unity/Afterlife/Assets/Afterlife/Modules/</code>. 게임 어댑터는 <code>PrototypeProgression.cs</code>, 기본 콘텐츠는 <code>PrototypeProgressionDefaults.cs</code>, 화면 연결은 <code>PrototypeProgressionUi.cs</code>다. 코어는 재화 지갑과 발동 가능 여부를 인터페이스로 주입받고 이벤트로 외부 효과를 요청한다. 씬 조립에서 모듈을 생성해 Moonstone 컨테이너에 등록한다. Unity 데이터는 시작 시 복제하고 코어에는 순수 정의/값 배열을 전달한다.</p>
+<p>코어 경로: <code>impls/unity/Afterlife/Assets/Modules/</code>. 게임 어댑터는 <code>PrototypeProgression.cs</code>, 기본 콘텐츠는 <code>PrototypeProgressionDefaults.cs</code>, 화면 연결은 <code>PrototypeProgressionUi.cs</code>다. 코어는 재화 지갑과 발동 가능 여부를 인터페이스로 주입받고 이벤트로 외부 효과를 요청한다. 씬 조립에서 모듈을 생성해 Moonstone 컨테이너에 등록한다. Unity 데이터는 시작 시 복제하고 코어에는 순수 정의/값 배열을 전달한다.</p>
 <p>이후 신규 시스템도 같은 경계를 따르도록 Unity 프로젝트 <code>AGENTS.md</code>에 지속 규칙을 추가했다. 모든 기존 시스템을 이번 변경에서 일괄 재작성한 것은 아니다.</p>
 <h4 id="doc-e0847d20ec1b5755--트리-규칙과-콘텐츠">트리 규칙과 콘텐츠</h4>
 <ul>
@@ -5156,7 +5156,7 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <li>20개 모두 실제 크기/축소 표시에서 실루엣·유사 아이콘 구분·외곽선·여백·잘림을 시각 검사했다. 집/구획/결계, 낙뢰/연쇄/감전/의식, 협동/보살핌은 서로 구분된다.</li>
 <li>기술 결과는 <code>technical-report.json</code>, 아이콘별 시각 판정과 승인 PNG 해시는 <code>visual-approvals.json</code>에 기록했다. <code>--apply</code>는 20개 전체의 기술 통과·시각 통과·승인 해시가 일치할 때만 게임 폴더에 복사한다.</li>
 </ol>
-<p>결과: 20/20 통과. 게임 자산은 <code>impls/unity/Afterlife/Assets/_AfterlifePrototype/Resources/UI/Upgrades/R1.png</code>~<code>R10.png</code>, <code>A1.png</code>~<code>A10.png</code>다. 생성 이미지의 큰 원본을 게임에 직접 적용하지 않았다.</p>
+<p>결과: 20/20 통과. 게임 자산은 <code>impls/unity/Afterlife/Assets/Prototype/Resources/UI/Upgrades/R1.png</code>~<code>R10.png</code>, <code>A1.png</code>~<code>A10.png</code>다. 생성 이미지의 큰 원본을 게임에 직접 적용하지 않았다.</p>
 <p>Unity importer는 Sprite Single, Point, 무압축, mipmap 없음, NPOT 크기 유지, FullRect, PPU 48로 설정한다. 기존 Catalog의 빈 Icon 필드만 연결하며 사용자가 지정한 Sprite는 유지한다. 런타임 기본 데이터도 게임 어댑터의 Resources resolver로 같은 승인 에셋을 찾는다. 공통 트리 모듈 자체는 프로젝트 리소스 경로에 의존하지 않는다.</p>
 <h4 id="doc-3d17deb6d506cc16--검증과-남은-확인">검증과 남은 확인</h4>
 <h5 id="doc-3d17deb6d506cc16--툴팁과-강화-성공-연출">툴팁과 강화 성공 연출</h5>
@@ -5284,7 +5284,7 @@ Output: D:\area\dev\alone\Afterlife\impls\unity\Afterlife\Builds\PixelPrototypeW
 <h4 id="doc-3ed6af9c550e8f2d--구현-및-검증-상태">구현 및 검증 상태</h4>
 <ul>
 <li>계획: Astra low 완료.</li>
-<li>구현: Sol high 완료. 구현 파일은 <code>Assets/Afterlife/Modules/Terrain/Runtime/WorldMapLayout.cs</code> 하나다. 부모 리뷰 후 대륙 변화 범위, 목적지 간격, 외곽 이동 제한, 자원 바이옴 보충 및 강의 실제 바다 연결 판정을 보완했다.</li>
+<li>구현: Sol high 완료. 구현 파일은 <code>Assets/Modules/Terrain/Runtime/WorldMapLayout.cs</code> 하나다. 부모 리뷰 후 대륙 변화 범위, 목적지 간격, 외곽 이동 제한, 자원 바이옴 보충 및 강의 실제 바다 연결 판정을 보완했다.</li>
 <li>변경 전 기본 Terrain 프로젝트 빌드: <code>NETSDK1004</code>로 중단. 기존 <code>Temp/obj/Afterlife.Terrain/project.assets.json</code>이 없어 프로젝트의 직접 어셈블리 참조를 사용하는 복원 없는 컴파일 방식으로 확인했다.</li>
 <li>최종 Terrain 독립 재빌드: 경고 0, 오류 0.</li>
 <li>실제 <code>PrototypeTerrain.cs</code>와 Terrain DLL의 소비자 컴파일: 경고 0, 오류 0. Temp 검증 프로젝트에서 <code>Point</code>의 X/Z 필드만 임시 대체했으므로 전체 게임 통합 빌드 성공을 의미하지 않는다.</li>
@@ -5309,7 +5309,7 @@ dotnet build Temp/ContinentConsumerValidation/Validation.csproj --no-restore --n
 </blockquote>
 <p>2026-09-25. 기존 22.7 고정 거리에서, 가까이 시작한 뒤 플레이 시간에 따라 최대 거리까지 천천히 멀어지는 카메라로 변경했다.</p>
 <h4 id="doc-d0837fa8409e6c5b--인스펙터-설정">인스펙터 설정</h4>
-<p>Project에서 <code>Assets/_AfterlifePrototype/Resources/AfterlifePrototype/SettingsData/Camera.asset</code>을 선택한다. 프로토타입의 <code>Settings.asset</code>이 이 에셋을 참조한다.</p>
+<p>Project에서 <code>Assets/Prototype/Resources/AfterlifePrototype/SettingsData/Camera.asset</code>을 선택한다. 프로토타입의 <code>Settings.asset</code>이 이 에셋을 참조한다.</p>
 <table>
 <thead>
 <tr>
@@ -5351,7 +5351,7 @@ dotnet build Temp/ContinentConsumerValidation/Validation.csproj --no-restore --n
 <li><code>PrototypeCameraSettings</code>: 기존 ScriptableObject/GUID/시작 거리 필드를 유지하고 임계 거리·속도·프리팹 참조를 추가한다. Camera 자식 설정이 없는 레거시 설정은 기존 고정 거리를 유지한다.</li>
 </ul>
 <p>게임 플레이 중에만 <code>Time.deltaTime</code>으로 진행한다. 타이틀·인트로·게임 종료, 정산/환생 상태, 게임을 일시정지하는 모달, 포커스 상실, 촬영 중에는 진행하지 않는다. 단순 UI 호버는 자동 거리 증가를 멈추지 않는다. 새 게임·새 생의 기존 월드 초기화 경로에서 거리도 초기화한다. 촬영은 거리 모델을 변경하지 않고, 촬영 종료 시 저장한 위치·회전·화면 크기에서 이어간다. 컴포넌트는 카메라와 함께 파괴되며 이벤트 구독이나 외부 해제 자원이 없다.</p>
-<p><code>Assets/_AfterlifePrototype/Resources/AfterlifePrototype/PrototypeCamera.prefab</code>은 프로젝트 카메라 구성을 재사용한다. 설정 참조가 없으면 Resources에서 기본 프리팹을 읽고, 그것도 없는 경우 기존 런타임 생성 경로를 사용한다. 기존 씬/프리팹의 사용자 편집을 덮어쓰지 않는다. <code>.meta</code>는 직접 생성/수정하지 않으며 Unity가 임포트 시 생성한다. 새 C# 모듈의 자동 생성 메타데이터는 확인했고, 새 프리팹 임포트는 사용자 에디터 확인 대상이다. 추가 Tools 메뉴는 없다.</p>
+<p><code>Assets/Prototype/Resources/AfterlifePrototype/PrototypeCamera.prefab</code>은 프로젝트 카메라 구성을 재사용한다. 설정 참조가 없으면 Resources에서 기본 프리팹을 읽고, 그것도 없는 경우 기존 런타임 생성 경로를 사용한다. 기존 씬/프리팹의 사용자 편집을 덮어쓰지 않는다. <code>.meta</code>는 직접 생성/수정하지 않으며 Unity가 임포트 시 생성한다. 새 C# 모듈의 자동 생성 메타데이터는 확인했고, 새 프리팹 임포트는 사용자 에디터 확인 대상이다. 추가 Tools 메뉴는 없다.</p>
 <h4 id="doc-d0837fa8409e6c5b--검증">검증</h4>
 <p><code>dotnet build Afterlife.Prototype.csproj --no-restore --nologo -v minimal -p:SkipResolvePackageAssets=true -p:GenerateDependencyFile=false</code>로 새 코어·Unity 어셈블리와 프로토타입을 함께 컴파일했다. 경고 0, 오류 0. 새 Unity 생성 csproj의 <code>project.assets.json</code>이 없어 기본 명령은 NETSDK1004로 실패했으며, Unity가 제공하는 명시적 참조로 컴파일하도록 패키지 자산 조회/의존성 파일 생성만 비활성화했다. 패키지 복원은 하지 않았다.</p>
 <p>프로젝트 지침에 따라 Unity Test Runner·EditMode·PlayMode·플레이 스모크 테스트는 실행하지 않았다. 사용자 확인 절차:</p>
@@ -5368,7 +5368,7 @@ dotnet build Temp/ContinentConsumerValidation/Validation.csproj --no-restore --n
 </div></details><details class="artifact" id="doc-b4eb143253628abd"><summary>51 · 집 영역에 따라 멀어지는 카메라<small>51-territory-camera-distance.md</small></summary><div class="markdown"><a class="source" href="51-territory-camera-distance.md">Markdown 원본 열기 ↗</a><h3 id="doc-b4eb143253628abd--51-집-영역에-따라-멀어지는-카메라">51 · 집 영역에 따라 멀어지는 카메라</h3>
 <p>2026-09-26. <a href="#doc-d0837fa8409e6c5b">50의 시간 기반 거리 증가</a>를 집 영역 기반으로 변경했다. 집 영역에 변화가 없으면 오래 기다려도 카메라 목표 거리는 증가하지 않는다. 기존 시작 거리 16과 최대 거리 22.7은 유지한다.</p>
 <h4 id="doc-b4eb143253628abd--인스펙터-설정">인스펙터 설정</h4>
-<p>Project에서 <code>Assets/_AfterlifePrototype/Resources/AfterlifePrototype/SettingsData/Camera.asset</code>을 선택한다. 프로토타입 <code>Settings.asset</code>이 이 에셋을 참조한다.</p>
+<p>Project에서 <code>Assets/Prototype/Resources/AfterlifePrototype/SettingsData/Camera.asset</code>을 선택한다. 프로토타입 <code>Settings.asset</code>이 이 에셋을 참조한다.</p>
 <table>
 <thead>
 <tr>
@@ -5761,7 +5761,7 @@ dotnet build Temp/ContinentConsumerValidation/Validation.csproj --no-restore --n
 <p>로비에 보이는 마을은 실제 세계를 바라본다는 설정을 전달하기 위한 임시 3D 아트다. 현재 플레이 중인 프로토타입의 마을과 연결된 것은 아니다. 빈 인게임에는 바닥·격자와 화면 테스트 버튼만 있으며 건설·전투·결과 통계를 구현하지 않는다.</p>
 <h4 id="doc-9fa13e2fcb305d16--열기와-확인-순서">열기와 확인 순서</h4>
 <p>Unity 프로젝트 기준:</p>
-<p><code>Assets/Afterlife/Samples/ThresholdLab/Scenes/Afterlife_ThresholdLab.unity</code></p>
+<p><code>Assets/Samples/ThresholdLab/Scenes/Afterlife_ThresholdLab.unity</code></p>
 <ol>
 <li>작업 중인 기존 씬을 저장하고 위 씬을 연다. Game 뷰를 우선 16:9로 설정하고 사용자가 Play를 누른다.</li>
 <li>타이틀: 검은 웅덩이의 희미한 반사와 가끔 생기는 얇은 동심원, 읽을 수 있는 로고·메뉴를 확인한다.</li>
@@ -5775,7 +5775,7 @@ dotnet build Temp/ContinentConsumerValidation/Validation.csproj --no-restore --n
 </ol>
 <p><code>종료</code>는 빌드에서 Application.Quit를 호출한다. 에디터 Play Mode 종료는 사용자가 에디터의 정지 버튼으로 수행한다. 테스트 버튼은 샘플 PlayingPage에만 있다.</p>
 <h4 id="doc-9fa13e2fcb305d16--에셋-구성">에셋 구성</h4>
-<p><code>Assets/Afterlife/Samples/ThresholdLab/</code></p>
+<p><code>Assets/Samples/ThresholdLab/</code></p>
 <ul>
 <li><code>Scenes/Afterlife_ThresholdLab.unity</code>: 전체 경험 프리팹 인스턴스 하나로 구성한 샘플 씬.</li>
 <li><code>Prefabs/ThresholdExperience.prefab</code>: 조립 루트, Host, 카메라, 포즈, 캔버스, 오디오, EventSystem.</li>
@@ -5786,7 +5786,7 @@ dotnet build Temp/ContinentConsumerValidation/Validation.csproj --no-restore --n
 </ul>
 <p>기본 UI는 1920×1080 기준 CanvasScaler를 사용한다. 초광폭·4:3·저해상도의 최종 배치, 한글 가독성과 화면 명도는 사용자 확인 대상이다. 샘플의 카메라/AudioListener/EventSystem은 독립 실행용이므로 다른 씬에 통합할 때 중복 인스턴스를 유지하지 않는다.</p>
 <h4 id="doc-9fa13e2fcb305d16--모듈-구조와-ecs-적용-범위">모듈 구조와 ECS 적용 범위</h4>
-<p><code>Assets/Afterlife/Modules/Threshold/</code>는 기존 Prototype/Devlog에 의존하지 않는다. 이 모듈의 ECS는 GameObject를 엔티티로 사용하는 조합 방식이며 Unity Entities/DOTS 패키지를 새로 설치한 구조가 아니다.</p>
+<p><code>Assets/Modules/Threshold/</code>는 기존 Prototype/Devlog에 의존하지 않는다. 이 모듈의 ECS는 GameObject를 엔티티로 사용하는 조합 방식이며 Unity Entities/DOTS 패키지를 새로 설치한 구조가 아니다.</p>
 <table>
 <thead>
 <tr>
@@ -5957,7 +5957,7 @@ dotnet build Temp/ContinentConsumerValidation/Validation.csproj --no-restore --n
 <p>C# 검증 명령: <code>&amp; impls/unity/Afterlife/Tools/Threshold/Build-Threshold.ps1</code>. 관련 4개 어셈블리를 <code>dotnet build --no-restore</code>로 빌드한다. Unity Play Mode/Test Runner는 프로젝트 규칙에 따라 실행하지 않는다. 실제 렌더링 품질은 사용자 확인 대기다.</p>
 <p>직접 확인 절차:</p>
 <ol>
-<li><code>Assets/Afterlife/Samples/ThresholdLab/Scenes/Afterlife_ThresholdLab.unity</code>를 열어 재생한다.</li>
+<li><code>Assets/Samples/ThresholdLab/Scenes/Afterlife_ThresholdLab.unity</code>를 열어 재생한다.</li>
 <li>타이틀에서 약 10초 관찰한다. 파문이 불규칙한 웅덩이 밖으로 이어지지 않고 밝은 부분만 남아야 한다.</li>
 <li>새 게임 → 타이틀 귀환을 반복한다. 왕복 각각 0.95초 안에 가속·감속하며 같은 경로를 되짚어야 한다.</li>
 <li>로비 창에는 Day01 After 저장 아트가 보이고 내부 조각선 없이 외곽만 찢어지고 번져야 한다. 마을은 창 밖에 나오지 않아야 한다.</li>
@@ -6266,7 +6266,7 @@ dotnet build Temp/ContinentConsumerValidation/Validation.csproj --no-restore --n
 <p>낮은 1일차 90초, 2일차 60초, 이후 45초다. 황혼 10초·밤 최소 35초이며 침공 적이 남으면 밤이 연장된다. 타이머 합계 10분, 실제 첫 체험 목표 10~15분. 6일 방어 후 보상 선택 없이 클리어한다. 본편 환생 진입·버튼·결과 안내는 숨기고 기존 환생 코드는 유지한다.</p>
 <p>Unity 프로젝트 기준:</p>
 <ul>
-<li><code>Assets/_AfterlifePrototype/Resources/AfterlifePrototype/SettingsData/System.asset</code>: MvpSlots, 슬롯 수·충전·일차별 시간·기본 반경.</li>
+<li><code>Assets/Prototype/Resources/AfterlifePrototype/SettingsData/System.asset</code>: MvpSlots, 슬롯 수·충전·일차별 시간·기본 반경.</li>
 <li>같은 폴더 <code>Economy.asset</code>: 주민 반경 증가율. <code>Relics.asset</code>: 신규 보상 효과·상한과 자원 계수.</li>
 <li><code>Resources/AfterlifePrototype/MvpProgression.asset</code>와 <code>ProgressionData/MvpResearch.asset</code>: 본편 통합 트리. 기존 강화 에디터는 통합 카탈로그를 우선 열며 기존 카탈로그도 선택 가능하다.</li>
 <li><code>Resources/AfterlifePrototype/FieldSlotsHud.prefab</code>: 슬롯 HUD. 본편 씬의 PrototypeView에 연결한다.</li>
@@ -6750,7 +6750,7 @@ dotnet build Temp/ContinentConsumerValidation/Validation.csproj --no-restore --n
 <li>필드 처리: Modules/DivineFields/DivineFieldService.cs, Runtime/PrototypeDivineFields.cs</li>
 <li>가격: Resources/Data/Buildings/*.asset</li>
 </ul>
-<p>위 경로는 Unity 프로젝트의 Assets/_AfterlifePrototype 아래 기준이며 Modules는 Assets/Afterlife/Modules 아래다.</p>
+<p>위 경로는 Unity 프로젝트의 Assets/Prototype 아래 기준이며 Modules는 Assets/Modules 아래다.</p>
 <table>
 <thead>
 <tr>
@@ -7717,7 +7717,7 @@ dotnet build Temp/ContinentConsumerValidation/Validation.csproj --no-restore --n
 <p>연구소는 건설 목록에서 제거하고 강화 접근을 제단/성소로 통합한다. 기존 트리 노드/선행 관계/참조를 보존하며 비용은 기존 골드÷30 올림으로 한 번만 이전한다. 주민 강화는 직접 작업 범위·효율 강화로 바꾼다. 에테론은 돈 아래 표시하며 제단 버튼은 처음부터 잠겨 있고 제단/성소 완공 시 활성화한다. 건물 소실 후에도 잔고와 구매 효과는 남고 버튼만 잠긴다. 새 게임은 잔고를 초기화한다.</p>
 <h4 id="doc-0d03519218134379--inspector-편집과-적용">Inspector 편집과 적용</h4>
 <ul>
-<li>건물: <code>Assets/_AfterlifePrototype/Resources/Data/Buildings/*.asset</code>의 <code>Stats</code>. 프리팹에 수치를 저장하지 않는다.</li>
+<li>건물: <code>Assets/Prototype/Resources/Data/Buildings/*.asset</code>의 <code>Stats</code>. 프리팹에 수치를 저장하지 않는다.</li>
 <li>주택/회관: 영역 반경·시야 반경·건설 속도 기여량을 편집한다. 두 반경은 소수 입력 가능한 Unity 월드 단위이며 서로 독립적이다. 0 이하이면 해당 기능이 비활성화된다.</li>
 <li>생산: 생산 종류, 주기, 수량, 소속 병종/정원, 가속 가격을 편집한다. 합체 대상과 2×2 점유 깊이도 건물 SO로 전달한다.</li>
 <li>지도: <code>SettingsData/World.asset</code>의 Economic sites 그룹에서 지대 수·크기·최소 거리를 설정한다.</li>
@@ -8759,8 +8759,8 @@ dotnet build Temp/ContinentConsumerValidation/Validation.csproj --no-restore --n
 </ul>
 <h4 id="doc-1d5e3c1b753c04b4--기존-자료">기존 자료</h4>
 <ul>
-<li><a href="../../impls/unity/Afterlife/Documents/idle_survival_defense_game_design.md">기존 생존 디펜스 기획</a></li>
-<li><a href="../../impls/unity/Afterlife/Documents/IdleVillageDefenseDesign.md">기존 마을 운영 방향</a></li>
+<li>기존 생존 디펜스 기획 (삭제된 과거 원본; 현재 기획은 01~08 문서 참조)</li>
+<li>기존 마을 운영 방향 (삭제된 과거 원본; 현재 기획은 01~08 문서 참조)</li>
 <li>기존 Demo 개발 현황: 레거시 개발 계획 파일은 현재 작업 폴더에 없음(2026-09-20 확인).</li>
 </ul>
 <p>기존 문서는 참고 자료다. 모닥불, 방치형, 베이스캠프 등은 새 기획에 자동 승계하지 않는다.</p>

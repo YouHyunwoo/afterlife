@@ -11,7 +11,7 @@
 
 ## 생성 자산
 
-built-in imagegen으로 제작했고 게임 프로젝트의 `Assets/_AfterlifePrototype/Resources/UI/`에 저장했다. `Icons16.png`, `PanelFrame16.png`, `LootIcon16.png`를 실제 UI가 로드한다. 초기 세밀한 버전 `Icons.png`, `PanelFrame.png`, `LootIcon.png`는 대체 전 이력이며 새 UI에서 사용하지 않는다. 이미지는 글자를 포함하지 않으며 한국어는 Mona12 폰트로 별도 렌더링한다. 텍스처는 Point 필터, 프레임은 9-slice로 표시한다.
+built-in imagegen으로 제작했고 게임 프로젝트의 `Assets/Prototype/Resources/UI/`에 저장했다. `Icons16.png`, `PanelFrame16.png`, `LootIcon16.png`를 실제 UI가 로드한다. 초기 세밀한 버전 `Icons.png`, `PanelFrame.png`, `LootIcon.png`는 대체 전 이력이며 새 UI에서 사용하지 않는다. 이미지는 글자를 포함하지 않으며 한국어는 Mona12 폰트로 별도 렌더링한다. 텍스처는 Point 필터, 프레임은 9-slice로 표시한다.
 
 ### Icons16.png · 최종 프롬프트
 

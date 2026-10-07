@@ -25,8 +25,8 @@
 
 ## 모듈과 적용
 
-- `Assets/Afterlife/Modules/NightCleanup`: Unity 참조 없는 시간 단계와 격자 접근성 판정. 게임 모델·전역 서비스 참조 없음.
-- `Assets/Afterlife/Modules/NightCleanup.Unity`: `RemainingEnemyMarkers` 컴포넌트와 전용 URP 표시 셰이더. 월드 좌표·ID·카메라만 전달받는다. 조명·안개에 묻히지 않는 표시 전용 선을 사용한다.
+- `Assets/Modules/NightCleanup`: Unity 참조 없는 시간 단계와 격자 접근성 판정. 게임 모델·전역 서비스 참조 없음.
+- `Assets/Modules/NightCleanup.Unity`: `RemainingEnemyMarkers` 컴포넌트와 전용 URP 표시 셰이더. 월드 좌표·ID·카메라만 전달받는다. 조명·안개에 묻히지 않는 표시 전용 선을 사용한다.
 - `PrototypeNightCleanup.cs`: 게임 상태·침공 적·지형·복구 위치를 공용 규칙에 연결하는 어댑터.
 - `PrototypeNightCleanupView.cs`: 게임 카메라와 지면 높이를 연결하는 얇은 표시 어댑터.
 

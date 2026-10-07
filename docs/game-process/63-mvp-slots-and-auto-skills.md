@@ -58,7 +58,7 @@ Q/W/E·스킬 버튼 수동 시전을 본편에서 제거했다. 기존 HUD는 [
 
 Unity 프로젝트 기준:
 
-- `Assets/_AfterlifePrototype/Resources/AfterlifePrototype/SettingsData/System.asset`: MvpSlots, 슬롯 수·충전·일차별 시간·기본 반경.
+- `Assets/Prototype/Resources/AfterlifePrototype/SettingsData/System.asset`: MvpSlots, 슬롯 수·충전·일차별 시간·기본 반경.
 - 같은 폴더 `Economy.asset`: 주민 반경 증가율. `Relics.asset`: 신규 보상 효과·상한과 자원 계수.
 - `Resources/AfterlifePrototype/MvpProgression.asset`와 `ProgressionData/MvpResearch.asset`: 본편 통합 트리. 기존 강화 에디터는 통합 카탈로그를 우선 열며 기존 카탈로그도 선택 가능하다.
 - `Resources/AfterlifePrototype/FieldSlotsHud.prefab`: 슬롯 HUD. 본편 씬의 PrototypeView에 연결한다.

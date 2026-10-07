@@ -11,7 +11,7 @@
 - 현재 마을 타일 사각형 외곽에서 XZ 거리 2까지 둥글게 확장하여 상시 오브젝트 표시와 밤 조도를 제공한다. 실제 마을 영역과 건설 가능 범위는 그대로다.
 - 기존 건물·유닛·커서·필드 시야와 최댓값으로 합친다. 빛도 기존 건물 조명과 최댓값으로 합치며, 마을 조도는 기존 건물 최대 조도 수준이다. 일반 표면·풀·물에 적용한다.
 - **블러는 기존 마우스 위치 기반 동작 그대로다. 마을 안도 마우스에서 멀면 흐려진다.** 블러 코드·셰이더는 이번 작업에서 수정하지 않았다.
-- 설치는 기존 PrototypeView를 통해 자동 적용된다. 순수 코어 `Afterlife.TerritoryVision`과 게임 어댑터의 사용법·수명·해제·검증은 [모듈 README](../../impls/unity/Afterlife/Assets/Afterlife/Modules/TerritoryVision/README.md)에 기록했다.
+- 설치는 기존 PrototypeView를 통해 자동 적용된다. 순수 코어 `Afterlife.TerritoryVision`과 게임 어댑터의 사용법·수명·해제·검증은 [모듈 README](../../impls/unity/Afterlife/Assets/Modules/TerritoryVision/README.md)에 기록했다.
 - 검증 명령 `dotnet build Afterlife.Prototype.csproj --no-restore`는 복원 자산 누락(NETSDK1004)으로 컴파일 전에 실패했다. 신규 코어 프로젝트 파일도 Unity 생성 전이다. Unity 자동 테스트는 실행하지 않았다.
 - 직접 확인: 밤에 마우스를 마을에서 멀리 이동했을 때 외곽 2칸까지 오브젝트가 **보이고 밝지만 흐려지는지** 확인한다. 마우스를 가까이 가져오면 선명해야 한다. 집 완공·이동·철거와 새 판·환생 후 범위 갱신, 기존 건물 시야·빛 유지도 확인한다.
 

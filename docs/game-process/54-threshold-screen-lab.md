@@ -30,7 +30,7 @@
 
 Unity 프로젝트 기준:
 
-`Assets/Afterlife/Samples/ThresholdLab/Scenes/Afterlife_ThresholdLab.unity`
+`Assets/Samples/ThresholdLab/Scenes/Afterlife_ThresholdLab.unity`
 
 1. 작업 중인 기존 씬을 저장하고 위 씬을 연다. Game 뷰를 우선 16:9로 설정하고 사용자가 Play를 누른다.
 2. 타이틀: 검은 웅덩이의 희미한 반사와 가끔 생기는 얇은 동심원, 읽을 수 있는 로고·메뉴를 확인한다.
@@ -46,7 +46,7 @@ Unity 프로젝트 기준:
 
 ## 에셋 구성
 
-`Assets/Afterlife/Samples/ThresholdLab/`
+`Assets/Samples/ThresholdLab/`
 
 - `Scenes/Afterlife_ThresholdLab.unity`: 전체 경험 프리팹 인스턴스 하나로 구성한 샘플 씬.
 - `Prefabs/ThresholdExperience.prefab`: 조립 루트, Host, 카메라, 포즈, 캔버스, 오디오, EventSystem.
@@ -59,7 +59,7 @@ Unity 프로젝트 기준:
 
 ## 모듈 구조와 ECS 적용 범위
 
-`Assets/Afterlife/Modules/Threshold/`는 기존 Prototype/Devlog에 의존하지 않는다. 이 모듈의 ECS는 GameObject를 엔티티로 사용하는 조합 방식이며 Unity Entities/DOTS 패키지를 새로 설치한 구조가 아니다.
+`Assets/Modules/Threshold/`는 기존 Prototype/Devlog에 의존하지 않는다. 이 모듈의 ECS는 GameObject를 엔티티로 사용하는 조합 방식이며 Unity Entities/DOTS 패키지를 새로 설치한 구조가 아니다.
 
 | 계층 | 파일·컴포넌트 | 책임 |
 |---|---|---|

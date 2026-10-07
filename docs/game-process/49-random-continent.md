@@ -29,7 +29,7 @@ Astra low가 관련 코드와 소비자를 검토한 구현 계획:
 ## 구현 및 검증 상태
 
 - 계획: Astra low 완료.
-- 구현: Sol high 완료. 구현 파일은 `Assets/Afterlife/Modules/Terrain/Runtime/WorldMapLayout.cs` 하나다. 부모 리뷰 후 대륙 변화 범위, 목적지 간격, 외곽 이동 제한, 자원 바이옴 보충 및 강의 실제 바다 연결 판정을 보완했다.
+- 구현: Sol high 완료. 구현 파일은 `Assets/Modules/Terrain/Runtime/WorldMapLayout.cs` 하나다. 부모 리뷰 후 대륙 변화 범위, 목적지 간격, 외곽 이동 제한, 자원 바이옴 보충 및 강의 실제 바다 연결 판정을 보완했다.
 - 변경 전 기본 Terrain 프로젝트 빌드: `NETSDK1004`로 중단. 기존 `Temp/obj/Afterlife.Terrain/project.assets.json`이 없어 프로젝트의 직접 어셈블리 참조를 사용하는 복원 없는 컴파일 방식으로 확인했다.
 - 최종 Terrain 독립 재빌드: 경고 0, 오류 0.
 - 실제 `PrototypeTerrain.cs`와 Terrain DLL의 소비자 컴파일: 경고 0, 오류 0. Temp 검증 프로젝트에서 `Point`의 X/Z 필드만 임시 대체했으므로 전체 게임 통합 빌드 성공을 의미하지 않는다.

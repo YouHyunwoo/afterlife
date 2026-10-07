@@ -5,7 +5,7 @@ Day01 전용이던 이름과 위치를 정리했다. 기존 생성기는 Day01�
 ## 구성
 
 - `generate_narration.py`: 회차 대본에서 음성·시간표·자막·Unity 임포트본 생성
-- `preview_narration_voices.py`: 기존 필름을 바꾸지 않는 목소리 비교
+- `preview_narration_voices.py`: 기존 필름을 바꾸지 않는 목소리 비교. 기본 출력은 devlog/youtube/shared/media/audio/voice-comparison, --output으로 지정 가능
 - `vendor/`: Supertonic 추론 코드와 코드·모델 라이선스
 - `requirements.txt`: 재설치 의존성
 - 루트 `.tooling/youtube-tts/assets/`: 공유 ONNX 모델·음색

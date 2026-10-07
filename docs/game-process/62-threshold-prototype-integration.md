@@ -25,7 +25,7 @@
 
 공용 컴포넌트는 프로토타입의 `GameScreen`, 모달 ID, 모델을 참조하지 않는다. `PrototypeFlowScreen`이 화면과 버튼 의도를 `PrototypeGameFlow`에 맞춰 변환한다. `ThresholdBackdropRig`은 `ThresholdBackdrop` 전용 레이어만 촬영하며 프로토타입 월드 카메라의 `targetTexture`를 바꾸지 않는다. 균열 안의 마을은 원본 프리팹의 30번 레이어와 `VillageCamera` 마스크를 유지해 균열 표면을 통해서만 보인다. 게임 화면에서는 Lab 배경을 끄고 기존 픽셀 월드 출력으로 돌아간다. RenderTexture와 복제 머티리얼은 해당 컴포넌트가 정리한다.
 
-`Assets/Afterlife/Modules/Threshold/Prefabs/`의 개별 화면·배경·묶음 프리팹은 편집할 수 있다. 현재 프로토타입 씬에는 묶음 프리팹과 `PrototypeFlowScreen` 어댑터가 연결되어 있다. 재구성이 필요하면 저장된 프로토타입 씬을 연 뒤 `PrototypeThresholdAuthoring.Apply()`를 **현재 열린 에디터**에서 호출한다. 이 에디터 유틸리티는 프리팹과 씬 참조를 다시 연결하며 새 `Tools` 메뉴는 만들지 않는다. 재실행 전 씬의 다른 변경을 저장한다.
+`Assets/Modules/Threshold/Prefabs/`의 개별 화면·배경·묶음 프리팹은 편집할 수 있다. 현재 프로토타입 씬에는 묶음 프리팹과 `PrototypeFlowScreen` 어댑터가 연결되어 있다. 재구성이 필요하면 저장된 프로토타입 씬을 연 뒤 `PrototypeThresholdAuthoring.Apply()`를 **현재 열린 에디터**에서 호출한다. 이 에디터 유틸리티는 프리팹과 씬 참조를 다시 연결하며 새 `Tools` 메뉴는 만들지 않는다. 재실행 전 씬의 다른 변경을 저장한다.
 
 인트로가 끝나면 `PrototypeFlowScreen`이 로비 문구를 숨기고 `ThresholdBackdropRig.BeginPortalEntry()`를 호출한다. 배경 리그는 ThresholdLab 원본 `ThresholdPresentationSystem.PortalApproach`를 함께 사용하며 샘플 `ThresholdProfile.WorldTransitionSeconds`를 따른다. 현재 1.8초 설정에서 진행률 0.38까지 약 0.68초 동안 원본의 3제곱 가속, 안전 거리, 카메라 회전, 시야각 68도 이동을 적용한다. 표면 직전 도착 순간 원본과 같이 완전히 검게 전환하고, 진행률 0.48까지 약 0.18초 유지한 후 `ThresholdLoadingPage`를 한 프레임 표시하고 `PrototypeGameFlow`의 세션 시작을 호출한다. 맵 생성은 현재 메인 스레드에서 동기 실행되므로 로딩 중 진행률을 표시하지 않는다. 재도전은 균열 이동 없이 같은 로딩 화면을 거친다. `ModelReset`, `Ground`, `Decorations`, `Vegetation`, `Objects` 단계의 `[Prototype.Startup]` 로그로 실제 비용을 비교한다.
 

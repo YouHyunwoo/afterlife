@@ -59,7 +59,7 @@
 5. 20개 모두 실제 크기/축소 표시에서 실루엣·유사 아이콘 구분·외곽선·여백·잘림을 시각 검사했다. 집/구획/결계, 낙뢰/연쇄/감전/의식, 협동/보살핌은 서로 구분된다.
 6. 기술 결과는 `technical-report.json`, 아이콘별 시각 판정과 승인 PNG 해시는 `visual-approvals.json`에 기록했다. `--apply`는 20개 전체의 기술 통과·시각 통과·승인 해시가 일치할 때만 게임 폴더에 복사한다.
 
-결과: 20/20 통과. 게임 자산은 `impls/unity/Afterlife/Assets/_AfterlifePrototype/Resources/UI/Upgrades/R1.png`~`R10.png`, `A1.png`~`A10.png`다. 생성 이미지의 큰 원본을 게임에 직접 적용하지 않았다.
+결과: 20/20 통과. 게임 자산은 `impls/unity/Afterlife/Assets/Prototype/Resources/UI/Upgrades/R1.png`~`R10.png`, `A1.png`~`A10.png`다. 생성 이미지의 큰 원본을 게임에 직접 적용하지 않았다.
 
 Unity importer는 Sprite Single, Point, 무압축, mipmap 없음, NPOT 크기 유지, FullRect, PPU 48로 설정한다. 기존 Catalog의 빈 Icon 필드만 연결하며 사용자가 지정한 Sprite는 유지한다. 런타임 기본 데이터도 게임 어댑터의 Resources resolver로 같은 승인 에셋을 찾는다. 공통 트리 모듈 자체는 프로젝트 리소스 경로에 의존하지 않는다.
 

@@ -34,7 +34,7 @@
 | Afterlife.Prototype | 재화/건물 접근, 강화 효과, 스킬 효과, Moonstone 조립 | 독립 모듈을 어댑터에서 연결 |
 | Afterlife.Prototype.Editor | 기본 데이터 생성, 격자 편집, 자동 저장/검증 | Editor 한정, 데이터/게임 기본 콘텐츠 |
 
-코어 경로: `impls/unity/Afterlife/Assets/Afterlife/Modules/`. 게임 어댑터는 `PrototypeProgression.cs`, 기본 콘텐츠는 `PrototypeProgressionDefaults.cs`, 화면 연결은 `PrototypeProgressionUi.cs`다. 코어는 재화 지갑과 발동 가능 여부를 인터페이스로 주입받고 이벤트로 외부 효과를 요청한다. 씬 조립에서 모듈을 생성해 Moonstone 컨테이너에 등록한다. Unity 데이터는 시작 시 복제하고 코어에는 순수 정의/값 배열을 전달한다.
+코어 경로: `impls/unity/Afterlife/Assets/Modules/`. 게임 어댑터는 `PrototypeProgression.cs`, 기본 콘텐츠는 `PrototypeProgressionDefaults.cs`, 화면 연결은 `PrototypeProgressionUi.cs`다. 코어는 재화 지갑과 발동 가능 여부를 인터페이스로 주입받고 이벤트로 외부 효과를 요청한다. 씬 조립에서 모듈을 생성해 Moonstone 컨테이너에 등록한다. Unity 데이터는 시작 시 복제하고 코어에는 순수 정의/값 배열을 전달한다.
 
 이후 신규 시스템도 같은 경계를 따르도록 Unity 프로젝트 `AGENTS.md`에 지속 규칙을 추가했다. 모든 기존 시스템을 이번 변경에서 일괄 재작성한 것은 아니다.
 
