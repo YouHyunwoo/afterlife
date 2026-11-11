@@ -6,12 +6,15 @@ import math
 from pathlib import Path
 
 
-def calculate(config, interval_scale=1, farm_bonus=1, destroy_farm=False, extra_first_farm=False):
+def calculate(config, interval_scale=1, farm_bonus=1, destroy_farm=False,
+              extra_first_farm=False, initial_full=False, harvest_scale=1,
+              fertile_farms=0, fertile_start_ordinal=1):
     dt, gold, etheron = 0.25, float(config['starting_gold']), 0
     remainder, sites, rows, issues = 0.0, [], [], []
-    harvest_yield, construction_work, farm_seconds = 1, 1, config['farm_seconds']
+    harvest_yield, construction_work, farm_seconds = config.get('harvest_base', 1), 1, config['farm_seconds']
     interval = config['work_interval'] * interval_scale
-    cooldown, game_time, total_time = interval, 0.0, 0.0
+    cooldown, game_time, total_time = (0 if initial_full else interval), 0.0, 0.0
+    farm_ordinal = 0
     for index, day in enumerate(config['days'], 1):
         start_gold, start_etheron = gold, etheron
         cost = day.get('research_cost', 0)
@@ -29,10 +32,11 @@ def calculate(config, interval_scale=1, farm_bonus=1, destroy_farm=False, extra_
         direct_gold, farm_gold, spent, expense = 0, 0, 0, 0
         events, snapshot = [], {}
         end_time = day['low'] + 10 + day['night']
-        for step in range(1, round(end_time / dt) + 1):
+        for step in range(0 if initial_full and index == 1 else 1, round(end_time / dt) + 1):
             t = step * dt
-            game_time += dt
-            cooldown = max(0, cooldown - dt)
+            elapsed = 0 if step == 0 else dt
+            game_time += elapsed
+            cooldown = max(0, cooldown - elapsed)
             unfinished = next((s for s in sites if s['progress'] < 1), None)
             if t <= day['low'] + 10 and t >= blocked_until and unfinished is None and cursor < len(purchases):
                 name = purchases[cursor]
@@ -40,27 +44,31 @@ def calculate(config, interval_scale=1, farm_bonus=1, destroy_farm=False, extra_
                 if gold >= spec['cost']:
                     gold -= spec['cost']
                     spent += spec['cost']
-                    sites.append(dict(name=name, spec=spec, progress=0, cycle=0, units=[], completed_at=None))
+                    if name == 'farm':
+                        farm_ordinal += 1
+                    sites.append(dict(name=name, spec=spec, progress=0, cycle=0, units=[],
+                        completed_at=None, yield_multiplier=2 if name == 'farm' and
+                        fertile_start_ordinal <= farm_ordinal < fertile_start_ordinal + fertile_farms else 1))
                     events.append(dict(kind='purchase', building=name, time=t))
                     cursor += 1
                     blocked_until = t + config['placement_seconds']
             for site in sites:
                 if site['progress'] < 1:
-                    site['progress'] += config['auto_construction'] * config['local_construction_multiplier'] * dt / site['spec']['construction']
+                    site['progress'] += config['auto_construction'] * config['local_construction_multiplier'] * elapsed / site['spec']['construction']
                     if site['progress'] >= 1:
                         site['progress'], site['completed_at'] = 1, game_time
                         events.append(dict(kind='complete', building=site['name'], time=t))
             target = next((s for s in sites if s['progress'] < 1), None)
             if t >= blocked_until and t <= day['low'] + 10 and target:
-                construction_time += dt
+                construction_time += elapsed
                 if cooldown <= 1e-9:
                     target['progress'] += construction_work * config['local_construction_multiplier'] / target['spec']['construction']
                     cooldown = interval
                     if target['progress'] >= 1:
                         target['progress'], target['completed_at'] = 1, game_time
                         events.append(dict(kind='complete', building=target['name'], time=t))
-            elif t >= blocked_until and t <= day['low'] and harvest_time + dt <= day['harvest_seconds'] + 1e-9:
-                harvest_time += dt
+            elif t >= blocked_until and t <= day['low'] and harvest_time + elapsed <= day['harvest_seconds'] * harvest_scale + 1e-9:
+                harvest_time += elapsed
                 if cooldown <= 1e-9:
                     remainder += harvest_yield
                     amount = math.floor(remainder + 1e-9)
@@ -79,12 +87,12 @@ def calculate(config, interval_scale=1, farm_bonus=1, destroy_farm=False, extra_
                 farm_count = sum(s['name'] == 'farm' and s['progress'] >= 1 for s in sites)
                 adjacency = 1 + min(farm_bonus - 1, 0.25 * max(0, farm_count - 1))
                 seconds = farm_seconds / adjacency if product == 'gold' else spec['cycle']
-                site['cycle'] += dt / seconds
+                site['cycle'] += elapsed / seconds
                 while site['cycle'] >= 1 - 1e-9:
                     site['cycle'] -= 1
                     if product == 'gold':
-                        gold += 1
-                        farm_gold += 1
+                        gold += site['yield_multiplier']
+                        farm_gold += site['yield_multiplier']
                     elif product == 'etheron':
                         etheron += 1
                     else:
@@ -119,7 +127,8 @@ def calculate(config, interval_scale=1, farm_bonus=1, destroy_farm=False, extra_
             building_spend=spent, expense=expense, end_gold=round(gold, 2), start_etheron=start_etheron,
             end_etheron=etheron, harvest_seconds=harvest_time, construction_seconds=construction_time,
             requested_expense=day['expense'], expense_shortfall=day['expense']-expense,
-            ready_at_night=snapshot, events=events))
+            ready_at_night=snapshot, events=events, construction_work=construction_work,
+            harvest_yield=harvest_yield, farm_seconds=farm_seconds))
         total_time += end_time + day['menu']
     return dict(total_seconds=total_time, rows=rows, issues=issues)
 
