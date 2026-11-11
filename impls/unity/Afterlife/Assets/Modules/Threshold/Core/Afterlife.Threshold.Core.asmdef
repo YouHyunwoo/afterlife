@@ -1,0 +1,6 @@
+{
+  "name": "Afterlife.Threshold.Core",
+  "rootNamespace": "Afterlife.Modules.Threshold",
+  "references": ["Afterlife.Flow"],
+  "noEngineReferences": true
+}

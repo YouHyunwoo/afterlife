@@ -1,0 +1,20 @@
+{
+  "name": "Afterlife.Devlog.SceneFeatureMigration.Editor",
+  "references": [
+    "Afterlife.Devlog.Day01",
+    "Afterlife.Devlog.Day02",
+    "Afterlife.SceneFeatures",
+    "Afterlife.SceneFeatures.Editor",
+    "Afterlife.Terrain",
+    "Afterlife.Interaction",
+    "Afterlife.TargetContracts",
+    "Afterlife.WorldAudio",
+    "Afterlife.Destruction",
+    "Unity.RenderPipelines.Universal.Runtime",
+    "Afterlife.TerrainView",
+    "Afterlife.SceneFeatures.Core"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ]
+}

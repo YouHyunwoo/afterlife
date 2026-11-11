@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dae881e20c49be248adec9ad3268961a, type: 3}
+  m_Name: Presentation
+  m_EditorClassIdentifier: 
+  VisionBlur: 1
+  TreeModelScale: 0.7111111
+  RockModelScale: 0.6666667
+  PixelHeight: 360
+  GrassSizeScale: 0.5555556
+  GrassUsesTerrainColor: 1
+  GrassBaseColor: {r: 0.3, g: 0.4, b: 0.23, a: 1}
+  GrassBeigeColor: {r: 0.65, g: 0.57, b: 0.41, a: 1}
+  GrassDarkColor: {r: 0.14, g: 0.17, b: 0.15, a: 1}
+  GrassPaleColor: {r: 0.91, g: 0.93, b: 0.89, a: 1}
+  GrassTealColor: {r: 0.24, g: 0.48, b: 0.42, a: 1}
+  GrassMossColor: {r: 0.36, g: 0.43, b: 0.2, a: 1}
+  GrassPurpleColor: {r: 0.47, g: 0.3, b: 0.48, a: 1}
+  GrassFlowerPink: {r: 0.82, g: 0.66, b: 0.78, a: 1}
+  GrassFlowerYellow: {r: 0.95, g: 0.92, b: 0.78, a: 1}

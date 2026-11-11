@@ -1,0 +1,10 @@
+{
+  "name": "Afterlife.Lighting",
+  "rootNamespace": "Afterlife.Modules.Lighting",
+  "references": [
+    "Unity.RenderPipelines.Core.Runtime",
+    "Unity.RenderPipelines.Universal.Runtime",
+    "Afterlife.UnitySupport"
+  ],
+  "autoReferenced": true
+}

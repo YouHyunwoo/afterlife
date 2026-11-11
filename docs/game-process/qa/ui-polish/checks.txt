@@ -1,0 +1,11 @@
+PASS header information passes world input
+PASS footer world input is free
+PASS actual menu button blocks world input
+PASS single click opens market without prior selection
+PASS open build panel blocks world input
+PASS construction never overlaps side navigation
+PASS loot icon blocks world input
+PASS closed construction area passes world input
+PASS research maximum level state
+PASS camera moves inside 25 percent edge band
+PASS camera stops in central rectangle

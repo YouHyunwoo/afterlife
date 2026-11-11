@@ -1,0 +1,596 @@
+fileFormatVersion: 2
+guid: 2531e59cf08c90b4a9e9ecd5f62f05ed
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7812786645295712892
+    second: Icons16_0
+  - first:
+      213: 543401086148085211
+    second: Icons16_1
+  - first:
+      213: 763493132556024138
+    second: Icons16_2
+  - first:
+      213: 8688120078369244771
+    second: Icons16_3
+  - first:
+      213: -7625855263551280565
+    second: Icons16_4
+  - first:
+      213: 685556932597600295
+    second: Icons16_5
+  - first:
+      213: 4784172142936219247
+    second: Icons16_6
+  - first:
+      213: 5518284915590350593
+    second: Icons16_7
+  - first:
+      213: -9003874597643959883
+    second: Icons16_8
+  - first:
+      213: -5111915376222280740
+    second: Icons16_9
+  - first:
+      213: -8358976970225840292
+    second: Icons16_10
+  - first:
+      213: -6598478593108675799
+    second: Icons16_11
+  - first:
+      213: 3532674834464021071
+    second: Icons16_12
+  - first:
+      213: -5503152345225883771
+    second: Icons16_13
+  - first:
+      213: -4897858105536894944
+    second: Icons16_14
+  - first:
+      213: 7325989116827925518
+    second: Icons16_15
+  - first:
+      213: 6962705663334689487
+    second: Icons16_16
+  - first:
+      213: -928300922329114965
+    second: Icons16_17
+  - first:
+      213: 8260762766176363083
+    second: Icons16_18
+  - first:
+      213: 6936078502566604928
+    second: Icons16_19
+  - first:
+      213: 1002232494569930118
+    second: Icons16_20
+  - first:
+      213: -7234753973649705446
+    second: Icons16_21
+  - first:
+      213: -8772218775808547676
+    second: Icons16_22
+  - first:
+      213: -129381546451637951
+    second: Icons16_23
+  - first:
+      213: -60751458127190744
+    second: Icons16_24
+  - first:
+      213: 66849867765749214
+    second: Icons16_25
+  - first:
+      213: -4047876106904137783
+    second: Icons16_26
+  - first:
+      213: -5584197514674749008
+    second: Icons16_27
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Icons16_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 116
+        width: 43
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c7a44ca5f089c6c60800000000000000
+      internalID: 7812786645295712892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons16_4
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 122
+        width: 29
+        height: 25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b4aab739a058b2690800000000000000
+      internalID: -7625855263551280565
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons16_5
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 119
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 72059c0e566938900800000000000000
+      internalID: 685556932597600295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons16_6
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 121
+        width: 28
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6e5804673bc46240800000000000000
+      internalID: 4784172142936219247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons16_10
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 81
+        width: 29
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5f840cbbb2fefb80800000000000000
+      internalID: -8358976970225840292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons16_11
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 82
+        width: 35
+        height: 33
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 923fcb70eae7d64a0800000000000000
+      internalID: -6598478593108675799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons16_12
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 82
+        width: 33
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4a90378b05960130800000000000000
+      internalID: 3532674834464021071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons16_13
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 82
+        width: 29
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58f04f55910e0a3b0800000000000000
+      internalID: -5503152345225883771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons16_15
+      rect:
+        serializedVersion: 2
+        x: 43
+        y: 42
+        width: 36
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0cf7e879442ba560800000000000000
+      internalID: 7325989116827925518
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons16_16
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 43
+        width: 35
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fca2aaa29ef70a060800000000000000
+      internalID: 6962705663334689487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons16_17
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 40
+        width: 28
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba6d7efba330e13f0800000000000000
+      internalID: -928300922329114965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons16_18
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 41
+        width: 33
+        height: 33
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b4227bbe7ff14a270800000000000000
+      internalID: 8260762766176363083
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons16_21
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 41
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a167343a79df89b90800000000000000
+      internalID: -7234753973649705446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons16_22
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 8
+        width: 33
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a46be72081d24680800000000000000
+      internalID: -8772218775808547676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons16_23
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 7
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14962434b28543ef0800000000000000
+      internalID: -129381546451637951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons16_26
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 6
+        width: 32
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9cf0039902e03d7c0800000000000000
+      internalID: -4047876106904137783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 0366787bb686a9d47af65a4b435e08fe
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Icons16_0: 7812786645295712892
+      Icons16_1: 543401086148085211
+      Icons16_10: -8358976970225840292
+      Icons16_11: -6598478593108675799
+      Icons16_12: 3532674834464021071
+      Icons16_13: -5503152345225883771
+      Icons16_14: -4897858105536894944
+      Icons16_15: 7325989116827925518
+      Icons16_16: 6962705663334689487
+      Icons16_17: -928300922329114965
+      Icons16_18: 8260762766176363083
+      Icons16_19: 6936078502566604928
+      Icons16_2: 763493132556024138
+      Icons16_20: 1002232494569930118
+      Icons16_21: -7234753973649705446
+      Icons16_22: -8772218775808547676
+      Icons16_23: -129381546451637951
+      Icons16_24: -60751458127190744
+      Icons16_25: 66849867765749214
+      Icons16_26: -4047876106904137783
+      Icons16_27: -5584197514674749008
+      Icons16_3: 8688120078369244771
+      Icons16_4: -7625855263551280565
+      Icons16_5: 685556932597600295
+      Icons16_6: 4784172142936219247
+      Icons16_7: 5518284915590350593
+      Icons16_8: -9003874597643959883
+      Icons16_9: -5111915376222280740
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: '
+
+    Afterlife.UI.Pixels.v1'
+  assetBundleName: 
+  assetBundleVariant: 

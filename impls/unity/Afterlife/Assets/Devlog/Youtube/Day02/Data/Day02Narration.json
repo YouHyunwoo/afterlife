@@ -1,0 +1,313 @@
+{
+  "version": 4,
+  "engine": "Supertonic 3",
+  "modelRevision": "aafc6e32416a594460b32413efc49d7fe4ce6d46",
+  "voice": "M2",
+  "language": "ko",
+  "speed": 0.98,
+  "steps": 12,
+  "sampleRate": 44100,
+  "shots": [
+    {
+      "id": "opening",
+      "title": "촬영 시작",
+      "stage": 0,
+      "interactive": false,
+      "quickCut": true,
+      "closeUp": true,
+      "hideHeading": true,
+      "fadeIn": true,
+      "fadeInDuration": 0.65,
+      "minimumDuration": 1,
+      "workAmount": 1,
+      "treeWorks": 2,
+      "cues": [],
+      "duration": 1,
+      "start": 0
+    },
+    {
+      "id": "teaser-click",
+      "title": "1 · 클릭 채집",
+      "explanation": "클릭 한 번 → 채집 한 번",
+      "teaser": true,
+      "stage": 0,
+      "interactive": true,
+      "automatic": true,
+      "fixedTarget": false,
+      "maxWorks": 4,
+      "demoStart": 0.15,
+      "quickCut": true,
+      "closeUp": true,
+      "fadeOut": true,
+      "fadeOutDuration": 0.12,
+      "minimumDuration": 3,
+      "workAmount": 1,
+      "treeWorks": 2,
+      "cues": [],
+      "duration": 3,
+      "start": 1
+    },
+    {
+      "id": "teaser-hold",
+      "title": "2 · 버튼 유지 채집",
+      "explanation": "누르는 동안 → 반복 채집",
+      "teaser": true,
+      "stage": 1,
+      "interactive": true,
+      "automatic": true,
+      "fixedTarget": false,
+      "demoStart": 0.15,
+      "quickCut": true,
+      "closeUp": true,
+      "fadeIn": true,
+      "fadeOut": true,
+      "fadeInDuration": 0.12,
+      "fadeOutDuration": 0.12,
+      "minimumDuration": 3,
+      "workAmount": 1,
+      "treeWorks": 2,
+      "maxWorks": 0,
+      "cues": [],
+      "duration": 3,
+      "start": 4
+    },
+    {
+      "id": "teaser-gold",
+      "title": "3 · 골드 획득",
+      "explanation": "채집한 자원 → 골드로 지급",
+      "teaser": true,
+      "stage": 3,
+      "interactive": true,
+      "automatic": true,
+      "fixedTarget": false,
+      "maxWorks": 0,
+      "demoStart": 0.15,
+      "quickCut": true,
+      "fadeIn": true,
+      "fadeInDuration": 0.12,
+      "minimumDuration": 3,
+      "workAmount": 3,
+      "treeWorks": 2,
+      "cues": [],
+      "duration": 3,
+      "start": 7
+    },
+    {
+      "id": "intro-story",
+      "title": "편하게 캐고, 성장하는 재미",
+      "stage": 0,
+      "interactive": false,
+      "minimumDuration": 0,
+      "postNarrationSeconds": 1,
+      "explanation": "채집 → 골드 → 마을 건설 → 밤 방어",
+      "workAmount": 1,
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 6.684,
+          "text": "나무를 캐는 조작은 편하게, 강화하는 재미는 확실하게 만들고 싶었습니다.",
+          "file": "intro-story-01.wav",
+          "audioSeconds": 6.334,
+          "signature": "287fd232eac10b2e5f70cec0d9dd2adcfd33abc2d8acc6b3a02dfc4a4e8016fc",
+          "peak": 0.70697,
+          "sha256": "4af4a47747819a0d65a8395a3426002ecf3f0bd9914974289589b3c5bde6c357"
+        },
+        {
+          "start": 7.434,
+          "duration": 6.123,
+          "text": "낮에는 마을을 키우고, 밤에는 적을 막는 게임을 만들고 있습니다.",
+          "file": "intro-story-02.wav",
+          "audioSeconds": 5.773,
+          "signature": "289c6deaebd2ceff292b9977d34f3d72f37314a5f546316041159ba6ae0f4b67",
+          "peak": 0.70697,
+          "sha256": "d331f43f8a8c3f1f17e58f9da1a70536a71b1e141b820fabfc97c2d1c2e254b0"
+        }
+      ],
+      "duration": 14.21,
+      "start": 10
+    },
+    {
+      "id": "click-story",
+      "title": "1 · 계속 클릭하면 피곤해질까?",
+      "stage": 0,
+      "interactive": true,
+      "closeUp": true,
+      "minimumDuration": 0,
+      "postNarrationSeconds": 2,
+      "workAmount": 1,
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 5.299,
+          "text": "처음에는 클릭 한 번에 한 번씩 채집하도록 만들었습니다.",
+          "file": "click-story-01.wav",
+          "audioSeconds": 4.949,
+          "signature": "5ceb8b8fca90d09af1bb9d4dee0539ed420737441935e2c7d7b972eaeaf2f55e",
+          "peak": 0.70697,
+          "sha256": "6314f3eee4c190a0f46df736f72a1ef55f1a22f53d3b5d6ebbe33c3b616534af"
+        },
+        {
+          "start": 6.049,
+          "duration": 6.349,
+          "text": "그런데 자원을 모을 때마다 계속 클릭하면 금방 피곤해질 것 같았습니다.",
+          "file": "click-story-02.wav",
+          "audioSeconds": 5.999,
+          "signature": "f5f5d76d3505f8233a4e7bb1c2c5a52034496c24acabc2e4b34b48aceb07a891",
+          "peak": 0.70697,
+          "sha256": "6e9acea7424e7c7725a1dd67411f58cc3ab0a19c5ce194717684b1897dfea3b5"
+        }
+      ],
+      "duration": 14.05,
+      "start": 24.21
+    },
+    {
+      "id": "hold-story",
+      "title": "2 · 누른 채 나무에서 바위로",
+      "stage": 1,
+      "interactive": true,
+      "minimumDuration": 0,
+      "postNarrationSeconds": 2,
+      "workAmount": 1,
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 6.974,
+          "text": "그래서 버튼을 누르고 있으면, 지금 가리키는 곳에서 계속 작업하게 바꿨습니다.",
+          "file": "hold-story-01.wav",
+          "audioSeconds": 6.624,
+          "signature": "6a9531467160e528bfe8a4a76ecb299caba7c01719d2cf4e18dee6b7699a8e80",
+          "peak": 0.70697,
+          "sha256": "7954f5ed62d69a45278e2bb0dc80a91043da73bec6387c2176bd94b34765da71"
+        },
+        {
+          "start": 7.724,
+          "duration": 6.459,
+          "text": "나무에서 바위로 옮기면 대상도 바뀌고, 버튼을 놓으면 멈춥니다.",
+          "file": "hold-story-02.wav",
+          "audioSeconds": 6.109,
+          "signature": "eea3fcc338db69ab13ffd876d8658032ab4f074c6f93b9b725282527df8b5135",
+          "peak": 0.70697,
+          "sha256": "107a3640e38051035c987d2d918b04a985b6bce9d816a24fa033a1f11980693e"
+        }
+      ],
+      "duration": 15.83,
+      "start": 38.26
+    },
+    {
+      "id": "before-story",
+      "title": "3 · 강화 전 · 회당 +1",
+      "stage": 2,
+      "interactive": true,
+      "automatic": true,
+      "fixedTarget": true,
+      "maxWorks": 3,
+      "demoStart": 1,
+      "comparisonGroup": "efficiency",
+      "minimumDuration": 0,
+      "postNarrationSeconds": 2,
+      "workAmount": 1,
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 4.664,
+          "text": "강화 전, 같은 나무에 세 번 작업해 보겠습니다.",
+          "file": "before-story-01.wav",
+          "audioSeconds": 4.314,
+          "signature": "4681871ffb58581ab98eb8afa96de98f72e341343828d5124a12e7aa2ba05196",
+          "peak": 0.70697,
+          "sha256": "caf2adc2776b35e63722e13228446c83812bc7bf3a90a5c714b26416d1f3f7b3"
+        }
+      ],
+      "duration": 7.03,
+      "start": 54.09
+    },
+    {
+      "id": "after-story",
+      "title": "3 · 강화 후 · 회당 +3",
+      "stage": 2,
+      "interactive": true,
+      "automatic": true,
+      "fixedTarget": true,
+      "maxWorks": 3,
+      "demoStart": 1,
+      "comparisonGroup": "efficiency",
+      "minimumDuration": 0,
+      "postNarrationSeconds": 2,
+      "workAmount": 3,
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 4.833,
+          "text": "강화 후, 같은 세 번의 작업으로 세 배를 얻습니다.",
+          "file": "after-story-01.wav",
+          "audioSeconds": 4.483,
+          "signature": "9b4b6c587ea5cc5b22536f6944bed0068edc90751687701dabee218417594b83",
+          "peak": 0.70697,
+          "sha256": "73f2677bdf952684109e90159d648b4acb8eb3a51774ae6a958e6ede55f95c42"
+        }
+      ],
+      "duration": 7.03,
+      "start": 61.12
+    },
+    {
+      "id": "gold-story",
+      "title": "4 · 채집의 보상이 골드로",
+      "stage": 3,
+      "interactive": true,
+      "minimumDuration": 0,
+      "postNarrationSeconds": 2,
+      "workAmount": 3,
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 5.502,
+          "text": "이렇게 모은 자원은 골드가 되고, 마을을 키우는 데 쓰입니다.",
+          "file": "gold-story-01.wav",
+          "audioSeconds": 5.152,
+          "signature": "3f68ad27865cf18ff9386c2444b1d335504834c23da9ec6f8001d13477dde4cd",
+          "peak": 0.70697,
+          "sha256": "cc02fd9d13e97ddcbd47cac98993bfcba33aecf53a6811183ff6c3e0b5b89b32"
+        }
+      ],
+      "duration": 7.7,
+      "start": 68.15
+    },
+    {
+      "id": "next-story",
+      "title": "다음에는 · 첫 건물 짓기",
+      "stage": 3,
+      "interactive": false,
+      "minimumDuration": 0,
+      "postNarrationSeconds": 1,
+      "explanation": "모은 골드로 첫 건물 짓기",
+      "workAmount": 3,
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 4.239,
+          "text": "이 돈으로 다음에는 첫 건물을 지어보겠습니다.",
+          "file": "next-story-01.wav",
+          "audioSeconds": 3.889,
+          "signature": "4edee9c732466d775cf5b2fb21475ac2a0dda749a568ad69483454cac2f3c014",
+          "peak": 0.70697,
+          "sha256": "3ad0d6256c567c442d4f3700d311e9930a3982241fbb5f265e0fb7aafe774480"
+        }
+      ],
+      "duration": 5.44,
+      "start": 75.85
+    },
+    {
+      "id": "credits-story",
+      "title": "제작 크레딧",
+      "stage": 3,
+      "interactive": false,
+      "credits": true,
+      "minimumDuration": 16,
+      "workAmount": 3,
+      "cues": [],
+      "duration": 16,
+      "start": 81.29
+    }
+  ],
+  "duration": 97.29
+}

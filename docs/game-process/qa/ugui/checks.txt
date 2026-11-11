@@ -1,0 +1,23 @@
+PASS visible tower outranks closer house and unseen wall
+PASS nearest high priority troop selected
+PASS visible ordinary building is fallback
+PASS out of vision targets ignored
+PASS kill gives immediate coins and both goblin items
+PASS dead target cannot grant duplicate reward
+PASS serialized Canvas and EventSystem
+PASS font assigned to every uGUI text
+PASS all bindings unique
+PASS uGUI menu button opens menu
+PASS uGUI close returns to game
+PASS uGUI sliders and exchange button sell once
+PASS uGUI recruits warrior
+PASS uGUI cancels production
+PASS uGUI research purchases upgrade
+PASS uGUI research tabs
+PASS uGUI tower upgrade
+PASS opening UI creates no UI objects
+PASS camera stationary near UI (100.00, 192.00)
+PASS camera stationary near UI (100.00, 120.00)
+PASS camera stationary near UI (1099.91, 40.00)
+PASS camera still scrolls outside UI guard
+PASS information HUD keeps world click through

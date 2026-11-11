@@ -1,0 +1,13 @@
+{
+  "source": "02_tree_fall_short.wav",
+  "output": "02_tree_fall_short_processed.wav",
+  "sample_rate": 44100,
+  "duration_seconds": 3.207551020408163,
+  "pitch_semitones": -1.5078132199382415,
+  "noise_attenuation_limit_db": 8,
+  "highpass_hz": 55,
+  "lowpass_hz": 3400,
+  "original_rms": 0.2554587049656343,
+  "processed_rms": 0.1757952040668158,
+  "peak_dbfs": -2.0
+}

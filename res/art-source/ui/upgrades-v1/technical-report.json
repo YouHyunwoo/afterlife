@@ -1,0 +1,402 @@
+{
+  "R1": {
+    "size": [
+      48,
+      48
+    ],
+    "colors": 8,
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      4,
+      43,
+      44
+    ],
+    "technical_pass": true,
+    "sha256": "63cd45cffdc271f351d421536a4581f2c6ea8a75047e0f2ce6893b1e31998269",
+    "source_sha256": "f8f8a47e34b1d1fd399f6ea86a7f6d8cfbd239ddd086f41ab84da645e55f31ae"
+  },
+  "R2": {
+    "size": [
+      48,
+      48
+    ],
+    "colors": 8,
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      5,
+      44,
+      42
+    ],
+    "technical_pass": true,
+    "sha256": "0201cab2eff1cf2245f71fa5151826ec6da503af2da9f27a5b18d2ed45a579e5",
+    "source_sha256": "d363af9efe994f5dc3797110245cd4482d63dade286597364402bfcc682fb23e"
+  },
+  "R3": {
+    "size": [
+      48,
+      48
+    ],
+    "colors": 8,
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      4,
+      44,
+      44
+    ],
+    "technical_pass": true,
+    "sha256": "e8c30276069d2200d0571ef9956ca4b32deaf57d2e49342b0ec0326e8cb6ac6f",
+    "source_sha256": "d172faaa47c978621d54322cadb07f24b905352a2965ba05c0a6533529e85fb7"
+  },
+  "R4": {
+    "size": [
+      48,
+      48
+    ],
+    "colors": 8,
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      5,
+      4,
+      42,
+      44
+    ],
+    "technical_pass": true,
+    "sha256": "8300b18c9ebeb9ba9b78475b9d24927c3ed5f219ee999c6a7570c46451f32bcc",
+    "source_sha256": "47f9a72ad1c050bf097de7bd74c9f8e3bcbd4e9f059ccb0bf2da9de5958a76cc"
+  },
+  "R5": {
+    "size": [
+      48,
+      48
+    ],
+    "colors": 8,
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      5,
+      44,
+      43
+    ],
+    "technical_pass": true,
+    "sha256": "a856c8bde4be41fb2d90a538c3f05f467b44072cb4e3ef04aa40e8d38a9891c2",
+    "source_sha256": "41b8c22689c2034473ef9a864dd1456f02b79acaf2714fca65c6df965110739f"
+  },
+  "R6": {
+    "size": [
+      48,
+      48
+    ],
+    "colors": 8,
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      11,
+      4,
+      36,
+      44
+    ],
+    "technical_pass": true,
+    "sha256": "bce2c58b3136f1128bc7cebbc6deb4dbdbf452300a6d727e7972a36110f892f3",
+    "source_sha256": "658dd695fb73caefcda9f96331427536acb537f8c3eaf0b614e3cb00c3edf2a5"
+  },
+  "R7": {
+    "size": [
+      48,
+      48
+    ],
+    "colors": 8,
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      4,
+      44,
+      43
+    ],
+    "technical_pass": true,
+    "sha256": "5dee09ac79d04c4b91009c2db7c1fb04faa59524201db178d5e72afdd47dec32",
+    "source_sha256": "3c0a708779d7a845986f60639b0bab8c6d00da31fd19fdbf485ce57eda3b220e"
+  },
+  "R8": {
+    "size": [
+      48,
+      48
+    ],
+    "colors": 8,
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      5,
+      44,
+      43
+    ],
+    "technical_pass": true,
+    "sha256": "08b20c2cfa6d04a23e285e3c4e7634a2a8db29b313025891b3bb9aae19bc1cc6",
+    "source_sha256": "58215df6c162c2be598dc5b30750dca3aaec27be16d7ab90582e43ecb0505e91"
+  },
+  "R9": {
+    "size": [
+      48,
+      48
+    ],
+    "colors": 8,
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      5,
+      44,
+      42
+    ],
+    "technical_pass": true,
+    "sha256": "423591bf58c85a17a9e5eadcb2183ba99eb7928604a61f226cbd103fdf380c4f",
+    "source_sha256": "6d924732f346b559d223ba8ca36598433932c99ff6b0e72b0ca0de1fe869863d"
+  },
+  "R10": {
+    "size": [
+      48,
+      48
+    ],
+    "colors": 8,
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      7,
+      44,
+      41
+    ],
+    "technical_pass": true,
+    "sha256": "2c60fd1aa611b7cb02288401139983cb686ce578f756da5208b5b9b700566a53",
+    "source_sha256": "fdab104025af526e7c454133a01f11aa5558c52caeb28e9db180a93f28cd79ca"
+  },
+  "A1": {
+    "size": [
+      48,
+      48
+    ],
+    "colors": 7,
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      9,
+      4,
+      38,
+      44
+    ],
+    "technical_pass": true,
+    "sha256": "ad6301068e8dc37ea20031a32f3adb95625be621a1f3496c00b21a1883ef3909",
+    "source_sha256": "a83dae43269f97c9d853ee087b8ceb2fc85062014c22c27fdaffe8de2bfd454b"
+  },
+  "A2": {
+    "size": [
+      48,
+      48
+    ],
+    "colors": 8,
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      4,
+      44,
+      44
+    ],
+    "technical_pass": true,
+    "sha256": "9127851e915c5006e91a16173323b274523b87a2c11ea71a8cd61153bde48f64",
+    "source_sha256": "ff78ab526d7fbf445e8363432185e2be5d71dc9532dd1c3b84756ca3fb3d9db5"
+  },
+  "A3": {
+    "size": [
+      48,
+      48
+    ],
+    "colors": 8,
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      7,
+      4,
+      41,
+      44
+    ],
+    "technical_pass": true,
+    "sha256": "3ee5930ec445b6b14fac7f9497bd80d98521c400d7ea0376c5c4772db87fd1dd",
+    "source_sha256": "37f4096a7c89c4c69233f51f0aa438595eaba45d5b0f058834e06d09405ea74d"
+  },
+  "A4": {
+    "size": [
+      48,
+      48
+    ],
+    "colors": 7,
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      5,
+      4,
+      42,
+      44
+    ],
+    "technical_pass": true,
+    "sha256": "c6c8d283039af70382b1dccc7c872e7ac82c67ac3870038fde0961671eb8b078",
+    "source_sha256": "630aac80f99cbd0d8ef86ed56df7a64599cb6668b525cdee8791096f5d958daf"
+  },
+  "A5": {
+    "size": [
+      48,
+      48
+    ],
+    "colors": 8,
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      4,
+      44,
+      44
+    ],
+    "technical_pass": true,
+    "sha256": "fe69d1726df58e352fc576b1776c6d54b07dbf9f26875d20bfdb772a5f7a3777",
+    "source_sha256": "595702bc872e52056db6be3d4683ff34fb4650204c5ac2b264f731cdf2e45963"
+  },
+  "A6": {
+    "size": [
+      48,
+      48
+    ],
+    "colors": 8,
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      5,
+      44,
+      42
+    ],
+    "technical_pass": true,
+    "sha256": "015926840bdbe05da6504e6c722633e0584a643537dca5664e97e4afd0ab9e4d",
+    "source_sha256": "cd6d77d0860115c1669a5936d62aae1cd4aebdb96b662d8273495960f2193018"
+  },
+  "A7": {
+    "size": [
+      48,
+      48
+    ],
+    "colors": 8,
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      6,
+      4,
+      42,
+      44
+    ],
+    "technical_pass": true,
+    "sha256": "74a8ee8a03ffb4e95e58d00dc0236f8ca357c303a3c2c458804e861cfd934034",
+    "source_sha256": "be6a25d09b214bda057bc55f0fc5b425476c5c66fbce4b10f80f7f4c511f7b4b"
+  },
+  "A8": {
+    "size": [
+      48,
+      48
+    ],
+    "colors": 8,
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      5,
+      4,
+      42,
+      44
+    ],
+    "technical_pass": true,
+    "sha256": "7808a1b782c08bf480bac869b607ce7416cd159c188f2f4e138411edaae89489",
+    "source_sha256": "1dacfab7fc9256a8faa0cab6f4dd07387220dd6f3db80da61dfe731fdc869f02"
+  },
+  "A9": {
+    "size": [
+      48,
+      48
+    ],
+    "colors": 8,
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      4,
+      4,
+      43,
+      44
+    ],
+    "technical_pass": true,
+    "sha256": "9f10ffbb2bfe827c412dbd0df252760cdebed52e07a43ae426c2c9866f18874e",
+    "source_sha256": "691fbbdc259c144b1e4c9bda3e0343fd3d12e8ecdd406827f3df765d78249a34"
+  },
+  "A10": {
+    "size": [
+      48,
+      48
+    ],
+    "colors": 8,
+    "alpha": [
+      0,
+      255
+    ],
+    "bounds": [
+      8,
+      4,
+      39,
+      44
+    ],
+    "technical_pass": true,
+    "sha256": "03a73a345311fd4bfe2a9743e6c27df279edd86b09cee83c0f91fd11e8f9e5b2",
+    "source_sha256": "f5cded2ad79151bfa6dd50e1b7f79427afbbde3524de2dcda10c72b82c5ef2c9"
+  }
+}

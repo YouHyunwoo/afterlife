@@ -1,0 +1,233 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4926e862d3730024d9345b7b7b66afcb, type: 3}
+  m_Name: Research
+  m_EditorClassIdentifier: 
+  Data:
+    Id: research
+    Title: "\uC81C\uB2E8 \xB7 \uB9C8\uC744 / \uB9C8\uBC95"
+    Laboratory: 0
+    Nodes:
+    - Id: R1
+      Title: "\uC601\uB825 \uBC94\uC704 \uD655\uC7A5"
+      Icon: {fileID: 21300000, guid: 6ab33e84bdce9d346a84d20d4afdf1d2, type: 3}
+      Description: "\uC8FC\uBBFC \uC218\uC640 \uBB34\uAD00\uD558\uAC8C \uC791\uC5C5
+        \uBC94\uC704\uB97C \uB298\uB9BD\uB2C8\uB2E4."
+      Grid: {x: -2, y: 1}
+      Parents: []
+      EffectId: radius
+      SkillId: 
+      RequiresAltar: 0
+      ValueFormat: P1
+      ValueSuffix: 
+      Levels:
+      - Cost: 1
+        Value: 0.1
+      - Cost: 2
+        Value: 0.2
+      - Cost: 3
+        Value: 0.3
+    - Id: R2
+      Title: "\uC791\uC5C5 \uB3C4\uAD6C \uAC1C\uB7C9"
+      Icon: {fileID: 21300000, guid: f9c3c67aa663dcb44b355057b0177ba6, type: 3}
+      Description: "\uCC44\uC9D1\xB7\uAC74\uC124\xB7\uC218\uB9AC\uC758 \uC791\uC5C5
+        \uD6A8\uC728\uC774 \uC99D\uAC00\uD569\uB2C8\uB2E4."
+      Grid: {x: 0, y: 2}
+      Parents: []
+      EffectId: work
+      SkillId: 
+      RequiresAltar: 0
+      ValueFormat: P1
+      ValueSuffix: 
+      Levels:
+      - Cost: 1
+        Value: 0.08
+      - Cost: 2
+        Value: 0.16
+      - Cost: 3
+        Value: 0.24
+      - Cost: 4
+        Value: 0.32
+      - Cost: 5
+        Value: 0.4
+    - Id: R3
+      Title: "\uC791\uC5C5 \uBC18\uACBD \uD655\uC7A5"
+      Icon: {fileID: 21300000, guid: 75c4a825909871440839d82417cb0082, type: 3}
+      Description: "\uC601\uB825 \uD544\uB4DC\uC758 \uC791\uC5C5 \uBC18\uACBD\uC774
+        \uC99D\uAC00\uD569\uB2C8\uB2E4."
+      Grid: {x: 2, y: 1}
+      Parents: []
+      EffectId: radius
+      SkillId: 
+      RequiresAltar: 0
+      ValueFormat: P1
+      ValueSuffix: 
+      Levels:
+      - Cost: 1
+        Value: 0.05
+      - Cost: 2
+        Value: 0.1
+      - Cost: 3
+        Value: 0.15
+    - Id: R4
+      Title: "\uC791\uC5C5 \uC219\uB828"
+      Icon: {fileID: 21300000, guid: 7fb23a11ad23f93408c809f9f743ed0e, type: 3}
+      Description: "\uCC44\uC9D1\xB7\uAC74\uC124\xB7\uC218\uB9AC \uC791\uC5C5 \uD6A8\uC728\uC744
+        \uC9C1\uC811 \uAC15\uD654\uD569\uB2C8\uB2E4."
+      Grid: {x: -3, y: 3}
+      Parents:
+      - R1
+      EffectId: work
+      SkillId: 
+      RequiresAltar: 0
+      ValueFormat: P1
+      ValueSuffix: 
+      Levels:
+      - Cost: 2
+        Value: 0.1
+      - Cost: 4
+        Value: 0.2
+      - Cost: 6
+        Value: 0.3
+      - Cost: 8
+        Value: 0.4
+      - Cost: 10
+        Value: 0.5
+    - Id: R5
+      Title: "\uD45C\uC900 \uAC74\uCD95 \uACF5\uBC95"
+      Icon: {fileID: 21300000, guid: 49b0353bcd0b84845b3ca021b33dd8b6, type: 3}
+      Description: "\uAC74\uC124\uC5D0 \uD544\uC694\uD55C \uC791\uC5C5\uB7C9\uC774
+        \uC904\uC5B4\uB4ED\uB2C8\uB2E4."
+      Grid: {x: -1, y: 4}
+      Parents:
+      - R2
+      EffectId: construction
+      SkillId: 
+      RequiresAltar: 0
+      ValueFormat: P1
+      ValueSuffix: 
+      Levels:
+      - Cost: 2
+        Value: 0.1
+      - Cost: 4
+        Value: 0.2
+      - Cost: 6
+        Value: 0.3
+    - Id: R6
+      Title: "\uAC15\uD654 \uACE8\uC870"
+      Icon: {fileID: 21300000, guid: a908fa45d8aec3c4595b8d2e1e7db4dd, type: 3}
+      Description: "\uAC74\uBB3C\uC758 \uCD5C\uB300 \uB0B4\uAD6C\uB3C4\uAC00 \uC99D\uAC00\uD569\uB2C8\uB2E4.
+        \uB0A8\uC544 \uC788\uB294 \uB0B4\uAD6C\uB3C4\uC758 \uBE44\uC728\uC740 \uC720\uC9C0\uB429\uB2C8\uB2E4."
+      Grid: {x: -1, y: 6}
+      Parents:
+      - R5
+      EffectId: structure
+      SkillId: 
+      RequiresAltar: 0
+      ValueFormat: P1
+      ValueSuffix: 
+      Levels:
+      - Cost: 2
+        Value: 0.15
+      - Cost: 4
+        Value: 0.3
+      - Cost: 6
+        Value: 0.45
+    - Id: R7
+      Title: "\uD0C0\uACA9 \uB3C4\uAD6C \uAC15\uD654"
+      Icon: {fileID: 21300000, guid: e521871530dbe504eb81f8ab4c4c15b5, type: 3}
+      Description: "\uC601\uB825 \uD544\uB4DC\uC758 \uBB3C\uB9AC \uACF5\uACA9 \uD53C\uD574\uAC00
+        \uC99D\uAC00\uD569\uB2C8\uB2E4."
+      Grid: {x: 4, y: 2}
+      Parents:
+      - R3
+      EffectId: physical
+      SkillId: 
+      RequiresAltar: 0
+      ValueFormat: P1
+      ValueSuffix: 
+      Levels:
+      - Cost: 2
+        Value: 0.1
+      - Cost: 4
+        Value: 0.2
+      - Cost: 6
+        Value: 0.3
+      - Cost: 8
+        Value: 0.4
+      - Cost: 10
+        Value: 0.5
+    - Id: R8
+      Title: "\uD544\uB4DC \uB3D9\uC870"
+      Icon: {fileID: 21300000, guid: b688820f4e1633f4791c91149fc826f1, type: 3}
+      Description: "\uC601\uB825 \uD544\uB4DC\uC758 \uC790\uB3D9 \uC791\uC5C5 \uAC04\uACA9\uC744
+        \uC904\uC785\uB2C8\uB2E4."
+      Grid: {x: 2, y: 4}
+      Parents:
+      - R2
+      - R3
+      EffectId: interval
+      SkillId: 
+      RequiresAltar: 0
+      ValueFormat: P1
+      ValueSuffix: 
+      Levels:
+      - Cost: 3
+        Value: 0.05
+      - Cost: 6
+        Value: 0.1
+      - Cost: 8
+        Value: 0.15
+    - Id: R9
+      Title: "\uC601\uB825 \uBC94\uC704 \uD655\uC7A5"
+      Icon: {fileID: 21300000, guid: d837342be120528418c5392734efbac9, type: 3}
+      Description: "\uC8FC\uBBFC \uC218\uC640 \uBB34\uAD00\uD558\uAC8C \uC791\uC5C5
+        \uBC94\uC704\uB97C \uB298\uB9BD\uB2C8\uB2E4."
+      Grid: {x: -4, y: 5}
+      Parents:
+      - R1
+      - R5
+      EffectId: radius
+      SkillId: 
+      RequiresAltar: 0
+      ValueFormat: P1
+      ValueSuffix: 
+      Levels:
+      - Cost: 3
+        Value: 0.1
+      - Cost: 6
+        Value: 0.2
+      - Cost: 8
+        Value: 0.3
+    - Id: R10
+      Title: "\uD611\uB3D9 \uC791\uC5C5 \uCCB4\uACC4"
+      Icon: {fileID: 21300000, guid: 04c42041faa9e874e81d63ebc8ddee7d, type: 3}
+      Description: "\uD544\uB4DC \uC548\uC5D0 \uC791\uC5C5 \uB300\uC0C1\uC774 2\uAC1C
+        \uC774\uC0C1\uC774\uBA74 \uCC44\uC9D1\xB7\uAC74\uC124\xB7\uC218\uB9AC \uD6A8\uC728\uC774
+        \uC99D\uAC00\uD569\uB2C8\uB2E4."
+      Grid: {x: 1, y: 7}
+      Parents:
+      - R4
+      - R8
+      EffectId: cooperation
+      SkillId: 
+      RequiresAltar: 0
+      ValueFormat: P1
+      ValueSuffix: 
+      Levels:
+      - Cost: 3
+        Value: 0.1
+      - Cost: 6
+        Value: 0.2
+      - Cost: 8
+        Value: 0.3
+  EtheronCostsMigrated: 1

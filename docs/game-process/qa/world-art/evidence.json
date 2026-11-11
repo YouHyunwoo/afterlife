@@ -1,0 +1,18 @@
+{
+  "run": "D:\\area\\dev\\alone\\Afterlife\\impls\\unity\\Afterlife\\Logs\\WorldQA\\pass05",
+  "build_snapshot": "20260916-234022",
+  "game_dll_sha256": "082F7A48CCF074D2FF43816C7E37E9AAF3441F56FD7793D403CC51F197207FCB",
+  "screenshots": 70,
+  "checks": [
+    "PASS wall corner mesh and arms present",
+    "PASS all new fighter pivots imported",
+    "PASS Blender tools linked to contribution",
+    "PASS animal face and tail articulation",
+    "PASS chests paid once and exhausted",
+    "PASS no resource spawned on water",
+    "PASS biome chunks contain geometry",
+    "PASS combat causes damage"
+  ],
+  "assets": 49,
+  "total_source_triangles": 24590
+}

@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f348257ab1cbce24891c1d5ce0e33b2a, type: 3}
+  m_Name: Waves
+  m_EditorClassIdentifier: 
+  Values:
+    HealthGrowth: 0.12
+    DamageGrowth: 0.18
+    SpawnDistance: 10.5
+    SpawnDistanceVariation: 5
+    Entries:
+    - Count: 6
+      Groups: 3
+      Fronts: 1
+      GroupInterval: 12
+      Description: "\uC2AC\uB77C\uC784 \xB7 \uD55C \uBC29\uD5A5"
+      Pattern: 0d000000
+    - Count: 10
+      Groups: 3
+      Fronts: 1
+      GroupInterval: 12
+      Description: "\uBE60\uB978 \uACE0\uBE14\uB9B0 \uD569\uB958"
+      Pattern: 0d0000001000000010000000
+    - Count: 16
+      Groups: 4
+      Fronts: 2
+      GroupInterval: 10
+      Description: "\uACE0\uBE14\uB9B0 \uC804\uC0AC\xB7\uC8FC\uC220\uC0AC \xB7 \uC591\uBC29\uD5A5"
+      Pattern: 12000000110000001000000010000000
+    - Count: 24
+      Groups: 4
+      Fronts: 2
+      GroupInterval: 10
+      Description: "\uC624\uD06C \uB3CC\uACA9 + \uC8FC\uC220\uC0AC \uC9C0\uC6D0"
+      Pattern: 1300000012000000110000001000000010000000
+    - Count: 32
+      Groups: 4
+      Fronts: 3
+      GroupInterval: 10
+      Description: "\uB9AC\uC790\uB4DC \uAD81\uC218 \xB7 \uC138 \uBC29\uD5A5"
+      Pattern: 1200000014000000130000001100000010000000
+    - Count: 42
+      Groups: 4
+      Fronts: 3
+      GroupInterval: 10
+      Description: "\uCD1D\uACF5\uC138 \xB7 \uC911\uC7A5\uAC11\uACFC \uC6D0\uAC70\uB9AC
+        \uD63C\uC131"
+      Pattern: 1200000014000000130000001100000013000000

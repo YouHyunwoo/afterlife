@@ -1,0 +1,38 @@
+[
+  {
+    "kind": "grass",
+    "author": "TheSupremeMuffinPooter",
+    "id": 525268,
+    "page": "https://freesound.org/people/TheSupremeMuffinPooter/sounds/525268/",
+    "download": "https://cdn.freesound.org/previews/525/525268_2456299-hq.mp3",
+    "license": "CC0-1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "format": "Freesound HQ MP3 preview (not original WAV)",
+    "file": "grass_525268_hq.mp3",
+    "sha256": "fa6089575b6f98df5f16ee68f6c79320516c0ba61f6cfe07db88a644c40159c6"
+  },
+  {
+    "kind": "bird",
+    "author": "swiftoid",
+    "id": 182507,
+    "page": "https://freesound.org/people/swiftoid/sounds/182507/",
+    "download": "https://cdn.freesound.org/previews/182/182507_854782-hq.mp3",
+    "license": "CC0-1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "format": "Freesound HQ MP3 preview (not original WAV)",
+    "file": "bird_182507_hq.mp3",
+    "sha256": "3a33bbf0d629384f106950413138ba45a50d94f82f5c87b797345a2509b5fb1a"
+  },
+  {
+    "kind": "wind",
+    "author": "mario1298",
+    "id": 181250,
+    "page": "https://freesound.org/people/mario1298/sounds/181250/",
+    "download": "https://cdn.freesound.org/previews/181/181250_499617-hq.mp3",
+    "license": "CC0-1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "format": "Freesound HQ MP3 preview (not original WAV)",
+    "file": "wind_181250_hq.mp3",
+    "sha256": "374de47c58d371a7c8a34558adb9845c596277759019336cce53a050bac7088d"
+  }
+]

@@ -1,0 +1,25 @@
+D:\area\dev\alone\Afterlife\Tools\Art\build_abandoned_altar_v2.py:210: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  vertex_material.use_nodes=True
+D:\area\dev\alone\Afterlife\Tools\Art\build_abandoned_altar_v2.py:275: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
+  world.use_nodes=True
+00:06.984  render           | Saved: 'D:\area\dev\alone\Afterlife\res\previews\abandoned-altar-v2\front.png'
+00:09.328  render           | Saved: 'D:\area\dev\alone\Afterlife\res\previews\abandoned-altar-v2\right.png'
+00:11.859  render           | Saved: 'D:\area\dev\alone\Afterlife\res\previews\abandoned-altar-v2\back.png'
+00:14.140  render           | Saved: 'D:\area\dev\alone\Afterlife\res\previews\abandoned-altar-v2\left.png'
+00:18.562  render           | Saved: 'D:\area\dev\alone\Afterlife\res\previews\abandoned-altar-v2\top.png'
+00:22.843  render           | Saved: 'D:\area\dev\alone\Afterlife\res\previews\abandoned-altar-v2\three-quarter.png'
+00:22.843  reports          | WARNING Path 'C:\Program Files\Blender Foundation\Blender 5.0\5.0\datafiles\assets\brushes\essentials_brushes-gp_draw.blend' cannot be made relative for Material 'Dots Stroke'
+Blender 5.0.1 (hash a3db93c5b259 built 2025-12-16 01:32:30)
+00:22.843  reports          | WARNING Path 'C:\Program Files\Blender Foundation\Blender 5.0\5.0\datafiles\assets\brushes\essentials_brushes-gp_draw.blend' cannot be made relative for Material 'Material'
+BlenderMCP: cannot start server in background mode (blender -b) - commands would never execute
+BlenderMCP: run Blender with a GUI, or use a virtual display: xvfb-run -a blender
+BlenderMCP addon registered
+
+FBX export starting... 'D:\\area\\dev\\alone\\Afterlife\\res\\models\\world\\AbandonedAltarV2.fbx'
+export finished in 0.0060 sec.
+Info: Saved as "AbandonedAltarV2.blend"
+ALTAR_BUILD_COMPLETE {"name": "AbandonedAltarV2", "seed": 20260920, "sourceConcept": "res/concepts/abandoned-altar-v2/turnaround.png", "editableMeshes": 48, "exportedMeshes": 1, "triangles": 1338, "blenderBoundsMin": [-1.3096308708190918, -0.6944621801376343, 0.0], "blenderBoundsMax": [0.9601998329162598, 0.6939902305603027, 1.5299999713897705], "sizeXYZ": [2.2698307037353516, 1.388452410697937, 1.5299999713897705], "vertexColor": "Color / CORNER / BYTE_COLOR", "renderViews": ["front", "right", "back", "left", "top", "three-quarter"], "fbxAxisForward": "-Z", "fbxAxisUp": "Y", "notes": "Geometry and palette only; no baked lighting. Studio is not exported."}
+BlenderMCP server stopped
+BlenderMCP addon unregistered
+
+Blender quit

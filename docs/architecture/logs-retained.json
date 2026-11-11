@@ -1,0 +1,30 @@
+{
+  "reason": "설정 복구·씬 확인 JSON 전체와 종류별 마지막 로그; QA 이미지 증거는 docs/game-process/qa에 보존",
+  "files": [
+    "impls/unity/Afterlife/Logs/CombatUiQA/pass02/checks.txt",
+    "impls/unity/Afterlife/Logs/CombatUiQA/pass02/complete.txt",
+    "impls/unity/Afterlife/Logs/CombatUiQA/pass02/player.log",
+    "impls/unity/Afterlife/Logs/PrototypeBuild/20260917-191104/unity-build.log",
+    "impls/unity/Afterlife/Logs/PrototypeBuild/SettingsBefore/EditorBuildSettings.asset",
+    "impls/unity/Afterlife/Logs/PrototypeBuild/SettingsBefore/GraphicsSettings.asset",
+    "impls/unity/Afterlife/Logs/PrototypeBuild/SettingsBefore/ProjectSettings.asset",
+    "impls/unity/Afterlife/Logs/PrototypeBuild/SettingsBefore/QualitySettings.asset",
+    "impls/unity/Afterlife/Logs/UIQA/pass06/checks.txt",
+    "impls/unity/Afterlife/Logs/UIQA/pass06/complete.txt",
+    "impls/unity/Afterlife/Logs/UIQA/pass06/player.log",
+    "impls/unity/Afterlife/Logs/UIQA/pass06/transition-times.txt",
+    "impls/unity/Afterlife/Logs/UguiQA/pass03/checks.txt",
+    "impls/unity/Afterlife/Logs/UguiQA/pass03/complete.txt",
+    "impls/unity/Afterlife/Logs/UguiQA/pass03/player.log",
+    "impls/unity/Afterlife/Logs/WorldQA/pass05/checks.txt",
+    "impls/unity/Afterlife/Logs/WorldQA/pass05/chest-times.txt",
+    "impls/unity/Afterlife/Logs/WorldQA/pass05/complete.txt",
+    "impls/unity/Afterlife/Logs/WorldQA/pass05/player.log",
+    "impls/unity/Afterlife/Logs/asset-layout-finalize.log",
+    "impls/unity/Afterlife/Logs/asset-layout-migration.log",
+    "impls/unity/Afterlife/Logs/day-banner-scene-check.json",
+    "impls/unity/Afterlife/Logs/gold-economy-scene-check.json",
+    "impls/unity/Afterlife/Logs/legacy-warnings-build.log",
+    "impls/unity/Afterlife/Logs/organization-dotnet-build.log"
+  ]
+}

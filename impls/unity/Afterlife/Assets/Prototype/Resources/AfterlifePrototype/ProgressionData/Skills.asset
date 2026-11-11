@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef347916f1dd7aa49894961737285b3f, type: 3}
+  m_Name: Skills
+  m_EditorClassIdentifier: 
+  Entries:
+  - Id: lightning
+    Title: "\uB099\uB8B0"
+    Cooldown: 12
+    Duration: 0
+    PulseInterval: 0
+  - Id: abundance
+    Title: "\uD48D\uC694\uC758 \uAE30\uB3C4"
+    Cooldown: 60
+    Duration: 10
+    PulseInterval: 0
+  - Id: ritual
+    Title: "\uCC9C\uBC8C\uC758 \uC758\uC2DD"
+    Cooldown: 60
+    Duration: 6
+    PulseInterval: 2

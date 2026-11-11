@@ -1,0 +1,7 @@
+{
+  "name": "Afterlife.Flow",
+  "rootNamespace": "Afterlife.Modules.Flow",
+  "references": [],
+  "autoReferenced": false,
+  "noEngineReferences": true
+}

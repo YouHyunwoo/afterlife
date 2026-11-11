@@ -1,0 +1,24 @@
+{
+  "name": "Afterlife.Prototype.Editor",
+  "references": [
+    "Afterlife.RechargeSlots.Unity",
+    "Afterlife.Prototype",
+    "Unity.RenderPipelines.Core.Runtime",
+    "Unity.RenderPipelines.Universal.Runtime",
+    "UnityEngine.UI",
+    "Unity.InputSystem",
+    "Unity.TextMeshPro",
+    "Afterlife.Upgrades",
+    "Afterlife.Skills",
+    "Afterlife.Progression.Unity",
+    "Afterlife.Prototype.Data",
+    "Afterlife.Destruction",
+    "Afterlife.WorldAudio",
+    "Afterlife.Threshold.Core",
+    "Afterlife.Threshold.Unity"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "autoReferenced": true
+}

@@ -1,0 +1,259 @@
+{
+  "version": 2,
+  "engine": "Supertonic 3",
+  "modelRevision": "aafc6e32416a594460b32413efc49d7fe4ce6d46",
+  "voice": "M2",
+  "language": "ko",
+  "speed": 0.98,
+  "steps": 12,
+  "sampleRate": 44100,
+  "shots": [
+    {
+      "id": "opening",
+      "title": "촬영 시작",
+      "minimumDuration": 1,
+      "cues": [],
+      "duration": 1,
+      "start": 0
+    },
+    {
+      "id": "village-teaser",
+      "title": "농장과 마을",
+      "minimumDuration": 6,
+      "cues": [],
+      "duration": 6,
+      "start": 1
+    },
+    {
+      "id": "harvest-investment",
+      "title": "채집 골드로 첫 투자",
+      "minimumDuration": 7,
+      "postNarrationSeconds": 1.5,
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 3.613,
+          "text": "채집한 골드로 첫 농장을 지어봅니다.",
+          "file": "harvest-investment-01.wav",
+          "audioSeconds": 3.263,
+          "signature": "d483cf599bf7ee2eac139ccef263b01498eabb01d4b20fed6a74d024b61fca71",
+          "peak": 0.70697,
+          "sha256": "f7b10d536445e077e0b1406a7ec21e89efd2424427fc05145b1a9b98c8a57735"
+        }
+      ],
+      "duration": 7,
+      "start": 7
+    },
+    {
+      "id": "farm-placement",
+      "title": "농장 짓기",
+      "minimumDuration": 12,
+      "postNarrationSeconds": 1.5,
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 5.092,
+          "text": "건설 모드에서 농장을 고른 뒤, 빈 타일을 클릭합니다.",
+          "file": "farm-placement-01.wav",
+          "audioSeconds": 4.742,
+          "signature": "45d49826cdd4844b29113c6a48aa50f475edec602a9382b33cacd4aa097f01a3",
+          "peak": 0.70697,
+          "sha256": "86ac7a866a07ac7fa0ff7764213d678331b3bd6581876e6a404735aee9868fde"
+        },
+        {
+          "start": 5.842,
+          "duration": 4.876,
+          "text": "농장은 집이 만드는 마을 영역 안에 지을 수 있습니다.",
+          "file": "farm-placement-02.wav",
+          "audioSeconds": 4.526,
+          "signature": "0d47cc0faf6bc08e952febbd60262dc23c99e35b4526f858c740720cf5b5177f",
+          "peak": 0.70697,
+          "sha256": "c7bd07441093edbca0fe3ca1aa483584458bb5760908b3f62a83ab9b2a91b4df"
+        }
+      ],
+      "duration": 12,
+      "start": 14
+    },
+    {
+      "id": "auto-construction",
+      "title": "공사 비교 · 자동 진행",
+      "minimumDuration": 8,
+      "postNarrationSeconds": 1,
+      "comparisonGroup": "construction-eight-seconds",
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 5.225,
+          "text": "먼저 자동 공사입니다. 8초 동안 지켜보겠습니다.",
+          "file": "auto-construction-01.wav",
+          "audioSeconds": 4.875,
+          "signature": "3f76bf2293497d041db5f2d6890ca2014da0ce942a387b49ea5f4adf87943c8c",
+          "peak": 0.70697,
+          "sha256": "7de14957e913171cab24156db9706e5571a3cf7a3ef3901e2050f1787c2952cc"
+        }
+      ],
+      "duration": 8,
+      "start": 26
+    },
+    {
+      "id": "hold-construction",
+      "title": "공사 비교 · 직접 돕기",
+      "minimumDuration": 8,
+      "postNarrationSeconds": 1,
+      "comparisonGroup": "construction-eight-seconds",
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 6.089,
+          "text": "이번엔 버튼을 누른 채 공사를 돕습니다. 같은 8초를 비교합니다.",
+          "file": "hold-construction-01.wav",
+          "audioSeconds": 5.739,
+          "signature": "554dac5ab6f713dc0670f2ea524e79d218a14c73e357f3d5e8d3b43122d6389a",
+          "peak": 0.707,
+          "sha256": "2622ee7ee092491dcb4f34a2345431aa585a303fb6b828c8b69f446d35080b1d"
+        }
+      ],
+      "duration": 8,
+      "start": 34
+    },
+    {
+      "id": "first-income",
+      "title": "첫 농장 수입",
+      "minimumDuration": 8,
+      "postNarrationSeconds": 1.5,
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 5.244,
+          "text": "농장이 완성되면 보리를 생산해 골드를 벌기 시작합니다.",
+          "file": "first-income-01.wav",
+          "audioSeconds": 4.894,
+          "signature": "29fd834e6288885338e9687037b0cb675cf5ded70daf90edac6f0e6e9eac2d02",
+          "peak": 0.70697,
+          "sha256": "48330ee68ef26dd0b22913bd8b93eca5e887dbc15561c01359a30e9c2419a06e"
+        }
+      ],
+      "duration": 8,
+      "start": 42
+    },
+    {
+      "id": "hands-off-income",
+      "title": "자동 수입",
+      "minimumDuration": 9,
+      "postNarrationSeconds": 1.5,
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 4.718,
+          "text": "이제 손을 놓아도, 농장 수입은 계속 들어옵니다.",
+          "file": "hands-off-income-01.wav",
+          "audioSeconds": 4.368,
+          "signature": "5bc06dec9806c236d7a280f13f594ecbfc8f11978fbd0460f5ed19dec50559c0",
+          "peak": 0.70697,
+          "sha256": "d6430adec19f4c7a1aab8df5542d821fa7c86d89cb274c3d57ac669f19c7e090"
+        }
+      ],
+      "duration": 9,
+      "start": 50
+    },
+    {
+      "id": "house-preview",
+      "title": "다음 집 고르기",
+      "minimumDuration": 11,
+      "postNarrationSeconds": 1.5,
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 5.747,
+          "text": "다음 집을 지을 곳을 고르는 동안에도, 농장은 계속 일합니다.",
+          "file": "house-preview-01.wav",
+          "audioSeconds": 5.397,
+          "signature": "1f5b7153a7581e66289761d51b2ed2f83f2b1aaec1950aa521f3c5e92d678097",
+          "peak": 0.70697,
+          "sha256": "f71a32286f060501fd86a005e0c69adf519a462811751d7cf6d9df0323400442"
+        }
+      ],
+      "duration": 11,
+      "start": 59
+    },
+    {
+      "id": "house-reinvestment",
+      "title": "마을 넓히기",
+      "minimumDuration": 16,
+      "postNarrationSeconds": 1.5,
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 3.545,
+          "text": "농장 수입을 보태 새 집을 짓습니다.",
+          "file": "house-reinvestment-01.wav",
+          "audioSeconds": 3.195,
+          "signature": "51182f9fc694de70e7585017b557a5cdce114831e776532f173b221c7208ad13",
+          "peak": 0.70697,
+          "sha256": "72ee2249c6bebb10b18e6fd2a7fa16984c1e58550c3cb0ea2dac51396697aa7a"
+        },
+        {
+          "start": 4.295,
+          "duration": 5.083,
+          "text": "집이 완성되면 건설할 수 있는 마을 영역도 넓어집니다.",
+          "file": "house-reinvestment-02.wav",
+          "audioSeconds": 4.733,
+          "signature": "b779eab84133ac957906427d5250f89e7c5c36605eb426f486ed04c1eaf5a4c3",
+          "peak": 0.70697,
+          "sha256": "0638d8683b3806069612220ff4a5310ef6b54f54bcd4a7f7fd523c75e8e2547b"
+        }
+      ],
+      "duration": 16,
+      "start": 70
+    },
+    {
+      "id": "village-before-after",
+      "title": "마을의 변화",
+      "minimumDuration": 8,
+      "postNarrationSeconds": 1.5,
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 4.321,
+          "text": "집 한 채뿐이던 섬이, 작은 마을이 됐습니다.",
+          "file": "village-before-after-01.wav",
+          "audioSeconds": 3.971,
+          "signature": "e49aa3a12f5c6f6f8a6c94711989acc237c481f8a609b085995b04e4d29a5475",
+          "peak": 0.707,
+          "sha256": "1a7f741fa1a0511f1e3b9eb5df40933c95be476d77f4ba2f477e42babcaacdc5"
+        }
+      ],
+      "duration": 8,
+      "start": 86
+    },
+    {
+      "id": "night-preview",
+      "title": "첫 밤",
+      "minimumDuration": 8,
+      "postNarrationSeconds": 1.5,
+      "cues": [
+        {
+          "start": 0.55,
+          "duration": 4.687,
+          "text": "다음에는 이 마을이 밤을 버티게 만들어 보겠습니다.",
+          "file": "night-preview-01.wav",
+          "audioSeconds": 4.337,
+          "signature": "9dec097bdee4fccef12541c04ae7b6e6db63a5bb9e60d8d0620ebb36fd1e01e1",
+          "peak": 0.70697,
+          "sha256": "bf109a96d699315a00b3240eee2c683876f9bb612f42783dd050d48415503240"
+        }
+      ],
+      "duration": 8,
+      "start": 94
+    },
+    {
+      "id": "credits",
+      "title": "크레딧",
+      "minimumDuration": 16,
+      "cues": [],
+      "duration": 16,
+      "start": 102
+    }
+  ],
+  "duration": 118
+}

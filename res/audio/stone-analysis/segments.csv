@@ -1,0 +1,41 @@
+﻿file,source,start,end,duration,peak_dbfs,spectral_centroid_hz,purpose,score
+stones_falling/impacts/stones_falling_impact_01.wav,567251__iwanplays__stones-falling.wav,0.0948,0.3143,0.2195,-3.0,789,짧은 돌 충돌 후보,6.965
+stones_falling/impacts/stones_falling_impact_02.wav,567251__iwanplays__stones-falling.wav,0.3143,0.4779,0.1636,-4.06,1149,짧은 돌 충돌 후보,10.557
+stones_falling/impacts/stones_falling_impact_03.wav,567251__iwanplays__stones-falling.wav,0.4779,0.6775,0.1995,-4.77,1551,짧은 돌 충돌 후보,4.464
+stones_falling/impacts/stones_falling_impact_04.wav,567251__iwanplays__stones-falling.wav,0.6775,0.885,0.2075,-3.24,1678,짧은 돌 충돌 후보,14.943
+stones_falling/impacts/stones_falling_impact_05.wav,567251__iwanplays__stones-falling.wav,0.885,0.9808,0.0958,-9.69,1376,짧은 돌 충돌 후보,4.332
+stones_falling/impacts/stones_falling_impact_06.wav,567251__iwanplays__stones-falling.wav,0.9808,1.2208,0.24,-4.67,428,짧은 돌 충돌 후보,7.221
+stones_falling/impacts/stones_falling_impact_07.wav,567251__iwanplays__stones-falling.wav,1.2362,1.3559,0.1197,-4.56,470,짧은 돌 충돌 후보,3.933
+stones_falling/impacts/stones_falling_impact_08.wav,567251__iwanplays__stones-falling.wav,1.3559,1.5235,0.1676,-6.13,321,짧은 돌 충돌 후보,8.401
+stones_falling/impacts/stones_falling_impact_09.wav,567251__iwanplays__stones-falling.wav,1.5235,1.7635,0.24,-4.55,697,짧은 돌 충돌 후보,5.372
+stones_falling/impacts/stones_falling_impact_10.wav,567251__iwanplays__stones-falling.wav,1.779,1.9027,0.1237,-4.42,566,짧은 돌 충돌 후보,10.794
+stones_falling/impacts/stones_falling_impact_11.wav,567251__iwanplays__stones-falling.wav,1.9027,2.0384,0.1357,-4.14,334,짧은 돌 충돌 후보,3.723
+stones_falling/impacts/stones_falling_impact_12.wav,567251__iwanplays__stones-falling.wav,2.0384,2.2379,0.1995,-4.72,444,짧은 돌 충돌 후보,7.52
+stones_falling/impacts/stones_falling_impact_13.wav,567251__iwanplays__stones-falling.wav,2.2379,2.4734,0.2355,-4.7,427,짧은 돌 충돌 후보,7.984
+stones_falling/impacts/stones_falling_impact_14.wav,567251__iwanplays__stones-falling.wav,2.4734,2.645,0.1716,-4.55,463,짧은 돌 충돌 후보,13.762
+stones_falling/impacts/stones_falling_impact_15.wav,567251__iwanplays__stones-falling.wav,2.645,2.8046,0.1596,-5.03,608,짧은 돌 충돌 후보,14.213
+stones_falling/impacts/stones_falling_impact_16.wav,567251__iwanplays__stones-falling.wav,2.8046,3.0446,0.24,-5.31,374,짧은 돌 충돌 후보,19.692
+stones_falling/debris/stones_falling_debris_01.wav,567251__iwanplays__stones-falling.wav,0,0.75,0.75,-3.0,,연속 충돌·잔해 후보,
+stones_falling/debris/stones_falling_debris_02.wav,567251__iwanplays__stones-falling.wav,1.45,2.35,0.9,-4.14,,연속 충돌·잔해 후보,
+stones_falling/debris/stones_falling_debris_03.wav,567251__iwanplays__stones-falling.wav,2.65,3.72,1.07,-5.03,,연속 충돌·잔해 후보,
+dropping_rocks/impacts/dropping_rocks_impact_01.wav,567250__iwanplays__dropping-rocks.wav,0.003,0.243,0.24,-3.0,851,짧은 돌 충돌 후보,8.854
+dropping_rocks/impacts/dropping_rocks_impact_02.wav,567250__iwanplays__dropping-rocks.wav,0.2863,0.5263,0.24,-6.77,2479,짧은 돌 충돌 후보,3.355
+dropping_rocks/impacts/dropping_rocks_impact_03.wav,567250__iwanplays__dropping-rocks.wav,0.5657,0.7812,0.2155,-6.61,1060,짧은 돌 충돌 후보,9.488
+dropping_rocks/impacts/dropping_rocks_impact_04.wav,567250__iwanplays__dropping-rocks.wav,0.7812,1.0087,0.2275,-7.4,2301,짧은 돌 충돌 후보,4.948
+dropping_rocks/impacts/dropping_rocks_impact_05.wav,567250__iwanplays__dropping-rocks.wav,1.0087,1.1923,0.1836,-6.52,732,짧은 돌 충돌 후보,11.726
+dropping_rocks/impacts/dropping_rocks_impact_06.wav,567250__iwanplays__dropping-rocks.wav,1.1923,1.4078,0.2155,-6.21,766,짧은 돌 충돌 후보,10.242
+dropping_rocks/impacts/dropping_rocks_impact_07.wav,567250__iwanplays__dropping-rocks.wav,1.4078,1.5235,0.1157,-6.24,331,짧은 돌 충돌 후보,3.455
+dropping_rocks/impacts/dropping_rocks_impact_08.wav,567250__iwanplays__dropping-rocks.wav,1.5235,1.6433,0.1197,-5.16,299,짧은 돌 충돌 후보,4.655
+dropping_rocks/impacts/dropping_rocks_impact_09.wav,567250__iwanplays__dropping-rocks.wav,1.6433,1.8707,0.2275,-3.55,389,짧은 돌 충돌 후보,4.346
+dropping_rocks/impacts/dropping_rocks_impact_10.wav,567250__iwanplays__dropping-rocks.wav,1.8707,2.0264,0.1556,-4.76,465,짧은 돌 충돌 후보,2.456
+dropping_rocks/impacts/dropping_rocks_impact_11.wav,567250__iwanplays__dropping-rocks.wav,2.0264,2.1461,0.1197,-7.22,460,짧은 돌 충돌 후보,5.615
+dropping_rocks/impacts/dropping_rocks_impact_12.wav,567250__iwanplays__dropping-rocks.wav,2.1461,2.3137,0.1676,-6.84,642,짧은 돌 충돌 후보,11.074
+dropping_rocks/impacts/dropping_rocks_impact_13.wav,567250__iwanplays__dropping-rocks.wav,2.3137,2.4694,0.1556,-7.63,476,짧은 돌 충돌 후보,6.972
+dropping_rocks/impacts/dropping_rocks_impact_14.wav,567250__iwanplays__dropping-rocks.wav,2.4694,2.629,0.1596,-6.67,565,짧은 돌 충돌 후보,4.854
+dropping_rocks/impacts/dropping_rocks_impact_15.wav,567250__iwanplays__dropping-rocks.wav,2.629,2.8166,0.1876,-6.56,529,짧은 돌 충돌 후보,10.769
+dropping_rocks/impacts/dropping_rocks_impact_16.wav,567250__iwanplays__dropping-rocks.wav,2.8166,3.0042,0.1876,-6.18,886,짧은 돌 충돌 후보,12.55
+dropping_rocks/impacts/dropping_rocks_impact_17.wav,567250__iwanplays__dropping-rocks.wav,3.0042,3.2077,0.2035,-7.86,605,짧은 돌 충돌 후보,10.864
+dropping_rocks/impacts/dropping_rocks_impact_18.wav,567250__iwanplays__dropping-rocks.wav,3.2077,3.4477,0.24,-8.48,526,짧은 돌 충돌 후보,10.482
+dropping_rocks/debris/dropping_rocks_debris_01.wav,567250__iwanplays__dropping-rocks.wav,0,0.75,0.75,-3.0,,연속 충돌·잔해 후보,
+dropping_rocks/debris/dropping_rocks_debris_02.wav,567250__iwanplays__dropping-rocks.wav,1.45,2.35,0.9,-3.55,,연속 충돌·잔해 후보,
+dropping_rocks/debris/dropping_rocks_debris_03.wav,567250__iwanplays__dropping-rocks.wav,2.65,3.72,1.07,-6.18,,연속 충돌·잔해 후보,

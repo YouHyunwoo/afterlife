@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ddb5ee87b8496458a24691d49f3589, type: 3}
+  m_Name: MageTower
+  m_EditorClassIdentifier: 
+  Id: 31
+  DisplayName: "\uB9C8\uBC95\uC0AC \uD0D1"
+  Icon: {fileID: 21300000, guid: 349d73f506feb134eb7a6064e725a8b6, type: 2}
+  GoldCost: 240
+  RequiresBuilding: 1
+  RequiredBuilding: 6
+  Stats:
+    Health: 120
+    ConstructionSeconds: 10
+    Width: 1
+    Depth: 1
+    PopulationCapacity: 0
+    VisionRadius: 1
+    TerritoryRadius: 0
+    LightRadius: 0
+    ConstructionSpeedBonus: 0
+    VisionMatchesTerritory: 0
+    BlocksMovement: 1
+    DirectBuild: 1
+    CanMerge: 0
+    MergeTarget: 28
+    ProducedUnit: 11
+    Production: 2
+    ProductionSeconds: 15
+    ProductionAmount: 1
+    TroopCapacity: 3
+    AccelerationGoldCost: 5
+    AttackDamage: 18
+    AttackRange: 6
+    AttackSeconds: 1.6
+    ProjectileSpeed: 12
+  _statsMigrated: 1
+  _buildingRulesVersion: 1

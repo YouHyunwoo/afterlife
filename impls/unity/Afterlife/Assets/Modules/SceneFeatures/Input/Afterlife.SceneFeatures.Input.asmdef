@@ -1,0 +1,8 @@
+{
+  "name": "Afterlife.SceneFeatures.Input",
+  "references": [
+    "Afterlife.SceneFeatures",
+    "Unity.InputSystem",
+    "UnityEngine.UI"
+  ]
+}

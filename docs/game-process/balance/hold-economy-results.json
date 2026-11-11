@@ -1,0 +1,2396 @@
+{
+  "reference": {
+    "total_seconds": 1635.0,
+    "rows": [
+      {
+        "day": 1,
+        "start_gold": 20.0,
+        "direct_gold": 65,
+        "farm_gold": 28,
+        "building_spend": 80,
+        "expense": 0,
+        "end_gold": 33.0,
+        "start_etheron": 0,
+        "end_etheron": 0,
+        "harvest_seconds": 65.0,
+        "construction_seconds": 16.5,
+        "requested_expense": 0,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 3,
+          "archer": 0
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "farm",
+            "time": 5.25
+          },
+          {
+            "kind": "complete",
+            "building": "farm",
+            "time": 14.25
+          },
+          {
+            "kind": "purchase",
+            "building": "barracks",
+            "time": 60.5
+          },
+          {
+            "kind": "complete",
+            "building": "barracks",
+            "time": 73.5
+          }
+        ]
+      },
+      {
+        "day": 2,
+        "start_gold": 33.0,
+        "direct_gold": 45,
+        "farm_gold": 26,
+        "building_spend": 70,
+        "expense": 5,
+        "end_gold": 29.0,
+        "start_etheron": 0,
+        "end_etheron": 0,
+        "harvest_seconds": 45.0,
+        "construction_seconds": 6.25,
+        "requested_expense": 5,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 3,
+          "archer": 3
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "archery",
+            "time": 30.5
+          },
+          {
+            "kind": "complete",
+            "building": "archery",
+            "time": 39.5
+          }
+        ]
+      },
+      {
+        "day": 3,
+        "start_gold": 29.0,
+        "direct_gold": 60,
+        "farm_gold": 43,
+        "building_spend": 100,
+        "expense": 5,
+        "end_gold": 27.0,
+        "start_etheron": 0,
+        "end_etheron": 3,
+        "harvest_seconds": 60.0,
+        "construction_seconds": 18.75,
+        "requested_expense": 5,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 3,
+          "archer": 3
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "altar",
+            "time": 25.5
+          },
+          {
+            "kind": "complete",
+            "building": "altar",
+            "time": 34.5
+          },
+          {
+            "kind": "purchase",
+            "building": "house",
+            "time": 45.75
+          },
+          {
+            "kind": "complete",
+            "building": "house",
+            "time": 54.75
+          },
+          {
+            "kind": "purchase",
+            "building": "farm",
+            "time": 74.5
+          },
+          {
+            "kind": "complete",
+            "building": "farm",
+            "time": 83.5
+          }
+        ]
+      },
+      {
+        "day": 4,
+        "start_gold": 27.0,
+        "direct_gold": 67,
+        "farm_gold": 58,
+        "building_spend": 105,
+        "expense": 20,
+        "end_gold": 27.0,
+        "start_etheron": 3,
+        "end_etheron": 6,
+        "harvest_seconds": 45.0,
+        "construction_seconds": 16.5,
+        "requested_expense": 20,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 6,
+          "archer": 3
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "barracks",
+            "time": 14.5
+          },
+          {
+            "kind": "complete",
+            "building": "barracks",
+            "time": 27.5
+          },
+          {
+            "kind": "purchase",
+            "building": "tower",
+            "time": 51.75
+          },
+          {
+            "kind": "complete",
+            "building": "tower",
+            "time": 60.75
+          }
+        ]
+      },
+      {
+        "day": 5,
+        "start_gold": 27.0,
+        "direct_gold": 53,
+        "farm_gold": 74,
+        "building_spend": 70,
+        "expense": 60.0,
+        "end_gold": 24.0,
+        "start_etheron": 6,
+        "end_etheron": 8,
+        "harvest_seconds": 35.0,
+        "construction_seconds": 6.25,
+        "requested_expense": 60,
+        "expense_shortfall": 0.0,
+        "ready_at_night": {
+          "warrior": 6,
+          "archer": 6
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "archery",
+            "time": 21.5
+          },
+          {
+            "kind": "complete",
+            "building": "archery",
+            "time": 30.5
+          }
+        ]
+      },
+      {
+        "day": 6,
+        "start_gold": 24.0,
+        "direct_gold": 67,
+        "farm_gold": 102,
+        "building_spend": 80,
+        "expense": 70,
+        "end_gold": 43.0,
+        "start_etheron": 8,
+        "end_etheron": 9,
+        "harvest_seconds": 45.0,
+        "construction_seconds": 11.5,
+        "requested_expense": 70,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 9,
+          "archer": 6
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "barracks",
+            "time": 15.5
+          },
+          {
+            "kind": "complete",
+            "building": "barracks",
+            "time": 25.5
+          },
+          {
+            "kind": "purchase",
+            "building": "farm",
+            "time": 35.75
+          },
+          {
+            "kind": "complete",
+            "building": "farm",
+            "time": 42.75
+          }
+        ]
+      },
+      {
+        "day": 7,
+        "start_gold": 43.0,
+        "direct_gold": 60,
+        "farm_gold": 139,
+        "building_spend": 70,
+        "expense": 15,
+        "end_gold": 157.0,
+        "start_etheron": 9,
+        "end_etheron": 9,
+        "harvest_seconds": 30.0,
+        "construction_seconds": 4.25,
+        "requested_expense": 15,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 9,
+          "archer": 9
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "archery",
+            "time": 9.0
+          },
+          {
+            "kind": "complete",
+            "building": "archery",
+            "time": 16.0
+          }
+        ]
+      },
+      {
+        "day": 8,
+        "start_gold": 157.0,
+        "direct_gold": 50,
+        "farm_gold": 146,
+        "building_spend": 140,
+        "expense": 80,
+        "end_gold": 133.0,
+        "start_etheron": 9,
+        "end_etheron": 14,
+        "harvest_seconds": 25.0,
+        "construction_seconds": 17.0,
+        "requested_expense": 80,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 9,
+          "archer": 9
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "altar",
+            "time": 0.25
+          },
+          {
+            "kind": "complete",
+            "building": "altar",
+            "time": 7.25
+          },
+          {
+            "kind": "purchase",
+            "building": "tower",
+            "time": 7.5
+          },
+          {
+            "kind": "complete",
+            "building": "tower",
+            "time": 14.5
+          },
+          {
+            "kind": "purchase",
+            "building": "house",
+            "time": 14.75
+          },
+          {
+            "kind": "complete",
+            "building": "house",
+            "time": 21.75
+          },
+          {
+            "kind": "purchase",
+            "building": "house",
+            "time": 22.0
+          },
+          {
+            "kind": "complete",
+            "building": "house",
+            "time": 29.0
+          }
+        ]
+      },
+      {
+        "day": 9,
+        "start_gold": 133.0,
+        "direct_gold": 40,
+        "farm_gold": 154,
+        "building_spend": 125,
+        "expense": 120,
+        "end_gold": 82.0,
+        "start_etheron": 14,
+        "end_etheron": 17,
+        "harvest_seconds": 20.0,
+        "construction_seconds": 11.5,
+        "requested_expense": 120,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 12,
+          "archer": 12
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "barracks",
+            "time": 0.25
+          },
+          {
+            "kind": "complete",
+            "building": "barracks",
+            "time": 10.25
+          },
+          {
+            "kind": "purchase",
+            "building": "archery",
+            "time": 10.5
+          },
+          {
+            "kind": "complete",
+            "building": "archery",
+            "time": 17.5
+          }
+        ]
+      },
+      {
+        "day": 10,
+        "start_gold": 82.0,
+        "direct_gold": 30,
+        "farm_gold": 171,
+        "building_spend": 0,
+        "expense": 160,
+        "end_gold": 123.0,
+        "start_etheron": 17,
+        "end_etheron": 26,
+        "harvest_seconds": 15.0,
+        "construction_seconds": 0,
+        "requested_expense": 160,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 12,
+          "archer": 12
+        },
+        "events": []
+      }
+    ],
+    "issues": []
+  },
+  "slower_work": {
+    "total_seconds": 1635.0,
+    "rows": [
+      {
+        "day": 1,
+        "start_gold": 20.0,
+        "direct_gold": 52,
+        "farm_gold": 27,
+        "building_spend": 80,
+        "expense": 0,
+        "end_gold": 19.0,
+        "start_etheron": 0,
+        "end_etheron": 0,
+        "harvest_seconds": 65.0,
+        "construction_seconds": 19.25,
+        "requested_expense": 0,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 3,
+          "archer": 0
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "farm",
+            "time": 6.5
+          },
+          {
+            "kind": "complete",
+            "building": "farm",
+            "time": 17.0
+          },
+          {
+            "kind": "purchase",
+            "building": "barracks",
+            "time": 72.25
+          },
+          {
+            "kind": "complete",
+            "building": "barracks",
+            "time": 86.75
+          }
+        ]
+      },
+      {
+        "day": 2,
+        "start_gold": 19.0,
+        "direct_gold": 36,
+        "farm_gold": 26,
+        "building_spend": 70,
+        "expense": 5,
+        "end_gold": 6.0,
+        "start_etheron": 0,
+        "end_etheron": 0,
+        "harvest_seconds": 45.0,
+        "construction_seconds": 7.75,
+        "requested_expense": 5,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 3,
+          "archer": 0
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "archery",
+            "time": 72.25
+          },
+          {
+            "kind": "complete",
+            "building": "archery",
+            "time": 82.75
+          }
+        ]
+      },
+      {
+        "day": 3,
+        "start_gold": 6.0,
+        "direct_gold": 48,
+        "farm_gold": 30,
+        "building_spend": 75,
+        "expense": 4.0,
+        "end_gold": 5.0,
+        "start_etheron": 0,
+        "end_etheron": 2,
+        "harvest_seconds": 60.0,
+        "construction_seconds": 15.5,
+        "requested_expense": 5,
+        "expense_shortfall": 1.0,
+        "ready_at_night": {
+          "warrior": 3,
+          "archer": 3
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "altar",
+            "time": 53.0
+          },
+          {
+            "kind": "complete",
+            "building": "altar",
+            "time": 63.5
+          },
+          {
+            "kind": "purchase",
+            "building": "house",
+            "time": 102.25
+          },
+          {
+            "kind": "complete",
+            "building": "house",
+            "time": 112.75
+          }
+        ]
+      },
+      {
+        "day": 4,
+        "start_gold": 5.0,
+        "direct_gold": 54,
+        "farm_gold": 29,
+        "building_spend": 55,
+        "expense": 20,
+        "end_gold": 13.0,
+        "start_etheron": 2,
+        "end_etheron": 5,
+        "harvest_seconds": 45.0,
+        "construction_seconds": 11.5,
+        "requested_expense": 20,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 6,
+          "archer": 3
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "barracks",
+            "time": 35.5
+          },
+          {
+            "kind": "complete",
+            "building": "barracks",
+            "time": 50.0
+          }
+        ]
+      },
+      {
+        "day": 5,
+        "start_gold": 13.0,
+        "direct_gold": 42,
+        "farm_gold": 38,
+        "building_spend": 70,
+        "expense": 10.0,
+        "end_gold": 13.0,
+        "start_etheron": 5,
+        "end_etheron": 7,
+        "harvest_seconds": 35.0,
+        "construction_seconds": 7.75,
+        "requested_expense": 60,
+        "expense_shortfall": 50.0,
+        "ready_at_night": {
+          "warrior": 6,
+          "archer": 4
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "archery",
+            "time": 58.0
+          },
+          {
+            "kind": "complete",
+            "building": "archery",
+            "time": 68.5
+          }
+        ]
+      },
+      {
+        "day": 6,
+        "start_gold": 13.0,
+        "direct_gold": 54,
+        "farm_gold": 58,
+        "building_spend": 80,
+        "expense": 23.0,
+        "end_gold": 22.0,
+        "start_etheron": 7,
+        "end_etheron": 8,
+        "harvest_seconds": 45.0,
+        "construction_seconds": 14.25,
+        "requested_expense": 70,
+        "expense_shortfall": 47.0,
+        "ready_at_night": {
+          "warrior": 9,
+          "archer": 6
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "barracks",
+            "time": 29.25
+          },
+          {
+            "kind": "complete",
+            "building": "barracks",
+            "time": 41.0
+          },
+          {
+            "kind": "purchase",
+            "building": "farm",
+            "time": 56.25
+          },
+          {
+            "kind": "complete",
+            "building": "farm",
+            "time": 64.25
+          }
+        ]
+      },
+      {
+        "day": 7,
+        "start_gold": 22.0,
+        "direct_gold": 48,
+        "farm_gold": 94,
+        "building_spend": 70,
+        "expense": 15,
+        "end_gold": 79.0,
+        "start_etheron": 8,
+        "end_etheron": 8,
+        "harvest_seconds": 30.0,
+        "construction_seconds": 5.25,
+        "requested_expense": 15,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 9,
+          "archer": 9
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "archery",
+            "time": 20.5
+          },
+          {
+            "kind": "complete",
+            "building": "archery",
+            "time": 28.5
+          }
+        ]
+      },
+      {
+        "day": 8,
+        "start_gold": 79.0,
+        "direct_gold": 38,
+        "farm_gold": 96,
+        "building_spend": 140,
+        "expense": 43.0,
+        "end_gold": 30.0,
+        "start_etheron": 8,
+        "end_etheron": 13,
+        "harvest_seconds": 25.0,
+        "construction_seconds": 21.0,
+        "requested_expense": 80,
+        "expense_shortfall": 37.0,
+        "ready_at_night": {
+          "warrior": 9,
+          "archer": 9
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "altar",
+            "time": 0.25
+          },
+          {
+            "kind": "complete",
+            "building": "altar",
+            "time": 8.25
+          },
+          {
+            "kind": "purchase",
+            "building": "tower",
+            "time": 20.5
+          },
+          {
+            "kind": "complete",
+            "building": "tower",
+            "time": 28.5
+          },
+          {
+            "kind": "purchase",
+            "building": "house",
+            "time": 33.0
+          },
+          {
+            "kind": "complete",
+            "building": "house",
+            "time": 41.0
+          },
+          {
+            "kind": "purchase",
+            "building": "house",
+            "time": 46.25
+          },
+          {
+            "kind": "complete",
+            "building": "house",
+            "time": 54.25
+          }
+        ]
+      },
+      {
+        "day": 9,
+        "start_gold": 30.0,
+        "direct_gold": 32,
+        "farm_gold": 104,
+        "building_spend": 125,
+        "expense": 11.0,
+        "end_gold": 30.0,
+        "start_etheron": 13,
+        "end_etheron": 16,
+        "harvest_seconds": 20.0,
+        "construction_seconds": 11.75,
+        "requested_expense": 120,
+        "expense_shortfall": 109.0,
+        "ready_at_night": {
+          "warrior": 12,
+          "archer": 9
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "barracks",
+            "time": 10.5
+          },
+          {
+            "kind": "complete",
+            "building": "barracks",
+            "time": 22.25
+          },
+          {
+            "kind": "purchase",
+            "building": "archery",
+            "time": 94.5
+          },
+          {
+            "kind": "complete",
+            "building": "archery",
+            "time": 112.75
+          }
+        ]
+      },
+      {
+        "day": 10,
+        "start_gold": 30.0,
+        "direct_gold": 24,
+        "farm_gold": 112,
+        "building_spend": 0,
+        "expense": 106.0,
+        "end_gold": 60.0,
+        "start_etheron": 16,
+        "end_etheron": 25,
+        "harvest_seconds": 15.0,
+        "construction_seconds": 0,
+        "requested_expense": 160,
+        "expense_shortfall": 54.0,
+        "ready_at_night": {
+          "warrior": 12,
+          "archer": 12
+        },
+        "events": []
+      }
+    ],
+    "issues": [
+      "3일 복구·가속비 부족: 4.0/5G",
+      "3일 미구매: ['farm']",
+      "4일 미구매: ['tower']",
+      "5일 복구·가속비 부족: 10.0/60G",
+      "6일 복구·가속비 부족: 23.0/70G",
+      "8일 복구·가속비 부족: 43.0/80G",
+      "9일 복구·가속비 부족: 11.0/120G",
+      "10일 복구·가속비 부족: 106.0/160G"
+    ]
+  },
+  "farm_destroyed_day5": {
+    "total_seconds": 1635.0,
+    "rows": [
+      {
+        "day": 1,
+        "start_gold": 20.0,
+        "direct_gold": 65,
+        "farm_gold": 28,
+        "building_spend": 80,
+        "expense": 0,
+        "end_gold": 33.0,
+        "start_etheron": 0,
+        "end_etheron": 0,
+        "harvest_seconds": 65.0,
+        "construction_seconds": 16.5,
+        "requested_expense": 0,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 3,
+          "archer": 0
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "farm",
+            "time": 5.25
+          },
+          {
+            "kind": "complete",
+            "building": "farm",
+            "time": 14.25
+          },
+          {
+            "kind": "purchase",
+            "building": "barracks",
+            "time": 60.5
+          },
+          {
+            "kind": "complete",
+            "building": "barracks",
+            "time": 73.5
+          }
+        ]
+      },
+      {
+        "day": 2,
+        "start_gold": 33.0,
+        "direct_gold": 45,
+        "farm_gold": 26,
+        "building_spend": 70,
+        "expense": 5,
+        "end_gold": 29.0,
+        "start_etheron": 0,
+        "end_etheron": 0,
+        "harvest_seconds": 45.0,
+        "construction_seconds": 6.25,
+        "requested_expense": 5,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 3,
+          "archer": 3
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "archery",
+            "time": 30.5
+          },
+          {
+            "kind": "complete",
+            "building": "archery",
+            "time": 39.5
+          }
+        ]
+      },
+      {
+        "day": 3,
+        "start_gold": 29.0,
+        "direct_gold": 60,
+        "farm_gold": 43,
+        "building_spend": 100,
+        "expense": 5,
+        "end_gold": 27.0,
+        "start_etheron": 0,
+        "end_etheron": 3,
+        "harvest_seconds": 60.0,
+        "construction_seconds": 18.75,
+        "requested_expense": 5,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 3,
+          "archer": 3
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "altar",
+            "time": 25.5
+          },
+          {
+            "kind": "complete",
+            "building": "altar",
+            "time": 34.5
+          },
+          {
+            "kind": "purchase",
+            "building": "house",
+            "time": 45.75
+          },
+          {
+            "kind": "complete",
+            "building": "house",
+            "time": 54.75
+          },
+          {
+            "kind": "purchase",
+            "building": "farm",
+            "time": 74.5
+          },
+          {
+            "kind": "complete",
+            "building": "farm",
+            "time": 83.5
+          }
+        ]
+      },
+      {
+        "day": 4,
+        "start_gold": 27.0,
+        "direct_gold": 67,
+        "farm_gold": 58,
+        "building_spend": 105,
+        "expense": 20,
+        "end_gold": 27.0,
+        "start_etheron": 3,
+        "end_etheron": 6,
+        "harvest_seconds": 45.0,
+        "construction_seconds": 16.5,
+        "requested_expense": 20,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 6,
+          "archer": 3
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "barracks",
+            "time": 14.5
+          },
+          {
+            "kind": "complete",
+            "building": "barracks",
+            "time": 27.5
+          },
+          {
+            "kind": "purchase",
+            "building": "tower",
+            "time": 51.75
+          },
+          {
+            "kind": "complete",
+            "building": "tower",
+            "time": 60.75
+          }
+        ]
+      },
+      {
+        "day": 5,
+        "start_gold": 27.0,
+        "direct_gold": 53,
+        "farm_gold": 62,
+        "building_spend": 70,
+        "expense": 60.0,
+        "end_gold": 12.0,
+        "start_etheron": 6,
+        "end_etheron": 8,
+        "harvest_seconds": 35.0,
+        "construction_seconds": 6.25,
+        "requested_expense": 60,
+        "expense_shortfall": 0.0,
+        "ready_at_night": {
+          "warrior": 6,
+          "archer": 6
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "archery",
+            "time": 21.5
+          },
+          {
+            "kind": "complete",
+            "building": "archery",
+            "time": 30.5
+          },
+          {
+            "kind": "destroy",
+            "building": "farm",
+            "time": 100.0
+          }
+        ]
+      },
+      {
+        "day": 6,
+        "start_gold": 12.0,
+        "direct_gold": 67,
+        "farm_gold": 61,
+        "building_spend": 80,
+        "expense": 38.0,
+        "end_gold": 22.0,
+        "start_etheron": 8,
+        "end_etheron": 9,
+        "harvest_seconds": 45.0,
+        "construction_seconds": 11.5,
+        "requested_expense": 70,
+        "expense_shortfall": 32.0,
+        "ready_at_night": {
+          "warrior": 9,
+          "archer": 6
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "barracks",
+            "time": 24.5
+          },
+          {
+            "kind": "complete",
+            "building": "barracks",
+            "time": 34.5
+          },
+          {
+            "kind": "purchase",
+            "building": "farm",
+            "time": 47.75
+          },
+          {
+            "kind": "complete",
+            "building": "farm",
+            "time": 54.75
+          }
+        ]
+      },
+      {
+        "day": 7,
+        "start_gold": 22.0,
+        "direct_gold": 60,
+        "farm_gold": 93,
+        "building_spend": 70,
+        "expense": 15,
+        "end_gold": 90.0,
+        "start_etheron": 9,
+        "end_etheron": 9,
+        "harvest_seconds": 30.0,
+        "construction_seconds": 4.25,
+        "requested_expense": 15,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 9,
+          "archer": 9
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "archery",
+            "time": 17.5
+          },
+          {
+            "kind": "complete",
+            "building": "archery",
+            "time": 24.5
+          }
+        ]
+      },
+      {
+        "day": 8,
+        "start_gold": 90.0,
+        "direct_gold": 48,
+        "farm_gold": 97,
+        "building_spend": 140,
+        "expense": 65.0,
+        "end_gold": 30.0,
+        "start_etheron": 9,
+        "end_etheron": 14,
+        "harvest_seconds": 25.0,
+        "construction_seconds": 17.0,
+        "requested_expense": 80,
+        "expense_shortfall": 15.0,
+        "ready_at_night": {
+          "warrior": 9,
+          "archer": 9
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "altar",
+            "time": 0.25
+          },
+          {
+            "kind": "complete",
+            "building": "altar",
+            "time": 7.25
+          },
+          {
+            "kind": "purchase",
+            "building": "tower",
+            "time": 13.5
+          },
+          {
+            "kind": "complete",
+            "building": "tower",
+            "time": 20.5
+          },
+          {
+            "kind": "purchase",
+            "building": "house",
+            "time": 24.5
+          },
+          {
+            "kind": "complete",
+            "building": "house",
+            "time": 31.5
+          },
+          {
+            "kind": "purchase",
+            "building": "house",
+            "time": 35.75
+          },
+          {
+            "kind": "complete",
+            "building": "house",
+            "time": 42.75
+          }
+        ]
+      },
+      {
+        "day": 9,
+        "start_gold": 30.0,
+        "direct_gold": 40,
+        "farm_gold": 103,
+        "building_spend": 125,
+        "expense": 18.0,
+        "end_gold": 30.0,
+        "start_etheron": 14,
+        "end_etheron": 17,
+        "harvest_seconds": 20.0,
+        "construction_seconds": 11.5,
+        "requested_expense": 120,
+        "expense_shortfall": 102.0,
+        "ready_at_night": {
+          "warrior": 12,
+          "archer": 9
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "barracks",
+            "time": 9.5
+          },
+          {
+            "kind": "complete",
+            "building": "barracks",
+            "time": 19.5
+          },
+          {
+            "kind": "purchase",
+            "building": "archery",
+            "time": 82.0
+          },
+          {
+            "kind": "complete",
+            "building": "archery",
+            "time": 89.0
+          }
+        ]
+      },
+      {
+        "day": 10,
+        "start_gold": 30.0,
+        "direct_gold": 30,
+        "farm_gold": 114,
+        "building_spend": 0,
+        "expense": 114.0,
+        "end_gold": 60.0,
+        "start_etheron": 17,
+        "end_etheron": 26,
+        "harvest_seconds": 15.0,
+        "construction_seconds": 0,
+        "requested_expense": 160,
+        "expense_shortfall": 46.0,
+        "ready_at_night": {
+          "warrior": 12,
+          "archer": 12
+        },
+        "events": []
+      }
+    ],
+    "issues": [
+      "6일 복구·가속비 부족: 38.0/70G",
+      "8일 복구·가속비 부족: 65.0/80G",
+      "9일 복구·가속비 부족: 18.0/120G",
+      "10일 복구·가속비 부족: 114.0/160G"
+    ]
+  },
+  "farm_adjacency_bonus": {
+    "total_seconds": 1635.0,
+    "rows": [
+      {
+        "day": 1,
+        "start_gold": 20.0,
+        "direct_gold": 65,
+        "farm_gold": 28,
+        "building_spend": 80,
+        "expense": 0,
+        "end_gold": 33.0,
+        "start_etheron": 0,
+        "end_etheron": 0,
+        "harvest_seconds": 65.0,
+        "construction_seconds": 16.5,
+        "requested_expense": 0,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 3,
+          "archer": 0
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "farm",
+            "time": 5.25
+          },
+          {
+            "kind": "complete",
+            "building": "farm",
+            "time": 14.25
+          },
+          {
+            "kind": "purchase",
+            "building": "barracks",
+            "time": 60.5
+          },
+          {
+            "kind": "complete",
+            "building": "barracks",
+            "time": 73.5
+          }
+        ]
+      },
+      {
+        "day": 2,
+        "start_gold": 33.0,
+        "direct_gold": 45,
+        "farm_gold": 26,
+        "building_spend": 70,
+        "expense": 5,
+        "end_gold": 29.0,
+        "start_etheron": 0,
+        "end_etheron": 0,
+        "harvest_seconds": 45.0,
+        "construction_seconds": 6.25,
+        "requested_expense": 5,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 3,
+          "archer": 3
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "archery",
+            "time": 30.5
+          },
+          {
+            "kind": "complete",
+            "building": "archery",
+            "time": 39.5
+          }
+        ]
+      },
+      {
+        "day": 3,
+        "start_gold": 29.0,
+        "direct_gold": 60,
+        "farm_gold": 49,
+        "building_spend": 100,
+        "expense": 5,
+        "end_gold": 33.0,
+        "start_etheron": 0,
+        "end_etheron": 3,
+        "harvest_seconds": 60.0,
+        "construction_seconds": 18.75,
+        "requested_expense": 5,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 3,
+          "archer": 3
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "altar",
+            "time": 25.5
+          },
+          {
+            "kind": "complete",
+            "building": "altar",
+            "time": 34.5
+          },
+          {
+            "kind": "purchase",
+            "building": "house",
+            "time": 45.75
+          },
+          {
+            "kind": "complete",
+            "building": "house",
+            "time": 54.75
+          },
+          {
+            "kind": "purchase",
+            "building": "farm",
+            "time": 74.5
+          },
+          {
+            "kind": "complete",
+            "building": "farm",
+            "time": 83.5
+          }
+        ]
+      },
+      {
+        "day": 4,
+        "start_gold": 33.0,
+        "direct_gold": 67,
+        "farm_gold": 72,
+        "building_spend": 105,
+        "expense": 20,
+        "end_gold": 47.0,
+        "start_etheron": 3,
+        "end_etheron": 6,
+        "harvest_seconds": 45.0,
+        "construction_seconds": 16.5,
+        "requested_expense": 20,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 6,
+          "archer": 3
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "barracks",
+            "time": 10.5
+          },
+          {
+            "kind": "complete",
+            "building": "barracks",
+            "time": 23.5
+          },
+          {
+            "kind": "purchase",
+            "building": "tower",
+            "time": 45.75
+          },
+          {
+            "kind": "complete",
+            "building": "tower",
+            "time": 54.75
+          }
+        ]
+      },
+      {
+        "day": 5,
+        "start_gold": 47.0,
+        "direct_gold": 53,
+        "farm_gold": 94,
+        "building_spend": 70,
+        "expense": 60,
+        "end_gold": 64.0,
+        "start_etheron": 6,
+        "end_etheron": 8,
+        "harvest_seconds": 35.0,
+        "construction_seconds": 6.25,
+        "requested_expense": 60,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 6,
+          "archer": 6
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "archery",
+            "time": 10.5
+          },
+          {
+            "kind": "complete",
+            "building": "archery",
+            "time": 19.5
+          }
+        ]
+      },
+      {
+        "day": 6,
+        "start_gold": 64.0,
+        "direct_gold": 67,
+        "farm_gold": 158,
+        "building_spend": 80,
+        "expense": 70,
+        "end_gold": 139.0,
+        "start_etheron": 8,
+        "end_etheron": 9,
+        "harvest_seconds": 45.0,
+        "construction_seconds": 11.5,
+        "requested_expense": 70,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 9,
+          "archer": 6
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "barracks",
+            "time": 0.25
+          },
+          {
+            "kind": "complete",
+            "building": "barracks",
+            "time": 10.25
+          },
+          {
+            "kind": "purchase",
+            "building": "farm",
+            "time": 14.5
+          },
+          {
+            "kind": "complete",
+            "building": "farm",
+            "time": 21.5
+          }
+        ]
+      },
+      {
+        "day": 7,
+        "start_gold": 139.0,
+        "direct_gold": 60,
+        "farm_gold": 210,
+        "building_spend": 70,
+        "expense": 15,
+        "end_gold": 324.0,
+        "start_etheron": 9,
+        "end_etheron": 9,
+        "harvest_seconds": 30.0,
+        "construction_seconds": 4.25,
+        "requested_expense": 15,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 9,
+          "archer": 9
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "archery",
+            "time": 0.25
+          },
+          {
+            "kind": "complete",
+            "building": "archery",
+            "time": 7.25
+          }
+        ]
+      },
+      {
+        "day": 8,
+        "start_gold": 324.0,
+        "direct_gold": 50,
+        "farm_gold": 218,
+        "building_spend": 140,
+        "expense": 80,
+        "end_gold": 372.0,
+        "start_etheron": 9,
+        "end_etheron": 14,
+        "harvest_seconds": 25.0,
+        "construction_seconds": 17.0,
+        "requested_expense": 80,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 9,
+          "archer": 9
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "altar",
+            "time": 0.25
+          },
+          {
+            "kind": "complete",
+            "building": "altar",
+            "time": 7.25
+          },
+          {
+            "kind": "purchase",
+            "building": "tower",
+            "time": 7.5
+          },
+          {
+            "kind": "complete",
+            "building": "tower",
+            "time": 14.5
+          },
+          {
+            "kind": "purchase",
+            "building": "house",
+            "time": 14.75
+          },
+          {
+            "kind": "complete",
+            "building": "house",
+            "time": 21.75
+          },
+          {
+            "kind": "purchase",
+            "building": "house",
+            "time": 22.0
+          },
+          {
+            "kind": "complete",
+            "building": "house",
+            "time": 29.0
+          }
+        ]
+      },
+      {
+        "day": 9,
+        "start_gold": 372.0,
+        "direct_gold": 40,
+        "farm_gold": 232,
+        "building_spend": 125,
+        "expense": 120,
+        "end_gold": 399.0,
+        "start_etheron": 14,
+        "end_etheron": 17,
+        "harvest_seconds": 20.0,
+        "construction_seconds": 11.5,
+        "requested_expense": 120,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 12,
+          "archer": 12
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "barracks",
+            "time": 0.25
+          },
+          {
+            "kind": "complete",
+            "building": "barracks",
+            "time": 10.25
+          },
+          {
+            "kind": "purchase",
+            "building": "archery",
+            "time": 10.5
+          },
+          {
+            "kind": "complete",
+            "building": "archery",
+            "time": 17.5
+          }
+        ]
+      },
+      {
+        "day": 10,
+        "start_gold": 399.0,
+        "direct_gold": 30,
+        "farm_gold": 255,
+        "building_spend": 0,
+        "expense": 160,
+        "end_gold": 524.0,
+        "start_etheron": 17,
+        "end_etheron": 26,
+        "harvest_seconds": 15.0,
+        "construction_seconds": 0,
+        "requested_expense": 160,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 12,
+          "archer": 12
+        },
+        "events": []
+      }
+    ],
+    "issues": []
+  },
+  "extra_first_farm": {
+    "total_seconds": 1635.0,
+    "rows": [
+      {
+        "day": 1,
+        "start_gold": 20.0,
+        "direct_gold": 65,
+        "farm_gold": 50,
+        "building_spend": 105,
+        "expense": 0,
+        "end_gold": 30.0,
+        "start_etheron": 0,
+        "end_etheron": 0,
+        "harvest_seconds": 65.0,
+        "construction_seconds": 22.75,
+        "requested_expense": 0,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 2,
+          "archer": 0
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "farm",
+            "time": 5.25
+          },
+          {
+            "kind": "complete",
+            "building": "farm",
+            "time": 14.25
+          },
+          {
+            "kind": "purchase",
+            "building": "farm",
+            "time": 35.5
+          },
+          {
+            "kind": "complete",
+            "building": "farm",
+            "time": 44.5
+          },
+          {
+            "kind": "purchase",
+            "building": "barracks",
+            "time": 83.75
+          },
+          {
+            "kind": "complete",
+            "building": "barracks",
+            "time": 96.75
+          }
+        ]
+      },
+      {
+        "day": 2,
+        "start_gold": 30.0,
+        "direct_gold": 45,
+        "farm_gold": 52,
+        "building_spend": 70,
+        "expense": 5,
+        "end_gold": 52.0,
+        "start_etheron": 0,
+        "end_etheron": 0,
+        "harvest_seconds": 45.0,
+        "construction_seconds": 6.25,
+        "requested_expense": 5,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 3,
+          "archer": 3
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "archery",
+            "time": 29.5
+          },
+          {
+            "kind": "complete",
+            "building": "archery",
+            "time": 38.5
+          }
+        ]
+      },
+      {
+        "day": 3,
+        "start_gold": 52.0,
+        "direct_gold": 60,
+        "farm_gold": 78,
+        "building_spend": 100,
+        "expense": 5,
+        "end_gold": 85.0,
+        "start_etheron": 0,
+        "end_etheron": 4,
+        "harvest_seconds": 60.0,
+        "construction_seconds": 18.75,
+        "requested_expense": 5,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 3,
+          "archer": 3
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "altar",
+            "time": 5.5
+          },
+          {
+            "kind": "complete",
+            "building": "altar",
+            "time": 14.5
+          },
+          {
+            "kind": "purchase",
+            "building": "house",
+            "time": 23.75
+          },
+          {
+            "kind": "complete",
+            "building": "house",
+            "time": 32.75
+          },
+          {
+            "kind": "purchase",
+            "building": "farm",
+            "time": 48.0
+          },
+          {
+            "kind": "complete",
+            "building": "farm",
+            "time": 57.0
+          }
+        ]
+      },
+      {
+        "day": 4,
+        "start_gold": 85.0,
+        "direct_gold": 67,
+        "farm_gold": 87,
+        "building_spend": 105,
+        "expense": 20,
+        "end_gold": 114.0,
+        "start_etheron": 4,
+        "end_etheron": 7,
+        "harvest_seconds": 45.0,
+        "construction_seconds": 16.5,
+        "requested_expense": 20,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 6,
+          "archer": 3
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "barracks",
+            "time": 0.25
+          },
+          {
+            "kind": "complete",
+            "building": "barracks",
+            "time": 13.25
+          },
+          {
+            "kind": "purchase",
+            "building": "tower",
+            "time": 19.5
+          },
+          {
+            "kind": "complete",
+            "building": "tower",
+            "time": 28.5
+          }
+        ]
+      },
+      {
+        "day": 5,
+        "start_gold": 114.0,
+        "direct_gold": 53,
+        "farm_gold": 112,
+        "building_spend": 70,
+        "expense": 60,
+        "end_gold": 149.0,
+        "start_etheron": 7,
+        "end_etheron": 9,
+        "harvest_seconds": 35.0,
+        "construction_seconds": 6.25,
+        "requested_expense": 60,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 6,
+          "archer": 6
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "archery",
+            "time": 0.25
+          },
+          {
+            "kind": "complete",
+            "building": "archery",
+            "time": 9.25
+          }
+        ]
+      },
+      {
+        "day": 6,
+        "start_gold": 149.0,
+        "direct_gold": 67,
+        "farm_gold": 146,
+        "building_spend": 80,
+        "expense": 70,
+        "end_gold": 212.0,
+        "start_etheron": 9,
+        "end_etheron": 10,
+        "harvest_seconds": 45.0,
+        "construction_seconds": 11.5,
+        "requested_expense": 70,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 9,
+          "archer": 6
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "barracks",
+            "time": 0.25
+          },
+          {
+            "kind": "complete",
+            "building": "barracks",
+            "time": 10.25
+          },
+          {
+            "kind": "purchase",
+            "building": "farm",
+            "time": 10.5
+          },
+          {
+            "kind": "complete",
+            "building": "farm",
+            "time": 17.5
+          }
+        ]
+      },
+      {
+        "day": 7,
+        "start_gold": 212.0,
+        "direct_gold": 60,
+        "farm_gold": 185,
+        "building_spend": 70,
+        "expense": 15,
+        "end_gold": 372.0,
+        "start_etheron": 10,
+        "end_etheron": 10,
+        "harvest_seconds": 30.0,
+        "construction_seconds": 4.25,
+        "requested_expense": 15,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 9,
+          "archer": 9
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "archery",
+            "time": 0.25
+          },
+          {
+            "kind": "complete",
+            "building": "archery",
+            "time": 7.25
+          }
+        ]
+      },
+      {
+        "day": 8,
+        "start_gold": 372.0,
+        "direct_gold": 50,
+        "farm_gold": 195,
+        "building_spend": 140,
+        "expense": 80,
+        "end_gold": 397.0,
+        "start_etheron": 10,
+        "end_etheron": 14,
+        "harvest_seconds": 25.0,
+        "construction_seconds": 17.0,
+        "requested_expense": 80,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 9,
+          "archer": 9
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "altar",
+            "time": 0.25
+          },
+          {
+            "kind": "complete",
+            "building": "altar",
+            "time": 7.25
+          },
+          {
+            "kind": "purchase",
+            "building": "tower",
+            "time": 7.5
+          },
+          {
+            "kind": "complete",
+            "building": "tower",
+            "time": 14.5
+          },
+          {
+            "kind": "purchase",
+            "building": "house",
+            "time": 14.75
+          },
+          {
+            "kind": "complete",
+            "building": "house",
+            "time": 21.75
+          },
+          {
+            "kind": "purchase",
+            "building": "house",
+            "time": 22.0
+          },
+          {
+            "kind": "complete",
+            "building": "house",
+            "time": 29.0
+          }
+        ]
+      },
+      {
+        "day": 9,
+        "start_gold": 397.0,
+        "direct_gold": 40,
+        "farm_gold": 205,
+        "building_spend": 125,
+        "expense": 120,
+        "end_gold": 397.0,
+        "start_etheron": 14,
+        "end_etheron": 18,
+        "harvest_seconds": 20.0,
+        "construction_seconds": 11.5,
+        "requested_expense": 120,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 12,
+          "archer": 12
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "barracks",
+            "time": 0.25
+          },
+          {
+            "kind": "complete",
+            "building": "barracks",
+            "time": 10.25
+          },
+          {
+            "kind": "purchase",
+            "building": "archery",
+            "time": 10.5
+          },
+          {
+            "kind": "complete",
+            "building": "archery",
+            "time": 17.5
+          }
+        ]
+      },
+      {
+        "day": 10,
+        "start_gold": 397.0,
+        "direct_gold": 30,
+        "farm_gold": 227,
+        "building_spend": 0,
+        "expense": 160,
+        "end_gold": 494.0,
+        "start_etheron": 18,
+        "end_etheron": 26,
+        "harvest_seconds": 15.0,
+        "construction_seconds": 0,
+        "requested_expense": 160,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 12,
+          "archer": 12
+        },
+        "events": []
+      }
+    ],
+    "issues": []
+  },
+  "farm_recovery_priority": {
+    "total_seconds": 1635.0,
+    "rows": [
+      {
+        "day": 1,
+        "start_gold": 20.0,
+        "direct_gold": 65,
+        "farm_gold": 28,
+        "building_spend": 80,
+        "expense": 0,
+        "end_gold": 33.0,
+        "start_etheron": 0,
+        "end_etheron": 0,
+        "harvest_seconds": 65.0,
+        "construction_seconds": 16.5,
+        "requested_expense": 0,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 3,
+          "archer": 0
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "farm",
+            "time": 5.25
+          },
+          {
+            "kind": "complete",
+            "building": "farm",
+            "time": 14.25
+          },
+          {
+            "kind": "purchase",
+            "building": "barracks",
+            "time": 60.5
+          },
+          {
+            "kind": "complete",
+            "building": "barracks",
+            "time": 73.5
+          }
+        ]
+      },
+      {
+        "day": 2,
+        "start_gold": 33.0,
+        "direct_gold": 45,
+        "farm_gold": 26,
+        "building_spend": 70,
+        "expense": 5,
+        "end_gold": 29.0,
+        "start_etheron": 0,
+        "end_etheron": 0,
+        "harvest_seconds": 45.0,
+        "construction_seconds": 6.25,
+        "requested_expense": 5,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 3,
+          "archer": 3
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "archery",
+            "time": 30.5
+          },
+          {
+            "kind": "complete",
+            "building": "archery",
+            "time": 39.5
+          }
+        ]
+      },
+      {
+        "day": 3,
+        "start_gold": 29.0,
+        "direct_gold": 60,
+        "farm_gold": 43,
+        "building_spend": 100,
+        "expense": 5,
+        "end_gold": 27.0,
+        "start_etheron": 0,
+        "end_etheron": 3,
+        "harvest_seconds": 60.0,
+        "construction_seconds": 18.75,
+        "requested_expense": 5,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 3,
+          "archer": 3
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "altar",
+            "time": 25.5
+          },
+          {
+            "kind": "complete",
+            "building": "altar",
+            "time": 34.5
+          },
+          {
+            "kind": "purchase",
+            "building": "house",
+            "time": 45.75
+          },
+          {
+            "kind": "complete",
+            "building": "house",
+            "time": 54.75
+          },
+          {
+            "kind": "purchase",
+            "building": "farm",
+            "time": 74.5
+          },
+          {
+            "kind": "complete",
+            "building": "farm",
+            "time": 83.5
+          }
+        ]
+      },
+      {
+        "day": 4,
+        "start_gold": 27.0,
+        "direct_gold": 67,
+        "farm_gold": 58,
+        "building_spend": 105,
+        "expense": 20,
+        "end_gold": 27.0,
+        "start_etheron": 3,
+        "end_etheron": 6,
+        "harvest_seconds": 45.0,
+        "construction_seconds": 16.5,
+        "requested_expense": 20,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 6,
+          "archer": 3
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "barracks",
+            "time": 14.5
+          },
+          {
+            "kind": "complete",
+            "building": "barracks",
+            "time": 27.5
+          },
+          {
+            "kind": "purchase",
+            "building": "tower",
+            "time": 51.75
+          },
+          {
+            "kind": "complete",
+            "building": "tower",
+            "time": 60.75
+          }
+        ]
+      },
+      {
+        "day": 5,
+        "start_gold": 27.0,
+        "direct_gold": 53,
+        "farm_gold": 62,
+        "building_spend": 70,
+        "expense": 60.0,
+        "end_gold": 12.0,
+        "start_etheron": 6,
+        "end_etheron": 8,
+        "harvest_seconds": 35.0,
+        "construction_seconds": 6.25,
+        "requested_expense": 60,
+        "expense_shortfall": 0.0,
+        "ready_at_night": {
+          "warrior": 6,
+          "archer": 6
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "archery",
+            "time": 21.5
+          },
+          {
+            "kind": "complete",
+            "building": "archery",
+            "time": 30.5
+          },
+          {
+            "kind": "destroy",
+            "building": "farm",
+            "time": 100.0
+          }
+        ]
+      },
+      {
+        "day": 6,
+        "start_gold": 12.0,
+        "direct_gold": 67,
+        "farm_gold": 100,
+        "building_spend": 50,
+        "expense": 40,
+        "end_gold": 89.0,
+        "start_etheron": 8,
+        "end_etheron": 9,
+        "harvest_seconds": 45.0,
+        "construction_seconds": 8.5,
+        "requested_expense": 40,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 6,
+          "archer": 6
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "farm",
+            "time": 7.5
+          },
+          {
+            "kind": "complete",
+            "building": "farm",
+            "time": 14.5
+          },
+          {
+            "kind": "purchase",
+            "building": "farm",
+            "time": 26.75
+          },
+          {
+            "kind": "complete",
+            "building": "farm",
+            "time": 33.75
+          }
+        ]
+      },
+      {
+        "day": 7,
+        "start_gold": 89.0,
+        "direct_gold": 60,
+        "farm_gold": 139,
+        "building_spend": 125,
+        "expense": 15,
+        "end_gold": 148.0,
+        "start_etheron": 9,
+        "end_etheron": 9,
+        "harvest_seconds": 30.0,
+        "construction_seconds": 11.5,
+        "requested_expense": 15,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 9,
+          "archer": 9
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "barracks",
+            "time": 0.25
+          },
+          {
+            "kind": "complete",
+            "building": "barracks",
+            "time": 10.25
+          },
+          {
+            "kind": "purchase",
+            "building": "archery",
+            "time": 19.5
+          },
+          {
+            "kind": "complete",
+            "building": "archery",
+            "time": 26.5
+          }
+        ]
+      },
+      {
+        "day": 8,
+        "start_gold": 148.0,
+        "direct_gold": 50,
+        "farm_gold": 146,
+        "building_spend": 140,
+        "expense": 80,
+        "end_gold": 124.0,
+        "start_etheron": 9,
+        "end_etheron": 14,
+        "harvest_seconds": 25.0,
+        "construction_seconds": 17.0,
+        "requested_expense": 80,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 9,
+          "archer": 9
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "altar",
+            "time": 0.25
+          },
+          {
+            "kind": "complete",
+            "building": "altar",
+            "time": 7.25
+          },
+          {
+            "kind": "purchase",
+            "building": "tower",
+            "time": 7.5
+          },
+          {
+            "kind": "complete",
+            "building": "tower",
+            "time": 14.5
+          },
+          {
+            "kind": "purchase",
+            "building": "house",
+            "time": 14.75
+          },
+          {
+            "kind": "complete",
+            "building": "house",
+            "time": 21.75
+          },
+          {
+            "kind": "purchase",
+            "building": "house",
+            "time": 22.0
+          },
+          {
+            "kind": "complete",
+            "building": "house",
+            "time": 29.0
+          }
+        ]
+      },
+      {
+        "day": 9,
+        "start_gold": 124.0,
+        "direct_gold": 40,
+        "farm_gold": 154,
+        "building_spend": 125,
+        "expense": 120,
+        "end_gold": 73.0,
+        "start_etheron": 14,
+        "end_etheron": 17,
+        "harvest_seconds": 20.0,
+        "construction_seconds": 11.5,
+        "requested_expense": 120,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 12,
+          "archer": 12
+        },
+        "events": [
+          {
+            "kind": "purchase",
+            "building": "barracks",
+            "time": 0.25
+          },
+          {
+            "kind": "complete",
+            "building": "barracks",
+            "time": 10.25
+          },
+          {
+            "kind": "purchase",
+            "building": "archery",
+            "time": 10.5
+          },
+          {
+            "kind": "complete",
+            "building": "archery",
+            "time": 17.5
+          }
+        ]
+      },
+      {
+        "day": 10,
+        "start_gold": 73.0,
+        "direct_gold": 30,
+        "farm_gold": 171,
+        "building_spend": 0,
+        "expense": 160,
+        "end_gold": 114.0,
+        "start_etheron": 17,
+        "end_etheron": 26,
+        "harvest_seconds": 15.0,
+        "construction_seconds": 0,
+        "requested_expense": 160,
+        "expense_shortfall": 0,
+        "ready_at_night": {
+          "warrior": 12,
+          "archer": 12
+        },
+        "events": []
+      }
+    ],
+    "issues": []
+  }
+}

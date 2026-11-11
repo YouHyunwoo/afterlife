@@ -1,0 +1,8 @@
+PASS wall corner mesh and arms present
+PASS all new fighter pivots imported
+PASS Blender tools linked to contribution
+PASS animal face and tail articulation
+PASS chests paid once and exhausted
+PASS no resource spawned on water
+PASS biome chunks contain geometry
+PASS combat causes damage

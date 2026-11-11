@@ -1,0 +1,8 @@
+{
+  "name": "Afterlife.Destruction",
+  "rootNamespace": "Afterlife.Modules.Destruction",
+  "references": [
+    "Afterlife.UnitySupport"
+  ],
+  "autoReferenced": true
+}

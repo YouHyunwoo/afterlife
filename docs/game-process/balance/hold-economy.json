@@ -1,0 +1,23 @@
+{
+  "starting_gold":20,"work_interval":1,"placement_seconds":3,"troop_walk_seconds":8,
+  "auto_construction":0.25,"local_construction_multiplier":1.1,"farm_seconds":5,
+  "buildings": {
+    "farm":{"cost":25,"construction":10,"cycle":5,"product":"gold"},
+    "barracks":{"cost":55,"construction":15,"cycle":10,"product":"warrior"},
+    "archery":{"cost":70,"construction":10,"cycle":10,"product":"archer"},
+    "altar":{"cost":60,"construction":10,"cycle":30,"product":"etheron"},
+    "house":{"cost":15,"construction":10},"tower":{"cost":50,"construction":10}
+  },
+  "days":[
+    {"low":120,"night":25,"menu":15,"harvest_seconds":65,"build":["farm","barracks"],"expense":0},
+    {"low":90,"night":30,"menu":15,"harvest_seconds":45,"build":["archery"],"expense":5},
+    {"low":105,"night":35,"menu":15,"harvest_seconds":60,"build":["altar","house","farm"],"expense":5},
+    {"low":95,"night":40,"menu":15,"harvest_seconds":45,"build":["barracks","tower"],"expense":20,"research_cost":2,"harvest_yield":1.5},
+    {"low":80,"night":60,"menu":15,"harvest_seconds":35,"build":["archery"],"expense":60,"research_cost":3,"farm_seconds":4,"losses":{"warrior":4,"archer":2}},
+    {"low":85,"night":55,"menu":15,"harvest_seconds":45,"build":["barracks","farm"],"expense":70,"research_cost":4,"construction_work":1.5,"losses":{"warrior":3,"archer":2}},
+    {"low":85,"night":45,"menu":15,"harvest_seconds":30,"build":["archery"],"expense":15,"research_cost":5,"harvest_yield":2,"farm_seconds":3},
+    {"low":80,"night":55,"menu":15,"harvest_seconds":25,"build":["altar","tower","house","house"],"expense":80,"research_cost":4,"losses":{"warrior":5,"archer":3}},
+    {"low":90,"night":55,"menu":15,"harvest_seconds":20,"build":["barracks","archery"],"expense":120,"research_cost":7,"losses":{"warrior":6,"archer":4}},
+    {"low":60,"night":100,"menu":10,"harvest_seconds":15,"build":[],"expense":160,"research_cost":3,"losses":{"warrior":6,"archer":4}}
+  ]
+}

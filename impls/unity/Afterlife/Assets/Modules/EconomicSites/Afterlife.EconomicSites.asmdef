@@ -1,0 +1,7 @@
+{
+  "name": "Afterlife.EconomicSites",
+  "rootNamespace": "Afterlife.Modules.EconomicSites",
+  "references": [],
+  "noEngineReferences": true,
+  "autoReferenced": true
+}

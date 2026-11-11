@@ -1,0 +1,11 @@
+{
+  "original_path": "D:\\area\\dev\\alone\\Afterlife\\local-backups",
+  "archive_path": "D:\\area\\archives\\Afterlife\\backups\\project-local-backups-2026-10-07",
+  "archived_files": 268,
+  "archived_bytes": 363761587,
+  "archive_manifest_sha256": "f3e8c290d0c1e83086e0fd7a55977c7df3b6a4d04c61c3c8ea828e23f71b6184",
+  "removed_cache_files": 128,
+  "removed_cache_bytes": 2347476,
+  "project_local_backups_removed": true,
+  "archived_file_hashes_verified": true
+}

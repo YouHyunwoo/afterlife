@@ -1,0 +1,12 @@
+{
+  "name": "Afterlife.Devlog.Day01.Editor",
+  "rootNamespace": "Afterlife.Devlog.Day01.Editor",
+  "references": [
+    "Afterlife.Devlog.Day01",
+    "Afterlife.Devlog.Cinematics"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "autoReferenced": true
+}

@@ -1,0 +1,4 @@
+{
+  "name": "Afterlife.HarvestFeedback.Unity",
+  "references": ["Afterlife.HarvestFeedback.Core", "Unity.TextMeshPro", "UnityEngine.UI"]
+}

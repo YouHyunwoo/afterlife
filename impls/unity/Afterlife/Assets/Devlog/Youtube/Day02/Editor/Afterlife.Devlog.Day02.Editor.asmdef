@@ -1,0 +1,22 @@
+{
+  "name": "Afterlife.Devlog.Day02.Editor",
+  "references": [
+    "Afterlife.Devlog.Day02",
+    "Afterlife.Devlog.Day02.Core",
+    "Afterlife.Devlog.Cinematics",
+    "Unity.TextMeshPro",
+    "Unity.RenderPipelines.Universal.Runtime",
+    "Unity.RenderPipelines.Core.Runtime",
+    "Afterlife.Terrain",
+    "Afterlife.TerrainView",
+    "Afterlife.Water",
+    "Afterlife.Vegetation",
+    "Afterlife.SceneFeatures",
+    "Afterlife.SceneFeatures.Core",
+    "Afterlife.Interaction"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "noEngineReferences": false
+}

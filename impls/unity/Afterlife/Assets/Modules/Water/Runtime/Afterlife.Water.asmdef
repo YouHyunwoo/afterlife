@@ -1,0 +1,8 @@
+{
+  "name": "Afterlife.Water",
+  "rootNamespace": "Afterlife.Modules.Water",
+  "references": [
+    "Afterlife.UnitySupport"
+  ],
+  "autoReferenced": true
+}

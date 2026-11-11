@@ -1,0 +1,101 @@
+{
+  "changedFiles": 21,
+  "changedReferences": 47,
+  "assetIncludesChecked": 47,
+  "missingIncludes": [],
+  "metaEdited": false,
+  "csharpChanged": false,
+  "unityPlayTests": false,
+  "files": [
+    {
+      "file": "Assets/Modules/Water/Shaders/WaterSurface.shader",
+      "references": 1
+    },
+    {
+      "file": "Assets/Modules/Water/Shaders/WaterSurfacePass.hlsl",
+      "references": 2
+    },
+    {
+      "file": "Assets/Modules/Vegetation/Resources/Grass.shader",
+      "references": 1
+    },
+    {
+      "file": "Assets/Modules/Vegetation/Resources/LeafCards.shader",
+      "references": 1
+    },
+    {
+      "file": "Assets/Modules/Vegetation/Shaders/GrassPass.hlsl",
+      "references": 3
+    },
+    {
+      "file": "Assets/Modules/Vegetation/Shaders/LeafCardsPass.hlsl",
+      "references": 4
+    },
+    {
+      "file": "Assets/Modules/SurfaceRendering/Shaders/ShowcaseSurface.shader",
+      "references": 7
+    },
+    {
+      "file": "Assets/Modules/Lighting/Resources/Smoke.shader",
+      "references": 1
+    },
+    {
+      "file": "Assets/Modules/Lighting/Shaders/SmokePass.hlsl",
+      "references": 1
+    },
+    {
+      "file": "Assets/Modules/Lighting/Shaders/SurfaceLighting.hlsl",
+      "references": 1
+    },
+    {
+      "file": "Assets/Modules/Hover/Resources/HoverDust.shader",
+      "references": 2
+    },
+    {
+      "file": "Assets/Prototype/Resources/PrototypeGrass.shader",
+      "references": 2
+    },
+    {
+      "file": "Assets/Prototype/Resources/PrototypeHoverDust.shader",
+      "references": 2
+    },
+    {
+      "file": "Assets/Prototype/Resources/PrototypeLeaves.shader",
+      "references": 2
+    },
+    {
+      "file": "Assets/Prototype/Resources/PrototypeSmoke.shader",
+      "references": 2
+    },
+    {
+      "file": "Assets/Prototype/Resources/PrototypeWater.shader",
+      "references": 2
+    },
+    {
+      "file": "Assets/Prototype/Shaders/PixelSurface.shader",
+      "references": 8
+    },
+    {
+      "file": "Assets/Prototype/Shaders/PrototypeGroundAppearance.hlsl",
+      "references": 1
+    },
+    {
+      "file": "Assets/Prototype/Shaders/PrototypeGroundVisibility.hlsl",
+      "references": 1
+    },
+    {
+      "file": "Assets/Prototype/Shaders/PrototypeVegetationLighting.hlsl",
+      "references": 2
+    },
+    {
+      "file": "Assets/Prototype/Shaders/PrototypeWaterLighting.hlsl",
+      "references": 1
+    }
+  ],
+  "unityImportDiagnostics": {
+    "shaders": 19,
+    "errors": 0,
+    "play": false,
+    "method": "AssetDatabase.Refresh; read cached ShaderUtil.GetShaderMessages; no Play/Test Runner"
+  }
+}

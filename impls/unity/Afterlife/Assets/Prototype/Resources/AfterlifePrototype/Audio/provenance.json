@@ -1,0 +1,156 @@
+[
+  {
+    "id": "01B",
+    "original": "originals/impact-sounds/Audio/impactWood_medium_000.ogg",
+    "source": "https://kenney.nl/assets/impact-sounds",
+    "gainDb": -4.97,
+    "sha256": "23f896c8d33863f24e2088d11fc34979f7ad0fa4c0a9aecca9e8d8e4a4318ba2"
+  },
+  {
+    "id": "01C",
+    "original": "originals/impact-sounds/Audio/impactWood_light_002.ogg",
+    "source": "https://kenney.nl/assets/impact-sounds",
+    "gainDb": -4.88,
+    "sha256": "8d531e91d0d2bad1019f6090423d5f333452502e1ac3b811418000aa4745c22c"
+  },
+  {
+    "id": "03A",
+    "original": "originals/impact-sounds/Audio/impactWood_heavy_000.ogg",
+    "source": "https://kenney.nl/assets/impact-sounds",
+    "gainDb": -5.06,
+    "sha256": "4cdad5c9e77df2027f1ecbaafb0e8879944899fa8bbc3af14a08e6ca0a0ed136"
+  },
+  {
+    "id": "04A",
+    "original": "originals/rpg-audio/Audio/handleCoins.ogg",
+    "source": "https://kenney.nl/assets/rpg-audio",
+    "gainDb": -6.19,
+    "sha256": "8fcb96dd335c4be2d00e0b6b166d6a2f317e3955ad2f3f4ebc05d69bf38089b9"
+  },
+  {
+    "id": "05A",
+    "original": "originals/impact-sounds/Audio/impactPlank_medium_000.ogg",
+    "source": "https://kenney.nl/assets/impact-sounds",
+    "gainDb": -4.78,
+    "sha256": "83bbf648b30a7f8710833290676d3f768a6e09454bd441973383eca0b5869fc6"
+  },
+  {
+    "id": "06B",
+    "original": "originals/impact-sounds/Audio/impactMetal_light_001.ogg",
+    "source": "https://kenney.nl/assets/impact-sounds",
+    "gainDb": -5.05,
+    "sha256": "32ac9d60c5bc7937679bdb32fae57eab439d1d06784679a816f09bef21a78f89"
+  },
+  {
+    "id": "07A",
+    "original": "originals/interface-sounds/Audio/confirmation_001.ogg",
+    "source": "https://kenney.nl/assets/interface-sounds",
+    "gainDb": -5.07,
+    "sha256": "fc4d31ff6964ebf17b2e1577fa0baa2ae4b477386c3ec11da7a86cd3ec815fd1"
+  },
+  {
+    "id": "09C",
+    "original": "originals/impact-sounds/Audio/impactSoft_medium_000.ogg",
+    "source": "https://kenney.nl/assets/impact-sounds",
+    "gainDb": -5.04,
+    "sha256": "b12fadabbb4c41c07cd027097828c83a0529aa3122e839db94c9689e1a467464"
+  },
+  {
+    "id": "12B",
+    "original": "originals/sci-fi-sounds/Audio/laserSmall_000.ogg",
+    "source": "https://kenney.nl/assets/sci-fi-sounds",
+    "gainDb": -0.35,
+    "sha256": "a89e3ea99cf550b21af93d95a7ed208184859531b72d11e5c7d71903fe6a5b43"
+  },
+  {
+    "id": "14A",
+    "original": "originals/sci-fi-sounds/Audio/slime_000.ogg",
+    "source": "https://kenney.nl/assets/sci-fi-sounds",
+    "gainDb": -5.05,
+    "sha256": "426cd78831faf842c55030cccfbd69c9b0c3afc1f93c7db91fceb1a2a489f754"
+  },
+  {
+    "id": "15A",
+    "original": "originals/impact-sounds/Audio/impactPunch_heavy_002.ogg",
+    "source": "https://kenney.nl/assets/impact-sounds",
+    "gainDb": -5.03,
+    "sha256": "013ecaf0cba2b3b8c45963f7b1e051d7c1547341e58bc89ab2d49f681903147e"
+  },
+  {
+    "id": "16B",
+    "original": "originals/sci-fi-sounds/Audio/explosionCrunch_004.ogg",
+    "source": "https://kenney.nl/assets/sci-fi-sounds",
+    "gainDb": -5.02,
+    "sha256": "24554296930f599dabb6f4d5fde312e8258d6cbf7243560a23581694915c9d44"
+  },
+  {
+    "id": "17B",
+    "original": "originals/rpg-audio/Audio/doorOpen_1.ogg",
+    "source": "https://kenney.nl/assets/rpg-audio",
+    "gainDb": -6.58,
+    "sha256": "7bee6f86404c6dff8743fdf6ac60d7766272d31abe9d1ad58b235e09044444aa"
+  },
+  {
+    "id": "18A",
+    "original": "originals/interface-sounds/Audio/glass_001.ogg",
+    "source": "https://kenney.nl/assets/interface-sounds",
+    "gainDb": -4.97,
+    "sha256": "4e031e1a31b90afa37adc1da77c4702a4176c01724660a899ab48e921e37a4ad"
+  },
+  {
+    "id": "19A",
+    "original": "originals/interface-sounds/Audio/click_001.ogg",
+    "source": "https://kenney.nl/assets/interface-sounds",
+    "gainDb": -4.65,
+    "sha256": "158fdde0456bdc913ae3662e5b276d533255414daf9c164d723280c0a35b2ee0"
+  },
+  {
+    "id": "20A",
+    "original": "originals/interface-sounds/Audio/back_001.ogg",
+    "source": "https://kenney.nl/assets/interface-sounds",
+    "gainDb": -5.04,
+    "sha256": "8eb32b82c2cf74f0ab4852ec0dd7c5d1319e88193571543ffe7d6947c46928b7"
+  },
+  {
+    "id": "21C",
+    "original": "originals/rpg-audio/Audio/bookOpen.ogg",
+    "source": "https://kenney.nl/assets/rpg-audio",
+    "gainDb": 5.54,
+    "sha256": "666b64abb46a7143d6ec74209c6d1374bdd004bc107845a7e9e3bf8d8fff1edd"
+  },
+  {
+    "id": "22A",
+    "original": "originals/interface-sounds/Audio/error_001.ogg",
+    "source": "https://kenney.nl/assets/interface-sounds",
+    "gainDb": -5.2,
+    "sha256": "847b58fee0104e8d8e78c36508de199016e3d585f1c31786b2519bc209c69479"
+  },
+  {
+    "id": "23C",
+    "original": "originals/digital-audio/Audio/lowThreeTone.ogg",
+    "source": "https://kenney.nl/assets/digital-audio",
+    "gainDb": -5.46,
+    "sha256": "5f62490b1fd250d35bbeda47c1e4e8d3a3d19338303df46254beef66d2a8d04e"
+  },
+  {
+    "id": "24C",
+    "original": "originals/music-jingles/Audio/Steel jingles/jingles_STEEL00.ogg",
+    "source": "https://kenney.nl/assets/music-jingles",
+    "gainDb": -3.38,
+    "sha256": "ea0ff755dc342ebf80cebfd8e6376c4d8b5fc9f7335304fc9e46768d939878e0"
+  },
+  {
+    "id": "25B",
+    "original": "originals/music-jingles/Audio/Pizzicato jingles/jingles_PIZZI10.ogg",
+    "source": "https://kenney.nl/assets/music-jingles",
+    "gainDb": -1.44,
+    "sha256": "4a4587776fd18681367af6a01f7f802ff9f16ea1039b10f63b70f0cb7060e543"
+  },
+  {
+    "id": "26C",
+    "original": "originals/sci-fi-sounds/Audio/forceField_000.ogg",
+    "source": "https://kenney.nl/assets/sci-fi-sounds",
+    "gainDb": -5.11,
+    "sha256": "673a0bb2c7dac945e4e6c9d05547eca15795f279ca14f24844cfc62888a240ac"
+  }
+]

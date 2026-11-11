@@ -1,0 +1,13 @@
+{
+  "name": "Afterlife.SceneFeatures.Editor",
+  "references": [
+    "Afterlife.SceneFeatures",
+    "Afterlife.Terrain",
+    "Afterlife.Interaction",
+    "Afterlife.TargetContracts",
+    "Afterlife.SceneFeatures.Core"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ]
+}
