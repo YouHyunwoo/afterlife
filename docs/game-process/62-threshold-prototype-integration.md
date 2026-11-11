@@ -37,6 +37,16 @@
 
 ## 검증 절차
 
+### 2026-10-09 샘플용 빈 시험장 제외
+
+변경 전에는 프로토타입 배경이 원본 `VoidEnvironment`의 `EmptyTrialStage`까지 포함했다. 프로토타입용 `ThresholdBackdropRig.prefab`에서 해당 오브젝트와 자식 `TrialFloor`·격자를 제거했다. 제거는 중첩 프리팹 오버라이드로 저장하며, 원본 ThresholdLab 샘플은 유지한다. `PrototypeThresholdAuthoring.BuildBackdrop`도 배경을 조합할 때 해당 자식을 제외하므로 `Apply()`로 재구성해도 다시 포함되지 않는다. 기존 프리팹을 사용하는 씬에는 자동 반영되며 추가 설치는 필요 없다.
+
+열린 `Afterlife_PixelPrototype` 씬과 배경 프리팹에서 `EmptyTrialStage`가 없는 것을 읽기 전용으로 확인했다. 웅덩이·균열·`Day01AfterPreview`와 배경 카메라는 유지되며, 균열의 표면·반사·내부 카메라 참조와 30번 레이어 마스크도 유지된다.
+
+기본 `Afterlife.Prototype.Editor.csproj` 빌드는 기존 `project.assets.json` 누락(NETSDK1004)으로 실행되지 않았다. 변경한 작성 코드만 포함하고 열린 에디터의 기존 `Library/ScriptAssemblies`를 참조하는 임시 `Temp/EmptyTrialStageValidation/EmptyTrialStageValidation.csproj`에서 `dotnet build --no-restore`로 컴파일을 확인했다.
+
+사용자 확인: `Afterlife_PixelPrototype`의 Hierarchy에서 `ThresholdFlowPack/ThresholdBackdropRig/VoidEnvironment` 아래에 `EmptyTrialStage`가 없는지 확인한다. Play 후 타이틀의 웅덩이·UI가 표시되는지 확인한다. Unity Play Mode와 Test Runner는 실행하지 않았다.
+
 ### 2026-09-29 균열 표시 보정
 
 기존 프로토타입은 `ThresholdHost`가 없어 균열이 항상 보였다. `ThresholdBackdropRig`이 자식 균열을 자동 탐색하고 `ThresholdPortal.SetVisibility`로 표면과 반사 강도를 전달하도록 수정했다. 타이틀에서 즉시 숨기고 인트로에서는 기존 0.95초 카메라 이동에 맞춰 SmoothStep으로 표시한다. 원본 Lab의 상태 처리는 유지하며 기존 프리팹에 자동 적용된다.

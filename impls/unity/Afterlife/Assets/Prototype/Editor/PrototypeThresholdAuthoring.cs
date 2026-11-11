@@ -156,6 +156,9 @@ namespace Afterlife.Prototype.Editor
             {
                 var environment = (GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(SamplePrefabs + "/VoidEnvironment.prefab"), root.transform);
                 environment.name = "VoidEnvironment";
+                // The prototype supplies its own gameplay world; omit the lab's trial floor.
+                var trialStage = environment.transform.Find("EmptyTrialStage");
+                if (trialStage != null) UnityEngine.Object.DestroyImmediate(trialStage.gameObject);
                 // The portal's village preview uses layer 30 and its own camera.
                 // Preserve that pair so the village appears only inside the crack.
                 SetLayer(environment.transform, layer);
