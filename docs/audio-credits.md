@@ -77,6 +77,7 @@
 Day01과 동일한 임포트 음원을 참조하여 나무 쓰러짐, 바위 타격/파괴, 물 파문 5종, 풀 스침 02~04, 새 울음을 프로토타입에 연결했다. 이번 이관에서 음원 파일의 추가 편집/복제는 없다. 나무 쓰러짐은 피치 1·기본 배율 0.65에 사용자 SoundVolume을 곱한다. 기존 출처/이용조건을 그대로 유지한다. 내부 구현과 출처 기록만 완료했으며, 공개용 게임 크레딧 및 음원이 포함된 영상 설명란 표기는 아직 미완료다. 실제 청취 검증 대기.
 
 ## Day01 AI 나레이션 — Supertonic 3
+
 - 공식 코드: https://github.com/supertone-oss-archive/supertonic (MIT)
 - 모델: https://huggingface.co/supertone-oss-archive/supertonic-3 (OpenRAIL-M)
 - 모델 revision: aafc6e32416a594460b32413efc49d7fe4ce6d46. 남성 M2, ko, speed 0.98, steps 12. 특정인의 음성 복제를 하지 않고 제공 프리셋을 사용했다.
@@ -172,3 +173,15 @@ https://www.scottbuckley.com.au/library/ascension/
 ## Day02 마지막 크레딧 — 2026-10-04
 
 Day01의 Supertonic 3 / AI 생성 음성 및 Childhood / Scott Buckley / CC BY 4.0 문구를 Day02 마지막 크레딧에 동일하게 저장했다. 기존 Childhood-Day01.wav 참조를 재사용하며 신규 다운로드·편집은 없다. 사용자 요청으로 Day02 음악 재생 토글을 켜서 저장했다. 실제 음악을 켠 공개본은 위 Childhood 출처·반복/크로스페이드 편집 문구를 영상 설명란에도 반영한다. 영상 내부 크레딧 적용은 공개 설명란 반영 완료를 뜻하지 않는다. 상세는 devlog/youtube/day-02/records/ending-credits.md.
+
+## Day03 AI 나레이션 — 2026-10-07
+
+Day03 나레이션v1도 기존 로컬 모델 revision과 M2 한국어 프리셋(speed0.98, steps12)을 사용한다.12문장·실측 말소리54.513초·PCM16/44.1kHz/mono이며 동일한 DC 제거·피크 제한·8ms 페이드를 적용했다. 별도 음성 복제나 새 외부 음악은 사용하지 않았다.
+
+Day03 필름 크레딧에 `나레이션 / Supertonic 3 · M2 / AI 생성 음성`을 저장했다. 실제 녹화·최종 영상·공개 설명란 반영은 아직 수행하지 않았다. 원본·출력·편집본과 청취 확인 절차는 [Day03 제작 기록](../devlog/youtube/day-03/records/narration.md)을 따른다.
+
+## Day03 배경음악·Day02 형식 크레딧 — 2026-10-07
+
+사용자 요청으로 Day02와 같은 Childhood-Day01.wav(206.85초) 참조와 음악 재생 활성·볼륨0.3·크레딧 배율2를 Day03Film에 저장했다. 신규 다운로드·파일 복제·음원 편집은 없다. 기존 반복·4초 크로스페이드 편집본을 그대로 사용하며 재생 시 시작2초/끝3초 페이드와 크레딧 진입2초 음량 상승을 적용한다.
+
+마지막 화면 크레딧도 Day02와 동일한 `나레이션 / Supertonic 3 / AI 생성 음성` 및 `배경음악 / Childhood / Scott Buckley / CC BY 4.0 · www.scottbuckley.com.au`로 변경했다. 곡명·작곡가·공식 출처·라이선스와 기존 편집 내역은 위 Childhood 공개용 표기를 따른다. 실제 영상 설명란 게시·녹화·최종 영상 반영은 아직 수행하지 않았다. 공개용 준비 문구와 사용/확인 절차는 [Day03 음악·크레딧 기록](../devlog/youtube/day-03/records/ending-credits.md)에 있다.

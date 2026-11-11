@@ -25,6 +25,7 @@ namespace Afterlife.Devlog.Day03
         public bool ShowGuide=true, Paused, FilmMode;
         private VillageSession _live, _comparison, _preview;
         private VillageSession _observedSession;
+        private readonly System.Random _productionFeedbackRandom=new System.Random();
         private bool _skippingShot;
         private int _feedbackVersion;
         private Vector3 _workPoint;
@@ -107,12 +108,18 @@ namespace Afterlife.Devlog.Day03
         {
             if(_skippingShot||FilmMode&&(_shot==0||_shot==10||_shot==12))return;
             Vector3 point=WorkPoint(VillageTarget.Farm);
+            Vector3 collectionPoint=point;
             var crops=Farm.Crop!=null?Farm.Crop.GetComponentsInChildren<Renderer>(true):null;
             if(crops!=null&&crops.Length>0){
                 var bounds=crops[0].bounds;foreach(var crop in crops)bounds.Encapsulate(crop.bounds);
                 point=bounds.center+Vector3.up*bounds.extents.y;
+                // Randomize the icon's origin inside the crop area; keep the text centered and readable.
+                collectionPoint=new Vector3(
+                    Mathf.Lerp(bounds.min.x,bounds.max.x,(float)_productionFeedbackRandom.NextDouble()),
+                    bounds.max.y,
+                    Mathf.Lerp(bounds.min.z,bounds.max.z,(float)_productionFeedbackRandom.NextDouble()));
             }
-            _hud?.ShowProduction(WorldScreen(point),amount);
+            _hud?.ShowProduction(WorldScreen(point),amount,WorldScreen(collectionPoint));
         }
         public void EnterShot(int index,bool automatic)
         {
@@ -126,6 +133,7 @@ namespace Afterlife.Devlog.Day03
             if(index==0||index==2)ResetLive();
             if(index==0||index==1)_preview=ExpandedPreview();
             if(index==4||index==5){_comparison=new VillageSession(Settings.CreateRules(),_ground);_comparison.Place(VillageTarget.Farm,1,0);}
+            ConfigureProductionCadence();
             // Shot 7-10 preserve the live placement, construction and income session.
             foreach(int later in _shotStarts.Keys.Where(i=>i>=index).ToArray())_shotStarts.Remove(later);
             _shotStarts[index]=new ShotStartState {
@@ -144,6 +152,7 @@ namespace Afterlife.Devlog.Day03
             _harvestAtFarm=state.HarvestAtFarm;_selected=state.Selected;_demoSelected=state.DemoSelected;
             _shot=index;_shotTime=0;_automatic=automatic;_requireRelease=true;
             _buildMode=false;_clickRemaining=0;_menuClicked=false;ClearFeedback();
+            ConfigureProductionCadence();
             // Replaying an earlier choice replaces the subsequent take, never old future state.
             foreach(int later in _shotStarts.Keys.Where(i=>i>index).ToArray())_shotStarts.Remove(later);
         }
@@ -154,11 +163,14 @@ namespace Afterlife.Devlog.Day03
             session.Place(VillageTarget.SecondHouse,0,-1);session.Tick(Settings.HouseConstructionSeconds,VillageTarget.None,false,false);
             return session;
         }
+        public void SetHudAlpha(float alpha)=>_hud?.SetAlpha(alpha);
         public void EndFilm()
         {
+            SetHudAlpha(1);
             WatchSession(null);ClearFeedback();
             ClearShotHistory();
             FilmMode=false;_shot=-1;_automatic=false;_comparison=null;_preview=null;Paused=false;
+            ConfigureProductionCadence();
             _requireRelease=true;_selected=VillageTarget.None;_buildMode=false;_clickRemaining=0;SetLightingBlend(0);
         }
         public bool ContinuousShotReady(int index)
@@ -239,6 +251,7 @@ namespace Afterlife.Devlog.Day03
         }
         private void TickScene(float delta)
         {
+            ConfigureProductionCadence();
             var keys=Keyboard.current;
             _shotTime+=delta;
             Environment.Session?.Tick(delta,Paused);
@@ -316,7 +329,9 @@ namespace Afterlife.Devlog.Day03
             bool workHeld=held&&!_buildMode&&(target==VillageTarget.Resource||!FilmMode||_shot==5||_shot==9);
             WatchSession(Current);
             bool houseWasComplete=Current.SecondHouseComplete;
-            if(!frozen)Current.Tick(simulationDelta,target,workHeld,(!FilmMode||_shot==2)&&!comparison);
+            var harvestMode=!FilmMode?VillageHarvestMode.FreePlay:
+                _shot==2&&!comparison?VillageHarvestMode.Filming:VillageHarvestMode.Disabled;
+            if(!frozen)Current.Tick(simulationDelta,target,workHeld,harvestMode);
             if(!houseWasComplete&&Current.SecondHouseComplete&&!_skippingShot)_hud.ShowHouseCompletion();
             bool before=FilmMode&&_shot==10&&_shotTime<4;
             if(Current.FarmPurchased)Farm.transform.position=PlacementPoint(Current.FarmFootprint);
@@ -325,7 +340,7 @@ namespace Afterlife.Devlog.Day03
             SecondHouse.Present(!before&&Current.SecondHousePurchased,Current.HouseProgress,0);
             if(SecondHouseWindows!=null)SecondHouseWindows.SetActive(!before&&Current.SecondHouseComplete&&_lightBlend>.4f);
             string label="";
-            if(FilmMode&&_shot==10)label=before?"<b><size=32>처음 모습</size></b>\n집 1채":"<b><size=32>확장 후</size></b>\n집 2채와 농장";
+            if(FilmMode&&_shot==10)label=before?"<b><size=28>처음 모습</size></b>\n집 1채":"<b><size=28>확장 후</size></b>\n집 2채와 농장";
             _hud.Tick(Current,Settings,delta,ShowGuide&&!FilmMode,FilmMode&&(_shot==0||_shot==12),label,_preview!=null,FilmMode&&_shot==10);
             _hud.PresentBuild(Current,Settings,_buildMode,Paused||_automatic,_selected,error,preview.HasValue,Paused);
             if(!Paused)_construction.Present(Current,_buildMode,preview,error==null);
@@ -337,6 +352,11 @@ namespace Afterlife.Devlog.Day03
                 _hud.PresentInput(delta,interactive,_clickRemaining>0?_clickPoint:pointer,_buildMode||_clickRemaining>0,click,workHeld);
                 _menuClicked=false;
             }
+        }
+        private void ConfigureProductionCadence()
+        {
+            // Shots 01-11 demonstrate production quickly; final gameplay shot 12 shows the normal cycle.
+            Current?.SetProductionSeconds(FilmMode&&_shot>=0&&_shot<11?1:Settings.ProductionSeconds);
         }
         public void SetLightingBlend(float blend){_lightBlend=Mathf.Clamp01(blend);Environment?.Session?.SetLightingBlend(_lightBlend);}
         private void OnDisable()

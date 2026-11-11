@@ -7,11 +7,11 @@ namespace Afterlife.Devlog.Day03
     public sealed class Day03Hud
     {
         private readonly GameObject _root;
+        private readonly CanvasGroup _visibility;
         private readonly GameObject _goldHud;
         private readonly TextMeshProUGUI _gold, _farm, _house, _guide, _comparison;
         private readonly GameObject _comparisonPanel;
         private readonly Image _farmBar, _houseBar, _productionBar;
-        private float _rewardTime;
         private readonly PointerInputPresenter _pointer;
         private readonly HarvestFeedbackPresenter _harvestFeedback;
         private readonly Sprite _barleySprite;
@@ -25,11 +25,13 @@ namespace Afterlife.Devlog.Day03
         private VillageTarget _placementTarget;
         private int _placementCost;
         private bool _showHouseCompletion;
+        public void SetAlpha(float alpha)=>_visibility.alpha=Mathf.Clamp01(alpha);
         public event System.Action<VillageTarget> BuildSelected;
         public Day03Hud(Transform parent, TMP_FontAsset font, Sprite goldSprite, Sprite barleySprite, Sprite woodSprite)
         {
-            _root=new GameObject("Day03Hud",typeof(RectTransform),typeof(Canvas),typeof(CanvasScaler),typeof(UnityEngine.UI.GraphicRaycaster));
+            _root=new GameObject("Day03Hud",typeof(RectTransform),typeof(Canvas),typeof(CanvasScaler),typeof(CanvasGroup),typeof(UnityEngine.UI.GraphicRaycaster));
             _root.transform.SetParent(parent,false);
+            _visibility=_root.GetComponent<CanvasGroup>();
             _root.GetComponent<Canvas>().renderMode=RenderMode.ScreenSpaceOverlay;
             _root.GetComponent<Canvas>().sortingOrder=100;
             var scaler=_root.GetComponent<CanvasScaler>();scaler.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;scaler.referenceResolution=new Vector2(1920,1080);scaler.matchWidthOrHeight=.5f;
@@ -50,12 +52,8 @@ namespace Afterlife.Devlog.Day03
             _gold.color=new Color(1,.83f,.35f);
             _farm=Label("Farm",font,.06f,.71f,.34f,.77f,24);
             _house=Label("House",font,.06f,.63f,.34f,.69f,24);
-            _comparisonPanel=new GameObject("VillageSummary",typeof(RectTransform),typeof(UnityEngine.UI.Image));
-            _comparisonPanel.transform.SetParent(_root.transform,false);
-            var summaryRect=_comparisonPanel.GetComponent<RectTransform>();summaryRect.anchorMin=new Vector2(.33f,.25f);summaryRect.anchorMax=new Vector2(.89f,.36f);summaryRect.offsetMin=summaryRect.offsetMax=Vector2.zero;
-            var summaryImage=_comparisonPanel.GetComponent<UnityEngine.UI.Image>();summaryImage.color=new Color(.04f,.07f,.09f,.95f);summaryImage.raycastTarget=false;
-            _comparison=Label("VillageSummaryText",font,.03f,.08f,.97f,.92f,27);
-            _comparison.transform.SetParent(_comparisonPanel.transform,false);_comparison.alignment=TextAlignmentOptions.Center;
+            _comparisonPanel=TooltipPanel("VillageSummary");
+            _comparison=TooltipLabel("VillageSummaryText",font,_comparisonPanel.transform);
             _comparisonPanel.SetActive(false);
             _guide=Label("Guide",font,.06f,.20f,.94f,.30f,20);
             _farmBar=Bar("ConstructionProgress",.06f,.70f,.30f,.71f);
@@ -64,28 +62,54 @@ namespace Afterlife.Devlog.Day03
             _pointer=_root.AddComponent<PointerInputPresenter>();_pointer.Initialize(font);
             _buildMenu=new GameObject("BuildMenu",typeof(RectTransform),typeof(UnityEngine.UI.Image));
             _buildMenu.transform.SetParent(_root.transform,false);
-            var panel=_buildMenu.GetComponent<RectTransform>();panel.anchorMin=new Vector2(.05f,.32f);panel.anchorMax=new Vector2(.29f,.60f);panel.offsetMin=panel.offsetMax=Vector2.zero;
+            var panel=_buildMenu.GetComponent<RectTransform>();panel.anchorMin=new Vector2(.05f,.41f);panel.anchorMax=new Vector2(.29f,.61f);panel.offsetMin=panel.offsetMax=Vector2.zero;
             _buildMenu.GetComponent<UnityEngine.UI.Image>().color=new Color(.04f,.07f,.09f,.95f);
-            _buildModeTitle=Label("BuildModeTitle",font,.06f,.81f,.94f,.98f,30);
+            _buildModeTitle=Label("BuildModeTitle",font,.06f,.80f,.94f,.98f,28);
             _buildModeTitle.transform.SetParent(_buildMenu.transform,false);
             _buildModeTitle.fontStyle=FontStyles.Bold;_buildModeTitle.color=new Color(1,.83f,.35f);
             _buildModeTitle.text="건설 모드";
             _farmButton=BuildButton("SelectFarm",font,"농장",.43f,.74f,VillageTarget.Farm);
             _houseButton=BuildButton("SelectHouse",font,"집",.06f,.37f,VillageTarget.SecondHouse);
-            _buildStatus=new GameObject("BuildStatus",typeof(RectTransform),typeof(UnityEngine.UI.Image));
-            _buildStatus.transform.SetParent(_root.transform,false);
-            var statusRect=_buildStatus.GetComponent<RectTransform>();statusRect.anchorMin=new Vector2(.33f,.25f);statusRect.anchorMax=new Vector2(.89f,.36f);statusRect.offsetMin=statusRect.offsetMax=Vector2.zero;
-            var statusImage=_buildStatus.GetComponent<UnityEngine.UI.Image>();statusImage.color=new Color(.04f,.07f,.09f,.95f);statusImage.raycastTarget=false;
-            _buildHint=Label("BuildHint",font,.03f,.08f,.97f,.92f,27);
-            _buildHint.transform.SetParent(_buildStatus.transform,false);
-            _buildHint.alignment=TextAlignmentOptions.Center;
+            _buildStatus=TooltipPanel("BuildStatus");
+            _buildHint=TooltipLabel("BuildHint",font,_buildStatus.transform);
             _buildMenu.SetActive(false);_buildStatus.SetActive(false);
             _barleySprite=barleySprite;
             _woodSprite=woodSprite;
             _harvestFeedback=_root.AddComponent<HarvestFeedbackPresenter>();
             _harvestFeedback.Initialize(font,icon.rectTransform,null,null);
             _harvestFeedback.IconSize=48;_harvestFeedback.Spread=96;_harvestFeedback.Arc=120;
-            _harvestFeedback.IconArrived+=Reward;
+        }
+        private GameObject TooltipPanel(string name)
+        {
+            var panel=new GameObject(name,typeof(RectTransform),typeof(UnityEngine.UI.Image));
+            panel.transform.SetParent(_root.transform,false);
+            var rect=panel.GetComponent<RectTransform>();
+            rect.anchorMin=rect.anchorMax=new Vector2(.5f,.29f);
+            rect.anchoredPosition=Vector2.zero;rect.sizeDelta=new Vector2(640,112);
+            var background=panel.GetComponent<UnityEngine.UI.Image>();
+            background.color=new Color(.04f,.065f,.08f,.98f);background.raycastTarget=false;
+            var shadow=panel.AddComponent<UnityEngine.UI.Shadow>();
+            shadow.effectDistance=new Vector2(0,-5);shadow.effectColor=new Color(0,0,0,.4f);
+            var outline=panel.AddComponent<UnityEngine.UI.Outline>();
+            outline.effectDistance=new Vector2(1,-1);outline.effectColor=new Color(.48f,.57f,.52f,.8f);
+            var tip=new GameObject("TooltipTip",typeof(RectTransform),typeof(UnityEngine.UI.Image));
+            tip.transform.SetParent(panel.transform,false);
+            var tipImage=tip.GetComponent<UnityEngine.UI.Image>();tipImage.color=background.color;tipImage.raycastTarget=false;
+            var tipRect=tip.GetComponent<RectTransform>();tipRect.anchorMin=tipRect.anchorMax=new Vector2(.5f,1);
+            tipRect.anchoredPosition=Vector2.zero;tipRect.sizeDelta=new Vector2(14,14);tipRect.localRotation=Quaternion.Euler(0,0,45);
+            var accent=new GameObject("TooltipAccent",typeof(RectTransform),typeof(UnityEngine.UI.Image));
+            accent.transform.SetParent(panel.transform,false);
+            var accentImage=accent.GetComponent<UnityEngine.UI.Image>();accentImage.color=new Color(1,.83f,.35f);accentImage.raycastTarget=false;
+            var accentRect=accent.GetComponent<RectTransform>();accentRect.anchorMin=Vector2.zero;accentRect.anchorMax=new Vector2(0,1);
+            accentRect.offsetMin=new Vector2(0,12);accentRect.offsetMax=new Vector2(4,-12);
+            return panel;
+        }
+        private TextMeshProUGUI TooltipLabel(string name,TMP_FontAsset font,Transform parent)
+        {
+            var label=Label(name,font,0,0,1,1,24);label.transform.SetParent(parent,false);
+            label.rectTransform.offsetMin=new Vector2(24,14);label.rectTransform.offsetMax=new Vector2(-24,-14);
+            label.alignment=TextAlignmentOptions.MidlineLeft;label.lineSpacing=6;
+            return label;
         }
         private UnityEngine.UI.Button BuildButton(string name,TMP_FontAsset font,string title,float bottom,float top,VillageTarget kind)
         {
@@ -117,8 +141,7 @@ namespace Afterlife.Devlog.Day03
             var rect=image.rectTransform;rect.anchorMin=new Vector2(x,y);rect.anchorMax=new Vector2(right,top);rect.offsetMin=rect.offsetMax=Vector2.zero;
             return image;
         }
-        public void Reward() => _rewardTime=1.4f;
-        public void ClearTransient(){_rewardTime=0;_selectionTime=0;_placementTime=0;_showHouseCompletion=false;_farmButton.transform.localScale=_houseButton.transform.localScale=Vector3.one;_buildStatus.SetActive(false);_comparisonPanel.SetActive(false);_pointer.Clear();_harvestFeedback.Clear();}
+        public void ClearTransient(){_selectionTime=0;_placementTime=0;_showHouseCompletion=false;_farmButton.transform.localScale=_houseButton.transform.localScale=Vector3.one;_buildStatus.SetActive(false);_comparisonPanel.SetActive(false);_pointer.Clear();_harvestFeedback.Clear();}
         public void ShowSelection()=>_selectionTime=.32f;
         public void ShowPlacement(VillageTarget target,int cost){_placementTarget=target;_placementCost=cost;_placementTime=1.6f;_showHouseCompletion=false;}
         public void ShowHouseCompletion(){_showHouseCompletion=true;_placementTime=2;}
@@ -126,15 +149,13 @@ namespace Afterlife.Devlog.Day03
         {
             _harvestFeedback.ShowText(screenPoint,"목재 +1",new Color(1,.87f,.53f));
             if(_woodSprite!=null)_harvestFeedback.ShowCollection(screenPoint,_woodSprite,1);
-            else Reward();
         }
-        public void ShowProduction(Vector2 screenPoint,int amount)
+        public void ShowProduction(Vector2 screenPoint,int amount,Vector2? collectionPoint=null)
         {
             // Economy events precede this frame's HUD visibility update.
             if(amount<=0)return;
-            _harvestFeedback.ShowText(screenPoint,"보리 +"+amount,new Color(1,.83f,.35f));
-            if(_barleySprite!=null)_harvestFeedback.ShowCollection(screenPoint,_barleySprite,amount);
-            else Reward();
+            _harvestFeedback.ShowText(screenPoint,"보리 +"+amount,Color.white);
+            if(_barleySprite!=null)_harvestFeedback.ShowCollection(collectionPoint??screenPoint,_barleySprite,amount);
         }
         public void PresentInput(float delta,bool visible,Vector2 point,bool clickMode,bool pressed,bool held)=>_pointer.Tick(delta,visible,point,clickMode,pressed,held);
         public bool BlocksWorldInput(Vector2 point)=>_buildMenu.activeInHierarchy&&RectTransformUtility.RectangleContainsScreenPoint(_buildMenu.GetComponent<RectTransform>(),point);
@@ -153,12 +174,12 @@ namespace Afterlife.Devlog.Day03
             bool purchased=selected==VillageTarget.Farm?session.FarmPurchased:selected==VillageTarget.SecondHouse&&session.SecondHousePurchased;
             var prompt=BuildPrompt.Resolve(selected,hasTile,error,purchased,session.SecondHouseComplete);
             _buildHint.color=prompt.Blocked?new Color(1,.65f,.55f):Color.white;
-            _buildHint.text="<b><size=32>"+prompt.Title+"</size></b>\n"+prompt.Action;
+            _buildHint.text="<b><size=28>"+prompt.Title+"</size></b>\n"+prompt.Action;
             if(_placementTime>0){
                 _buildHint.color=new Color(.65f,1,.78f);
                 _buildHint.text=_showHouseCompletion
-                    ?"<b><size=32>새 집 건설 완료</size></b>\n마을 영역이 넓어졌습니다"
-                    :"<b><size=32>"+(_placementTarget==VillageTarget.Farm?"농장을":"새 집을")+" 짓기 시작했습니다</size></b>\n건설비 "+_placementCost+"골드 사용";
+                    ?"<b><size=28>새 집 건설 완료</size></b>\n마을 영역이 넓어졌습니다"
+                    :"<b><size=28>"+(_placementTarget==VillageTarget.Farm?"농장을":"새 집을")+" 짓기 시작했습니다</size></b>\n건설비 "+_placementCost+"골드 사용";
             }
         }
         private void PresentBuilding(UnityEngine.UI.Button button,string name,int cost,bool selected,bool purchased,bool complete)
@@ -173,14 +194,14 @@ namespace Afterlife.Devlog.Day03
         }
         public void Tick(VillageSession session,Day03Settings settings,float delta,bool guide,bool hidden,string comparison,bool preview,bool comparisonOnly=false)
         {
-            _rewardTime=Mathf.Max(0,_rewardTime-delta);_root.SetActive(!hidden);
+            _root.SetActive(!hidden);
             _selectionTime=Mathf.Max(0,_selectionTime-delta);_placementTime=Mathf.Max(0,_placementTime-delta);
             if(hidden||comparisonOnly)_harvestFeedback.Clear();
             else _harvestFeedback.Tick(delta);
             _goldHud.SetActive(!comparisonOnly);_farm.gameObject.SetActive(!comparisonOnly);_house.gameObject.SetActive(!comparisonOnly&&!session.SecondHouseComplete);
-            // Each arriving resource icon represents one gold, including initial wood harvesting.
-            _gold.text=session.Gold.ToString("N0")+(_rewardTime>0?"  <size=24><color=#8FE6AF>+1</color></size>":"");
-            _farm.text=!session.FarmPurchased?"농장 · "+settings.FarmCost+"골드":session.FarmComplete?"농장 · "+settings.ProductionSeconds+"초마다 "+settings.ProductionGold+"골드":"농장 · 공사 "+Mathf.RoundToInt(session.FarmProgress*100)+"%";
+            _gold.text=session.Gold.ToString("N0");
+            string cadence=(session.ProductionSeconds!=settings.ProductionSeconds?"시연 ":"")+session.ProductionSeconds+"초마다 "+settings.ProductionGold+"골드";
+            _farm.text=!session.FarmPurchased?"농장 · "+settings.FarmCost+"골드":session.FarmComplete?"농장 · "+cadence:"농장 · 공사 "+Mathf.RoundToInt(session.FarmProgress*100)+"%";
             _house.text=!session.SecondHousePurchased?"다음 집 · 건설비 "+settings.HouseCost+"골드":"새 집 공사 · "+Mathf.RoundToInt(session.HouseProgress*100)+"%";
             _farmBar.rectTransform.anchorMax=new Vector2(.06f+.24f*session.FarmProgress,.71f);
             _houseBar.rectTransform.anchorMax=new Vector2(.06f+.24f*session.HouseProgress,.63f);
@@ -192,6 +213,6 @@ namespace Afterlife.Devlog.Day03
             _guide.gameObject.SetActive(guide&&!comparisonOnly&&!_buildMenu.activeSelf&&_placementTime<=0);
             _guide.text=(preview?"미리보기 · ":"")+"Ctrl/Shift 건설 · 클릭 배치 · 버튼 유지 채집/공사\nF8 직접 · F9 자동 · ←/→ 샷 이동 · Space 정지 · R 초기화 · H 안내";
         }
-        public void Dispose(){_harvestFeedback.IconArrived-=Reward;_harvestFeedback.Clear();if(_root!=null)Object.Destroy(_root);}
+        public void Dispose(){_harvestFeedback.Clear();if(_root!=null)Object.Destroy(_root);}
     }
 }

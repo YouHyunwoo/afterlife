@@ -28,4 +28,6 @@ Day01 전용이던 이름과 위치를 정리했다. 기존 생성기는 Day01�
 
 ## 검증
 
+Day03은 대본13샷/12문장·나레이션v1을 준비했다. `--day day-03`으로 생성하고 `--timing-only`로 기존 WAV 해시를 확인해 시간을 갱신한다. 편집 자료는 `python devlog/youtube/tools/prepare_editor_narration.py --day day-03 --name day03-narration-v2`처럼 새 이름으로 만든다. 상세 사용법과 실제 검증은 [Day03 기록](../../devlog/youtube/day-03/records/narration.md)을 따른다.
+
 `python.exe tools/tts/generate_narration.py --help`와 numpy·soundfile·onnxruntime·vendor 추론 모듈 import를 확인한다. 정리 작업은 새 음성을 생성하거나 기존 대본·음성·필름을 변경하지 않는다. 출처와 공개 표기는 [음원 크레딧](../../docs/audio-credits.md)을 따른다.

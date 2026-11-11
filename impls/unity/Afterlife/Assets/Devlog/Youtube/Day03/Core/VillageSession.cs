@@ -4,6 +4,7 @@ using Afterlife.Buildings;
 namespace Afterlife.Devlog.Day03
 {
     public enum VillageTarget { None, Resource, Farm, SecondHouse }
+    public enum VillageHarvestMode { Disabled, Filming, FreePlay }
     public interface IVillageGround
     {
         bool IsLand(int x,int z);
@@ -49,6 +50,7 @@ namespace Afterlife.Devlog.Day03
         public BuildingFootprint HouseFootprint { get; private set; }
         public System.Collections.Generic.IEnumerable<(int X,int Z)> Territory => _town.Tiles;
         public float ProductionProgress => _production.Progress;
+        public float ProductionSeconds { get; private set; }
         public bool FarmComplete => FarmPurchased && FarmProgress >= 1;
         public bool SecondHouseComplete => SecondHousePurchased && HouseProgress >= 1;
         public event Action<int> GoldProduced;
@@ -56,6 +58,7 @@ namespace Afterlife.Devlog.Day03
         public VillageSession(VillageRules rules,IVillageGround ground)
         {
             rules.Validate(); _rules = rules;_ground=ground??throw new ArgumentNullException(nameof(ground)); Gold = rules.StartingGold;
+            ProductionSeconds=rules.ProductionSeconds;
             _starterHouse=new BuildingFootprint(-1,0,rules.HouseWidth,rules.HouseDepth);
             RebuildTown();
         }
@@ -67,11 +70,20 @@ namespace Afterlife.Devlog.Day03
                 FarmPurchased=FarmPurchased,SecondHousePurchased=SecondHousePurchased,
                 FarmProgress=FarmProgress,HouseProgress=HouseProgress,
                 FarmFootprint=FarmFootprint,HouseFootprint=HouseFootprint,
-                _workCooldown=_workCooldown
+                _workCooldown=_workCooldown,ProductionSeconds=ProductionSeconds
             };
             copy._production.SetProgress(_production.Progress);
             copy.RebuildTown();
             return copy;
+        }
+        // A cadence change starts a full cycle without changing earned income or construction.
+        public void SetProductionSeconds(float seconds)
+        {
+            if(float.IsNaN(seconds)||float.IsInfinity(seconds)||seconds<=0)
+                throw new ArgumentOutOfRangeException(nameof(seconds));
+            if(ProductionSeconds==seconds)return;
+            ProductionSeconds=seconds;
+            _production.SetProgress(0);
         }
         private void RebuildTown()
         {
@@ -114,6 +126,9 @@ namespace Afterlife.Devlog.Day03
             return true;
         }
         public void Tick(float elapsed, VillageTarget target, bool held, bool allowHarvest)
+            =>Tick(elapsed,target,held,allowHarvest?VillageHarvestMode.Filming:VillageHarvestMode.Disabled);
+
+        public void Tick(float elapsed, VillageTarget target, bool held, VillageHarvestMode harvestMode)
         {
             if (float.IsNaN(elapsed) || float.IsInfinity(elapsed) || elapsed < 0)
                 throw new ArgumentOutOfRangeException(nameof(elapsed));
@@ -131,7 +146,7 @@ namespace Afterlife.Devlog.Day03
                     HouseProgress = Math.Min(1, HouseProgress + step * _town.ConstructionMultiplier(HouseFootprint) / _rules.HouseConstructionSeconds);
                     if (SecondHouseComplete) RebuildTown();
                 }
-                if (held && _workCooldown <= .0000001 && CanWork(target, allowHarvest))
+                if (held && _workCooldown <= .0000001 && CanWork(target, harvestMode))
                 {
                     _workCooldown = _rules.WorkInterval;
                     if (target == VillageTarget.Resource) { Gold++; HarvestIncome++; }
@@ -143,15 +158,16 @@ namespace Afterlife.Devlog.Day03
                     }
                     Worked?.Invoke(target);
                 }
-                if (farmWasComplete && _production.Advance(step, _rules.ProductionSeconds))
+                if (farmWasComplete && _production.Advance(step, ProductionSeconds))
                 {
                     _production.Complete(); Gold += _rules.ProductionGold; FarmIncome += _rules.ProductionGold;
                     GoldProduced?.Invoke(_rules.ProductionGold);
                 }
             }
         }
-        private bool CanWork(VillageTarget target, bool harvest) =>
-            target == VillageTarget.Resource ? harvest && !FarmPurchased && HarvestIncome < _rules.HarvestLimit :
+        private bool CanWork(VillageTarget target, VillageHarvestMode harvestMode) =>
+            target == VillageTarget.Resource ? harvestMode==VillageHarvestMode.FreePlay ||
+                harvestMode==VillageHarvestMode.Filming && !FarmPurchased && HarvestIncome < _rules.HarvestLimit :
             target == VillageTarget.Farm ? FarmPurchased && !FarmComplete :
             target == VillageTarget.SecondHouse && SecondHousePurchased && !SecondHouseComplete;
     }

@@ -22,6 +22,7 @@ namespace Afterlife.Devlog.Cinematics
         private readonly FilmNarration _music;
         private readonly FilmCue _musicCue;
         private readonly TextMeshProUGUI _heading;
+        private readonly CanvasGroup _headingGroup;
         private readonly FilmCredits _credits;
         private readonly bool _orthographic;
         private readonly float _size, _fov;
@@ -47,6 +48,8 @@ namespace Afterlife.Devlog.Cinematics
             var frame=new GameObject("VideoSafeFrame",typeof(RectTransform)); frame.transform.SetParent(_canvas.transform,false);
             _frame=frame.GetComponent<RectTransform>();
             _heading=CreateCaption("FilmHeading",frame.transform,film,new Vector2(.055f,.88f),new Vector2(.80f,.95f),28,TextAlignmentOptions.MidlineLeft);
+            _headingGroup=_heading.gameObject.AddComponent<CanvasGroup>();
+            _headingGroup.blocksRaycasts=false; _headingGroup.interactable=false;
             if(!string.IsNullOrWhiteSpace(film.NarrationDisclosure))
             {
                 var disclosure=CreateCaption("NarrationDisclosure",frame.transform,film,new Vector2(.55f,.94f),new Vector2(.95f,.985f),18,TextAlignmentOptions.MidlineRight);
@@ -105,6 +108,10 @@ namespace Afterlife.Devlog.Cinematics
                 _fadeEntryFrame=UnityEngine.Time.frameCount;
             }
             float local=(float)_clock.LocalTime;
+            // 같은 필름 시계로 제목과 게임 HUD를 동기화한다. 정지/탐색도 같은 값을 사용한다.
+            float hudAlpha=HudAlpha(index,shot,local);
+            _headingGroup.alpha=hudAlpha;
+            if(_view is IFilmHudView hud) hud.SetHudAlpha(hudAlpha);
             if (_view is IFilmLightingView lighting)
                 lighting.SetLightingBlend(shot.TransitionToNight ? Mathf.SmoothStep(0,1,Mathf.Clamp01((local-shot.NightTransitionStart)/Mathf.Max(.01f,shot.NightTransitionDuration))) : (shot.Night ? 1 : 0));
             _fade.color=new Color(0,0,0,FadeAlpha(shot,local));
@@ -148,6 +155,14 @@ namespace Afterlife.Devlog.Cinematics
             label.richText=false; label.raycastTarget=false; label.fontStyle=FontStyles.Bold;
             var rect=label.rectTransform; rect.anchorMin=min; rect.anchorMax=max; rect.offsetMin=rect.offsetMax=Vector2.zero;
             return label;
+        }
+        private float HudAlpha(int index,FilmShot shot,float local)
+        {
+            if(shot.ShowCredits)return 0;
+            float seconds=Mathf.Min(_film.CreditsHudFadeSeconds,shot.Duration);
+            bool nextIsCredits=index+1<_film.Shots.Length && _film.Shots[index+1].ShowCredits;
+            if(seconds<=0 || !nextIsCredits)return 1;
+            return 1-Mathf.SmoothStep(0,1,Mathf.Clamp01((local-(shot.Duration-seconds))/seconds));
         }
         private static float FadeAlpha(FilmShot shot,float local)
         {

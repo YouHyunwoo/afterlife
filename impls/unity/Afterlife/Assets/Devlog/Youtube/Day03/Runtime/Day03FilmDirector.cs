@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 namespace Afterlife.Devlog.Day03
 {
     [DefaultExecutionOrder(-100)]
-    public sealed class Day03FilmDirector : MonoBehaviour,IFilmStageView,IFilmLightingView
+    public sealed class Day03FilmDirector : MonoBehaviour,IFilmStageView,IFilmLightingView,IFilmHudView
     {
         public Day03Showcase View;
         public ShowcaseFilm Film;
@@ -71,6 +71,7 @@ namespace Afterlife.Devlog.Day03
             if(_restoreShot)View.RestoreShotStart(_index,_automatic);
             else View.EnterShot(_index,_automatic);
         }
+        public void SetHudAlpha(float alpha)=>View.SetHudAlpha(alpha);
         public void SetLightingBlend(float blend)=>View.SetLightingBlend(blend);
         public void EndFilm(){_waiting=false;View?.EndFilm();}
         private void OnDisable()=>StopFilm();

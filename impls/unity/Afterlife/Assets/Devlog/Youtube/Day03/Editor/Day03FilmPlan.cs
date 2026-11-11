@@ -36,8 +36,35 @@ namespace Afterlife.Devlog.Day03.Editor
             // Every shot holds its own pose; framing changes only at hard cuts.
             ApplyOnScreenText(film);
             ApplyCreditsBlur(film);
-            film.NarrationEnabled=false;film.BackgroundMusicEnabled=false;
-            film.CreditsText="AFTERLIFE\nDay03 · 마을 건설과 첫 자동 수입\n\n기획 · 개발 · 영상\n1인 개발 기록\n\n나레이션 · 음악 적용 전 리허설";
+            film.NarrationEnabled=false;
+            ApplyEndingAudio(film);
+            Day03NarrationAuthoring.ApplyPrepared(film);
+        }
+        // Copy episode-independent credit/music data only; keep Day03 shots, narration and camera poses.
+        public static void ApplyEndingAudio(ShowcaseFilm film)
+        {
+            if(film==null)throw new System.ArgumentNullException(nameof(film));
+            var source=AssetDatabase.LoadAssetAtPath<ShowcaseFilm>("Assets/Devlog/Youtube/Day02/Data/Day02Film.asset");
+            var credits=source?.Shots?.LastOrDefault(s=>s.ShowCredits);
+            if(source==null||source.BackgroundMusic==null||source.CreditsBlurShader==null||credits==null
+                ||string.IsNullOrWhiteSpace(source.CreditsText))
+                throw new System.InvalidOperationException("Day02 music/credits preset is missing.");
+            var target=film.Shots?.LastOrDefault(s=>s.ShowCredits);
+            if(target==null)throw new System.InvalidOperationException("Day03 credits shot is missing.");
+            film.BackgroundMusic=source.BackgroundMusic;
+            film.BackgroundMusicEnabled=true;
+            film.MusicVolume=source.MusicVolume;
+            film.CreditsMusicMultiplier=source.CreditsMusicMultiplier;
+            film.CreditsText=source.CreditsText;
+            film.CreditsScale=source.CreditsScale;
+            film.CreditsHudFadeSeconds=1;
+            film.CreditsBlurShader=source.CreditsBlurShader;
+            film.CreditsFadeSeconds=source.CreditsFadeSeconds;
+            film.CreditsDarkness=source.CreditsDarkness;
+            film.CreditsBlurRadius=source.CreditsBlurRadius;
+            film.NarrationDisclosure="";
+            target.FadeOut=credits.FadeOut;
+            target.FadeOutDuration=credits.FadeOutDuration;
         }
         public static void ApplyCreditsBlur(ShowcaseFilm film)
         {

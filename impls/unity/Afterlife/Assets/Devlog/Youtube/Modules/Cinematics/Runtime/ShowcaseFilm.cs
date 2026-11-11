@@ -60,6 +60,8 @@ namespace Afterlife.Devlog.Cinematics
         [Tooltip("크레딧에서 기본 배경음악 볼륨에 곱하는 배율. 진입 2초 동안 부드럽게 적용합니다.")]
         [Range(0,4)] public float CreditsMusicMultiplier=1.5f;
         public string NarrationDisclosure;
+        [Tooltip("크레딧 직전 샷의 끝에서 제목과 IFilmHudView HUD가 사라지는 시간. 0이면 기존 즉시 숨김을 유지합니다.")]
+        [Min(0)] public float CreditsHudFadeSeconds;
         public Shader CreditsBlurShader;
         [Min(.1f)] public float CreditsFadeSeconds=2;
         [Range(0,1)] public float CreditsDarkness=.38f;
@@ -74,6 +76,10 @@ namespace Afterlife.Devlog.Cinematics
         Vector3 Origin { get; }
         void EnterShot(FilmShot shot, bool reset);
         void EndFilm();
+    }
+    public interface IFilmHudView
+    {
+        void SetHudAlpha(float alpha);
     }
     public interface IFilmLightingView
     {
