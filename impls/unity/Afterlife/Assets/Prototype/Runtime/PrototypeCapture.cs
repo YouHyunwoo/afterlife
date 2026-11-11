@@ -34,6 +34,7 @@ namespace Afterlife.Prototype
             _captureUiInteractable = _gameplayGroup.interactable;
             _captureUiRaycasts = _gameplayGroup.blocksRaycasts;
             CaptureActive = true;
+            _model.SetLegacyFieldInteraction(true);
             _gameplayGroup.interactable = _gameplayGroup.blocksRaycasts = false;
             ResetCaptureTake();
             return true;
@@ -51,6 +52,7 @@ namespace Afterlife.Prototype
             _selectedBuildKind = null;
             _cameraVelocity = Vector3.zero;
             _uiRefresh = 0;
+            InitializeDivinePowerHud();
         }
 
         public void SetCapturePlayback(bool playing, bool allowInteraction)
@@ -73,6 +75,8 @@ namespace Afterlife.Prototype
             Time.timeScale = _captureTimeScale;
             AudioListener.pause = _captureListenerPaused;
             CaptureActive = CaptureInputAllowed = false;
+            _model.SetLegacyFieldInteraction(false);
+            InitializeDivinePowerHud();
             _captureExitFrame = Time.frameCount;
             _simulationTime = 0;
             _pressActive = _dragging = _orbiting = false;

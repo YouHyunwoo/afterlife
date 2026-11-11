@@ -53,6 +53,7 @@ namespace Afterlife.Prototype
         private void OnFlowScreenChanged(GameScreen screen)
         {
             bool playing = screen == GameScreen.Playing;
+            if (!playing) CancelPointerWork();
             _camera.enabled = playing;
             if (screen == GameScreen.Title || screen == GameScreen.Intro) _audio.enabled = false;
             _gameplayGroup.alpha = playing ? _originalGameplayAlpha : 0;

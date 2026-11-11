@@ -209,7 +209,7 @@ namespace Afterlife.Prototype
             AddResource(Kind.Tree,3,2);AddResource(Kind.Tree,4,2);AddResource(Kind.Rock,-4,3);
             SeedDiscoveries();SeedBiomes();
             for(int i=0;i<Rules.Resources.InitialNatureCount;i++)SpawnNature(i%6==0?Kind.Treasure:i%5==0?Kind.Animal:i%3==0?Kind.Rock:Kind.Tree,Rules.Resources.InitialNatureDistance);
-            InitializeResourceLimits();Recalculate();TopologyRevision++;Say("좌클릭으로 상호작용 필드를 설치하고 Ctrl/Shift를 눌러 건설합니다.");
+            InitializeResourceLimits();Recalculate();TopologyRevision++;Say("작업 대상을 좌클릭으로 누르고 있으면 계속 작업합니다. Ctrl/Shift를 눌러 건설합니다.");
         }
         private Body Add(Kind k,Point p,float hp)
         {var b=new Body{Id=++_nextId,Kind=k,Position=p,Rally=p,Destination=p,Health=hp,MaxHealth=hp};Bodies.Add(b);if(!b.Unit)_obstaclesDirty=true;return b;}
@@ -225,8 +225,8 @@ namespace Afterlife.Prototype
         public void UpdatePointer(Point point,bool reveal,bool contribute)
         {WorkCenter=point;PointerVisible=reveal;Working=contribute&&!Frozen&&Mode==InputMode.Work;}
         public void SetMode(InputMode mode,Kind kind=Kind.House)
-        {if(Frozen)return;Mode=mode;BuildKind=kind;Selected.Clear();}
-        public void ClearMode() {Mode=InputMode.Work;Selected.Clear();}
+        {if(Frozen)return;CancelManualWork();Mode=mode;BuildKind=kind;Selected.Clear();}
+        public void ClearMode() {CancelManualWork();Mode=InputMode.Work;Selected.Clear();}
         public void Select(IEnumerable<int> ids)
         {Selected.Clear();foreach(int id in ids){var b=Find(id);if(b!=null&&b.Friendly&&Visibility(b.Position)>.15f)Selected.Add(id);}Mode=InputMode.Work;if(Selected.Count>0)Sound(SoundCue.Select);}
         public void SelectBarracks(int id){var b=Find(id);if(b!=null&&IsProductionBuilding(b.Kind)&&b.Complete)SelectedBarracks=id;}
@@ -319,11 +319,14 @@ namespace Afterlife.Prototype
         {
             if(Frozen||dt<=0||float.IsNaN(dt)||float.IsInfinity(dt))return;
             float productionElapsed=dt;dt=Math.Min(dt,.05f);
-            if(_manualWorkElapsed<float.MaxValue)_manualWorkElapsed+=dt;
+            TickManualWork(dt);
             _combatTime+=dt;TickProgression(dt);_pathBudget=3; UpdateEchoes(dt);ProcessConstruction(dt);
-            UpdateDivineFieldTargets();
-            if(Settings.MvpSlots)FieldSlots.Tick(dt);
-            DivineFields.Tick(dt,Interval);
+            if(!UsesHoldInteraction)
+            {
+                UpdateDivineFieldTargets();
+                if(Settings.MvpSlots)FieldSlots.Tick(dt);
+                DivineFields.Tick(dt,Interval);
+            }
             if(MergeBuildings())RebuildTowns();TickBuildingProduction(productionElapsed);UpdateTactics(dt);ProcessUnits(dt);ProcessTowers(dt);ProcessProjectiles(dt);ProcessBurns(dt);ProcessExploration(dt);ProcessResourceRegrowth(dt*ProductionSpeed);Cleanup();
             if(!Bodies.Any(b=>b.Alive&&IsHousing(b.Kind))){End(Phase.Defeat);return;}
             Remaining=Math.Max(0,Remaining-dt);

@@ -48,7 +48,7 @@ namespace Afterlife.Prototype
 
         private FieldPlacementResult PlaceDivineField(Point center, int targetId)
         {
-            if (Frozen || Mode != InputMode.Work || float.IsNaN(center.X) || float.IsNaN(center.Z) ||
+            if (UsesHoldInteraction || Frozen || Mode != InputMode.Work || float.IsNaN(center.X) || float.IsNaN(center.Z) ||
                 float.IsInfinity(center.X) || float.IsInfinity(center.Z) ||
                 System.Math.Abs(center.X) >= Settings.MapRadius || System.Math.Abs(center.Z) >= Settings.MapRadius ||
                 Terrain.At(center) == TerrainKind.Water || Visibility(center) <= .12f)
@@ -98,7 +98,7 @@ namespace Afterlife.Prototype
         public bool CanDivineFieldInteract(int id)
         {
             var body = Find(id);
-            return !Frozen && Mode == InputMode.Work && body != null && body.Alive && Visibility(body.Position) > .12f;
+            return !UsesHoldInteraction && !Frozen && Mode == InputMode.Work && body != null && body.Alive && Visibility(body.Position) > .12f;
         }
     }
 }

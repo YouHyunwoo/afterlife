@@ -50,6 +50,7 @@
   <Project Path="Afterlife.HarvestFeedback.Unity.csproj" />
   <Project Path="Afterlife.RechargeSlots.csproj" />
   <Project Path="Afterlife.Vegetation.csproj" />
+  <Project Path="Afterlife.HoldInteraction.csproj" />
   <Project Path="Afterlife.Water.csproj" />
   <Project Path="Afterlife.Lighting.csproj" />
   <Project Path="Afterlife.UnitySupport.csproj" />

@@ -47,6 +47,10 @@ namespace Afterlife.Prototype
             _hasVisionBlurFocus = false;
         }
 
-        private void OnDisable() => DisposeVisionBlur();
+        private void OnDisable()
+        {
+            CancelPointerWork();
+            DisposeVisionBlur();
+        }
     }
 }

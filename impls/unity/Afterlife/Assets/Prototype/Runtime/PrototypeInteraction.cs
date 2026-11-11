@@ -49,7 +49,8 @@ namespace Afterlife.Prototype
         private bool _buildingSightReady;
         private Vector2 _pressScreen;
         private Point _pressWorld;
-        private bool _pressActive, _commandDrag, _dragging;
+        private bool _pressActive, _dragging;
+        private bool _pointerNeedsRelease;
         private int _pressBody;
         private readonly Dictionary<int,LineRenderer> _selectedRings=new Dictionary<int,LineRenderer>();
         [SerializeField] private LineRenderer _commandLine, _arrowHead;
@@ -111,7 +112,7 @@ namespace Afterlife.Prototype
             if(_model.Mode==next)return;
             _model.SetMode(next,_selectedBuildKind??Kind.House);
             if(build)_inspected=0;
-            _pressActive=false;_dragging=false;_buildingDrag=false;_commandDrag=false;
+            _pressActive=false;_dragging=false;
         }
         private void UpdateCamera(Vector2 screen,bool blocked,bool edgeHeld=false)
         {
@@ -177,6 +178,8 @@ namespace Afterlife.Prototype
         private void Update()
         {
             if(!_ready)return;Resize();
+            // 충전량은 유지하고 이번 프레임의 입력 허용 여부만 다시 판정한다.
+            _model.CancelManualWork();
             if(_gameFlow==null||!_gameFlow.IsPlaying){_tileHover?.SetPaused(true);_audio?.TickEnvironment(false,false);return;}
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             if(Keyboard.current!=null&&Keyboard.current.f4Key.wasPressedThisFrame)_showDebugPanel=!_showDebugPanel;
@@ -214,7 +217,12 @@ namespace Afterlife.Prototype
                     UpdateCamera(screen,blocked,mouse.rightButton.isPressed&&!mouse.rightButton.wasPressedThisFrame);
                 }
                 bool cameraGesture=!CaptureOwnsInput&&(mouse.rightButton.isPressed||mouse.middleButton.isPressed);
-                if(cameraGesture){_pressActive=false;_dragging=false;}
+                if(Application.isFocused&&!mouse.leftButton.isPressed)_pointerNeedsRelease=false;
+                if(blocked||cameraGesture)
+                {
+                    if(mouse.leftButton.isPressed)_pointerNeedsRelease=true;
+                    _pressActive=false;_dragging=false;
+                }
                 _pointerValid=MouseWorld(screen,out _pointer);
                 _model.UpdatePointer(_pointer,_pointerValid&&!blocked,false);
                 if(!blocked&&_pointerValid)
@@ -236,23 +244,24 @@ namespace Afterlife.Prototype
                     if(_model.Mode==InputMode.Build)_hovered=0;
                     if(!CaptureOwnsInput&&mouse.rightButton.wasPressedThisFrame&&_model.Mode==InputMode.Work)
                         InspectBody(_hovered);
-                    if(mouse.leftButton.wasPressedThisFrame&&!cameraGesture)
+                    if(mouse.leftButton.wasPressedThisFrame&&!cameraGesture&&!_pointerNeedsRelease)
                     {
                         bool inVillage=_model.Territory.Contains(VillageModel.TileKey(Mathf.RoundToInt(_pointer.X),Mathf.RoundToInt(_pointer.Z)));
                         if(_model.Mode==InputMode.Work||inVillage||_selectedBuildKind==Kind.House)
                         {
                             _pressActive=true;_dragging=false;_pressScreen=screen;_pressWorld=_pointer;_pressBody=_hovered;
-                            _commandDrag=_model.Mode==InputMode.Work&&_model.Selected.Contains(_hovered);
-                            var pressed=_model.Find(_hovered);
-                            _buildingDrag=_model.Mode==InputMode.Work&&pressed!=null&&pressed.Building&&pressed.Complete&&!pressed.MovingOut;
-                            if(_commandDrag)_pressWorld=pressed.Position;
+                            // 한 프레임 안에 눌렀다 놓아도 완충 첫 입력은 1회 처리한다.
+                            if(!CaptureOwnsInput&&_model.Mode==InputMode.Work)_model.UpdateManualWorkInput(_hovered,true);
                         }
                     }
                 }
                 if(_pressActive&&mouse.leftButton.isPressed)
                 {
-                    _dragging|=Vector2.Distance(screen,_pressScreen)>8;
+                    // 일반 작업은 커서 이동으로 대상만 전환한다. 건설 클릭/기존 촬영 입력만 이동을 판정한다.
+                    if(CaptureOwnsInput||_model.Mode==InputMode.Build)_dragging|=Vector2.Distance(screen,_pressScreen)>8;
                     _model.UpdatePointer(_pointer,_pointerValid&&!blocked,false);
+                    if(!CaptureOwnsInput&&!blocked&&!cameraGesture&&_pointerValid&&_model.Mode==InputMode.Work)
+                        _model.UpdateManualWorkInput(_hovered,true);
                 }
                 if(_pressActive&&mouse.leftButton.wasReleasedThisFrame)
                 {
@@ -261,7 +270,7 @@ namespace Afterlife.Prototype
                 }
                 if(blocked&&!mouse.leftButton.isPressed)_pressActive=false;
             }
-            else {_orbiting=false;_cameraVelocity=Vector3.zero;_model.UpdatePointer(default,false,false);}
+            else {_pressActive=_dragging=_orbiting=false;_cameraVelocity=Vector3.zero;_model.UpdatePointer(default,false,false);}
             if (!CaptureOwnsInput) UpdateProgressionInput();
             // 모달별 PauseGameplay 정책을 따른다.
             _simulationTime+=IsGameplayPausedByModal()||(CaptureActive&&!CaptureInputAllowed)?0:Time.deltaTime;
@@ -274,6 +283,16 @@ namespace Afterlife.Prototype
             Sync(); UpdatePresentation(); UpdateNightCleanupMarkers();
             UnityEngine.Profiling.Profiler.EndSample();_syncMilliseconds=(float)_cpuWatch.Elapsed.TotalMilliseconds;
             CompletePendingRun();
+        }
+        private void CancelPointerWork()
+        {
+            _pressActive=_dragging=false;
+            _pointerNeedsRelease=true;
+            _model?.CancelManualWork();
+        }
+        private void OnApplicationFocus(bool focused)
+        {
+            if(!focused)CancelPointerWork();
         }
         private void ReleasePointer(Vector2 screen)
         {
@@ -294,20 +313,8 @@ namespace Afterlife.Prototype
                     _model.Place(_selectedBuildKind.Value,x,z);
                 return;
             }
-            if(_dragging&&_buildingDrag){_model.BeginRelocation(_pressBody,Mathf.RoundToInt(_pointer.X),Mathf.RoundToInt(_pointer.Z));return;}
-            if(_dragging&&_commandDrag){_model.AttackMove(_pointer);return;}
-            if(_dragging)
-            {
-                var rect=Rect.MinMaxRect(Mathf.Min(_pressScreen.x,screen.x),Mathf.Min(_pressScreen.y,screen.y),Mathf.Max(_pressScreen.x,screen.x),Mathf.Max(_pressScreen.y,screen.y));
-                _model.Select(_model.Bodies.Where(b=>b.Friendly&&_model.Visibility(b.Position)>.12f).Where(b=>
-                {var p=_camera.WorldToViewportPoint(GroundPosition(b.Position,.3f));return p.z>0&&rect.Contains(new Vector2(p.x*Screen.width,p.y*Screen.height));}).Select(b=>b.Id));return;
-            }
-            if(_pressBody==0)
-            {
-                _model.PlaceDivineField(_pressWorld);
-                return;
-            }
-            _model.PlaceDivineFieldOnTarget(_pressBody);
+            // 작업은 버튼 유지 중 모델 틱에서 실행한다. 해제 시 추가 작업/필드/드래그 명령 없음.
+            _model.CancelManualWork();
         }
         private void InspectBody(int id)
         {
@@ -485,7 +492,7 @@ namespace Afterlife.Prototype
             }
             RefreshConnections();_previousHovered=_hovered;
             _workRing.enabled=false;
-            if(_model.PointerVisible&&_modal==Modal.None&&_model.Mode==InputMode.Work&&!_pressActive&&!_dragging&&!_tileBuildMenu&&
+            if(!_model.UsesHoldInteraction&&_model.PointerVisible&&_modal==Modal.None&&_model.Mode==InputMode.Work&&!_pressActive&&!_dragging&&!_tileBuildMenu&&
                 _pointerValid)
             {
                 bool affordable=_model.CanPlaceField&&_model.Terrain.At(_pointer)!=TerrainKind.Water;
@@ -512,10 +519,6 @@ namespace Afterlife.Prototype
                 Box(_preview,new Point(x+(stats.Width-1)*.5f,z+(stats.Depth-1)*.5f),stats.Width,stats.Depth);
                 Tint(_preview,_model.PlacementError(_selectedBuildKind.Value,x,z)==null?_cyan:Color.red);
             }
-            if(_pressActive&&_buildingDrag&&_dragging&&_pointerValid)
-            {
-                var moving=_model.Find(_pressBody);if(moving!=null){int x=Mathf.RoundToInt(_pointer.X),z=Mathf.RoundToInt(_pointer.Z);Box(_preview,new Point(x+(moving.Width-1)*.5f,z+(moving.Depth-1)*.5f),moving.Width,moving.Depth);Tint(_preview,_model.MoveError(moving,x,z)==null?_cyan:Color.red);}
-            }
             _rally.enabled=false;var inspected=_model.Find(_inspected);
             if(inspected!=null&&inspected.Building){Box(_rally,inspected.Position,inspected.Width+.15f,inspected.Depth+.15f);}
             foreach(var pair in _selectedRings)pair.Value.enabled=false;
@@ -525,13 +528,7 @@ namespace Afterlife.Prototype
                 if(!_selectedRings.TryGetValue(id,out var ring)){ring=Line("Selected troop",new Color(.4f,.8f,1),.05f);_selectedRings.Add(id,ring);}Circle(ring,unit.Position,.4f);
             }
             UpdateDivineFieldVisuals();
-            _commandLine.enabled=_arrowHead.enabled=_pressActive&&_dragging&&_commandDrag&&_pointerValid&&_modal==Modal.None;
-            if(_commandLine.enabled)
-            {
-                _commandLine.positionCount=2;_commandLine.SetPositions(new[]{GroundPosition(_pressWorld,.2f),GroundPosition(_pointer,.2f)});
-                Vector3 end=GroundPosition(_pointer,.2f),dir=(end-GroundPosition(_pressWorld,.2f)).normalized,side=Vector3.Cross(dir,Vector3.up)*.3f;
-                _arrowHead.positionCount=3;_arrowHead.SetPositions(new[]{end-dir*.6f+side,end,end-dir*.6f-side});
-            }
+            _commandLine.enabled=_arrowHead.enabled=false;
         }
         private void OnDestroy()
         {

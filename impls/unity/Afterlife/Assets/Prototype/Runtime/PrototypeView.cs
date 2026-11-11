@@ -28,7 +28,7 @@ namespace Afterlife.Prototype
         private float _simulationTime;
         private int _hovered, _inspected, _screenWidth, _screenHeight;
         private Point _pointer;
-        private string _notice = "좌클릭으로 상호작용 필드를 설치하고 Ctrl/Shift를 눌러 건설합니다.";
+        private string _notice = "작업 대상을 좌클릭으로 누르고 있으면 계속 작업합니다. Ctrl/Shift를 눌러 건설합니다.";
         private readonly Color _cream = new Color(.93f,.88f,.72f);
         private readonly Color _cyan = new Color(.34f,.96f,.85f);
         private readonly Color _gold = new Color(1,.78f,.25f);

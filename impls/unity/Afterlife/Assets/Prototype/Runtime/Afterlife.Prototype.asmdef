@@ -18,6 +18,7 @@
     "Afterlife.Wind",
     "Afterlife.Hover",
     "Afterlife.Interaction",
+    "Afterlife.HoldInteraction",
     "Afterlife.DamageMarks",
     "Afterlife.Destruction",
     "Afterlife.Flow",

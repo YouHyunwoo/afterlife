@@ -348,7 +348,7 @@ namespace Afterlife.Prototype
                     }
                     else tip+=$"\n체력 {body.Health:0}/{body.MaxHealth:0}";
                     if(body.SpiritShield>0)tip+=$"\n영혼 보호막 {body.SpiritShield:0}";
-                    if(body.Building)tip+=$"\n건설 {body.Construction*100:0}% · 클릭 관리 / 드래그 이전";
+                    if(body.Building)tip+=$"\n건설 {body.Construction*100:0}% · 좌버튼 유지 작업 / 우클릭 정보";
                     if(body.Building&&body.Complete&&_model.IsProductionBuilding(body.Kind))tip+=$"\n자동 생산 · 남은 시간 {_model.ProductionRemaining(body.Id):0.0}초";
                     if(VillageModel.IsTower(body.Kind))tip+=$"\n피해 {_model.TowerDamage(body):0.#} · 범위 {_model.TowerRange(body):0.#}";
                 }
@@ -371,8 +371,7 @@ namespace Afterlife.Prototype
                 float y=Mathf.Clamp(p.y-20,Mathf.Min(canvas.rect.yMax,canvas.rect.yMin+bounds.size.y),canvas.rect.yMax);
                 ui.Tooltip.position+=canvas.TransformVector(new Vector3(x-bounds.min.x,y-bounds.max.y,0));
             }
-            bool selection=_pressActive&&_dragging&&!_commandDrag&&!_buildingDrag;ui.Selection.gameObject.SetActive(selection);
-            if(selection){var canvas=(RectTransform)ui.transform;RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas,_pressScreen,null,out var a);RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas,mouse,null,out var b);ui.Selection.anchoredPosition=new Vector2(Mathf.Min(a.x,b.x),Mathf.Max(a.y,b.y));ui.Selection.sizeDelta=new Vector2(Mathf.Abs(a.x-b.x),Mathf.Abs(a.y-b.y));}
+            ui.Selection.gameObject.SetActive(false);
             int index=0;foreach(var amount in _amounts)
             {
                 float t=(_effectTime-amount.Born)/1.05f;if(t<0||t>=1||_model.Visibility(new Point(amount.Position.x,amount.Position.z))<=0)continue;var p=_camera.WorldToViewportPoint(amount.Position);if(p.z<=0||index>=ui.Amounts.Length)continue;

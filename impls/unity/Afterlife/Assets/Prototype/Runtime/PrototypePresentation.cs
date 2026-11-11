@@ -31,36 +31,6 @@ namespace Afterlife.Prototype
         private readonly List<int> _expiredReactions=new List<int>();
         private Texture2D _terrainTiles;
         private float _effectTime;
-        private int _pendingManualId;
-        private float _manualStart;
-        private void BeginManualWork(Body body)
-        {
-            if(_pendingManualId!=0 || !_model.TryBeginManualWork(body.Id))return;
-            _pendingManualId=body.Id;_manualStart=_effectTime;
-            var tool=GetTool(body);
-            var mouse=UnityEngine.InputSystem.Mouse.current;
-            if(mouse!=null)
-            {
-                Vector2 screen=mouse.position.ReadValue();
-                var ray=_camera.ViewportPointToRay(new Vector3(screen.x/Screen.width,screen.y/Screen.height,0));
-                if(TryResourceSurface(body.Id,ray,out var surface,out float distance))
-                {
-                    tool.ManualSurface=surface;
-                    tool.ManualLocalPoint=surface.transform.InverseTransformPoint(ray.GetPoint(distance));
-                    tool.ManualLocalNormal=surface.transform.localToWorldMatrix.transpose.MultiplyVector(surface.HitNormal).normalized;
-                }
-            }
-        }
-        private void UpdateManualWork()
-        {
-            if(_pendingManualId==0)return;
-            if(_modal!=Modal.None || !Application.isFocused){_model.CancelManualWork();_pendingManualId=0;return;}
-            var body=_model.Find(_pendingManualId);
-            if(body==null || !_model.CanManualWork(body.Id)){_model.CancelManualWork();_pendingManualId=0;return;}
-            float age=_effectTime-_manualStart;
-            if(age>=.12f){int id=_pendingManualId;_pendingManualId=0;_model.ManualWork(id);return;}
-            var tool=GetTool(body);tool.Used=true;PoseTool(tool,body.Position,age/.12f);
-        }
 
         private void InitializePresentation()
         {
@@ -126,7 +96,7 @@ namespace Afterlife.Prototype
         private void OnContributed(Body body)
         {
             // 모델의 자원/체력 변경 이벤트와 타격 포즈를 같은 틱에 적용한다.
-            var tool=GetTool(body);tool.Impact=_effectTime;tool.ContactPending=true;tool.Used=true;PoseTool(tool,body.Position,1);HitSnow(tool);AddResourceMark(tool);EmitImpactChips(tool);
+            var tool=GetTool(body);CaptureManualWorkSurface(tool,body.Id);tool.Impact=_effectTime;tool.ContactPending=true;tool.Used=true;PoseTool(tool,body.Position,1);HitSnow(tool);AddResourceMark(tool);EmitImpactChips(tool);
             Quaternion rest=_reactions.TryGetValue(body.Id,out var previousReaction)?previousReaction.Rotation:
                 (_objects.TryGetValue(body.Id,out var target)?target.transform.rotation:Quaternion.identity);
             Vector3 away=Vector3.ProjectOnPlane(GroundPosition(body.Position)-tool.HitPosition,Vector3.up).normalized;
@@ -134,6 +104,17 @@ namespace Afterlife.Prototype
             if(body.Kind==Kind.Chest)away=tool.ClickAway;
             if(away.sqrMagnitude<.001f)away=Vector3.forward;
             _reactions[body.Id]=new Reaction{Damage=body.Hostile||body.Kind==Kind.Animal,Time=_effectTime,Kind=body.Kind,Position=GroundPosition(body.Position),Away=away,Rotation=rest};
+        }
+        private void CaptureManualWorkSurface(ToolEffect tool,int id)
+        {
+            var mouse=UnityEngine.InputSystem.Mouse.current;
+            if(!_model.UsesHoldInteraction||mouse==null)return;
+            Vector2 screen=mouse.position.ReadValue();
+            var ray=_camera.ViewportPointToRay(new Vector3(screen.x/Screen.width,screen.y/Screen.height,0));
+            if(!TryResourceSurface(id,ray,out var surface,out float distance))return;
+            tool.ManualSurface=surface;
+            tool.ManualLocalPoint=surface.transform.InverseTransformPoint(ray.GetPoint(distance));
+            tool.ManualLocalNormal=surface.transform.localToWorldMatrix.transpose.MultiplyVector(surface.HitNormal).normalized;
         }
         private void OnDamaged(Body body)
         {
@@ -155,6 +136,15 @@ namespace Afterlife.Prototype
             Shader.SetGlobalColor("_CursorColor",_cyan);
             Vector3 forward=_camera.transform.forward;Shader.SetGlobalFloat("_CursorAngle",Mathf.Atan2(forward.x,forward.z));
             foreach(var tool in _tools)tool.Used=false;
+            if(!IsGameplayPausedByModal()&&_modal==Modal.None&&_model.CanManualWork(_model.ManualWorkTarget))
+            {
+                float until=_model.ManualWorkCooldownRemaining;
+                if(until>0&&until<.12f)
+                {
+                    var body=_model.Find(_model.ManualWorkTarget);
+                    var tool=GetTool(body);CaptureManualWorkSurface(tool,body.Id);tool.Used=true;PoseTool(tool,body.Position,1-until/.12f);
+                }
+            }
             if(!IsGameplayPausedByModal())foreach(var field in _model.DivineFields.Fields)
             {
                 float until=field.TimeUntilPulse(_model.Interval);
@@ -226,7 +216,7 @@ namespace Afterlife.Prototype
         }
         private void ResetPresentation()
         {
-            ResetHouseSmoke();ResetResourceDestruction();ResetSnow();ResetImpactChips();_pendingManualId=0;_model.CancelManualWork();ResetResourceSurfaces();ResetHover();ResetVegetation();ResetGoldFeedback();ResetContentEffects();ResetGrowthEffects();_reactions.Clear();foreach(var tool in _tools){tool.Body=0;tool.Root.SetActive(false);}
+            ResetHouseSmoke();ResetResourceDestruction();ResetSnow();ResetImpactChips();_model.CancelManualWork();ResetResourceSurfaces();ResetHover();ResetVegetation();ResetGoldFeedback();ResetContentEffects();ResetGrowthEffects();_reactions.Clear();foreach(var tool in _tools){tool.Body=0;tool.Root.SetActive(false);}
             _renderCache.Clear();_lightCache.Clear();_modelPositions.Clear();_displayPositions.Clear();_fogTerritoryRevision=-1;
         }
         private void UploadTerrainTiles()

@@ -1,0 +1,7 @@
+{
+  "name": "Afterlife.HoldInteraction",
+  "rootNamespace": "Afterlife.Modules.HoldInteraction",
+  "references": [],
+  "autoReferenced": false,
+  "noEngineReferences": true
+}

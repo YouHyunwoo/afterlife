@@ -9,7 +9,6 @@ namespace Afterlife.Prototype
         private readonly Dictionary<int,int> _connectionMasks=new Dictionary<int,int>();
         private readonly Dictionary<int,PrototypeAnimalRig> _animals=new Dictionary<int,PrototypeAnimalRig>();
         private readonly RaycastHit[] _arrowHits=new RaycastHit[64];
-        private bool _buildingDrag;
         private Vector2 _buildScroll;
         private float ToolsBottom=>Mathf.Min(626,HudHeight-96);
         private bool ArrowBlocked(Body source,Body target)
