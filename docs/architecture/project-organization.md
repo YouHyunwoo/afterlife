@@ -89,7 +89,21 @@ Unity의 용도 없는 빈 폴더8개는 AssetDatabase로 제거했다. 제거 �
 
 ## 후속 작업 목록 · 2026-10-07
 
+- [x] 폴더 이전 뒤 남은 셰이더/HLSL include 경로 확인
+- [x] 공용 모듈·프로토타입 셰이더의 이전 경로 수정
+- [x] include 대상 확인·Unity 임포트 반영·수정/사용자 확인 기록
+
 - [x] 배포 보관소를 D:/area/archives/Afterlife/releases로 설정하고 Windows64 ZIP4개를 해시 검증해 이전
 - [x] 복구 자료는 외부 backups에 보관하고 프로젝트 local-backups와 재생성 가능한 캐시 제거
 - [x] Legacy CS0649 경고9개 원인 정리와 주입/비활성 카메라 코드 수정
 - [x] 관련 C# 컴파일·운영 문서 갱신·목적별 커밋
+
+## 셰이더 include 경로 복구 · 2026-10-07
+
+Grass.shader가 이전 `Assets/Afterlife/Modules/Vegetation/Shaders/GrassPass.hlsl`을 참조해 임포트 오류가 발생했다. 폴더 이동은 GUID를 유지하지만 셰이더/HLSL의 문자열 include 경로는 자동으로 변경되지 않는다.
+
+Modules/Prototype의21파일·47참조를 `Assets/Modules/`, `Assets/Prototype/`로 갱신했다. GrassPass의 Lighting/Wind/Dissolve 의존성과 LeafCards/Water/Smoke/HoverDust/ShowcaseSurface 및 프로토타입 표현도 같은 원인을 수정했다. 렌더링 계산·셰이더 이름·재질 참조·.meta는 직접 변경하지 않았다. 기존 모듈/프리팹을 그대로 사용하며 추가 설치나 별도 기능 모듈은 없다.
+
+프로젝트 경로로 선언된 include47개가 실제 파일로 연결되고 누락0개다. 열린 Unity 에디터에 소스를 임포트한 뒤19셰이더의 저장된 임포트 진단을 읽어 오류0개·Play=false를 확인했다. C# 변경은 없으며 dotnet은 HLSL을 컴파일하지 않으므로 이 수정의 셰이더 검증으로 사용하지 않았다. Play/Test Runner·실제 GPU 화면 테스트는 수행하지 않았다. [변경/확인 기록](shader-include-path-fix.json).
+
+사용자는 Day03과 본편 씬에서 풀이 정상 색으로 표시되고 물/나뭇잎/표면에 분홍 오류 재질이 없는지 확인한다. 새 include 오류가 Console에 나타나지 않아야 한다. 다음 폴더 이동에서는 GUID 보존과 함께 .shader/.hlsl/.cginc의 include 문자열도 검색해 갱신한다.

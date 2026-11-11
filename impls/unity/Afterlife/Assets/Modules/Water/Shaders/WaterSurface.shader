@@ -36,7 +36,7 @@ Shader "Afterlife/Water/WaterSurface"
             #pragma target 3.5
             #pragma vertex Vert
             #pragma fragment Frag
-            #include "Assets/Afterlife/Modules/Water/Shaders/WaterSurfacePass.hlsl"
+            #include "Assets/Modules/Water/Shaders/WaterSurfacePass.hlsl"
             ENDHLSL
         }
     }

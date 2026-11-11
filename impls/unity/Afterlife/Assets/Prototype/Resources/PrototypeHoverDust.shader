@@ -11,9 +11,9 @@ Shader "Afterlife/Prototype/HoverDust"
             #pragma vertex Vert
             #pragma fragment Frag
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-            #include "Assets/_AfterlifePrototype/Shaders/PrototypeVegetationLighting.hlsl"
+            #include "Assets/Prototype/Shaders/PrototypeVegetationLighting.hlsl"
             #define HOVER_DUST_LIGHTING(color,world) PrototypeVegetationOutput(color,world).rgb
-            #include "Assets/Afterlife/Modules/Hover/Shaders/HoverDustPass.hlsl"
+            #include "Assets/Modules/Hover/Shaders/HoverDustPass.hlsl"
             ENDHLSL
         }
     }

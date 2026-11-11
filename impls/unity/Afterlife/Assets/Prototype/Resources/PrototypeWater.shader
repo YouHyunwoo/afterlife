@@ -36,10 +36,10 @@ Shader "Afterlife/Prototype/CoastalWater"
             #pragma vertex Vert
             #pragma fragment Frag
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-            #include "Assets/_AfterlifePrototype/Shaders/PrototypeWaterLighting.hlsl"
+            #include "Assets/Prototype/Shaders/PrototypeWaterLighting.hlsl"
             #define WATER_LIGHTING(color,world) (color)
             #define WATER_OUTPUT(color,opacity,world) PrototypeWaterOutput(color,opacity,world)
-            #include "Assets/Afterlife/Modules/Water/Shaders/WaterSurfacePass.hlsl"
+            #include "Assets/Modules/Water/Shaders/WaterSurfacePass.hlsl"
             ENDHLSL
         }
     }

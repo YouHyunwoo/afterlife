@@ -9,8 +9,8 @@
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareOpaqueTexture.hlsl"
-            #include "Assets/Afterlife/Modules/Lighting/Shaders/SurfaceLighting.hlsl"
-            #include "Assets/Afterlife/Modules/Hover/Shaders/HoverEffects.hlsl"
+            #include "Assets/Modules/Lighting/Shaders/SurfaceLighting.hlsl"
+            #include "Assets/Modules/Hover/Shaders/HoverEffects.hlsl"
             CBUFFER_START(UnityPerMaterial)
                 half4 _ShallowColor, _DeepColor, _FoamColor, _LowerFoamColor;
                 float _UpperFoamSeed, _LowerFoamSeed, _RippleDistortion, _HoverRipples;

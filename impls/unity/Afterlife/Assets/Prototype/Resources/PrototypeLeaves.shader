@@ -16,10 +16,10 @@ Shader "Afterlife/Prototype/Leaves"
    #pragma vertex Vert
    #pragma fragment Frag
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-            #include "Assets/_AfterlifePrototype/Shaders/PrototypeVegetationLighting.hlsl"
+            #include "Assets/Prototype/Shaders/PrototypeVegetationLighting.hlsl"
             #define VEGETATION_OUTPUT(color,world) PrototypeVegetationOutput(color,world)
             #define VEGETATION_SHADE(color,normal,world) PrototypeVegetationShade(color,normal)
-            #include "Assets/Afterlife/Modules/Vegetation/Shaders/LeafCardsPass.hlsl"
+            #include "Assets/Modules/Vegetation/Shaders/LeafCardsPass.hlsl"
             ENDHLSL
   }
  }

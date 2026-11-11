@@ -5,10 +5,10 @@
 #endif
    #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
    #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
-   #include "Assets/Afterlife/Modules/Lighting/Shaders/SurfaceLighting.hlsl"
-   #include "Assets/Afterlife/Modules/Wind/Shaders/WindField.hlsl"
-   #include "Assets/Afterlife/Modules/Snow/Shaders/SnowErosion.hlsl"
-   #include "Assets/Afterlife/Modules/Destruction/Shaders/Dissolve.hlsl"
+   #include "Assets/Modules/Lighting/Shaders/SurfaceLighting.hlsl"
+   #include "Assets/Modules/Wind/Shaders/WindField.hlsl"
+   #include "Assets/Modules/Snow/Shaders/SnowErosion.hlsl"
+   #include "Assets/Modules/Destruction/Shaders/Dissolve.hlsl"
    CBUFFER_START(UnityPerMaterial)
    half4 _BaseColor;
    float _Hover, _Flash, _LeafRotationVariation;

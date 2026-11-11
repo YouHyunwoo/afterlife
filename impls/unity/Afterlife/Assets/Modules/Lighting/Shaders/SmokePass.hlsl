@@ -2,7 +2,7 @@
 #define AFTERLIFE_SMOKE_PASS
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #ifndef AFTERLIFE_SMOKE_COLOR
-            #include "Assets/Afterlife/Modules/Lighting/Shaders/SurfaceLighting.hlsl"
+            #include "Assets/Modules/Lighting/Shaders/SurfaceLighting.hlsl"
             #define AFTERLIFE_SMOKE_COLOR(color,world) SurfaceLighting(color,world)
             #endif
             CBUFFER_START(UnityPerMaterial)

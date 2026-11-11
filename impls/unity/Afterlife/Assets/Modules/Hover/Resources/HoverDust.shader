@@ -11,8 +11,8 @@ Shader "Afterlife/Hover/HoverDust"
             #pragma vertex Vert
             #pragma fragment Frag
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-            #include "Assets/Afterlife/Modules/Lighting/Shaders/SurfaceLighting.hlsl"
-            #include "Assets/Afterlife/Modules/Hover/Shaders/HoverDustPass.hlsl"
+            #include "Assets/Modules/Lighting/Shaders/SurfaceLighting.hlsl"
+            #include "Assets/Modules/Hover/Shaders/HoverDustPass.hlsl"
             ENDHLSL
         }
     }

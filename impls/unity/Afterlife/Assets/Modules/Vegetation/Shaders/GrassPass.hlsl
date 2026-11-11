@@ -5,9 +5,9 @@
 #endif
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
-            #include "Assets/Afterlife/Modules/Lighting/Shaders/SurfaceLighting.hlsl"
-            #include "Assets/Afterlife/Modules/Hover/Shaders/HoverEffects.hlsl"
-            #include "Assets/Afterlife/Modules/Wind/Shaders/WindField.hlsl"
+            #include "Assets/Modules/Lighting/Shaders/SurfaceLighting.hlsl"
+            #include "Assets/Modules/Hover/Shaders/HoverEffects.hlsl"
+            #include "Assets/Modules/Wind/Shaders/WindField.hlsl"
 #ifndef GRASS_OUTPUT
 #define GRASS_OUTPUT(color,world,anchor,kind,flower) VEGETATION_OUTPUT(color,world)
 #endif

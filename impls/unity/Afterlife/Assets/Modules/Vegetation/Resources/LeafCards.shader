@@ -13,7 +13,7 @@ Shader "Afterlife/Vegetation/LeafCards"
    #pragma target 3.5
    #pragma vertex Vert
    #pragma fragment Frag
-            #include "Assets/Afterlife/Modules/Vegetation/Shaders/LeafCardsPass.hlsl"
+            #include "Assets/Modules/Vegetation/Shaders/LeafCardsPass.hlsl"
             ENDHLSL
   }
  }

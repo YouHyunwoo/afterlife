@@ -32,12 +32,12 @@ Shader "Afterlife/Devlog/ShowcaseSurface"
         HLSLINCLUDE
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
-            #include "Assets/Afterlife/Modules/Lighting/Shaders/SurfaceLighting.hlsl"
-            #include "Assets/Afterlife/Modules/Snow/Shaders/SnowErosion.hlsl"
-            #include "Assets/Afterlife/Modules/Lighting/Shaders/SurfaceEmission.hlsl"
-            #include "Assets/Afterlife/Modules/Destruction/Shaders/Dissolve.hlsl"
-            #include "Assets/Afterlife/Modules/Hover/Shaders/HoverEffects.hlsl"
-            #include "Assets/Afterlife/Modules/Wind/Shaders/WindField.hlsl"
+            #include "Assets/Modules/Lighting/Shaders/SurfaceLighting.hlsl"
+            #include "Assets/Modules/Snow/Shaders/SnowErosion.hlsl"
+            #include "Assets/Modules/Lighting/Shaders/SurfaceEmission.hlsl"
+            #include "Assets/Modules/Destruction/Shaders/Dissolve.hlsl"
+            #include "Assets/Modules/Hover/Shaders/HoverEffects.hlsl"
+            #include "Assets/Modules/Wind/Shaders/WindField.hlsl"
             CBUFFER_START(UnityPerMaterial)
             half4 _BaseColor;
             float _VertexPalette, _Stylized, _Ground, _Grid, _Water, _Wind, _Flash, _Hover, _Snow, _SnowPine;
@@ -56,7 +56,7 @@ Shader "Afterlife/Devlog/ShowcaseSurface"
             float4 _DamageMarksV1[8], _DamageNormalsV1[8];
             float4x4 _DamageWorldToLocal;
             CBUFFER_END
-            #include "Assets/Afterlife/Modules/DamageMarks/Shaders/DamageMarks.hlsl"
+            #include "Assets/Modules/DamageMarks/Shaders/DamageMarks.hlsl"
             TEXTURE2D(_TerrainColorMap);
             SAMPLER(sampler_TerrainColorMap);
             struct Attributes { float4 positionOS:POSITION; float3 normalOS:NORMAL; half4 color:COLOR; };

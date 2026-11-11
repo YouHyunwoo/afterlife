@@ -34,14 +34,14 @@ Shader "Afterlife/Prototype/Grass"
             #pragma vertex Vert
             #pragma fragment Frag
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-            #include "Assets/_AfterlifePrototype/Shaders/PrototypeVegetationLighting.hlsl"
+            #include "Assets/Prototype/Shaders/PrototypeVegetationLighting.hlsl"
             #define VEGETATION_OUTPUT(color,world) PrototypeVegetationOutput(color,world)
             #define VEGETATION_SHADE(color,normal,world) PrototypeVegetationShade(color,normal)
             #define GRASS_VARIANT_OUTPUT(color,world,anchor,kind,flower,tips,normal,flowerChoice) PrototypeGrassOutput(color,world,anchor,kind,flower,normal,flowerChoice)
             float _GrassSizeScale;
             #define GRASS_SIZE_SCALE _GrassSizeScale
             #define GRASS_CLIP(anchor) PrototypeGrassClip(anchor)
-            #include "Assets/Afterlife/Modules/Vegetation/Shaders/GrassPass.hlsl"
+            #include "Assets/Modules/Vegetation/Shaders/GrassPass.hlsl"
             ENDHLSL
         }
     }

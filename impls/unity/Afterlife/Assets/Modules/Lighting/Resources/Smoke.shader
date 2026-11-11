@@ -13,7 +13,7 @@ Shader "Afterlife/Lighting/Smoke"
             #pragma target 3.5
             #pragma vertex Vert
             #pragma fragment Frag
-            #include "Assets/Afterlife/Modules/Lighting/Shaders/SmokePass.hlsl"
+            #include "Assets/Modules/Lighting/Shaders/SmokePass.hlsl"
             ENDHLSL
         }
     }

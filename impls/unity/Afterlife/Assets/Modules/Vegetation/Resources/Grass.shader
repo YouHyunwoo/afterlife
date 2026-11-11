@@ -23,7 +23,7 @@ Shader "Afterlife/Vegetation/Grass"
             #pragma multi_compile_fragment _ _SHADOWS_SOFT
             float _GrassSizeScale;
             #define GRASS_SIZE_SCALE _GrassSizeScale
-            #include "Assets/Afterlife/Modules/Vegetation/Shaders/GrassPass.hlsl"
+            #include "Assets/Modules/Vegetation/Shaders/GrassPass.hlsl"
             ENDHLSL
         }
     }
