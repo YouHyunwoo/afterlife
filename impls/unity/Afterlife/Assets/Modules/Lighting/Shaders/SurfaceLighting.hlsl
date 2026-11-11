@@ -1,6 +1,6 @@
 #ifndef DEVLOG_LIGHTING_INCLUDED
 #define DEVLOG_LIGHTING_INCLUDED
-#include "Assets/Afterlife/Modules/Lighting/Shaders/Vision.hlsl"
+#include "Assets/Modules/Lighting/Shaders/Vision.hlsl"
 float _AfterlifeNight, _AfterlifeVisionTest, _AfterlifeCursorFade;
 float4 _AfterlifeCursorVision, _AfterlifeHouseVision;
 float4 _AfterlifeVisionTrail[32];
@@ -29,14 +29,15 @@ void ClipVision(float3 world,float ground)
 }
 half3 SurfaceLighting(half3 color,float3 world,float ground)
 {
-    // 시야 테스트는 물체의 표시 여부만 바꾸고 낮/밤 밝기는 그대로 유지한다.
+    // 물체 노출과 조명은 각각 계산한 뒤 시야 밖 어두움을 누적한다.
     ClipVision(world,ground);
     // 집 조명만 밤의 밝기를 올린다. 커서는 시야 원점이며 광원이 아니다.
     float4 houseLamp=_AfterlifeHouseVision;
     houseLamp.w*=.65;
     float houseLight=VisionInfluence(world,houseLamp);
     half3 nightColor=color*lerp(half3(.018,.025,.045),half3(.56,.64,.80),houseLight);
-    return lerp(color,nightColor,_AfterlifeNight);
+    half3 litColor=lerp(color,nightColor,_AfterlifeNight);
+    return _AfterlifeVisionTest>.5 ? ApplyVisionDimming(litColor,TestVisibility(world)) : litColor;
 }
 half3 SurfaceLighting(half3 color,float3 world)
 {

@@ -1,6 +1,6 @@
 #ifndef AFTERLIFE_PROTOTYPE_WATER_LIGHTING
 #define AFTERLIFE_PROTOTYPE_WATER_LIGHTING
-#include "Assets/_AfterlifePrototype/Shaders/PrototypeGroundVisibility.hlsl"
+#include "Assets/Prototype/Shaders/PrototypeGroundVisibility.hlsl"
 TEXTURE2D(_PrototypeVision); SAMPLER(sampler_PrototypeVision);
 float _PrototypeMapRadius, _PrototypeNight;
 float4 _VisionSources[128], _VillageLamps[32];
@@ -11,10 +11,11 @@ float _CursorAngle;
 half4 PrototypeWaterOutput(half3 color, half opacity, float3 world)
 {
     float territorySight=PrototypeTerritoryVision(world.xz,_PrototypeMapRadius);
-    float visibility=max(territorySight,PrototypeBuildingVision(world.xz,_PrototypeMapRadius));
+    float visibility=PrototypeBuildingVision(world.xz,_PrototypeMapRadius);
     for(int i=0;i<_VisionCount;i++)
         visibility=max(visibility,VisionCircle(world.xz,_VisionSources[i].xy,_VisionSources[i].z,_VisionSources[i].w));
-    visibility=smoothstep(0,1,visibility);
+    float dimmingVisibility=smoothstep(0,1,max(visibility,PrototypeTerritoryVisionFade(world.xz,_PrototypeMapRadius)));
+    visibility=smoothstep(0,1,max(territorySight,visibility));
     float2 uv=(world.xz+_PrototypeMapRadius)/max(.01,2*_PrototypeMapRadius);
     half territory=SAMPLE_TEXTURE2D(_PrototypeVision,sampler_PrototypeVision,uv).g;
     float2 edge=abs(frac(world.xz+.5)-.5);
@@ -23,7 +24,7 @@ half4 PrototypeWaterOutput(half3 color, half opacity, float3 world)
     float warm=PrototypeTerritoryLight(world.xz,_PrototypeMapRadius);
     for(int j=0;j<_LampCount;j++)
         warm=max(warm,PrototypeLampInfluence(world,_VillageLamps[j]));
-    color=PrototypeNightLighting(color,_PrototypeNight,warm);
+    color=PrototypeWorldLighting(color,_PrototypeNight,warm,dimmingVisibility);
     if(_CursorCircle.z>0)
     {
         float2 delta=world.xz-_CursorCircle.xy;

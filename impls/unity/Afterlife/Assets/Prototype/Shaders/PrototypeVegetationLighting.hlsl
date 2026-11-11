@@ -1,8 +1,8 @@
 #ifndef PROTOTYPE_VEGETATION_LIGHTING
 #define PROTOTYPE_VEGETATION_LIGHTING
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
-#include "Assets/_AfterlifePrototype/Shaders/PrototypeGroundVisibility.hlsl"
-#include "Assets/_AfterlifePrototype/Shaders/PrototypeGroundAppearance.hlsl"
+#include "Assets/Prototype/Shaders/PrototypeGroundVisibility.hlsl"
+#include "Assets/Prototype/Shaders/PrototypeGroundAppearance.hlsl"
 float _PrototypeNight;
 float4 _VisionSources[128], _VillageLamps[32];
 int _VisionCount, _LampCount;
@@ -22,15 +22,15 @@ half3 PrototypeVegetationShade(half3 color,float3 normal)
 half4 PrototypeVegetationOutput(half3 color,float3 visibilityPoint)
 {
     float territorySight=PrototypeTerritoryVision(visibilityPoint.xz,_PrototypeMapRadius);
-    float visibility=max(territorySight,PrototypeBuildingVision(visibilityPoint.xz,_PrototypeMapRadius));
+    float visibility=PrototypeBuildingVision(visibilityPoint.xz,_PrototypeMapRadius);
     for(int i=0;i<_VisionCount;i++)
         visibility=max(visibility,VisionCircle(visibilityPoint.xz,_VisionSources[i].xy,_VisionSources[i].z,_VisionSources[i].w));
-    clip(visibility-.001);
-    visibility=smoothstep(0,1,visibility);
+    float dimmingVisibility=smoothstep(0,1,max(visibility,PrototypeTerritoryVisionFade(visibilityPoint.xz,_PrototypeMapRadius)));
+    clip(max(territorySight,visibility)-.001);
     float warm=PrototypeTerritoryLight(visibilityPoint.xz,_PrototypeMapRadius);
     for(int j=0;j<_LampCount;j++)
         warm=max(warm,PrototypeLampInfluence(visibilityPoint,_VillageLamps[j]));
-    color=PrototypeNightLighting(color,_PrototypeNight,warm);
+    color=PrototypeWorldLighting(color,_PrototypeNight,warm,dimmingVisibility);
     return half4(color,1);
 }
 // 풀 종류별 단색. 높이에 따른 뿌리/끝 색 보간은 사용하지 않는다.
